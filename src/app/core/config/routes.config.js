@@ -1,5 +1,5 @@
 angular.module('smartcitiesApp')
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -8,4 +8,9 @@ angular.module('smartcitiesApp')
       });
 
     $urlRouterProvider.otherwise('/');
+
+    $locationProvider.html5Mode({
+	  enabled: true,
+	  requireBase: false
+	}).hashPrefix('!');
   })
