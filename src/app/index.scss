@@ -1,5 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
+$primary_color: #02637C;
+$secondary_color: #00CFEF;
+
 html {
   font-family: 'Roboto Slab', serif;
 }
@@ -24,7 +27,7 @@ html {
 }
 
 md-toolbar.md-default-theme {
-  background-color: #00CFEF;
+  background-color: $secondary_color;
 }
 
 section.jumbotron {

@@ -1,3 +1,4 @@
 'use strict';
- 
-angular.module('smartcitiesApp', ['restangular', 'ui.router', 'ngMaterial', 'app.components', 'app.core']);
+
+
+angular.module('smartcitiesApp', ['ngMaterial', 'app.components', 'app.core']);

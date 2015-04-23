@@ -1,3 +1,3 @@
 
 
-angular.module('app.components', ['NavBar'])
+angular.module('app.components', ['components.navbar', 'components.map'])
