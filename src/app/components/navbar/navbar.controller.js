@@ -1,6 +1,11 @@
 'use strict';
 
-angular.module('smartcitiesApp')
-  .controller('NavbarCtrl', function ($scope) {
+angular.module('NavBar', [])
+  .controller('NavbarCtrl', NavbarCtrl);
+
+
+  function NavbarCtrl($scope) {
     $scope.date = new Date();
-  });
+
+
+  }
