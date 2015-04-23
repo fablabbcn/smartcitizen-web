@@ -1,4 +1,4 @@
-<md-toolbar layout="row" layout-align="center center" ng-controller="NavbarCtrl">
+<md-toolbar layout="row" layout-align="center center" ng-controller="NavbarController">
 
   <md-button href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</md-button>
 
@@ -16,7 +16,7 @@
   	scope="">
   </oauth>
 
-  <md-autocomplete
+  <!--<md-autocomplete
     ng-disabled="ctrl.isDisabled"
     md-no-cache="ctrl.noCache"
     md-selected-item="ctrl.selectedItem"
@@ -28,8 +28,8 @@
     md-min-length="0"
     placeholder="What is your favorite US state?">
     <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-  </md-autocomplete>
+  </md-autocomplete>-->
 
-  <md-button href="#">Current date: {{ date | date:'yyyy-MM-dd' }}</md-button>
+  <!--<md-button href="#">Current date: {{ date | date:'yyyy-MM-dd' }}</md-button> -->
 
 </md-toolbar>

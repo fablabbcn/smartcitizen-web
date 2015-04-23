@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('smartcitiesApp')
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
@@ -10,7 +12,7 @@ angular.module('smartcitiesApp')
     $urlRouterProvider.otherwise('/');
 
     $locationProvider.html5Mode({
-	  enabled: true,
-	  requireBase: false
-	}).hashPrefix('!');
-  })
+  	  enabled: true,
+  	  requireBase: false
+  	}).hashPrefix('!');
+  });

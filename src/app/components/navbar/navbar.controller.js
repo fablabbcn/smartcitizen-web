@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('components.navbar', [])
-  .controller('NavbarCtrl', NavbarCtrl);
+  .controller('NavbarController', NavbarController);
 
 
-  function NavbarCtrl($scope) {
+  function NavbarController($scope) {
     $scope.date = new Date();
   }
