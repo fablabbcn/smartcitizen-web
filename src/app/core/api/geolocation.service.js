@@ -3,5 +3,5 @@ angular.module('core.services.geolocation', [])
   
 
   function geolocation($http) {
-    return $http.jsonp('http://ipinfo.io/?callback=JSON_CALLBACK')
+    return $http.jsonp('http://ipinfo.io/?callback=JSON_CALLBACK');
   }
