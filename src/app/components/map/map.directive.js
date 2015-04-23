@@ -1,0 +1,2 @@
+angular.module('components.map', [])
+  
