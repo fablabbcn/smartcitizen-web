@@ -5,6 +5,7 @@
     .directive('stickNav', stickNav)
     .directive('stickMenu', stickMenu);
 
+
   function stickNav($window) {
     
     function link(scope, element, attrs) {
@@ -33,12 +34,12 @@
     function link(scope, element, attrs) {
       var elementPosition = element[0].offsetTop;
       var elementHeight = element[0].offsetHeight;
-
-      console.log('sdk');
+      
+      var navbarHeight = 64;
 
       angular.element($window).on('scroll', function() {
         var windowPosition = document.body.scrollTop;
-        if(windowPosition + 64 >= elementPosition + elementHeight) {
+        if(windowPosition + navbarHeight >= elementPosition + elementHeight) {
           element.addClass('stickMenu');
         } else {
           element.removeClass('stickMenu');

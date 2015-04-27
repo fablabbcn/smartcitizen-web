@@ -11,7 +11,7 @@ angular.module('smartcitiesApp')
 
       .state('test', {
         url: '/test',
-        templateUrl: 'app/core/html/login.html'
+        templateUrl: 'app/core/html/signup.html'
       });
 
     $urlRouterProvider.otherwise('/');
