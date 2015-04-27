@@ -1,8 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
-$primary_color: #02637C;
-$secondary_color: #00CFEF;
+$primary_color: #38CEF3;
+$secondary_color: #01637C;
 
+38CEF3
 html {
   font-family: 'Roboto Slab', serif;
 }
@@ -31,7 +32,7 @@ md-content.md-default-theme {
 } 
 
 md-toolbar.md-default-theme {
-  background-color: $secondary_color;
+  background-color: $primary_color;
 }
 
 section.map {
@@ -63,7 +64,7 @@ section.map {
   }
 }
 
-.kit_menu {
+section .kit_menu {
   width: 100%;
   height: 35px;
   border: 1px solid red;
@@ -87,10 +88,52 @@ section.map {
   }
 }
 
-.stick {
+.stickNav {
   position: fixed;
   top: 0px;
 }
+
+.stickMenu {
+  position: fixed;
+  top: 64px;
+}
+
+.modal {
+  button {
+    width: 100%;
+    color: white;
+    background-color: $primary_color;
+  }
+  .box {
+    margin: 5px auto 0 auto;
+  }
+
+  h2 {
+    color: $primary_color;
+  }
+
+  .modal_message {
+    p:nth-child(1)  {
+      font-size: 24px;
+      color: $secondary_color;
+      font-weight: bold;
+      line-height: 0;
+      margin-top: 50px;
+    }
+    p:nth-child(2) {
+      font-size: 14px;
+      color: rgba(0,98,123,0.54);
+      line-height: 1;
+    }
+    p:nth-child(3) {
+
+    }
+  }
+}
+ .login {
+    width: 408px;
+    height: 349px;
+  }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
