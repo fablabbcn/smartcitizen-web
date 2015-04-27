@@ -1,11 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
 
 $primary_color: #38CEF3;
 $secondary_color: #01637C;
 
-38CEF3
 html {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Condensed';
 }
 
 [layout=row] {
@@ -115,6 +114,8 @@ section .kit_menu {
     width: 100%;
     color: white;
     background-color: $primary_color;
+    height: 64px;
+    font-size: 24px;
   }
   .box {
     margin: 5px auto 0 auto;
@@ -136,17 +137,21 @@ section .kit_menu {
     p:nth-child(2) {
       font-size: 14px;
       color: rgba(0,98,123,0.54);
-      line-height: 1;
+      line-height: 0.5;
     }
     p:nth-child(3) {
 
     }
   }
 }
- .login {
-    width: 408px;
-    height: 349px;
-  }
+.login {
+  width: 408px;
+  height: 349px;
+}
+.signup {
+  width: 600px;
+  height: 396px;
+}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
