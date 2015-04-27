@@ -1,36 +1,54 @@
 'use strict';
 
-angular.module('app.core')
-  .directive('dynamicStick', dynamicStick)
 
-  function dynamicStick($window) {
+  angular.module('app.core')
+    .directive('stickNav', stickNav)
+    .directive('stickMenu', stickMenu);
+
+  function stickNav($window) {
     
     function link(scope, element, attrs) {
-      var data = [];
-
-      for(var i=0; i<element.length; i++) {
-        
-      }
       var elementPosition = element[0].offsetTop;
       var elementHeight = element[0].offsetHeight;
 
-      angular.element($window).on('scroll', function(event) {
+      angular.element($window).on('scroll', function() {
         var windowPosition = document.body.scrollTop;
-        //console.log('window', windowPosition);
-        //console.log('element', element);
         if(windowPosition >= elementPosition + elementHeight) {
-          element.addClass('stick');
-          //console.log('added');
+          element.addClass('stickNav');
         } else {
-          element.removeClass('stick');
-          //console.log('removed');
+          element.removeClass('stickNav');
         }
-      })
-    };
+      });
+    }
 
     return {
+      link: link,
       scope: false,
-      restrict: 'C',
-      link: link
+      restrict: 'A'
+    };
+  }
+
+
+  function stickMenu($window) {
+    function link(scope, element, attrs) {
+      var elementPosition = element[0].offsetTop;
+      var elementHeight = element[0].offsetHeight;
+
+      console.log('sdk');
+
+      angular.element($window).on('scroll', function() {
+        var windowPosition = document.body.scrollTop;
+        if(windowPosition + 64 >= elementPosition + elementHeight) {
+          element.addClass('stickMenu');
+        } else {
+          element.removeClass('stickMenu');
+        }
+      });
     }
+
+    return {
+      link: link,
+      scope: false,
+      restrict: 'A'
+    };
   }
