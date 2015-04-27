@@ -5,10 +5,20 @@
   	  <p>People looking for a better city</p>
   	  <p>You're part of them? Feel free to join us!</p>
     </div>
-  	<input type="text" ng-model="vm.username">
-  	<input type="text" ng-model="vm.password">
+    <div layout layout-sm="column">
+      <md-input-container flex>
+        <label>Username</label>
+        <input ng-model="vm.user.username">
+      </md-input-container>
+      <md-input-container flex>
+        <label>Password</label>
+        <input ng-model="vm.user.password">
+      </md-input-container>
+    </div>
+  	<!--<input type="text" ng-model="vm.username">
+  	<input type="text" ng-model="vm.password">-->
     <br>
-  	<button ng-click="">LOG IN</button>
+  	<md-button class="md-raised md-primary" ng-click="">Log In</md-button>
   </div>
   <div>
     <span>New here? button or link?</span>

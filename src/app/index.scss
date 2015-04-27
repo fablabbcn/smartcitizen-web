@@ -35,6 +35,18 @@ md-toolbar.md-default-theme {
   background-color: $primary_color;
 }
 
+.md-button.md-default-theme.md-raised.md-primary { 
+  background-color: $primary_color;
+}
+
+.md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover { 
+  background-color: $primary_color;
+}
+
+.md-button.md-default-theme.md-primary.md-raised:not([disabled]):focus {
+  background-color: $primary_color;
+}
+
 section.map {
   padding: 1px 30px;
   background-color: white;
@@ -106,6 +118,7 @@ section .kit_menu {
   }
   .box {
     margin: 5px auto 0 auto;
+    border: 1px solid grey;
   }
 
   h2 {
