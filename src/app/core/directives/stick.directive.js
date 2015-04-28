@@ -2,23 +2,25 @@
 
 
   angular.module('app.core')
-    .directive('stickNav', stickNav)
-    .directive('stickMenu', stickMenu);
+    .directive('slideDown', slideDown)
+    .directive('stick', stick);
 
 
-  function stickNav($window) {
+  function slideDown($window) {
     
     function link(scope, element, attrs) {
       var elementPosition = element[0].offsetTop;
       var elementHeight = element[0].offsetHeight;
 
+
       angular.element($window).on('scroll', function() {
         var windowPosition = document.body.scrollTop;
-        if(windowPosition >= elementPosition + elementHeight) {
-          element.addClass('stickNav');
-        } else {
-          element.removeClass('stickNav');
-        }
+        var stickPosition = windowPosition + 64;
+
+        if(windowPosition >= elementPosition) {
+          element.css('position', 'relative');
+          element.css('top', stickPosition + 'px');
+        } 
       });
     }
 
@@ -30,7 +32,7 @@
   }
 
 
-  function stickMenu($window) {
+  function stick($window) {
     function link(scope, element, attrs) {
       var elementPosition = element[0].offsetTop;
       var elementHeight = element[0].offsetHeight;
@@ -39,7 +41,7 @@
 
       angular.element($window).on('scroll', function() {
         var windowPosition = document.body.scrollTop;
-        if(windowPosition + navbarHeight >= elementPosition + elementHeight) {
+        if(windowPosition + navbarHeight >= elementPosition) {
           element.addClass('stickMenu');
         } else {
           element.removeClass('stickMenu');

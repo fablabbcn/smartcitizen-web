@@ -3,6 +3,10 @@
 $primary_color: #38CEF3;
 $secondary_color: #01637C;
 
+$large_priority: 3;
+$medium_priority: 2;
+$small_priority: 1;
+
 html {
   font-family: 'Roboto Condensed';
 }
@@ -32,6 +36,7 @@ md-content.md-default-theme {
 
 md-toolbar.md-default-theme {
   background-color: $primary_color;
+  z-index: $large_priority;
 }
 
 .md-button.md-default-theme.md-raised.md-primary { 
@@ -53,8 +58,9 @@ section.map {
   width: 100%;
   height: 500px;
   border: 1px solid grey;
-
   color: black;
+  padding-top: 64px;
+  z-index: $small_priority;
 
   h1 {
     font-size: 3em;
@@ -79,6 +85,9 @@ section .kit_menu {
   width: 100%;
   height: 35px;
   border: 1px solid red;
+  z-index: $large_priority;
+  background-color: white;
+  position: relative;
 }
 
 .kit_overview {
@@ -86,6 +95,9 @@ section .kit_menu {
   height: 150px;
   border: 1px solid green;
   margin-bottom: 1%;
+  z-index: $medium_priority;
+  background-color: white;
+  position: relative;
 }
 
 .kit_data {
@@ -93,6 +105,9 @@ section .kit_menu {
   height: 1000px;
   border: 1px solid blue;
   margin: 0 auto;
+  z-index: $medium_priority;
+  background-color: white;
+  position: relative;
 
   .kit_dashboard {
     height: 450px;
@@ -104,7 +119,7 @@ section .kit_menu {
   top: 0px;
 }
 
-.stickMenu {
+section .stickMenu {
   position: fixed;
   top: 64px;
 }
