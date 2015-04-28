@@ -3,4 +3,5 @@ bower_components/
 .sass-cache/
 .tmp/
 .idea/
+.publish/
 dist/
