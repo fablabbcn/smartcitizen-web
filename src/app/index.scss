@@ -61,6 +61,8 @@ section.map {
   color: black;
   padding-top: 64px;
   z-index: $small_priority;
+  position: fixed;
+  top: 64px;
 
   h1 {
     font-size: 3em;
@@ -79,6 +81,15 @@ section.map {
       width: 50px;
     }
   }
+}
+
+.kit_fixed {
+  z-index: $medium-priority;
+  position: relative;
+}
+
+.kit_data {
+  margin: 564px 0;
 }
 
 section .kit_menu {
@@ -100,7 +111,7 @@ section .kit_menu {
   position: relative;
 }
 
-.kit_data {
+.kit_detailed {
   width: 97%;
   height: 1000px;
   border: 1px solid blue;

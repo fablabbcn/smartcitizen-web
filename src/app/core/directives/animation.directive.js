@@ -2,25 +2,20 @@
 
 
   angular.module('app.core')
-    .directive('slideDown', slideDown)
+    .directive('moveDown', moveDown)
     .directive('stick', stick);
 
 
-  function slideDown($window) {
+  function moveDown($window) {
     
     function link(scope, element, attrs) {
-      var elementPosition = element[0].offsetTop;
-      var elementHeight = element[0].offsetHeight;
 
-
-      angular.element($window).on('scroll', function() {
-        var windowPosition = document.body.scrollTop;
-        var stickPosition = windowPosition + 64;
-
-        if(windowPosition >= elementPosition) {
-          element.css('position', 'relative');
-          element.css('top', stickPosition + 'px');
-        } 
+      scope.$watch('moveDown', function(isTrue) {
+        if(isTrue) {
+          element.css('transform', 'translateY(35px)');
+        } else {
+          element.css('transform', 'translateY(0px)');
+        }
       });
     }
 
@@ -43,8 +38,14 @@
         var windowPosition = document.body.scrollTop;
         if(windowPosition + navbarHeight >= elementPosition) {
           element.addClass('stickMenu');
+          scope.$apply(function() {
+            scope.moveDown = true;
+          });
         } else {
           element.removeClass('stickMenu');
+          scope.$apply(function() {
+            scope.moveDown = false;
+          });
         }
       });
     }
