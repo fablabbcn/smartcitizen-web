@@ -56,6 +56,15 @@ md-toolbar.md-default-theme {
   background-color: $primary_color;
 }
 
+md-dialog.md-default-theme { 
+  background-color: rgba(255, 0, 0, 0);
+  box-shadow: 0px 0px 0px 0px transparent;
+}
+
+md-dialog-content { 
+  background-color: white;
+}
+
 section.map {
   padding: 1px 30px;
   background-color: white;
@@ -141,16 +150,22 @@ section .stickMenu {
 }
 
 .modal {
+  border: 1px solid grey;
+  position: relative;
+
   button {
     width: 100%;
     color: white;
     background-color: $primary_color;
     height: 64px;
     font-size: 24px;
+    position: absolute;
+    bottom: 0px;
   }
-  .box {
-    margin: 5px auto 0 auto;
-    border: 1px solid grey;
+
+  > div {
+    width: 92%;
+    margin: 0 auto;
   }
 
   h2 {
@@ -158,6 +173,8 @@ section .stickMenu {
   }
 
   .modal_message {
+    margin-bottom: 20px;
+
     p:nth-child(1)  {
       font-size: 24px;
       color: $secondary_color;
@@ -180,8 +197,12 @@ section .stickMenu {
   height: 349px;
 }
 .signup {
-  width: 600px;
-  height: 396px;
+  width: 400px;
+  height: 512px;
+}
+
+.blur {
+  -webkit-filter: blur(20px);  
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

@@ -13,7 +13,9 @@ angular.module('components.signup')
 
     function showSignup(ev) {
       console.log('hola!');
-
+      $scope.$parent.blur = true;
+      //$scope.$emit('blur');
+      console.log($scope)
       $mdDialog.show({
         controller: DialogController,
         templateUrl: 'app/components/signup/signupModal.html',
@@ -28,11 +30,10 @@ angular.module('components.signup')
       //angular.element(element).addClass('blur');
     }
 
-    function signup() {
-      /*user.post(signupData).then(function(users) {
+    function signup(signupData) {
+      user.post(signupData).then(function(users) {
         console.log('res', users);
       });
-      */
     }
   }
 
