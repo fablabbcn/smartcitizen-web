@@ -1,4 +1,4 @@
 'use strict';
 
 
-angular.module('smartcitiesApp', ['ngMaterial', 'app.components', 'app.core']);
+angular.module('app', ['ngMaterial', 'app.components', 'app.core']);

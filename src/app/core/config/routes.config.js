@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('smartcitiesApp')
+angular.module('app')
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
       .state('home', {

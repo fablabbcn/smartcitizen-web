@@ -23,7 +23,7 @@ angular.module('core.services.auth', [])
     }
 
     function setCurrentUser() {
-      user = $window.localStorage.getItem('smartcities.token');
+      user = $window.localStorage.getItem('smartcitizen.token');
     }
 
     function getCurrentUser() {
