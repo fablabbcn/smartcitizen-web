@@ -5,10 +5,14 @@ $secondary_color: #01637C;
 
 $large_priority: 3;
 $medium_priority: 2;
-$small_priority: 1;
+$small_priority: -1;
 
 html {
   font-family: 'Roboto Condensed';
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 [layout=row] {
@@ -32,6 +36,7 @@ html {
 
 md-content.md-default-theme {
   width: 100%;
+  background-color: rgba(0, 0, 0, 0);
 } 
 
 md-toolbar.md-default-theme {
