@@ -1,7 +1,18 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
+
+$primary_color: #38CEF3;
+$secondary_color: #01637C;
+
+$large_priority: 3;
+$medium_priority: 2;
+$small_priority: -1;
 
 html {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Condensed';
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 [layout=row] {
@@ -23,17 +34,40 @@ html {
   }
 }
 
+md-content.md-default-theme {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+} 
+
 md-toolbar.md-default-theme {
-  background-color: black;
+  background-color: $primary_color;
+  z-index: $large_priority;
 }
 
-section.jumbotron {
-  margin-bottom: 30px;
-  padding: 1px 30px;
-  background-color: #5aadbb;
-  text-align: center;
+.md-button.md-default-theme.md-raised.md-primary { 
+  background-color: $primary_color;
+}
 
-  color: white;
+.md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover { 
+  background-color: $primary_color;
+}
+
+.md-button.md-default-theme.md-primary.md-raised:not([disabled]):focus {
+  background-color: $primary_color;
+}
+
+section.map {
+  padding: 1px 30px;
+  background-color: white;
+  text-align: center;
+  width: 100%;
+  height: 500px;
+  border: 1px solid grey;
+  color: black;
+  padding-top: 64px;
+  z-index: $small_priority;
+  position: fixed;
+  top: 64px;
 
   h1 {
     font-size: 3em;
@@ -52,6 +86,102 @@ section.jumbotron {
       width: 50px;
     }
   }
+}
+
+.kit_fixed {
+  z-index: $medium-priority;
+  position: relative;
+}
+
+.kit_data {
+  margin: 564px 0;
+}
+
+section .kit_menu {
+  width: 100%;
+  height: 35px;
+  border: 1px solid red;
+  z-index: $large_priority;
+  background-color: white;
+  position: relative;
+}
+
+.kit_overview {
+  width: 100%;
+  height: 150px;
+  border: 1px solid green;
+  margin-bottom: 1%;
+  z-index: $medium_priority;
+  background-color: white;
+  position: relative;
+}
+
+.kit_detailed {
+  width: 97%;
+  height: 1000px;
+  border: 1px solid blue;
+  margin: 0 auto;
+  z-index: $medium_priority;
+  background-color: white;
+  position: relative;
+
+  .kit_dashboard {
+    height: 450px;
+  }
+}
+
+.stickNav {
+  position: fixed;
+  top: 0px;
+}
+
+section .stickMenu {
+  position: fixed;
+  top: 64px;
+}
+
+.modal {
+  button {
+    width: 100%;
+    color: white;
+    background-color: $primary_color;
+    height: 64px;
+    font-size: 24px;
+  }
+  .box {
+    margin: 5px auto 0 auto;
+    border: 1px solid grey;
+  }
+
+  h2 {
+    color: $primary_color;
+  }
+
+  .modal_message {
+    p:nth-child(1)  {
+      font-size: 24px;
+      color: $secondary_color;
+      font-weight: bold;
+      line-height: 0;
+      margin-top: 50px;
+    }
+    p:nth-child(2) {
+      font-size: 14px;
+      color: rgba(0,98,123,0.54);
+      line-height: 0.5;
+    }
+    p:nth-child(3) {
+
+    }
+  }
+}
+.login {
+  width: 408px;
+  height: 349px;
+}
+.signup {
+  width: 600px;
+  height: 396px;
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

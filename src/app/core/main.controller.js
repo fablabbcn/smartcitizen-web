@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('smartcitiesApp')
+angular.module('app')
   .controller('MainCtrl', function ($scope) {
     $scope.awesomeThings = [
       {
