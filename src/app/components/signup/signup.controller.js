@@ -3,7 +3,7 @@
 angular.module('components.signup')
   .controller('SignupController', SignupController);
 
-  function SignupController($scope, $mdDialog, user) {
+  function SignupController($scope, $mdDialog, user, animation) {
     var vm = this;
 
     vm.showSignup = showSignup;
@@ -12,22 +12,20 @@ angular.module('components.signup')
 
 
     function showSignup(ev) {
-      console.log('hola!');
-      $scope.$parent.blur = true;
-      //$scope.$emit('blur');
-      console.log($scope)
+
+      animation.blur();
+
       $mdDialog.show({
         controller: DialogController,
         templateUrl: 'app/components/signup/signupModal.html',
         targetEvent: ev,
       })
       .then(function(signupData) {
-        //var element = document.getElementsByClassName('page')[0];
-        //angular.element(element).removeClass('blur');
         signup(signupData);
+      })
+      .finally(function() {
+        animation.unblur();
       });
-      //var element = document.getElementsByClassName('page')[0];
-      //angular.element(element).addClass('blur');
     }
 
     function signup(signupData) {
@@ -39,12 +37,7 @@ angular.module('components.signup')
 
 
     function DialogController($scope, $mdDialog) {
-      //$scope.hide = function() {
-        //$mdDialog.hide();
-      //};
-      //$scope.cancel = function() {
-        //$mdDialog.cancel();
-      //};
+
       $scope.answer = function(answer) {
         $mdDialog.hide(answer);
       };

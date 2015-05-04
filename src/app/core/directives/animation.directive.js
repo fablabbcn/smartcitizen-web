@@ -12,9 +12,9 @@
     function link(scope, element, attrs) {
       scope.$watch('moveDown', function(isTrue) {
         if(isTrue) {
-          element.css('transform', 'translateY(35px)');
+          element.css('-webkit-transform', 'translateY(35px)');
         } else {
-          element.css('transform', 'translateY(0px)');
+          element.css('-webkit-transform', 'translateY(0px)');
         }
       });
     }
@@ -62,13 +62,13 @@
     
     function link(scope, element, attrs) {
       console.log('scope', scope);
-      scope.$watch('blur', function(isTrue) {
-        console.log('this', isTrue);
-        if(isTrue) {
-          element.addClass('blur');
-        } else {
-          element.removeClass('blur');
-        }
+
+      scope.$on('blur', function() {
+        element.addClass('blur');
+      });
+
+      scope.$on('unblur', function() {
+        element.removeClass('blur');
       });
     }
 
