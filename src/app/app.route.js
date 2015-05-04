@@ -5,13 +5,13 @@ angular.module('app')
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'app/core/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/components/home/home.html',
+        controller: ''
       })
 
       .state('test', {
         url: '/test',
-        templateUrl: 'app/core/html/signup.html'
+        templateUrl: 'app/core/html/passwordRecovery.html'
       });
 
     $urlRouterProvider.otherwise('/');

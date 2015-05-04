@@ -1,7 +1,7 @@
 'use strict';
 
 
-  angular.module('app.core')
+  angular.module('components.animation')
     .directive('moveDown', moveDown)
     .directive('stick', stick)
     .directive('blur', blur);
@@ -61,7 +61,6 @@
   function blur() {
     
     function link(scope, element, attrs) {
-      console.log('scope', scope);
 
       scope.$on('blur', function() {
         element.addClass('blur');

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core.services.geolocation', [])
+angular.module('components.api')
   .factory('geolocation', geolocation);
   
 

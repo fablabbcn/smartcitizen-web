@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.core')
+angular.module('components.animation')
   .factory('animation', animation);
   
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core.services.user', [])
+angular.module('components.api')
   .factory('user', user);
   
 
