@@ -12,9 +12,9 @@
     function link(scope, element, attrs) {
       scope.$watch('moveDown', function(isTrue) {
         if(isTrue) {
-          element.css('-webkit-transform', 'translateY(35px)');
+          element.addClass('move_down');
         } else {
-          element.css('-webkit-transform', 'translateY(0px)');
+          element.removeClass('move_down');
         }
       });
     }

@@ -202,7 +202,19 @@ section .stickMenu {
 }
 
 .blur {
+  -ms-filter: blur(20px);  
   -webkit-filter: blur(20px);  
+  -moz-filter: blur(20px);  
+  -o-filter: blur(20px);  
+  filter: blur(20px);  
+}
+
+.move_down {
+  -ms-transform: translateY(35px);
+  -webkit-transform: translateY(35px);
+  -moz-transform: translateY(35px);
+  -o-transform: translateY(35px);
+  transform: translateY(35px);
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
