@@ -1,4 +1,4 @@
 'use strict';
 
-angular.module('components.map', []);
+angular.module('app.components');
   

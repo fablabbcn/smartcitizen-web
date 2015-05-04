@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('components.api')
+angular.module('app.components')
   .factory('auth', auth);
   
 

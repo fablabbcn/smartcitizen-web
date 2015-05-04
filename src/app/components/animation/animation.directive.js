@@ -1,7 +1,7 @@
 'use strict';
 
 
-  angular.module('components.animation')
+  angular.module('app.components')
     .directive('moveDown', moveDown)
     .directive('stick', stick)
     .directive('blur', blur);
