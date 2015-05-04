@@ -1,18 +1,13 @@
 'use strict';
 
 
-  angular.module('components.signup')
+  angular.module('app.components')
     .directive('signup', signup);
 
 
   function signup($window) {
     
-    function link(scope, element, attrs) {
-      
-    }
-
     return {
-      link: link,
       scope: false,
       restrict: 'E',
       controller: 'SignupController',

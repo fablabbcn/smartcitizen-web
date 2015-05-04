@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('components.signup')
+angular.module('app.components')
   .controller('SignupController', SignupController);
 
   function SignupController($scope, $mdDialog, user, animation) {
     var vm = this;
 
     vm.showSignup = showSignup;
-    
+    vm.signup = signup;
     ////////////////////////
 
 
@@ -34,11 +34,3 @@ angular.module('components.signup')
       });
     }
   }
-
-
-    function DialogController($scope, $mdDialog) {
-
-      $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-      };
-    }

@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('app.components', ['oauth', 'components.map', 'components.signup']);
+angular.module('app.components', ['oauth', 'components.map']);
