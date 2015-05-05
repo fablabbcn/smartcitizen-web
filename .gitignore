@@ -5,3 +5,5 @@ bower_components/
 .idea/
 .publish/
 dist/
+
+**/*.DS_Store

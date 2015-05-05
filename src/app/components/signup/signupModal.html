@@ -1,0 +1,33 @@
+<md-dialog>
+  <md-dialog-content class="modal signup">
+    <div>
+    	<h2>SIGN UP</h2>
+      <div class="modal_message">
+    	  <p>People looking for a better city</p>
+    	  <p>You're part of them? Feel free to join us!</p>
+      </div>
+      <div layout layout-sm="column">
+        <md-input-container flex>
+          <label>Username</label>
+          <input type="text" ng-model="vm.user.username">
+        </md-input-container>
+      </div>
+      <div layout layout-sm="column">
+        <md-input-container flex>
+          <label>Password</label>
+          <input type="password" ng-model="vm.user.password">
+        </md-input-container>
+      </div>
+      <div layout layout-sm="column">
+        <md-input-container flex>
+          <label>Email</label>
+          <input type="email" ng-model="vm.user.email">
+        </md-input-container>
+      </div>
+    </div>
+  	<md-button class="md-raised md-primary" ng-click="answer(vm.user)">Sign up</md-button>
+  </md-dialog-content>
+  <p>
+    Already have an account?<span>LOG IN</span>
+  </p>
+</md-dialog>

@@ -3,18 +3,18 @@
 
   angular.module('app.core')
     .directive('moveDown', moveDown)
-    .directive('stick', stick);
+    .directive('stick', stick)
+    .directive('blur', blur);
 
 
-  function moveDown($window) {
+  function moveDown() {
     
     function link(scope, element, attrs) {
-
       scope.$watch('moveDown', function(isTrue) {
         if(isTrue) {
-          element.css('transform', 'translateY(35px)');
+          element.addClass('move_down');
         } else {
-          element.css('transform', 'translateY(0px)');
+          element.removeClass('move_down');
         }
       });
     }
@@ -28,6 +28,7 @@
 
 
   function stick($window) {
+
     function link(scope, element, attrs) {
       var elementPosition = element[0].offsetTop;
       var elementHeight = element[0].offsetHeight;
@@ -55,4 +56,25 @@
       scope: false,
       restrict: 'A'
     };
+  }
+
+  function blur() {
+    
+    function link(scope, element, attrs) {
+      console.log('scope', scope);
+
+      scope.$on('blur', function() {
+        element.addClass('blur');
+      });
+
+      scope.$on('unblur', function() {
+        element.removeClass('blur');
+      });
+    }
+
+    return {
+      link: link,
+      scope: false,
+      restrict: 'A'
+    }
   }
