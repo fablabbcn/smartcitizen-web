@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.core')
+angular.module('app.components')
   .controller('DialogController', DialogController);
 
 
