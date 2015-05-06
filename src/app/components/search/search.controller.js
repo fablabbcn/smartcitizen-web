@@ -10,19 +10,7 @@ angular.module('app.components')
     vm.searchTextChange = searchTextChange;
     vm.selectedItemChange = selectedItemChange;
     vm.querySearch = querySearch;
-  
-
-    /*search.globalSearch('Ruben').then(function(data) {
-      console.log('data', data.length);
-      return data;
-    });
-    */
-
-    /*$http.get('https://new-api.smartcitizen.me/v0/search?q=Rube')
-      .success(function(data) {
-      	console.log('data', data.length);
-      })
-    */
+   
     ///////////////////
 
     function searchTextChange(text) {
@@ -36,9 +24,7 @@ angular.module('app.components')
     function querySearch(query) {
       return search.globalSearch(query)
         .then(function(data) {
-          console.log('data', data);
           return data;
         });
-
     }
   }

@@ -11,7 +11,7 @@
 
     return {
       link: link,
-      scope: false,
+      scope: true,
       restrict: 'E',
       templateUrl: 'app/components/search/search.html',
       controller: 'SearchController',
