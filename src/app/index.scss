@@ -15,11 +15,58 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+header { 
+  .md-button {
+    font-size: 14px;
+  }
+
+  .logo {
+    margin: 0;
+    height: 35px;
+    width: 35px;
+  }
+}
+
 search {
-  width: 50%;
+  position: relative;
+
+  md-autocomplete {
+    height: 36px;
+
+    button {
+      top: 0.7em;
+      right: 0.7em;
+    }
+  }
+
+  .search_icon {
+    position: absolute;
+    top: 0.3em;
+    left: 0.7em;
+    z-index: $large_priority;
+    
+    img {
+      width: 14px;
+      height: 14px;
+    }
+  }
 
   input {
-    background-color: grey;
+    background-color: #377382;
+    color: white;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 40px;
+  }
+}
+
+signup {
+  .md-button.md-default-theme {
+    border: 3px solid #00FFA8;
+    color: #00FFA8;
+    border-radius: 50px;
+    padding: 9px 11px;
+    font-weight: bold;
   }
 }
 

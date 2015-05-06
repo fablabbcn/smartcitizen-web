@@ -1,3 +1,7 @@
+<div class="search_icon">
+  <img src="assets/images/search_icon_big.png" />
+</div>
+
 <md-autocomplete 
   md-selected-item="vm.selectedItem" 
   md-selected-item-change="vm.selectedItemChange(item)"
@@ -5,12 +9,15 @@
   md-search-text-change="vm.searchTextChange(vm.searchText)"
   md-items="item in vm.querySearch(vm.searchText)" 
   md-item-text="" 
-  placeholder="Search">
+  placeholder="Search"
+  md-delay="400">
   
-  <md-item-template>
-    <span md-highlight-text="vm.searchText">{{ item }}</span>
+  <md-item-template >
+    <img ng-src="{{ item.image }}" />
+    <span md-highlight-text="vm.searchText">{{ item.name }}</span>
+    <span md-highlight-text="vm.searchText">{{ item.location }}</span>
   </md-item-template>
-   <md-not-found>
+   <!--<md-not-found>
     No matches found. {{ vm.searchText }}
-  </md-not-found>
+  </md-not-found>-->
 </md-autocomplete>
