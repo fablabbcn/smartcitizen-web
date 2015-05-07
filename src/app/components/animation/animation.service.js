@@ -8,7 +8,9 @@ angular.module('app.components')
 
   	var service = {
       blur: blur,
-      unblur: unblur
+      unblur: unblur,
+      removeNav: removeNav,
+      addNav: addNav
   	};
   	return service;
 
@@ -20,4 +22,12 @@ angular.module('app.components')
   	function unblur() {
   	  $rootScope.$broadcast('unblur');
   	}
+
+    function removeNav() {
+      $rootScope.$broadcast('removeNav');
+    }
+
+    function addNav() {
+      $rootScope.$broadcast('addNav');
+    }
   }

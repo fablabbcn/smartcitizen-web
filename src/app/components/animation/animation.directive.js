@@ -4,7 +4,8 @@
   angular.module('app.components')
     .directive('moveDown', moveDown)
     .directive('stick', stick)
-    .directive('blur', blur);
+    .directive('blur', blur)
+    .directive('focus', focus);
 
 
   function moveDown() {
@@ -75,5 +76,24 @@
       link: link,
       scope: false,
       restrict: 'A'
+    }
+  }
+
+
+  function focus(animation) {
+    function link(scope, element, attrs) {
+      element.on('focusin', function() {
+        console.log('aqui');
+        animation.removeNav();
+      });
+
+      element.on('focusout', function() {
+        console.log('alli');
+        animation.addNav();
+      })
+    }
+
+    return {
+      link: link
     }
   }

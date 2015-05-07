@@ -10,6 +10,20 @@ angular.module('app.components')
     vm.searchTextChange = searchTextChange;
     vm.selectedItemChange = selectedItemChange;
     vm.querySearch = querySearch;
+
+    vm.isIconWhite = true;
+
+    $scope.$on('removeNav', function() {
+      $scope.$apply(function() {
+        vm.isIconWhite = false;
+      });
+    });
+
+    $scope.$on('addNav', function() {
+      $scope.$apply(function() {
+        vm.isIconWhite = true;
+      });
+    });
    
     ///////////////////
 

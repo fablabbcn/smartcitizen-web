@@ -4,37 +4,37 @@
   <section flex layout="row" layout-align="space-around center">
     <a href="/" flex="20" class="logo_link">
       <md-icon md-svg-src="/assets/images/LogotipoSmartCitizen.svg"
-               alt="Insert Drive Icon" class="logo_image">
+               alt="Insert Drive Icon" class="logo_icon">
       </md-icon>
     </a>
     <md-button flex href="#" class="md-flat">
-      <md-icon>
+      <md-icon md-svg-src="/assets/images/map_icon.svg" ng-show="isShown" class="nav_icon">
       </md-icon>
-      <span>Map</span>
+      <span ng-show="isShown">Map</span>
     </md-button>
     <md-button flex href="#" class="md-flat">
-      <md-icon>
+      <md-icon md-svg-src="/assets/images/community_icon.svg" ng-show="isShown" class="nav_icon">
       </md-icon>
-      <span>Community</span>
+      <span ng-show="isShown">Community</span>
     </md-button>
   </section>
 
   <search flex="40"></search>
   
   <section flex layout="row" layout-align="space-around center">
-    <md-button flex href="#" class="md-flat">Get your Kit</md-button>
+    <md-button flex href="#" class="md-flat" ng-show="isShown">Get your Kit</md-button>
+  
+    <md-button flex class="md-flat" ng-show="isShown">
+      <oauth 
+      	site="https://id.smartcitizen.me/"
+      	client-id="82ef2ebe26dcdabcf149420f817ea89b9f853e8b8bd4f1560c5a00f268ce19be"
+      	redirect-uri="http://localhost:3000"
+      	profile-uri="https://new-api.smartcitizen.me/v0/me"
+      	scope="">
+      </oauth>
+    </md-button>
 
-    <signup flex class="md-display-1"></signup>
-
-    <oauth flex
-    	site="https://id.smartcitizen.me/"
-    	client-id="82ef2ebe26dcdabcf149420f817ea89b9f853e8b8bd4f1560c5a00f268ce19be"
-    	redirect-uri="http://localhost:3000"
-    	profile-uri="https://new-api.smartcitizen.me/v0/me"
-    	scope="">
-    </oauth>
-
+    <signup flex class="md-display-1" ng-show="isShown"></signup>
   </section>
-
 </md-toolbar>
 

@@ -6,7 +6,8 @@ angular.module('app')
       .state('home', {
         url: '/',
         templateUrl: 'app/components/home/home.html',
-        controller: ''
+        controller: 'HomeController',
+        controllerAs: 'vm'
       })
 
       .state('test', {

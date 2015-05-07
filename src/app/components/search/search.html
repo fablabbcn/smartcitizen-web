@@ -1,5 +1,6 @@
 <div class="search_icon">
-  <img src="assets/images/search_icon.svg" />
+  <img src="assets/images/search_icon_white.svg" ng-show="vm.isIconWhite"/>
+  <img src="assets/images/search_icon_black.svg" ng-show="!vm.isIconWhite"/>
 </div>
 
 <md-autocomplete 
@@ -10,7 +11,9 @@
   md-items="item in vm.querySearch(vm.searchText)" 
   md-item-text="" 
   placeholder="Search"
-  md-delay="400">
+  md-delay="400"
+
+  focus>
   
   <md-item-template >
     <md-icon md-svg-src="{{ item.image }}" class="result_icon"></md-icon>

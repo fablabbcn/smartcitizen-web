@@ -31,7 +31,7 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-header { 
+navbar { 
   .md-button {
     font-size: 14px;
   }
@@ -40,10 +40,16 @@ header {
     text-align: center;
   }
 
-  .logo_image {
+  .logo_icon {
     margin: 0;
     height: 35px;
     width: 35px;
+  }
+
+  .nav_icon {
+    margin: 0 3%;
+    height: 14px;
+    width: 14px;
   }
 }
 
@@ -107,6 +113,8 @@ search {
 }
 
 signup {
+  text-align: center;
+
   .md-button.md-default-theme {
     border: 3px solid #00FFA8;
     color: #00FFA8;
