@@ -1,12 +1,22 @@
 
 <md-toolbar layout="row" layout-align="end center" class="stickNav">
 
-  <section flex layout="row" layout-align="left center">
-    <md-icon flex="20" md-svg-src="/assets/images/LogotipoSmartCitizen.svg"
-                 alt="Insert Drive Icon" class="logo">
-  </md-icon>
-    <md-button flex href="#" class="md-flat">Map</md-button>
-    <md-button flex href="#" class="md-flat">Community</md-button>
+  <section flex layout="row" layout-align="space-around center">
+    <a href="/" flex="20" class="logo_link">
+      <md-icon md-svg-src="/assets/images/LogotipoSmartCitizen.svg"
+               alt="Insert Drive Icon" class="logo_image">
+      </md-icon>
+    </a>
+    <md-button flex href="#" class="md-flat">
+      <md-icon>
+      </md-icon>
+      <span>Map</span>
+    </md-button>
+    <md-button flex href="#" class="md-flat">
+      <md-icon>
+      </md-icon>
+      <span>Community</span>
+    </md-button>
   </section>
 
   <search flex="40"></search>

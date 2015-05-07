@@ -26,27 +26,40 @@ angular.module('app.components')
         .then(function(data) {
           console.log(data);
           if(data.length === 0) return data;
+
           return data.map(function(object) {
             if(object.type === 'Location') {
-            } else if(object.type === 'Device') {
-              var newObj = {
-                name: object.name,
-                location: object.city + ', ' + object.country,
-                image: ''
+            } else {
+              var location = parseLocation(object);
+              var name = parseName(object);
+
+              return {
+                type: object.type,
+                name: name,
+                location: location,
+                image: object.type === 'User' ? '/assets/images/avatar.svg' : '/assets/images/kit.svg'
               };
-              return newObj;
-            } else if(object.type === 'User') {
-              console.log('username', object.username);
-              var newObj = {
-                name: object.username,
-                location: object.city + ', ' + object.country,
-                image: object.avatar
-              };
-              console.log(newObj);
-              return newObj;
             }
           });
         });
+    }
+
+    function parseLocation(object) {
+      var location = '';
+
+      if(!!object.city) {
+        location += object.city;
+      }
+      if(!!object.country) {
+        location += ', ' + object.country;
+      }
+
+      return location;
+    }
+
+    function parseName(object) {
+      var name = object.type === 'User' ? object.username : object.name;
+      return !name ? 'No name' : name; 
     }
 
   }
