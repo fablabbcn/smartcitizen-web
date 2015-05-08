@@ -263,6 +263,10 @@ section .stickMenu {
   border: 1px solid grey;
   position: relative;
 
+  .close_icon {
+    float: right;
+  }
+
   button {
     width: 100%;
     color: white;

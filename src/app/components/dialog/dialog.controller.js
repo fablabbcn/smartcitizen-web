@@ -5,8 +5,10 @@ angular.module('app.components')
 
 
   function DialogController($scope, $mdDialog) {
-
     $scope.answer = function(answer) {
       $mdDialog.hide(answer);
+    };
+    $scope.hide = function() {
+      $mdDialog.hide();
     };
   }
