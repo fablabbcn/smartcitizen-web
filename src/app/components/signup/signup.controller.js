@@ -14,7 +14,8 @@ angular.module('app.components')
     function showSignup(ev) {
 
       animation.blur();
-
+      
+      /* global DialogController */
       $mdDialog.show({
         controller: DialogController,
         templateUrl: 'app/components/signup/signupModal.html',
@@ -29,8 +30,8 @@ angular.module('app.components')
     }
 
     function signup(signupData) {
-      user.post(signupData).then(function(users) {
-        console.log('res', users);
+      user.post(signupData).then(function() {
+    
       });
     }
   }

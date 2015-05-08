@@ -4,7 +4,7 @@ angular.module('app.components')
   .controller('SearchController', SearchController);
 
 
-  function SearchController($scope, search, $http) {
+  function SearchController($scope, search) {
     var vm = this;
     
     vm.searchTextChange = searchTextChange;
@@ -27,19 +27,19 @@ angular.module('app.components')
    
     ///////////////////
 
-    function searchTextChange(text) {
-      console.log('text', text);
+    function searchTextChange() {
     }
 
-    function selectedItemChange(item) {
-      console.log('item', item);
+    function selectedItemChange() {
     }
 
     function querySearch(query) {
       return search.globalSearch(query)
         .then(function(data) {
-          console.log(data);
-          if(data.length === 0) return data;
+          
+          if(data.length === 0) {
+            return data;
+          }
 
           return data.map(function(object) {
             if(object.type === 'Location') {

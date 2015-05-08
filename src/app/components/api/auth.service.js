@@ -4,7 +4,7 @@ angular.module('app.components')
   .factory('auth', auth);
   
 
-  function auth($http) {
+  function auth($window) {
 
   	var user = null;
   	initialize();

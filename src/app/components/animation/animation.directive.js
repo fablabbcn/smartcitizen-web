@@ -10,7 +10,7 @@
 
   function moveDown() {
     
-    function link(scope, element, attrs) {
+    function link(scope, element) {
       scope.$watch('moveDown', function(isTrue) {
         if(isTrue) {
           element.addClass('move_down');
@@ -30,9 +30,9 @@
 
   function stick($window) {
 
-    function link(scope, element, attrs) {
+    function link(scope, element) {
       var elementPosition = element[0].offsetTop;
-      var elementHeight = element[0].offsetHeight;
+      //var elementHeight = element[0].offsetHeight;
       
       var navbarHeight = 64;
 
@@ -61,7 +61,7 @@
 
   function blur() {
     
-    function link(scope, element, attrs) {
+    function link(scope, element) {
 
       scope.$on('blur', function() {
         element.addClass('blur');
@@ -81,14 +81,12 @@
 
 
   function focus(animation) {
-    function link(scope, element, attrs) {
+    function link(scope, element) {
       element.on('focusin', function() {
-        console.log('aqui');
         animation.removeNav();
       });
 
       element.on('focusout', function() {
-        console.log('alli');
         animation.addNav();
       });
     }
