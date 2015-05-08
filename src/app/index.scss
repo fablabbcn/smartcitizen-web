@@ -105,6 +105,7 @@ search {
     height: 36px;
     line-height: 36px;
     padding: 0 40px;
+    border-radius: 0px;
   }
 
   input:active, input:focus {
@@ -169,6 +170,7 @@ md-toolbar.md-default-theme {
 md-dialog.md-default-theme { 
   background-color: rgba(255, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px transparent;
+  max-height: 100%;
 }
 
 md-dialog-content { 
@@ -260,7 +262,7 @@ section .stickMenu {
 }
 
 .modal {
-  border: 1px solid grey;
+  border: 0.5px solid grey;
   position: relative;
 
   .close_icon {
