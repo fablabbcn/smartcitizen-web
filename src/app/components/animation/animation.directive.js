@@ -76,7 +76,7 @@
       link: link,
       scope: false,
       restrict: 'A'
-    }
+    };
   }
 
 
@@ -90,10 +90,10 @@
       element.on('focusout', function() {
         console.log('alli');
         animation.addNav();
-      })
+      });
     }
 
     return {
       link: link
-    }
+    };
   }

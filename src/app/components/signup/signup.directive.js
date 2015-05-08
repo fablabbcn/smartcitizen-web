@@ -12,6 +12,6 @@
       restrict: 'E',
       controller: 'SignupController',
       controllerAs: 'vm',
-      templateUrl: 'app/components/signup/signup.html'
+      templateUrl: '/app/components/signup/signup.html'
     };
   }

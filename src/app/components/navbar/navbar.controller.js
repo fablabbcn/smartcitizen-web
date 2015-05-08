@@ -11,7 +11,7 @@ angular.module('app.components')
       $scope.$apply(function() {
         $scope.isShown = false;
       });
-    })
+    });
 
     $scope.$on('addNav', function() {
       $scope.$apply(function() {
