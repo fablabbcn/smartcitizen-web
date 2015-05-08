@@ -13,7 +13,7 @@
       link: link,
       scope: true,
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
+      templateUrl: './app/components/navbar/navbar.html',
       controller: 'NavbarController',
       controllerAs: 'vm'
     };

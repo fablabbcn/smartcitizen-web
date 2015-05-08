@@ -2,6 +2,7 @@
 
 $primary_color: #065063;
 $secondary_color: #01637C;
+$terciary_color: #38CEF3;
 
 $large_priority: 10;
 $more_priority: 5;
@@ -154,15 +155,15 @@ md-toolbar.md-default-theme {
 }
 
 .md-button.md-default-theme.md-raised.md-primary { 
-  background-color: $primary_color;
+  background-color: $terciary_color;
 }
 
 .md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover { 
-  background-color: $primary_color;
+  background-color: $terciary_color;
 }
 
 .md-button.md-default-theme.md-primary.md-raised:not([disabled]):focus {
-  background-color: $primary_color;
+  background-color: $terciary_color;
 }
 
 md-dialog.md-default-theme { 
@@ -265,7 +266,7 @@ section .stickMenu {
   button {
     width: 100%;
     color: white;
-    background-color: $primary_color;
+    background-color: $terciary_color;
     height: 64px;
     font-size: 24px;
     position: absolute;
@@ -278,7 +279,11 @@ section .stickMenu {
   }
 
   h2 {
-    color: $primary_color;
+    color: $terciary_color;
+  }
+
+  [layout] {
+    padding: 2% 0;
   }
 
   .modal_message {
@@ -301,6 +306,22 @@ section .stickMenu {
     }
   }
 }
+
+.message_below {
+  text-align: center; 
+  font-size: 16px; 
+
+  .message_below_question {
+    color: white;
+    margin-right: 3%;
+  }
+
+  .message_below_link {
+    color: $terciary_color;
+    font-weight: bold;
+  }
+}
+
 .login {
   width: 408px;
   height: 349px;
