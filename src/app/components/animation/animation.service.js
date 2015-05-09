@@ -3,7 +3,7 @@
 angular.module('app.components')
   .factory('animation', animation);
   
-
+  animation.$inject = ['$rootScope'];
   function animation($rootScope) {
 
   	var service = {

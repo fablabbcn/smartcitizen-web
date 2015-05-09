@@ -3,7 +3,7 @@
 angular.module('app.components')
   .factory('search', search);
   
-
+  search.$inject = ['$http', 'Restangular'];
   function search($http, Restangular) {
     var service = {
       globalSearch: globalSearch

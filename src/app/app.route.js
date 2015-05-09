@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('app')
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
+  .config(config);
+  
+  config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
+  function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -18,9 +21,9 @@ angular.module('app')
     $urlRouterProvider.otherwise('/');
 
     $locationProvider.html5Mode({
-  	  enabled: true,
-  	  requireBase: false
-  	}).hashPrefix('!');
+      enabled: true,
+      requireBase: false
+    }).hashPrefix('!');
 
     RestangularProvider.setBaseUrl('https://new-api.smartcitizen.me/v0');
-  });
+  }

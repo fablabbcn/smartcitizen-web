@@ -3,6 +3,7 @@
 angular.module('app.components')
   .controller('NavbarController', NavbarController);
 
+  NavbarController.$inject = ['$scope'];
   function NavbarController($scope) {
 
     $scope.isShown = true;

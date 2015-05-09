@@ -3,7 +3,7 @@
 angular.module('app.components')
   .factory('auth', auth);
   
-
+  auth.$inject = ['$window'];
   function auth($window) {
 
   	var user = null;

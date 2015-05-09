@@ -2,7 +2,8 @@
 
 angular.module('app.components')
   .controller('SignupController', SignupController);
-
+  
+  SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation'];
   function SignupController($scope, $mdDialog, user, animation) {
     var vm = this;
 

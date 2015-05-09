@@ -27,7 +27,7 @@
     };
   }
 
-
+  stick.$inject = ['$window'];
   function stick($window) {
 
     function link(scope, element) {
@@ -79,7 +79,7 @@
     };
   }
 
-
+  focus.$inject = ['animation'];
   function focus(animation) {
     function link(scope, element) {
       element.on('focusin', function() {

@@ -3,7 +3,7 @@
 angular.module('app.components')
   .controller('SearchController', SearchController);
 
-
+  SearchController.$inject = ['$scope', 'search'];
   function SearchController($scope, search) {
     var vm = this;
     
