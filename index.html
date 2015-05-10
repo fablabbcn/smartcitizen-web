@@ -1,10 +1,90 @@
-<!doctype html><html ng-app="app"><head><meta charset="utf-8"><title>Smart Citizen</title><meta name="description" content=""><meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"><link rel="stylesheet" href="styles/vendor-91d3ad39.css"><link rel="stylesheet" href="styles/app-e0ba22ab.css"></head><body><!--[if lt IE 10]>
- <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
- <![endif]--><div blur=""><navbar></navbar><div ui-view=""></div></div><script>
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Smart Citizen</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="app/index.css">
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <div blur>
+      <!--<header ng-include="'app/components/navbar/navbar.html'"></header>-->
+      <navbar></navbar>
+      <div ui-view></div>
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script><script src="scripts/vendor-44d38474.js"></script><script src="scripts/app-180c34a5.js"></script></body></html>
+    </script>
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/restangular/dist/restangular.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
+    <script src="../bower_components/ngstorage/ngStorage.js"></script>
+    <script src="../bower_components/oauth-ng/dist/oauth-ng.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- inject:js -->
+    <script src="app/components/components.js"></script>
+    <script src="app/components/signup/signup.directive.js"></script>
+    <script src="app/components/signup/signup.controller.js"></script>
+    <script src="app/components/search/search.directive.js"></script>
+    <script src="app/components/search/search.controller.js"></script>
+    <script src="app/components/navbar/navbar.directive.js"></script>
+    <script src="app/components/navbar/navbar.controller.js"></script>
+    <script src="app/components/map/map.directive.js"></script>
+    <script src="app/components/home/home.controller.js"></script>
+    <script src="app/components/dialog/dialog.controller.js"></script>
+    <script src="app/components/api/user.service.js"></script>
+    <script src="app/components/api/search.service.js"></script>
+    <script src="app/components/api/geolocation.service.js"></script>
+    <script src="app/components/api/auth.service.js"></script>
+    <script src="app/components/animation/animation.service.js"></script>
+    <script src="app/components/animation/animation.directive.js"></script>
+    <script src="app/auth/auth.route.js"></script>
+    <script src="app/auth/auth.module.js"></script>
+    <script src="app/auth/auth.config.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/app.route.js"></script>
+    <script src="app/app.config.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:partials -->
+    <!-- angular templates will be automatically converted in js and inserted here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+  </body>
+</html>
