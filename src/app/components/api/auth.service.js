@@ -1,36 +1,38 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('app.components')
-  .factory('auth', auth);
-  
-  auth.$inject = ['$window'];
-  function auth($window) {
-
-  	var user = null;
-  	initialize();
-
-  	var service = {
-      isAuth: isAuth,
-      setCurrentUser: setCurrentUser,
-      getCurrentUser: getCurrentUser
-  	};
-  	return service;
+  angular.module('app.components')
+    .factory('auth', auth);
     
-    //////////////////////////
+    auth.$inject = ['$window'];
+    function auth($window) {
 
-    function initialize() {
-      setCurrentUser();
-    }
+    	var user = null;
+    	initialize();
 
-    function setCurrentUser() {
-      user = $window.localStorage.getItem('smartcitizen.token');
-    }
+    	var service = {
+        isAuth: isAuth,
+        setCurrentUser: setCurrentUser,
+        getCurrentUser: getCurrentUser
+    	};
+    	return service;
+      
+      //////////////////////////
 
-    function getCurrentUser() {
-      return user;
-    }
+      function initialize() {
+        setCurrentUser();
+      }
 
-    function isAuth() {
-      return !!user;
+      function setCurrentUser() {
+        user = $window.localStorage.getItem('smartcitizen.token');
+      }
+
+      function getCurrentUser() {
+        return user;
+      }
+
+      function isAuth() {
+        return !!user;
+      }
     }
-  }
+})();

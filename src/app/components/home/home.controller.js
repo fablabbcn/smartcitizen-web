@@ -1,7 +1,9 @@
-'use strict';
+(function() {
+	'use strict';
 
-angular.module('app.components')
-  .controller('HomeController', HomeController);
+	angular.module('app.components')
+	  .controller('HomeController', HomeController);
 
-  function HomeController() {
-  }
+	  function HomeController() {
+	  }
+})();
