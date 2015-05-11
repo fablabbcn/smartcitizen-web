@@ -1,6 +1,8 @@
 <md-dialog>
   <md-dialog-content class="modal signup">
     <div>
+      <md-icon md-svg-src="./assets/images/map_icon.svg" ng-click="hide()" class="close_icon" >
+      </md-icon>
     	<h2>SIGN UP</h2>
       <div class="modal_message">
     	  <p>People looking for a better city</p>
@@ -27,7 +29,8 @@
     </div>
   	<md-button class="md-raised md-primary" ng-click="answer(vm.user)">Sign up</md-button>
   </md-dialog-content>
-  <p>
-    Already have an account?<span>LOG IN</span>
+  <p class="message_below">
+    <span class="message_below_question">Already have an account?</span>
+    <md-button class="message_below_link">LOG IN</md-button>
   </p>
 </md-dialog>

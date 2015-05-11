@@ -8,7 +8,7 @@ describe('Controller: SignupController', function(){
       scope,
       mdDialog,
       mockUserService,
-      mockAnimationService
+      mockAnimationService;
 
   beforeEach(inject(function($controller, $rootScope, $q) {
     scope = $rootScope.$new();
@@ -29,10 +29,10 @@ describe('Controller: SignupController', function(){
     SignupController = $controller('SignupController', {
       $scope: scope, $mdDialog: mdDialog, user: mockUserService, animation: mockAnimationService
     });
-
+    
     spyOn(mockUserService, 'post').and.returnValue($q.when({}));
     spyOn(mockAnimationService, 'blur');  
-    spyOn(mdDialog, 'show').and.returnValue($q.when({}));;  
+    spyOn(mdDialog, 'show').and.returnValue($q.when({}));  
   }));
 
 

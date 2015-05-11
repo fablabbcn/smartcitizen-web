@@ -1,36 +1,40 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('app.components')
-  .controller('SignupController', SignupController);
+  angular.module('app.components')
+    .controller('SignupController', SignupController);
+    
+    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation'];
+    function SignupController($scope, $mdDialog, user, animation) {
+      var vm = this;
 
-  function SignupController($scope, $mdDialog, user, animation) {
-    var vm = this;
-
-    vm.showSignup = showSignup;
-    vm.signup = signup;
-    ////////////////////////
+      vm.showSignup = showSignup;
+      vm.signup = signup;
+      ////////////////////////
 
 
-    function showSignup(ev) {
+      function showSignup(ev) {
 
-      animation.blur();
+        animation.blur();
+        
+        /* global DialogController */
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'app/components/signup/signupModal.html',
+          targetEvent: ev,
+        })
+        .then(function(signupData) {
+          signup(signupData);
+        })
+        .finally(function() {
+          animation.unblur();
+        });
+      }
 
-      $mdDialog.show({
-        controller: DialogController,
-        templateUrl: 'app/components/signup/signupModal.html',
-        targetEvent: ev,
-      })
-      .then(function(signupData) {
-        signup(signupData);
-      })
-      .finally(function() {
-        animation.unblur();
-      });
+      function signup(signupData) {
+        user.post(signupData).then(function() {
+      
+        });
+      }
     }
-
-    function signup(signupData) {
-      user.post(signupData).then(function(users) {
-        console.log('res', users);
-      });
-    }
-  }
+})();
