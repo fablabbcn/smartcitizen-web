@@ -7,17 +7,38 @@
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
       $stateProvider
+        .state('landing', {
+          url: '/',
+          template: 'hola'
+        })
+        .state('home', {
+          url: '',
+          abstract: true,
+          views: {
+            '': {
+              templateUrl: 'app/components/home/template.html'
+            },
+
+            /*'alerts@home': {
+              templateUrl: 'app/components/alert/alert.html',
+              controller: 'AlertController',
+              controllerAs: 'vm'
+            }*/
+          }
+        })
+        .state('home.kit', {
+          url: '/home',
+          views: {
+            'container@landing':  {
+              templateUrl: 'app/components/home/home.html'
+            }
+          }
+        });
+        /*
+
         .state('home', {
           url: '/',
-          templateUrl: 'app/components/home/home.html',
-          controller: 'HomeController',
-          controllerAs: 'vm'
-        })
-
-        .state('test', {
-          url: '/test',
-          templateUrl: 'app/core/html/passwordRecovery.html'
-        });
+        });*/
 
       $urlRouterProvider.otherwise('/');
 

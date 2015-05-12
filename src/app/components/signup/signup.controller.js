@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('SignupController', SignupController);
     
-    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation'];
-    function SignupController($scope, $mdDialog, user, animation) {
+    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation', '$mdToast'];
+    function SignupController($scope, $mdDialog, user, animation, $mdToast) {
       var vm = this;
 
       vm.showSignup = showSignup;
       vm.signup = signup;
+
       ////////////////////////
 
 
@@ -17,9 +18,8 @@
 
         animation.blur();
         
-        /* global DialogController */
         $mdDialog.show({
-          controller: DialogController,
+          controller: 'DialogController',
           templateUrl: 'app/components/signup/signupModal.html',
           targetEvent: ev,
         })
@@ -32,9 +32,27 @@
       }
 
       function signup(signupData) {
-        user.post(signupData).then(function() {
-      
-        });
+        user.post(signupData)
+          .then(function(data) {
+            console.log('data', data);
+             $mdToast.show({
+              controller: 'AlertController',
+              controllerAs: 'vm',
+              templateUrl: 'app/components/alert/alertGreen.html',
+              hideDelay: 10000,
+              position: 'top'
+            });
+          })
+          .catch(function(err) {
+            console.log('err', err);
+            $mdToast.show({
+              controller: 'AlertController',
+              controllerAs: 'vm',
+              templateUrl: 'app/components/alert/alertRed.html',
+              hideDelay: 10000,
+              position: 'top'
+            });
+          });
       }
     }
 })();
