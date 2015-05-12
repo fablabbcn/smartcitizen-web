@@ -16,7 +16,6 @@
 
       function globalSearch(query) {
     	  return Restangular.all('search').getList({q: query});
-        //return $http.get('https://new-api.smartcitizen.me/search?q=' + query);
       }
     }
 })();

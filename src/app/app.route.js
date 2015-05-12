@@ -28,8 +28,23 @@
               controller: 'KitController',
               controllerAs: 'vm'
             }
+          },
+          resolve: {
+            location: function(geolocation) {
+              return geolocation.then(function(data) {
+                var arrLoc = data.data.loc.split(',');
+                var location = {
+                  lat: parseFloat(arrLoc[0]),
+                  lng: parseFloat(arrLoc[1])
+                };
+                return location;
+              });
+            },
+            initialDevices: function(device) {
+
+            }
           }
-        })
+        });
 
         /*.state('home.kit', {
           url: '/home',
