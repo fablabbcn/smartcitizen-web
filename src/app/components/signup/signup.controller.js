@@ -49,7 +49,7 @@
               controller: 'AlertController',
               controllerAs: 'vm',
               templateUrl: 'app/components/alert/alertRed.html',
-              hideDelay: 10000,
+              hideDelay: 150000,
               position: 'top'
             });
           });

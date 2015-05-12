@@ -216,7 +216,22 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
 md-toast.md-top {
   position: absolute;
   top: 64px;
+  max-width: 100%;
   width: 100%;
+  min-height: 32px;
+  color: black;
+
+  .alert_icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+  }
+
+  .close_icon {
+    width: 10.5px;
+    height: 10.5px;
+    margin: 0 auto;
+  }
 }
 
 md-toast.red {

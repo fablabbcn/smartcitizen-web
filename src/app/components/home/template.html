@@ -1,4 +1,16 @@
-<section> 
-  <div ui-view="alerts" class="alert"></div>
-  <div ui-view="container" class="container_state"></div>
+<!--<section> 
+  <div ui-view="map" class="map"></div>
+  <div ui-view="kit" class="kit"></div>
 </section>
+-->
+
+<div layout="vertical" layout-fill>
+
+  <md-content>
+    <section class="content">
+      <div ui-view="map" class="map"></div>
+      <div ui-view="kit" class="kit"></div>
+    </section>
+  </md-content>
+
+</div>

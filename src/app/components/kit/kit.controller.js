@@ -2,8 +2,8 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('AlertController', AlertController);
+    .controller('KitController', KitController);
 
-    function AlertController() {
+    function KitController() {
     }
 })();

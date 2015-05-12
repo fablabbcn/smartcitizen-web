@@ -12,5 +12,8 @@
       $scope.hide = function() {
         $mdDialog.hide();
       };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
     }
 })();

@@ -8,25 +8,30 @@
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
       $stateProvider
         .state('landing', {
-          url: '/',
+          url: '/landing',
           template: 'hola'
         })
         .state('home', {
-          url: '',
-          abstract: true,
+          url: '/',
           views: {
             '': {
               templateUrl: 'app/components/home/template.html'
             },
 
-            /*'alerts@home': {
-              templateUrl: 'app/components/alert/alert.html',
-              controller: 'AlertController',
+            'map@home': {
+              templateUrl: 'app/components/map/map.html',
+              controller: 'MapController',
               controllerAs: 'vm'
-            }*/
+            },
+            'kit@home': {
+              templateUrl: 'app/components/kit/kit.html',
+              controller: 'KitController',
+              controllerAs: 'vm'
+            }
           }
         })
-        .state('home.kit', {
+
+        /*.state('home.kit', {
           url: '/home',
           views: {
             'container@landing':  {
@@ -34,7 +39,6 @@
             }
           }
         });
-        /*
 
         .state('home', {
           url: '/',
