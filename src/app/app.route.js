@@ -40,8 +40,8 @@
                 return location;
               });
             },
-            initialDevices: function(device) {
-
+            initialDevices: function(device, geolocation) {
+              
             }
           }
         });

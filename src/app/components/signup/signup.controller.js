@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('SignupController', SignupController);
     
-    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation', '$mdToast'];
-    function SignupController($scope, $mdDialog, user, animation, $mdToast) {
+    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation', 'alert'];
+    function SignupController($scope, $mdDialog, user, animation, alert) {
       var vm = this;
 
       vm.showSignup = showSignup;
@@ -34,24 +34,10 @@
       function signup(signupData) {
         user.post(signupData)
           .then(function(data) {
-            console.log('data', data);
-             $mdToast.show({
-              controller: 'AlertController',
-              controllerAs: 'vm',
-              templateUrl: 'app/components/alert/alertGreen.html',
-              hideDelay: 10000,
-              position: 'top'
-            });
+            alert.success('Mu bien!!!!!');
           })
           .catch(function(err) {
-            console.log('err', err);
-            $mdToast.show({
-              controller: 'AlertController',
-              controllerAs: 'vm',
-              templateUrl: 'app/components/alert/alertRed.html',
-              hideDelay: 150000,
-              position: 'top'
-            });
+            alert.error('Mu mal!!!!!!');
           });
       }
     }
