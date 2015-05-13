@@ -6,32 +6,41 @@
     
     MapController.$inject = ['$scope', 'location', 'device'];
     function MapController($scope, location, device) {
-    	//var vm = this;
+    	var vm = this;
       getMarkers(location);
 
-    	$scope.center = {
+    	vm.center = {
         lat: location.lat,
         lng: location.lng,
         zoom: 12
     	};
 
-    	$scope.defaults = {
+    	vm.defaults = {
         scrollWheelZoom: false
     	};
 
-    	$scope.events = {
+    	vm.events = {
     	  map: {
-    	  	enable: ['drag'],
-    	  	logic: 'emit'
+    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose'],
+    	  	logic: 'broadcast' // might have to use emit later
     	  }
     	};
 
-    	$scope.markers = [];
+    	vm.markers = [];
 
-      $scope.$on('leafletDirectiveMap.drag', function(){
-         console.log('inside event handler');
-         getMarkers($scope.center);
+      /*$scope.$on('leafletDirectiveMap.dragend', function(){
+          console.log('inside event handler');
+          getMarkers(vm.center);
+        });*/
+
+      $scope.$on('leafletDirectiveMap.moveend', function(event) {
+        console.log('inside movend', event);
+        getMarkers(vm.center);
       });
+
+      $scope.$on('leafletDirectiveMap.popupopen', function(eventt) {
+        console.log('popup', event);
+      });      
       
       /////////////////////
 
@@ -49,8 +58,8 @@
               };
               return obj;
   	        });
-            $scope.markers = [];
-  	        $scope.markers = markers;
+            vm.markers = [];
+  	        vm.markers = markers;
   	      });
       }
     }

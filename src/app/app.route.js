@@ -20,8 +20,8 @@
 
             'map@home': {
               templateUrl: 'app/components/map/map.html',
-              controller: 'MapController'//,
-              //controllerAs: 'vm'
+              controller: 'MapController',
+              controllerAs: 'vm'
             },
             'kit@home': {
               templateUrl: 'app/components/kit/kit.html',
