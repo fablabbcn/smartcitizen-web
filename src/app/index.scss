@@ -24,6 +24,22 @@ $small_priority: -1;
   color: white;
 }
 
+:focus::-webkit-input-placeholder { /* WebKit browsers */
+  color: #032933;
+}
+:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #032933;
+  opacity:  1;
+}
+:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #032933;
+  opacity:  1;
+}
+:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: #032933;
+}
+
+
 html {
   font-family: 'Roboto Condensed';
 }
@@ -39,18 +55,61 @@ navbar {
 
   .logo_link {
     text-align: center;
-  }
-
-  .logo_icon {
-    margin: 0;
-    height: 35px;
-    width: 35px;
+    
+    .logo_icon {
+      margin-left: 15px;
+      height: 32px;
+      width: 32px;
+    }
   }
 
   .nav_icon {
     margin: 0 3%;
     height: 14px;
     width: 14px;
+  }
+  
+  .md-button.full_height {
+    padding: 24px 0px;
+  }
+
+  .nav_left {
+    width: 204px;
+    margin: 0px 16px;
+    .map {
+      width: 66px;
+      margin-right: 8px;
+    }
+    .community {
+      width: 114px;
+      margin-left: 8px;
+    }
+  }
+
+  .nav_right {
+    width: 281px;
+    margin: 0px 16px;
+
+    .get {
+      width: 98px;
+      margin-right: 8px;
+    }
+    .log {
+      width: 56px;
+      margin: 0px 8px;
+    }
+    signup {
+      text-align: center;
+      margin-left: 8px;
+
+      .md-button.md-default-theme {
+        border: 3px solid #00FFA8;
+        color: #00FFA8;
+        border-radius: 50px;
+        padding: 9px 11px;
+        width: 79px;
+      }
+    }
   }
 }
 
@@ -67,7 +126,7 @@ search {
 
     ul {
       z-index: 100;
-      max-height: 414px;
+      max-height: 422px;
 
       li {
         .result_icon {
@@ -88,8 +147,8 @@ search {
 
   .search_icon {
     position: absolute;
-    top: 0.3em;
-    left: 0.7em;
+    top: 3.2px;
+    left: 14px;
     z-index: $large_priority;
     
     md-icon {
@@ -105,24 +164,24 @@ search {
     height: 36px;
     line-height: 36px;
     padding: 0 40px;
-    border-radius: 0px;
+    border-radius: 4px;
   }
 
   input:active, input:focus {
     fill: white;
     background-color: #DDE7EA;
   }
-}
 
-signup {
-  text-align: center;
+  md-autocomplete {
+    border-radius: 4px;
+    box-shadow: 0 0px 0px white;
+    background-color: transparent;
+  }
 
-  .md-button.md-default-theme {
-    border: 3px solid #00FFA8;
-    color: #00FFA8;
-    border-radius: 50px;
-    padding: 9px 11px;
-    font-weight: bold;
+  md-autocomplete-wrap {
+    height: 39px;
+    background-color: transparent;
+    border-radius: 4px;
   }
 }
 
@@ -148,6 +207,7 @@ signup {
 md-content.md-default-theme {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
+  position: relative;
 } 
 
 md-toolbar.md-default-theme {
@@ -177,15 +237,64 @@ md-dialog-content {
   background-color: white;
 }
 
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
+  label {
+    color: $terciary_color;
+  }
+
+  .md-input {
+    border-color: rgba(0,0,0,0.12);
+  } 
+}
+
+md-toast.md-top {
+  position: absolute;
+  top: 64px;
+  max-width: 100%;
+  width: 100%;
+  min-height: 32px;
+  color: black;
+
+  .alert_icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+  }
+
+  .close_icon {
+    width: 10.5px;
+    height: 10.5px;
+    margin: 0 auto;
+  }
+}
+
+md-toast.red {
+  background-color: #E74C3C;
+}
+
+md-toast.green {
+  background-color: #35E67E;
+}
+
+md-toast.blue {
+  background-color: #35C2E5;
+}
+
+md-progress-linear.md-default-theme .md-bar{
+  background-color: #044150;
+}
+
+.map_state {
+  position: fixed
+}
+
 section.map {
-  padding: 1px 30px;
   background-color: white;
   text-align: center;
   width: 100%;
-  height: 500px;
+  height: 312px;
   border: 1px solid grey;
   color: black;
-  padding-top: 64px;
   z-index: $small_priority;
   position: fixed;
   top: 64px;
@@ -215,7 +324,7 @@ section.map {
 }
 
 .kit_data {
-  margin: 564px 0;
+  margin: 376px 0;
 }
 
 section .kit_menu {
@@ -264,12 +373,23 @@ section .stickMenu {
 .modal {
   border: 0.5px solid grey;
   position: relative;
+  border-radius: 0px 0px 3px 3px;
 
   .close_icon {
     float: right;
+    width: 14px;
+    height: 14px;
+
+    md-icon {
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
   }
 
-  button {
+  button.main {
     width: 100%;
     color: white;
     background-color: $terciary_color;
@@ -277,6 +397,7 @@ section .stickMenu {
     font-size: 24px;
     position: absolute;
     bottom: 0px;
+    border-radius: 0px 0px 2px 2px;
   }
 
   > div {
@@ -286,6 +407,7 @@ section .stickMenu {
 
   h2 {
     color: $terciary_color;
+    font-weight: normal;
   }
 
   [layout] {

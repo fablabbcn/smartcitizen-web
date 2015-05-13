@@ -52,7 +52,7 @@
                   type: object.type,
                   name: name,
                   location: location,
-                  image: object.type === 'User' ? './assets/images/avatar.svg' : './assets/images/kit.svg'
+                  image: object.type === 'User' ? 'assets/images/avatar.svg' : 'assets/images/kit.svg'
                 };
               }
             });

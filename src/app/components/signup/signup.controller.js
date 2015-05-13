@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('SignupController', SignupController);
     
-    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation'];
-    function SignupController($scope, $mdDialog, user, animation) {
+    SignupController.$inject = ['$scope', '$mdDialog', 'user', 'animation', 'alert'];
+    function SignupController($scope, $mdDialog, user, animation, alert) {
       var vm = this;
 
       vm.showSignup = showSignup;
       vm.signup = signup;
+
       ////////////////////////
 
 
@@ -17,9 +18,8 @@
 
         animation.blur();
         
-        /* global DialogController */
         $mdDialog.show({
-          controller: DialogController,
+          controller: 'DialogController',
           templateUrl: 'app/components/signup/signupModal.html',
           targetEvent: ev,
         })
@@ -32,9 +32,13 @@
       }
 
       function signup(signupData) {
-        user.post(signupData).then(function() {
-      
-        });
+        user.post(signupData)
+          .then(function(data) {
+            alert.success('Signup was successful');
+          })
+          .catch(function(err) {
+            alert.error('Signup failed');
+          });
       }
     }
 })();
