@@ -31,7 +31,7 @@
           },
           resolve: {
             location: function(geolocation) {
-              return geolocation.then(function(data) {
+              return geolocation.callAPI().then(function(data) {
                 var arrLoc = data.data.loc.split(',');
                 var location = {
                   lat: parseFloat(arrLoc[0]),
@@ -40,8 +40,22 @@
                 return location;
               });
             },
-            initialDevices: function(device, geolocation) {
-              
+            initialMarkers: function(device, location) {
+              console.log('position', location);
+
+              return device.getDevices(location).then(function(data) {
+                data = data.plain();
+                
+                var markers = data.map(function(device) {
+                  var obj = {
+                    lat: device.data.location.latitude,
+                    lng: device.data.location.longitude,
+                    message: 'Hola'
+                  };
+                  return obj;
+                });
+                return markers;
+              });
             }
           }
         });

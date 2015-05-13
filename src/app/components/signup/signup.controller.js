@@ -34,10 +34,10 @@
       function signup(signupData) {
         user.post(signupData)
           .then(function(data) {
-            alert.success('Mu bien!!!!!');
+            alert.success('Signup was successful');
           })
           .catch(function(err) {
-            alert.error('Mu mal!!!!!!');
+            alert.error('Signup failed');
           });
       }
     }
