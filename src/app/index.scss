@@ -55,18 +55,61 @@ navbar {
 
   .logo_link {
     text-align: center;
-  }
-
-  .logo_icon {
-    margin: 0;
-    height: 35px;
-    width: 35px;
+    
+    .logo_icon {
+      margin-left: 15px;
+      height: 32px;
+      width: 32px;
+    }
   }
 
   .nav_icon {
     margin: 0 3%;
     height: 14px;
     width: 14px;
+  }
+  
+  .md-button.full_height {
+    padding: 24px 0px;
+  }
+
+  .nav_left {
+    width: 204px;
+    margin: 0px 16px;
+    .map {
+      width: 66px;
+      margin-right: 8px;
+    }
+    .community {
+      width: 114px;
+      margin-left: 8px;
+    }
+  }
+
+  .nav_right {
+    width: 281px;
+    margin: 0px 16px;
+
+    .get {
+      width: 98px;
+      margin-right: 8px;
+    }
+    .log {
+      width: 56px;
+      margin: 0px 8px;
+    }
+    signup {
+      text-align: center;
+      margin-left: 8px;
+
+      .md-button.md-default-theme {
+        border: 3px solid #00FFA8;
+        color: #00FFA8;
+        border-radius: 50px;
+        padding: 9px 11px;
+        width: 79px;
+      }
+    }
   }
 }
 
@@ -83,7 +126,7 @@ search {
 
     ul {
       z-index: 100;
-      max-height: 414px;
+      max-height: 422px;
 
       li {
         .result_icon {
@@ -136,19 +179,9 @@ search {
   }
 
   md-autocomplete-wrap {
-    height: 36px;
+    height: 39px;
+    background-color: transparent;
     border-radius: 4px;
-  }
-}
-
-signup {
-  text-align: center;
-
-  .md-button.md-default-theme {
-    border: 3px solid #00FFA8;
-    color: #00FFA8;
-    border-radius: 50px;
-    padding: 9px 11px;
   }
 }
 
@@ -247,6 +280,10 @@ md-toast.blue {
   background-color: #35C2E5;
 }
 
+md-progress-linear.md-default-theme .md-bar{
+  background-color: #044150;
+}
+
 .map_state {
   position: fixed
 }
@@ -340,6 +377,16 @@ section .stickMenu {
 
   .close_icon {
     float: right;
+    width: 14px;
+    height: 14px;
+
+    md-icon {
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
   }
 
   button.main {
@@ -360,6 +407,7 @@ section .stickMenu {
 
   h2 {
     color: $terciary_color;
+    font-weight: normal;
   }
 
   [layout] {

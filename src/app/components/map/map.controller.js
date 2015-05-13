@@ -4,26 +4,39 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['location', 'device'];
-    function MapController(location, device) {
-    	var vm = this;
+    MapController.$inject = ['$scope', 'location', 'device'];
+    function MapController($scope, location, device) {
+    	//var vm = this;
+      getMarkers(location);
 
-    	vm.center = {
+    	$scope.center = {
         lat: location.lat,
         lng: location.lng,
         zoom: 12
     	};
 
-    	vm.defaults = {
+    	$scope.defaults = {
         scrollWheelZoom: false
     	};
 
-    	vm.markers = [];
+    	$scope.events = {
+    	  map: {
+    	  	enable: ['drag'],
+    	  	logic: 'emit'
+    	  }
+    	};
+
+    	$scope.markers = [];
+
+      $scope.$on('leafletDirectiveMap.drag', function(){
+         console.log('inside event handler');
+         getMarkers($scope.center);
+      });
       
-      getMarkers();
       /////////////////////
 
-      function getMarkers() {
+      function getMarkers(location) {
+      	console.log('location', location);
         device.getDevices(location)
   	      .then(function(data) {
   	        data = data.plain();
@@ -36,8 +49,8 @@
               };
               return obj;
   	        });
-
-  	        vm.markers = markers;
+            $scope.markers = [];
+  	        $scope.markers = markers;
   	      });
       }
     }
