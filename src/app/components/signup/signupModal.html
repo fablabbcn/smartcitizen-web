@@ -17,7 +17,7 @@
         </md-input-container>
         <p class="errors" ng-show="!!errors.username.length">
           <span ng-repeat="error in errors.username">
-            Username {{ error }}, 
+            Username {{ error }}<span ng-if="!$last">,</span> 
           </span>
         </p>
       </div>
@@ -28,7 +28,7 @@
         </md-input-container>
         <p class="errors" ng-show="!!errors.password.length">
           <span ng-repeat="error in errors.password">
-            Password {{ error }}, 
+            Password {{ error }}<span ng-if="!$last">,</span>  
           </span>
         </p>
       </div>
@@ -38,7 +38,7 @@
           <input type="email" ng-model="vm.user.email">
         </md-input-container><p class="errors" ng-show="!!errors.email.length">
           <span ng-repeat="error in errors.email">
-            Email {{ error }}, 
+            Email {{ error }}<span ng-if="!$last">,</span> 
           </span>
         </p>
       </div>

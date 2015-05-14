@@ -17,7 +17,7 @@
 
       function showSignup(ev) {
 
-        animation.blur();
+        //animation.blur();
         
         $mdDialog.show({
           hasBackdrop: true,
@@ -31,7 +31,7 @@
           //signup(signupData);
         })
         .finally(function() {
-          animation.unblur();
+          //animation.unblur();
         });
       }
 

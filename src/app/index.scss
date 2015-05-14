@@ -292,9 +292,24 @@ md-progress-linear.md-default-theme .md-bar{
   background-color: #044150;
 }
 
+md-backdrop.md-opaque.md-default-theme {
+  background-color: rgba(30, 30, 30, 0.6);
+  position:absolute;
+  /*-ms-filter: blur(20px);  
+  -webkit-filter: blur(20px);  
+  -moz-filter: blur(20px);  
+  -o-filter: blur(20px);  
+  filter: blur(20px); */
+}
+
 .map_state {
   position: fixed;
-  z-index: $small_priority;
+}
+
+@media only screen and (max-device-width: 1024px) {
+  .map_state {
+    z-index: -5;
+  }
 }
 
 section.map {
