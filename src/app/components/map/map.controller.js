@@ -16,11 +16,23 @@
         zoom: 12
     	};
 
-      device.getAllDevices()
+      /*device.getAllDevices()
         .then(function(data) {
           console.log('data', data);
-        });
+          data = data.plain();
 
+          var markers = data.map(function(device) {
+            var obj = {
+              lat: device.latitude,
+              lng: device.longitude,
+              message: 'Hola'
+            };
+            return obj;
+          });
+
+          vm.markers = markers;
+        });
+      */
       vm.markers = initialMarkers;
 
     	vm.defaults = {
