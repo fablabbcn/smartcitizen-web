@@ -16,6 +16,11 @@
         zoom: 12
     	};
 
+      device.getAllDevices()
+        .then(function(data) {
+          console.log('data', data);
+        });
+
       vm.markers = initialMarkers;
 
     	vm.defaults = {
@@ -24,20 +29,47 @@
 
     	vm.events = {
     	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose'],
+    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart'],
     	  	logic: 'broadcast' // might have to use emit later
     	  }
     	};
 
-      $scope.$on('leafletDirectiveMap.moveend', function(event) {
+      /*$scope.$on('leafletDirectiveMap.moveend', function(event) {
         console.log('inside movend', event);
         getMarkers(vm.center);
-      });
+      });*/
 
-      $scope.$on('leafletDirectiveMap.popupopen', function(event) {
-        console.log('popup', event);
+      $scope.$on('leafletDirectiveMap.popupopen', function(event, otro) {
+        console.log('popup', event, otro);
+        console.log('this', this);
+        //alert('popup');
+        vm.center = {
+          lat: otro.leafletEvent.popup._latlng.lat,
+          lng: otro.leafletEvent.popup._latlng.lng,
+          zoom: otro.model.center.zoom
+        }
       });      
       
+      /*
+       $scope.$on('leafletDirectiveMap.touchstart', function(event, otro) {
+        console.log('touch', event, otro);
+        alert('touch');
+      });  
+      $scope.$on('leafletDirectiveMap.mousedown', function(event) {
+        console.log('popup', event);
+        alert('click');
+      });
+
+      $scope.$on('leafletDirectiveMap.click', function(event) {
+        console.log('popup', event);
+        alert('click');
+      });      
+
+      $scope.$on('leafletDirectiveMap.dblclick', function(event) {
+        console.log('popup', event);
+        alert('dbclick');
+      });*/
+
       /////////////////////
 
       function getMarkers(location) {
