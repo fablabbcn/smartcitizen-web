@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>marker</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="style-guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="kits-on-the-map" sketch:type="MSArtboardGroup" transform="translate(-46.000000, -275.000000)" fill="#35C2E5">
+            <g id="Oval-201-Copy-5-+-SmartCitizen-Kit" sketch:type="MSLayerGroup" transform="translate(46.000000, 273.000000)">
+                <circle id="marker" sketch:type="MSShapeGroup" cx="6" cy="8" r="6"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

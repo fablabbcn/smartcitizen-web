@@ -522,6 +522,34 @@ section .stickMenu {
   transform: translateY(35px);
 }
 
+.marker_normal {
+  background-image: url('../assets/images/marker.svg');
+}
+
+.marker_online {
+  background-image: url('../assets/images/marker.svg');
+  -webkit-animation: pulse 5s linear infinite;
+  -moz-animation: pulse 5s linear infinite;
+  -ms-animation: pulse 5s linear infinite;
+  animation: pulse 5s linear infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.marker_offline {
+  background-image: url('../assets/images/marker_offline.svg');
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector

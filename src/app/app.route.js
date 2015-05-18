@@ -45,12 +45,14 @@
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                
+                console.log('data', data);
+
                 var markers = data.map(function(device) {
                   var obj = {
                     lat: device.data.location.latitude,
                     lng: device.data.location.longitude,
-                    message: 'Hola'
+                    message: 'Hola',
+                    status: device.status
                   };
                   return obj;
                 });
