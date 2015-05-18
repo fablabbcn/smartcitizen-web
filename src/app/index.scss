@@ -214,6 +214,7 @@ md-content.md-default-theme {
 md-toolbar.md-default-theme {
   background-color: $primary_color;
   z-index: $large_priority;
+  height: 64px;
 }
 
 .md-button.md-default-theme.md-raised.md-primary { 
