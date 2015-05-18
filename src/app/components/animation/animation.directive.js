@@ -35,13 +35,13 @@
       function link(scope, element) {
         var elementPosition = element[0].offsetTop;
         //var elementHeight = element[0].offsetHeight;
-        var navbarHeight = 64;  
+        var navbarHeight = angular.element('.stickNav').height();  
 
         $timeout(function() {
           elementPosition = element[0].offsetTop;
           //var elementHeight = element[0].offsetHeight;
-          navbarHeight = 64;          
-        }, 0);  
+          navbarHeight = angular.element('.stickNav').height();          
+        }, 1000);  
           
 
         angular.element($window).on('scroll', function() {
@@ -105,21 +105,27 @@
       };
     }
 
-    changeMapHeight.$inject = ['$document', 'layout'];
-    function changeMapHeight($document, layout) {
+    changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
+    function changeMapHeight($document, layout, $timeout) {
       function link(scope, element, attrs, animationController) {
-        var mapHeight;
+
         var screenHeight = $document[0].body.clientHeight;
-        var menuHeight = 35;
-        var overviewHeight = 150; 
-        var dashboardHeight;
-
-        mapHeight = screenHeight - 64 - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
-
-        element.css('height', mapHeight + 'px');
+        var navbarHeight = angular.element('.stickNav').height();
         
-        var position = mapHeight + 64 // map height + navbar height;
-        layout.setKit(position);
+        var overviewHeight = angular.element('.kit_overview').height(); 
+        var menuHeight = angular.element('.kit_menu').height();
+
+        $timeout(function() {
+          var overviewHeight = angular.element('.kit_overview').height(); 
+          var menuHeight = angular.element('.kit_menu').height();
+          
+          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          element.css('height', mapHeight + 'px');
+          
+          //layout.setKit(position);
+          //var position = mapHeight + navbarHeight // map height + navbar height;
+        });
+        
       }
 
       return {
@@ -129,12 +135,15 @@
       };
     }
     
-    changeContentMargin.$inject = ['layout'];
-    function changeContentMargin(layout) {
+    changeContentMargin.$inject = ['layout', '$timeout'];
+    function changeContentMargin(layout, $timeout) {
       function link(scope, element) {
-        var position = layout.getKit();
-        console.log('position', position);
-        element.css('margin-top', position + 'px');
+        $timeout(function() {
+          var mapHeight = angular.element('.angular-leaflet-map').height();
+          var navbarHeight = angular.element('.stickNav').height();
+
+          element.css('margin-top', mapHeight + navbarHeight + 'px');
+        });
       }     
  
       return {
