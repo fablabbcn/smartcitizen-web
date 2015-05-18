@@ -103,7 +103,7 @@ navbar {
       margin-left: 8px;
 
       .md-button.md-default-theme {
-        border: 3px solid #00FFA8;
+        border: 2px solid #00FFA8;
         color: #00FFA8;
         border-radius: 50px;
         padding: 9px 11px;
@@ -134,7 +134,7 @@ search {
         }
         .result_location {
           color: #35C2E5;
-          margin-left: 1.5%;
+          margin-left: 8px;
         }
 
         border: 0px;
@@ -233,6 +233,14 @@ md-dialog.md-default-theme {
   max-height: 100%;
 }
 
+/*md-dialog.md-default-theme.transition-in {
+  transition: all 0.2s ease-out 0s;
+}
+
+md-dialog.md-default-theme.transition-out {
+  transition: all 0.2s ease-out 0s;
+}*/
+
 md-dialog-content { 
   background-color: white;
 }
@@ -284,8 +292,24 @@ md-progress-linear.md-default-theme .md-bar{
   background-color: #044150;
 }
 
+md-backdrop.md-opaque.md-default-theme {
+  background-color: rgba(30, 30, 30, 0.6);
+  position:absolute;
+  /*-ms-filter: blur(20px);  
+  -webkit-filter: blur(20px);  
+  -moz-filter: blur(20px);  
+  -o-filter: blur(20px);  
+  filter: blur(20px); */
+}
+
 .map_state {
-  position: fixed
+  position: fixed;
+}
+
+@media only screen and (max-device-width: 1024px) {
+  .map_state {
+    z-index: -5;
+  }
 }
 
 section.map {
@@ -299,8 +323,16 @@ section.map {
   position: fixed;
   top: 64px;
 
+  @media all and (max-height: 600px) and (min-height: 800px) {
+    height: 500px;
+  }
+
   h1 {
     font-size: 3em;
+  }
+  
+  leaflet {
+
   }
 }
 
@@ -374,6 +406,19 @@ section .stickMenu {
   border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
+  
+  .field {
+    position: relative;
+  }
+  
+  .errors {
+    position: absolute;
+    top: 50px;
+    left: 2px;
+    color: red;
+    font-size: 12px;
+    line-height: 1;
+  }
 
   .close_icon {
     float: right;

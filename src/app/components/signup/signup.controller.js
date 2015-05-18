@@ -10,24 +10,28 @@
 
       vm.showSignup = showSignup;
       vm.signup = signup;
+      vm.errors = {};
 
       ////////////////////////
 
 
       function showSignup(ev) {
 
-        animation.blur();
+        //animation.blur();
         
         $mdDialog.show({
+          hasBackdrop: true,
           controller: 'DialogController',
           templateUrl: 'app/components/signup/signupModal.html',
-          targetEvent: ev,
+          //targetEvent: ev,
+          clickOutsideToClose: true
         })
         .then(function(signupData) {
-          signup(signupData);
+          console.log('successful resolve');
+          //signup(signupData);
         })
         .finally(function() {
-          animation.unblur();
+          //animation.unblur();
         });
       }
 
@@ -37,7 +41,8 @@
             alert.success('Signup was successful');
           })
           .catch(function(err) {
-            alert.error('Signup failed');
+            //alert.error('Signup failed');
+            console.log('err', err.data.errors);
           });
       }
     }

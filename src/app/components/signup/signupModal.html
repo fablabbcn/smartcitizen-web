@@ -10,23 +10,37 @@
     	  <p>People looking for a better city</p>
     	  <p>You're part of them? Feel free to join us!</p>
       </div>
-      <div layout layout-sm="column">
+      <div layout layout-sm="column" class="field">
         <md-input-container flex>
           <label>Username</label>
           <input type="text" ng-model="vm.user.username">
         </md-input-container>
+        <p class="errors" ng-show="!!errors.username.length">
+          <span ng-repeat="error in errors.username">
+            Username {{ error }}<span ng-if="!$last">,</span> 
+          </span>
+        </p>
       </div>
-      <div layout layout-sm="column">
+      <div layout layout-sm="column" class="field">
         <md-input-container flex>
           <label>Password</label>
           <input type="password" ng-model="vm.user.password">
         </md-input-container>
+        <p class="errors" ng-show="!!errors.password.length">
+          <span ng-repeat="error in errors.password">
+            Password {{ error }}<span ng-if="!$last">,</span>  
+          </span>
+        </p>
       </div>
-      <div layout layout-sm="column">
+      <div layout layout-sm="column" class="field">
         <md-input-container flex>
           <label>Email</label>
           <input type="email" ng-model="vm.user.email">
-        </md-input-container>
+        </md-input-container><p class="errors" ng-show="!!errors.email.length">
+          <span ng-repeat="error in errors.email">
+            Email {{ error }}<span ng-if="!$last">,</span> 
+          </span>
+        </p>
       </div>
     </div>
   	<md-button class="md-raised md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
