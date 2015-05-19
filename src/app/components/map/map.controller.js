@@ -9,30 +9,17 @@
     	var vm = this;
       
       var initialLocation = getLocation(initialMarkers[0]);
+      vm.icons = getIcons();
+      initialMarkers = addIcons(initialMarkers);
+      
+      //console.log('one', initialMarkers[0]);
 
-    	vm.center = {
+      vm.center = {
         lat: initialLocation.lat,
         lng: initialLocation.lng,
         zoom: 12
     	};
 
-      /*device.getAllDevices()
-        .then(function(data) {
-          console.log('data', data);
-          data = data.plain();
-
-          var markers = data.map(function(device) {
-            var obj = {
-              lat: device.latitude,
-              lng: device.longitude,
-              message: 'Hola'
-            };
-            return obj;
-          });
-
-          vm.markers = markers;
-        });
-      */
       vm.markers = initialMarkers;
 
     	vm.defaults = {
@@ -52,14 +39,11 @@
       });*/
 
       $scope.$on('leafletDirectiveMap.popupopen', function(event, otro) {
-        console.log('popup', event, otro);
-        console.log('this', this);
-        //alert('popup');
         vm.center = {
           lat: otro.leafletEvent.popup._latlng.lat,
           lng: otro.leafletEvent.popup._latlng.lng,
           zoom: otro.model.center.zoom
-        }
+        };
       });      
       
       /*
@@ -84,6 +68,42 @@
 
       /////////////////////
 
+      function addIcons(devices) {
+        return devices.map(function(device) {
+          if(device.status === 'online') {
+            device.icon = vm.icons.smartCitizenOnline;            
+          } else if(device.status === 'offline') {
+            device.icon = vm.icons.smartCitizenOffline;
+          } else {
+            device.icon = vm.icons.smartCitizenNormal;
+          }
+          return device;
+        });
+      }
+
+      function getIcons() {
+        var local_icons = {
+          default_icon: {},
+          smartCitizenNormal: {
+            type: 'div',
+            className: 'marker_normal',
+            iconSize: [12, 12]
+          },
+          smartCitizenOnline: {
+            type: 'div',
+            className: 'marker_online',
+            iconSize: [12, 12]
+          },
+          smartCitizenOffline: {
+            type: 'div',
+            className: 'marker_offline',
+            iconSize: [12, 12]
+          }
+        };
+
+        return local_icons;
+      }
+
       function getMarkers(location) {
         device.getDevices(location)
   	      .then(function(data) {
@@ -104,6 +124,25 @@
 
       function getLocation(marker) {
         return marker;
+      }
+
+      function getAllMarkers() {
+        device.getAllDevices()
+          .then(function(data) {
+            console.log('data', data);
+            data = data.plain();
+
+            var markers = data.map(function(device) {
+              var obj = {
+                lat: device.latitude,
+                lng: device.longitude,
+                message: 'Hola'
+              };
+              return obj;
+            });
+
+            vm.markers = markers;
+          });
       }
     }
 })();
