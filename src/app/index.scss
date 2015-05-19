@@ -127,14 +127,15 @@ search {
     ul {
       z-index: 100;
       max-height: 422px;
+      top: 93%;
 
       li {
         .result_icon {
-          margin-right: 1.5%;
+          margin-right: 12px;
         }
         .result_location {
           color: #35C2E5;
-          margin-left: 8px;
+          margin-left: 6px;
         }
 
         border: 0px;
@@ -213,6 +214,7 @@ md-content.md-default-theme {
 md-toolbar.md-default-theme {
   background-color: $primary_color;
   z-index: $large_priority;
+  height: 64px;
 }
 
 .md-button.md-default-theme.md-raised.md-primary { 
@@ -356,7 +358,7 @@ section.map {
 }
 
 .kit_data {
-  margin: 376px 0;
+  margin-top: 376px;
 }
 
 section .kit_menu {

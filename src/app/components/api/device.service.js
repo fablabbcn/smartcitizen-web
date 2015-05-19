@@ -8,7 +8,8 @@
 	  function device(Restangular) {
 
 	  	var service = {
-        getDevices: getDevices
+        getDevices: getDevices,
+        getAllDevices: getAllDevices
 	  	};
 
 	  	return service;
@@ -19,6 +20,10 @@
       	var parameter = '';
       	parameter += location.lat + ',' + location.lng;
       	return Restangular.all('devices').getList({near: parameter});
+      }
+
+      function getAllDevices() {
+        return Restangular.all('devices/world_map').getList();
       }
 	  }
 })();
