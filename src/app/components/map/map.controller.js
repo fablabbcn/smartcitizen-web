@@ -4,10 +4,11 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', 'location', 'initialMarkers', 'device'];
-    function MapController($scope, location, initialMarkers, device) {
+    MapController.$inject = ['$scope', '$state', 'location', 'initialMarkers', 'device'];
+    function MapController($scope, $state, location, initialMarkers, device) {
     	var vm = this;
-      
+      console.log('location', location);
+      console.log('initial', initialMarkers);
       var initialLocation = getLocation(initialMarkers[0]);
       vm.icons = getIcons();
       initialMarkers = addIcons(initialMarkers);
@@ -56,9 +57,10 @@
         alert('click');
       });
 
-      $scope.$on('leafletDirectiveMap.click', function(event) {
-        console.log('popup', event);
-        alert('click');
+      $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
+        console.log('marker', data.leafletEvent.popup._source.options.myData.id);
+        var id = data.leafletEvent.popup._source.options.myData.id;
+        //$state.go('kit', {id: id});
       });      
 
       $scope.$on('leafletDirectiveMap.dblclick', function(event) {
@@ -113,7 +115,10 @@
               var obj = {
                 lat: device.data.location.latitude,
                 lng: device.data.location.longitude,
-                message: 'Hola'
+                message: '<h1>' + vm.saludo + '</h1>',
+                myData: {
+                  id: device.id
+                }
               };
               return obj;
   	        });

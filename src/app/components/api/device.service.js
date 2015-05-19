@@ -24,6 +24,9 @@
 
       function getAllDevices() {
         return Restangular.all('devices/world_map').getList();
+
+      function getDevice(id) {
+        return Restangular.one('devices', id);
       }
 	  }
 })();

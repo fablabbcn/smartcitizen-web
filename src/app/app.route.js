@@ -7,12 +7,39 @@
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
       $stateProvider
+        
         .state('landing', {
-          url: '/landing',
-          template: 'hola'
+          url: '/',
+          resolve: {
+            location: function(geolocation) {
+              var positionObj = geolocation.getPositionObj();
+              if(positionObj) {
+                return positionObj;
+              }
+
+              return geolocation.callAPI().then(function(data) {
+                var arrLoc = data.data.loc.split(',');
+                var location = {
+                  lat: parseFloat(arrLoc[0]),
+                  lng: parseFloat(arrLoc[1])
+                };
+                return location;
+              });
+            },
+            initialMarkers: function($state, device, location) {
+              console.log('position', location);
+
+              return device.getDevices(location).then(function(data) {
+                data = data.plain();
+                console.log('data', data);
+
+                $state.go('home', {id: data[0].id});
+              });
+            }
+          }
         })
         .state('home', {
-          url: '/',
+          url: '/kits/:id',
           views: {
             '': {
               templateUrl: 'app/components/home/template.html'
@@ -40,7 +67,7 @@
                 return location;
               });
             },
-            initialMarkers: function(device, location) {
+            initialMarkers: function($state, device, location) {
               console.log('position', location);
 
               return device.getDevices(location).then(function(data) {
@@ -49,6 +76,7 @@
 
                 var markers = data.map(function(device) {
                   var obj = {
+                    id: device.id,
                     lat: device.data.location.latitude,
                     lng: device.data.location.longitude,
                     message: 'Hola',
@@ -61,19 +89,6 @@
             }
           }
         });
-
-        /*.state('home.kit', {
-          url: '/home',
-          views: {
-            'container@landing':  {
-              templateUrl: 'app/components/home/home.html'
-            }
-          }
-        });
-
-        .state('home', {
-          url: '/',
-        });*/
 
       $urlRouterProvider.otherwise('/');
 

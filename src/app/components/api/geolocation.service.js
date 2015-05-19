@@ -11,7 +11,8 @@
 
       var service = {
         getPosition: getPosition,
-        callAPI: callAPI 
+        callAPI: callAPI,
+        getPositionObj: getPositionObj
       };
       return service;
 
@@ -20,13 +21,16 @@
       function getPosition() {
         return callAPI().success(function(data) {
           var arrLoc = data.loc.split(',');
-          var location = {
+          position = {
             lat: parseFloat(arrLoc[0]),
             lng: parseFloat(arrLoc[1])
           };
-          position = location;
           return position;
         });
+      }
+
+      function getPositionObj() {
+        return position;
       }
 
       function callAPI() {
