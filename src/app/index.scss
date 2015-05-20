@@ -550,6 +550,90 @@ section .stickMenu {
   background-image: url('../assets/images/marker_offline.svg');
 }
 
+.popup {
+  width: 101%;;
+  height: 135px;
+  color: #124B50;
+  font-family: 'Roboto Condensed'
+}
+
+.popup_top {
+  height: 72px;
+  
+  .popup_name {
+    padding: 0 0 1px 8px;
+    font-size: 16px;
+    font-weight: bold;  
+  }
+  .popup_type {
+    font-size: 14px;
+    line-height: 1em;
+    padding: 1px 0 3px 8px;
+  }
+  .popup_time {
+    font-size: 10px;
+    padding: 2px 0 0 8px;
+
+    md-icon {
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+    }
+  }  
+}
+
+.popup_bottom {
+  height: 68px;
+
+  .popup_location {
+    padding: 5px 0 0 8px;
+    font-size: 14px;
+
+    md-icon {
+      width: 8.4px;
+      height: 12px;
+      margin-right: 4px;
+    }
+  }
+  .popup_labels {
+    padding: 5px 0 0 8px;
+    font-size: 12px;
+
+    span {
+      border-radius: 20px;
+      background-color: #DDE7EA;
+      margin-right: 10px;
+      padding: 3px 8px;
+    }
+  } 
+}
+
+.smartcitizen_kit {
+  background-color: #35C2E5;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0px;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: 100%;
+  min-width: 245px;
+  position: relative;
+  top: -1px;
+  left: -1px;
+
+  p {
+    margin: 0;
+    /*line-height: 0;*/
+  }
+}
+
+.leaflet-popup-close-button {
+  display: none;
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector

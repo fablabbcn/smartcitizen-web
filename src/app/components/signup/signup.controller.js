@@ -15,7 +15,7 @@
       ////////////////////////
 
 
-      function showSignup(ev) {
+      function showSignup() { //1st arg: ev
 
         //animation.blur();
         
@@ -26,8 +26,7 @@
           //targetEvent: ev,
           clickOutsideToClose: true
         })
-        .then(function(signupData) {
-          console.log('successful resolve');
+        .then(function() {
           //signup(signupData);
         })
         .finally(function() {
@@ -37,7 +36,7 @@
 
       function signup(signupData) {
         user.post(signupData)
-          .then(function(data) {
+          .then(function() {
             alert.success('Signup was successful');
           })
           .catch(function(err) {
