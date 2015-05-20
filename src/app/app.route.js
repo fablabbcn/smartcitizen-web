@@ -32,14 +32,16 @@
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
                 console.log('data', data);
-
-                $state.go('home', {id: data[0].id});
+                
+                var closestMarker = data[0];
+                $state.go('home.kit', {id: closestMarker.id});
               });
             }
           }
         })
         .state('home', {
-          url: '/kits/:id',
+          url: '',
+          abstract: true,
           views: {
             '': {
               templateUrl: 'app/components/home/template.html'
@@ -49,12 +51,12 @@
               templateUrl: 'app/components/map/map.html',
               controller: 'MapController',
               controllerAs: 'vm'
-            },
+            }/*,
             'kit@home': {
               templateUrl: 'app/components/kit/kit.html',
               controller: 'KitController',
               controllerAs: 'vm'
-            }
+            }*/
           },
           resolve: {
             location: function(geolocation) {
@@ -67,25 +69,52 @@
                 return location;
               });
             },
-            initialMarkers: function($state, device, location) {
+            initialMarkers: function($state, device, location, utils) {
               console.log('position', location);
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
                 console.log('data', data);
 
+
                 var markers = data.map(function(device) {
+                  var parsedKit = utils.parseKit(device);
+
                   var obj = {
-                    id: device.id,
                     lat: device.data.location.latitude,
                     lng: device.data.location.longitude,
-                    message: 'Hola',
-                    status: device.status
+                    message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabelOnline + '</span><span>' + parsedKit.kitLabelIndoor + '</span></div></div></div>',
+                    status: device.status,
+                    myData: {
+                      id: device.id
+                    }
                   };
                   return obj;
                 });
                 return markers;
               });
+            }
+          }
+        })
+
+        .state('home.kit', {
+          url: '/kits/:id',
+          views: {
+            'container@home': {
+              templateUrl: 'app/components/kit/kit.html',
+              controller: 'KitController',
+              controllerAs: 'vm'
+            }
+          },
+          resolve: {
+            marker: function($stateParams, device, marker) {
+              device.getDevice($stateParams.id)
+                .then(function(data) {
+
+                  data = data.plain();
+                  marker.setCurrentMarker(data);
+                  marker.dataLoaded();
+                });
             }
           }
         });
