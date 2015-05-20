@@ -11,8 +11,8 @@
       var initialLocation = getLocation(initialMarkers[0]);
       vm.icons = getIcons();
 
-      /*vm.tiles = {
-        url: ''
+      vm.tiles = {
+        url: 'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
       };
 
       vm.center = {
@@ -97,12 +97,10 @@
         //if(isIndividual) {
           //device.message = '<div class="popup_top"><p class="popup_name">' + vm.currentMarker.name + '</p><p class="popup_type">' + vm.currentMarker.kit.name + '</p><p class="popup_time">' + vm.currentMarker.updated_at + '</p></div><div class="popup_bottom"><p class="popup_location">' + utils.parseKitLocation(vm.currentMarker) + '</p><p>' + utils.parseKitLabels(vm.currentMarker) + '</p></div>'; 
         //} else {
-          if(device.status === 'online') {
-            device.icon = vm.icons.smartCitizenOnline;            
-          } else if(device.status === 'offline') {
+          if(device.status === 'offline') {
             device.icon = vm.icons.smartCitizenOffline;
           } else {
-            device.icon = vm.icons.smartCitizenNormal;
+            device.icon = vm.icons.smartCitizenOnline;
           }        
         //}
 
