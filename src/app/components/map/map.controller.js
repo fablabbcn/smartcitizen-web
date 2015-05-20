@@ -4,16 +4,16 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', 'location', 'initialMarkers', 'device'];
-    function MapController($scope, $state, location, initialMarkers, device) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker', 'utils'];
+    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker, utils) {
     	var vm = this;
-      console.log('location', location);
-      console.log('initial', initialMarkers);
+
       var initialLocation = getLocation(initialMarkers[0]);
       vm.icons = getIcons();
-      initialMarkers = addIcons(initialMarkers);
-      
-      //console.log('one', initialMarkers[0]);
+
+      /*vm.tiles = {
+        url: ''
+      };
 
       vm.center = {
         lat: initialLocation.lat,
@@ -21,7 +21,9 @@
         zoom: 12
     	};
 
-      vm.markers = initialMarkers;
+      vm.markers = augmentMarkers(initialMarkers);
+
+      vm.currentMarker = marker.getCurrentMarker();
 
     	vm.defaults = {
         scrollWheelZoom: false
@@ -39,13 +41,25 @@
         getMarkers(vm.center);
       });*/
 
-      $scope.$on('leafletDirectiveMap.popupopen', function(event, otro) {
+      $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
+        //trigger spinner and hide data
         vm.center = {
-          lat: otro.leafletEvent.popup._latlng.lat,
-          lng: otro.leafletEvent.popup._latlng.lng,
-          zoom: otro.model.center.zoom
+          lat: data.leafletEvent.popup._latlng.lat,
+          lng: data.leafletEvent.popup._latlng.lng,
+          zoom: data.model.center.zoom
         };
-      });      
+
+        console.log('marker', data.leafletEvent.popup._source.options.myData.id);
+        var id = data.leafletEvent.popup._source.options.myData.id; 
+        $state.go('home.kit', {id: id});
+      });
+
+      /*$scope.$on('markerLoaded', function() {
+        vm.currentMarker = marker.getCurrentMarker();
+        //vm.currentMarker = augmentMarker(vm.currentMarker);
+        console.log('current', vm.currentMarker);
+        //remove spinner and show data       
+      });*/      
       
       /*
        $scope.$on('leafletDirectiveMap.touchstart', function(event, otro) {
@@ -61,6 +75,7 @@
         console.log('marker', data.leafletEvent.popup._source.options.myData.id);
         var id = data.leafletEvent.popup._source.options.myData.id;
         //$state.go('kit', {id: id});
+        getDevice(id);
       });      
 
       $scope.$on('leafletDirectiveMap.dblclick', function(event) {
@@ -70,17 +85,28 @@
 
       /////////////////////
 
-      function addIcons(devices) {
+      function augmentMarkers(devices) {
         return devices.map(function(device) {
+          return augmentMarker(device, false);
+        });
+      }
+
+      function augmentMarker(device, isIndividual) {
+        //isIndividual = isIndividual === undefined ? true : false; 
+
+        //if(isIndividual) {
+          //device.message = '<div class="popup_top"><p class="popup_name">' + vm.currentMarker.name + '</p><p class="popup_type">' + vm.currentMarker.kit.name + '</p><p class="popup_time">' + vm.currentMarker.updated_at + '</p></div><div class="popup_bottom"><p class="popup_location">' + utils.parseKitLocation(vm.currentMarker) + '</p><p>' + utils.parseKitLabels(vm.currentMarker) + '</p></div>'; 
+        //} else {
           if(device.status === 'online') {
             device.icon = vm.icons.smartCitizenOnline;            
           } else if(device.status === 'offline') {
             device.icon = vm.icons.smartCitizenOffline;
           } else {
             device.icon = vm.icons.smartCitizenNormal;
-          }
-          return device;
-        });
+          }        
+        //}
+
+        return device;
       }
 
       function getIcons() {
@@ -115,7 +141,7 @@
               var obj = {
                 lat: device.data.location.latitude,
                 lng: device.data.location.longitude,
-                message: '<h1>' + vm.saludo + '</h1>',
+                message: '<h1>' + vm.currentMarker + '</h1>',
                 myData: {
                   id: device.id
                 }
@@ -150,4 +176,5 @@
           });
       }
     }
+
 })();

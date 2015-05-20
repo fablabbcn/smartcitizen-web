@@ -9,7 +9,8 @@
 
 	  	var service = {
         getDevices: getDevices,
-        getAllDevices: getAllDevices
+        getAllDevices: getAllDevices,
+        getDevice: getDevice
 	  	};
 
 	  	return service;
@@ -24,9 +25,10 @@
 
       function getAllDevices() {
         return Restangular.all('devices/world_map').getList();
+      }
 
       function getDevice(id) {
-        return Restangular.one('devices', id);
+        return Restangular.one('devices', id).get();
       }
 	  }
 })();
