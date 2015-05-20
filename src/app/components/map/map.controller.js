@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker', 'utils'];
-    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker, utils) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker'];
+    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker) {
     	var vm = this;
 
       var initialLocation = getLocation(initialMarkers[0]);
@@ -42,24 +42,16 @@
       });*/
 
       $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
-        //trigger spinner and hide data
+
         vm.center = {
           lat: data.leafletEvent.popup._latlng.lat,
           lng: data.leafletEvent.popup._latlng.lng,
           zoom: data.model.center.zoom
         };
-
-        console.log('marker', data.leafletEvent.popup._source.options.myData.id);
+        
         var id = data.leafletEvent.popup._source.options.myData.id; 
         $state.go('home.kit', {id: id});
-      });
-
-      /*$scope.$on('markerLoaded', function() {
-        vm.currentMarker = marker.getCurrentMarker();
-        //vm.currentMarker = augmentMarker(vm.currentMarker);
-        console.log('current', vm.currentMarker);
-        //remove spinner and show data       
-      });*/      
+      });    
       
       /*
        $scope.$on('leafletDirectiveMap.touchstart', function(event, otro) {
@@ -70,18 +62,7 @@
         console.log('popup', event);
         alert('click');
       });
-
-      $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
-        console.log('marker', data.leafletEvent.popup._source.options.myData.id);
-        var id = data.leafletEvent.popup._source.options.myData.id;
-        //$state.go('kit', {id: id});
-        getDevice(id);
-      });      
-
-      $scope.$on('leafletDirectiveMap.dblclick', function(event) {
-        console.log('popup', event);
-        alert('dbclick');
-      });*/
+      */
 
       /////////////////////
 
@@ -91,25 +72,19 @@
         });
       }
 
-      function augmentMarker(device, isIndividual) {
-        //isIndividual = isIndividual === undefined ? true : false; 
-
-        //if(isIndividual) {
-          //device.message = '<div class="popup_top"><p class="popup_name">' + vm.currentMarker.name + '</p><p class="popup_type">' + vm.currentMarker.kit.name + '</p><p class="popup_time">' + vm.currentMarker.updated_at + '</p></div><div class="popup_bottom"><p class="popup_location">' + utils.parseKitLocation(vm.currentMarker) + '</p><p>' + utils.parseKitLabels(vm.currentMarker) + '</p></div>'; 
-        //} else {
-          if(device.status === 'offline') {
-            device.icon = vm.icons.smartCitizenOffline;
-          } else {
-            device.icon = vm.icons.smartCitizenOnline;
-          }        
-        //}
+      function augmentMarker(device) {
+        if(device.status === 'offline') {
+          device.icon = vm.icons.smartCitizenOffline;
+        } else {
+          device.icon = vm.icons.smartCitizenOnline;
+        }        
 
         return device;
       }
 
       function getIcons() {
-        var local_icons = {
-          default_icon: {},
+        var localIcons = {
+          defaultIcon: {},
           smartCitizenNormal: {
             type: 'div',
             className: 'marker_normal',
@@ -127,7 +102,7 @@
           }
         };
 
-        return local_icons;
+        return localIcons;
       }
 
       function getMarkers(location) {
@@ -158,7 +133,6 @@
       function getAllMarkers() {
         device.getAllDevices()
           .then(function(data) {
-            console.log('data', data);
             data = data.plain();
 
             var markers = data.map(function(device) {

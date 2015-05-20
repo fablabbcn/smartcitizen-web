@@ -33,6 +33,7 @@
     "expect": false,
     "console": false,
     "document": false,
-    "spyOn": false
+    "spyOn": false,
+    "moment": false
   }
 }

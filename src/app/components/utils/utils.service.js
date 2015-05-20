@@ -14,13 +14,13 @@
       ///////////////////////////
 
       function parseKit(object) {
+        /*jshint camelcase: false */
         var parsedKit = {
           kitName: object.name,
           kitType: parseKitType(object),  
           kitLastTime: moment(object.updated_at).fromNow(), 
           kitLocation: parseKitLocation(object), 
-          kitLabelOnline: object.status,
-          kitLabelIndoor: object.data.location.exposure,
+          kitLabels: parseKitLabels(object),
           kitClass: classify(parseKitType(object))      
         };
         return parsedKit;
@@ -43,18 +43,16 @@
       }
 
       function parseKitLabels(object) {
-        var labels = [];
-
-        labels.push(object.status);
-        labels.push(object.data.location.exposure);
-
-        return labels;
+        return {
+          status: object.status,
+          exposure: object.data.location.exposure
+        };
       }
 
       function parseKitType(object) {
         var kitType; 
         
-        if((/SCK|sck/).test(object.kit.name)) { 
+        if((new RegExp('sck', 'i')).test(object.kit.name)) { 
           kitType = 'SmartCitizen Kit';
         }
         return kitType; 
