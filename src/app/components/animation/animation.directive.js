@@ -98,6 +98,12 @@
         element.on('focusout', function() {
           animation.addNav();
         });
+
+        var searchInput = element.find('input');
+        searchInput.on('blur', function() {
+          //enable scrolling on body when search input is not active
+          angular.element(document.body).css('overflow', 'auto');
+        });
       }
 
       return {

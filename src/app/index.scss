@@ -318,23 +318,29 @@ section.map {
   background-color: white;
   text-align: center;
   width: 100%;
-  height: 312px;
+  height: 100%;
   border: 1px solid grey;
   color: black;
   z-index: $small_priority;
   position: fixed;
   top: 64px;
-
-  @media all and (max-height: 600px) and (min-height: 800px) {
-    height: 500px;
+  
+  @media all and (max-height: 1200px) and (min-height: 1000px) {
+    height: 900px;
   }
+  @media all and (max-height: 1000px) and (min-height: 800px) {
+    height: 700px;
+  }
+  @media all and (max-height: 800px) and (min-height: 600px) {
+    height: 550px;
+  }
+  @media all and (max-height: 600px) and (min-height: 400px) {
+    height: 300px;
+  }
+
 
   h1 {
     font-size: 3em;
-  }
-  
-  leaflet {
-
   }
 }
 
