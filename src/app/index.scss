@@ -523,15 +523,23 @@ section .stickMenu {
 }
 
 .marker_normal {
-  background-image: url('../assets/images/marker.svg');
+  background-color: #35C2E5;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  /*background-image: url('../assets/images/marker.svg');*/
 }
 
 .marker_online {
-  background-image: url('../assets/images/marker.svg');
-  -webkit-animation: pulse 5s linear infinite;
-  -moz-animation: pulse 5s linear infinite;
-  -ms-animation: pulse 5s linear infinite;
-  animation: pulse 5s linear infinite;
+  background-color: #35C2E5;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  /*background-image: url('../assets/images/marker.svg');*/
+  -webkit-animation: pulse 2s linear infinite;
+  -moz-animation: pulse 2s linear infinite;
+  -ms-animation: pulse 2s linear infinite;
+  animation: pulse 2s linear infinite;
 }
 
 @keyframes pulse {
@@ -547,14 +555,19 @@ section .stickMenu {
 }
 
 .marker_offline {
-  background-image: url('../assets/images/marker_offline.svg');
+  box-sizing: border-box;
+  border: 2px solid #35C2E5;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  /*background-image: url('../assets/images/marker_offline.svg');*/
 }
 
 .popup {
   width: 101%;;
   height: 135px;
   color: #124B50;
-  font-family: 'Roboto Condensed'
+  font-family: 'Roboto Condensed';
 }
 
 .popup_top {
