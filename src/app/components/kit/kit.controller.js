@@ -4,8 +4,13 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    function KitController() {
+    KitController.$inject = ['marker'];
+    function KitController(marker) {
       var vm = this;
       
+      vm.marker = marker;
+
+      ///////////////
+
     }
 })();

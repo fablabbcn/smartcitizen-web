@@ -66,6 +66,7 @@
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
+                console.log('data', data);
 
                 var markers = data.map(function(device) {
                   var parsedKit = utils.parseKit(device);
@@ -98,12 +99,12 @@
           },
           resolve: {
             marker: function($stateParams, device, marker) {
-              device.getDevice($stateParams.id)
+              return device.getDevice($stateParams.id)
                 .then(function(data) {
-
                   data = data.plain();
                   marker.setCurrentMarker(data);
                   marker.dataLoaded();
+                  return data;
                 });
             }
           }
