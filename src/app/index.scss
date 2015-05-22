@@ -623,6 +623,7 @@ section .stickMenu {
 
 .popup_top {
   height: 72px;
+  border-radius: 2px 2px 0 0;
   
   .popup_name {
     padding: 0 0 1px 8px;
@@ -635,7 +636,7 @@ section .stickMenu {
     padding: 1px 0 3px 8px;
   }
   .popup_time {
-    font-size: 10px;
+    font-size: 11px;
     padding: 2px 0 0 8px;
 
     md-icon {
@@ -660,7 +661,7 @@ section .stickMenu {
     }
   }
   .popup_labels {
-    padding: 5px 0 0 8px;
+    padding: 8px 0 0 8px;
     font-size: 12px;
 
     span {
@@ -677,7 +678,7 @@ section .stickMenu {
 }
 
 .leaflet-popup-content-wrapper {
-  border-radius: 0px;
+  border-radius: 2px;
 }
 
 .leaflet-popup-content {

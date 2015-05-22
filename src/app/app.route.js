@@ -83,6 +83,24 @@
                 });
                 return markers;
               });
+            },
+            initialPopup: function(leafletData, initialMarkers) {
+              var closestMarkerID = initialMarkers[0].myData.id;
+
+              leafletData.getMap()
+                .then(function(data) {
+                  for(var layer in data._layers) {
+                    if(!data._layers[layer].options.myData) {
+                      continue;
+                    }
+
+                    var ID = data._layers[layer].options.myData.id;
+                    if(ID === closestMarkerID) {
+                      angular.element(data._layers[layer]._icon).click();
+                    }
+                  }
+                });
+
             }
           }
         })
