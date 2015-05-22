@@ -1,27 +1,19 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
-
-$primary_color: #065063;
-$secondary_color: #01637C;
-$terciary_color: #38CEF3;
-
-$large_priority: 10;
-$more_priority: 5;
-$medium_priority: 2;
-$small_priority: -1;
+@import '_variables';
 
 ::-webkit-input-placeholder { /* WebKit browsers */
-  color: white;
+  color: $font_color_white;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: white;
+  color: $font_color_white;
   opacity:  1;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:  white;
+  color:  $font_color_white;
   opacity:  1;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: white;
+  color: $font_color_white;
 }
 
 :focus::-webkit-input-placeholder { /* WebKit browsers */
@@ -134,7 +126,7 @@ search {
           margin-right: 12px;
         }
         .result_location {
-          color: #35C2E5;
+          color: $blue_light;
           margin-left: 6px;
         }
 
@@ -170,7 +162,7 @@ search {
 
   input:active, input:focus {
     fill: white;
-    background-color: #DDE7EA;
+    background-color: $background_blue_light;
   }
 
   md-autocomplete {
@@ -212,7 +204,7 @@ md-content.md-default-theme {
 } 
 
 md-toolbar.md-default-theme {
-  background-color: $primary_color;
+  background-color: $background_blue_dark_navbar;
   z-index: $large_priority;
   height: 64px;
 }
@@ -279,15 +271,15 @@ md-toast.md-top {
 }
 
 md-toast.red {
-  background-color: #E74C3C;
+  background-color: $alert_red;
 }
 
 md-toast.green {
-  background-color: #35E67E;
+  background-color: $alert_green;
 }
 
 md-toast.blue {
-  background-color: #35C2E5;
+  background-color: $blue_light;
 }
 
 md-progress-linear.md-default-theme .md-bar{
@@ -363,11 +355,77 @@ section.map {
 
 section .kit_menu {
   width: 100%;
-  height: 35px;
-  border: 1px solid red;
+  height: 32px;
   z-index: $more_priority;
-  background-color: white;
+  background-color: $background_blue_dark_menu;
   position: relative;
+
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .kit_user {    
+    float: left;
+    line-height: 30px;
+    margin: 0 32px 0 20px;
+    color: $font_color_blue_grey;
+    font-weight: bold;
+    font-size: 13px;
+
+    md-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+    }
+    span {
+      vertical-align: middle;
+    }
+  }
+  .kit_name {
+    float: left;
+    line-height: 30px;
+    font-size: 13px;
+    font-weight: bold;
+    color: $blue_light;
+
+    md-icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+    }
+    span {
+      vertical-align: middle;
+    }
+  }    
+
+
+
+  .kit_navbar {
+    float: right;
+    height: 100%;
+    line-height: 30px;
+    margin: 0 10px;
+
+    md-icon {
+      width: 14px;
+      height: 14px;
+      position: relative;
+      left: 2px;
+    }
+    
+    a.md-button {
+      margin-right: 7px;
+      display: inline;
+      width: 10px;
+    }
+
+    a.md-button:hover {
+      border-bottom: 2px solid $blue_light;
+    }
+  }    
+
 }
 
 .kit_overview {
@@ -438,7 +496,7 @@ section .stickMenu {
 
   button.main {
     width: 100%;
-    color: white;
+    color: $font_color_white;
     background-color: $terciary_color;
     height: 64px;
     font-size: 24px;
@@ -487,7 +545,7 @@ section .stickMenu {
   font-size: 16px; 
 
   .message_below_question {
-    color: white;
+    color: $font_color_white;
     margin-right: 3%;
   }
 
@@ -523,23 +581,15 @@ section .stickMenu {
 }
 
 .marker_normal {
-  background-color: #35C2E5;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  /*background-image: url('../assets/images/marker.svg');*/
+  background-image: url('../assets/images/marker.svg');
 }
 
 .marker_online {
-  background-color: #35C2E5;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  /*background-image: url('../assets/images/marker.svg');*/
-  -webkit-animation: pulse 2s linear infinite;
-  -moz-animation: pulse 2s linear infinite;
-  -ms-animation: pulse 2s linear infinite;
-  animation: pulse 2s linear infinite;
+  background-image: url('../assets/images/marker.svg');
+  -webkit-animation: pulse 5s linear infinite;
+  -moz-animation: pulse 5s linear infinite;
+  -ms-animation: pulse 5s linear infinite;
+  animation: pulse 5s linear infinite;
 }
 
 @keyframes pulse {
@@ -555,19 +605,14 @@ section .stickMenu {
 }
 
 .marker_offline {
-  box-sizing: border-box;
-  border: 2px solid #35C2E5;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  /*background-image: url('../assets/images/marker_offline.svg');*/
+  background-image: url('../assets/images/marker_offline.svg');
 }
 
 .popup {
   width: 101%;;
   height: 135px;
-  color: #124B50;
-  font-family: 'Roboto Condensed';
+  color: $font_color_blue_dark;
+  font-family: 'Roboto Condensed'
 }
 
 .popup_top {
@@ -614,7 +659,7 @@ section .stickMenu {
 
     span {
       border-radius: 20px;
-      background-color: #DDE7EA;
+      background-color: $background_blue_light;
       margin-right: 10px;
       padding: 3px 8px;
     }
@@ -622,7 +667,7 @@ section .stickMenu {
 }
 
 .smartcitizen_kit {
-  background-color: #35C2E5;
+  background-color: $blue_light;
 }
 
 .leaflet-popup-content-wrapper {
