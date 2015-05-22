@@ -623,6 +623,7 @@ section .stickMenu {
 
 .popup_top {
   height: 72px;
+  border-radius: 2px 2px 0 0;
   
   .popup_name {
     padding: 0 0 1px 8px;
@@ -677,7 +678,7 @@ section .stickMenu {
 }
 
 .leaflet-popup-content-wrapper {
-  border-radius: 0px;
+  border-radius: 2px;
 }
 
 .leaflet-popup-content {
