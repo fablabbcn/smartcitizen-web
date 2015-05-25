@@ -59,10 +59,21 @@
                   lat: parseFloat(arrLoc[0]),
                   lng: parseFloat(arrLoc[1])
                 };
+
                 return location;
               });
             },
-            initialMarkers: function($state, device, location, utils) {
+            sensorTypes: function(sensor) {
+
+              return sensor.callAPI()
+                .then(function(sensorTypes) {
+                  sensorTypes = sensorTypes.plain();
+                  console.log('types', sensorTypes);
+                  //sensor.setTypes(sensorTypes);
+                  return sensorTypes;
+                });
+            },
+            initialMarkers: function($state, device, location, utils, sensorTypes) {
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
@@ -99,6 +110,7 @@
           },
           resolve: {
             marker: function($stateParams, device, marker) {
+
               return device.getDevice($stateParams.id)
                 .then(function(data) {
                   data = data.plain();

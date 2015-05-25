@@ -1,4 +1,4 @@
-<section class="kit_data" change-content-margin>
+  <section class="kit_data" change-content-margin>
   <section class="kit_menu" layout="row" layout-align="center center" stick>
     <div class="container">
       <div class="kit_user">
@@ -9,43 +9,63 @@
         <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg"> </md-icon>
         <span>{{ vm.marker.name }}</span>
       </div>
+      <div class="kit_battery">
+        <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg"> </md-icon>
+        <span>{{ vm.battery }}</span>
+      </div>
       <div class="kit_navbar">
        
-          <md-button href="#" class="md-raised">
-            <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
-            </md-icon>
-          </md-button>
-        
-       
-          <md-button href="#" class="md-raised">
-            <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
-            </md-icon>
-          </md-button>
-        
-       
-          <md-button href="#" class="md-raised">
-            <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
-            </md-icon>
-          </md-button>
-        
-       
-          <md-button href="#" class="md-raised">
-            <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
-            </md-icon>
-          </md-button>
-        
-       
-          <md-button href="#" class="md-raised">
-            <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
-            </md-icon>
-          </md-button>
-        
+        <md-button href="#" class="md-flat">
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+          </md-icon>
+        </md-button>
+        <!-- chart_icon -->
+        <md-button href="#" class="md-flat">
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+          </md-icon>
+        </md-button>
+        <!-- kit_details_icon -->   
+        <md-button href="#" class="md-flat">
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+          </md-icon>
+        </md-button>      
+        <!-- user_details_icon --> 
+        <md-button href="#" class="md-flat">
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+          </md-icon>
+        </md-button>      
+        <!-- discussion_icon -->
+        <md-button href="#" class="md-flat">
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+          </md-icon>
+        </md-button>
+        <!-- shape_icon -->
       </div>
     </div>
   </section>
   <section class="kit_fixed" move-down>
-    <section class="kit_overview" layout="row" layout-align="center center">
-      <p>Kit data overview</p>
+    <section class="kit_overview">
+      <md-button href="#" class="md-flat button_scroll button_scroll_left">
+        <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+        </md-icon>
+      </md-button>
+      <div class="sensors_container" layout="row" layout-align="center center">
+        <div ng-repeat="sensor in vm.sensors" class="sensor_container">          
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg" class="sensor_icon">
+          </md-icon>
+          <div class="sensor_value">
+            <div>{{ sensor.value }}</div>
+            <div class="sensor_unit">{{ sensor.unit }}</div>
+          </div>
+          <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg" class="sensor_arrow">
+          </md-icon>
+          <div class="sensor_name">{{ sensor.name }}</div>
+        </div>
+      </div>
+      <md-button href="#" class="md-flat button_scroll button_scroll_right">
+        <md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg">
+        </md-icon>
+      </md-button>
     </section>
     <section class="kit_detailed" layout="row" layout-align="center center">
       <section class="kit_dashboard">
