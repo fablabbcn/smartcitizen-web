@@ -441,7 +441,7 @@ section .kit_menu {
       width: 10px;
     }
 
-    a.md-button:hover {
+    a.md-button:hover, a.md-button:active {
       border-bottom: 2px solid $blue_light;
     }
   }    
@@ -459,9 +459,12 @@ section .kit_menu {
   .button_scroll {
     position: absolute;
     top: 0;
-    border: 2px solid grey;
     width: 60px;
     height: 96px;
+
+    md-icon {
+
+    }
   }
 
   .button_scroll_left {
@@ -517,6 +520,7 @@ section .kit_menu {
       top: -2px;
       width: 14px;
       height: 7px;
+      margin-left: 3px;
     }
     .sensor_name {
       font-size: 10px;

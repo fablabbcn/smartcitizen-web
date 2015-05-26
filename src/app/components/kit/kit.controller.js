@@ -28,18 +28,19 @@
           var sensorIcon = getSensorIcon(sensorName); 
           var sensorArrow = getSensorArrow(sensor); 
           
-          if(sensorName === 'BATTERY') {
-            vm.battery = sensorValue + sensorUnit;
-            return;
-          }
-
-          return {
+          var obj = {
             name: sensorName,
             unit: sensorUnit,
             value: sensorValue,
             icon: sensorIcon,
             arrow: sensorArrow
           };
+
+          if(sensorName === 'BATTERY') {
+            vm.battery = obj;
+          } else {
+            return obj;
+          }          
         });
 
         return sensors.filter(function(sensor) {
@@ -100,7 +101,7 @@
             sensorUnit = 'V';
             break;
           default: 
-            sensorUnit = 'n';
+            sensorUnit = 'N/A';
         }
         return sensorUnit;
       }
@@ -121,25 +122,34 @@
 
         switch(sensorName) {
           case 'TEMPERATURE':
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';            
+            return './assets/images/temperature_icon.svg';            
             
           case 'HUMIDITY':
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
+            return './assets/images/humidity_icon.svg';
             
           case 'LIGHT':
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
+            return './assets/images/light_icon.svg';
             
           case 'SOUND': 
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
+            return './assets/images/sound_icon.svg';
             
           case 'CO':
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
+            return './assets/images/co_icon.svg';
             
           case 'NO2':
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
-            
+            return './assets/images/no2_icon.svg';
+          
+          case 'NETWORKS': 
+            return './assets/images/networks_icon.svg';
+
+          case 'BATTERY': 
+            return './assets/images/battery_icon.svg';
+
+          case 'SOLAR PANEL': 
+            return './assets/images/solar_panel_icon.svg';
+
           default: 
-            return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar2.svg';                      
+            return './assets/images/avatar.svg';                      
         }
       }
 
@@ -148,11 +158,11 @@
         var prevValue = getSensorPrevValue(sensor);
 
         if(currentValue > prevValue) {
-          return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';          
+          return './assets/images/arrow_up_icon.svg';          
         } else if(currentValue < prevValue) {
-          return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';
+          return './assets/images/arrow_down_icon.svg';
         } else {
-          return 'http://fablabbcn.github.io/smartcitizen-web/assets/images/avatar.svg';        
+          return './assets/images/equal_icon.svg';        
         }
       }
     }
