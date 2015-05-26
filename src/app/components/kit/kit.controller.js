@@ -9,12 +9,12 @@
       var vm = this;
       
       vm.marker = marker;
-      console.log('marker', vm.marker);
       
       vm.battery;
 
       vm.sensors = getSensors(marker);
-      console.log('sensors', vm.sensors);
+
+      vm.slide = slide;
 
       ///////////////
 
@@ -107,11 +107,10 @@
       }
 
       function getSensorValue(sensor) {
-        //if(!sensor.value) {
-          //return '--';
-        //}
-        //return sensor.value;
-        return 5;
+        if(!sensor.value) {
+          return 'N/A';
+        }
+        return sensor.value;
       }
 
       function getSensorPrevValue(sensor) {
@@ -163,6 +162,18 @@
           return './assets/images/arrow_down_icon.svg';
         } else {
           return './assets/images/equal_icon.svg';        
+        }
+      }
+
+      function slide(direction) {
+        var slideContainer = angular.element('.sensors_container');
+        var scrollPosition = slideContainer.scrollLeft();
+        var slideStep = 20;
+
+        if(direction === 'left') {
+          slideContainer.scrollLeft(scrollPosition + slideStep);
+        } else if(direction === 'right') {
+          slideContainer.scrollLeft(scrollPosition - slideStep);          
         }
       }
     }

@@ -431,22 +431,36 @@ section .kit_menu {
     md-icon {
       width: 14px;
       height: 14px;
-      position: relative;
-      left: 2px;
     }
     
-    a.md-button {
-      margin-right: 7px;
-      display: inline;
-      width: 10px;
+    .md-button.md-default-theme {
+      display: inline-table;
+      width: 30px;
+      padding: 0 10px;
+      border-radius: 0
     }
 
-    a.md-button:hover, a.md-button:active {
+    a.md-button:hover, .button_active  {
       border-bottom: 2px solid $blue_light;
     }
+
   }    
 
 }
+/*.svg-active {
+  stroke: white;
+  stroke-width: 0.01px;
+  fill: white;
+  
+  svg {
+    color: brown;
+    > g {
+      stroke: white;
+      stroke-width: 0.01px;     
+    }    
+  }
+}
+*/
 
 .kit_overview {
   width: 100%;
@@ -493,34 +507,36 @@ section .kit_menu {
     color: $font_color_blue_light;
     min-width: 50px;
     display: table;
+
+    .clear {
+      clear: both;
+    }
     
-    .sensor_unit {
-      position: absolute;
-      top: 0;
-      font-size: 14px;
-      margin-left: 22px;
+    .sensor_right {
+      float:left;
+      position: relative;
+      left: 5px;
+      .sensor_unit {
+        font-size: 14px;
+      }
+      .sensor_arrow {
+        width: 14px;
+        height: 7px;
+      }
     }
     .sensor_value {
       font-size: 34px;
       font-weight: bold;
       color: white;
-      margin: 0 3px 0 7px;
-      display: inline-block;
-      text-align: center;
-      position: relative;
+      float:left;
     }
     .sensor_icon {
-      position: relative;
-      top: -2px;
       width: 16px;
       height: 16px;
-    }
-    .sensor_arrow {
+      float:left;
       position: relative;
-      top: -2px;
-      width: 14px;
-      height: 7px;
-      margin-left: 3px;
+      top: 15px;
+      right: 5px;
     }
     .sensor_name {
       font-size: 10px;
