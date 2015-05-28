@@ -1,10 +1,72 @@
-<section class="kit_data" change-content-margin>
+  <section class="kit_data" change-content-margin>
   <section class="kit_menu" layout="row" layout-align="center center" stick>
-    <p>Bar with kit info</p>
+    <div class="container">
+      <div class="kit_user">
+        <md-icon md-svg-src="{{ vm.marker.owner.avatar || './assets/images/avatar.svg'}}"></md-icon>
+        <span>{{ vm.marker.owner.username}}</span>
+      </div>
+      <div class="kit_name">
+        <md-icon md-svg-src="./assets/images/sensor_icon.svg"> </md-icon>
+        <span>{{ vm.marker.name }}</span>
+      </div>
+      <div class="kit_battery">
+        <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
+        <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
+      </div>
+      <div class="kit_navbar" active-button>
+        
+        <md-button href="#section_overview" class="md-flat chart_icon" aria-label="">
+          <md-icon md-svg-src="./assets/images/chart_icon.svg">
+          </md-icon>
+        </md-button>
+ 
+        <md-button href="#" class="md-flat kit_details_icon" aria-label="">
+          <md-icon md-svg-src="./assets/images/kit_details_icon.svg">
+          </md-icon>
+        </md-button>
+          
+        <md-button href="#" class="md-flat user_details" aria-label="">
+          <md-icon md-svg-src="./assets/images/user_details_icon.svg">
+          </md-icon>
+        </md-button>      
+         
+        <md-button href="#" class="md-flat discussion_icon" aria-label="">
+          <md-icon md-svg-src="./assets/images/discussion_icon.svg">
+          </md-icon>
+        </md-button>      
+      
+        <md-button href="#" class="md-flat shape_icon" aria-label="">
+          <md-icon md-svg-src="./assets/images/shape_icon.svg">
+          </md-icon>
+        </md-button>
+ 
+      </div>
+    </div>
   </section>
   <section class="kit_fixed" move-down>
-    <section class="kit_overview" layout="row" layout-align="center center">
-      <p>Kit data overview</p>
+    <section class="kit_overview">
+      <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" layout="column" layout-align="center center" aria-label="">
+        <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
+        </md-icon>
+      </md-button>
+      <div class="sensors_container" layout="row" layout-align="center center">
+        <div ng-repeat="sensor in vm.sensors" class="sensor_container">          
+          <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon">
+          </md-icon>
+          <div class="sensor_value">{{ sensor.value }}</div>
+          <div class="sensor_right">
+            <div class="sensor_unit">{{ sensor.unit }}</div>
+            <md-icon md-svg-src="{{ sensor.arrow }}" class="sensor_arrow">
+            </md-icon>
+          </div>
+          <div class="clear"></div>
+          <div class="sensor_name">{{ sensor.name }}</div>
+        </div>
+      </div>
+      <md-button ng-click="vm.slide('left')" class="md-flat button_scroll button_scroll_right" layout="column" layout-align="center center" aria-label="">
+        <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">
+        </md-icon>
+      </md-button>
     </section>
     <section class="kit_detailed" layout="row" layout-align="center center">
       <section class="kit_dashboard">

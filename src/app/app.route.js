@@ -59,13 +59,25 @@
                   lat: parseFloat(arrLoc[0]),
                   lng: parseFloat(arrLoc[1])
                 };
+
                 return location;
               });
             },
-            initialMarkers: function($state, device, location, utils) {
+            sensorTypes: function(sensor) {
+
+              return sensor.callAPI()
+                .then(function(sensorTypes) {
+                  sensorTypes = sensorTypes.plain();
+                  console.log('types', sensorTypes);
+                  //sensor.setTypes(sensorTypes);
+                  return sensorTypes;
+                });
+            },
+            initialMarkers: function($state, device, location, utils, sensorTypes) {
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
+                console.log('data', data);
 
                 var markers = data.map(function(device) {
                   var parsedKit = utils.parseKit(device);
@@ -73,7 +85,7 @@
                   var obj = {
                     lat: device.data.location.latitude,
                     lng: device.data.location.longitude,
-                    message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="http://fablabbcn.github.io/smartcitizen-web/assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>',
+                    message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>',
                     status: device.status,
                     myData: {
                       id: device.id
@@ -116,12 +128,13 @@
           },
           resolve: {
             marker: function($stateParams, device, marker) {
-              device.getDevice($stateParams.id)
-                .then(function(data) {
 
+              return device.getDevice($stateParams.id)
+                .then(function(data) {
                   data = data.plain();
                   marker.setCurrentMarker(data);
                   marker.dataLoaded();
+                  return data;
                 });
             }
           }

@@ -10,8 +10,8 @@
       .directive('changeMapHeight', changeMapHeight)
       .directive('changeContentMargin', changeContentMargin);
 
-    moveDown.$inject = ['layout'];
-    function moveDown(layout) {
+    moveDown.$inject = [];
+    function moveDown() {
       
       function link(scope, element) {
         scope.$watch('moveDown', function(isTrue) {

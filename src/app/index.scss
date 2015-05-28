@@ -1,6 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
 @import '_variables';
 
+
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: $font_color_white;
 }
@@ -324,7 +325,7 @@ section.map {
     height: 700px;
   }
   @media all and (max-height: 800px) and (min-height: 600px) {
-    height: 550px;
+    height: 450px;
   }
   @media all and (max-height: 600px) and (min-height: 400px) {
     height: 300px;
@@ -395,6 +396,7 @@ section .kit_menu {
     font-size: 13px;
     font-weight: bold;
     color: $blue_light;
+    margin: 0 32px 0 0;
 
     md-icon {
       width: 14px;
@@ -405,8 +407,20 @@ section .kit_menu {
       vertical-align: middle;
     }
   }    
+  
+  .kit_battery {
+    float: left; 
+    line-height: 30px;
+    color: $font_color_blue_grey;
+    font-size: 12px;
+    font-weight: bold;
 
-
+    md-icon {
+      width: 14px; 
+      height: 14px;
+      margin-right: 8px;
+    }
+  }
 
   .kit_navbar {
     float: right;
@@ -417,31 +431,118 @@ section .kit_menu {
     md-icon {
       width: 14px;
       height: 14px;
-      position: relative;
-      left: 2px;
     }
     
-    a.md-button {
-      margin-right: 7px;
-      display: inline;
-      width: 10px;
+    .md-button.md-default-theme {
+      display: inline-table;
+      width: 30px;
+      padding: 0 10px;
+      border-radius: 0
     }
 
-    a.md-button:hover {
+    a.md-button:hover, .button_active  {
       border-bottom: 2px solid $blue_light;
     }
+
   }    
 
 }
+/*.svg-active {
+  stroke: white;
+  stroke-width: 0.01px;
+  fill: white;
+  
+  svg {
+    color: brown;
+    > g {
+      stroke: white;
+      stroke-width: 0.01px;     
+    }    
+  }
+}
+*/
 
 .kit_overview {
   width: 100%;
-  height: 150px;
-  border: 1px solid green;
+  height: 96px;
   margin-bottom: 1%;
   z-index: $medium_priority;
-  background-color: white;
+  background-color: $background_blue_dark_overview;
   position: relative;
+
+  .button_scroll {
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 96px;
+
+    md-icon {
+
+    }
+  }
+
+  .button_scroll_left {
+    left: 0;
+  }
+
+  .button_scroll_right {
+    right: 0;
+  }
+
+  .sensors_container {
+    width: 90%;
+    height: 96px;
+    margin: 0 auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  .sensor_container:nth-child(1) {
+    margin-left: 0px;
+  }
+  
+  .sensor_container {
+    margin: 30px;
+    position: relative;
+    color: $font_color_blue_light;
+    min-width: 50px;
+    display: table;
+
+    .clear {
+      clear: both;
+    }
+    
+    .sensor_right {
+      float:left;
+      position: relative;
+      left: 5px;
+      .sensor_unit {
+        font-size: 14px;
+      }
+      .sensor_arrow {
+        width: 14px;
+        height: 7px;
+      }
+    }
+    .sensor_value {
+      font-size: 34px;
+      font-weight: bold;
+      color: white;
+      float:left;
+    }
+    .sensor_icon {
+      width: 16px;
+      height: 16px;
+      float:left;
+      position: relative;
+      top: 15px;
+      right: 5px;
+    }
+    .sensor_name {
+      font-size: 10px;
+      text-align: center;
+    }
+  }
 }
 
 .kit_detailed {
@@ -579,11 +680,11 @@ section .stickMenu {
 }
 
 .move_down {
-  -ms-transform: translateY(35px);
-  -webkit-transform: translateY(35px);
-  -moz-transform: translateY(35px);
-  -o-transform: translateY(35px);
-  transform: translateY(35px);
+  -ms-transform: translateY(32px);
+  -webkit-transform: translateY(32px);
+  -moz-transform: translateY(32px);
+  -o-transform: translateY(32px);
+  transform: translateY(32px);
 }
 
 .marker_normal {

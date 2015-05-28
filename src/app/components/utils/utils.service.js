@@ -18,7 +18,7 @@
         var parsedKit = {
           kitName: object.name,
           kitType: parseKitType(object),  
-          kitLastTime: moment(object.updated_at).fromNow(), 
+          kitLastTime: moment(parseKitTime(object)).fromNow(), 
           kitLocation: parseKitLocation(object), 
           kitLabels: parseKitLabels(object),
           kitClass: classify(parseKitType(object))      
@@ -51,7 +51,7 @@
 
       function parseKitType(object) {
         var kitType; 
-        
+
         if((new RegExp('sck', 'i')).test(object.kit.name)) { 
           kitType = 'SmartCitizen Kit';
         }
@@ -63,6 +63,10 @@
           return '';
         }
         return kitType.toLowerCase().split(' ').join('_');
+      }
+
+      function parseKitTime(object) {
+        return object.updated_at;
       }
     }
 })();
