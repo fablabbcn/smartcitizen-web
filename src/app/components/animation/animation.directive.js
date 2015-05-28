@@ -120,12 +120,14 @@
         
         var overviewHeight = angular.element('.kit_overview').height(); 
         var menuHeight = angular.element('.kit_menu').height();
+        var chartHeight = angular.element('.kit_chart').height();
 
         $timeout(function() {
           var overviewHeight = angular.element('.kit_overview').height(); 
           var menuHeight = angular.element('.kit_menu').height();
+          var chartHeight = angular.element('.kit_chart').height();
           
-          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight - chartHeight; // screen height - navbar height - menu height - overview height - charts height
           element.css('height', mapHeight + 'px');
           
           //layout.setKit(position);
@@ -147,6 +149,7 @@
         $timeout(function() {
           var mapHeight = angular.element('.angular-leaflet-map').height();
           var navbarHeight = angular.element('.stickNav').height();
+          var chartHeight = angular.element('.kit_chart').height();
 
           element.css('margin-top', mapHeight + navbarHeight + 'px');
         });

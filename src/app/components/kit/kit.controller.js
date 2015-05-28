@@ -4,20 +4,28 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['marker'];
-    function KitController(marker) {
+    KitController.$inject = ['marker', 'utils'];
+    function KitController(marker, utils) {
       var vm = this;
       
-      vm.marker = marker;
-      
+      vm.marker = augmentMarker(marker);
+
       vm.battery;
 
       vm.sensors = getSensors(marker);
 
       vm.slide = slide;
 
-      ///////////////
+      vm.selectedSensor;
 
+      vm.getSensorsToCompare = getSensorsToCompare;
+
+      ///////////////
+      
+      function augmentMarker(marker) {
+        marker.time = moment(utils.parseKitTime(marker)).fromNow();
+        return marker;
+      }
 
       function getSensors(marker) {
 
@@ -175,6 +183,12 @@
         } else if(direction === 'right') {
           slideContainer.scrollLeft(scrollPosition - slideStep);          
         }
+      }
+
+      function getSensorsToCompare() {
+        return vm.sensors.filter(function(sensor, index) {
+          return index !== vm.selectedSensor;
+        });
       }
     }
 })();

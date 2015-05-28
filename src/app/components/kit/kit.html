@@ -68,9 +68,58 @@
         </md-icon>
       </md-button>
     </section>
-    <section class="kit_detailed" layout="row" layout-align="center center">
-      <section class="kit_dashboard">
-        <p>Here it's the data</p>
+    <section class="kit_detailed" >
+      <section class="kit_chart">
+        <div class="container">
+          <div class="kit_chart_left">
+            <div class="sensor_select">
+              <img src="{{ sensor.icon }}">
+              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
+                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{$index}}" ng-selected="$first">
+                  <img src="{{ sensor.icon }}">
+                  <span>
+                    {{ sensor.name }}
+                  </span>
+                </md-option>
+              </md-select>
+            </div>
+            <div class="sensor_value">
+              <p>
+                <span>{{ vm.sensors[vm.selectedSensor].value }}<span>
+                <span>{{ vm.sensors[vm.selectedSensor].unit }}</span>
+              </p>
+            </div>
+            <div class="sensor_description">
+              <!--<h6>{{ vm.sensors[vm.selectedSensor].name.toLowerCase() }}'s description</h6>-->
+              <p>Lorep ipsum Lorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsum <a href="#">More info</a></p>
+            </div>
+            <div class="sensor_compare">
+              <p>
+                <span>Compare with</span>
+                <md-select placeholder="NONE" ng-model="vm.selectedSensortoCompare">
+                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{$index}}">
+                    <img src="{{ sensor.icon }}">
+                    <span>
+                      {{ sensor.name }}
+                    </span>
+                  </md-option>
+                </md-select>
+              </p>
+            </div>
+          </div>
+          <div class="kit_chart_right">
+            <div class="chart_navigation">
+              <div class="kit_time">
+                <md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>
+                {{ vm.marker.time }}
+              </div>
+              <div class="picker_from"></div>
+              <div class="picker_to"></div>
+              <div class="chart_move"></div>
+            </div>
+            <div chart></div>
+          </div>
+        </div>
       </section>
     </section>
   </section>

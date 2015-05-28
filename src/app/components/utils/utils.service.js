@@ -7,7 +7,8 @@
 
     function utils() {
       var service = {
-        parseKit: parseKit
+        parseKit: parseKit,
+        parseKitTime: parseKitTime
       };
       return service;
 

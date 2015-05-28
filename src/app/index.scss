@@ -198,6 +198,10 @@ search {
   }
 }
 
+md-select-menu {
+  background-color: white;
+}
+
 md-content.md-default-theme {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
@@ -465,7 +469,6 @@ section .kit_menu {
 .kit_overview {
   width: 100%;
   height: 96px;
-  margin-bottom: 1%;
   z-index: $medium_priority;
   background-color: $background_blue_dark_overview;
   position: relative;
@@ -546,16 +549,51 @@ section .kit_menu {
 }
 
 .kit_detailed {
-  width: 97%;
   height: 1000px;
-  border: 1px solid blue;
-  margin: 0 auto;
   z-index: $medium_priority;
   background-color: white;
   position: relative;
 
-  .kit_dashboard {
-    height: 450px;
+  .kit_chart {
+    height: 264px;
+    background-color: $background_blue_dark_chart;
+    color: $font_color_white;
+
+    md-select.md-default-theme:not([disabled]):focus .md-select-label {
+      color: $font_color_white;
+    }
+    md-select.md-default-theme .md-select-label.md-placeholder {
+      color: $font_color_white;
+    }
+
+    .container {
+      padding: 1% 6% 1% 2%;
+      height: 100%;
+      
+      .kit_chart_left {
+        float: left;
+        width: 25%;
+        .sensor_description {
+          font-size: 12px;
+          font-weight: bold;
+        }
+      }
+      .kit_chart_right {
+        float: right;
+        width: 75%;
+        .chart_navigation {
+
+          font-size: 11px;
+          .kit_time {
+            md-icon {
+              width: 11px;
+              height: 11px;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
