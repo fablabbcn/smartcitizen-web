@@ -90,9 +90,9 @@
             for(var elem in container) {
               if(container[elem].buttonOrder === buttonOrder) {
                 var offset = container[elem].offset;
+                scrollTo(offset);
               }
             }
-            scrollTo(offset);
           });
         }
 

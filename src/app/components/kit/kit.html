@@ -15,7 +15,7 @@
       </div>
       <div class="kit_navbar" active-button>
         
-        <md-button href="#section_overview" class="md-flat chart_icon" aria-label="">
+        <md-button href="#" class="md-flat chart_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/chart_icon.svg">
           </md-icon>
         </md-button>
@@ -73,9 +73,9 @@
         <div class="container">
           <div class="kit_chart_left">
             <div class="sensor_select">
-              <img src="{{ sensor.icon }}">
+              <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
-                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{$index}}" ng-selected="$first">
+                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
                   <img src="{{ sensor.icon }}">
                   <span>
                     {{ sensor.name }}
@@ -83,11 +83,9 @@
                 </md-option>
               </md-select>
             </div>
-            <div class="sensor_value">
-              <p>
-                <span>{{ vm.sensors[vm.selectedSensor].value }}<span>
-                <span>{{ vm.sensors[vm.selectedSensor].unit }}</span>
-              </p>
+            <div class="sensor_data">
+                <span class="sensor_value">{{ vm.selectedSensorData.value }}<span>
+                <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_description">
               <!--<h6>{{ vm.sensors[vm.selectedSensor].name.toLowerCase() }}'s description</h6>-->
@@ -96,10 +94,11 @@
             <div class="sensor_compare">
               <p>
                 <span>Compare with</span>
-                <md-select placeholder="NONE" ng-model="vm.selectedSensortoCompare">
-                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{$index}}">
+                <!--<md-icon md-svg-src="{{ vm.selectedSensorToCompareData.icon }}" class="sensor_icon_selected_compare"></md-icon>-->
+                <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
+                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{sensor.id}}">
                     <img src="{{ sensor.icon }}">
-                    <span>
+                    <span class="sensor_name">
                       {{ sensor.name }}
                     </span>
                   </md-option>
@@ -117,7 +116,7 @@
               <div class="picker_to"></div>
               <div class="chart_move"></div>
             </div>
-            <div chart></div>
+            <div chart class="chart_container" chart-data-main="vm.chartDataMain" chart-data-compare="vm.chartDataCompare" sensor-data-main="vm.sensorDataMain" sensor-data-compare="vm.sensorDataCompare"></div>
           </div>
         </div>
       </section>
