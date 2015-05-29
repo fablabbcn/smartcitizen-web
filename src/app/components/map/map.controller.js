@@ -50,7 +50,8 @@
         };
         
         var id = data.leafletEvent.popup._source.options.myData.id; 
-        $state.go('home.kit', {id: id});
+        $state.go('home.kit', {id: 1616});        
+        //$state.go('home.kit', {id: id});
       });    
       
       /*

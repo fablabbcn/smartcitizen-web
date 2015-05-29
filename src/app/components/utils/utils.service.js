@@ -8,7 +8,8 @@
     function utils() {
       var service = {
         parseKit: parseKit,
-        parseKitTime: parseKitTime
+        parseKitTime: parseKitTime,
+        parseSensorTime: parseSensorTime
       };
       return service;
 
@@ -68,6 +69,10 @@
 
       function parseKitTime(object) {
         return object.updated_at;
+      }
+
+      function parseSensorTime(sensor) {
+        return moment(sensor.recorded_at).format('');
       }
     }
 })();
