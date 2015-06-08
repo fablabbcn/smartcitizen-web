@@ -68,7 +68,6 @@
               return sensor.callAPI()
                 .then(function(sensorTypes) {
                   sensorTypes = sensorTypes.plain();
-                  console.log('types', sensorTypes);
                   //sensor.setTypes(sensorTypes);
                   return sensorTypes;
                 });
@@ -77,7 +76,6 @@
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                console.log('data', data);
 
                 var markers = data.map(function(device) {
                   var parsedKit = utils.parseKit(device);

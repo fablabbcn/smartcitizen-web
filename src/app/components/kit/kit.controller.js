@@ -4,36 +4,113 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['marker'];
-    function KitController(marker) {
+    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor'];
+    function KitController($scope, $stateParams, marker, utils, sensor) {
       var vm = this;
       
-      vm.marker = marker;
-      
+      vm.marker = augmentMarker(marker);
+
       vm.battery;
 
       vm.sensors = getSensors(marker);
 
       vm.slide = slide;
 
-      ///////////////
+      vm.selectedSensor = vm.sensors[0].id; 
+      vm.selectedSensorData = {
+        icon: vm.sensors[0].icon,
+        value: vm.sensors[0].value,
+        unit: vm.sensors[0].unit,
+        color: vm.sensors[0].color
+      };
+      vm.chartDataMain;
 
+      vm.selectedSensorToCompare;
+      vm.selectedSensorToCompareData;
+      vm.chartDataCompare;
+
+      vm.getSensorsToCompare = getSensorsToCompare;
+
+      $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
+        vm.selectedSensorToCompare = undefined;
+        vm.selectedSensorToCompareData = {};
+        vm.chartDataCompare = [];
+
+        vm.sensors.forEach(function(sensor) {
+          if(sensor.id === newVal) {
+            vm.selectedSensorData = {
+              icon: sensor.icon,
+              value: sensor.value,
+              unit: sensor.unit,
+              color: sensor.color
+            };
+            vm.sensorDataMain = {
+              color: sensor.color,
+              unit: sensor.unit
+            };
+          }
+        });
+        
+        setTimeout(function() {
+          colorSensorMainIcon();
+          colorSensorCompareName();    
+        }, 0);
+
+        setSensor({type: 'main', value: newVal});
+      });
+
+      $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
+        vm.sensors.forEach(function(sensor) {
+          if(sensor.id === newVal) {
+            vm.selectedSensorToCompareData = {
+              icon: sensor.icon,
+              color: sensor.color
+            };
+            vm.sensorDataCompare = {
+              color: sensor.color,
+              unit: sensor.unit
+            };
+          }
+        });  
+        setTimeout(function() {
+          colorSensorCompareName();    
+        }, 0);
+
+        setSensor({type: 'compare', value: newVal});     
+      });
+
+      var sensorData;
+      getChartData();
+
+      setTimeout(function() {
+        colorSensorMainIcon();
+      }, 500)
+      ///////////////
+      
+      function augmentMarker(marker) {
+        marker.time = moment(utils.parseKitTime(marker)).fromNow();
+        return marker;
+      }
 
       function getSensors(marker) {
 
         var sensors = marker.data.sensors.map(function(sensor) {
+          var sensorID = sensor.id;
           var sensorName = getSensorName(sensor);
           var sensorUnit = getSensorUnit(sensorName);
           var sensorValue = getSensorValue(sensor); 
           var sensorIcon = getSensorIcon(sensorName); 
           var sensorArrow = getSensorArrow(sensor); 
+          var sensorColor = getSensorColor(sensorName);
           
           var obj = {
+            id: sensorID,
             name: sensorName,
             unit: sensorUnit,
             value: sensorValue,
             icon: sensorIcon,
-            arrow: sensorArrow
+            arrow: sensorArrow,
+            color: sensorColor
           };
 
           if(sensorName === 'BATTERY') {
@@ -165,6 +242,37 @@
         }
       }
 
+      function getSensorColor(sensorName) {
+        switch(sensorName) {
+          case 'TEMPERATURE':
+            return '#ffc107';            
+            
+          case 'HUMIDITY':
+            return '#4fc3f7';
+            
+          case 'LIGHT':
+            return '#ffee58';
+            
+          case 'SOUND': 
+            return '#f06292';
+            
+          case 'CO':
+            return '#4caf50';
+            
+          case 'NO2':
+            return '#8bc34a';
+          
+          case 'NETWORKS':
+            return '#9575cd';
+
+          case 'SOLAR PANEL': 
+            return '#fff9c4';
+
+          default: 
+            return 'black';                      
+        }
+      }
+
       function slide(direction) {
         var slideContainer = angular.element('.sensors_container');
         var scrollPosition = slideContainer.scrollLeft();
@@ -175,6 +283,63 @@
         } else if(direction === 'right') {
           slideContainer.scrollLeft(scrollPosition - slideStep);          
         }
+      }
+
+      function getSensorsToCompare() {
+        return vm.sensors.filter(function(sensor) {
+          return sensor.id !== vm.selectedSensor;
+        });
+      }
+
+      function getChartData(sensorID) {
+        var deviceID = $stateParams.id;
+
+        return sensor.getSensorsData(deviceID);        
+      }
+
+      function parseChartData(data, sensorID) {
+        if(data.length === 0) {
+          return [];
+        }
+        return data.map(function(dataPoint) {
+          return {
+            time: dataPoint.timestamp,
+            data: dataPoint && dataPoint.data[sensorID]
+          };
+        });
+      }
+
+      function setSensor(options) {
+        var sensorID = options.value;
+
+        if(sensorID === undefined) {
+          return;
+        }
+
+        getChartData(sensorID)
+          .then(function(data) {
+            data = data.plain();
+            var parsedData = parseChartData(data.readings, sensorID);
+            if(options.type === 'main') {
+              vm.chartDataMain = parsedData;
+            } else if(options.type === 'compare') {
+              vm.chartDataCompare = parsedData;                
+            }
+          });
+      }
+
+      function colorSensorMainIcon() {
+        var svgContainer = angular.element('.sensor_icon_selected');
+        var parent = svgContainer.find('.container_parent');
+        console.log('parent', parent);
+        parent.css('fill', vm.selectedSensorData.color); 
+      }
+
+      function colorSensorCompareName() {
+        var name = angular.element('.sensor_compare').find('md-select-label').find('span');
+        name.css('color', vm.selectedSensorToCompareData.color || 'white');  
+        var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
+        icon.css('color', 'white');
       }
     }
 })();
