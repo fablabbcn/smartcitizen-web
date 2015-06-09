@@ -7,7 +7,9 @@
     KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor'];
     function KitController($scope, $stateParams, marker, utils, sensor) {
       var vm = this;
-      
+      var mainSensorID;
+      var compareSensorID;
+
       vm.marker = augmentMarker(marker);
 
       vm.battery;
@@ -30,11 +32,13 @@
       vm.chartDataCompare;
 
       vm.getSensorsToCompare = getSensorsToCompare;
+      vm.moveChart = moveChart;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
         vm.selectedSensorToCompareData = {};
         vm.chartDataCompare = [];
+        compareSensorID = undefined;
 
         vm.sensors.forEach(function(sensor) {
           if(sensor.id === newVal) {
@@ -50,13 +54,14 @@
             };
           }
         });
-        
+
         setTimeout(function() {
           colorSensorMainIcon();
           colorSensorCompareName();    
-        }, 0);
+          setSensor({type: 'main', value: newVal});
+          getChartData(mainSensorID, picker.getValuePickerFrom(), picker.getValuePickerTo(), {type: 'main'});
+        }, 2000);
 
-        setSensor({type: 'main', value: newVal});
       });
 
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
@@ -74,13 +79,13 @@
         });  
         setTimeout(function() {
           colorSensorCompareName();    
-        }, 0);
+          setSensor({type: 'compare', value: newVal});   
+          getChartData(compareSensorID, picker.getValuePickerFrom(), picker.getValuePickerTo(), {type: 'compare'});  
+        }, 2000);
 
-        setSensor({type: 'compare', value: newVal});     
       });
 
       var sensorData;
-      getChartData();
 
       setTimeout(function() {
         colorSensorMainIcon();
@@ -291,10 +296,31 @@
         });
       }
 
-      function getChartData(sensorID) {
+      /*function changeChart(updateType, options) {
+        if(updateType === 'sensor') {
+          //grab chart data and get data for specific sensor
+        } else if(updateType === 'date') {
+          //grab chart data and save it
+          getChartData(dateFrom, dateTo, options)
+            .then(function() {
+              parseSensorData('')
+            })
+        }
+      }*/
+
+      function getChartData(sensorID, dateFrom, dateTo, options) {
         var deviceID = $stateParams.id;
 
-        return sensor.getSensorsData(deviceID);        
+        return sensor.getSensorsData(deviceID, dateFrom, dateTo)
+          .then(function(data) {
+            data = data.plain();
+            var parsedData = parseChartData(data.readings, sensorID);
+            if(options.type === 'main') {
+              vm.chartDataMain = parsedData;
+            } else if(options.type === 'compare') {
+              vm.chartDataCompare = parsedData;                
+            }
+          });       
       }
 
       function parseChartData(data, sensorID) {
@@ -311,21 +337,14 @@
 
       function setSensor(options) {
         var sensorID = options.value;
-
         if(sensorID === undefined) {
           return;
         }
-
-        getChartData(sensorID)
-          .then(function(data) {
-            data = data.plain();
-            var parsedData = parseChartData(data.readings, sensorID);
-            if(options.type === 'main') {
-              vm.chartDataMain = parsedData;
-            } else if(options.type === 'compare') {
-              vm.chartDataCompare = parsedData;                
-            }
-          });
+        if(options.type === 'main') {
+          mainSensorID = sensorID;          
+        } else if(options.type === 'compare') {
+          compareSensorID = sensorID;
+        }
       }
 
       function colorSensorMainIcon() {
@@ -341,5 +360,104 @@
         var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
         icon.css('color', 'white');
       }
+
+      function getSecondsFromDate(date) {
+        return (new Date(date)).getTime();
+      }
+
+      function getCurrentRange() {
+        return getSecondsFromDate( picker.getValuePickerTo() ) - getSecondsFromDate( picker.getValuePickerFrom() );
+      }
+
+      function moveChart(direction) {
+        //grab current date range
+        var currentRange = getCurrentRange();
+
+        if(direction === 'left') {
+          //set both from and to pickers to prev range
+          picker.setValuePickerTo( picker.getValuePickerFrom() );
+          picker.setValuePickerFrom( getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange);
+        } else if(direction === 'right') {
+          //set both from and to pickers  to next range
+          picker.setValuePickerFrom( picker.getValuePickerTo() );
+          picker.setValuePickerTo( getSecondsFromDate( picker.getValuePickerTo() ) + currentRange);
+        }
+      }
+
+      //hide everything but the functions to interact with the pickers
+       var picker = (function () {
+        var from_$input = $('#picker_from').pickadate({
+          container: 'body',
+          klass: {
+            holder: 'picker__holder picker_container'
+          }
+        });
+        var from_picker = from_$input.pickadate('picker');
+
+        var to_$input = $('#picker_to').pickadate({
+          container: 'body',
+          klass: {
+            holder: 'picker__holder picker_container'
+          }
+        });
+        var to_picker = to_$input.pickadate('picker');
+
+        if( from_picker.get('value') ) {
+          to_picker.set('min', from_picker.get('select') );
+        } 
+        if( to_picker.get('value') ) {
+          from_picker.set('max', to_picker.get('select') );
+        }
+
+        from_picker.on('set', function(event) {
+          if(event.select) {
+            getChartData(mainSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'main'}); 
+            getChartData(compareSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'compare'});                              
+
+            to_picker.set('min', from_picker.get('select') );
+          } else if( 'clear' in event) {
+            to_picker.set('min', false);
+          }
+        });
+
+        to_picker.on('set', function(event) {
+          if(event.select) {            
+            getChartData(mainSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'main'});
+            getChartData(compareSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'compare'});                 
+
+            from_picker.set('max', to_picker.get('select'));
+          } else if( 'clear' in event) {
+            from_picker.set('max', false);
+          }
+        });
+
+        function getToday() {
+          return getSecondsFromDate(new Date());
+        }
+
+        function getSevenDaysAgo() {
+          return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
+        }
+
+        //set from-picker to today
+        from_picker.set('select', getSevenDaysAgo());
+        //set to-picker to seven days ago
+        to_picker.set('select', getToday());
+
+        return {
+          getValuePickerFrom: function() {
+            return from_picker.get('value');
+          },
+          setValuePickerFrom: function(newValue) {
+            from_picker.set('select', newValue);
+          },
+          getValuePickerTo: function() {
+            return to_picker.get('value');
+          },
+          setValuePickerTo: function(newValue) {
+            to_picker.set('select', newValue);
+          }
+        };
+      })();
     }
 })();

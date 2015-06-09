@@ -17,5 +17,17 @@
   },
   "resolutions": {
     "angular": "~1.3.4"
+  },
+  "overrides": {
+    "pickadate": {
+      "main": [
+        "lib/picker.js",
+        "lib/picker.date.js",
+        "lib/picker.time.js",
+        "lib/themes/default.css",
+        "lib/themes/default.date.css",
+        "lib/themes/default.time.css"
+      ]
+    }
   }
 }

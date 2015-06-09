@@ -569,6 +569,8 @@ section .kit_menu {
       .kit_chart_left {
         float: left;
         width: 25%;
+        height: 100%;
+
         md-select.md-default-theme .md-select-label {
           border-bottom-color: #6B868D;
         }
@@ -613,15 +615,26 @@ section .kit_menu {
       .kit_chart_right {
         float: right;
         width: 75%;
+        height: 100%;
+
         .chart_navigation {
-          height: 30%;
+          height: 10%;
           font-size: 11px;
+          float: right;
+
+          > div {
+            display: inline-block;
+            margin-left: 40px;
+          }
+          input {
+            margin-left: 10px;
+          }
           .kit_time {
             md-icon {
               width: 11px;
               height: 11px;
               margin-right: 8px;
-            }
+            }            
           }
         }
       }
@@ -630,8 +643,8 @@ section .kit_menu {
 }
 
 .chart_container {
-  /*width: 100% */
-  height: 178px;
+  width: 100%;
+  height: 90%;
 
   .chart_line {
     fill: none;
@@ -975,6 +988,18 @@ section .stickMenu {
   display: none;
 }
 
+.picker__holder.picker_container {
+  background: none;
+  transition: none;
+}
+
+.date_picker {
+  height: 22px;
+  border-radius: 2px;
+  border: 1px solid #6B868D;
+  color: #A4B0B3;
+  background-color: transparent;
+}
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector

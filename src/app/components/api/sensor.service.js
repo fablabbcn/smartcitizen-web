@@ -4,13 +4,14 @@
   angular.module('app.components')
     .factory('sensor', sensor);
 
-    sensor.$inject = ['Restangular'];
-    function sensor(Restangular) {
+    sensor.$inject = ['Restangular', 'utils'];
+    function sensor(Restangular, utils) {
       var sensorTypes;
       callAPI().then(function(data) {
         console.log('sensors', data.plain());
         setTypes(data);
       });
+      var prevDeviceID;
 
       var service = {
         callAPI: callAPI,
@@ -35,7 +36,12 @@
       }
 
       function getSensorsData(deviceID, dateFrom, dateTo) {
-        return Restangular.one('devices', deviceID).all('pg_readings').customGET();
+        var dateFrom = utils.convertTime(dateFrom);
+        var dateTo = utils.convertTime(dateTo);
+        if(!dateFrom || !dateTo) {
+          return Restangular.one('devices', deviceID).customGET('pg_readings');          
+        }
+        return Restangular.one('devices', deviceID).customGET('pg_readings', {'from': dateFrom, 'to': dateTo});
       }
     }
 })();

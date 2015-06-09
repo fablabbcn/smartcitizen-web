@@ -70,9 +70,9 @@
 
 
       function createChart(elem) {
-        margin = {top: 10, right: 20, bottom: 50, left: 50};
-        width = elem.clientWidth;
-        height = elem.clientHeight;
+        margin = {top: 20, right: 15, bottom: 20, left: 40};
+        width = elem.clientWidth - margin.left - margin.right;
+        height = elem.clientHeight - margin.top - margin.bottom;
 
         xScale = d3.time.scale().range([0, width]);
         yScale0 = d3.scale.linear().range([height, 0]);
@@ -251,14 +251,15 @@
           .attr('class', '');
 
         var textMain = text.append('tspan')
-          .attr('class', 'popup_main');
-          
+          .attr('class', 'popup_main')
+          .attr('text-anchor', 'start');
+
           textMain.append('tspan')
           .attr('class', 'popup_value')
-          .attr('x', 0)
+          .attr('x', (- popupWidth / 2) + 7)
           .attr('y', popupHeight / 2)
-          .attr('dx', 0)
-          .attr( 'text-anchor', 'middle' );
+          .attr('dx', 0);
+          //.attr( 'text-anchor', 'middle' );
           
           textMain.append('tspan')
           .attr('dx', 2)
@@ -315,8 +316,6 @@
         }
 
         function parseValue(value) {
-          console.log('unit', options.unit);
-          console.log('value', value);
           if(value.toString().indexOf('.') !== -1) {
             var result = value.toString().split('.');
             return result[0] + '.' + result[1].slice(0, 2);            
@@ -431,6 +430,7 @@
         popup.append('rect')
           .attr('width', popupWidth)
           .attr('height', popupHeight)
+          .style('min-width', '40px')
           .attr('transform', function() {
             var result = 'translate(-42, 5)';
                                                   
@@ -465,7 +465,7 @@
         textMain.append('tspan')
           .attr('class', 'popup_value')
           .attr('x', 0)
-          .attr('y', popupHeight / 1.5)
+          .attr('y', popupHeight / 3)
           .attr( 'text-anchor', 'middle' );
         
         textMain.append('tspan')
@@ -477,7 +477,7 @@
         textCompare.append('tspan')
           .attr('class', 'popup_value')
           .attr('x', 0)
-          .attr('y', popupHeight / 3)
+          .attr('y', popupHeight / 1.5)
           .attr( 'text-anchor', 'middle' );                    
 
         textCompare.append('tspan')
