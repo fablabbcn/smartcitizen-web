@@ -72,7 +72,7 @@
                   return sensorTypes;
                 });
             },
-            initialMarkers: function($state, device, location, utils, sensorTypes) {
+            initialMarkers: function($state, device, location, utils, sensorTypes, Kit) {
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();

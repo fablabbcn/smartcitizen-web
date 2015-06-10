@@ -9,6 +9,7 @@
       var vm = this;
       var mainSensorID;
       var compareSensorID;
+      var sensorsData;
 
       vm.marker = augmentMarker(marker);
 
@@ -48,10 +49,6 @@
               unit: sensor.unit,
               color: sensor.color
             };
-            vm.sensorDataMain = {
-              color: sensor.color,
-              unit: sensor.unit
-            };
           }
         });
 
@@ -59,8 +56,8 @@
           colorSensorMainIcon();
           colorSensorCompareName();    
           setSensor({type: 'main', value: newVal});
-          getChartData(mainSensorID, picker.getValuePickerFrom(), picker.getValuePickerTo(), {type: 'main'});
-        }, 2000);
+          changeChart('sensor', [mainSensorID, compareSensorID]);          
+        }, 1000);
 
       });
 
@@ -69,9 +66,6 @@
           if(sensor.id === newVal) {
             vm.selectedSensorToCompareData = {
               icon: sensor.icon,
-              color: sensor.color
-            };
-            vm.sensorDataCompare = {
               color: sensor.color,
               unit: sensor.unit
             };
@@ -80,8 +74,8 @@
         setTimeout(function() {
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
-          getChartData(compareSensorID, picker.getValuePickerFrom(), picker.getValuePickerTo(), {type: 'compare'});  
-        }, 2000);
+          changeChart('sensor', [mainSensorID, compareSensorID]);
+        }, 1000);
 
       });
 
@@ -89,7 +83,7 @@
 
       setTimeout(function() {
         colorSensorMainIcon();
-      }, 500)
+      }, 500);
       ///////////////
       
       function augmentMarker(marker) {
@@ -189,10 +183,17 @@
       }
 
       function getSensorValue(sensor) {
-        if(!sensor.value) {
+        var value = sensor.value;
+
+        if(!value) {
           return 'N/A';
+        } else {
+          value = value.toString();
+          if(value.indexOf('.') !== -1) {
+            value = value.slice(0, value.indexOf('.') + 3);
+          }
         }
-        return sensor.value;
+        return value;
       }
 
       function getSensorPrevValue(sensor) {
@@ -296,40 +297,54 @@
         });
       }
 
-      /*function changeChart(updateType, options) {
-        if(updateType === 'sensor') {
-          //grab chart data and get data for specific sensor
-        } else if(updateType === 'date') {
+      function changeChart(updateType, sensorsID, options) {
+        if(updateType === 'date') {
           //grab chart data and save it
-          getChartData(dateFrom, dateTo, options)
-            .then(function() {
-              parseSensorData('')
-            })
+          getChartData(options.from, options.to)
+            .then(function() {              
+              vm.chartDataMain = prepareChartData(sensorsID);
+            });
+        } else if(updateType === 'sensor') {          
+          vm.chartDataMain = prepareChartData(sensorsID);
         }
-      }*/
+      }
 
-      function getChartData(sensorID, dateFrom, dateTo, options) {
+      function getChartData(dateFrom, dateTo, options) {
         var deviceID = $stateParams.id;
 
         return sensor.getSensorsData(deviceID, dateFrom, dateTo)
           .then(function(data) {
-            data = data.plain();
-            var parsedData = parseChartData(data.readings, sensorID);
-            if(options.type === 'main') {
-              vm.chartDataMain = parsedData;
-            } else if(options.type === 'compare') {
-              vm.chartDataCompare = parsedData;                
-            }
+            //save sensor data of this kit so that it can be reused
+            sensorsData = data.readings;
           });       
       }
 
-      function parseChartData(data, sensorID) {
+      function prepareChartData(sensorsID) {
+        var parsedDataMain = parseSensorData(sensorsData, sensorsID[0]);
+        var mainSensor = {
+          data: parsedDataMain,
+          color: vm.selectedSensorData.color,
+          unit: vm.selectedSensorData.unit
+        };
+        if(sensorsID[1]) {
+          var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);                
+          var compareSensor = {
+            data: parsedDataCompare,
+            color: vm.selectedSensorToCompareData.color,
+            unit: vm.selectedSensorToCompareData.unit
+          };
+        }
+        var newChartData = [mainSensor, compareSensor]; 
+        return newChartData;
+      }
+
+      function parseSensorData(data, sensorID) {
         if(data.length === 0) {
           return [];
         }
         return data.map(function(dataPoint) {
           return {
-            time: dataPoint.timestamp,
+            time: dataPoint && dataPoint.timestamp,
             data: dataPoint && dataPoint.data[sensorID]
           };
         });
@@ -411,8 +426,7 @@
 
         from_picker.on('set', function(event) {
           if(event.select) {
-            getChartData(mainSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'main'}); 
-            getChartData(compareSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'compare'});                              
+            changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                            
 
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -422,14 +436,16 @@
 
         to_picker.on('set', function(event) {
           if(event.select) {            
-            getChartData(mainSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'main'});
-            getChartData(compareSensorID, from_picker.get('value'), to_picker.get('value'), {type: 'compare'});                 
+            changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });               
 
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
             from_picker.set('max', false);
           }
         });
+
+        //set to-picker max to today
+        to_picker.set('max', new Date());
 
         function getToday() {
           return getSecondsFromDate(new Date());

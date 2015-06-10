@@ -12,10 +12,7 @@
         link: link,
         restrict: 'A',
         scope: {
-          chartDataMain: '=',
-          chartDataCompare: '=',
-          sensorDataMain: '=',
-          sensorDataCompare: '='
+          chartData: '='
         }
       };
 
@@ -26,44 +23,57 @@
           //updateChartMain(elem[0], {}, data, elem);                    
         }, 1000);
 
-        scope.$watch('chartDataMain', function(newData) {
+        scope.$watch('chartData', function(newData) {
+
           if(newData !== undefined) {
-            console.log('da', scope.sensorDataMain);
-            var data = newData.map(function(dataPoint) {
-              return {
-                date: dateFormat(dataPoint.time),
-                count: dataPoint && dataPoint.data           
-              };
-            });
+            if(newData[0] && newData[1]) {
+              var sensorDataMain = newData[0].data;
+              var dataMain = sensorDataMain.map(function(dataPoint) {
+                return {
+                  date: dateFormat(dataPoint.time),
+                  count: dataPoint && dataPoint.data           
+                };
+              });
 
-            data.sort(function(a, b) {
-              return a.date - b.date;
-            });
-            dataMain = data;
-            colorMain = scope.sensorDataMain.color;
-            unitMain = scope.sensorDataMain.unit;
-            updateChartData(dataMain, {type: 'main', container: elem[0], color: colorMain, unit: unitMain });
-          }
-        });
-        scope.$watch('chartDataCompare', function(newData) {
-          if(newData !== undefined) {
+              dataMain.sort(function(a, b) {
+                return a.date - b.date;
+              });
 
-            var data = newData.map(function(dataPoint) {
-              return {
-                date: dateFormat(dataPoint.time),
-                count: dataPoint && dataPoint.data           
-              };
-            });
+              var sensorDataCompare = newData[1].data;
+              var dataCompare = sensorDataCompare.map(function(dataPoint) {
+                return {
+                  date: dateFormat(dataPoint.time),
+                  count: dataPoint && dataPoint.data           
+                };
+              });
 
-            data.sort(function(a, b) {
-              return a.date - b.date;
-            });
+              dataCompare.sort(function(a, b) {
+                return a.date - b.date;
+              });
 
-            var arr = [];
-            arr.push(dataMain);
-            arr.push(data);
-             
-            updateChartData(data, {type: 'compare', container: elem[0], color: scope.sensorDataCompare.color, unit: scope.sensorDataCompare.unit });
+              var data = [dataMain, dataCompare];
+              var colors = [newData[0].color, newData[1].color];
+              var units = [newData[0].unit, newData[1].unit];
+
+              updateChartData(data, {type: 'both', container: elem[0], color: colors, unit: units });
+            } else if(newData[0]) {
+
+              var sensorData = newData[0].data;
+              var data = sensorData.map(function(dataPoint) {
+                return {
+                  date: dateFormat(dataPoint.time),
+                  count: dataPoint && dataPoint.data           
+                };
+              });
+
+              data.sort(function(a, b) {
+                return a.date - b.date;
+              });
+
+              var color = newData[0].color;
+              var unit = newData[0].unit;
+              updateChartData(data, {type: 'main', container: elem[0], color: color, unit: unit });
+            } 
           }
         });
       }
@@ -130,7 +140,7 @@
       function updateChartData(newData, options) {
         if(options.type === 'main') {
           updateChartMain(newData, options);
-        } else if(options.type === 'compare') {
+        } else if(options.type === 'both') {
           updateChartCompare(newData, options);
         }
       }
@@ -331,10 +341,9 @@
 
 
       function updateChartCompare(data, options) {
-        xScale.domain(d3.extent(dataMain, function(d) { return d.date; }));
-        //yScale0.domain([0, d3.max(dataMain, function(d) { return d.count; })]);        
-        //yScale1.domain([0, d3.max(data, function(d) { return d.count; })]);
-        yScale1.domain([(d3.min(data, function(d) { return d.count; })) * 0.8, (d3.max(data, function(d) { return d.count; })) * 1.2]);        
+        xScale.domain(d3.extent(data[0], function(d) { return d.date; }));
+        yScale0.domain([(d3.min(data[0], function(d) { return d.count; })) * 0.8, (d3.max(data[0], function(d) { return d.count; })) * 1.2]);                
+        yScale1.domain([(d3.min(data[1], function(d) { return d.count; })) * 0.8, (d3.max(data[1], function(d) { return d.count; })) * 1.2]);        
 
         console.log('datum', data);
 
@@ -342,27 +351,27 @@
 
         //Add both area paths
         svg.append('path')
-          .datum(dataMain)
+          .datum(data[0])
           .attr('class', 'chart_area')
-          .attr('fill', colorMain)
+          .attr('fill', options.color[0])
           .attr('d', areaMain);
 
         svg.append('path')
           .datum(data)
           .attr('class', 'chart_area')
-          .attr('fill', options.color)
+          .attr('fill', options.color[1])
           .attr('d', areaCompare);
 
         // Add both valueline paths.
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', colorMain)
-          .attr('d', valueLineMain(dataMain));
+          .attr('stroke', options.color[0])
+          .attr('d', valueLineMain(data[0]));
 
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', options.color)          
-          .attr('d', valueLineCompare(data));
+          .attr('stroke', options.color[1])          
+          .attr('d', valueLineCompare(data[1]));
 
         // Add the X Axis
         svg.append('g')
@@ -373,12 +382,12 @@
         // Add both Y Axis
         svg.append('g')
           .attr('class', 'axis y_left')
-          .style('fill', colorMain)
+          .style('fill', options.color[0])
           .call(yAxisLeft);
 
         svg.append('g')
           .attr('class', 'axis y_right')
-          .style('fill', options.color)
+          .style('fill', options.color[1])
           .attr('transform', 'translate(' + width + ' ,0)') 
           .call(yAxisRight);
         
@@ -408,11 +417,11 @@
           .style('display', 'none');
 
         focusCompare.append('circle')
-          .style('stroke', options.color)
+          .style('stroke', options.color[1])
           .attr('r', 4.5);
 
         focusMain.append('circle')
-          .style('stroke', colorMain)
+          .style('stroke', options.color[0])
           .attr('r', 4.5);
 
         /*focus.append("text")
@@ -446,7 +455,7 @@
           .attr('transform', function() {
             return 'translate(-40, 20)';
           })
-          .style('fill', colorMain);
+          .style('fill', options.color[0]);
 
         popup.append('rect')
           .attr('width', 8)
@@ -454,7 +463,7 @@
           .attr('transform', function() {
             return 'translate(-40, 45)';
           })
-          .style('fill', options.color);
+          .style('fill', options.color[1]);
 
         var text = popup.append('text')
           .attr('class', '');
@@ -509,15 +518,15 @@
           var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
           var x0 = xScale.invert(d3.mouse(this)[0]);
-          var i = bisectDate(data, x0, 1);
-          var d0 = data[i - 1];
-          var d1 = data[i];
+          var i = bisectDate(data[1], x0, 1);
+          var d0 = data[1][i - 1];
+          var d1 = data[1][i];
           var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
           focusCompare.attr('transform', 'translate(' + xScale(d.date) + ', ' + yScale1(d.count) + ')');
           
 
-          var dMain0 = dataMain[i - 1];
-          var dMain1 = dataMain[i];
+          var dMain0 = data[0][i - 1];
+          var dMain1 = data[0][i];
           var dMain = x0 - dMain0.date > dMain1.date - x0 ? dMain1 : dMain0;
           focusMain.attr('transform', 'translate(' + xScale(dMain.date) + ', ' + yScale0(dMain.count) + ')');
 
@@ -526,10 +535,10 @@
           var popupText = popup.select('text');
           var popupMain = popupText.select('.popup_main');
           popupMain.select('.popup_value').text(parseValue(dMain.count));
-          popupMain.select('.popup_unit').text(unitMain);
+          popupMain.select('.popup_unit').text(options.unit[0]);
           var popupCompare = popupText.select('.popup_compare');
           popupCompare.select('.popup_value').text(parseValue(d.count));
-          popupCompare.select('.popup_unit').text(options.unit);
+          popupCompare.select('.popup_unit').text(options.unit[1]);
           popupText.select('.popup_date').text(parseTime(d.date));
 
           
@@ -550,12 +559,11 @@
             .ticks(5);
         }
         function parseValue(value) {
-          console.log('value', value);
           if(value.toString().indexOf('.') !== -1) {
             var result = value.toString().split('.');
             return result[0] + '.' + result[1].slice(0, 2);            
           } else {
-            return result.toString().slice(0, 2);
+            return value.toString().slice(0, 2);
           }
         }
 
