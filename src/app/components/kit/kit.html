@@ -76,7 +76,7 @@
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
-                  <img src="{{ sensor.icon }}">
+                  <img class="select_image" src="{{ sensor.icon }}">
                   <span>
                     {{ sensor.name }}
                   </span>
@@ -88,7 +88,7 @@
                 <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_description">
-              <!--<h6>{{ vm.sensors[vm.selectedSensor].name.toLowerCase() }}'s description</h6>-->
+              <h6>{{ vm.sensors[vm.selectedSensor].name }}</h6>
               <p>Lorep ipsum Lorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsum <a href="#">More info</a></p>
             </div>
             <div class="sensor_compare">
@@ -97,7 +97,7 @@
                 <!--<md-icon md-svg-src="{{ vm.selectedSensorToCompareData.icon }}" class="sensor_icon_selected_compare"></md-icon>-->
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{sensor.id}}">
-                    <img src="{{ sensor.icon }}">
+                    <img class="select_image" src="{{ sensor.icon }}">
                     <span class="sensor_name">
                       {{ sensor.name }}
                     </span>
@@ -109,7 +109,7 @@
           <div class="kit_chart_right">
             <div class="chart_navigation">
               <div class="kit_time">
-                <md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>
+                <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
                 {{ vm.marker.time }}
               </div>
               <div class="picker_container">
@@ -121,12 +121,12 @@
                 <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>              
               </div>
               <div class="chart_move">
-                <md-button href="#" ng-click="vm.moveChart('left')" class="md-flat chart_move_left" aria-label="">
-                  <md-icon md-svg-src="./assets/images/shape_icon.svg">
+                <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="">
+                  <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
                   </md-icon>
                 </md-button>
-                <md-button href="#" ng-click="vm.moveChart('right')" class="md-flat chart_move_right" aria-label="">
-                  <md-icon md-svg-src="./assets/images/shape_icon.svg">
+                <md-button href="#" ng-click="vm.moveChart('right')" class="chart_move_button chart_move_right" aria-label="">
+                  <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">
                   </md-icon>
                 </md-button>
               </div>

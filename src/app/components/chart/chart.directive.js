@@ -6,7 +6,7 @@
 
     chart.$inject = ['sensor'];
     function chart(sensor) { 
-      var margin, width, height, svg, xScale, yScale0, yScale1, xAxis, yAxisLeft, yAxisRight, dateFormat, areaMain, valueLineMain, areaCompare, valueLineCompare, focusCompare, focusMain, popup, dataMain, colorMain, yAxisScale, unitMain;
+      var margin, width, height, svg, xScale, yScale0, yScale1, xAxis, yAxisLeft, yAxisRight, dateFormat, areaMain, valueLineMain, areaCompare, valueLineCompare, focusCompare, focusMain, popup, dataMain, colorMain, yAxisScale, unitMain, popupContainer;
 
       return {
         link: link,
@@ -19,11 +19,11 @@
       function link(scope, elem) {
 
         setTimeout(function() {
-          createChart(elem[0]);          
-          //updateChartMain(elem[0], {}, data, elem);                    
+          createChart(elem[0]);                    
         }, 1000);
 
         scope.$watch('chartData', function(newData) {
+          if(!newData) return;
 
           if(newData !== undefined) {
             if(newData[0] && newData[1]) {
@@ -107,7 +107,7 @@
           .ticks(5);
 
         areaMain = d3.svg.area()
-          .interpolate('linear')  //Here
+          .interpolate('linear')
           .x(function(d) { return xScale(d.date); })
           .y0(height)
           .y1(function(d) { return yScale0(d.count); });
@@ -118,7 +118,7 @@
           .y(function(d) { return yScale0(d.count); });
 
         areaCompare = d3.svg.area()
-          .interpolate('linear')  //Here
+          .interpolate('linear') 
           .x(function(d) { return xScale(d.date); })
           .y0(height)
           .y1(function(d) { return yScale1(d.count); });
@@ -147,15 +147,12 @@
 
       function updateChartMain(data, options) {
         xScale.domain(d3.extent(data, function(d) { return d.date; }));
-        //yScale0.domain([0, d3.max(data, function(d) { return d.count; })]);
-        yScale0.domain([(d3.min(data, function(d) { return d.count; })) * 0.8, (d3.max(data, function(d) { return d.count; })) * 1.2]);
-        
-        console.log('datum', data);
+        yScale0.domain([(d3.min(data, function(d) { return d.count; })) * 0.8, (d3.max(data, function(d) { return d.count; })) * 1.2]);      
 
         svg.selectAll('*').remove();
 
         var top = d3.select('.chart_container svg');
-        console.log('top', top);
+
         var gradient = svg.append('svg:defs')
             .append('svg:linearGradient')
             .attr('id', 'gradient')
@@ -221,23 +218,10 @@
           .attr('class', 'focus')
           .style('display', 'none');
 
-        /*focusMain.append('rect')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('width', 1)
-          .attr('height', height)
-          .attr('stroke-dasharray', '5, 5');
-        */
         focusMain.append('circle')
           .style('stroke', options.color)
           .attr('r', 4.5);
 
-
-        /*focus.append("text")
-          .attr('class', 'text_hover_container')
-          .attr("x", 9)
-          .attr("dy", ".35em");
-        */
         var popupWidth = 84;
         var popupHeight = 46;
 
@@ -245,7 +229,7 @@
           .attr('class', 'focus')
           .style('display', 'none');
 
-        popup.append('rect')
+        popupContainer = popup.append('rect')
           .attr('width', popupWidth)
           .attr('height', popupHeight)
           .attr('transform', function() {
@@ -262,24 +246,26 @@
 
         var textMain = text.append('tspan')
           .attr('class', 'popup_main')
-          .attr('text-anchor', 'start');
+          .attr('text-anchor', 'start')
+          .attr('x', -popupWidth / 2)
+          .attr('dx', 8)
+          .attr('y', popupHeight / 2)
+          .attr('dy', 3);
 
           textMain.append('tspan')
-          .attr('class', 'popup_value')
-          .attr('x', (- popupWidth / 2) + 7)
-          .attr('y', popupHeight / 2)
-          .attr('dx', 0);
-          //.attr( 'text-anchor', 'middle' );
+          .attr('class', 'popup_value');
           
           textMain.append('tspan')
-          .attr('dx', 2)
-          .attr('class', 'popup_unit');
+          .attr('class', 'popup_unit')
+          .attr('dx', 5);
 
         text.append('tspan')
           .attr('class', 'popup_date')
-          .attr('x', 0)
-          .attr('y', popupHeight)
-          .attr( 'text-anchor', 'middle' );
+          .attr('x', -popupWidth / 2)
+          .attr('dx', 8)
+          .attr('y', popupHeight - 2)
+          .attr('dy', 0)
+          .attr( 'text-anchor', 'start' );
           
         svg.append('rect')
           .attr('class', 'overlay')
@@ -307,36 +293,17 @@
           focusMain.attr('transform', 'translate(' + xScale(d.date) + ', ' + yScale0(d.count) + ')');
           popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           var popupText = popup.select('text');
-          popupText.select('.popup_value').text(parseValue(d.count));
-          popupText.select('.popup_unit').text(options.unit);
-          popupText.select('.popup_date').text(parseTime(d.date));
+          var textMain = popupText.select('.popup_main');
+          var valueMain = textMain.select('.popup_value').text(parseValue(d.count));
+          var unitMain = textMain.select('.popup_unit').text(options.unit);
+          var date = popupText.select('.popup_date').text(parseTime(d.date));
+
+          var textContainers = [
+            textMain,
+            date
+          ];
+          resizePopup(popupContainer, textContainers);                     
         }       
-        function xGrid() {
-          return d3.svg.axis()
-            .scale(xScale)
-            .orient('bottom')
-            .ticks(5);
-        }
-
-        function yGrid() {
-          return d3.svg.axis()
-            .scale(yScale0)
-            .orient('left')
-            .ticks(5);
-        }
-
-        function parseValue(value) {
-          if(value.toString().indexOf('.') !== -1) {
-            var result = value.toString().split('.');
-            return result[0] + '.' + result[1].slice(0, 2);            
-          } else {
-            return value.toString().slice(0, 2);
-          }
-        }
-
-        function parseTime(time) {
-          return moment(time).format('ddd Do MMM YYYY');
-        }
       }
 
 
@@ -344,8 +311,6 @@
         xScale.domain(d3.extent(data[0], function(d) { return d.date; }));
         yScale0.domain([(d3.min(data[0], function(d) { return d.count; })) * 0.8, (d3.max(data[0], function(d) { return d.count; })) * 1.2]);                
         yScale1.domain([(d3.min(data[1], function(d) { return d.count; })) * 0.8, (d3.max(data[1], function(d) { return d.count; })) * 1.2]);        
-
-        console.log('datum', data);
 
         svg.selectAll('*').remove();
 
@@ -357,7 +322,7 @@
           .attr('d', areaMain);
 
         svg.append('path')
-          .datum(data)
+          .datum(data[1])
           .attr('class', 'chart_area')
           .attr('fill', options.color[1])
           .attr('d', areaCompare);
@@ -424,11 +389,6 @@
           .style('stroke', options.color[0])
           .attr('r', 4.5);
 
-        /*focus.append("text")
-          .attr('class', 'text_hover_container')
-          .attr("x", 9)
-          .attr("dy", ".35em");
-        */
         var popupWidth = 84;
         var popupHeight = 75;
 
@@ -436,7 +396,7 @@
           .attr('class', 'focus')
           .style('display', 'none');
 
-        popup.append('rect')
+        popupContainer = popup.append('rect')
           .attr('width', popupWidth)
           .attr('height', popupHeight)
           .style('min-width', '40px')
@@ -453,7 +413,7 @@
           .attr('width', 8)
           .attr('height', 2)
           .attr('transform', function() {
-            return 'translate(-40, 20)';
+            return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 20)';
           })
           .style('fill', options.color[0]);
 
@@ -461,7 +421,7 @@
           .attr('width', 8)
           .attr('height', 2)
           .attr('transform', function() {
-            return 'translate(-40, 45)';
+            return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 45)';
           })
           .style('fill', options.color[1]);
 
@@ -469,34 +429,42 @@
           .attr('class', '');
 
         var textMain = text.append('tspan')
-          .attr('class', 'popup_main');
+          .attr('class', 'popup_main')
+          .attr('x', -popupHeight / 2 + 7) //position of text
+          .attr('dx', 8) //margin given to the element, will be applied to both sides thanks to resizePopup function
+          .attr('y', popupHeight / 3)
+          .attr('dy', 3);
 
         textMain.append('tspan')
           .attr('class', 'popup_value')
-          .attr('x', 0)
-          .attr('y', popupHeight / 3)
-          .attr( 'text-anchor', 'middle' );
+          .attr( 'text-anchor', 'start' );
         
         textMain.append('tspan')
-          .attr('class', 'popup_unit');
+          .attr('class', 'popup_unit')
+          .attr('dx', 5);
 
         var textCompare = text.append('tspan')
-          .attr('class', 'popup_compare');
+          .attr('class', 'popup_compare')
+          .attr('x', -popupHeight / 2 + 7) //position of text
+          .attr('dx', 8) //margin given to the element, will be applied to both sides thanks to resizePopup function
+          .attr('y', popupHeight / 1.5)
+          .attr('dy', 3);
 
         textCompare.append('tspan')
           .attr('class', 'popup_value')
-          .attr('x', 0)
-          .attr('y', popupHeight / 1.5)
-          .attr( 'text-anchor', 'middle' );                    
+          .attr( 'text-anchor', 'start' );                    
 
         textCompare.append('tspan')
-          .attr('class', 'popup_unit');
+          .attr('class', 'popup_unit')
+          .attr('dx', 5);
 
         text.append('tspan')
           .attr('class', 'popup_date')
-          .attr('x', 0)
-          .attr('y', popupHeight)
-          .attr( 'text-anchor', 'middle' );
+          .attr('x', (- popupWidth / 2))
+          .attr('dx', 8)
+          .attr('y', popupHeight - 2)
+          .attr('dy', 0)
+          .attr( 'text-anchor', 'start' );
           
         svg.append('rect')
           .attr('class', 'overlay')
@@ -533,42 +501,67 @@
           popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           
           var popupText = popup.select('text');
-          var popupMain = popupText.select('.popup_main');
-          popupMain.select('.popup_value').text(parseValue(dMain.count));
-          popupMain.select('.popup_unit').text(options.unit[0]);
-          var popupCompare = popupText.select('.popup_compare');
-          popupCompare.select('.popup_value').text(parseValue(d.count));
-          popupCompare.select('.popup_unit').text(options.unit[1]);
-          popupText.select('.popup_date').text(parseTime(d.date));
+          var textMain = popupText.select('.popup_main');
+          textMain.select('.popup_value').text(parseValue(dMain.count));
+          textMain.select('.popup_unit').text(options.unit[0]);
+          var textCompare = popupText.select('.popup_compare');
+          textCompare.select('.popup_value').text(parseValue(d.count));
+          textCompare.select('.popup_unit').text(options.unit[1]);
+          var date = popupText.select('.popup_date').text(parseTime(d.date));     
 
-          
+          var textContainers = [
+            textMain,
+            textCompare,
+            date
+          ];
 
-
-        }       
-        function xGrid() {
-          return d3.svg.axis()
-            .scale(xScale)
-            .orient('bottom')
-            .ticks(5);
+          resizePopup(popupContainer, textContainers);   
         }
+      }
 
-        function yGrid() {
-          return d3.svg.axis()
-            .scale(yScale0)
-            .orient('left')
-            .ticks(5);
-        }
-        function parseValue(value) {
-          if(value.toString().indexOf('.') !== -1) {
-            var result = value.toString().split('.');
-            return result[0] + '.' + result[1].slice(0, 2);            
-          } else {
-            return value.toString().slice(0, 2);
-          }
-        }
+      function xGrid() {
+        return d3.svg.axis()
+          .scale(xScale)
+          .orient('bottom')
+          .ticks(5);
+      }
 
-        function parseTime(time) {
-          return moment(time).format('ddd Do MMM YYYY');
+      function yGrid() {
+        return d3.svg.axis()
+          .scale(yScale0)
+          .orient('left')
+          .ticks(5);
+      }
+
+      function parseValue(value) {
+        if(value.toString().indexOf('.') !== -1) {
+          var result = value.toString().split('.');
+          return result[0] + '.' + result[1].slice(0, 2);            
+        } else {
+          return value.toString().slice(0, 2);
+        }
+      }
+
+      function parseTime(time) {
+        return moment(time).format('ddd Do MMM YYYY');
+      }
+
+      function resizePopup(popupContainer, textContainers) {
+        if(!textContainers.length) return;
+
+        var widestElem = textContainers.reduce(function(widestElemSoFar, textContainer) {
+          var currentTextContainerSize = getContainerSize(textContainer);
+          var prevTextContainerSize = getContainerSize(widestElemSoFar);
+          return prevTextContainerSize.width >= currentTextContainerSize.width ? widestElemSoFar : textContainer; 
+        }, textContainers[0]);
+
+        var margins = widestElem.attr('dx') * 2;
+
+        popupContainer
+          .attr('width', getContainerSize(widestElem).width + margins);
+
+        function getContainerSize(container) {
+          return container.node().getBBox();
         }
       }
     }

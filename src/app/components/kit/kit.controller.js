@@ -10,6 +10,7 @@
       var mainSensorID;
       var compareSensorID;
       var sensorsData;
+      var picker = initializePicker();
 
       vm.marker = augmentMarker(marker);
 
@@ -55,9 +56,10 @@
         setTimeout(function() {
           colorSensorMainIcon();
           colorSensorCompareName();    
+          
           setSensor({type: 'main', value: newVal});
-          changeChart('sensor', [mainSensorID, compareSensorID]);          
-        }, 1000);
+          changeChart('sensor', [mainSensorID, compareSensorID]);        
+        }, 100);
 
       });
 
@@ -75,15 +77,19 @@
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
           changeChart('sensor', [mainSensorID, compareSensorID]);
-        }, 1000);
-
+        }, 100);
+        
       });
 
       var sensorData;
 
       setTimeout(function() {
         colorSensorMainIcon();
-      }, 500);
+        colorArrows();
+        colorClock();
+      }, 1000);
+
+
       ///////////////
       
       function augmentMarker(marker) {
@@ -284,6 +290,7 @@
         var scrollPosition = slideContainer.scrollLeft();
         var slideStep = 20;
 
+        console.log('scroll', scrollPosition);
         if(direction === 'left') {
           slideContainer.scrollLeft(scrollPosition + slideStep);
         } else if(direction === 'right') {
@@ -298,6 +305,16 @@
       }
 
       function changeChart(updateType, sensorsID, options) {
+        if(!sensorsID[0]) return;
+        //if data is not loaded, get it first -> happens on controller initialization
+        if(!sensorsData) {
+          updateType = 'date';
+          if(!options) {
+            var options = {};
+          }
+          options.from = picker.getValuePickerFrom()
+          options.to = picker.getValuePickerTo();
+        }
         if(updateType === 'date') {
           //grab chart data and save it
           getChartData(options.from, options.to)
@@ -365,7 +382,6 @@
       function colorSensorMainIcon() {
         var svgContainer = angular.element('.sensor_icon_selected');
         var parent = svgContainer.find('.container_parent');
-        console.log('parent', parent);
         parent.css('fill', vm.selectedSensorData.color); 
       }
 
@@ -374,6 +390,20 @@
         name.css('color', vm.selectedSensorToCompareData.color || 'white');  
         var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
         icon.css('color', 'white');
+      }
+
+      function colorArrows() {
+        var svgContainer = angular.element('.chart_move_left').find('svg');
+        svgContainer.find('.fill_container').css('fill', '#03252D');
+
+        var svgContainer = angular.element('.chart_move_right').find('svg');
+        svgContainer.find('.fill_container').css('fill', '#4E656B');
+      }
+
+      function colorClock() {
+        var svgContainer = angular.element('.kit_time_icon');
+        svgContainer.find('.stroke_container').css({'stroke-width': '0.5px', 'stroke':'#A4B0B3'});
+        svgContainer.find('.fill_container').css('fill', '#A4B0B3');
       }
 
       function getSecondsFromDate(date) {
@@ -400,7 +430,7 @@
       }
 
       //hide everything but the functions to interact with the pickers
-       var picker = (function () {
+      function initializePicker() {
         var from_$input = $('#picker_from').pickadate({
           container: 'body',
           klass: {
@@ -426,8 +456,9 @@
 
         from_picker.on('set', function(event) {
           if(event.select) {
-            changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                            
-
+            if(to_picker.get('value')) {
+              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+            }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
             to_picker.set('min', false);
@@ -435,9 +466,10 @@
         });
 
         to_picker.on('set', function(event) {
-          if(event.select) {            
-            changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });               
-
+          if(event.select) {  
+            if(from_picker.get('value')) {
+              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                             
+            }          
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
             from_picker.set('max', false);
@@ -474,6 +506,6 @@
             to_picker.set('select', newValue);
           }
         };
-      })();
+      }
     }
 })();

@@ -563,12 +563,12 @@ section .kit_menu {
     }
 
     .container {
-      padding: 1% 5% 1% 2%;
+      padding: 1% 2% 1% 2%;
       height: 100%;
       
       .kit_chart_left {
         float: left;
-        width: 25%;
+        width: 22%;
         height: 100%;
 
         md-select.md-default-theme .md-select-label {
@@ -583,9 +583,27 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          font-size: 12px;
-          font-weight: bold;
-          min-height: 90px;
+          font-size: 14px;
+          font-weight: normal;
+          color: #DDE7EA;
+          height: 80px;
+          margin-top: 30px;
+          
+          h6 {
+            margin: 0;
+            line-height: 0;
+            color: #87CCDD;
+          }
+
+          p {
+            margin-top: 10px;
+            line-height: 1.5em;
+          }
+
+          a {
+            text-decoration: none;
+            color: #678085;
+          }
         }
         .sensor_data {
           margin: 8% 0 5% 0;
@@ -614,13 +632,14 @@ section .kit_menu {
       }
       .kit_chart_right {
         float: right;
-        width: 75%;
+        width: 73%;
         height: 100%;
 
         .chart_navigation {
           height: 10%;
           font-size: 11px;
           float: right;
+          margin-right: 30px;
 
           > div {
             display: inline-block;
@@ -628,6 +647,8 @@ section .kit_menu {
           }
           input {
             margin-left: 10px;
+            padding-left: 10px;
+            font-size: 12px;
           }
           .kit_time {
             md-icon {
@@ -635,6 +656,23 @@ section .kit_menu {
               height: 11px;
               margin-right: 8px;
             }            
+          }
+          .chart_move {
+            .chart_move_button {
+              width: 40px;
+              height: 10px;
+              display: inline-table;             
+              border: 1px solid #6B868D;
+            }
+            .chart_move_right {
+            }
+            .chart_move_left {
+              background-color: #99AEB2;
+            }
+            md-icon {
+              width: 5.5px;
+              height: 9px;
+            }
           }
         }
       }
@@ -699,18 +737,19 @@ section .kit_menu {
     border: 1px solid grey;
   }
   .popup_value {
+    fill: #03252D;
     color: $background_blue_dark_chart;
     font-size: 18px;
     font-weight: bold;
   }
   .popup_date {
-    color: grey;
+    fill: #4E666B;
     font-size: 10px;
     font-weight: bold;
   }
   .popup_unit {
-    color: grey;
-    margin-left: 5px;
+    fill: #B2BCBE;
+    margin-left: 10px;
   }
 }
 
@@ -994,11 +1033,15 @@ section .stickMenu {
 }
 
 .date_picker {
-  height: 22px;
+  height: 24px;
   border-radius: 2px;
   border: 1px solid #6B868D;
   color: #A4B0B3;
   background-color: transparent;
+}
+
+.select_image {
+  margin-right: 10px;
 }
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
