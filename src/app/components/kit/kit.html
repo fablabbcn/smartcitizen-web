@@ -15,7 +15,7 @@
       </div>
       <div class="kit_navbar" active-button>
         
-        <md-button href="#section_overview" class="md-flat chart_icon" aria-label="">
+        <md-button href="#" class="md-flat chart_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/chart_icon.svg">
           </md-icon>
         </md-button>
@@ -68,9 +68,73 @@
         </md-icon>
       </md-button>
     </section>
-    <section class="kit_detailed" layout="row" layout-align="center center">
-      <section class="kit_dashboard">
-        <p>Here it's the data</p>
+    <section class="kit_detailed" >
+      <section class="kit_chart">
+        <div class="container">
+          <div class="kit_chart_left">
+            <div class="sensor_select">
+              <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
+              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
+                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
+                  <img class="select_image" src="{{ sensor.icon }}">
+                  <span>
+                    {{ sensor.name }}
+                  </span>
+                </md-option>
+              </md-select>
+            </div>
+            <div class="sensor_data">
+                <span class="sensor_value">{{ vm.selectedSensorData.value }}<span>
+                <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
+            </div>
+            <div class="sensor_description">
+              <h6>{{ vm.sensors[vm.selectedSensor].name }}</h6>
+              <p>Lorep ipsum Lorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsumLorep ipsum <a href="#">More info</a></p>
+            </div>
+            <div class="sensor_compare">
+              <p>
+                <span>Compare with</span>
+                <!--<md-icon md-svg-src="{{ vm.selectedSensorToCompareData.icon }}" class="sensor_icon_selected_compare"></md-icon>-->
+                <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
+                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{sensor.id}}">
+                    <img class="select_image" src="{{ sensor.icon }}">
+                    <span class="sensor_name">
+                      {{ sensor.name }}
+                    </span>
+                  </md-option>
+                </md-select>
+              </p>
+            </div>
+          </div>
+          <div class="kit_chart_right">
+            <div class="chart_navigation">
+              <div class="kit_time">
+                <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
+                {{ vm.marker.time }}
+              </div>
+              <div class="picker_container">
+                <label for="picker_from">From: </label>
+                <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></input>
+              </div>
+              <div class="picker_container">
+                <label for="picker_to">To: </label>              
+                <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>              
+              </div>
+              <div class="chart_move">
+                <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="">
+                  <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
+                  </md-icon>
+                </md-button>
+                <md-button href="#" ng-click="vm.moveChart('right')" class="chart_move_button chart_move_right" aria-label="">
+                  <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">
+                  </md-icon>
+                </md-button>
+              </div>
+            </div>
+            <div style="clear: both"></div>
+            <div chart class="chart_container" chart-data="vm.chartDataMain"></div>
+          </div>
+        </div>
       </section>
     </section>
   </section>

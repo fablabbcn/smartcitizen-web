@@ -33,6 +33,8 @@
               buttonOrder: 0                   
             },
             kitDashboard: {
+              height: angular.element('.kit_chart').height(),
+              offset: angular.element('.kit_chart').offset().top,
               buttonOrder: 1
             },
             kitUser: {
@@ -88,23 +90,33 @@
             for(var elem in container) {
               if(container[elem].buttonOrder === buttonOrder) {
                 var offset = container[elem].offset;
+                scrollTo(offset);
               }
             }
-            scrollTo(offset);
           });
         }
+
+        var currentSection;
 
         //on scroll, check if window is on a section
         angular.element(window).on('scroll', function() {
           var windowPosition = document.body.scrollTop;
-
-          if(windowPosition + container.navbar.height + container.kitMenu.height <= container.kitOverview.offset) {
+          var appPosition = windowPosition + container.navbar.height + container.kitMenu.height; 
+          if(currentSection !== 'none' && appPosition <= container.kitOverview.offset) {
             var button = getButton(container.kitOverview.buttonOrder);
             unHighlightButtons();
-          } else if(windowPosition + container.navbar.height + container.kitMenu.height >= container.kitOverview.offset) {
+            currentSection = 'none';
+          } else if(currentSection !== 'overview' && appPosition >= container.kitOverview.offset && appPosition <= container.kitOverview.offset + container.kitOverview.height) {
             var button = getButton(container.kitOverview.buttonOrder);
+            unHighlightButtons();
             highlightButton(button);
-          }            
+            currentSection = 'overview';
+          } else if(currentSection !== 'chart' && appPosition >= container.kitDashboard.offset && appPosition <= container.kitDashboard.offset + container.kitDashboard.height) {
+            var button = getButton(container.kitDashboard.buttonOrder);
+            unHighlightButtons()
+            highlightButton(button); 
+            currentSection = 'chart';
+          }         
         });
       }
     } 

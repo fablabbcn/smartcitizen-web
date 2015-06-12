@@ -7,7 +7,10 @@
 
     function utils() {
       var service = {
-        parseKit: parseKit
+        parseKit: parseKit,
+        parseKitTime: parseKitTime,
+        parseSensorTime: parseSensorTime,
+        convertTime: convertTime
       };
       return service;
 
@@ -67,6 +70,14 @@
 
       function parseKitTime(object) {
         return object.updated_at;
+      }
+
+      function parseSensorTime(sensor) {
+        return moment(sensor.recorded_at).format('');
+      }
+
+      function convertTime(time) {
+        return moment(time).format('YYYY-MM-DDThh:mm:ss') + 'Z';
       }
     }
 })();

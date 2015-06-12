@@ -68,16 +68,14 @@
               return sensor.callAPI()
                 .then(function(sensorTypes) {
                   sensorTypes = sensorTypes.plain();
-                  console.log('types', sensorTypes);
                   //sensor.setTypes(sensorTypes);
                   return sensorTypes;
                 });
             },
-            initialMarkers: function($state, device, location, utils, sensorTypes) {
+            initialMarkers: function($state, device, location, utils, sensorTypes, Kit) {
 
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                console.log('data', data);
 
                 var markers = data.map(function(device) {
                   var parsedKit = utils.parseKit(device);
