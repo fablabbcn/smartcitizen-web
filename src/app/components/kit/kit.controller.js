@@ -4,19 +4,23 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor'];
-    function KitController($scope, $stateParams, marker, utils, sensor) {
+    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit'];
+    function KitController($scope, $stateParams, marker, utils, sensor, Kit) {
       var vm = this;
       var mainSensorID;
       var compareSensorID;
       var sensorsData;
       var picker = initializePicker();
 
+      vm.kit = new Kit(marker);
+      console.log('kit', vm.kit);
+
       vm.marker = augmentMarker(marker);
 
       vm.battery;
 
-      vm.sensors = getSensors(marker);
+      vm.sensors = getSensors(marker, {type: 'main'}); //vm.kit.getSensors({type: 'main'})
+      vm.sensorsToCompare = getSensors(marker, {type: 'compare'}); //vm.kit.getSensors({type: 'compare'})
 
       vm.slide = slide;
 
@@ -33,7 +37,6 @@
       vm.selectedSensorToCompareData;
       vm.chartDataCompare;
 
-      vm.getSensorsToCompare = getSensorsToCompare;
       vm.moveChart = moveChart;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
@@ -53,6 +56,8 @@
           }
         });
 
+        vm.sensorsToCompare = getSensorsToCompare();
+
         setTimeout(function() {
           colorSensorMainIcon();
           colorSensorCompareName();    
@@ -64,7 +69,7 @@
       });
 
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
-        vm.sensors.forEach(function(sensor) {
+        vm.sensorsToCompare.forEach(function(sensor) {
           if(sensor.id === newVal) {
             vm.selectedSensorToCompareData = {
               icon: sensor.icon,
@@ -72,7 +77,8 @@
               unit: sensor.unit
             };
           }
-        });  
+        });
+
         setTimeout(function() {
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
@@ -97,7 +103,7 @@
         return marker;
       }
 
-      function getSensors(marker) {
+      function getSensors(marker, options) {
 
         var sensors = marker.data.sensors.map(function(sensor) {
           var sensorID = sensor.id;
@@ -124,6 +130,16 @@
             return obj;
           }          
         });
+
+        if(options.type === 'compare') {
+          sensors.unshift({
+            name: 'NONE',
+            color: 'white',
+            id: -1,
+            icon: '',
+            unit: ''
+          });          
+        }
 
         return sensors.filter(function(sensor) {
           return sensor; 
@@ -299,7 +315,7 @@
       }
 
       function getSensorsToCompare() {
-        return vm.sensors.filter(function(sensor) {
+        return vm.sensorsToCompare.filter(function(sensor) {
           return sensor.id !== vm.selectedSensor;
         });
       }
@@ -312,7 +328,7 @@
           if(!options) {
             var options = {};
           }
-          options.from = picker.getValuePickerFrom()
+          options.from = picker.getValuePickerFrom();
           options.to = picker.getValuePickerTo();
         }
         if(updateType === 'date') {
@@ -343,7 +359,7 @@
           color: vm.selectedSensorData.color,
           unit: vm.selectedSensorData.unit
         };
-        if(sensorsID[1]) {
+        if(sensorsID[1] && sensorsID[1] !== -1) {
           var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);                
           var compareSensor = {
             data: parsedDataCompare,

@@ -678,6 +678,36 @@ section .kit_menu {
       }
     }
   }
+  .kit_details {
+    height: 348px;
+    border: 1px solid grey;
+  
+    .container {
+      width: 95%;
+      margin: 0 auto;
+    }
+
+    .kit_details_content {
+      width: 95%;
+      margin: 0 auto;
+    }
+  }
+  .kit_owner {
+    .container {
+      width: 95%;
+      margin: 0 auto;
+    }
+    .kit_owner_avatar {
+      float: left; 
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
+    .kit_owner_info {
+      float: left;
+    }
+  }
 }
 
 .chart_container {

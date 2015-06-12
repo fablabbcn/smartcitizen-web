@@ -94,9 +94,8 @@
             <div class="sensor_compare">
               <p>
                 <span>Compare with</span>
-                <!--<md-icon md-svg-src="{{ vm.selectedSensorToCompareData.icon }}" class="sensor_icon_selected_compare"></md-icon>-->
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{sensor.id}}">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}">
                     <img class="select_image" src="{{ sensor.icon }}">
                     <span class="sensor_name">
                       {{ sensor.name }}
@@ -135,6 +134,58 @@
             <div chart class="chart_container" chart-data="vm.chartDataMain"></div>
           </div>
         </div>
+      </section>
+      <section class="kit_details">
+        <div class="container">
+          <h2>
+            <img src="./assets/images/kit_details_icon.svg" />
+            <span>KIT DETAILS</span>
+          </h2>
+          <div class="kit_details_content">
+            <img src="" /> 
+            <div>
+              <h3>{{ vm.kit.name }}</h3>
+              <p>{{ vm.kit.location }}</p>
+              <p>{{ vm.kit.type }}  {{ vm.kit.version }} {{ vm.kit.id }}</p>
+              <p>{{ vm.kit.lastTime }}</p>
+              <p>
+                <span ng-repeat="label in vm.kit.labels">{{ label }}</span>
+              </p>
+              <h4>Kit Description</h4>
+              <p>{{ vm.kit.description }}</p>
+            </div>
+          </div>
+          <div class="kit_details_manage">
+          </div>
+        </div>
+      </section>
+      <section class="kit_owner">
+        <div class="container">
+          <h2>
+            <img ng-src="./assets/images/user_details_icon.svg" />
+            <span>KIT OWNER</span>
+          </h2>
+          <div class="kit_owner_avatar">
+            <img ng-src="{{ vm.kit.owner.avatar }}" />
+          </div>
+          <div class="kit_owner_info">
+            <h3>{{ vm.kit.owner.username }}</h3>
+            <p>{{ vm.kit.owner.location }}</p>
+            <p>{{ vm.kit.owner.url }}</p>
+            <div class="kit_owner_kits">
+              <p>Kits of {{ vm.kit.owner.username }}</p>
+              <div ng-repeat="kit in vm.kit.owner.kits">
+                {{ kit }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="kit_comments">
+        <h2>
+          <img src="./assets/images/discussion_icon.svg" />
+          <span>DISCUSSION</span>
+        </h2>
       </section>
     </section>
   </section>
