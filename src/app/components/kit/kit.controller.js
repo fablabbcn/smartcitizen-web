@@ -183,9 +183,13 @@
           return [];
         }
         return data.map(function(dataPoint) {
+          var time = dataPoint && dataPoint.timestamp;
+          var data = dataPoint && dataPoint.data[sensorID];
+          data = data === null ? 0 : data;  
+          
           return {
-            time: dataPoint && dataPoint.timestamp,
-            data: dataPoint && dataPoint.data[sensorID]
+            time: time,
+            data: data
           };
         });
       }
