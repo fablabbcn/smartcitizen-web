@@ -7,22 +7,20 @@
     KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit'];
     function KitController($scope, $stateParams, marker, utils, sensor, Kit) {
       var vm = this;
-      var mainSensorID;
-      var compareSensorID;
-      var sensorsData;
+      var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
-
-      vm.kit = new Kit(marker);
-      console.log('kit', vm.kit);
 
       vm.marker = augmentMarker(marker);
 
-      vm.battery;
+      vm.kit = new Kit(marker);
 
-      vm.sensors = getSensors(marker, {type: 'main'}); //vm.kit.getSensors({type: 'main'})
-      vm.sensorsToCompare = getSensors(marker, {type: 'compare'}); //vm.kit.getSensors({type: 'compare'})
+      var mainSensors = vm.kit.getSensors({type: 'main'});  
+      vm.battery = mainSensors[1];
+      vm.sensors = mainSensors[0];
+      vm.sensorsToCompare = vm.kit.getSensors({type: 'compare'});
 
       vm.slide = slide;
+      vm.chartData;
 
       vm.selectedSensor = vm.sensors[0].id; 
       vm.selectedSensorData = {
@@ -31,11 +29,9 @@
         unit: vm.sensors[0].unit,
         color: vm.sensors[0].color
       };
-      vm.chartDataMain;
 
       vm.selectedSensorToCompare;
       vm.selectedSensorToCompareData;
-      vm.chartDataCompare;
 
       vm.moveChart = moveChart;
 
@@ -87,8 +83,6 @@
         
       });
 
-      var sensorData;
-
       setTimeout(function() {
         colorSensorMainIcon();
         colorArrows();
@@ -101,204 +95,6 @@
       function augmentMarker(marker) {
         marker.time = moment(utils.parseKitTime(marker)).fromNow();
         return marker;
-      }
-
-      function getSensors(marker, options) {
-
-        var sensors = marker.data.sensors.map(function(sensor) {
-          var sensorID = sensor.id;
-          var sensorName = getSensorName(sensor);
-          var sensorUnit = getSensorUnit(sensorName);
-          var sensorValue = getSensorValue(sensor); 
-          var sensorIcon = getSensorIcon(sensorName); 
-          var sensorArrow = getSensorArrow(sensor); 
-          var sensorColor = getSensorColor(sensorName);
-          
-          var obj = {
-            id: sensorID,
-            name: sensorName,
-            unit: sensorUnit,
-            value: sensorValue,
-            icon: sensorIcon,
-            arrow: sensorArrow,
-            color: sensorColor
-          };
-
-          if(sensorName === 'BATTERY') {
-            vm.battery = obj;
-          } else {
-            return obj;
-          }          
-        });
-
-        if(options.type === 'compare') {
-          sensors.unshift({
-            name: 'NONE',
-            color: 'white',
-            id: -1,
-            icon: '',
-            unit: ''
-          });          
-        }
-
-        return sensors.filter(function(sensor) {
-          return sensor; 
-        });
-      }
-
-      function getSensorName(sensor) {
-        var name = sensor.name;
-        var description = sensor.description;
-        var sensorName;
-
-        if( new RegExp('custom circuit', 'i').test(description) ) {
-          sensorName = name;
-        } else {
-          if(new RegExp('noise', 'i').test(description) ) {
-            sensorName = 'SOUND';
-          } else if(new RegExp('light', 'i').test(description) ) {
-            sensorName = 'LIGHT';
-          } else if(new RegExp('wifi', 'i').test(description) ) {  
-            sensorName = 'NETWORKS';
-          } else if(new RegExp('co', 'i').test(description) ) {
-            sensorName = 'CO';
-          } else if(new RegExp('no2', 'i').test(description) ) {
-            sensorName = 'NO2';
-          } else {
-            sensorName = description;
-          }          
-        }
-        return sensorName.toUpperCase();
-      }
-
-      function getSensorUnit(sensorName) {
-        var sensorUnit;
-        
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            sensorUnit = '°C';
-            break;
-          case 'LIGHT':
-            sensorUnit = 'LUX';
-            break;
-          case 'SOUND':
-            sensorUnit = 'DB';
-            break;
-          case 'HUMIDITY':
-          case 'BATTERY':
-            sensorUnit = '%';
-            break;
-          case 'CO': 
-          case 'NO2':
-            sensorUnit = 'KΩ';
-            break;
-          case 'NETWORKS': 
-            sensorUnit = '#';
-            break;
-          case 'SOLAR PANEL': 
-            sensorUnit = 'V';
-            break;
-          default: 
-            sensorUnit = 'N/A';
-        }
-        return sensorUnit;
-      }
-
-      function getSensorValue(sensor) {
-        var value = sensor.value;
-
-        if(!value) {
-          return 'N/A';
-        } else {
-          value = value.toString();
-          if(value.indexOf('.') !== -1) {
-            value = value.slice(0, value.indexOf('.') + 3);
-          }
-        }
-        return value;
-      }
-
-      function getSensorPrevValue(sensor) {
-        return sensor.prev_value;
-      }
-
-      function getSensorIcon(sensorName) {
-
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            return './assets/images/temperature_icon.svg';            
-            
-          case 'HUMIDITY':
-            return './assets/images/humidity_icon.svg';
-            
-          case 'LIGHT':
-            return './assets/images/light_icon.svg';
-            
-          case 'SOUND': 
-            return './assets/images/sound_icon.svg';
-            
-          case 'CO':
-            return './assets/images/co_icon.svg';
-            
-          case 'NO2':
-            return './assets/images/no2_icon.svg';
-          
-          case 'NETWORKS': 
-            return './assets/images/networks_icon.svg';
-
-          case 'BATTERY': 
-            return './assets/images/battery_icon.svg';
-
-          case 'SOLAR PANEL': 
-            return './assets/images/solar_panel_icon.svg';
-
-          default: 
-            return './assets/images/avatar.svg';                      
-        }
-      }
-
-      function getSensorArrow(sensor) {
-        var currentValue = getSensorValue(sensor);
-        var prevValue = getSensorPrevValue(sensor);
-
-        if(currentValue > prevValue) {
-          return './assets/images/arrow_up_icon.svg';          
-        } else if(currentValue < prevValue) {
-          return './assets/images/arrow_down_icon.svg';
-        } else {
-          return './assets/images/equal_icon.svg';        
-        }
-      }
-
-      function getSensorColor(sensorName) {
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            return '#ffc107';            
-            
-          case 'HUMIDITY':
-            return '#4fc3f7';
-            
-          case 'LIGHT':
-            return '#ffee58';
-            
-          case 'SOUND': 
-            return '#f06292';
-            
-          case 'CO':
-            return '#4caf50';
-            
-          case 'NO2':
-            return '#8bc34a';
-          
-          case 'NETWORKS':
-            return '#9575cd';
-
-          case 'SOLAR PANEL': 
-            return '#fff9c4';
-
-          default: 
-            return 'black';                      
-        }
       }
 
       function slide(direction) {
