@@ -136,23 +136,43 @@
         </div>
       </section>
       <section class="kit_details">
-        <div class="container">
-          <h2>
-            <img src="./assets/images/kit_details_icon.svg" />
-            <span>KIT DETAILS</span>
-          </h2>
-          <div class="kit_details_content">
-            <img src="" /> 
-            <div>
-              <h3>{{ vm.kit.name }}</h3>
-              <p>{{ vm.kit.location }}</p>
-              <p>{{ vm.kit.type }}  {{ vm.kit.version }} {{ vm.kit.id }}</p>
-              <p>{{ vm.kit.lastTime }}</p>
-              <p>
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">KIT DETAILS</h2>
+          </div>
+          <div class="kit_detailed_content_container">
+            <div class="kit_detailed_avatar">
+              <md-icon md-svg-src="{{ vm.kit.avatar }}">
+              </md-icon>
+            </div>
+            <div class="kit_details_content">
+              <h3 class="kit_detailed_name kit_details_name">{{ vm.kit.name }}</h3>
+              <p class="kit_details_location">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.location }}</span>
+              </p>
+              <p class="kit_details_type">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.type }}</span>
+                <span class="kit_details_version"><span>SCK:</span> {{ vm.kit.version }}</span>
+                <span class="kit_details_id"><span>ID:</span> {{ vm.kit.id }}</span>
+              </p>
+              <p class="kit_details_lastTime">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/update_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.lastTime }}</span>
+              </p>
+              <p class="kit_details_labels">
                 <span ng-repeat="label in vm.kit.labels">{{ label }}</span>
               </p>
-              <h4>Kit Description</h4>
-              <p>{{ vm.kit.description }}</p>
+              <div class="kit_details_description">
+                <h4 class="kit_details_description_title">Kit Description:</h4>
+                <p class="kit_details_description_content">{{ vm.kit.description }}</p>
+              </div>
             </div>
           </div>
           <div class="kit_details_manage">
@@ -160,32 +180,68 @@
         </div>
       </section>
       <section class="kit_owner">
-        <div class="container">
-          <h2>
-            <img ng-src="./assets/images/user_details_icon.svg" />
-            <span>KIT OWNER</span>
-          </h2>
-          <div class="kit_owner_avatar">
-            <img ng-src="{{ vm.kit.owner.avatar }}" />
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/user_details_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">KIT OWNER</h2>
           </div>
-          <div class="kit_owner_info">
-            <h3>{{ vm.kit.owner.username }}</h3>
-            <p>{{ vm.kit.owner.location }}</p>
-            <p>{{ vm.kit.owner.url }}</p>
-            <div class="kit_owner_kits">
-              <p>Kits of {{ vm.kit.owner.username }}</p>
-              <div ng-repeat="kit in vm.kit.owner.kits">
-                {{ kit }}
-              </div>
+          <div class="kit_detailed_content_container">
+            <div class="kit_detailed_avatar">
+              <md-icon md-svg-src="{{ vm.kit.owner.avatar }}">
+              </md-icon>
             </div>
-          </div>
+            <div class="kit_owner_content">
+              <div class="kit_owner_info">
+                <h3 class="kit_owner_username">{{ vm.kit.owner.username }}</h3>
+                <p class="kit_owner_location">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                  </md-icon>
+                  <span>{{ vm.kit.owner.location }}</span>
+                </p>
+                <p class="kit_owner_url">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/user_details_icon.svg">
+                  </md-icon>
+                  <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url }}</a>
+                </p>
+              </div>
+              <div class="kit_owner_kits">
+                <h3 class="kit_owner_kits_title">Kits of {{ vm.kit.owner.username }}<h3>
+                <div class="kit_owner_kits_list" ng-repeat="kit in vm.ownerKits">
+                  <div class="kit_detailed_content_container">
+                    <div class="kit_owner_kits_list_avatar">
+                      <md-icon class="kit_owner_kits_list_avatar" md-svg-src="{{ kit.avatar }}">
+                      </md-icon>
+                    </div>
+                    <div class="kit_owner_kits_list_content"> 
+                      <p class="kit_owner_kits_list_name kit_detailed_name">{{ kit.name }}</p>
+                      <p class="kit_owner_kits_list_data">
+                        <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.location}}</span>
+                        <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/sensor_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.type }}</span>
+                      </p>
+                    </div>
+                    <div class="kit_owner_kits_list_config">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </div>           
         </div>
+        <div class="clearfix"></div>
       </section>
       <section class="kit_comments">
-        <h2>
-          <img src="./assets/images/discussion_icon.svg" />
-          <span>DISCUSSION</span>
-        </h2>
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/discussion_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">DISCUSSION</h2>
+          </div>
+        </div>
       </section>
     </section>
   </section>

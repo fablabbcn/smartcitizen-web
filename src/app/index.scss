@@ -680,32 +680,149 @@ section .kit_menu {
   }
   .kit_details {
     height: 348px;
-    border: 1px solid grey;
-  
-    .container {
-      width: 95%;
-      margin: 0 auto;
-    }
-
-    .kit_details_content {
-      width: 95%;
-      margin: 0 auto;
+    color: $background_blue_dark_navbar;
+  }
+  .kit_details_content {
+    float: left;
+    width: 30%;
+    h3, h4, p {
+      line-height: 0.4em;
     }
   }
+  .kit_details_name {
+    margin: 0.3em 0 1.2em 0;    
+  }
+  .kit_details_location {
+    font-weight: bold;
+  }
+  .kit_details_type {
+    > span {
+      margin-right: 15px;
+    }
+  }
+  .kit_details_version {
+    span {
+      color: #4F8390;
+      font-weight: bold;
+    }
+  }
+  .kit_details_id {
+    span {
+      color: #4F8390;
+      font-weight: bold;
+    }
+  }
+  .kit_details_labels {
+    margin-top: 20px;
+    color: white;
+    font-size: 13px;
+    span {
+      background-color: #4F8390;
+      margin-right: 16px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+  }
+  .kit_details_description {
+    padding-top: 4px;
+  }
+  .kit_details_description_title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  .kit_details_description_content {
+    font-size: 12px;
+  }
+  .kit_detailed_name {
+    font-size: 18px;
+    color: $blue_light;
+  }
+  .kit_detailed_icon_content {
+    width: 14px;
+    height: 14px;
+  }
+  .kit_detailed_avatar {
+    float: left;
+    margin-right: 5%;
+    md-icon {
+      width: 80px;
+      height : 80px;
+    }
+  }
+  .kit_detailed_icon_title {
+    width: 18px;
+    height: 18px;
+  }
+  .kit_detailed_title_container {
+    padding: 20px 0;
+  }
+  .kit_detailed_title {
+    font-size: 16px;
+    display: inline;
+  }
+  .kit_detailed_content_container {
+    width: 95%;
+    margin: 0 auto;
+  }
   .kit_owner {
+    color: $background_blue_dark_navbar;
+    background-color: #F5F5F5;
+
     .container {
       width: 95%;
       margin: 0 auto;
     }
-    .kit_owner_avatar {
-      float: left; 
-      img {
-        width: 80px;
-        height: 80px;
+    .kit_owner_content {
+      float: left;
+      width: 75%;
+
+      h3, p {
+        line-height: 0.4em;
+      }
+      h3 {
+        color: #24454E;
+        font-size: 18px;
       }
     }
     .kit_owner_info {
+      margin-bottom: 65px;
+    }
+    .kit_owner_username {
+      margin: 0.3em 0 1.2em 0;
+    }
+    .kit_owner_location {
+      color: #065063;
+      font-weight: bold;
+    }
+    .kit_owner_url a {
+      text-decoration: none;
+      color: $background_blue_dark_navbar;
+    }
+    .kit_owner_kits_title {
+      margin-bottom: 50px;
+    }
+    .kit_owner_kits_list {
+      color: #4F8390;
+      border: 1px solid #EAECF1;
+      height: 82px;
+      background-color: white;
+    }
+    .kit_owner_kits_list_avatar {
       float: left;
+      width: 44px;
+      height: 44px;
+      margin-right: 3%;
+      margin-top 19px;
+    }
+    .kit_owner_kits_list_content {
+      float: left;
+      margin-top: 5px;
+    }
+    .kit_owner_kits_list_data {
+      font-size: 16px;
+      span {
+        margin-right: 15px;
+      }
     }
   }
 }
@@ -1072,6 +1189,10 @@ section .stickMenu {
 
 .select_image {
   margin-right: 10px;
+}
+
+.clearfix {
+  clear: left;
 }
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

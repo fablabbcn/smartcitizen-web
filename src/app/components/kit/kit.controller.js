@@ -87,10 +87,21 @@
         colorSensorMainIcon();
         colorArrows();
         colorClock();
+        getOwnerKits(function(data) {
+          vm.ownerKits = data;
+        })
       }, 1000);
 
 
       ///////////////
+
+      function getOwnerKits(cb) {
+        var kitIDs = vm.kit.owner.kits;
+
+        utils.getOwnerKits(kitIDs, function(data) {
+          cb(data);
+        });
+      }
       
       function augmentMarker(marker) {
         marker.time = moment(utils.parseKitTime(marker)).fromNow();

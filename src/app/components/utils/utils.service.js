@@ -4,13 +4,14 @@
   angular.module('app.components')
     .factory('utils', utils);
 
-
-    function utils() {
+    utils.$inject = ['device', 'Kit'];
+    function utils(device, Kit) {
       var service = {
         parseKit: parseKit,
         parseKitTime: parseKitTime,
         parseSensorTime: parseSensorTime,
-        convertTime: convertTime
+        convertTime: convertTime,
+        getOwnerKits: getOwnerKits
       };
       return service;
 
@@ -78,6 +79,23 @@
 
       function convertTime(time) {
         return moment(time).format('YYYY-MM-DDThh:mm:ss') + 'Z';
+      }
+
+      function getOwnerKits(ids, cb) {
+        var kitsResolved = 0;
+        var kits = [];
+
+        ids.forEach(function(id, index) {
+          device.getDevice(id)
+            .then(function(data) {
+              kits[index] = new Kit(data, {type: 'preview'} );
+              kitsResolved++;
+
+              if(ids.length === kitsResolved) {
+                cb(kits);
+              }
+            });
+        });
       }
     }
 })();

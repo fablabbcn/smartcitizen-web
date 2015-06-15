@@ -4,19 +4,27 @@
   angular.module('app.components')
     .factory('Kit', ['Sensor', function(Sensor) {
 
-      function Kit(object) {
+      function Kit(object, options) {
         console.log('object', object);
-        this.name = object.name;
-        this.type = parseKitType(object);
-        this.version = parseKitVersion(object);
-        this.lastTime = moment(parseKitTime(object)).fromNow(); 
-        this.location = parseKitLocation(object);
-        this.labels = parseKitLabels(object); 
-        this.class = classify(parseKitType(object)); 
-        this.id = object.id;
-        this.description = object.description;
-        this.owner = parseKitOwner(object);
-        this.data = object.data.sensors;
+        if(options && options.type === 'preview') {
+          this.name = object.name;
+          this.type = parseKitType(object);
+          this.location = parseKitLocation(object);
+          this.avatar = './assets/images/avatar.svg';
+        } else {
+          this.name = object.name;
+          this.type = parseKitType(object);
+          this.version = parseKitVersion(object);
+          this.avatar = './assets/images/avatar.svg';
+          this.lastTime = moment(parseKitTime(object)).fromNow(); 
+          this.location = parseKitLocation(object);
+          this.labels = parseKitLabels(object); 
+          this.class = classify(parseKitType(object)); 
+          this.id = object.id;
+          this.description = object.description;
+          this.owner = parseKitOwner(object);
+          this.data = object.data.sensors;          
+        }
       }
 
       Kit.prototype.getSensors = function(options) {
