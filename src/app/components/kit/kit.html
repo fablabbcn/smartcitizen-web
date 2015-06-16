@@ -131,7 +131,10 @@
               </div>
             </div>
             <div style="clear: both"></div>
-            <div chart class="chart_container" chart-data="vm.chartDataMain"></div>
+
+            <div chart class="chart_container" chart-data="vm.chartDataMain">
+              <div ng-show="vm.loadingChart" us-spinner="{color: 'white'}"></div>
+            </div>
           </div>
         </div>
       </section>

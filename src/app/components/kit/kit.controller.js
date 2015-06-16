@@ -34,6 +34,7 @@
       vm.selectedSensorToCompareData;
 
       vm.moveChart = moveChart;
+      vm.loadingChart = false;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
@@ -139,10 +140,13 @@
           options.to = picker.getValuePickerTo();
         }
         if(updateType === 'date') {
+          //show spinner
+          vm.loadingChart = true;
           //grab chart data and save it
           getChartData(options.from, options.to)
             .then(function() {              
               vm.chartDataMain = prepareChartData(sensorsID);
+              vm.loadingChart = false;
             });
         } else if(updateType === 'sensor') {          
           vm.chartDataMain = prepareChartData(sensorsID);
