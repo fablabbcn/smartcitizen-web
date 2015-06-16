@@ -84,6 +84,10 @@
         
       });
 
+      $scope.$on('hideSpinner', function() {
+        vm.loadingChart = false;
+      });
+
       setTimeout(function() {
         colorSensorMainIcon();
         colorArrows();
@@ -146,9 +150,8 @@
           getChartData(options.from, options.to)
             .then(function() {              
               vm.chartDataMain = prepareChartData(sensorsID);
-              vm.loadingChart = false;
             });
-        } else if(updateType === 'sensor') {          
+        } else if(updateType === 'sensor') {         
           vm.chartDataMain = prepareChartData(sensorsID);
         }
       }
@@ -251,17 +254,21 @@
 
         if(direction === 'left') {
           //set both from and to pickers to prev range
-          picker.setValuePickerTo( picker.getValuePickerFrom() );
-          picker.setValuePickerFrom( getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange);
+          var valueTo = picker.getValuePickerFrom();
+          var valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
+          picker.setValuePickers([valueFrom, valueTo]);          
         } else if(direction === 'right') {
           //set both from and to pickers  to next range
-          picker.setValuePickerFrom( picker.getValuePickerTo() );
-          picker.setValuePickerTo( getSecondsFromDate( picker.getValuePickerTo() ) + currentRange);
+          var valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
+          var valueFrom = picker.getValuePickerTo();
+          picker.setValuePickers([valueFrom, valueTo]);
         }
       }
 
       //hide everything but the functions to interact with the pickers
       function initializePicker() {
+        var updateType; 
+
         var from_$input = $('#picker_from').pickadate({
           container: 'body',
           klass: {
@@ -287,7 +294,7 @@
 
         from_picker.on('set', function(event) {
           if(event.select) {
-            if(to_picker.get('value')) {
+            if(to_picker.get('value') && updateType === 'single') {
               changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
             }
             to_picker.set('min', from_picker.get('select') );
@@ -318,9 +325,9 @@
           return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
         }
 
-        //set from-picker to today
+        //set from-picker to seven days ago
         from_picker.set('select', getSevenDaysAgo());
-        //set to-picker to seven days ago
+        //set to-picker to today
         to_picker.set('select', getToday());
 
         return {
@@ -328,13 +335,23 @@
             return from_picker.get('value');
           },
           setValuePickerFrom: function(newValue) {
+            updateType = 'single';
             from_picker.set('select', newValue);
           },
           getValuePickerTo: function() {
             return to_picker.get('value');
           },
           setValuePickerTo: function(newValue) {
+            updateType = 'single';
             to_picker.set('select', newValue);
+          },
+          setValuePickers: function(newValues) {
+            var from = newValues[0];
+            var to = newValues[1];
+
+            updateType = 'pair'; 
+            from_picker.set('select', from);
+            to_picker.set('select', to);
           }
         };
       }
