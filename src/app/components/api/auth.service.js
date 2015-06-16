@@ -4,11 +4,18 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$window', 'Restangular'];
-    function auth($window, Restangular) {
+    auth.$inject = ['$window', 'Restangular', '$rootScope'];
+    function auth($window, Restangular, $rootScope) {
 
-    	var user = null;
-    	initialize();
+    	var user = {
+        token: null,
+        data: null
+      };
+
+      //wait until http receptor is added to Restangular
+      setTimeout(function() {
+    	  initialize();
+      }, 1000);
 
     	var service = {
         isAuth: isAuth,
@@ -25,19 +32,25 @@
       function initialize() {
         setCurrentUser();
       }
-
+      //run on app initialization so that we have cross-session auth
       function setCurrentUser() {
-        user = $window.localStorage.getItem('smartcitizen.token');
+        user.token = $window.localStorage.getItem('smartcitizen.token');
+        if(!user.token) return;
+        getCurrentUserInfo(user.token)
+          .then(function(data) {
+            user.data = data;
+            $rootScope.$broadcast('loggedIn');
+          });
       }
 
       function getCurrentUser() {
-        return user;
+        return user.token;
       }
 
       function isAuth() {
-        return !!user;
+        return !!user.token;
       }
-
+      //save to localstorage and 
       function saveToken(token) {
         $window.localStorage.setItem('smartcitizen.token', token);
         setCurrentUser();
@@ -48,7 +61,11 @@
       }
 
       function logout() {
+        $window.localStorage.removeItem('smartcitizen.token');
+      }
 
+      function getCurrentUserInfo(token) {
+        return Restangular.all('').customGET('me');
       }
     }
 })();

@@ -6,7 +6,9 @@
 
     function login() {
       return {
-        scope: true,
+        scope: {
+          show: '='
+        },
         restrict: 'A',
         controller: 'LoginController',
         controllerAs: 'vm',

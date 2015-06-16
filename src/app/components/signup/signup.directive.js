@@ -6,7 +6,9 @@
 
     function signup() {
       return {
-        scope: true,
+        scope: {
+          show: '=',
+        },
         restrict: 'A',
         controller: 'SignupController',
         controllerAs: 'vm',

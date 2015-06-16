@@ -6,12 +6,12 @@
     </md-icon>
   </a>
   <section layout="row" class="nav_left" layout-align="space-around center">
-    <md-button ng-show="isShown" href="#" class="md-flat full_height map">
+    <md-button ng-show="vm.isShown" href="#" class="md-flat full_height map">
       <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon">
       </md-icon>
       <span>Map</span>
     </md-button>
-    <md-button ng-show="isShown" href="#" class="md-flat full_height community">
+    <md-button ng-show="vm.isShown" href="#" class="md-flat full_height community">
       <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon">
       </md-icon>
       <span>Community</span>
@@ -21,10 +21,11 @@
   <search flex></search>
   
   <section layout="row" class="nav_right" layout-align="space-around center">
-    <md-button ng-show="isShown" href="#" class="md-flat full_height get" ng-show="isShown">Get your Kit</md-button>
+    <md-button ng-show="vm.isShown" href="#" class="md-flat full_height get">Get your Kit</md-button>
   
-    <div login class="navbar_login_button md-display-1" ng-show="isShown"></div>
-    <div signup class="navbar_signup_button md-display-1"  ng-show="isShown"></div>
+    <div ng-show="!vm.isLoggedin" login class="navbar_login_button md-display-1"></div>
+    <div ng-show="!vm.isLoggedin" signup class="navbar_signup_button md-display-1"></div>
+    <md-button ng-show="vm.isLoggedin" ng-click="vm.logout()">Log Out</md-button>
   </section>
 </md-toolbar>
 
