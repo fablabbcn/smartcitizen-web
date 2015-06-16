@@ -5,7 +5,7 @@
     .factory('Kit', ['Sensor', function(Sensor) {
 
       function Kit(object, options) {
-        console.log('object', object);
+
         if(options && options.type === 'preview') {
           this.name = object.name;
           this.type = parseKitType(object);

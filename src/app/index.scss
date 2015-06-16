@@ -91,7 +91,7 @@ navbar {
       width: 56px;
       margin: 0px 8px;
     }
-    signup {
+    .navbar_signup_button {
       text-align: center;
       margin-left: 8px;
 
@@ -954,7 +954,7 @@ section .stickMenu {
     border-radius: 0px 0px 2px 2px;
   }
 
-  > div {
+  .modal_content_container {
     width: 92%;
     margin: 0 auto;
   }
@@ -1004,9 +1004,9 @@ section .stickMenu {
   }
 }
 
-.login {
-  width: 408px;
-  height: 349px;
+.modal_login {
+  width: 400px;
+  height: 412px;
 }
 .signup {
   width: 400px;

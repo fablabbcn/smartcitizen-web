@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$window'];
-    function auth($window) {
+    auth.$inject = ['$window', 'Restangular'];
+    function auth($window, Restangular) {
 
     	var user = null;
     	initialize();
@@ -13,7 +13,10 @@
     	var service = {
         isAuth: isAuth,
         setCurrentUser: setCurrentUser,
-        getCurrentUser: getCurrentUser
+        getCurrentUser: getCurrentUser,
+        saveToken: saveToken,
+        login: login,
+        logout: logout
     	};
     	return service;
       
@@ -33,6 +36,19 @@
 
       function isAuth() {
         return !!user;
+      }
+
+      function saveToken(token) {
+        $window.localStorage.setItem('smartcitizen.token', token);
+        setCurrentUser();
+      }
+
+      function login(loginData) {
+        return Restangular.all('sessions').post(loginData);
+      }
+
+      function logout() {
+
       }
     }
 })();

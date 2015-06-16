@@ -23,18 +23,8 @@
   <section layout="row" class="nav_right" layout-align="space-around center">
     <md-button ng-show="isShown" href="#" class="md-flat full_height get" ng-show="isShown">Get your Kit</md-button>
   
-    <md-button class="md-flat full_height log" ng-show="isShown">
-      Log In
-      <!--<oauth 
-      	site="https://id.smartcitizen.me/"
-      	client-id="82ef2ebe26dcdabcf149420f817ea89b9f853e8b8bd4f1560c5a00f268ce19be"
-      	redirect-uri="http://localhost:3000"
-      	profile-uri="https://new-api.smartcitizen.me/v0/me"
-      	scope="">
-      </oauth>-->
-    </md-button>
-
-    <signup class="md-display-1" ng-show="isShown"></signup>
+    <div login class="navbar_login_button md-display-1" ng-show="isShown"></div>
+    <div signup class="navbar_signup_button md-display-1"  ng-show="isShown"></div>
   </section>
 </md-toolbar>
 

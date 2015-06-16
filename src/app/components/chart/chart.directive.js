@@ -154,8 +154,6 @@
 
         var top = d3.select('.chart_container svg');
 
-        console.log('data', data);
-
         var gradient = svg.append('svg:defs')
             .append('svg:linearGradient')
             .attr('id', 'gradient')
