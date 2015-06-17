@@ -11,6 +11,7 @@
       vm.isLoggedin = false;
       vm.logout = logout;
 
+
       $scope.$on('removeNav', function() {
         $scope.$apply(function() {
           vm.isShown = false;
@@ -24,8 +25,8 @@
       });
 
       $scope.$on('loggedIn', function() {
-          vm.isLoggedin = true;
-          console.log('is', vm.isLoggedin);                  
+        vm.isLoggedin = true;
+        vm.currentUser = auth.getCurrentUser().data;                
       });
 
       //////////////////

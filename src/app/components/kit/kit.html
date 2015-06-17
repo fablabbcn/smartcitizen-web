@@ -7,7 +7,7 @@
       </div>
       <div class="kit_name">
         <md-icon md-svg-src="./assets/images/sensor_icon.svg"> </md-icon>
-        <span>{{ vm.marker.name }}</span>
+        <span>{{ vm.marker.device.name }}</span>
       </div>
       <div class="kit_battery">
         <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
@@ -179,6 +179,37 @@
             </div>
           </div>
           <div class="kit_details_manage">
+            <div class="kit_details_manage_buttons">
+              <md-button href="#" ng-click="" class="kit_details_button_setup" aria-label="">SET UP</md-button>
+              <md-button href="#" ng-click="" class="kit_details_button_edit" aria-label="">EDIT</md-button>
+              <md-button href="#" ng-click="" class="kit_details_button_delete" aria-label="">DELETE</md-button>
+            </div>
+            <div class="kit_details_manage_data">
+              <div class="kit_details_macaddress">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Mac Address:</span>
+                <span>00:00:00:00:01</span>
+              </div>
+              <div class="kit_details_debug">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Debug mode:</span>
+                <span>Enabled</span>
+              </div>
+              <div class="kit_details_key">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">API Key:</span>
+                <span>34334324233d3f4f3</span>
+              </div>
+              <div class="kit_details_download">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Download Data</span>
+                <span>Choose your format</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -228,9 +259,20 @@
                       </p>
                     </div>
                     <div class="kit_owner_kits_list_config">
+                      <div class="kit_owner_kits_list_state kit_owner_kits_list_{{ kit.state.className }}">{{ kit.state.name }}</div>
+                      <md-menu>
+                       <!-- Trigger element is a md-button with an icon -->
+                       <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Open sample menu">
+                         <md-icon md-menu-origin md-svg-icon="./assets/images/config_icon.svg"></md-icon>
+                       </md-button>
+                       <!--<md-menu-content>
+                         <md-menu-item><md-button ng-click="vm.goThere()">Do Something</md-button></md-menu-item>
+                       </md-menu-content>-->
+                      </md-menu>
                     </div>
                   </div>
                 </div>
+                <md-button href="#" ng-click="" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
               </div>
             </div> 
           </div>           

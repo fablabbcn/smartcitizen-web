@@ -17,7 +17,7 @@
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
         if (auth.isAuth()) {
-          var token = auth.getCurrentUser();
+          var token = auth.getCurrentUser().token;
           headers.Authorization = 'Bearer ' + token;
         }
         return {

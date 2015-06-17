@@ -46,6 +46,14 @@ navbar {
     font-size: 14px;
   }
 
+  .md-button.md-default-theme.navbar_highlight_button {
+    border: 2px solid #00FFA8;
+    color: #00FFA8;
+    border-radius: 50px;
+    padding: 9px 11px;
+    width: 108px;
+  }
+
   .logo_link {
     text-align: center;
     
@@ -684,7 +692,7 @@ section .kit_menu {
   }
   .kit_details_content {
     float: left;
-    width: 30%;
+
     h3, h4, p {
       line-height: 0.4em;
     }
@@ -732,6 +740,27 @@ section .kit_menu {
   }
   .kit_details_description_content {
     font-size: 12px;
+  }
+  .kit_details_manage {
+    float: right;
+    margin-right: 40px;
+  }
+  .kit_details_manage_buttons {
+    margin-bottom: 32px;
+    >a {
+      margin: 0 10px;
+    }
+  }
+  .kit_details_button_delete {
+    color: $alert_red;
+  }
+  .kit_details_manage_data {
+    >div {
+      margin: 9px 0;
+    }
+  }
+  .kit_details_manage_data_name {
+    font-weight: bold;
   }
   .kit_detailed_name {
     font-size: 18px;
@@ -823,6 +852,34 @@ section .kit_menu {
       span {
         margin-right: 15px;
       }
+    }
+    .kit_owner_kits_list_state {
+      display: inline;
+      color: white;
+      font-size: 12px;
+      border-radius: 20px;
+      padding: 3px 8px;
+      margin: 15px;
+    }
+    .kit_owner_kits_list_never_published {
+      background-color: #F3C039;
+    }
+    .kit_owner_kits_list_not_configured {
+      background-color: $alert_red;
+    }
+    .kit_owner_kits_list_config {
+      float: right;
+      margin-top: 22px;
+    }
+    .kit_owner_kits_list_config_icon {
+      width: 22px;
+      height: 22px;
+    }
+    .kit_owner_kits_more_button {
+      font-size: 16px;
+      float: right;
+      margin: 32px 0 64px 0;
+      color: #35C2E5;
     }
   }
 }

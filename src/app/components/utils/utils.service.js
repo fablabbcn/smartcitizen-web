@@ -18,9 +18,8 @@
       ///////////////////////////
 
       function parseKit(object) {
-        /*jshint camelcase: false */
         var parsedKit = {
-          kitName: object.name,
+          kitName: object.device.name,
           kitType: parseKitType(object),  
           kitLastTime: moment(parseKitTime(object)).fromNow(), 
           kitLocation: parseKitLocation(object), 

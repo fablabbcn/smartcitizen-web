@@ -5,14 +5,14 @@
     .factory('Kit', ['Sensor', function(Sensor) {
 
       function Kit(object, options) {
-
         if(options && options.type === 'preview') {
-          this.name = object.name;
+          this.name = object.device.name;
           this.type = parseKitType(object);
           this.location = parseKitLocation(object);
           this.avatar = './assets/images/avatar.svg';
+          this.state = parseKitState(object);
         } else {
-          this.name = object.name;
+          this.name = object.device.name;
           this.type = parseKitType(object);
           this.version = parseKitVersion(object);
           this.avatar = './assets/images/avatar.svg';
@@ -20,7 +20,7 @@
           this.location = parseKitLocation(object);
           this.labels = parseKitLabels(object); 
           this.class = classify(parseKitType(object)); 
-          this.id = object.id;
+          this.id = object.device.id;
           this.description = object.description;
           this.owner = parseKitOwner(object);
           this.data = object.data.sensors;          
@@ -101,7 +101,7 @@
 
     function parseKitLabels(object) {
       return {
-        status: object.status,
+        status: object.device.status,
         exposure: object.data.location.exposure
       };
     }
@@ -135,9 +135,23 @@
         username: object.owner.username,
         kits: object.owner.device_ids,
         location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : 'Barcelona, Spain',
-        url: object.owner.url || 'example.com',
+        url: object.owner.url || 'http://www.example.com',
         avatar: object.owner.avatar || './assets/images/avatar.svg'
       };
+    }
+
+    function parseKitState(object) {
+      var name = parseKitStateName(object); 
+      var className = classify(name); 
+      
+      return {
+        name: name,
+        className: className
+      };
+    }
+
+    function parseKitStateName(object) {
+      return 'Never published';
     }
 
     function getKits() {

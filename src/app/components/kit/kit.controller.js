@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit'];
-    function KitController($scope, $stateParams, marker, utils, sensor, Kit) {
+    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog'];
+    function KitController($scope, $stateParams, marker, utils, sensor, Kit, $mdDialog) {
       var vm = this;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
@@ -35,6 +35,10 @@
 
       vm.moveChart = moveChart;
       vm.loadingChart = false;
+
+      vm.goThere = function() {
+        console.log('hola');
+      };
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
