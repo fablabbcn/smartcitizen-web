@@ -575,8 +575,9 @@ section .kit_menu {
       height: 100%;
       
       .kit_chart_left {
-        float: left;
-        width: 22%;
+        display: inline-block;
+        width: 240px;
+        margin-right: 30px;
         height: 100%;
 
         md-select.md-default-theme .md-select-label {
@@ -639,9 +640,9 @@ section .kit_menu {
         }
       }
       .kit_chart_right {
-        float: right;
-        width: 73%;
+        display: inline-block;
         height: 100%;
+        padding-right: 25px;
 
         .chart_navigation {
           height: 10%;
