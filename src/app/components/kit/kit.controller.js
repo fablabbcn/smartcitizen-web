@@ -36,9 +36,12 @@
       vm.moveChart = moveChart;
       vm.loadingChart = false;
 
-      vm.goThere = function() {
-        console.log('hola');
-      };
+      vm.dropdownOptions = [
+        {text: 'SET UP', value: '1'},
+        {text: 'EDIT', value: '2'}
+      ];
+
+      vm.dropdownSelected;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;

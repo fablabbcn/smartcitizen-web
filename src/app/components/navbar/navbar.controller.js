@@ -11,6 +11,14 @@
       vm.isLoggedin = false;
       vm.logout = logout;
 
+      vm.dropdownOptions = [
+        {divider: true, text: 'Hello,           '},
+        {text: 'PROFILE', value: '1'},
+        {text: 'LOGOUT', value: '2'}
+      ];
+
+      vm.dropdownSelected;
+
 
       $scope.$on('removeNav', function() {
         $scope.$apply(function() {
@@ -26,7 +34,8 @@
 
       $scope.$on('loggedIn', function() {
         vm.isLoggedin = true;
-        vm.currentUser = auth.getCurrentUser().data;                
+        vm.currentUser = auth.getCurrentUser().data;   
+        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;           
       });
 
       //////////////////

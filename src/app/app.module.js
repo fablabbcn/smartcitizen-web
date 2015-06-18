@@ -6,6 +6,7 @@ angular.module('app', [
 	'ui.router', 
 	'restangular', 
   'angularSpinner',
+  'ngDropdowns',
 	'app.components', 
 	'app.auth'
 ]);

@@ -35,7 +35,9 @@
           </md-icon>
         </md-button>      
       
-        <md-button href="#" class="md-flat shape_icon" aria-label="">
+        <md-button href="" class="md-flat shape_icon kit_owner_dropdown_button" aria-label="" dropdown-menu="vm.dropdownOptions"
+            dropdown-model="vm.dropdownSelected"
+            dropdown-item-label="text">
           <md-icon md-svg-src="./assets/images/shape_icon.svg">
           </md-icon>
         </md-button>
@@ -258,17 +260,13 @@
                         <span>{{ kit.type }}</span>
                       </p>
                     </div>
-                    <div class="kit_owner_kits_list_config">
+                    <div class="kit_owner_kits_list_config" layout="row" layout-align="center center">
                       <div class="kit_owner_kits_list_state kit_owner_kits_list_{{ kit.state.className }}">{{ kit.state.name }}</div>
-                      <md-menu>
-                       <!-- Trigger element is a md-button with an icon -->
-                       <md-button ng-click="$mdOpenMenu()" class="md-icon-button" aria-label="Open sample menu">
-                         <md-icon md-menu-origin md-svg-icon="./assets/images/config_icon.svg"></md-icon>
-                       </md-button>
-                       <!--<md-menu-content>
-                         <md-menu-item><md-button ng-click="vm.goThere()">Do Something</md-button></md-menu-item>
-                       </md-menu-content>-->
-                      </md-menu>
+                      <md-button class="kit_owner_dropdown_button" dropdown-menu="vm.dropdownOptions"
+                          dropdown-model="vm.dropdownSelected"
+                          dropdown-item-label="text">
+                          <img src="./assets/images/config_icon.svg" />
+                      </md-button>
                     </div>
                   </div>
                 </div>
