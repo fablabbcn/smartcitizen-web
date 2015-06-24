@@ -138,20 +138,37 @@
           }
         })
 
-        .state('profile', {
+        .state('userProfile', {
           url: '/users/:id',
-          templateUrl: 'app/components/profile/profile.html',
-          controller: 'ProfileController',
+          templateUrl: 'app/components/userProfile/userProfile.html',
+          controller: 'UserProfileController',
           controllerAs: 'vm',
           resolve: {
             userData: function($stateParams, user) {
               var id = $stateParams.id;
+
               return user.getUser(id)
                 .then(function(user) {
                   return user;
                 });
             }
           }
+        })
+        .state('myProfile', {
+          url: '/profile',
+          templateUrl: 'app/components/myProfile/myProfile.html',
+          controller: 'MyProfileController',
+          controllerAs: 'vm'//,
+          /*resolve: {
+            authUser: function(auth) {
+              var id = auth.getCurrentUser().data.id;
+
+              return user.getUser(id)
+                .then(function(user) {
+                  return user;
+                });             
+            }
+          } */
         });
 
       $urlRouterProvider.otherwise('/');

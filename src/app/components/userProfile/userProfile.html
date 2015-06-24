@@ -1,0 +1,60 @@
+<section class="profile_state">
+  <div class="profile_header" layout="row" layout-align="start center">
+    <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="profile_header_avatar"></md-icon>
+    <div class="profile_header_content">
+      <div class="profile_header_name">Gcamprodon</div>
+      <div class="profile_header_location">
+        <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
+        <span>Barcelona, Spain</span>
+      </div>
+      <div class="profile_header_url">
+        <md-icon md-svg-src="./assets/images/url_icon.svg" class="profile_header_content_avatar"></md-icon>
+        <span>example.com</span>
+      </div>
+    </div>
+  </div>
+  <div class="profile_content" layout="row">
+    <div class="profile_sidebar">
+      <p class="profile_sidebar_title">FILTER KITS BY</p>
+      <div class="profile_sidebar_options">
+        <md-button ng-click="vm.filterKits('all')" class="profile_sidebar_button">ALL</md-button>
+        <md-button ng-click="vm.filterKits('online')" class="profile_sidebar_button">ONLINE</md-button>
+        <md-button ng-click="vm.filterKits('offline')" class="profile_sidebar_button">OFFLINE</md-button>
+      </div>
+    </div>
+    <div class="profile_content_main" flex>
+      <div class="profile_content_main_top">
+        <span class="profile_content_main_title">0 kits filtering by ALL</span>        
+      </div>
+      <div class="profile_content_main_kits">
+        <div class="kit_owner_kits_list" ng-repeat="kit in vm.ownerKits">
+          <div class="kit_detailed_content_container">
+            <div class="kit_owner_kits_list_avatar">
+              <md-icon class="kit_owner_kits_list_avatar" md-svg-src="{{ kit.avatar }}">
+              </md-icon>
+            </div>
+            <div class="kit_owner_kits_list_content"> 
+              <p class="kit_owner_kits_list_name kit_detailed_name">{{ Ruben }}</p>
+              <p class="kit_owner_kits_list_data">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                </md-icon>
+                <span>{{ Barcelona }}</span>
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/sensor_icon.svg">
+                </md-icon>
+                <span>{{ Type }}</span>
+              </p>
+            </div>
+            <div class="kit_owner_kits_list_config" layout="row" layout-align="center center">
+              <div class="kit_owner_kits_list_state kit_owner_kits_list_{{ kit.state.className }}">{{ not }}</div>
+              <md-button class="kit_owner_dropdown_button" dropdown-menu="vm.dropdownOptions"
+                  dropdown-model="vm.dropdownSelected"
+                  dropdown-item-label="text">
+                  <img src="./assets/images/config_icon.svg" />
+              </md-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
