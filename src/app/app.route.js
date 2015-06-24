@@ -136,6 +136,13 @@
                 });
             }
           }
+        })
+
+        .state('profile', {
+          url: '/users/:id',
+          templateUrl: 'app/components/profile/profile.html',
+          controller: 'ProfileController',
+          controllerAs: 'vm'
         });
 
       $urlRouterProvider.otherwise('/');

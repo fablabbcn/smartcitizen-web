@@ -1343,6 +1343,68 @@ navbar {
 .kit_owner_dropdown_button {
   display: block;
   margin: 0 auto;
+
+/** 
+ *  PROFILE STATE
+ */
+
+/* profile header */
+.profile_header {
+  background-color: $background_blue_dark_menu;
+  height: 192px;
+  margin-top: 64px;
+}
+.profile_header_avatar {
+  width: 84px;
+  height: 84px;
+  margin: 0 29px 0 27px;
+}
+.profile_header_content {
+  >div {
+    margin: 5px 0;
+  }
+}
+.profile_header_content_avatar {
+  width: 12px;
+  height: 12px;
+}
+.profile_header_name {
+  color: white;
+  font-size: 24px;
+}
+.profile_header_location {
+  font-size: 20px;
+}
+.profile_header_url {
+  font-size: 16px;
+}
+
+.profile_content {
+  min-height: 448px;
+}
+/* profile sidebar */
+.profile_sidebar {
+  min-height: inherit;
+  width: 256px;
+  display: inline-block;
+  background-color: #F5F5F5;
+}
+.profile_sidebar_title {
+  margin: 80px 0 42px 20px;
+  color: #23444C;
+  font-weight: bold;
+}
+.profile_sidebar_button {
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding-left: 40px;
+  height: 64px;
+}
+
+/* profile main content */
+.profile_content_main {
+  display: inline-block;
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
