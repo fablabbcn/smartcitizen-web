@@ -35,7 +35,7 @@
       }
 
       function signup(signupData) {
-        user.post(signupData)
+        user.createUser(signupData)
           .then(function() {
             alert.success('Signup was successful');
           })

@@ -1381,6 +1381,7 @@ navbar {
 
 .profile_content {
   min-height: 448px;
+  position: relative;
 }
 /* profile sidebar */
 .profile_sidebar {
@@ -1405,6 +1406,12 @@ navbar {
 /* profile main content */
 .profile_content_main {
   display: inline-block;
+  min-height: inherit;
+  position: absolute;
+  top: 0;
+}
+.profile_content_main_title {
+  margin: 80px 0 42px 20px;
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

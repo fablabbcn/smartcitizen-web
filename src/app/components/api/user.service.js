@@ -6,7 +6,20 @@
 	  
 	  user.$inject = ['Restangular'];
 	  function user(Restangular) {
+      var service = {
+        createUser: createUser,
+        getUser: getUser
+      };
+      return service;
 
-	  	return Restangular.all('users');
+      ////////////////////
+
+      function createUser(signupData) {
+        return Restangular.all('users').post(signupData);
+      }
+
+      function getUser(id) {
+        return Restangular.one('users', id).get();
+      }
 	  }
 })();

@@ -142,7 +142,16 @@
           url: '/users/:id',
           templateUrl: 'app/components/profile/profile.html',
           controller: 'ProfileController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            userData: function($stateParams, user) {
+              var id = $stateParams.id;
+              return user.getUser(id)
+                .then(function(user) {
+                  return user;
+                });
+            }
+          }
         });
 
       $urlRouterProvider.otherwise('/');

@@ -17,13 +17,16 @@
     <div class="profile_sidebar">
       <p class="profile_sidebar_title">FILTER KITS BY</p>
       <div class="profile_sidebar_options">
-        <md-button class="profile_sidebar_button">ALL</md-button>
-        <md-button class="profile_sidebar_button">ONLINE</md-button>
-        <md-button class="profile_sidebar_button">OFFLINE</md-button>
+        <md-button ng-click="vm.filterKits('all')" class="profile_sidebar_button">ALL</md-button>
+        <md-button ng-click="vm.filterKits('online')" class="profile_sidebar_button">ONLINE</md-button>
+        <md-button ng-click="vm.filterKits('offline')" class="profile_sidebar_button">OFFLINE</md-button>
       </div>
     </div>
-    <div class="profile_content_main">
+    <div class="profile_content_main" flex>
       <p class="profile_content_main_title">0 kits filtering by ALL</p>
+      <div>
+        There are no kits yet.
+      </div>
     </div>
   </div>
 </section>
