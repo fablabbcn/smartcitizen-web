@@ -4,21 +4,23 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor'];
-    function KitController($scope, $stateParams, marker, utils, sensor) {
+    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog'];
+    function KitController($scope, $stateParams, marker, utils, sensor, Kit, $mdDialog) {
       var vm = this;
-      var mainSensorID;
-      var compareSensorID;
-      var sensorsData;
+      var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
       vm.marker = augmentMarker(marker);
 
-      vm.battery;
+      vm.kit = new Kit(marker);
 
-      vm.sensors = getSensors(marker);
+      var mainSensors = vm.kit.getSensors({type: 'main'});  
+      vm.battery = mainSensors[1];
+      vm.sensors = mainSensors[0];
+      vm.sensorsToCompare = vm.kit.getSensors({type: 'compare'});
 
       vm.slide = slide;
+      vm.chartData;
 
       vm.selectedSensor = vm.sensors[0].id; 
       vm.selectedSensorData = {
@@ -27,14 +29,19 @@
         unit: vm.sensors[0].unit,
         color: vm.sensors[0].color
       };
-      vm.chartDataMain;
 
       vm.selectedSensorToCompare;
       vm.selectedSensorToCompareData;
-      vm.chartDataCompare;
 
-      vm.getSensorsToCompare = getSensorsToCompare;
       vm.moveChart = moveChart;
+      vm.loadingChart = false;
+
+      vm.dropdownOptions = [
+        {text: 'SET UP', value: '1'},
+        {text: 'EDIT', value: '2'}
+      ];
+
+      vm.dropdownSelected;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
@@ -53,6 +60,8 @@
           }
         });
 
+        vm.sensorsToCompare = getSensorsToCompare();
+
         setTimeout(function() {
           colorSensorMainIcon();
           colorSensorCompareName();    
@@ -64,7 +73,7 @@
       });
 
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
-        vm.sensors.forEach(function(sensor) {
+        vm.sensorsToCompare.forEach(function(sensor) {
           if(sensor.id === newVal) {
             vm.selectedSensorToCompareData = {
               icon: sensor.icon,
@@ -72,7 +81,8 @@
               unit: sensor.unit
             };
           }
-        });  
+        });
+
         setTimeout(function() {
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
@@ -81,208 +91,33 @@
         
       });
 
-      var sensorData;
+      $scope.$on('hideSpinner', function() {
+        vm.loadingChart = false;
+      });
 
       setTimeout(function() {
         colorSensorMainIcon();
         colorArrows();
         colorClock();
+        getOwnerKits(function(data) {
+          vm.ownerKits = data;
+        })
       }, 1000);
 
 
       ///////////////
+
+      function getOwnerKits(cb) {
+        var kitIDs = vm.kit.owner.kits;
+
+        utils.getOwnerKits(kitIDs, function(data) {
+          cb(data);
+        });
+      }
       
       function augmentMarker(marker) {
         marker.time = moment(utils.parseKitTime(marker)).fromNow();
         return marker;
-      }
-
-      function getSensors(marker) {
-
-        var sensors = marker.data.sensors.map(function(sensor) {
-          var sensorID = sensor.id;
-          var sensorName = getSensorName(sensor);
-          var sensorUnit = getSensorUnit(sensorName);
-          var sensorValue = getSensorValue(sensor); 
-          var sensorIcon = getSensorIcon(sensorName); 
-          var sensorArrow = getSensorArrow(sensor); 
-          var sensorColor = getSensorColor(sensorName);
-          
-          var obj = {
-            id: sensorID,
-            name: sensorName,
-            unit: sensorUnit,
-            value: sensorValue,
-            icon: sensorIcon,
-            arrow: sensorArrow,
-            color: sensorColor
-          };
-
-          if(sensorName === 'BATTERY') {
-            vm.battery = obj;
-          } else {
-            return obj;
-          }          
-        });
-
-        return sensors.filter(function(sensor) {
-          return sensor; 
-        });
-      }
-
-      function getSensorName(sensor) {
-        var name = sensor.name;
-        var description = sensor.description;
-        var sensorName;
-
-        if( new RegExp('custom circuit', 'i').test(description) ) {
-          sensorName = name;
-        } else {
-          if(new RegExp('noise', 'i').test(description) ) {
-            sensorName = 'SOUND';
-          } else if(new RegExp('light', 'i').test(description) ) {
-            sensorName = 'LIGHT';
-          } else if(new RegExp('wifi', 'i').test(description) ) {  
-            sensorName = 'NETWORKS';
-          } else if(new RegExp('co', 'i').test(description) ) {
-            sensorName = 'CO';
-          } else if(new RegExp('no2', 'i').test(description) ) {
-            sensorName = 'NO2';
-          } else {
-            sensorName = description;
-          }          
-        }
-        return sensorName.toUpperCase();
-      }
-
-      function getSensorUnit(sensorName) {
-        var sensorUnit;
-        
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            sensorUnit = '°C';
-            break;
-          case 'LIGHT':
-            sensorUnit = 'LUX';
-            break;
-          case 'SOUND':
-            sensorUnit = 'DB';
-            break;
-          case 'HUMIDITY':
-          case 'BATTERY':
-            sensorUnit = '%';
-            break;
-          case 'CO': 
-          case 'NO2':
-            sensorUnit = 'KΩ';
-            break;
-          case 'NETWORKS': 
-            sensorUnit = '#';
-            break;
-          case 'SOLAR PANEL': 
-            sensorUnit = 'V';
-            break;
-          default: 
-            sensorUnit = 'N/A';
-        }
-        return sensorUnit;
-      }
-
-      function getSensorValue(sensor) {
-        var value = sensor.value;
-
-        if(!value) {
-          return 'N/A';
-        } else {
-          value = value.toString();
-          if(value.indexOf('.') !== -1) {
-            value = value.slice(0, value.indexOf('.') + 3);
-          }
-        }
-        return value;
-      }
-
-      function getSensorPrevValue(sensor) {
-        return sensor.prev_value;
-      }
-
-      function getSensorIcon(sensorName) {
-
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            return './assets/images/temperature_icon.svg';            
-            
-          case 'HUMIDITY':
-            return './assets/images/humidity_icon.svg';
-            
-          case 'LIGHT':
-            return './assets/images/light_icon.svg';
-            
-          case 'SOUND': 
-            return './assets/images/sound_icon.svg';
-            
-          case 'CO':
-            return './assets/images/co_icon.svg';
-            
-          case 'NO2':
-            return './assets/images/no2_icon.svg';
-          
-          case 'NETWORKS': 
-            return './assets/images/networks_icon.svg';
-
-          case 'BATTERY': 
-            return './assets/images/battery_icon.svg';
-
-          case 'SOLAR PANEL': 
-            return './assets/images/solar_panel_icon.svg';
-
-          default: 
-            return './assets/images/avatar.svg';                      
-        }
-      }
-
-      function getSensorArrow(sensor) {
-        var currentValue = getSensorValue(sensor);
-        var prevValue = getSensorPrevValue(sensor);
-
-        if(currentValue > prevValue) {
-          return './assets/images/arrow_up_icon.svg';          
-        } else if(currentValue < prevValue) {
-          return './assets/images/arrow_down_icon.svg';
-        } else {
-          return './assets/images/equal_icon.svg';        
-        }
-      }
-
-      function getSensorColor(sensorName) {
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            return '#ffc107';            
-            
-          case 'HUMIDITY':
-            return '#4fc3f7';
-            
-          case 'LIGHT':
-            return '#ffee58';
-            
-          case 'SOUND': 
-            return '#f06292';
-            
-          case 'CO':
-            return '#4caf50';
-            
-          case 'NO2':
-            return '#8bc34a';
-          
-          case 'NETWORKS':
-            return '#9575cd';
-
-          case 'SOLAR PANEL': 
-            return '#fff9c4';
-
-          default: 
-            return 'black';                      
-        }
       }
 
       function slide(direction) {
@@ -299,7 +134,7 @@
       }
 
       function getSensorsToCompare() {
-        return vm.sensors.filter(function(sensor) {
+        return vm.sensorsToCompare.filter(function(sensor) {
           return sensor.id !== vm.selectedSensor;
         });
       }
@@ -312,16 +147,18 @@
           if(!options) {
             var options = {};
           }
-          options.from = picker.getValuePickerFrom()
+          options.from = picker.getValuePickerFrom();
           options.to = picker.getValuePickerTo();
         }
         if(updateType === 'date') {
+          //show spinner
+          vm.loadingChart = true;
           //grab chart data and save it
           getChartData(options.from, options.to)
             .then(function() {              
               vm.chartDataMain = prepareChartData(sensorsID);
             });
-        } else if(updateType === 'sensor') {          
+        } else if(updateType === 'sensor') {         
           vm.chartDataMain = prepareChartData(sensorsID);
         }
       }
@@ -343,7 +180,7 @@
           color: vm.selectedSensorData.color,
           unit: vm.selectedSensorData.unit
         };
-        if(sensorsID[1]) {
+        if(sensorsID[1] && sensorsID[1] !== -1) {
           var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);                
           var compareSensor = {
             data: parsedDataCompare,
@@ -360,9 +197,13 @@
           return [];
         }
         return data.map(function(dataPoint) {
+          var time = dataPoint && dataPoint.timestamp;
+          var data = dataPoint && dataPoint.data[sensorID];
+          data = data === null ? 0 : data;  
+          
           return {
-            time: dataPoint && dataPoint.timestamp,
-            data: dataPoint && dataPoint.data[sensorID]
+            time: time,
+            data: data
           };
         });
       }
@@ -420,17 +261,21 @@
 
         if(direction === 'left') {
           //set both from and to pickers to prev range
-          picker.setValuePickerTo( picker.getValuePickerFrom() );
-          picker.setValuePickerFrom( getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange);
+          var valueTo = picker.getValuePickerFrom();
+          var valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
+          picker.setValuePickers([valueFrom, valueTo]);          
         } else if(direction === 'right') {
           //set both from and to pickers  to next range
-          picker.setValuePickerFrom( picker.getValuePickerTo() );
-          picker.setValuePickerTo( getSecondsFromDate( picker.getValuePickerTo() ) + currentRange);
+          var valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
+          var valueFrom = picker.getValuePickerTo();
+          picker.setValuePickers([valueFrom, valueTo]);
         }
       }
 
       //hide everything but the functions to interact with the pickers
       function initializePicker() {
+        var updateType; 
+
         var from_$input = $('#picker_from').pickadate({
           container: 'body',
           klass: {
@@ -456,7 +301,7 @@
 
         from_picker.on('set', function(event) {
           if(event.select) {
-            if(to_picker.get('value')) {
+            if(to_picker.get('value') && updateType === 'single') {
               changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
             }
             to_picker.set('min', from_picker.get('select') );
@@ -487,9 +332,9 @@
           return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
         }
 
-        //set from-picker to today
+        //set from-picker to seven days ago
         from_picker.set('select', getSevenDaysAgo());
-        //set to-picker to seven days ago
+        //set to-picker to today
         to_picker.set('select', getToday());
 
         return {
@@ -497,13 +342,23 @@
             return from_picker.get('value');
           },
           setValuePickerFrom: function(newValue) {
+            updateType = 'single';
             from_picker.set('select', newValue);
           },
           getValuePickerTo: function() {
             return to_picker.get('value');
           },
           setValuePickerTo: function(newValue) {
+            updateType = 'single';
             to_picker.set('select', newValue);
+          },
+          setValuePickers: function(newValues) {
+            var from = newValues[0];
+            var to = newValues[1];
+
+            updateType = 'pair'; 
+            from_picker.set('select', from);
+            to_picker.set('select', to);
           }
         };
       }

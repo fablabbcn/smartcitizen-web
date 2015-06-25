@@ -1,0 +1,47 @@
+<md-dialog>
+  <md-dialog-content class="modal modal_login">
+    <md-button class="close_icon">
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="cancel()" class="" >
+      </md-icon>
+    </md-button>
+    <form name="signup_form" novalidate ng-submit="answer(vm.user)">
+      <div class="modal_content_container">
+        <h2>LOG IN</h2>
+        <div class="modal_message">
+          <p>People looking for a better city</p>
+          <p>You're part of them? Feel free to join us!</p>
+        </div>
+        <div layout layout-sm="column" class="field">
+          <md-input-container flex>
+            <label>Username</label>
+            <input type="text" name="username" ng-model="vm.user.username" required/>
+          </md-input-container>
+          <p class="errors" ng-show="signup_form.$submitted || signup_form.username.$touched">
+            <span ng-show="signup_form.username.$error.required">Username is required</span>
+          </p>
+        </div>
+        <div layout layout-sm="column" class="field">
+          <md-input-container flex>
+            <label>Password</label>
+            <input type="password" name="password" ng-model="vm.user.password"required />
+          </md-input-container>
+          <p class="errors" ng-show="signup_form.$submitted || signup_form.password.$touched">
+            <span ng-show="signup_form.password.$error.required">Password is required</span>
+          </p>
+        </div>
+      </div>
+      <button class="md-raised md-primary main" type="submit">LOG IN</button>
+    </form>
+      </div>
+  </md-dialog-content>
+  <p class="message_below">
+    <span>
+      <span class="message_below_question">New here?</span>
+      <md-button class="message_below_link">SIGN IN</md-button>
+    </span>
+    <span>
+      <span>Forgot your password?</span>
+      <md-button>REQUEST</md-button>
+    </span>
+  </p>
+</md-dialog>

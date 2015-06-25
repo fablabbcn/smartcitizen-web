@@ -2,17 +2,17 @@
   'use strict';
 
     angular.module('app.components')
-      .directive('signup', signup);
+      .directive('login', login);
 
-    function signup() {
+    function login() {
       return {
         scope: {
-          show: '=',
+          show: '='
         },
         restrict: 'A',
-        controller: 'SignupController',
+        controller: 'LoginController',
         controllerAs: 'vm',
-        templateUrl: 'app/components/signup/signup.html'
+        templateUrl: 'app/components/login/login.html'
       };
     }
 })();

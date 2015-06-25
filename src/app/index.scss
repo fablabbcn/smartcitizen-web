@@ -46,6 +46,14 @@ navbar {
     font-size: 14px;
   }
 
+  .md-button.md-default-theme.navbar_highlight_button {
+    border: 2px solid #00FFA8;
+    color: #00FFA8;
+    border-radius: 50px;
+    padding: 9px 11px;
+    width: 108px;
+  }
+
   .logo_link {
     text-align: center;
     
@@ -91,7 +99,7 @@ navbar {
       width: 56px;
       margin: 0px 8px;
     }
-    signup {
+    .navbar_signup_button {
       text-align: center;
       margin-left: 8px;
 
@@ -567,8 +575,9 @@ section .kit_menu {
       height: 100%;
       
       .kit_chart_left {
-        float: left;
-        width: 22%;
+        display: inline-block;
+        width: 240px;
+        margin-right: 30px;
         height: 100%;
 
         md-select.md-default-theme .md-select-label {
@@ -631,9 +640,9 @@ section .kit_menu {
         }
       }
       .kit_chart_right {
-        float: right;
-        width: 73%;
+        display: inline-block;
         height: 100%;
+        padding-right: 25px;
 
         .chart_navigation {
           height: 10%;
@@ -678,11 +687,208 @@ section .kit_menu {
       }
     }
   }
+  .kit_details {
+    height: 348px;
+    color: $background_blue_dark_navbar;
+  }
+  .kit_details_content {
+    float: left;
+
+    h3, h4, p {
+      line-height: 0.4em;
+    }
+  }
+  .kit_details_name {
+    margin: 0.3em 0 1.2em 0;    
+  }
+  .kit_details_location {
+    font-weight: bold;
+  }
+  .kit_details_type {
+    > span {
+      margin-right: 15px;
+    }
+  }
+  .kit_details_version {
+    span {
+      color: #4F8390;
+      font-weight: bold;
+    }
+  }
+  .kit_details_id {
+    span {
+      color: #4F8390;
+      font-weight: bold;
+    }
+  }
+  .kit_details_labels {
+    margin-top: 20px;
+    color: white;
+    font-size: 13px;
+    span {
+      background-color: #4F8390;
+      margin-right: 16px;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+  }
+  .kit_details_description {
+    padding-top: 4px;
+  }
+  .kit_details_description_title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  .kit_details_description_content {
+    font-size: 12px;
+  }
+  .kit_details_manage {
+    float: right;
+    margin-right: 40px;
+  }
+  .kit_details_manage_buttons {
+    margin-bottom: 32px;
+    >a {
+      margin: 0 10px;
+    }
+  }
+  .kit_details_button_delete {
+    color: $alert_red;
+  }
+  .kit_details_manage_data {
+    >div {
+      margin: 9px 0;
+    }
+  }
+  .kit_details_manage_data_name {
+    font-weight: bold;
+  }
+  .kit_detailed_name {
+    font-size: 18px;
+    color: $blue_light;
+  }
+  .kit_detailed_icon_content {
+    width: 14px;
+    height: 14px;
+  }
+  .kit_detailed_avatar {
+    float: left;
+    margin-right: 5%;
+    md-icon {
+      width: 80px;
+      height : 80px;
+    }
+  }
+  .kit_detailed_icon_title {
+    width: 18px;
+    height: 18px;
+  }
+  .kit_detailed_title_container {
+    padding: 20px 0;
+  }
+  .kit_detailed_title {
+    font-size: 16px;
+    display: inline;
+  }
+  .kit_detailed_content_container {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .kit_owner {
+    color: $background_blue_dark_navbar;
+    background-color: #F5F5F5;
+
+    .container {
+      width: 95%;
+      margin: 0 auto;
+    }
+    .kit_owner_content {
+      float: left;
+      width: 75%;
+
+      h3, p {
+        line-height: 0.4em;
+      }
+      h3 {
+        color: #24454E;
+        font-size: 18px;
+      }
+    }
+    .kit_owner_info {
+      margin-bottom: 65px;
+    }
+    .kit_owner_username {
+      margin: 0.3em 0 1.2em 0;
+    }
+    .kit_owner_location {
+      color: #065063;
+      font-weight: bold;
+    }
+    .kit_owner_url a {
+      text-decoration: none;
+      color: $background_blue_dark_navbar;
+    }
+    .kit_owner_kits_title {
+      margin-bottom: 50px;
+    }
+    .kit_owner_kits_list {
+      color: #4F8390;
+      border: 1px solid #EAECF1;
+      height: 82px;
+      background-color: white;
+    }
+    .kit_owner_kits_list_avatar {
+      float: left;
+      width: 44px;
+      height: 44px;
+      margin-right: 3%;
+      margin-top: 9px;
+    }
+    .kit_owner_kits_list_content {
+      float: left;
+      margin-top: 5px;
+    }
+    .kit_owner_kits_list_data {
+      font-size: 16px;
+      span {
+        margin-right: 15px;
+      }
+    }
+    .kit_owner_kits_list_state {
+      display: inline;
+      color: white;
+      font-size: 12px;
+      border-radius: 20px;
+      padding: 6px 11px;
+      margin: 15px;
+    }
+    .kit_owner_kits_list_never_published {
+      background-color: #F3C039;
+    }
+    .kit_owner_kits_list_not_configured {
+      background-color: $alert_red;
+    }
+    .kit_owner_kits_list_config {
+      float: right;
+      margin-top: 13px;
+    }
+    .kit_owner_kits_list_config_icon {
+      width: 22px;
+      height: 22px;
+    }
+    .kit_owner_kits_more_button {
+      font-size: 16px;
+      float: right;
+      margin: 32px 0 64px 0;
+      color: #35C2E5;
+    }
+  }
 }
 
 .chart_container {
   width: 100%;
   height: 90%;
+  position: relative;
 
   .chart_line {
     fill: none;
@@ -806,7 +1012,7 @@ section .stickMenu {
     border-radius: 0px 0px 2px 2px;
   }
 
-  > div {
+  .modal_content_container {
     width: 92%;
     margin: 0 auto;
   }
@@ -856,9 +1062,9 @@ section .stickMenu {
   }
 }
 
-.login {
-  width: 408px;
-  height: 349px;
+.modal_login {
+  width: 400px;
+  height: 412px;
 }
 .signup {
   width: 400px;
@@ -1043,6 +1249,102 @@ section .stickMenu {
 .select_image {
   margin-right: 10px;
 }
+
+.clearfix {
+  clear: left;
+}
+
+/**
+ * Override style for dropdown menu from angular-dropdowns dependecy
+ */
+.kit_menu {
+
+  .wrap-dd-menu {
+    width: 30px;
+    display: inline-table;
+    padding: 0 0;
+  }
+  .wrap-dd-menu .dropdown {
+    top: 70%;
+    line-height: 1em;
+    left: -25px;
+    right: -25px;
+    li a {
+      text-align: center;
+      border-bottom: 0px;
+    }
+  }  
+}
+.kit_detailed {
+
+  .wrap-dd-menu {
+    width: 50px;
+    display: inline-block;
+  }
+  .wrap-dd-menu .dropdown {
+    top: 70%;
+    line-height: 1em;
+    left: -25px;
+    right: -25px;
+    border-radius: 0px;
+    li a {
+      text-align: center;
+      border-bottom: 0px;
+    }
+  }
+}
+
+navbar {
+
+  .wrap-dd-menu {
+    width: 50px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+  .wrap-dd-menu .dropdown {
+    top: 65%;
+    line-height: 1em;
+    left: auto;
+    right: -25px;
+    border-radius: 0px;
+    min-width: 160px;
+    font-size: 14px;
+    li a {
+      border-bottom: 0px;
+      color: #065063;
+    }
+    li.divider {
+      background-color: white;
+      color: #35C2E5;
+      font-weight: bold;
+      margin-left: 8px;
+      margin-right: 38px;
+    }
+  }
+}
+
+.wrap-dd-menu .dropdown:before {
+  content: none;
+}
+.wrap-dd-menu .dropdown:after {
+  content: none;
+}
+
+.navbar_avatar_button {
+  display: inline-table;
+}
+
+.navbar_avatar_icon {
+  width: 38px;
+  height: 38px;
+}
+
+.kit_owner_dropdown_button {
+  display: block;
+  margin: 0 auto;
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector

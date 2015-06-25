@@ -2,20 +2,22 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('DialogController', DialogController);
+    .controller('LoginDialogController', LoginDialogController);
 
-    DialogController.$inject = ['$scope', '$mdDialog', 'user', 'alert'];
-    function DialogController($scope, $mdDialog, user, alert) {
+    LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert'];
+    function LoginDialogController($scope, $mdDialog, auth, alert) {
 
       $scope.answer = function(answer) {
-        user.post(answer)
+        auth.login(answer)
           .then(function(data) {
-            console.log('data', data);
+            console.log('yes', data);
+            var token = data.access_token;
+            auth.saveToken(token);
             alert.success('Signup was successful');
             $mdDialog.hide();
           })
           .catch(function(err) {
-            //alert.error('Signup failed');
+            console.log('no');
             console.log('err', err.data.errors);
             $scope.errors = err.data.errors;
           });

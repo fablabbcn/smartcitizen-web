@@ -7,7 +7,7 @@
       </div>
       <div class="kit_name">
         <md-icon md-svg-src="./assets/images/sensor_icon.svg"> </md-icon>
-        <span>{{ vm.marker.name }}</span>
+        <span>{{ vm.marker.device.name }}</span>
       </div>
       <div class="kit_battery">
         <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
@@ -35,7 +35,9 @@
           </md-icon>
         </md-button>      
       
-        <md-button href="#" class="md-flat shape_icon" aria-label="">
+        <md-button href="" class="md-flat shape_icon kit_owner_dropdown_button" aria-label="" dropdown-menu="vm.dropdownOptions"
+            dropdown-model="vm.dropdownSelected"
+            dropdown-item-label="text">
           <md-icon md-svg-src="./assets/images/shape_icon.svg">
           </md-icon>
         </md-button>
@@ -70,7 +72,7 @@
     </section>
     <section class="kit_detailed" >
       <section class="kit_chart">
-        <div class="container">
+        <div class="container" layout="row">
           <div class="kit_chart_left">
             <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
@@ -94,9 +96,8 @@
             <div class="sensor_compare">
               <p>
                 <span>Compare with</span>
-                <!--<md-icon md-svg-src="{{ vm.selectedSensorToCompareData.icon }}" class="sensor_icon_selected_compare"></md-icon>-->
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.getSensorsToCompare()" ng-value="{{sensor.id}}">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}">
                     <img class="select_image" src="{{ sensor.icon }}">
                     <span class="sensor_name">
                       {{ sensor.name }}
@@ -106,7 +107,7 @@
               </p>
             </div>
           </div>
-          <div class="kit_chart_right">
+          <div class="kit_chart_right" flex>
             <div class="chart_navigation">
               <div class="kit_time">
                 <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
@@ -132,7 +133,156 @@
               </div>
             </div>
             <div style="clear: both"></div>
-            <div chart class="chart_container" chart-data="vm.chartDataMain"></div>
+
+            <div chart class="chart_container" chart-data="vm.chartDataMain">
+              <div ng-show="vm.loadingChart" us-spinner="{color: 'white'}"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="kit_details">
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">KIT DETAILS</h2>
+          </div>
+          <div class="kit_detailed_content_container">
+            <div class="kit_detailed_avatar">
+              <md-icon md-svg-src="{{ vm.kit.avatar }}">
+              </md-icon>
+            </div>
+            <div class="kit_details_content">
+              <h3 class="kit_detailed_name kit_details_name">{{ vm.kit.name }}</h3>
+              <p class="kit_details_location">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.location }}</span>
+              </p>
+              <p class="kit_details_type">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.type }}</span>
+                <span class="kit_details_version"><span>SCK:</span> {{ vm.kit.version }}</span>
+                <span class="kit_details_id"><span>ID:</span> {{ vm.kit.id }}</span>
+              </p>
+              <p class="kit_details_lastTime">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/update_icon.svg">
+                </md-icon>
+                <span>{{ vm.kit.lastTime }}</span>
+              </p>
+              <p class="kit_details_labels">
+                <span ng-repeat="label in vm.kit.labels">{{ label }}</span>
+              </p>
+              <div class="kit_details_description">
+                <h4 class="kit_details_description_title">Kit Description:</h4>
+                <p class="kit_details_description_content">{{ vm.kit.description }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="kit_details_manage">
+            <div class="kit_details_manage_buttons">
+              <md-button href="#" ng-click="" class="kit_details_button_setup" aria-label="">SET UP</md-button>
+              <md-button href="#" ng-click="" class="kit_details_button_edit" aria-label="">EDIT</md-button>
+              <md-button href="#" ng-click="" class="kit_details_button_delete" aria-label="">DELETE</md-button>
+            </div>
+            <div class="kit_details_manage_data">
+              <div class="kit_details_macaddress">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Mac Address:</span>
+                <span>00:00:00:00:01</span>
+              </div>
+              <div class="kit_details_debug">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Debug mode:</span>
+                <span>Enabled</span>
+              </div>
+              <div class="kit_details_key">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">API Key:</span>
+                <span>34334324233d3f4f3</span>
+              </div>
+              <div class="kit_details_download">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg">
+                </md-icon>
+                <span class="kit_details_manage_data_name">Download Data</span>
+                <span>Choose your format</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="kit_owner">
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/user_details_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">KIT OWNER</h2>
+          </div>
+          <div class="kit_detailed_content_container">
+            <div class="kit_detailed_avatar">
+              <md-icon md-svg-src="{{ vm.kit.owner.avatar }}">
+              </md-icon>
+            </div>
+            <div class="kit_owner_content">
+              <div class="kit_owner_info">
+                <h3 class="kit_owner_username">{{ vm.kit.owner.username }}</h3>
+                <p class="kit_owner_location">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                  </md-icon>
+                  <span>{{ vm.kit.owner.location }}</span>
+                </p>
+                <p class="kit_owner_url">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/user_details_icon.svg">
+                  </md-icon>
+                  <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url }}</a>
+                </p>
+              </div>
+              <div class="kit_owner_kits">
+                <h3 class="kit_owner_kits_title">Kits of {{ vm.kit.owner.username }}<h3>
+                <div class="kit_owner_kits_list" ng-repeat="kit in vm.ownerKits">
+                  <div class="kit_detailed_content_container">
+                    <div class="kit_owner_kits_list_avatar">
+                      <md-icon class="kit_owner_kits_list_avatar" md-svg-src="{{ kit.avatar }}">
+                      </md-icon>
+                    </div>
+                    <div class="kit_owner_kits_list_content"> 
+                      <p class="kit_owner_kits_list_name kit_detailed_name">{{ kit.name }}</p>
+                      <p class="kit_owner_kits_list_data">
+                        <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.location}}</span>
+                        <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/sensor_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.type }}</span>
+                      </p>
+                    </div>
+                    <div class="kit_owner_kits_list_config" layout="row" layout-align="center center">
+                      <div class="kit_owner_kits_list_state kit_owner_kits_list_{{ kit.state.className }}">{{ kit.state.name }}</div>
+                      <md-button class="kit_owner_dropdown_button" dropdown-menu="vm.dropdownOptions"
+                          dropdown-model="vm.dropdownSelected"
+                          dropdown-item-label="text">
+                          <img src="./assets/images/config_icon.svg" />
+                      </md-button>
+                    </div>
+                  </div>
+                </div>
+                <md-button href="#" ng-click="" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
+              </div>
+            </div> 
+          </div>           
+        </div>
+        <div class="clearfix"></div>
+      </section>
+      <section class="kit_comments">
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_title_container">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/discussion_icon.svg">
+            </md-icon>
+            <h2 class="kit_detailed_title">DISCUSSION</h2>
           </div>
         </div>
       </section>

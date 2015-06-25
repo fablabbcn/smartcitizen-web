@@ -2,23 +2,73 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Kit', function() {
+    .factory('Kit', ['Sensor', function(Sensor) {
 
-      function Kit(object) {
-        this.name = object.name;
-        this.type = parseKitType(object);
-        this.lastTime = moment(parseKitTime(object)).fromNow(); 
-        this.location = parseKitLocation(object);
-        this.labels = parseKitLabels(object); 
-        this.class = classify(parseKitType(object)); 
-      };
+      function Kit(object, options) {
+        if(options && options.type === 'preview') {
+          this.name = object.device.name;
+          this.type = parseKitType(object);
+          this.location = parseKitLocation(object);
+          this.avatar = './assets/images/avatar.svg';
+          this.state = parseKitState(object);
+        } else {
+          this.name = object.device.name;
+          this.type = parseKitType(object);
+          this.version = parseKitVersion(object);
+          this.avatar = './assets/images/avatar.svg';
+          this.lastTime = moment(parseKitTime(object)).fromNow(); 
+          this.location = parseKitLocation(object);
+          this.labels = parseKitLabels(object); 
+          this.class = classify(parseKitType(object)); 
+          this.id = object.device.id;
+          this.description = object.description;
+          this.owner = parseKitOwner(object);
+          this.data = object.data.sensors;          
+        }
+      }
 
-      Kit.prototype.getSensorsData = function() {
+      Kit.prototype.getSensors = function(options) {
+        var data = [];
+        var parsedSensors = this.data.map(function(sensor) {
+          return new Sensor(sensor); 
+        });
 
+        if(options.type === 'compare') {
+          parsedSensors.unshift({
+            name: 'NONE',
+            color: 'white',
+            id: -1
+          });
+        } 
+
+        return parsedSensors.reduce(function(acc, sensor, index, arr) {
+          if(sensor.name === 'BATTERY') {
+            arr.splice(index, 1);
+            
+            if(options.type === 'main') {
+              acc[0] = arr;              
+              acc[1] = sensor;
+            } else if(options.type === 'compare') {
+              acc = arr;
+            }
+          }
+          return acc;
+        }, []);
       };
 
       return Kit;
-    });
+    }]);
+
+    /**
+     * Util functions to parse kit data. List: 
+     * -parseKit
+     * -parseKitLocation
+     * -parseKitLabels
+     * -parseKitType
+     * -classify
+     * -parseKitTime
+     * -parseKitVersion
+     */
 
     function parseKit(object) {
       /*jshint camelcase: false */
@@ -51,7 +101,7 @@
 
     function parseKitLabels(object) {
       return {
-        status: object.status,
+        status: object.device.status,
         exposure: object.data.location.exposure
       };
     }
@@ -74,6 +124,38 @@
 
     function parseKitTime(object) {
       return object.updated_at;
+    }
+
+    function parseKitVersion(object) {
+      return object.kit.name.match(/[0-9]+.?[0-9]*/)[0];
+    }
+
+    function parseKitOwner(object) {
+      return {
+        username: object.owner.username,
+        kits: object.owner.device_ids,
+        location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : 'Barcelona, Spain',
+        url: object.owner.url || 'http://www.example.com',
+        avatar: object.owner.avatar || './assets/images/avatar.svg'
+      };
+    }
+
+    function parseKitState(object) {
+      var name = parseKitStateName(object); 
+      var className = classify(name); 
+      
+      return {
+        name: name,
+        className: className
+      };
+    }
+
+    function parseKitStateName(object) {
+      return 'Never published';
+    }
+
+    function getKits() {
+
     }
 
     function parseSensorTime(sensor) {

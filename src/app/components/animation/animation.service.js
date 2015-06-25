@@ -11,7 +11,9 @@
         blur: blur,
         unblur: unblur,
         removeNav: removeNav,
-        addNav: addNav
+        addNav: addNav,
+        showSpinner: showSpinner,
+        hideSpinner: hideSpinner
     	};
     	return service;
 
@@ -31,6 +33,14 @@
 
       function addNav() {
         $rootScope.$broadcast('addNav');
+      }
+
+      function showSpinner() {
+        $rootScope.$broadcast('showSpinner');
+      }
+
+      function hideSpinner() {
+        $rootScope.$broadcast('hideSpinner');
       }
     }
 })();

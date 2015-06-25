@@ -4,8 +4,8 @@
   angular.module('app.components')
     .directive('chart', chart);
 
-    chart.$inject = ['sensor'];
-    function chart(sensor) { 
+    chart.$inject = ['sensor', 'animation'];
+    function chart(sensor, animation) { 
       var margin, width, height, svg, xScale, yScale0, yScale1, xAxis, yAxisLeft, yAxisRight, dateFormat, areaMain, valueLineMain, areaCompare, valueLineCompare, focusCompare, focusMain, popup, dataMain, colorMain, yAxisScale, unitMain, popupContainer;
 
       return {
@@ -74,6 +74,7 @@
               var unit = newData[0].unit;
               updateChartData(data, {type: 'main', container: elem[0], color: color, unit: unit });
             } 
+            animation.hideSpinner();
           }
         });
       }

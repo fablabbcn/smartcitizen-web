@@ -41,7 +41,7 @@
         if(!dateFrom || !dateTo) {
           return Restangular.one('devices', deviceID).customGET('pg_readings');          
         }
-        return Restangular.one('devices', deviceID).customGET('pg_readings', {'from': dateFrom, 'to': dateTo});
+        return Restangular.one('devices', deviceID).customGET('pg_readings', {'from': dateFrom, 'to': dateTo, all_intervals: true});
       }
     }
 })();

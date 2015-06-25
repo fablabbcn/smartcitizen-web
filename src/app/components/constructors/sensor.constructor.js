@@ -5,8 +5,8 @@
     .factory('Sensor', function() {
 
       function Sensor(sensorData) {
-        this.id = sensorData.id;
         this.name = getSensorName(sensorData);
+        this.id = sensorData.id;
         this.unit = getSensorUnit(this.name);
         this.value = getSensorValue(sensorData);
         this.icon = getSensorIcon(this.name);

@@ -21,7 +21,7 @@
         
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'DialogController',
+          controller: 'SignupDialogController',
           templateUrl: 'app/components/signup/signupModal.html',
           //targetEvent: ev,
           clickOutsideToClose: true
