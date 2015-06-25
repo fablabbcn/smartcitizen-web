@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('utils', utils);
 
-    utils.$inject = ['device', 'Kit'];
-    function utils(device, Kit) {
+    utils.$inject = ['device', 'Kit', '$q'];
+    function utils(device, Kit, $q) {
       var service = {
         parseKit: parseKit,
         parseKitTime: parseKitTime,
@@ -81,6 +81,7 @@
       }
 
       function getOwnerKits(ids, cb) {
+        var deferred = $q.defer();
         var kitsResolved = 0;
         var kits = [];
 
@@ -91,10 +92,11 @@
               kitsResolved++;
 
               if(ids.length === kitsResolved) {
-                cb(kits);
+                deferred.resolve(kits);
               }
             });
         });
+        return deferred.promise;
       }
     }
 })();

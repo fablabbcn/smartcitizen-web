@@ -6,11 +6,12 @@
 
       function Kit(object, options) {
         if(options && options.type === 'preview') {
-          this.name = object.device.name;
+          this.name = object.device.name || 'No Name';
           this.type = parseKitType(object);
-          this.location = parseKitLocation(object);
+          this.location = parseKitLocation(object) || 'No location';
           this.avatar = './assets/images/avatar.svg';
           this.state = parseKitState(object);
+          this.labels = parseKitLabels(object);
         } else {
           this.name = object.device.name;
           this.type = parseKitType(object);
@@ -100,9 +101,11 @@
     }
 
     function parseKitLabels(object) {
+      var status = object.device.status === 'new' ? 'offline' : object.device.status;
+      var exposure = object.data.location.exposure;
       return {
-        status: object.device.status,
-        exposure: object.data.location.exposure
+        status: status,
+        exposure: exposure
       };
     }
 

@@ -2,27 +2,30 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('MyProfileController', MyProfileController);
+    .controller('MyProfileController', MyProfileController)
+    .filter('filterByStatus', filterByStatus);
 
-    MyProfileController.$inject = [];
-    function MyProfileController() {
+    MyProfileController.$inject = ['User', 'authUser'];
+    function MyProfileController(User, authUser) {
       var vm = this;
 
-      //vm.user = new User(userData);
+      vm.user = new User(userData);
       vm.kits;
-      vm.filterKits = filterKits;
+      vm.status;
 
+
+      vm.dropdownSelected;
+      vm.dropdownOptions = [
+        {text: 'SET UP', value: '1'},
+        {text: 'EDIT', value: '2'}
+      ];
+
+
+      vm.filterKits = filterKits;
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
 
       //////////////////
-
-
-      function filterKits(status) {
-        vm.kits = vm.user.kits.filter(function(kit) {
-          return kit.status === status;
-        });
-      }
 
       function updateUser(userData) {
 
@@ -30,6 +33,14 @@
 
       function removeUser() {
         
+      }
+    }
+
+    function filterByStatus() {
+      return function(kits) {
+        return kits.filter(function(kit) {
+          return filter.labels.status === vm.status;
+        });
       }
     }
 })();

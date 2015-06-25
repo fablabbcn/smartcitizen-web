@@ -158,17 +158,17 @@
           url: '/profile',
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
-          controllerAs: 'vm'//,
-          /*resolve: {
+          controllerAs: 'vm',
+          resolve: {
             authUser: function(auth) {
               var id = auth.getCurrentUser().data.id;
-
+              id = 2;
               return user.getUser(id)
                 .then(function(user) {
                   return user;
                 });             
             }
-          } */
+          } 
         });
 
       $urlRouterProvider.otherwise('/');

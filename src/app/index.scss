@@ -1343,7 +1343,88 @@ navbar {
 .kit_owner_dropdown_button {
   display: block;
   margin: 0 auto;
+}
 
+/**
+ *  KIT LIST
+ *
+ */
+.kitList {
+  color: #4F8390;
+  border: 1px solid #EAECF1;
+  height: 82px;
+  background-color: white;
+
+  .wrap-dd-menu {
+    width: 50px;
+    display: inline-block;
+  }
+  .wrap-dd-menu .dropdown {
+    top: 70%;
+    line-height: 1em;
+    left: -25px;
+    right: -25px;
+    border-radius: 0px;
+    li a {
+      text-align: center;
+      border-bottom: 0px;
+    }
+  }
+}
+.kitList_container {
+  width: 95%;
+  margin: 0 auto;
+}
+.kitList_avatar {
+  float: left;
+  width: 44px;
+  height: 44px;
+  margin-right: 3%;
+  margin-top: 18px;
+}
+.kitList_content {
+  float: left;
+  margin-top: 5px;
+}
+.kitList_name {
+  margin: 9px 0;
+  font-size: 18px;
+  color: $blue_light;
+}
+.kitList_data {
+  font-size: 16px;
+  span {
+    margin-right: 15px;
+  }
+}
+.kitList_icon {
+  width: 14px;
+  height: 14px;
+}
+.kitList_config {
+  float: right;
+  margin-top: 13px;
+}
+.kitList_state {
+  display: inline;
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 6px 11px;
+  margin: 15px;
+  font-weight: bold;
+}
+.kitList_state_never_published {
+  background-color: #F3C039;
+}
+.kitList_state_not_setup {
+
+}
+.kitList_dropdownButton {
+  display: block;
+  margin: 0 auto;
+}
+ 
 /** 
  *  USER PROFILE STATE
  *  most styles are re-used on my profile state
