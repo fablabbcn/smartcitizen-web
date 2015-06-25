@@ -4,6 +4,7 @@
 
 	angular.module('app.components', [
 		'oauth',
-		'leaflet-directive'
+		'leaflet-directive',
+    'restangular'
 	]);
 })();
