@@ -1418,7 +1418,7 @@ navbar {
   background-color: #F3C039;
 }
 .kitList_state_not_setup {
-
+  background-color: red;
 }
 .kitList_dropdownButton {
   display: block;
@@ -1461,6 +1461,10 @@ navbar {
 }
 .profile_header_url {
   font-size: 16px;
+  a {
+    text-decoration: none;
+    color: $font_color_blue_grey;
+  }
 }
 
 .profile_content {
@@ -1543,9 +1547,14 @@ navbar {
   margin-left: 113px;
   margin-right: 20%;
   max-width: 500px;
-
-  >div {
-    margin: 16px 0;
+}
+.myProfile_content_form_input {
+  margin: 16px 0;
+}
+.myProfile_form_avatar {
+  md-icon {
+    width: 64px;
+    height: 64px;
   }
 }
 .myProfile_form_updateButton {
@@ -1553,7 +1562,13 @@ navbar {
   color: $blue_light;
 }
 .myProfile_form_removeButton {
+  display: block;
   color: $alert_red;
+  margin-bottom: 5px;
+}
+.myProfile_apiKey {
+  margin-top: 63px;
+  margin-bottom: 65px;
 }
 .md-button.md-default-theme.myProfile_addKitButton {
   color: white;

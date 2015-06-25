@@ -12,7 +12,9 @@
      * authenticated.
      */
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-
+        /*if(toState.authenticate) {
+          if(auth.isAuth()) return
+        }*/
       });
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {

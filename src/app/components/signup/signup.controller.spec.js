@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('Controller: SignupController', function(){
 
@@ -54,3 +54,4 @@ describe('Controller: SignupController', function(){
     expect(mockUserService.post).toHaveBeenCalled();
   });
 });
+*/

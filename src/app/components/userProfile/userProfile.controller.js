@@ -9,11 +9,12 @@
     function UserProfileController(User, utils, userData) {
       var vm = this;
       var user = new User(userData); 
-      var kits, filteredKits;
+      var kits;
 
       vm.status = undefined;
       vm.user = user;
       vm.kits;
+      vm.filteredKits;
 
       vm.dropdownSelected;
       vm.dropdownOptions = [

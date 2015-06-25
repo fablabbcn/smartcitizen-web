@@ -156,17 +156,19 @@
         })
         .state('myProfile', {
           url: '/profile',
+          authenticate: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
           resolve: {
-            authUser: function(auth) {
-              var id = auth.getCurrentUser().data.id;
-              id = 2;
-              return user.getUser(id)
+            authUser: function(user, auth) {
+              var id = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
+              if(!id) return;
+
+              return user.getUser()
                 .then(function(user) {
                   return user;
-                });             
+                });
             }
           } 
         });

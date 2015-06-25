@@ -3,14 +3,14 @@
     <div class="myProfile_header_container" layout="row">
       <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="profile_header_avatar myProfile_header_avatar"></md-icon>
       <div class="profile_header_content">
-        <div class="profile_header_name">Gcamprodon</div>
+        <div class="profile_header_name">{{ vm.user.username }}</div>
         <div class="profile_header_location">
           <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
-          <span>Barcelona, Spain</span>
+          <span>{{ vm.user.location }}</span>
         </div>
         <div class="profile_header_url">
           <md-icon md-svg-src="./assets/images/url_icon.svg" class="profile_header_content_avatar"></md-icon>
-          <span>example.com</span>
+          <span>{{ vm.user.url }}</span>
         </div>
       </div>
     </div>
@@ -31,10 +31,13 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="myProfile_content_form">
-                <div layout layout-sm="column" class="field">
+                <div class="myProfile_form_avatar">
+                  <md-icon md-svg-src="{{ vm.user.avatar }}" class="myProfile_tab_icon"></md-icon>
+                </div>
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Username</label>
-                    <input type="text" ng-model="vm.user.username">
+                    <input type="text" ng-model="vm.formUser.username">
                   </md-input-container>
                   <p class="errors" ng-show="!!errors.username.length">
                     <span ng-repeat="error in errors.username">
@@ -42,10 +45,10 @@
                     </span>
                   </p>
                 </div>
-                <div layout layout-sm="column" class="field">
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Password</label>
-                    <input type="password" ng-model="vm.user.password">
+                    <input type="password" ng-model="vm.formUser.password">
                   </md-input-container>
                   <p class="errors" ng-show="!!errors.password.length">
                     <span ng-repeat="error in errors.password">
@@ -53,10 +56,10 @@
                     </span>
                   </p>
                 </div>
-                <div layout layout-sm="column" class="field">
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Email</label>
-                    <input type="email" ng-model="vm.user.email">
+                    <input type="email" ng-model="vm.formUser.email">
                   </md-input-container>
                   <p class="errors" ng-show="!!errors.email.length">
                     <span ng-repeat="error in errors.email">
@@ -64,10 +67,10 @@
                     </span>
                   </p>
                 </div>
-                <div layout layout-sm="column" class="field">
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>City</label>
-                    <input type="text" ng-model="vm.user.city">
+                    <input type="text" ng-model="vm.formUser.city">
                   </md-input-container>
                   <p class="errors" ng-show="!!errors.city.length">
                     <span ng-repeat="error in errors.city">
@@ -75,10 +78,10 @@
                     </span>
                   </p>
                 </div>
-                <div layout layout-sm="column" class="field">
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Country</label>
-                    <input type="text" ng-model="vm.user.country">
+                    <input type="text" ng-model="vm.formUser.country">
                   </md-input-container>
                   <p class="errors" ng-show="!!errors.country.length">
                     <span ng-repeat="error in errors.country">
@@ -86,21 +89,21 @@
                     </span>
                   </p>
                 </div>
-                <div layout layout-sm="column" class="field">
+                <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Website</label>
-                    <input type="text" ng-model="vm.user.website">
+                    <input type="text" ng-model="vm.formUser.url">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.website.length">
-                    <span ng-repeat="error in errors.website">
-                      Website {{ error }}<span ng-if="!$last">,</span> 
+                  <p class="errors" ng-show="!!errors.url.length">
+                    <span ng-repeat="error in errors.url">
+                      URL {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
                 </div>
 
-                <md-button ng-click="vm.updateUser()" class="myProfile_form_updateButton">UPDATE PROFILE</md-button>
+                <md-button ng-click="vm.updateUser(vm.formUser)" class="myProfile_form_updateButton">UPDATE PROFILE</md-button>
                 <div class="clearfix"></div>
-                <div>
+                <div class="myProfile_apiKey">
                   <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
                   <span>API KEY</span>
                 </div>
@@ -132,7 +135,33 @@
                 <span class="myProfile_content_main_title">0 kits filtering by ALL</span>
               </div>
               <div class="">
-                There are no kits yet.
+                <div class="kitList" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.status } } ))">
+                  <div class="kitList_container">
+                    <div class="">
+                      <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar }}">
+                      </md-icon>
+                    </div>
+                    <div class="kitList_content"> 
+                      <div class="kitList_name">{{ kit.name }}</div>
+                      <div class="kitList_data">
+                        <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.location }}</span>
+                        <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
+                        </md-icon>
+                        <span>{{ kit.type }}</span>
+                      </div>
+                    </div>
+                    <div class="kitList_config" layout="row" layout-align="center center">
+                      <div class="kitList_state kitList_state_{{ kit.state.className }}">{{ kit.state.name }}</div>
+                      <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
+                          dropdown-model="vm.dropdownSelected"
+                          dropdown-item-label="text" aria-label>
+                          <img src="./assets/images/config_icon.svg" />
+                      </md-button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>          

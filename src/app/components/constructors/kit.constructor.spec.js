@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('Service: User Constructor', function() {
 
@@ -22,3 +22,4 @@ describe('Service: User Constructor', function() {
     });
   });
 }); 
+*/

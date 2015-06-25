@@ -2,17 +2,21 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('MyProfileController', MyProfileController)
-    .filter('filterByStatus', filterByStatus);
+    .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['User', 'authUser'];
-    function MyProfileController(User, authUser) {
+    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth'];
+    function MyProfileController($scope, authUser, User, user, auth) {
       var vm = this;
 
-      vm.user = new User(userData);
+      if(authUser) { 
+        vm.user = new User(authUser);        
+      }
       vm.kits;
-      vm.status;
+      vm.status = undefined;
 
+      vm.formUser = {
+        'avatar': null
+      };
 
       vm.dropdownSelected;
       vm.dropdownOptions = [
@@ -20,27 +24,32 @@
         {text: 'EDIT', value: '2'}
       ];
 
-
       vm.filterKits = filterKits;
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
 
+      $scope.$on('loggedIn', function() {
+        vm.user = auth.getCurrentUser().data;
+        _.defaults(vm.formUser, vm.user);
+      });
+
       //////////////////
 
       function updateUser(userData) {
-
+        user.updateUser(userData)
+          .then(function() {
+            console.log('done');
+          });
       }
 
       function removeUser() {
-        
+        user.removeUser()
+          .then(function() {
+            console.log('removed');
+          })
       }
-    }
+      function filterKits() {
 
-    function filterByStatus() {
-      return function(kits) {
-        return kits.filter(function(kit) {
-          return filter.labels.status === vm.status;
-        });
       }
     }
 })();
