@@ -35,7 +35,7 @@
         controller: 'AlertController',
         controllerAs: 'vm',
         templateUrl: 'app/components/alert/alert' + type + '.html',
-        hideDelay: 10000,
+        hideDelay: 100000, //10000
         position: position,
         locals: {message: message}
       });

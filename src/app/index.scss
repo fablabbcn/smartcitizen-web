@@ -71,7 +71,7 @@ navbar {
   }
   
   .md-button.full_height {
-    padding: 24px 0px;
+    padding: 24px 10px;
   }
 
   .nav_left {
@@ -92,12 +92,12 @@ navbar {
     margin: 0px 16px;
 
     .get {
-      width: 98px;
-      margin-right: 8px;
+      // width: 98px;
+      // margin-right: 8px;
     }
     .log {
-      width: 56px;
-      margin: 0px 8px;
+      // width: 56px;
+      // margin: 0px 8px;
     }
     .navbar_signup_button {
       text-align: center;
@@ -222,16 +222,19 @@ md-toolbar.md-default-theme {
   height: 64px;
 }
 
-.md-button.md-default-theme.md-raised.md-primary { 
+.md-button.md-default-theme.md-flat.md-primary { 
   background-color: $terciary_color;
+  color: white;
 }
 
-.md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover { 
+.md-button.md-default-theme.md-primary.md-flat:not([disabled]):hover { 
   background-color: $terciary_color;
+  color: white;
 }
 
-.md-button.md-default-theme.md-primary.md-raised:not([disabled]):focus {
+.md-button.md-default-theme.md-primary.md-flat:not([disabled]):focus {
   background-color: $terciary_color;
+  color: white;
 }
 
 md-dialog.md-default-theme { 
@@ -263,7 +266,8 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
 }
 
 md-toast.md-top {
-  position: absolute;
+  z-index: 80;
+  position: fixed;
   top: 64px;
   max-width: 100%;
   width: 100%;
@@ -289,6 +293,7 @@ md-toast.red {
 
 md-toast.green {
   background-color: $alert_green;
+  z-index: 6;
 }
 
 md-toast.blue {
@@ -301,7 +306,7 @@ md-progress-linear.md-default-theme .md-bar{
 
 md-backdrop.md-opaque.md-default-theme {
   background-color: rgba(30, 30, 30, 0.6);
-  position:absolute;
+  // position:absolute;
   /*-ms-filter: blur(20px);  
   -webkit-filter: blur(20px);  
   -moz-filter: blur(20px);  
@@ -559,7 +564,7 @@ section .kit_menu {
   position: relative;
 
   .kit_chart {
-    height: 264px;
+    height: 280px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
 
@@ -743,8 +748,8 @@ section .kit_menu {
     font-size: 12px;
   }
   .kit_details_manage {
-    float: right;
-    margin-right: 40px;
+    // float: right;
+    // margin-right: 40px;
   }
   .kit_details_manage_buttons {
     margin-bottom: 32px;
@@ -773,7 +778,7 @@ section .kit_menu {
   }
   .kit_detailed_avatar {
     float: left;
-    margin-right: 5%;
+    margin-right: 38px;
     md-icon {
       width: 80px;
       height : 80px;
@@ -879,6 +884,7 @@ section .kit_menu {
     .kit_owner_kits_more_button {
       font-size: 16px;
       float: right;
+      right: 5%;
       margin: 32px 0 64px 0;
       color: #35C2E5;
     }
@@ -889,7 +895,12 @@ section .kit_menu {
   width: 100%;
   height: 90%;
   position: relative;
-
+  
+  .chart_spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
   .chart_line {
     fill: none;
     stroke-width: 2px;
@@ -991,6 +1002,7 @@ section .stickMenu {
     float: right;
     width: 14px;
     height: 14px;
+    margin: 12px;
 
     md-icon {
       width: 14px;
@@ -1272,7 +1284,7 @@ section .stickMenu {
     }
   }  
 }
-.kit_detailed {
+.kitList_parent {
 
   .wrap-dd-menu {
     width: 50px;
@@ -1298,6 +1310,7 @@ navbar {
     display: inline-block;
     margin: 0;
     padding: 0;
+    display: none;
   }
   .wrap-dd-menu .dropdown {
     top: 65%;
@@ -1346,6 +1359,10 @@ navbar {
  *  KIT LIST
  *
  */
+.kitList_parent {
+  position: relative;
+}
+
 .kitList {
   color: #4F8390;
   border-top: 1px solid #EAECF1;
@@ -1353,7 +1370,6 @@ navbar {
   border-left: 1px solid #EAECF1;
   height: 82px;
   background-color: white;
-  width: 100%;
   border-radius: 0 !important;
   text-transform: none;
 
@@ -1373,25 +1389,33 @@ navbar {
     }
   }
 }
+.kitList_primary {
+  width: 100%;
+}
+.kitList_secondary {
+  width: 95%;
+}
 
 .kitList_container {
-  width: 95%;
-  margin: 0 auto;
+  // width: 95%;
+  // margin: 0 auto;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 .kitList_avatar {
-  float: left;
+  // float: left;
   width: 44px;
   height: 44px;
   margin-right: 20px;
-  margin-top: 7px;
+  // margin-top: 14px;
 }
 .kitList_content {
-  float: left;
-  margin-top: 0;
+  // float: left;
+  // margin-top: 0;
   text-align: initial;
 }
 .kitList_name {
-  margin: 5px 0;
+  margin-bottom: 5px;
   font-size: 18px;
   color: $blue_light;
 }
@@ -1406,17 +1430,22 @@ navbar {
   height: 14px;
 }
 .kitList_config {
-  float: right;
-  margin-top: 13px;
+  display: inline-block;
+  position: relative;
+  top: 5px;
 }
 .kitList_state {
-  display: inline;
+  display: inline-block;
   color: white;
   font-size: 12px;
   border-radius: 20px;
   padding: 6px 11px;
-  margin: 15px;
+  margin-right: 15px;
   font-weight: bold;
+  position: absolute;
+  top: 35%;
+  right: 0;
+  height: 25px;
 }
 .kitList_state_never_published {
   background-color: #F3C039;

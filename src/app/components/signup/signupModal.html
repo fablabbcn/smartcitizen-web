@@ -1,10 +1,10 @@
 <md-dialog>
   <md-dialog-content class="modal signup">
-    <div>
-      <md-button class="close_icon">
-        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="cancel()" class="" >
-        </md-icon>
-      </md-button>
+    <md-button class="close_icon">
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="cancel()" class="" >
+      </md-icon>
+    </md-button>
+    <div class="modal_content_container">
     	<h2>SIGN UP</h2>
       <div class="modal_message">
     	  <p>People looking for a better city</p>
@@ -44,7 +44,7 @@
         </p>
       </div>
     </div>
-  	<md-button class="md-raised md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
+  	<md-button class="md-flat md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
   </md-dialog-content>
   <p class="message_below">
     <span class="message_below_question">Already have an account?</span>

@@ -34,8 +34,9 @@
 
       $scope.$on('loggedIn', function() {
         vm.isLoggedin = true;
+        angular.element('navbar .wrap-dd-menu').css('display', 'initial');           
         vm.currentUser = auth.getCurrentUser().data;   
-        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;           
+        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
       });
 
       //////////////////

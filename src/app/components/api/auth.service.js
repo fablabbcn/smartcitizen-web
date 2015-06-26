@@ -40,6 +40,7 @@
           .then(function(data) {
             user.data = new User(data, {type: 'authUser'});
             $rootScope.$broadcast('loggedIn');
+            console.log('user', user);
           });
       }
 

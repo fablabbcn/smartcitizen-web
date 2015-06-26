@@ -18,16 +18,16 @@
           })
           .catch(function(err) {
             console.log('no');
-            console.log('err', err.data.errors);
-            alert.error('Error');
-            $scope.errors = err.data.errors;
+            // console.log('err', err.data.errors);
+            alert.error('Username or password incorrect');
+            // $scope.errors = err.data.errors;
           });
       };
       $scope.hide = function() {
         $mdDialog.hide();
       };
       $scope.cancel = function() {
-        $mdDialog.cancel();
+        $mdDialog.hide();
       };
     }
 })();

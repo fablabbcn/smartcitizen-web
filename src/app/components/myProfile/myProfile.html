@@ -3,14 +3,14 @@
     <div class="myProfile_header_container" layout="row">
       <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="profile_header_avatar myProfile_header_avatar"></md-icon>
       <div class="profile_header_content">
-        <div class="profile_header_name">{{ vm.user.username }}</div>
+        <div class="profile_header_name">{{ vm.user.username || 'No data' }}</div>
         <div class="profile_header_location">
           <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
-          <span>{{ vm.user.location }}</span>
+          <span>{{ vm.user.location || 'No data' }}</span>
         </div>
         <div class="profile_header_url">
           <md-icon md-svg-src="./assets/images/url_icon.svg" class="profile_header_content_avatar"></md-icon>
-          <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'http://example.com' }}</a>
+          <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No data' }}</a>
         </div>
       </div>
     </div>
@@ -139,13 +139,13 @@
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
                 <md-button class="myProfile_addKitButton">ADD A NEW KIT</md-button>
-                <span class="myProfile_content_main_title">{{ vm.filteredKits.length }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
+                <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
-              <div class="">
-                <div class="kitList" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.kitStatus } } ))">
-                  <div class="kitList_container">
+              <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.kitStatus } } ))">
+                <md-button class="kitList kitList_secondary" >
+                  <div class="kitList_container" layout="row" layout-align="start center">
                     <div class="">
-                      <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar }}">
+                      <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar || './assets/images/avatar.svg' }}">
                       </md-icon>
                     </div>
                     <div class="kitList_content"> 
@@ -158,15 +158,22 @@
                         </md-icon>
                         <span>{{ kit.type }}</span>
                       </div>
-                    </div>
-                    <div class="kitList_config" layout="row" layout-align="center center">
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}">{{ kit.state.name }}</div>
-                      <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
-                          dropdown-model="vm.dropdownSelected"
-                          dropdown-item-label="text" aria-label>
-                          <img src="./assets/images/config_icon.svg" />
-                      </md-button>
-                    </div>
+                    </div>  
+                    <div class="kitList_state kitList_state_{{ kit.state.className }}">{{ kit.state.name }}</div>               
+                  </div>
+                </md-button>
+                <div class="kitList_config" layout="row" layout="center center">
+                  <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
+                      dropdown-model="vm.dropdownSelected"
+                      dropdown-item-label="text">
+                      <img src="./assets/images/config_icon.svg" />
+                  </md-button>
+                </div>
+              </div>
+              <div class="kitList" class="" ng-show="!vm.kits.length">
+                <div class="kitList_container">
+                  <div class="kitList_noKits">
+                    <span>There are not kits yet</span>
                   </div>
                 </div>
               </div>
@@ -192,11 +199,11 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
-                <span class="profile_content_main_title">{{ vm.filteredTools.length }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>        
+                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>        
               </div>
               <div class="profile_content_main_kits">
-                <div class="kitList" ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))">
-                  <div class="kitList_container">
+                <md-button class="kitList kitList_primary" ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))">
+                  <div class="kitList_container" layout="row" layout-align="start center">
                     <div class="">
                       <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
                       </md-icon>
@@ -208,14 +215,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="kitList" class="" ng-show="!vm.kits.length">
-                  <div class="kitList_container">
-                    <div class="kitList_noKits">
-                      <span>There are not kits yet</span>
-                    </div>
-                  </div>
-                </div>
+                </md-button>
               </div>
             </div>
           </div>

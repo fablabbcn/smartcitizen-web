@@ -134,6 +134,14 @@
                   marker.dataLoaded();
                   return data;
                 });
+            },
+            belongsToUser: function($stateParams, auth, marker) {
+              if(!auth.isAuth()) return false;
+              var kitID = $stateParams.id;
+              var authUserKits = auth.getCurrentUser().data.kits;
+              return _.some(authUserKits, function(kit) {
+                return kitID === kit.id;
+              });
             }
           }
         })

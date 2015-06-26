@@ -77,6 +77,7 @@
           .then(function(userKits) {
             kits = userKits;
             vm.kits = userKits;
+            console.log('kits', kits);
           });
       }
 
