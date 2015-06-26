@@ -38,7 +38,7 @@
         if(!user.token) return;
         getCurrentUserInfo()
           .then(function(data) {
-            user.data = new User(data);
+            user.data = new User(data, {type: 'authUser'});
             $rootScope.$broadcast('loggedIn');
           });
       }

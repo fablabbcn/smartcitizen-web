@@ -19,6 +19,7 @@
           .catch(function(err) {
             console.log('no');
             console.log('err', err.data.errors);
+            alert.error('Error');
             $scope.errors = err.data.errors;
           });
       };

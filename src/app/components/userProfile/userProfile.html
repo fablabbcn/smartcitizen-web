@@ -5,11 +5,11 @@
       <div class="profile_header_name">{{ vm.user.username }}</div>
       <div class="profile_header_location">
         <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
-        <span>{{ vm.user.location }}</span>
+        <span>{{ vm.user.location || 'No location' }}</span>
       </div>
       <div class="profile_header_url">
         <md-icon md-svg-src="./assets/images/map_icon.svg" class="profile_header_content_avatar"></md-icon>
-        <a ng-href="{{ vm.user.url }}">{{ vm.user.url }}</a>
+        <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'http://example.com' }}</a>
       </div>
     </div>
   </div>
@@ -24,10 +24,10 @@
     </div>
     <div class="profile_content_main" flex>
       <div class="profile_content_main_top">
-        <span class="profile_content_main_title">{{ vm.filteredKits.length }} kits filtering by ALL</span>        
+        <span class="profile_content_main_title">{{ vm.filteredKits.length }} kits filtering by {{ vm.status.toUpperCase() || 'ALL' }}</span>        
       </div>
       <div class="profile_content_main_kits">
-        <div class="kitList" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.status } } ))">
+        <md-button class="kitList" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.status } } ))" layout="row" layout-align="start center">
           <div class="kitList_container">
             <div class="">
               <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar }}">
@@ -43,6 +43,13 @@
                 </md-icon>
                 <span>{{ kit.type }}</span>
               </div>
+            </div>
+          </div>
+        </md-button>
+        <div class="kitList" class="" ng-show="!vm.kits.length">
+          <div class="kitList_container">
+            <div class="kitList_noKits">
+              <span>There are not kits yet</span>
             </div>
           </div>
         </div>

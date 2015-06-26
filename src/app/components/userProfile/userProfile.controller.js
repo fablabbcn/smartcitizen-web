@@ -2,8 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('UserProfileController', UserProfileController)
-    .filter('filterByStatus', filterByStatus);
+    .controller('UserProfileController', UserProfileController);
 
     UserProfileController.$inject = ['User', 'utils', 'userData'];
     function UserProfileController(User, utils, userData) {
@@ -14,15 +13,10 @@
       vm.status = undefined;
       vm.user = user;
       vm.kits;
+
       vm.filteredKits;
-
-      vm.dropdownSelected;
-      vm.dropdownOptions = [
-        {text: 'SET UP', value: '1'},
-        {text: 'EDIT', value: '2'}
-      ];
-
       vm.filterKits = filterKits;
+      vm.goThere = goThere;
 
       initialize();
       //////////////////
@@ -33,6 +27,10 @@
 
       function getKits() {
         var kitIDs = _.pluck(user.kits, 'id');
+        if(!kitIDs.length) {
+          vm.kits = [];
+          return;
+        };
 
         utils.getOwnerKits(kitIDs)
           .then(function(userKits) {
@@ -48,16 +46,9 @@
         } 
         vm.status = status;
       }
-    }
 
-    function filterByStatus() {
-      return function() {
-        console.log('kk.', kits);
-        if(kits) {
-          return kits.filter(function(kit) {
-            return filter.labels.status === vm.status;
-          });          
-        }
-      };
+      function goThere() {
+        console.log('this');
+      }
     }
 })();

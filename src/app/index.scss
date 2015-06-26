@@ -1250,12 +1250,9 @@ section .stickMenu {
   margin-right: 10px;
 }
 
-.clearfix {
-  clear: left;
-}
-
 /**
- * Override style for dropdown menu from angular-dropdowns dependecy
+ * DROPDOWN MENU
+ * Override style for dropdown menu from angular-dropdowns dependency
  */
 .kit_menu {
 
@@ -1351,9 +1348,14 @@ navbar {
  */
 .kitList {
   color: #4F8390;
-  border: 1px solid #EAECF1;
+  border-top: 1px solid #EAECF1;
+  border-right: 1px solid #EAECF1;
+  border-left: 1px solid #EAECF1;
   height: 82px;
   background-color: white;
+  width: 100%;
+  border-radius: 0 !important;
+  text-transform: none;
 
   .wrap-dd-menu {
     width: 50px;
@@ -1371,6 +1373,7 @@ navbar {
     }
   }
 }
+
 .kitList_container {
   width: 95%;
   margin: 0 auto;
@@ -1379,15 +1382,16 @@ navbar {
   float: left;
   width: 44px;
   height: 44px;
-  margin-right: 3%;
-  margin-top: 18px;
+  margin-right: 20px;
+  margin-top: 7px;
 }
 .kitList_content {
   float: left;
-  margin-top: 5px;
+  margin-top: 0;
+  text-align: initial;
 }
 .kitList_name {
-  margin: 9px 0;
+  margin: 5px 0;
   font-size: 18px;
   color: $blue_light;
 }
@@ -1423,6 +1427,9 @@ navbar {
 .kitList_dropdownButton {
   display: block;
   margin: 0 auto;
+}
+.kitList_noKits {
+  line-height: 5;
 }
  
 /** 
@@ -1486,7 +1493,7 @@ navbar {
 }
 .profile_sidebar_description {
   font-size: 14px;
-  margin: 0 35px 0 20px;
+  margin: 0 35px 24px 20px;
 }
 
 .profile_sidebar_button {
@@ -1495,6 +1502,10 @@ navbar {
   text-align: start;
   padding-left: 40px;
   height: 64px;
+  color: #032933;
+}
+.profile_sidebar_buttonLow {
+  text-transform: none;
 }
 
 /* profile main content */
@@ -1504,6 +1515,9 @@ navbar {
 }
 .profile_content_main_top {
   margin: 0 0 42px 20px;
+}
+.profile_content_main_kits {
+  border-bottom: 1px solid #EAECF1;
 }
 
 /**
@@ -1584,6 +1598,14 @@ navbar {
 }
 .myProfile_content_main_title {
   float: right;
+}
+
+/**
+ * TOOL LIST
+ *
+ */
+.toolList {
+
 }
 
 .clearfix {

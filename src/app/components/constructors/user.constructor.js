@@ -9,19 +9,19 @@
           this.username = userData.username;
           this.avatar = userData.avatar || './assets/images/user_details_icon.svg';
           this.kits = userData.devices;
-          this.city = userData.location.city || 'No city';
-          this.country = userData.location.country || 'No country';
-          this.location = userData.location.city && userData.location.country ? userData.location.city + ', ' + userData.location.country : 'Barcelona, Spain';
-          this.url = userData.url || 'http://example.com';
-          this.email = userData.email || 'no email';
+          this.city = userData.location.city;
+          this.country = userData.location.country;
+          this.location = userData.location.city && userData.location.country ? userData.location.city + ', ' + userData.location.country : null;
+          this.url = userData.url;
+          this.email = userData.email;
           this.key = '';
           this.macAddress = '';  
         } else {
           this.username = userData.username;
           this.avatar = userData.avatar || './assets/images/user_details_icon.svg';
           this.kits = userData.devices;
-          this.location = userData.location.city && userData.location.country ? userData.location.city + ', ' + userData.location.country : 'Barcelona, Spain';
-          this.url = userData.url || 'http://example.com';          
+          this.location = userData.location.city && userData.location.country ? userData.location.city + ', ' + userData.location.country : null;
+          this.url = userData.url;          
         }
       }
       return User;      
