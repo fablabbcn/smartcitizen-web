@@ -11,7 +11,10 @@
       </md-icon>
       <span>Map</span>
     </md-button>
-    <md-button ng-show="vm.isShown" href="#" class="md-flat full_height community">
+    <md-button ng-show="vm.isShown" href="" class="md-flat full_height community" aria-label="" 
+        dropdown-menu="vm.dropdownOptionsCommunity"
+        dropdown-model="vm.dropdownSelectedCommunity"
+        dropdown-item-label="text" layout="row" layout-align="center center">
       <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon">
       </md-icon>
       <span>Community</span>

@@ -7,7 +7,7 @@
     MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils'];
     function MyProfileController($scope, authUser, User, user, auth, utils) {
       var vm = this;
-      var user, kits
+      var userData, kits
 
       //PROFILE TAB
       vm.formUser = {
@@ -15,8 +15,8 @@
       };
 
       if(authUser) { 
-        user = new User(authUser);
-        vm.user = user; 
+        userData = new User(authUser);
+        vm.user = userData; 
         _.defaults(vm.formUser, vm.user);       
         initialize();
       }
@@ -54,8 +54,8 @@
 
       //in case it's the entry point for the app
       $scope.$on('loggedIn', function() {
-        user = auth.getCurrentUser().data;
-        vm.user = user;
+        userData = auth.getCurrentUser().data;
+        vm.user = userData;
         _.defaults(vm.formUser, vm.user);
         initialize();
       });
@@ -67,7 +67,7 @@
       }
 
       function getKits() {
-        var kitIDs = _.pluck(user.kits, 'id');
+        var kitIDs = _.pluck(userData.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
@@ -100,6 +100,9 @@
         user.updateUser(userData)
           .then(function() {
             console.log('done');
+          })
+          .catch(function(err) {
+            vm.errors = err.data.errors;
           });
       }
 

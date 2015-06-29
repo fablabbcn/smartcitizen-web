@@ -32,7 +32,6 @@
   color: #032933;
 }
 
-
 html {
   font-family: 'Roboto Condensed';
 }
@@ -65,7 +64,7 @@ navbar {
   }
 
   .nav_icon {
-    margin: 0 3%;
+    margin-right: 8px;
     height: 14px;
     width: 14px;
   }
@@ -79,11 +78,11 @@ navbar {
     margin: 0px 16px;
     .map {
       width: 66px;
-      margin-right: 8px;
+      // margin-right: 8px;
     }
     .community {
       width: 114px;
-      margin-left: 8px;
+      // margin-left: 8px;
     }
   }
 
@@ -557,6 +556,25 @@ section .kit_menu {
   }
 }
 
+/**
+ *  KIT DETAILS
+ *  
+ */
+ .kit_details_notAuth {
+  font-size: 14px;
+ }
+.kit_details_notAuth_title {
+  margin: 0;
+  font-size: 24px;
+ }
+.kit_details_notAuth_subheader {
+  color: #00637C;
+  font-size: 14px;
+}
+.kit_details_notAuth_button {
+  float: right;
+  color: $blue_light;
+}
 .kit_detailed {
   height: 1000px;
   z-index: $medium_priority;
@@ -590,7 +608,7 @@ section .kit_menu {
         }
         .sensor_select {
           .sensor_icon_selected {
-            margin: 0 1% 0 0;
+            margin-right: 8px;
           }
           md-select {
             margin: 0;
@@ -639,8 +657,8 @@ section .kit_menu {
             width: 15px;
             height: 15px;
           }*/
-          md-select {
-            margin-left: 3%;
+          span {
+            margin-right: 10px;
           }
         }
       }
@@ -775,6 +793,7 @@ section .kit_menu {
   .kit_detailed_icon_content {
     width: 14px;
     height: 14px;
+    margin-right: 8px;
   }
   .kit_detailed_avatar {
     float: left;
@@ -787,6 +806,7 @@ section .kit_menu {
   .kit_detailed_icon_title {
     width: 18px;
     height: 18px;
+    margin-right: 8px;
   }
   .kit_detailed_title_container {
     padding: 20px 0;
@@ -1302,8 +1322,8 @@ section .stickMenu {
     }
   }
 }
-
-navbar {
+// user avatar dropdown
+.nav_right {
 
   .wrap-dd-menu {
     width: 50px;
@@ -1316,7 +1336,7 @@ navbar {
     top: 65%;
     line-height: 1em;
     left: auto;
-    right: -25px;
+    right: -15px;
     border-radius: 0px;
     min-width: 160px;
     font-size: 14px;
@@ -1330,6 +1350,28 @@ navbar {
       font-weight: bold;
       margin-left: 8px;
       margin-right: 38px;
+    }
+  }
+}
+// community dropdown
+.nav_left {
+  .wrap-dd-menu {
+    width: 114px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
+  .wrap-dd-menu .dropdown {
+    top: 80%;
+    line-height: 1em;
+    left: 0px;
+    right: 0px;
+    border-radius: 0px;
+    font-size: 14px;
+    // width: 100px;
+    li a {
+      text-align: center;
+      border-bottom: 0px;
     }
   }
 }
@@ -1428,6 +1470,7 @@ navbar {
 .kitList_icon {
   width: 14px;
   height: 14px;
+  margin-right: 8px;
 }
 .kitList_config {
   display: inline-block;
@@ -1459,6 +1502,9 @@ navbar {
 }
 .kitList_noKits {
   line-height: 5;
+}
+.kitList_borderBottom {
+  border: 1px solid #EAECF1;
 }
  
 /** 
@@ -1546,7 +1592,7 @@ navbar {
   margin: 0 0 42px 20px;
 }
 .profile_content_main_kits {
-  border-bottom: 1px solid #EAECF1;
+  // border-bottom: 1px solid #EAECF1;
 }
 
 /**
@@ -1593,6 +1639,7 @@ navbar {
 }
 .myProfile_content_form_input {
   margin: 16px 0;
+  position: relative;
 }
 .myProfile_form_avatar {
   md-icon {
@@ -1608,6 +1655,14 @@ navbar {
   display: block;
   color: $alert_red;
   margin-bottom: 5px;
+}
+.myProfile_updateForm_error {
+  position: absolute;
+  top: 50px;
+  left: 2px;
+  color: red;
+  font-size: 12px;
+  line-height: 1;
 }
 .myProfile_apiKey {
   margin-top: 63px;
