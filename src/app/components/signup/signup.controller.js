@@ -9,7 +9,7 @@
       var vm = this;
 
       vm.showSignup = showSignup;
-      vm.signup = signup;
+      // vm.signup = signup;
       vm.errors = {};
 
       ////////////////////////
@@ -34,15 +34,15 @@
         });
       }
 
-      function signup(signupData) {
-        user.post(signupData)
-          .then(function() {
-            alert.success('Signup was successful');
-          })
-          .catch(function(err) {
-            //alert.error('Signup failed');
-            console.log('err', err.data.errors);
-          });
-      }
+      // function signup(signupData) {
+      //   user.createUser(signupData)
+      //     .then(function() {
+      //       alert.success('Signup was successful');
+      //     })
+      //     .catch(function(err) {
+      //       //alert.error('Signup failed');
+      //       console.log('err', err.data.errors);
+      //     });
+      // }
     }
 })();

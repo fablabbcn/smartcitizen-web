@@ -134,8 +134,51 @@
                   marker.dataLoaded();
                   return data;
                 });
+            },
+            belongsToUser: function($stateParams, auth, marker) {
+              if(!auth.isAuth()) return false;
+              var kitID = $stateParams.id;
+              var authUserKits = auth.getCurrentUser().data.kits;
+              return _.some(authUserKits, function(kit) {
+                return kitID === kit.id;
+              });
             }
           }
+        })
+
+        .state('userProfile', {
+          url: '/users/:id',
+          templateUrl: 'app/components/userProfile/userProfile.html',
+          controller: 'UserProfileController',
+          controllerAs: 'vm',
+          resolve: {
+            userData: function($stateParams, user) {
+              var id = $stateParams.id;
+
+              return user.getUser(id)
+                .then(function(user) {
+                  return user;
+                });
+            }
+          }
+        })
+        .state('myProfile', {
+          url: '/profile',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/myProfile.html',
+          controller: 'MyProfileController',
+          controllerAs: 'vm',
+          resolve: {
+            authUser: function(user, auth) {
+              var id = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
+              if(!id) return;
+
+              return user.getUser()
+                .then(function(user) {
+                  return user;
+                });
+            }
+          } 
         });
 
       $urlRouterProvider.otherwise('/');

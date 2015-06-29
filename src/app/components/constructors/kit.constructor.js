@@ -6,16 +6,17 @@
 
       function Kit(object, options) {
         if(options && options.type === 'preview') {
-          this.name = object.device.name;
+          this.name = object.device.name || 'No Name';
           this.type = parseKitType(object);
-          this.location = parseKitLocation(object);
-          this.avatar = './assets/images/avatar.svg';
+          this.location = parseKitLocation(object) || 'No location';
+          this.avatar = parseKitAvatar(object);
           this.state = parseKitState(object);
+          this.labels = parseKitLabels(object);
         } else {
           this.name = object.device.name;
           this.type = parseKitType(object);
           this.version = parseKitVersion(object);
-          this.avatar = './assets/images/avatar.svg';
+          this.avatar = parseKitAvatar(object);
           this.lastTime = moment(parseKitTime(object)).fromNow(); 
           this.location = parseKitLocation(object);
           this.labels = parseKitLabels(object); 
@@ -100,9 +101,11 @@
     }
 
     function parseKitLabels(object) {
+      var status = object.device.status === 'new' ? 'offline' : object.device.status;
+      var exposure = object.data.location.exposure;
       return {
-        status: object.device.status,
-        exposure: object.data.location.exposure
+        status: status,
+        exposure: exposure
       };
     }
 
@@ -134,9 +137,9 @@
       return {
         username: object.owner.username,
         kits: object.owner.device_ids,
-        location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : 'Barcelona, Spain',
-        url: object.owner.url || 'http://www.example.com',
-        avatar: object.owner.avatar || './assets/images/avatar.svg'
+        location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : null,
+        url: object.owner.url,
+        avatar: object.owner.avatar
       };
     }
 
@@ -152,6 +155,10 @@
 
     function parseKitStateName(object) {
       return 'Never published';
+    }
+
+    function parseKitAvatar(object) {
+      return null;
     }
 
     function getKits() {

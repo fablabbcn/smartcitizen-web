@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog'];
-    function KitController($scope, $stateParams, marker, utils, sensor, Kit, $mdDialog) {
+    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser'];
+    function KitController($scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser) {
       var vm = this;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
+      vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);
 
       vm.kit = new Kit(marker);
@@ -99,9 +100,7 @@
         colorSensorMainIcon();
         colorArrows();
         colorClock();
-        getOwnerKits(function(data) {
-          vm.ownerKits = data;
-        })
+        getOwnerKits();
       }, 1000);
 
 
@@ -110,9 +109,10 @@
       function getOwnerKits(cb) {
         var kitIDs = vm.kit.owner.kits;
 
-        utils.getOwnerKits(kitIDs, function(data) {
-          cb(data);
-        });
+        utils.getOwnerKits(kitIDs)
+          .then(function(kits) {
+            vm.ownerKits = kits;
+          });
       }
       
       function augmentMarker(marker) {
@@ -274,7 +274,7 @@
 
       //hide everything but the functions to interact with the pickers
       function initializePicker() {
-        var updateType; 
+        var updateType = 'single'; //set update type to single by default 
 
         var from_$input = $('#picker_from').pickadate({
           container: 'body',

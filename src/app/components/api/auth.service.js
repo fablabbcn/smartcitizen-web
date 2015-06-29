@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$window', 'Restangular', '$rootScope', 'User'];
-    function auth($window, Restangular, $rootScope, User) {
+    auth.$inject = ['$http', '$window', 'Restangular', '$rootScope', 'User'];
+    function auth($http, $window, Restangular, $rootScope, User) {
 
     	var user = {
         token: null,
@@ -36,10 +36,11 @@
       function setCurrentUser() {
         user.token = $window.localStorage.getItem('smartcitizen.token');
         if(!user.token) return;
-        getCurrentUserInfo(user.token)
+        getCurrentUserInfo()
           .then(function(data) {
-            user.data = new User(data.plain());
+            user.data = new User(data, {type: 'authUser'});
             $rootScope.$broadcast('loggedIn');
+            console.log('user', user);
           });
       }
 
@@ -64,8 +65,15 @@
         $window.localStorage.removeItem('smartcitizen.token');
       }
 
-      function getCurrentUserInfo(token) {
+      function getCurrentUserInfo() {
         return Restangular.all('').customGET('me');
+        /*return $http({
+          method: 'GET',
+          url: 'https://new-api.smartcitizen.me/v0/me',
+          headers: {
+            'Authorization': 'Bearer ' + user.token
+          }
+        });*/
       }
     }
 })();

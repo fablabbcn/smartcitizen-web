@@ -34,6 +34,7 @@ module.exports = function(options) {
 
 
     gulp.src(srcFiles)
+      .pipe($.angularFilesort())
       .pipe(concat(function(files) {
         callback(bowerDeps.js
           .concat(_.pluck(files, 'path'))
