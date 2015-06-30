@@ -1533,6 +1533,7 @@ section .stickMenu {
 .profile_header_content_avatar {
   width: 12px;
   height: 12px;
+  margin-right: 6px;
 }
 .profile_header_name {
   color: white;
@@ -1552,7 +1553,7 @@ section .stickMenu {
 .profile_content {
   min-height: 448px;
   position: relative;
-  color: 
+  // color: 
 }
 /* profile sidebar */
 .profile_sidebar {
@@ -1581,6 +1582,11 @@ section .stickMenu {
 }
 .profile_sidebar_buttonLow {
   text-transform: none;
+}
+.profile_sidebar_avatar {
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
 }
 
 /* profile main content */
@@ -1623,9 +1629,12 @@ section .stickMenu {
 .myProfile_header_avatar {
   margin-left: 0;
 }
+.myProfile_tabs_parent {
+  transform: translateY(-48px);
+}
 .myProfile_tabs {
-  position: relative;
-  top: 45.5px;
+  // position: relative;
+  // top: 45.5px;
 }
 .myProfile_tab_icon {
   width: 16px;

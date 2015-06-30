@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils'];
-    function MyProfileController($scope, authUser, User, user, auth, utils) {
+    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils', 'alert'];
+    function MyProfileController($scope, authUser, User, user, auth, utils, alert) {
       var vm = this;
       var userData, kits
 
@@ -13,10 +13,11 @@
       vm.formUser = {
         'avatar': null
       };
-
+      console.log('auth', authUser);
       if(authUser) { 
-        userData = new User(authUser);
+        userData = new User(authUser, {type: 'authUser'});
         vm.user = userData; 
+        console.log('vm', vm.user);
         _.defaults(vm.formUser, vm.user);       
         initialize();
       }
@@ -67,12 +68,13 @@
       }
 
       function getKits() {
+        console.log('aqui');
         var kitIDs = _.pluck(userData.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
         };
-
+        console.log('kid', kitIDs);
         utils.getOwnerKits(kitIDs)
           .then(function(userKits) {
             kits = userKits;
@@ -100,6 +102,8 @@
         user.updateUser(userData)
           .then(function() {
             console.log('done');
+            vm.errors = {};
+            alert.success('User updated');
           })
           .catch(function(err) {
             vm.errors = err.data.errors;

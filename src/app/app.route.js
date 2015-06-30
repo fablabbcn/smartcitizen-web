@@ -170,13 +170,14 @@
           controllerAs: 'vm',
           resolve: {
             authUser: function(user, auth) {
-              var id = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
-              if(!id) return;
-
-              return user.getUser()
-                .then(function(user) {
-                  return user;
-                });
+              var userData = auth.getCurrentUser().data;
+              console.log('u', userData);
+              if(!userData) return;
+              return userData;
+              // return user.getUser()
+              //   .then(function(user) {
+              //     return user;
+              //   });
             }
           } 
         });
