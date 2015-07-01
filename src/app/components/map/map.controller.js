@@ -7,7 +7,7 @@
     MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker'];
     function MapController($scope, $state, $timeout, location, initialMarkers, device, marker) {
     	var vm = this;
-
+      console.log('ini', initialMarkers);
       var initialLocation = getLocation(initialMarkers[0]);
       vm.icons = getIcons();
 

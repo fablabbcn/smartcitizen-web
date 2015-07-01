@@ -72,28 +72,35 @@
                   return sensorTypes;
                 });
             },
-            initialMarkers: function($state, device, location, utils, sensorTypes, Kit) {
+            initialMarkers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
 
-              return device.getDevices(location).then(function(data) {
+              return device.getAllDevices().then(function(data) {
+                return data.map(function(device) {
+                  return new Marker(device);
+                })
+              });
+              /*return device.getDevices(location).then(function(data) {
                 data = data.plain();
 
                 var markers = data.map(function(device) {
-                  var parsedKit = utils.parseKit(device);
+                  // var parsedKit = utils.parseKit(device);
 
-                  var obj = {
-                    lat: device.data.location.latitude,
-                    lng: device.data.location.longitude,
-                    message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>',
-                    status: device.status,
-                    myData: {
-                      id: device.id
-                    }
-                  };
+                  // var obj = {
+                  //   lat: device.data.location.latitude,
+                  //   lng: device.data.location.longitude,
+                  //   message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>',
+                  //   status: device.status,
+                  //   myData: {
+                  //     id: device.id
+                  //   }
+                  // };
+
+                  var obj = new Marker(device);
                   return obj;
                 });
                 return markers;
-              });
-            },
+              });*/
+            }/*,
             initialPopup: function(leafletData, initialMarkers) {
               var closestMarkerID = initialMarkers[0].myData.id;
 
@@ -111,7 +118,7 @@
                   }
                 });
 
-            }
+            }*/
           }
         })
 
