@@ -11,6 +11,9 @@
       var picker = initializePicker();
       // vm.toPickerDisabled = false;
 
+      vm.goToKit = function(kitID) {
+        $state.go('home.kit', {id: 5});
+      }
       vm.goToUser = function() {
         $state.go('userProfile', {id: 1});
       };

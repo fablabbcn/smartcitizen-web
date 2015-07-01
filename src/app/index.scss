@@ -723,7 +723,7 @@ section .kit_menu {
     }
   }
   .kit_details_name {
-    margin: 0.3em 0 1.2em 0;    
+    margin: 5px 0 20px 0;
   }
   .kit_details_location {
     font-weight: bold;
@@ -847,8 +847,11 @@ section .kit_menu {
     .kit_owner_info {
       margin-bottom: 65px;
     }
-    .kit_owner_username {
-      margin: 0.3em 0 1.2em 0;
+    .kit_owner_usernameLink {
+      text-decoration: none;
+    }
+    .kit_owner_usernameText {
+      margin: 5px 0 20px 0;
     }
     .kit_owner_location {
       color: #065063;
@@ -1419,6 +1422,11 @@ section .stickMenu {
   background-color: white;
   border-radius: 0 !important;
   text-transform: none;
+  display: -moz-inline-flex;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flex;
+  display: -o-inline-flex;
+  display: inline-flex;
 
   .wrap-dd-menu {
     width: 50px;
@@ -1483,6 +1491,7 @@ section .stickMenu {
   display: inline-block;
   position: relative;
   top: 5px;
+  width: 4%;
 }
 .kitList_state {
   display: inline-block;
@@ -1511,7 +1520,7 @@ section .stickMenu {
   line-height: 5;
 }
 .kitList_borderBottom {
-  border: 1px solid #EAECF1;
+  border-bottom: 1px solid #EAECF1;
 }
  
 /** 
@@ -1560,7 +1569,7 @@ section .stickMenu {
 }
 
 .profile_content {
-  min-height: 448px;
+  min-height: 700px;
   position: relative;
   // color: 
 }
@@ -1589,15 +1598,13 @@ section .stickMenu {
   height: 64px;
   color: #032933;
 }
-// .profile_sidebar_buttonLow {
-//   text-transform: none;
-// }
+
 .profile_sidebar_avatar {
   width: 12px;
   height: 12px;
   margin-right: 8px;
   position: relative;
-  top: -1px;
+  top: -2px;
 }
 
 /* profile main content */

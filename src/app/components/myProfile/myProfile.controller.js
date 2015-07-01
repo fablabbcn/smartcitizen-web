@@ -35,7 +35,7 @@
 
       //TOOLS TAB
       vm.tools = [
-        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: ''},
+        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: '', href: 'http://www.google.com'},
         {type: 'documentation', title: 'Download the latest SCK Firmware', description: 'Github version of the firmware', avatar: ''}, 
         {type: 'documentation', title: 'RESTful API Documentation', description: 'API Docs', avatar: ''},
         {type: 'community', title: 'Smart Citizen Forum', description: 'Your feedback is important for us', avatar: ''},
@@ -106,6 +106,7 @@
             alert.success('User updated');
           })
           .catch(function(err) {
+            alert.error('User could not be updated ')
             vm.errors = err.data.errors;
           });
       }

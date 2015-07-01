@@ -28,7 +28,7 @@
       </div>
       <div class="profile_content_main_kits">
         <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.status } } ))" ng-class="{kitList_borderBottom: $last}">
-          <md-button class="kitList kitList_primary">
+          <md-button class="kitList kitList_primary" ng-href="./kits/{{kit.id}}" layout="row" layout-align="start center">
             <div class="kitList_container" layout="row" layout-align="start center">
               <div>
                 <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar || './assets/images/avatar.svg' }}">

@@ -6,6 +6,7 @@
 
       function Kit(object, options) {
         if(options && options.type === 'preview') {
+          this.id = object.device.id;
           this.name = object.device.name || 'No Name';
           this.type = parseKitType(object);
           this.location = parseKitLocation(object) || 'No location';
@@ -135,6 +136,7 @@
 
     function parseKitOwner(object) {
       return {
+        id: object.owner.id,
         username: object.owner.username,
         kits: object.owner.device_ids,
         location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : null,
