@@ -77,7 +77,8 @@ navbar {
     width: 204px;
     margin: 0px 16px;
     .map {
-      width: 66px;
+      // width: 66px;
+      width: 70px;
       // margin-right: 8px;
     }
     .community {
@@ -794,6 +795,8 @@ section .kit_menu {
     width: 14px;
     height: 14px;
     margin-right: 8px;
+    position: relative;
+    top: -1px;
   }
   .kit_detailed_avatar {
     float: left;
@@ -807,6 +810,8 @@ section .kit_menu {
     width: 18px;
     height: 18px;
     margin-right: 8px;
+    position: relative;
+    top: -2px;
   }
   .kit_detailed_title_container {
     padding: 20px 0;
@@ -1471,6 +1476,8 @@ section .stickMenu {
   width: 14px;
   height: 14px;
   margin-right: 8px;
+  position: relative;
+  top: -2px;
 }
 .kitList_config {
   display: inline-block;
@@ -1534,6 +1541,8 @@ section .stickMenu {
   width: 12px;
   height: 12px;
   margin-right: 6px;
+  position: relative;
+  top: -1px;
 }
 .profile_header_name {
   color: white;
@@ -1580,13 +1589,15 @@ section .stickMenu {
   height: 64px;
   color: #032933;
 }
-.profile_sidebar_buttonLow {
-  text-transform: none;
-}
+// .profile_sidebar_buttonLow {
+//   text-transform: none;
+// }
 .profile_sidebar_avatar {
   width: 12px;
   height: 12px;
   margin-right: 8px;
+  position: relative;
+  top: -1px;
 }
 
 /* profile main content */
@@ -1605,7 +1616,12 @@ section .stickMenu {
  *  MY PROFILE STATE
  */
 
+//override angular-material  
+
 .myProfile_state {
+  md-tab md-tab-label {
+    overflow: visible;
+  }
   md-tabs.md-default-theme md-tab {
     color: $font_color_blue_grey;
   }
@@ -1640,6 +1656,8 @@ section .stickMenu {
   width: 16px;
   height: 16px;
   margin-right: 8px;
+  position: relative;
+  top: -2px;
 }
 .myProfile_content_form {
   margin-left: 113px;
