@@ -16,6 +16,25 @@
       };
       //'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
 
+      vm.layers = {
+        baselayers: {
+          osm: {
+            name: 'OpenStreetMap',
+            type: 'xyz',
+            url: 'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.
+png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LU
+zzxVg'
+          }
+        },
+        overlays: {
+          realworld: {
+            name: 'Real world data',
+            type: 'markercluster',
+            visible: true
+          }
+        }
+      };
+
       vm.center = {
         lat: initialLocation.lat,
         lng: initialLocation.lng,
@@ -79,7 +98,9 @@
           device.icon = vm.icons.smartCitizenOffline;
         } else {
           device.icon = vm.icons.smartCitizenOnline;
-        }        
+        }
+
+        device.layer = 'realworld';        
 
         return device;
       }
