@@ -4,12 +4,18 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker'];
-    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker', '$mdDialog'];
+    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker, $mdDialog) {
     	var vm = this;
+      var markers;
+
       console.log('ini', initialMarkers);
       var initialLocation = getLocation(initialMarkers[0]);
       vm.icons = getIcons();
+      
+      markers = augmentMarkers(initialMarkers);
+      vm.markers = markers;
+      vm.currentMarker = marker.getCurrentMarker();
 
       vm.tiles = {
         url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
@@ -37,11 +43,8 @@
         lat: initialLocation.lat,
         lng: initialLocation.lng,
         zoom: 12
-    	};
+      };
 
-      vm.markers = augmentMarkers(initialMarkers);
-
-      vm.currentMarker = marker.getCurrentMarker();
 
     	vm.defaults = {
         scrollWheelZoom: false
@@ -68,7 +71,7 @@
         };
         
         var id = data.leafletEvent.popup._source.options.myData.id; 
-        $state.go('home.kit', {id: 1616});        
+        $state.go('home.kit', {id: id});        
         //$state.go('home.kit', {id: id});
       });    
       
@@ -82,6 +85,16 @@
         alert('click');
       });
       */
+
+      vm.filterData = {
+        indoor: true,
+        outdoor: true,
+        online: true,
+        offline: true
+      };
+
+      vm.openFilterPopup = openFilterPopup;
+      vm.removeFilter = removeFilter;
 
       /////////////////////
 
@@ -167,6 +180,37 @@
 
             vm.markers = markers;
           });
+      }
+
+      function openFilterPopup() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'MapFilterDialogController',
+          templateUrl: 'app/components/map/mapFilterPopup.html',
+          //targetEvent: ev,
+          clickOutsideToClose: true,
+          locals: {
+            filterData: vm.filterData
+          }
+        })
+        .then(function(data) {
+          _.extend(vm.filterData, data);
+          vm.markers = filterMarkers(data);
+        })
+        .finally(function() {
+          //animation.unblur();
+        });
+      }
+
+      function removeFilter(filterName) {
+        vm.filterData[filterName] = false;
+        vm.markers = filterMarkers(vm.filterData);
+      }
+
+      function filterMarkers(filterData) {
+        return markers.filter(function(marker) {
+          return filterData[marker.myData.labels.status] && filterData[marker.myData.labels.exposure];
+        });
       }
     }
 
