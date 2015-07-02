@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Marker', function(utils) {
+    .factory('Marker', function(utils, device, COUNTRY_CODES) {
 
       function Marker(deviceData) {
         var parsedKit = parseMarker(deviceData);
@@ -16,61 +16,67 @@
         };
       }
       return Marker;
+
+      function parseMarker(object) {
+        console.log('device', object.plain());
+        return {
+          kitName: object.name,
+          kitType: parseMarkerType(object),  
+          kitLastTime: moment(parseMarkerTime(object)).fromNow(), 
+          kitLocation: parseMarkerLocation(object), 
+          kitLabels: parseMarkerLabels(object),
+          kitClass: classify(parseMarkerType(object))      
+        };
+      }
+
+      function parseMarkerLocation(object) {
+        var location = '';
+        
+        var city = object.city;
+        var country_code = object.country_code;
+        var country = COUNTRY_CODES[country_code];
+
+        if(!!city) {
+          location += city;
+        }
+        if(!!country) {
+          location += ', ' + country;
+        }
+
+        return location;
+      }
+
+      function parseMarkerLabels(object) {
+        return {
+          status: object.status,
+          exposure: object.exposure
+        };
+      }
+
+      function parseMarkerType(object) {
+        var kitType; 
+
+        var genericKitData = device.getGenericKitData();
+        var kit = genericKitData[object.kit_id];
+        var kitName = kit && kit.name; 
+
+        if((new RegExp('sck', 'i')).test(kitName)) { 
+          kitType = 'SmartCitizen Kit';
+        }
+        return kitType; 
+      }
+
+      function classify(kitType) {
+        if(!kitType) {
+          return '';
+        }
+        return kitType.toLowerCase().split(' ').join('_');
+      }
+
+      function parseMarkerTime(object) {
+        return object.added_at;
+      }
     });
 
-    function parseMarker(object) {
-      console.log('device', object.plain());
-      return {
-        kitName: object.name,
-        kitType: parseMarkerType(object),  
-        kitLastTime: moment(parseMarkerTime(object)).fromNow(), 
-        kitLocation: parseMarkerLocation(object), 
-        kitLabels: parseMarkerLabels(object),
-        kitClass: classify(parseMarkerType(object))      
-      };
-    }
-
-    function parseMarkerLocation(object) {
-      var location = '';
-      
-      var city = object.city;
-      var country //= COUNTRIES[object.country];
-
-      if(!!city) {
-        location += city;
-      }
-      if(!!country) {
-        location += ', ' + country;
-      }
-
-      return location;
-    }
-
-    function parseMarkerLabels(object) {
-      return {
-        status: object.status,
-        exposure: object.exposure
-      };
-    }
-
-    function parseMarkerType(object) {
-      var kitType; 
-
-      // if((new RegExp('sck', 'i')).test(KIT_IDS[object.kit_id]) { 
-      //   kitType = 'SmartCitizen Kit';
-      // }
-      // return kitType; 
-    }
-
-    function classify(kitType) {
-      if(!kitType) {
-        return '';
-      }
-      return kitType.toLowerCase().split(' ').join('_');
-    }
-
-    function parseMarkerTime(object) {
-      return object.added_at;
-    }
 
 })();

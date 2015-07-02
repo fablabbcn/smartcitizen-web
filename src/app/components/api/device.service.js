@@ -6,11 +6,18 @@
     
     device.$inject = ['Restangular'];
 	  function device(Restangular) {
+      var genericKitData;
+
+      callGenericKitData()
+        .then(function(data) {
+          genericKitData = _.indexBy(data, 'id');
+        });
 
 	  	var service = {
         getDevices: getDevices,
         getAllDevices: getAllDevices,
-        getDevice: getDevice
+        getDevice: getDevice,
+        getGenericKitData: getGenericKitData
 	  	};
 
 	  	return service;
@@ -29,6 +36,14 @@
 
       function getDevice(id) {
         return Restangular.one('devices', id).get();
+      }
+
+      function callGenericKitData() {
+        return Restangular.all('kits').getList();
+      }
+
+      function getGenericKitData() {
+        return genericKitData;
       }
 	  }
 })();
