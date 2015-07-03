@@ -4,16 +4,15 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'initialMarkers', 'device', 'marker', '$mdDialog'];
-    function MapController($scope, $state, $timeout, location, initialMarkers, device, marker, $mdDialog) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog) {
     	var vm = this;
-      var markers;
 
-      console.log('ini', initialMarkers);
-      var initialLocation = getLocation(initialMarkers[0]);
+      console.log('ini', markers);
+      var initialLocation = markers[0];
       vm.icons = getIcons();
       
-      markers = augmentMarkers(initialMarkers);
+      markers = augmentMarkers(markers);
       vm.markers = markers;
       vm.currentMarker = marker.getCurrentMarker();
 
@@ -71,9 +70,13 @@
         };
         
         var id = data.leafletEvent.popup._source.options.myData.id; 
-        $state.go('home.kit', {id: id});        
-        //$state.go('home.kit', {id: id});
+        $state.go('home.kit', {id: id});
       });    
+
+      $scope.$on('kitLoaded', function(event, data) {
+        vm.center.lat = data.lat;
+        vm.center.lng = data.lng; 
+      });
       
       /*
        $scope.$on('leafletDirectiveMap.touchstart', function(event, otro) {
@@ -158,10 +161,6 @@
             vm.markers = [];
   	        vm.markers = markers;
   	      });
-      }
-
-      function getLocation(marker) {
-        return marker;
       }
 
       function getAllMarkers() {

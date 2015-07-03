@@ -12,9 +12,9 @@
       vm.logout = logout;
 
       vm.dropdownOptions = [
-        {divider: true, text: 'Hello,           '},
-        {text: 'PROFILE', value: '1'},
-        {text: 'LOGOUT', value: '2'}
+        {divider: true, text: 'Hello,'},
+        {text: 'PROFILE', href: '/profile'},
+        {text: 'LOGOUT', href: '/logout'}
       ];
 
       vm.dropdownSelected;

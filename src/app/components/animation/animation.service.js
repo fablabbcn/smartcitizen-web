@@ -13,7 +13,8 @@
         removeNav: removeNav,
         addNav: addNav,
         showSpinner: showSpinner,
-        hideSpinner: hideSpinner
+        hideSpinner: hideSpinner,
+        kitLoaded: kitLoaded
     	};
     	return service;
 
@@ -41,6 +42,10 @@
 
       function hideSpinner() {
         $rootScope.$broadcast('hideSpinner');
+      }
+
+      function kitLoaded(data) {
+        $rootScope.$broadcast('kitLoaded', data);
       }
     }
 })();

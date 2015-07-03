@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils'];
-    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation'];
+    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation) {
       var vm = this;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
       // vm.toPickerDisabled = false;
+      animation.kitLoaded({lat: marker.data.location.latitude ,lng: marker.data.location.longitude });
 
       vm.goToKit = function(kitID) {
         $state.go('home.kit', {id: 5});
@@ -112,7 +113,6 @@
         colorClock();
         getOwnerKits();
       }, 1000);
-
 
       ///////////////
 

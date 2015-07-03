@@ -72,7 +72,7 @@
                   return sensorTypes;
                 });
             },
-            initialMarkers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
+            markers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
 
               return device.getAllDevices().then(function(data) {
                 return data.map(function(device) {
@@ -132,14 +132,14 @@
             }
           },
           resolve: {
-            marker: function($stateParams, device, marker) {
+            marker: function($stateParams, device, marker, Marker, animation) {
 
               return device.getDevice($stateParams.id)
-                .then(function(data) {
-                  data = data.plain();
-                  marker.setCurrentMarker(data);
-                  marker.dataLoaded();
-                  return data;
+                .then(function(deviceData) {
+                  console.log('d', deviceData);
+                  var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};
+                  animation.kitLoaded(markerLocation);
+                  return deviceData;
                 });
             },
             belongsToUser: function($stateParams, auth, marker) {
