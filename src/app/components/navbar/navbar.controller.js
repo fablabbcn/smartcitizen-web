@@ -19,6 +19,13 @@
 
       vm.dropdownSelected;
 
+      vm.dropdownOptionsCommunity = [
+        {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
+        {text: 'Documentation', href: 'http://docs.smartcitizen.me/#/'},
+        {text: 'API Reference', href: 'http://api.smartcitizen.me/'},
+        {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'}        
+      ];
+      vm.dropdownSelectedCommunity;
 
       $scope.$on('removeNav', function() {
         $scope.$apply(function() {

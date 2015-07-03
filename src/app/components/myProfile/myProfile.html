@@ -14,7 +14,9 @@
         </div>
       </div>
     </div>
-    <md-tabs class="myProfile_tabs" md-dynamic-height>
+  </div>
+  <div class="myProfile_tabs_parent">
+    <md-tabs class="myProfile_tabs" md-center-tabs="true"> <!-- md-dynamic-height="false" -->
       <md-tab label>
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
@@ -27,12 +29,12 @@
               <p class="profile_sidebar_description">
                 A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
               </p>
-              <md-button ng-click="" class="profile_sidebar_button profile_sidebar_buttonLow">
-                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
+              <md-button ng-click="" class="profile_sidebar_button">
+                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_sidebar_avatar"></md-icon>
                 <span>Support</span>
               </md-button>
-              <md-button ng-click="" class="profile_sidebar_button profile_sidebar_buttonLow">
-                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
+              <md-button ng-click="" class="profile_sidebar_button">
+                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_sidebar_avatar"></md-icon>
                 <span>Community</span>
               </md-button>
             </div>
@@ -46,8 +48,8 @@
                     <label>Username</label>
                     <input type="text" ng-model="vm.formUser.username">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.username.length">
-                    <span ng-repeat="error in errors.username">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length">
+                    <span ng-repeat="error in vm.errors.username">
                       Username {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
@@ -57,8 +59,8 @@
                     <label>Password</label>
                     <input type="password" ng-model="vm.formUser.password">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.password.length">
-                    <span ng-repeat="error in errors.password">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length">
+                    <span ng-repeat="error in vm.errors.password">
                       Password {{ error }}<span ng-if="!$last">,</span>  
                     </span>
                   </p>
@@ -68,8 +70,8 @@
                     <label>Email</label>
                     <input type="email" ng-model="vm.formUser.email">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.email.length">
-                    <span ng-repeat="error in errors.email">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length">
+                    <span ng-repeat="error in vm.errors.email">
                       Email {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
@@ -79,8 +81,8 @@
                     <label>City</label>
                     <input type="text" ng-model="vm.formUser.city">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.city.length">
-                    <span ng-repeat="error in errors.city">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
+                    <span ng-repeat="error in vm.errors.city">
                       City {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
@@ -90,8 +92,8 @@
                     <label>Country</label>
                     <input type="text" ng-model="vm.formUser.country">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.country.length">
-                    <span ng-repeat="error in errors.country">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
+                    <span ng-repeat="error in vm.errors.country">
                       Country {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
@@ -101,8 +103,8 @@
                     <label>Website</label>
                     <input type="text" ng-model="vm.formUser.url">
                   </md-input-container>
-                  <p class="errors" ng-show="!!errors.url.length">
-                    <span ng-repeat="error in errors.url">
+                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
+                    <span ng-repeat="error in vm.errors.url">
                       URL {{ error }}<span ng-if="!$last">,</span> 
                     </span>
                   </p>
@@ -142,7 +144,7 @@
                 <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
               <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.kitStatus } } ))">
-                <md-button class="kitList kitList_secondary" >
+                <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_borderBottom: $last}">
                   <div class="kitList_container" layout="row" layout-align="start center">
                     <div class="">
                       <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar || './assets/images/avatar.svg' }}">
@@ -170,7 +172,7 @@
                   </md-button>
                 </div>
               </div>
-              <div class="kitList" class="" ng-show="!vm.kits.length">
+              <div class="kitList kitList_primary kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
                 <div class="kitList_container">
                   <div class="kitList_noKits">
                     <span>There are not kits yet</span>
@@ -202,20 +204,22 @@
                 <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>        
               </div>
               <div class="profile_content_main_kits">
-                <md-button class="kitList kitList_primary" ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))">
-                  <div class="kitList_container" layout="row" layout-align="start center">
-                    <div class="">
-                      <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
-                      </md-icon>
-                    </div>
-                    <div class="kitList_content"> 
-                      <div class="kitList_name">{{ tool.title }}</div>
-                      <div class="kitList_data">
-                        <span>{{ tool.description }}</span>
+                <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
+                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="row" layout-align="start center">
+                    <div class="kitList_container" layout="row" layout-align="start center">
+                      <div class="">
+                        <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
+                        </md-icon>
+                      </div>
+                      <div class="kitList_content"> 
+                        <div class="kitList_name">{{ tool.title }}</div>
+                        <div class="kitList_data">
+                          <span>{{ tool.description }}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </md-button>
+                  </md-button>
+                </div>
               </div>
             </div>
           </div>

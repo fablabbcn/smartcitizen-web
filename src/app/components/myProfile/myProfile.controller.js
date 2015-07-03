@@ -4,19 +4,20 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils'];
-    function MyProfileController($scope, authUser, User, user, auth, utils) {
+    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils', 'alert'];
+    function MyProfileController($scope, authUser, User, user, auth, utils, alert) {
       var vm = this;
-      var user, kits
+      var userData, kits
 
       //PROFILE TAB
       vm.formUser = {
         'avatar': null
       };
-
+      console.log('auth', authUser);
       if(authUser) { 
-        user = new User(authUser);
-        vm.user = user; 
+        userData = new User(authUser, {type: 'authUser'});
+        vm.user = userData; 
+        console.log('vm', vm.user);
         _.defaults(vm.formUser, vm.user);       
         initialize();
       }
@@ -34,7 +35,7 @@
 
       //TOOLS TAB
       vm.tools = [
-        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: ''},
+        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: '', href: 'http://www.google.com'},
         {type: 'documentation', title: 'Download the latest SCK Firmware', description: 'Github version of the firmware', avatar: ''}, 
         {type: 'documentation', title: 'RESTful API Documentation', description: 'API Docs', avatar: ''},
         {type: 'community', title: 'Smart Citizen Forum', description: 'Your feedback is important for us', avatar: ''},
@@ -54,8 +55,8 @@
 
       //in case it's the entry point for the app
       $scope.$on('loggedIn', function() {
-        user = auth.getCurrentUser().data;
-        vm.user = user;
+        userData = auth.getCurrentUser().data;
+        vm.user = userData;
         _.defaults(vm.formUser, vm.user);
         initialize();
       });
@@ -67,12 +68,13 @@
       }
 
       function getKits() {
-        var kitIDs = _.pluck(user.kits, 'id');
+        console.log('aqui');
+        var kitIDs = _.pluck(userData.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
         };
-
+        console.log('kid', kitIDs);
         utils.getOwnerKits(kitIDs)
           .then(function(userKits) {
             kits = userKits;
@@ -100,6 +102,12 @@
         user.updateUser(userData)
           .then(function() {
             console.log('done');
+            vm.errors = {};
+            alert.success('User updated');
+          })
+          .catch(function(err) {
+            alert.error('User could not be updated ')
+            vm.errors = err.data.errors;
           });
       }
 

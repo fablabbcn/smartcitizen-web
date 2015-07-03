@@ -9,13 +9,13 @@
           this.username = userData.username;
           this.avatar = userData.avatar;
           this.kits = userData.devices;
-          this.city = userData.location.city;
-          this.country = userData.location.country;
-          this.location = userData.location.city && userData.location.country ? userData.location.city + ', ' + userData.location.country : null;
+          this.city = userData.city;
+          this.country = userData.country;
+          this.location = userData.city && userData.country ? userData.city + ', ' + userData.country : null;
           this.url = userData.url;
           this.email = userData.email;
-          this.key = '';
-          this.macAddress = '';  
+          this.key = userData.key;
+          this.macAddress = userData.macAddress;  
         } else {
           this.username = userData.username;
           this.avatar = userData.avatar;

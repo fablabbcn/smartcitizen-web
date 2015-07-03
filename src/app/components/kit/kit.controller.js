@@ -4,12 +4,22 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser'];
-    function KitController($scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils'];
+    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils) {
       var vm = this;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
+      // vm.toPickerDisabled = false;
 
+      vm.goToKit = function(kitID) {
+        $state.go('home.kit', {id: 5});
+      }
+      vm.goToUser = function() {
+        $state.go('userProfile', {id: 1});
+      };
+      vm.goToProfile = function() {
+        $state.go('myProfile');
+      }
       vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);
 
@@ -265,9 +275,16 @@
           var valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
           picker.setValuePickers([valueFrom, valueTo]);          
         } else if(direction === 'right') {
+          var today = timeUtils.getToday();
+          var currentValueTo = picker.getValuePickerTo();
+          if( timeUtils.isSameDay(today, currentValueTo) ) {
+            // vm.toPickerDisabled = true;
+            return;
+          }
+
           //set both from and to pickers  to next range
-          var valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
           var valueFrom = picker.getValuePickerTo();
+          var valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
           picker.setValuePickers([valueFrom, valueTo]);
         }
       }
