@@ -257,7 +257,7 @@
                 </p>
               </div>
               <div class="kit_owner_kits">
-                <h3 class="kit_owner_kits_title">Kits of {{ vm.kit.owner.username }}<h3>
+                <h3 class="kit_owner_kits_title">Kits of {{ vm.kit.owner.username }}</h3>
                 <div class="kitList_parent" ng-repeat="kit in vm.ownerKits | limitTo: 5">
                   <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_primary: !vm.kitBelongsToUser, kitList_secondary: vm.kitBelongsToUser, kitList_borderBottom: $last}" layout="row" layout-align="start center">
                     <div class="kitList_container" layout="row" layout-align="start center">
@@ -296,8 +296,6 @@
         </div>
         <div class="clearfix"></div>
       </section>
-        <md-button ng-click="vm.goToUser()">User 1</md-button>
-        <md-button ng-click="vm.goToProfile()">Profile</md-button>
       <!--<section class="kit_comments">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">

@@ -12,16 +12,6 @@
       // vm.toPickerDisabled = false;
       animation.kitLoaded({lat: marker.data.location.latitude ,lng: marker.data.location.longitude });
 
-      vm.goToKit = function(kitID) {
-        $state.go('home.kit', {id: 5});
-      }
-      vm.goToUser = function() {
-        $state.go('userProfile', {id: 1});
-      };
-      vm.goToProfile = function() {
-        $location.path('/profile');
-        // $state.go('myProfile');
-      }
       vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);
 
