@@ -22,6 +22,13 @@
           createChart(elem[0]);                    
         }, 1000);
 
+        var lastData = {};
+
+        angular.element(window).on('resize', function() {
+          createChart(elem[0]);
+          updateChartData(lastData.data, {type: lastData.type, container: elem[0], color: lastData.color, unit: lastData.unit});
+        });
+
         scope.$watch('chartData', function(newData) {
           if(!newData) return;
 
@@ -55,6 +62,13 @@
               var colors = [newData[0].color, newData[1].color];
               var units = [newData[0].unit, newData[1].unit];
 
+              lastData = {
+                data: data,
+                type: 'both',
+                color: colors,
+                unit: units
+              };
+
               updateChartData(data, {type: 'both', container: elem[0], color: colors, unit: units });
             } else if(newData[0]) {
 
@@ -72,6 +86,14 @@
 
               var color = newData[0].color;
               var unit = newData[0].unit;
+
+              lastData = {
+                data: data,
+                type: 'main',
+                color: color,
+                unit: unit
+              };
+
               updateChartData(data, {type: 'main', container: elem[0], color: color, unit: unit });
             } 
             animation.hideSpinner();
@@ -81,6 +103,8 @@
 
 
       function createChart(elem) {
+        d3.select(elem).selectAll('*').remove();
+
         margin = {top: 20, right: 15, bottom: 20, left: 40};
         width = elem.clientWidth - margin.left - margin.right;
         height = elem.clientHeight - margin.top - margin.bottom;
