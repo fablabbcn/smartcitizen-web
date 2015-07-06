@@ -19,13 +19,18 @@
 
       function parseMarker(object) {
         return {
-          kitName: object.name,
+          kitName: parseMarkerName(object),
           kitType: parseMarkerType(object),  
           kitLastTime: moment(parseMarkerTime(object)).fromNow(), 
           kitLocation: parseMarkerLocation(object), 
           kitLabels: parseMarkerLabels(object),
           kitClass: classify(parseMarkerType(object))      
         };
+      }
+
+      function parseMarkerName(object) {
+        var name = object.name || 'No data';
+        return name.length > 30 ? name.slice(0, 30).concat(' ... ') : name;
       }
 
       function parseMarkerLocation(object) {

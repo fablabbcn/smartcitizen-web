@@ -401,6 +401,9 @@ section.map {
     height: 12px;
   }
 }
+.md-button.md-default-theme.map_filter_button:hover, .md-button.md-default-theme.map_filter_button:focus {
+  background-color: white;
+}
 
 .techs {
   display: flex;
