@@ -21,7 +21,7 @@
         </md-button>
  
         <md-button href="#" class="md-flat kit_details_icon" aria-label="">
-          <md-icon md-svg-src="./assets/images/kit_details_icon.svg">
+          <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
           </md-icon>
         </md-button>
           
@@ -143,7 +143,7 @@
       <section class="kit_details">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">
-            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon.svg">
+            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon_normal.svg">
             </md-icon>
             <h2 class="kit_detailed_title">KIT DETAILS</h2>
           </div>
@@ -156,12 +156,12 @@
               <div class="kit_details_content">
                 <h3 class="kit_detailed_name kit_details_name">{{ vm.kit.name }}</h3>
                 <p class="kit_details_location">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
                   <span>{{ vm.kit.location }}</span>
                 </p>
                 <p class="kit_details_type">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon.svg">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
                   </md-icon>
                   <span>{{ vm.kit.type }}</span>
                   <span class="kit_details_version"><span>SCK:</span> {{ vm.kit.version }}</span>
@@ -188,25 +188,30 @@
                 <md-button href="#" ng-click="" class="kit_details_button_delete" aria-label="">DELETE</md-button>
               </div>
               <div class="kit_details_manage_data">
-                <div class="kit_details_macaddress">
+                <div class="kit_details_macaddress data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">Mac Address:</span>
                   <span>00:00:00:00:01</span>
                 </div>
-                <div class="kit_details_debug">
+                <div class="kit_details_debug data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">Debug mode:</span>
                   <span>Enabled</span>
                 </div>
-                <div class="kit_details_key">
+                <div class="kit_details_key" layout="row" layout-align="start center">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">API Key:</span>
-                  <span>34334324233d3f4f3</span>
+                  <div class="kit_details_key_number">34334324233d3f4f3</div>
+                  <md-button class="kit_details_key_refreshButton">
+                    <md-icon class="" md-svg-src="./assets/images/refresh_icon_white.svg">
+                    </md-icon>
+                  </md-button>
                 </div>
-                <div class="kit_details_download">
+                <div class="clearfix"></div>
+                <div class="kit_details_download data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">Download Data</span>
@@ -241,12 +246,12 @@
                   <h3 class="kit_owner_usernameText">{{ vm.kit.owner.username }}</h3>
                 </a>
                 <p class="kit_owner_location">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon.svg">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
                   <span>{{ vm.kit.owner.location || 'No location' }}</span>
                 </p>
                 <p class="kit_owner_url">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/user_details_icon.svg">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                   </md-icon>
                   <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url || 'No URL'}}</a>
                 </p>
@@ -263,7 +268,7 @@
                       <div class="kitList_content"> 
                         <p class="kitList_name">{{ kit.name }}</p>
                         <p class="kitList_data">
-                          <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon.svg">
+                          <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
                           </md-icon>
                           <span>{{ kit.location}}</span>
                           <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
@@ -271,7 +276,9 @@
                           <span>{{ kit.type }}</span>
                         </p>
                       </div>
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser">{{ kit.state.name }}</div>
+                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">
+                        <span>{{ kit.state.name }}</span>
+                      </div>
                     </div>
                   </md-button>
                   <div class="kitList_config" ng-if="vm.kitBelongsToUser">                    

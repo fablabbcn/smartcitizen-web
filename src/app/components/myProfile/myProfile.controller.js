@@ -15,7 +15,8 @@
       };
       console.log('auth', authUser);
       if(authUser) { 
-        userData = new User(authUser, {type: 'authUser'});
+        userData = authUser;
+        // userData = new User(authUser, {type: 'authUser'});
         vm.user = userData; 
         console.log('vm', vm.user);
         _.defaults(vm.formUser, vm.user);       

@@ -152,8 +152,9 @@
             },
             belongsToUser: function($stateParams, auth, marker) {
               if(!auth.isAuth()) return false;
-              var kitID = $stateParams.id;
+              var kitID = parseInt($stateParams.id);
               var authUserKits = auth.getCurrentUser().data.kits;
+              console.log('kittt', kitID, authUserKits);
               return _.some(authUserKits, function(kit) {
                 return kitID === kit.id;
               });

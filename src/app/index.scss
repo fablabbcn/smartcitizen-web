@@ -369,6 +369,7 @@ section.map {
   padding: 1px 6px 3px 6px;
   margin: 0 5px;
   border-radius: 20px;
+  box-shadow: 0 2px 2px #000000;
   // min-width: 60px;
 }
 .map_filter_name {
@@ -386,6 +387,18 @@ section.map {
     height: 8px;
     float: right;
     margin-top: 3px;    
+  }
+}
+.map_filter_button {
+  background-color: white;
+  margin-right: 15px;
+  width: 26px;
+  height: 26px;
+  box-shadow: 0 2px 2px #000000;
+
+  md-icon {
+    width: 18px;
+    height: 12px;
   }
 }
 
@@ -816,12 +829,37 @@ section .kit_menu {
     color: $alert_red;
   }
   .kit_details_manage_data {
-    >div {
+    .data_container {
       margin: 9px 0;
     }
   }
   .kit_details_manage_data_name {
     font-weight: bold;
+  }
+  .kit_details_key {
+    float: left;
+    height: 26px;
+  }
+  .kit_details_key_number {
+    margin-left: 5px;
+    font-weight: bold;
+    background-color: #F2F2F2;
+    padding: 5px 10px;
+    display: inline-block;
+    height: inherit;
+  }
+  .kit_details_key_refreshButton {
+    height: inherit;
+    background-color: #DBDBDB;
+    border-radius: 0 4px 4px 0; 
+    md-icon {
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+  }
+  .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
+    background-color: #DBDBDB;
   }
   .kit_detailed_name {
     font-size: 18px;
@@ -1558,7 +1596,7 @@ section .stickMenu {
   width: 4%;
 }
 .kitList_state {
-  display: inline-block;
+  // display: inline-block;
   color: white;
   font-size: 12px;
   border-radius: 20px;
@@ -1728,7 +1766,7 @@ section .stickMenu {
   height: 16px;
   margin-right: 8px;
   position: relative;
-  top: -2px;
+  top: -1px;
 }
 .myProfile_content_form {
   margin-left: 113px;
@@ -1748,6 +1786,37 @@ section .stickMenu {
 .myProfile_form_updateButton {
   float: right;
   color: $blue_light;
+}
+.myProfile_apiKey {
+  float: left;
+  height: 26px;
+}
+.myProfile_apiKey_text {
+  color: #82A7B0;
+  margin-right: 5px;
+}
+.myProfile_apiKey_number {
+  color: #9D9D9E;
+  font-weight: bold;
+  background-color: #F2F2F2;
+  padding: 5px 10px;
+}
+.myProfile_apiKey_refreshButton {
+  background-color: #82A7B0;
+  height: 29px;
+
+  md-icon {
+    height: 15px;
+    width: 15px;
+    display: block;
+    margin: 3px auto;
+  }
+}
+.md-button.myProfile_apiKey_refreshButton {
+  border-radius: 0 4px 4px 0;
+}
+.md-button.md-default-theme.myProfile_apiKey_refreshButton:active, .md-button.md-default-theme.myProfile_apiKey_refreshButton:hover, .md-button.md-default-theme.myProfile_apiKey_refreshButton:focus {
+  background-color: #82A7B0;
 }
 .myProfile_form_removeButton {
   display: block;
