@@ -46,6 +46,12 @@
         vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
       });
 
+      $scope.$on('loggedOut', function() {
+        vm.isLoggedIn = false;
+        vm.isShown = true;
+        angular.element('navbar .wrap-dd-menu').css('display', 'none');
+      });
+
       setTimeout(function() {
         var hash = $location.search();
         if(hash['signup']) {

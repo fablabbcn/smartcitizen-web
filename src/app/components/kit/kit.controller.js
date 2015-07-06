@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation'];
-    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
+    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
       var vm = this;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
@@ -19,7 +19,8 @@
         $state.go('userProfile', {id: 1});
       };
       vm.goToProfile = function() {
-        $state.go('myProfile');
+        $location.path('/profile');
+        // $state.go('myProfile');
       }
       vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);

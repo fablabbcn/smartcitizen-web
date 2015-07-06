@@ -136,6 +136,9 @@
               controllerAs: 'vm'
             }
           },
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
             marker: function($stateParams, device, marker, Marker, animation) {
 
@@ -163,6 +166,9 @@
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           controllerAs: 'vm',
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
             userData: function($stateParams, user) {
               var id = $stateParams.id;
@@ -180,32 +186,43 @@
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
             authUser: function(user, auth) {
               var userData = auth.getCurrentUser().data;
               console.log('u', userData);
               if(!userData) return;
               return userData;
-              // return user.getUser()
-              //   .then(function(user) {
-              //     return user;
-              //   });
             }
           } 
         })
         .state('login', {
           url: '/login',
           resolve: {
-            buttonToClick: function($location) {
+            isAuth: function(){
+
+            },
+            buttonToClick: function($location, isAuth) {
+              if(isAuth) {
+                return $location.path('/');
+              }
               $location.path('/kits/667');
-              $location.search('signup', 'true');
+              $location.search('login', 'true');
             }
           }
         })
         .state('signup', {
           url: '/signup',
           resolve: {
-            buttonToClick: function($location) {
+            isAuth: function() {
+
+            },
+            buttonToClick: function($location, isAuth) {
+              if(isAuth) {
+                return $location.path('/');
+              }
               $location.path('/kits/667');
               $location.search('signup', 'true');
             }
@@ -214,9 +231,11 @@
         .state('logout', {
           url: '/logout',
           resolve: {
-            logout: function($location, auth) {
+            logout: function($location, $state, auth, $rootScope) {
+              console.log('here');
               auth.logout();
               $location.path('/');
+              $rootScope.$broadcast('loggedOut');
             }
           }
         });
