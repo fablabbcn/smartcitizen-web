@@ -51,7 +51,7 @@
         <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
         </md-icon>
       </md-button>
-      <div class="sensors_container" layout="row" layout-align="center center">
+      <div class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
         <div ng-repeat="sensor in vm.sensors" class="sensor_container">          
           <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon">
           </md-icon>

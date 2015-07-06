@@ -47,6 +47,9 @@
         angular.element($window).on('scroll', function() {
           var windowPosition = document.body.scrollTop;
 
+          //highlight buttons 
+          
+          //sticking menu and moving up/down
           if(windowPosition + navbarHeight >= elementPosition) {
             element.addClass('stickMenu');
             scope.$apply(function() {
