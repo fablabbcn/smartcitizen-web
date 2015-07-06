@@ -75,9 +75,14 @@
             markers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
 
               return device.getAllDevices().then(function(data) {
-                return data.map(function(device) {
-                  return new Marker(device);
-                })
+                return _.chain(data)
+                  .map(function(device) {
+                    return new Marker(device);
+                  })
+                  .filter(function(marker) {
+                    return !!marker.lng && !!marker.lat;
+                  })
+                  .value();
               });
               /*return device.getDevices(location).then(function(data) {
                 data = data.plain();
@@ -187,6 +192,33 @@
               //   });
             }
           } 
+        })
+        .state('login', {
+          url: '/login',
+          resolve: {
+            buttonToClick: function($location) {
+              $location.path('/kits/667');
+              $location.search('signup', 'true');
+            }
+          }
+        })
+        .state('signup', {
+          url: '/signup',
+          resolve: {
+            buttonToClick: function($location) {
+              $location.path('/kits/667');
+              $location.search('signup', 'true');
+            }
+          }
+        })
+        .state('logout', {
+          url: '/logout',
+          resolve: {
+            logout: function($location, auth) {
+              auth.logout();
+              $location.path('/');
+            }
+          }
         });
 
       $urlRouterProvider.otherwise('/');

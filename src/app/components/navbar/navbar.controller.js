@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$scope', 'auth'];
-    function NavbarController($scope, auth) {
+    NavbarController.$inject = ['$location', '$scope', 'auth'];
+    function NavbarController($location, $scope, auth) {
       var vm = this;
       vm.isShown = true;
       vm.isLoggedin = false;
@@ -45,6 +45,16 @@
         vm.currentUser = auth.getCurrentUser().data;   
         vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
       });
+
+      setTimeout(function() {
+        var hash = $location.search();
+        if(hash['signup']) {
+          angular.element('.navbar_signup_button button').click();
+        } else if(hash['login']) {
+          angular.element('.navbar_login_button button').click();
+        }
+      }, 1000);
+
 
       //////////////////
 

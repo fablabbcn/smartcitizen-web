@@ -208,7 +208,9 @@
 
       function filterMarkers(filterData) {
         return markers.filter(function(marker) {
-          return filterData[marker.myData.labels.status] && filterData[marker.myData.labels.exposure];
+          var status = marker.myData.labels.status === 'online' ? 'online' : 'offline';
+          var exposure = marker.myData.labels.exposure;
+          return filterData[status] && filterData[exposure];
         });
       }
     }
