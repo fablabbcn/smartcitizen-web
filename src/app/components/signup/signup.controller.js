@@ -12,6 +12,9 @@
       // vm.signup = signup;
       vm.errors = {};
 
+      $scope.$on('showSignup', function() {
+        showSignup();
+      });
       ////////////////////////
 
 

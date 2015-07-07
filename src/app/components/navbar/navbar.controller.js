@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$location', '$scope', 'auth'];
-    function NavbarController($location, $scope, auth) {
+    NavbarController.$inject = ['$location', '$scope', 'auth', 'animation'];
+    function NavbarController($location, $scope, auth, animation) {
       var vm = this;
       vm.isShown = true;
       vm.isLoggedin = false;
@@ -55,9 +55,13 @@
       setTimeout(function() {
         var hash = $location.search();
         if(hash['signup']) {
-          angular.element('.navbar_signup_button button').click();
+          animation.showSignup();
+          // angular.element('.navbar_signup_button button').click();
         } else if(hash['login']) {
+          //animation.showLogin();
           angular.element('.navbar_login_button button').click();
+        } else if(hash['passwordRecovery']) {
+          animation.showPasswordRecovery();
         }
       }, 1000);
 

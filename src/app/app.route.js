@@ -233,10 +233,18 @@
           url: '/logout',
           resolve: {
             logout: function($location, $state, auth, $rootScope) {
-              console.log('here');
               auth.logout();
               $location.path('/');
               $rootScope.$broadcast('loggedOut');
+            }
+          }
+        })
+        .state('passwordRecovery', {
+          url: '/password_recovery',
+          resolve: {
+            recovery: function($location) {
+              $location.path('/kits/667');
+              $location.search('passwordRecovery', 'true');
             }
           }
         });

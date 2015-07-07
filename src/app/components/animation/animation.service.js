@@ -14,7 +14,10 @@
         addNav: addNav,
         showSpinner: showSpinner,
         hideSpinner: hideSpinner,
-        kitLoaded: kitLoaded
+        kitLoaded: kitLoaded,
+        showPasswordRecovery: showPasswordRecovery,
+        showLogin: showLogin,
+        showSignup: showSignup
     	};
     	return service;
 
@@ -46,6 +49,18 @@
 
       function kitLoaded(data) {
         $rootScope.$broadcast('kitLoaded', data);
+      }
+
+      function showPasswordRecovery() {
+        $rootScope.$broadcast('showPasswordRecovery');
+      }
+
+      function showLogin() {
+        $rootScope.$broadcast('showLogin');
+      }
+
+      function showSignup() {
+        $rootScope.$broadcast('showSignup');
       }
     }
 })();
