@@ -17,7 +17,8 @@
         kitLoaded: kitLoaded,
         showPasswordRecovery: showPasswordRecovery,
         showLogin: showLogin,
-        showSignup: showSignup
+        showSignup: showSignup,
+        showPasswordReset: showPasswordReset
     	};
     	return service;
 
@@ -26,41 +27,35 @@
     	function blur() {
         $rootScope.$broadcast('blur');
     	}
-
     	function unblur() {
     	  $rootScope.$broadcast('unblur');
     	}
-
       function removeNav() {
         $rootScope.$broadcast('removeNav');
       }
-
       function addNav() {
         $rootScope.$broadcast('addNav');
       }
-
       function showSpinner() {
         $rootScope.$broadcast('showSpinner');
       }
-
       function hideSpinner() {
         $rootScope.$broadcast('hideSpinner');
       }
-
       function kitLoaded(data) {
         $rootScope.$broadcast('kitLoaded', data);
       }
-
       function showPasswordRecovery() {
         $rootScope.$broadcast('showPasswordRecovery');
       }
-
       function showLogin() {
         $rootScope.$broadcast('showLogin');
       }
-
       function showSignup() {
         $rootScope.$broadcast('showSignup');
+      }
+      function showPasswordReset() {
+        $rootScope.$broadcast('showPasswordReset');
       }
     }
 })();

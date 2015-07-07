@@ -7,7 +7,6 @@
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
       $stateProvider
-        
         .state('landing', {
           url: '/',
           resolve: {
@@ -237,13 +236,10 @@
           }
         })
         .state('passwordRecovery', {
-          url: '/password_recovery',
-          resolve: {
-            recovery: function($location) {
-              $location.path('/kits/667');
-              $location.search('passwordRecovery', 'true');
-            }
-          }
+          url: '/password_recovery/:code',
+          templateUrl: 'app/components/passwordReset/passwordReset.html',
+          controller: 'PasswordResetController',
+          controllerAs: 'vm'
         });
 
       $urlRouterProvider.otherwise('/');

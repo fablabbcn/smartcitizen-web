@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('SignupDialogController', SignupDialogController);
 
-    SignupDialogController.$inject = ['$scope', '$mdDialog', 'user', 'alert'];
-    function SignupDialogController($scope, $mdDialog, user, alert) {
+    SignupDialogController.$inject = ['$scope', '$mdDialog', 'user', 'alert', 'animation'];
+    function SignupDialogController($scope, $mdDialog, user, alert, animation) {
 
       $scope.answer = function(answer) {
         user.createUser(answer)
@@ -25,6 +25,11 @@
       };
       $scope.cancel = function() {
         $mdDialog.cancel();
+      };
+
+      $scope.openLogin = function() {
+        animation.showLogin();
+        $mdDialog.hide();
       };
     }
 })();

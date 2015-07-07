@@ -23,7 +23,8 @@
         getCurrentUser: getCurrentUser,
         saveToken: saveToken,
         login: login,
-        logout: logout
+        logout: logout,
+        recoverPassword: recoverPassword
     	};
     	return service;
       
@@ -74,6 +75,10 @@
             'Authorization': 'Bearer ' + user.token
           }
         });*/
+      }
+
+      function recoverPassword(data) {
+        return Restangular.all('password_resets').post(data);
       }
     }
 })();
