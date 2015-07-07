@@ -144,7 +144,6 @@
 
               return device.getDevice($stateParams.id)
                 .then(function(deviceData) {
-                  console.log('d', deviceData);
                   var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};
                   animation.kitLoaded(markerLocation);
                   return deviceData;
@@ -154,7 +153,6 @@
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
               var authUserKits = auth.getCurrentUser().data.kits;
-              console.log('kittt', kitID, authUserKits);
               return _.some(authUserKits, function(kit) {
                 return kitID === kit.id;
               });
@@ -193,7 +191,6 @@
           resolve: {
             authUser: function(user, auth) {
               var userData = auth.getCurrentUser().data;
-              console.log('u', userData);
               if(!userData) return;
               return userData;
             }

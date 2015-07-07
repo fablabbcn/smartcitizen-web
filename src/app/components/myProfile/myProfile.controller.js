@@ -65,6 +65,10 @@
         initialize();
       });
 
+      setTimeout(function() {
+        highlightIcon(0); 
+      }, 500);
+
       //////////////////
 
       function initialize() {
@@ -72,18 +76,15 @@
       }
 
       function getKits() {
-        console.log('aqui');
         var kitIDs = _.pluck(userData.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
         };
-        console.log('kid', kitIDs);
         utils.getOwnerKits(kitIDs)
           .then(function(userKits) {
             kits = userKits;
             vm.kits = userKits;
-            console.log('kits', kits);
           });
       }
 
@@ -95,7 +96,6 @@
       }
 
       function filterTools(type) {
-        console.log('here', type);
         if(type === 'all') {
           type = undefined;
         } 
@@ -105,7 +105,6 @@
       function updateUser(userData) {
         user.updateUser(userData)
           .then(function() {
-            console.log('done');
             vm.errors = {};
             alert.success('User updated');
           })
@@ -118,7 +117,6 @@
       function removeUser() {
         user.removeUser()
           .then(function() {
-            console.log('removed');
           });
       }
 

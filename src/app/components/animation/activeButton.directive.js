@@ -47,6 +47,7 @@
         }, 1000);
 
         function scrollTo(offset) {
+          if(!container) return;
           angular.element(window).scrollTop(offset - container.navbar.height - container.kitMenu.height);        
         }
 

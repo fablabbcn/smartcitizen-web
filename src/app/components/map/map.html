@@ -1,13 +1,13 @@
 <section class="map" change-map-height>
   <leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet> <!-- tiles="vm.tiles" -->
   <div class="map_legend" layout="row" layout-align="start center">
-    <md-button ng-click="vm.openFilterPopup()" class="map_filter_button" layout="row" layout-align="center center">
+    <md-button ng-click="vm.openFilterPopup()" class="map_filter_button" layout="row" layout-align="center center" aria-label>
       <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
     </md-button>
     <div class="map_filters">
       <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="map_filter" ng-if="isFilterSelected" layout="row" layout-align="center center">
         <span class="map_filter_name">{{ filterName }}</span>
-        <button ng-click="vm.removeFilter(filterName)" class="map_filter_icon">
+        <button ng-click="vm.removeFilter(filterName)" class="map_filter_icon" arial-label>
           <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
         </button>
       </div>

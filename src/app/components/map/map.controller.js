@@ -8,7 +8,6 @@
     function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog) {
     	var vm = this;
 
-      console.log('ini', markers);
       var initialLocation = markers[0];
       vm.icons = getIcons();
       

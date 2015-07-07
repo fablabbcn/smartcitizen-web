@@ -15,13 +15,12 @@
 
       function getRollup(dateFrom, dateTo) {
         var rangeDays = timeUtils.getCurrentRange(dateFrom, dateTo, {format: 'd'});
-        console.log('rangeD', rangeDays);
 
         var rollup;
         if(rangeDays <= 1) {
           rollup = '1h';
         } else if(rangeDays <= 7) {
-          rollup = '1h';//rollup = '15m';
+          rollup = '1d';//rollup = '15m';
         } else if(rangeDays > 7) {
           rollup = '1d';
         }

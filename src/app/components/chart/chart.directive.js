@@ -20,7 +20,7 @@
 
         setTimeout(function() {
           createChart(elem[0]);                    
-        }, 1000);
+        }, 100);
 
         var lastData = {};
 
@@ -176,9 +176,9 @@
 
         svg.selectAll('*').remove();
 
-        var top = d3.select('.chart_container svg');
+        // var top = d3.select('.chart_container svg');
 
-        var gradient = svg.append('svg:defs')
+        /*var gradient = svg.append('svg:defs')
             .append('svg:linearGradient')
             .attr('id', 'gradient')
             .attr('y1', '0%')
@@ -195,7 +195,7 @@
         gradient.append('svg:stop')
             .attr('offset', '100%')
             .attr('stop-color', 'white')
-            .attr('stop-opacity', 1);
+            .attr('stop-opacity', 1);*/
 
         //Add the area path
         svg.append('path')
@@ -305,6 +305,8 @@
             focusMain.style('display', 'none'); 
           })
           .on('mousemove', mousemove);
+
+        
 
         function mousemove() {
           var bisectDate = d3.bisector(function(d) { return d.date; }).left;
