@@ -9,6 +9,9 @@
       var vm = this;
       var userData, kits
 
+      vm.highlightIcon = highlightIcon;
+      vm.unhighlightIcon = unhighlightIcon; 
+
       //PROFILE TAB
       vm.formUser = {
         'avatar': null
@@ -117,6 +120,27 @@
           .then(function() {
             console.log('removed');
           });
+      }
+
+      function highlightIcon(iconIndex) {
+        var icons = angular.element('.myProfile_tab_icon'); 
+
+        _.each(icons, function(icon) {
+          unhighlightIcon(icon);
+        })
+
+        var icon = icons[iconIndex];
+        
+        angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
+        angular.element(icon).find('.fill_container').css('fill', 'white');
+
+      }
+
+      function unhighlightIcon(icon) {
+        var icon = angular.element(icon);
+
+        icon.find('.stroke_container').css({'stroke': 'none'});
+        icon.find('.fill_container').css('fill', '#82A7B0');
       }
     }
 })();

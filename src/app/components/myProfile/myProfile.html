@@ -16,8 +16,8 @@
     </div>
   </div>
   <div class="myProfile_tabs_parent">
-    <md-tabs class="myProfile_tabs" md-center-tabs="true"> <!-- md-dynamic-height="false" -->
-      <md-tab label>
+    <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
+      <md-tab label md-on-select="vm.highlightIcon(0)" >
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
           <span>PROFILE</span>
@@ -128,7 +128,7 @@
           </div>          
         </md-tab-body>
       </md-tab>
-      <md-tab label>
+      <md-tab label md-on-select="vm.highlightIcon(1)" >
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
           <span>KITS</span>
@@ -188,7 +188,7 @@
           </div>          
         </md-tab-body>
       </md-tab>
-      <md-tab label>
+      <md-tab label md-on-select="vm.highlightIcon(2)">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
           <span>TOOLS</span>
