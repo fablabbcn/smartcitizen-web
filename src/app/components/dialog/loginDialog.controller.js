@@ -8,19 +8,20 @@
     function LoginDialogController($scope, $mdDialog, auth, alert, animation) {
 
       $scope.answer = function(answer) {
+        $scope.waitingFromServer = true;
         auth.login(answer)
           .then(function(data) {
-            console.log('yes', data);
             var token = data.access_token;
             auth.saveToken(token);
             alert.success('Signup was successful');
             $mdDialog.hide();
           })
           .catch(function(err) {
-            console.log('no');
-            // console.log('err', err.data.errors);
             alert.error('Username or password incorrect');
             // $scope.errors = err.data.errors;
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
           });
       };
       $scope.hide = function() {

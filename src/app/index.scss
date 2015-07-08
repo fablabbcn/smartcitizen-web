@@ -1188,9 +1188,19 @@ section .stickMenu {
   width: 400px;
   height: 412px;
 }
+.login_spinner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
 .signup {
   width: 400px;
   height: 512px;
+}
+.signup_spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 .modal_mapFilter {
   width: 300px;
@@ -1904,6 +1914,7 @@ footer {
   width: 50px;
   height: 50px;
 }
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

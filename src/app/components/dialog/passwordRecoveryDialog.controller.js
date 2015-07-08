@@ -18,6 +18,7 @@
       };
 
       $scope.recoverPassword = function() {
+        $scope.waitingFromServer = true;
         var data = {
           username: $scope.username
         }
