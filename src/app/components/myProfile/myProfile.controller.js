@@ -9,13 +9,17 @@
       var vm = this;
       var userData, kits
 
+      vm.highlightIcon = highlightIcon;
+      vm.unhighlightIcon = unhighlightIcon; 
+
       //PROFILE TAB
       vm.formUser = {
         'avatar': null
       };
       console.log('auth', authUser);
       if(authUser) { 
-        userData = new User(authUser, {type: 'authUser'});
+        userData = authUser;
+        // userData = new User(authUser, {type: 'authUser'});
         vm.user = userData; 
         console.log('vm', vm.user);
         _.defaults(vm.formUser, vm.user);       
@@ -61,6 +65,10 @@
         initialize();
       });
 
+      setTimeout(function() {
+        highlightIcon(0); 
+      }, 500);
+
       //////////////////
 
       function initialize() {
@@ -68,18 +76,15 @@
       }
 
       function getKits() {
-        console.log('aqui');
         var kitIDs = _.pluck(userData.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
         };
-        console.log('kid', kitIDs);
         utils.getOwnerKits(kitIDs)
           .then(function(userKits) {
             kits = userKits;
             vm.kits = userKits;
-            console.log('kits', kits);
           });
       }
 
@@ -91,7 +96,6 @@
       }
 
       function filterTools(type) {
-        console.log('here', type);
         if(type === 'all') {
           type = undefined;
         } 
@@ -101,7 +105,6 @@
       function updateUser(userData) {
         user.updateUser(userData)
           .then(function() {
-            console.log('done');
             vm.errors = {};
             alert.success('User updated');
           })
@@ -114,8 +117,28 @@
       function removeUser() {
         user.removeUser()
           .then(function() {
-            console.log('removed');
           });
+      }
+
+      function highlightIcon(iconIndex) {
+        var icons = angular.element('.myProfile_tab_icon'); 
+
+        _.each(icons, function(icon) {
+          unhighlightIcon(icon);
+        })
+
+        var icon = icons[iconIndex];
+        
+        angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
+        angular.element(icon).find('.fill_container').css('fill', 'white');
+
+      }
+
+      function unhighlightIcon(icon) {
+        var icon = angular.element(icon);
+
+        icon.find('.stroke_container').css({'stroke': 'none'});
+        icon.find('.fill_container').css('fill', '#82A7B0');
       }
     }
 })();

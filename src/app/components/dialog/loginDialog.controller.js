@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('LoginDialogController', LoginDialogController);
 
-    LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert'];
-    function LoginDialogController($scope, $mdDialog, auth, alert) {
+    LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
+    function LoginDialogController($scope, $mdDialog, auth, alert, animation) {
 
       $scope.answer = function(answer) {
         auth.login(answer)
@@ -27,6 +27,28 @@
         $mdDialog.hide();
       };
       $scope.cancel = function() {
+        $mdDialog.hide();
+      };
+
+      $scope.openSignup = function() {
+        animation.showSignup();
+        $mdDialog.hide();
+      };
+
+      $scope.openPasswordRecovery = function() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'PasswordRecoveryDialogController',
+          templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
+          //targetEvent: ev,
+          clickOutsideToClose: true
+        })
+        .then(function() {
+          //signup(signupData);
+        })
+        .finally(function() {
+          //animation.unblur();
+        });
         $mdDialog.hide();
       };
     }

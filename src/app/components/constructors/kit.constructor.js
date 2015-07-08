@@ -39,6 +39,7 @@
           parsedSensors.unshift({
             name: 'NONE',
             color: 'white',
+            // icon: './assets/images/sensor_icon.svg',
             id: -1
           });
         } 

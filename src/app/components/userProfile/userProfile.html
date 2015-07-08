@@ -4,11 +4,11 @@
     <div class="profile_header_content">
       <div class="profile_header_name">{{ vm.user.username }}</div>
       <div class="profile_header_location">
-        <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
+        <md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon>
         <span>{{ vm.user.location || 'No data' }}</span>
       </div>
       <div class="profile_header_url">
-        <md-icon md-svg-src="./assets/images/map_icon.svg" class="profile_header_content_avatar"></md-icon>
+        <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
         <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No data' }}</a>
       </div>
     </div>
@@ -37,7 +37,7 @@
               <div class="kitList_content"> 
                 <div class="kitList_name">{{ kit.name }}</div>
                 <div class="kitList_data">
-                  <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon.svg">
+                  <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
                   </md-icon>
                   <span>{{ kit.location }}</span>
                   <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">

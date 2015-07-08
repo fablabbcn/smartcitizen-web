@@ -5,19 +5,19 @@
       <div class="profile_header_content">
         <div class="profile_header_name">{{ vm.user.username || 'No data' }}</div>
         <div class="profile_header_location">
-          <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_header_content_avatar"></md-icon>
+          <md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon>
           <span>{{ vm.user.location || 'No data' }}</span>
         </div>
         <div class="profile_header_url">
-          <md-icon md-svg-src="./assets/images/url_icon.svg" class="profile_header_content_avatar"></md-icon>
+          <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
           <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No data' }}</a>
         </div>
       </div>
     </div>
   </div>
   <div class="myProfile_tabs_parent">
-    <md-tabs class="myProfile_tabs" md-center-tabs="true"> <!-- md-dynamic-height="false" -->
-      <md-tab label>
+    <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
+      <md-tab label md-on-select="vm.highlightIcon(0)" >
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
           <span>PROFILE</span>
@@ -30,11 +30,11 @@
                 A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
               </p>
               <md-button ng-click="" class="profile_sidebar_button">
-                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_sidebar_avatar"></md-icon>
+                <md-icon md-svg-src="./assets/images/support_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
                 <span>Support</span>
               </md-button>
               <md-button ng-click="" class="profile_sidebar_button">
-                <md-icon md-svg-src="./assets/images/location_icon.svg" class="profile_sidebar_avatar"></md-icon>
+                <md-icon md-svg-src="./assets/images/community_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
                 <span>Community</span>
               </md-button>
             </div>
@@ -112,10 +112,15 @@
 
                 <md-button ng-click="vm.updateUser(vm.formUser)" class="myProfile_form_updateButton">UPDATE PROFILE</md-button>
                 <div class="clearfix"></div>
-                <div class="myProfile_apiKey">
-                  <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
-                  <span>API KEY</span>
+                <div class="myProfile_apiKey" layout="row" layout-align="start center">
+                  <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
+                  <span class="myProfile_apiKey_text">API Key:</span>
+                  <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
+                  <md-button class="myProfile_apiKey_refreshButton md-flat">
+                    <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
+                  </md-button>
                 </div>
+                <div class="clearfix"></div>
                 <md-button ng-click="vm.removeUser()" class="myProfile_form_removeButton">DELETE ACCOUNT</md-button>
                 <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
               </div>
@@ -123,9 +128,9 @@
           </div>          
         </md-tab-body>
       </md-tab>
-      <md-tab label>
+      <md-tab label md-on-select="vm.highlightIcon(1)" >
         <md-tab-label>
-          <md-icon md-svg-src="./assets/images/kit_details_icon.svg" class="myProfile_tab_icon"></md-icon>
+          <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
           <span>KITS</span>
         </md-tab-label>
         <md-tab-body>
@@ -153,7 +158,7 @@
                     <div class="kitList_content"> 
                       <div class="kitList_name">{{ kit.name }}</div>
                       <div class="kitList_data">
-                        <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon.svg">
+                        <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
                         </md-icon>
                         <span>{{ kit.location }}</span>
                         <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
@@ -183,9 +188,9 @@
           </div>          
         </md-tab-body>
       </md-tab>
-      <md-tab label>
+      <md-tab label md-on-select="vm.highlightIcon(2)">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
         <md-tab-label>
-          <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
+          <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
           <span>TOOLS</span>
         </md-tab-label>
         <md-tab-body>

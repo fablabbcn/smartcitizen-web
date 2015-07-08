@@ -369,6 +369,7 @@ section.map {
   padding: 1px 6px 3px 6px;
   margin: 0 5px;
   border-radius: 20px;
+  box-shadow: 0 2px 2px #000000;
   // min-width: 60px;
 }
 .map_filter_name {
@@ -387,6 +388,21 @@ section.map {
     float: right;
     margin-top: 3px;    
   }
+}
+.map_filter_button {
+  background-color: white;
+  margin-right: 15px;
+  width: 26px;
+  height: 26px;
+  box-shadow: 0 2px 2px #000000;
+
+  md-icon {
+    width: 18px;
+    height: 12px;
+  }
+}
+.md-button.md-default-theme.map_filter_button:hover, .md-button.md-default-theme.map_filter_button:focus {
+  background-color: white;
 }
 
 .techs {
@@ -410,6 +426,7 @@ section.map {
 
 .kit_data {
   margin-top: 376px;
+  overflow: hidden;
 }
 
 section .kit_menu {
@@ -815,12 +832,37 @@ section .kit_menu {
     color: $alert_red;
   }
   .kit_details_manage_data {
-    >div {
+    .data_container {
       margin: 9px 0;
     }
   }
   .kit_details_manage_data_name {
     font-weight: bold;
+  }
+  .kit_details_key {
+    float: left;
+    height: 26px;
+  }
+  .kit_details_key_number {
+    margin-left: 5px;
+    font-weight: bold;
+    background-color: #F2F2F2;
+    padding: 5px 10px;
+    display: inline-block;
+    height: inherit;
+  }
+  .kit_details_key_refreshButton {
+    height: inherit;
+    background-color: #DBDBDB;
+    border-radius: 0 4px 4px 0; 
+    md-icon {
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+  }
+  .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
+    background-color: #DBDBDB;
   }
   .kit_detailed_name {
     font-size: 18px;
@@ -870,6 +912,7 @@ section .kit_menu {
     .kit_owner_content {
       float: left;
       width: 75%;
+      margin-bottom: 60px;
 
       h3, p {
         line-height: 0.4em;
@@ -1117,6 +1160,10 @@ section .stickMenu {
       color: rgba(0,98,123,0.54);
       line-height: 0.5;
     }
+    .message {
+      font-size: 12px;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -1127,11 +1174,13 @@ section .stickMenu {
   .message_below_question {
     color: $font_color_white;
     margin-right: 3%;
+    font-size: 14px;
   }
 
   .message_below_link {
     color: $terciary_color;
     font-weight: bold;
+    margin-right: 15px;
   }
 }
 
@@ -1173,7 +1222,14 @@ section .stickMenu {
     margin: 8px 0;
   }
 }
+.modal_recovery {
+  width: 400px;
+  height: 376px;
 
+  .modal_message {
+    margin-bottom: 5px;
+  }
+}
 .blur {
   -ms-filter: blur(20px);  
   -webkit-filter: blur(20px);  
@@ -1557,7 +1613,7 @@ section .stickMenu {
   width: 4%;
 }
 .kitList_state {
-  display: inline-block;
+  // display: inline-block;
   color: white;
   font-size: 12px;
   border-radius: 20px;
@@ -1632,6 +1688,7 @@ section .stickMenu {
 }
 
 .profile_content {
+  margin-bottom: 40px;
   min-height: 700px;
   position: relative;
   // color: 
@@ -1727,7 +1784,7 @@ section .stickMenu {
   height: 16px;
   margin-right: 8px;
   position: relative;
-  top: -2px;
+  top: -1px;
 }
 .myProfile_content_form {
   margin-left: 113px;
@@ -1747,6 +1804,37 @@ section .stickMenu {
 .myProfile_form_updateButton {
   float: right;
   color: $blue_light;
+}
+.myProfile_apiKey {
+  float: left;
+  height: 26px;
+}
+.myProfile_apiKey_text {
+  color: #82A7B0;
+  margin-right: 5px;
+}
+.myProfile_apiKey_number {
+  color: #9D9D9E;
+  font-weight: bold;
+  background-color: #F2F2F2;
+  padding: 5px 10px;
+}
+.myProfile_apiKey_refreshButton {
+  background-color: #82A7B0;
+  height: 29px;
+
+  md-icon {
+    height: 15px;
+    width: 15px;
+    display: block;
+    margin: 3px auto;
+  }
+}
+.md-button.myProfile_apiKey_refreshButton {
+  border-radius: 0 4px 4px 0;
+}
+.md-button.md-default-theme.myProfile_apiKey_refreshButton:active, .md-button.md-default-theme.myProfile_apiKey_refreshButton:hover, .md-button.md-default-theme.myProfile_apiKey_refreshButton:focus {
+  background-color: #82A7B0;
 }
 .myProfile_form_removeButton {
   display: block;
@@ -1791,6 +1879,30 @@ section .stickMenu {
 
 .clearfix {
   clear: both;
+}
+
+footer {
+  width: 100%;
+  height: 64px;
+  background-color: #032933;
+}
+
+.footer_icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.recovery_header {
+  width: 100%;
+  height: 128px;
+  background-color: #032933;
+}
+
+.recovery_headerIcon {
+  display: block;
+  width: 50px;
+  height: 50px;
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

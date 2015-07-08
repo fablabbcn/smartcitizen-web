@@ -7,7 +7,6 @@
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
       $stateProvider
-        
         .state('landing', {
           url: '/',
           resolve: {
@@ -72,12 +71,17 @@
                   return sensorTypes;
                 });
             },
-            initialMarkers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
+            markers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
 
               return device.getAllDevices().then(function(data) {
-                return data.map(function(device) {
-                  return new Marker(device);
-                })
+                return _.chain(data)
+                  .map(function(device) {
+                    return new Marker(device);
+                  })
+                  .filter(function(marker) {
+                    return !!marker.lng && !!marker.lat;
+                  })
+                  .value();
               });
               /*return device.getDevices(location).then(function(data) {
                 data = data.plain();
@@ -131,20 +135,22 @@
               controllerAs: 'vm'
             }
           },
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
-            marker: function($stateParams, device, marker) {
+            marker: function($stateParams, device, marker, Marker, animation) {
 
               return device.getDevice($stateParams.id)
-                .then(function(data) {
-                  data = data.plain();
-                  marker.setCurrentMarker(data);
-                  marker.dataLoaded();
-                  return data;
+                .then(function(deviceData) {
+                  var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};
+                  animation.kitLoaded(markerLocation);
+                  return deviceData;
                 });
             },
             belongsToUser: function($stateParams, auth, marker) {
               if(!auth.isAuth()) return false;
-              var kitID = $stateParams.id;
+              var kitID = parseInt($stateParams.id);
               var authUserKits = auth.getCurrentUser().data.kits;
               return _.some(authUserKits, function(kit) {
                 return kitID === kit.id;
@@ -158,6 +164,9 @@
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           controllerAs: 'vm',
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
             userData: function($stateParams, user) {
               var id = $stateParams.id;
@@ -175,18 +184,62 @@
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
+          onEnter: function() {
+            window.scrollTo(0,0);
+          },
           resolve: {
             authUser: function(user, auth) {
               var userData = auth.getCurrentUser().data;
-              console.log('u', userData);
               if(!userData) return;
               return userData;
-              // return user.getUser()
-              //   .then(function(user) {
-              //     return user;
-              //   });
             }
           } 
+        })
+        .state('login', {
+          url: '/login',
+          resolve: {
+            isAuth: function(){
+
+            },
+            buttonToClick: function($location, isAuth) {
+              if(isAuth) {
+                return $location.path('/');
+              }
+              $location.path('/kits/667');
+              $location.search('login', 'true');
+            }
+          }
+        })
+        .state('signup', {
+          url: '/signup',
+          resolve: {
+            isAuth: function() {
+
+            },
+            buttonToClick: function($location, isAuth) {
+              if(isAuth) {
+                return $location.path('/');
+              }
+              $location.path('/kits/667');
+              $location.search('signup', 'true');
+            }
+          }
+        })
+        .state('logout', {
+          url: '/logout',
+          resolve: {
+            logout: function($location, $state, auth, $rootScope) {
+              auth.logout();
+              $location.path('/');
+              $rootScope.$broadcast('loggedOut');
+            }
+          }
+        })
+        .state('passwordRecovery', {
+          url: '/password_recovery/:code',
+          templateUrl: 'app/components/passwordReset/passwordReset.html',
+          controller: 'PasswordResetController',
+          controllerAs: 'vm'
         });
 
       $urlRouterProvider.otherwise('/');

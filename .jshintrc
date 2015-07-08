@@ -35,6 +35,7 @@
     "document": false,
     "spyOn": false,
     "moment": false,
-    "d3": false
+    "d3": false,
+    "_": false
   }
 }

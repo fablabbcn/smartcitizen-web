@@ -5,6 +5,7 @@
     .factory('User', function() {
 
       function User(userData, options) {
+        console.log('ius', userData);
         if(options && options.type === 'authUser') {
           this.username = userData.username;
           this.avatar = userData.avatar;
@@ -14,7 +15,7 @@
           this.location = userData.city && userData.country ? userData.city + ', ' + userData.country : null;
           this.url = userData.url;
           this.email = userData.email;
-          this.key = userData.key;
+          this.key = '23243532423524234';//userData.key;
           this.macAddress = userData.macAddress;  
         } else {
           this.username = userData.username;

@@ -9,7 +9,7 @@
 
         this.lat = deviceData.latitude;
         this.lng = deviceData.longitude;
-        this.message = '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>';
+        this.message = '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>';
         this.myData = {
           id: deviceData.id,          
           labels: parsedKit.kitLabels
@@ -19,13 +19,18 @@
 
       function parseMarker(object) {
         return {
-          kitName: object.name,
+          kitName: parseMarkerName(object),
           kitType: parseMarkerType(object),  
           kitLastTime: moment(parseMarkerTime(object)).fromNow(), 
           kitLocation: parseMarkerLocation(object), 
           kitLabels: parseMarkerLabels(object),
           kitClass: classify(parseMarkerType(object))      
         };
+      }
+
+      function parseMarkerName(object) {
+        var name = object.name || 'No data';
+        return name.length > 30 ? name.slice(0, 30).concat(' ... ') : name;
       }
 
       function parseMarkerLocation(object) {

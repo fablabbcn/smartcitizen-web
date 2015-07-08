@@ -10,6 +10,9 @@
     $scope.showLogin = showLogin;
     //$scope.login = login;
 
+    $scope.$on('showLogin', function() {
+      showLogin();
+    });
     ////////////////
 
     function showLogin() {

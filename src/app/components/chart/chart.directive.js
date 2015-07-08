@@ -20,7 +20,14 @@
 
         setTimeout(function() {
           createChart(elem[0]);                    
-        }, 1000);
+        }, 100);
+
+        var lastData = {};
+
+        angular.element(window).on('resize', function() {
+          createChart(elem[0]);
+          updateChartData(lastData.data, {type: lastData.type, container: elem[0], color: lastData.color, unit: lastData.unit});
+        });
 
         scope.$watch('chartData', function(newData) {
           if(!newData) return;
@@ -55,6 +62,13 @@
               var colors = [newData[0].color, newData[1].color];
               var units = [newData[0].unit, newData[1].unit];
 
+              lastData = {
+                data: data,
+                type: 'both',
+                color: colors,
+                unit: units
+              };
+
               updateChartData(data, {type: 'both', container: elem[0], color: colors, unit: units });
             } else if(newData[0]) {
 
@@ -72,6 +86,14 @@
 
               var color = newData[0].color;
               var unit = newData[0].unit;
+
+              lastData = {
+                data: data,
+                type: 'main',
+                color: color,
+                unit: unit
+              };
+
               updateChartData(data, {type: 'main', container: elem[0], color: color, unit: unit });
             } 
             animation.hideSpinner();
@@ -81,6 +103,8 @@
 
 
       function createChart(elem) {
+        d3.select(elem).selectAll('*').remove();
+
         margin = {top: 20, right: 15, bottom: 20, left: 40};
         width = elem.clientWidth - margin.left - margin.right;
         height = elem.clientHeight - margin.top - margin.bottom;
@@ -152,9 +176,9 @@
 
         svg.selectAll('*').remove();
 
-        var top = d3.select('.chart_container svg');
+        // var top = d3.select('.chart_container svg');
 
-        var gradient = svg.append('svg:defs')
+        /*var gradient = svg.append('svg:defs')
             .append('svg:linearGradient')
             .attr('id', 'gradient')
             .attr('y1', '0%')
@@ -171,7 +195,7 @@
         gradient.append('svg:stop')
             .attr('offset', '100%')
             .attr('stop-color', 'white')
-            .attr('stop-opacity', 1);
+            .attr('stop-opacity', 1);*/
 
         //Add the area path
         svg.append('path')
@@ -281,6 +305,8 @@
             focusMain.style('display', 'none'); 
           })
           .on('mousemove', mousemove);
+
+        
 
         function mousemove() {
           var bisectDate = d3.bisector(function(d) { return d.date; }).left;

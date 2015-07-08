@@ -4,22 +4,15 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils'];
-    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
+    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
       var vm = this;
+      var getChartDataHasBeenCalled = false;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
       // vm.toPickerDisabled = false;
+      animation.kitLoaded({lat: marker.data.location.latitude ,lng: marker.data.location.longitude });
 
-      vm.goToKit = function(kitID) {
-        $state.go('home.kit', {id: 5});
-      }
-      vm.goToUser = function() {
-        $state.go('userProfile', {id: 1});
-      };
-      vm.goToProfile = function() {
-        $state.go('myProfile');
-      }
       vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);
 
@@ -84,6 +77,7 @@
       });
 
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
+
         vm.sensorsToCompare.forEach(function(sensor) {
           if(sensor.id === newVal) {
             vm.selectedSensorToCompareData = {
@@ -97,7 +91,9 @@
         setTimeout(function() {
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
-          changeChart('sensor', [mainSensorID, compareSensorID]);
+
+          if(oldVal === undefined && newVal === undefined) return;
+          changeChart('sensor', [mainSensorID, compareSensorID]);            
         }, 100);
         
       });
@@ -112,7 +108,6 @@
         colorClock();
         getOwnerKits();
       }, 1000);
-
 
       ///////////////
 
@@ -151,29 +146,35 @@
 
       function changeChart(updateType, sensorsID, options) {
         if(!sensorsID[0]) return;
+        
+        if(getChartDataHasBeenCalled && !sensorsData) {
+          //waiting for the data from the server, render chart on next call
+          return;
         //if data is not loaded, get it first -> happens on controller initialization
-        if(!sensorsData) {
+        } else if(!getChartDataHasBeenCalled) {
           updateType = 'date';
           if(!options) {
             var options = {};
           }
           options.from = picker.getValuePickerFrom();
           options.to = picker.getValuePickerTo();
-        }
+        } 
+
         if(updateType === 'date') {
           //show spinner
           vm.loadingChart = true;
           //grab chart data and save it
           getChartData(options.from, options.to)
-            .then(function() {              
+            .then(function() {
               vm.chartDataMain = prepareChartData(sensorsID);
             });
         } else if(updateType === 'sensor') {         
           vm.chartDataMain = prepareChartData(sensorsID);
         }
       }
-
+      
       function getChartData(dateFrom, dateTo, options) {
+        getChartDataHasBeenCalled = true;
         var deviceID = $stateParams.id;
 
         return sensor.getSensorsData(deviceID, dateFrom, dateTo)
