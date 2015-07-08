@@ -2,17 +2,19 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Marker', function(utils, device, COUNTRY_CODES) {
+    .factory('Marker', function(utils, device, COUNTRY_CODES, MARKER_ICONS) {
 
       function Marker(deviceData) {
-        var parsedKit = parseMarker(deviceData);
+        var parsedMarker = parseMarker(deviceData);
 
         this.lat = deviceData.latitude;
         this.lng = deviceData.longitude;
-        this.message = '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>';
+        this.message = '<div class="popup"><div class="popup_top ' + parsedMarker.kitClass + '"><p class="popup_name">' + parsedMarker.kitName + '</p><p class="popup_type">' + parsedMarker.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedMarker.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' + parsedMarker.kitLocation + '</p><div class="popup_labels"><span>' + parsedMarker.kitLabels.status + '</span><span>' + parsedMarker.kitLabels.exposure + '</span></div></div></div>';
+        this.icon = parsedMarker.kitIcon;
+        this.layer = 'realworld'; 
         this.myData = {
           id: deviceData.id,          
-          labels: parsedKit.kitLabels
+          labels: parsedMarker.kitLabels
         };
       }
       return Marker;
@@ -24,7 +26,8 @@
           kitLastTime: moment(parseMarkerTime(object)).fromNow(), 
           kitLocation: parseMarkerLocation(object), 
           kitLabels: parseMarkerLabels(object),
-          kitClass: classify(parseMarkerType(object))      
+          kitClass: classify(parseMarkerType(object)),
+          kitIcon: parseMarkerIcon(parseMarkerLabels(object).status)
         };
       }
 
@@ -79,6 +82,17 @@
 
       function parseMarkerTime(object) {
         return object.added_at;
+      }
+
+      function parseMarkerIcon(status) {
+        var icon;
+
+        if(status === 'offline') {
+          icon = MARKER_ICONS.smartCitizenOffline
+        } else {
+          icon = MARKER_ICONS.smartCitizenOnline;
+        }  
+        return icon;
       }
     });
 

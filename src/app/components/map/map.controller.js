@@ -9,9 +9,7 @@
     	var vm = this;
 
       var initialLocation = markers[0];
-      vm.icons = getIcons();
-      
-      markers = augmentMarkers(markers);
+
       vm.markers = markers;
       vm.currentMarker = marker.getCurrentMarker();
 
@@ -100,85 +98,6 @@
 
       /////////////////////
 
-      function augmentMarkers(devices) {
-        return devices.map(function(device) {
-          return augmentMarker(device, false);
-        });
-      }
-
-      function augmentMarker(device) {
-        if(device.status === 'offline') {
-          device.icon = vm.icons.smartCitizenOffline;
-        } else {
-          device.icon = vm.icons.smartCitizenOnline;
-        }
-
-        device.layer = 'realworld';        
-
-        return device;
-      }
-
-      function getIcons() {
-        var localIcons = {
-          defaultIcon: {},
-          smartCitizenNormal: {
-            type: 'div',
-            className: 'marker_normal',
-            iconSize: [12, 12]
-          },
-          smartCitizenOnline: {
-            type: 'div',
-            className: 'marker_online',
-            iconSize: [12, 12]
-          },
-          smartCitizenOffline: {
-            type: 'div',
-            className: 'marker_offline',
-            iconSize: [12, 12]
-          }
-        };
-
-        return localIcons;
-      }
-
-      function getMarkers(location) {
-        device.getDevices(location)
-  	      .then(function(data) {
-  	        data = data.plain();
-
-  	        var markers = data.map(function(device) {
-              var obj = {
-                lat: device.data.location.latitude,
-                lng: device.data.location.longitude,
-                message: '<h1>' + vm.currentMarker + '</h1>',
-                myData: {
-                  id: device.id
-                }
-              };
-              return obj;
-  	        });
-            vm.markers = [];
-  	        vm.markers = markers;
-  	      });
-      }
-
-      function getAllMarkers() {
-        device.getAllDevices()
-          .then(function(data) {
-            data = data.plain();
-
-            var markers = data.map(function(device) {
-              var obj = {
-                lat: device.latitude,
-                lng: device.longitude,
-                message: 'Hola'
-              };
-              return obj;
-            });
-
-            vm.markers = markers;
-          });
-      }
 
       function openFilterPopup() {
         $mdDialog.show({

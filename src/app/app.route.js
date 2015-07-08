@@ -197,6 +197,7 @@
         })
         .state('login', {
           url: '/login',
+          authenticate: false,
           resolve: {
             isAuth: function(){
 
@@ -212,6 +213,7 @@
         })
         .state('signup', {
           url: '/signup',
+          authenticate: false,
           resolve: {
             isAuth: function() {
 
@@ -227,6 +229,7 @@
         })
         .state('logout', {
           url: '/logout',
+          authenticate: true,
           resolve: {
             logout: function($location, $state, auth, $rootScope) {
               auth.logout();
