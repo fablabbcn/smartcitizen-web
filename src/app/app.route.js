@@ -135,9 +135,9 @@
               controllerAs: 'vm'
             }
           },
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          onEnter: ['$window', function($window) {
+            $window.scrollTo(0,0);
+          }],
           resolve: {
             marker: function($stateParams, device, marker, Marker, animation) {
 
@@ -164,9 +164,9 @@
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           controllerAs: 'vm',
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          onEnter: ['$window', function($window) {
+            $window.scrollTo(0,0);
+          }],
           resolve: {
             userData: function($stateParams, user) {
               var id = $stateParams.id;
@@ -184,9 +184,9 @@
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          onEnter: ['$window', function($window) {
+            $window.scrollTo(0,0);
+          }],
           resolve: {
             authUser: function(user, auth) {
               var userData = auth.getCurrentUser().data;
@@ -239,6 +239,12 @@
           url: '/password_recovery/:code',
           templateUrl: 'app/components/passwordReset/passwordReset.html',
           controller: 'PasswordResetController',
+          controllerAs: 'vm'
+        })
+        .state('kitSetup', {
+          url: '/setup',
+          templateUrl: 'app/components/kitSetup/kitSetup.html',
+          controller: 'KitSetupController',
           controllerAs: 'vm'
         });
 
