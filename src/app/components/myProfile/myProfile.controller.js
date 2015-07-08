@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils', 'alert'];
-    function MyProfileController($scope, authUser, User, user, auth, utils, alert) {
+    MyProfileController.$inject = ['$scope', 'authUser', 'AuthUser', 'user', 'auth', 'utils', 'alert'];
+    function MyProfileController($scope, authUser, AuthUser, user, auth, utils, alert) {
       var vm = this;
       var userData, kits
 
@@ -19,10 +19,10 @@
       console.log('auth', authUser);
       if(authUser) { 
         userData = authUser;
-        // userData = new User(authUser, {type: 'authUser'});
+        // userData = new AuthUser(authUser);
         vm.user = userData; 
         console.log('vm', vm.user);
-        _.defaults(vm.formUser, vm.user);       
+        _.defaults(vm.formUser, vm.user);   
         initialize();
       }
 
@@ -62,6 +62,9 @@
         userData = auth.getCurrentUser().data;
         vm.user = userData;
         _.defaults(vm.formUser, vm.user);
+        console.log('userda', userData);
+        console.log('vm.u', vm.user);
+        console.log('vm.f', vm.formUser);
         initialize();
       });
 

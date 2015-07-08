@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$http', '$window', 'Restangular', '$rootScope', 'User'];
-    function auth($http, $window, Restangular, $rootScope, User) {
+    auth.$inject = ['$http', '$window', 'Restangular', '$rootScope', 'AuthUser'];
+    function auth($http, $window, Restangular, $rootScope, AuthUser) {
 
     	var user = {
         token: null,
@@ -40,7 +40,7 @@
         if(!user.token) return;
         getCurrentUserInfo()
           .then(function(data) {
-            user.data = new User(data, {type: 'authUser'});
+            user.data = new AuthUser(data);
             $rootScope.$broadcast('loggedIn');
             console.log('user', user);
           });

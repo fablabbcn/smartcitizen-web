@@ -79,7 +79,7 @@
                 <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>City</label>
-                    <input type="text" ng-model="vm.formUser.city">
+                    <input type="text" ng-model="vm.formUser.location.city">
                   </md-input-container>
                   <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
                     <span ng-repeat="error in vm.errors.city">
@@ -90,7 +90,7 @@
                 <div layout layout-sm="column" class="field myProfile_content_form_input">
                   <md-input-container flex>
                     <label>Country</label>
-                    <input type="text" ng-model="vm.formUser.country">
+                    <input type="text" ng-model="vm.formUser.location.country">
                   </md-input-container>
                   <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
                     <span ng-repeat="error in vm.errors.country">

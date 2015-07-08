@@ -4,10 +4,10 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['User', 'utils', 'userData'];
-    function UserProfileController(User, utils, userData) {
+    UserProfileController.$inject = ['NonAuthUser', 'utils', 'userData'];
+    function UserProfileController(NonAuthUser, utils, userData) {
       var vm = this;
-      var user = new User(userData); 
+      var user = new NonAuthUser(userData); 
       var kits;
 
       vm.status = undefined;
