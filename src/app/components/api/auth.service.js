@@ -51,7 +51,7 @@
       }
 
       function isAuth() {
-        return !!user.token;
+        return !!$window.localStorage.getItem('smartcitizen.token');
       }
       //save to localstorage and 
       function saveToken(token) {
