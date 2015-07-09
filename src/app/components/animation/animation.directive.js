@@ -146,16 +146,30 @@
       };
     }
     
-    changeContentMargin.$inject = ['layout', '$timeout'];
-    function changeContentMargin(layout, $timeout) {
+    changeContentMargin.$inject = ['layout', '$timeout', '$document'];
+    function changeContentMargin(layout, $timeout, $document) {
       function link(scope, element) {
-        $timeout(function() {
+/*        $timeout(function() {
           var mapHeight = angular.element('.angular-leaflet-map').height();
           var navbarHeight = angular.element('.stickNav').height();
           var chartHeight = angular.element('.kit_chart').height();
 
           element.css('margin-top', mapHeight + navbarHeight + 'px');
         });
+*/        
+          var screenHeight = $document[0].body.clientHeight;
+          var navbarHeight = angular.element('.stickNav').height();
+          
+          var overviewHeight = angular.element('.kit_overview').height(); 
+          var menuHeight = angular.element('.kit_menu').height();
+          var chartHeight = angular.element('.kit_chart').height();
+
+            var overviewHeight = angular.element('.kit_overview').height(); 
+            var menuHeight = angular.element('.kit_menu').height();
+            var chartHeight = angular.element('.kit_chart').height();
+            
+            var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight - chartHeight; // screen height - navbar height - menu height - overview height - charts height
+            element.css('margin-top', aboveTheFoldHeight + 'px');  
       }     
  
       return {
