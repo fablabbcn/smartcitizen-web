@@ -20,8 +20,8 @@
       $scope.recoverPassword = function() {
         $scope.waitingFromServer = true;
         var data = {
-          username: $scope.username
-        }
+          username_or_email: $scope.input
+        };
         auth.recoverPassword(data)
           .then(function() {
             alert.success('You were sent an email to recover your password');

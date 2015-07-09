@@ -6,6 +6,8 @@
 
     PasswordResetDialogController.$inject = ['$scope', '$mdDialog', 'auth'];
     function PasswordResetDialogController($scope, $mdDialog, auth) {
+      initialize();
+      
       $scope.password = {
         newPassword: undefined,
         confirmPassword: undefined
@@ -34,6 +36,15 @@
       }
       $scope.hide = function() {
         $mdDialog.hide();
+      }
+
+
+      function initialize() {
+        getUserData();
+      }
+
+      function getUserData() {
+
       }
     }
 })();

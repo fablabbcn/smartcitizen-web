@@ -26,7 +26,6 @@
               });
             },
             initialMarkers: function($state, device, location) {
-
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
                 
@@ -140,7 +139,6 @@
           },
           resolve: {
             marker: function($stateParams, device, marker, Marker, animation) {
-
               return device.getDevice($stateParams.id)
                 .then(function(deviceData) {
                   var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};

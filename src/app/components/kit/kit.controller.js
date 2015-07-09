@@ -4,9 +4,10 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
-    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
+    function KitController($state, $scope, $stateParams, marker, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
       var vm = this;
+      console.log('this');
       var getChartDataHasBeenCalled = false;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
@@ -16,7 +17,7 @@
       vm.kitBelongsToUser = belongsToUser;
       vm.marker = augmentMarker(marker);
 
-      vm.kit = new Kit(marker);
+      vm.kit = new FullKit(marker);
 
       var mainSensors = vm.kit.getSensors({type: 'main'});  
       vm.battery = mainSensors[1];
