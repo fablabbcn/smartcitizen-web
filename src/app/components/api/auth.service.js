@@ -25,7 +25,8 @@
         login: login,
         logout: logout,
         recoverPassword: recoverPassword,
-        resetPassword: resetPassword
+        getResetPassword: getResetPassword,
+        patchResetPassword: patchResetPassword
     	};
     	return service;
       
@@ -82,8 +83,11 @@
         return Restangular.all('password_resets').post(data);
       }
 
-      function resetPassword(data) {
-        return Restangular.all('password_resets').patch(data);
+      function getResetPassword(code) {
+        return Restangular.one('password_resets', code).get();
+      }
+      function patchResetPassword(code, data) {
+        return Restangular.one('password_resets', code).patch(data);
       }
     }
 })();

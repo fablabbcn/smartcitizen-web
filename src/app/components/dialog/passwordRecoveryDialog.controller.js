@@ -20,16 +20,19 @@
       $scope.recoverPassword = function() {
         $scope.waitingFromServer = true;
         var data = {
-          username_or_email: $scope.input
+          email_or_username: $scope.input
         };
         auth.recoverPassword(data)
           .then(function() {
             alert.success('You were sent an email to recover your password');
-            $mdDialog.hide()
+            $mdDialog.hide();
           })
           .catch(function(err) {          
             alert.error('That username doesn\'t exist');
             $scope.errors = err.data;
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
           }); 
       };
 

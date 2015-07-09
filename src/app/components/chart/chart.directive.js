@@ -20,7 +20,7 @@
 
         setTimeout(function() {
           createChart(elem[0]);                    
-        }, 100);
+        }, 0);
 
         var lastData = {};
 
