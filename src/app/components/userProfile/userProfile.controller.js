@@ -4,51 +4,26 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['NonAuthUser', 'utils', 'userData'];
-    function UserProfileController(NonAuthUser, utils, userData) {
+    UserProfileController.$inject = ['utils', 'userData', 'kitsData'];
+    function UserProfileController(utils, userData, kitsData) {
       var vm = this;
-      var user = new NonAuthUser(userData); 
-      var kits;
+      var user = userData; 
+      var kits = kitsData;
 
       vm.status = undefined;
       vm.user = user;
-      vm.kits;
+      vm.kits = kits;
 
       vm.filteredKits;
       vm.filterKits = filterKits;
-      vm.goThere = goThere;
 
-      initialize();
       //////////////////
-
-      function initialize() {
-        getKits();
-      }
-
-      function getKits() {
-        var kitIDs = _.pluck(user.kits, 'id');
-        if(!kitIDs.length) {
-          vm.kits = [];
-          return;
-        };
-
-        utils.getOwnerKits(kitIDs)
-          .then(function(userKits) {
-            kits = userKits;
-            vm.kits = userKits;
-            console.log('k', kits);
-          });
-      }
 
       function filterKits(status) {
         if(status === 'all') {
           status = undefined;
         } 
         vm.status = status;
-      }
-
-      function goThere() {
-        console.log('this');
       }
     }
 })();

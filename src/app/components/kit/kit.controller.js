@@ -7,7 +7,8 @@
     KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
     function KitController($state, $scope, $stateParams, marker, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
       var vm = this;
-      console.log('this');
+
+      console.log('inside kit controller');
       var getChartDataHasBeenCalled = false;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
@@ -99,7 +100,8 @@
         
       });
 
-      $scope.$on('hideSpinner', function() {
+      $scope.$on('hideChartSpinner', function() {
+        console.log('hide')
         vm.loadingChart = false;
       });
 

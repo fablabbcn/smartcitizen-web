@@ -82,46 +82,7 @@
                   })
                   .value();
               });
-              /*return device.getDevices(location).then(function(data) {
-                data = data.plain();
-
-                var markers = data.map(function(device) {
-                  // var parsedKit = utils.parseKit(device);
-
-                  // var obj = {
-                  //   lat: device.data.location.latitude,
-                  //   lng: device.data.location.longitude,
-                  //   message: '<div class="popup"><div class="popup_top ' + parsedKit.kitClass + '"><p class="popup_name">' + parsedKit.kitName + '</p><p class="popup_type">' + parsedKit.kitType + '</p><p class="popup_time"><md-icon md-svg-src="./assets/images/update_icon.svg"></md-icon>' + parsedKit.kitLastTime + '</p></div><div class="popup_bottom"><p class="popup_location"><md-icon md-svg-src="./assets/images/location_icon.svg"></md-icon>' + parsedKit.kitLocation + '</p><div class="popup_labels"><span>' + parsedKit.kitLabels.status + '</span><span>' + parsedKit.kitLabels.exposure + '</span></div></div></div>',
-                  //   status: device.status,
-                  //   myData: {
-                  //     id: device.id
-                  //   }
-                  // };
-
-                  var obj = new Marker(device);
-                  return obj;
-                });
-                return markers;
-              });*/
-            }/*,
-            initialPopup: function(leafletData, initialMarkers) {
-              var closestMarkerID = initialMarkers[0].myData.id;
-
-              leafletData.getMap()
-                .then(function(data) {
-                  for(var layer in data._layers) {
-                    if(!data._layers[layer].options.myData) {
-                      continue;
-                    }
-
-                    var ID = data._layers[layer].options.myData.id;
-                    if(ID === closestMarkerID) {
-                      angular.element(data._layers[layer]._icon).click();
-                    }
-                  }
-                });
-
-            }*/
+            }
           }
         })
 
@@ -166,12 +127,23 @@
             window.scrollTo(0,0);
           },
           resolve: {
-            userData: function($stateParams, user) {
+            userData: function($stateParams, $state, NonAuthUser, user, auth) {
               var id = $stateParams.id;
 
               return user.getUser(id)
                 .then(function(user) {
-                  return user;
+                  return new NonAuthUser(user); 
+                });
+            },
+            kitsData: function(utils, userData) {
+              var kitIDs = _.pluck(userData.kits, 'id');
+              if(!kitIDs.length) {
+                return [];
+              };
+
+              return utils.getOwnerKits(kitIDs)
+                .then(function(userKits) {
+                  return userKits;
                 });
             }
           }
@@ -186,7 +158,7 @@
             window.scrollTo(0,0);
           },
           resolve: {
-            authUser: function(user, auth) {
+            userData: function(user, auth) {
               var userData = auth.getCurrentUser().data;
               if(!userData) return;
               return userData;

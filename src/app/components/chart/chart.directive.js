@@ -96,7 +96,7 @@
 
               updateChartData(data, {type: 'main', container: elem[0], color: color, unit: unit });
             } 
-            animation.hideSpinner();
+            animation.hideChartSpinner();
           }
         });
       }

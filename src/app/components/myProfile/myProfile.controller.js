@@ -4,10 +4,10 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
-    function MyProfileController($scope, authUser, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
+    MyProfileController.$inject = ['$scope', 'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
+    function MyProfileController($scope, userData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
-      var userData, kits
+      var user, kits
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
@@ -16,12 +16,10 @@
       vm.formUser = {
         'avatar': null
       };
-      console.log('auth', authUser);
-      if(authUser) { 
-        userData = authUser;
-        // userData = new AuthUser(authUser);
-        vm.user = userData; 
-        console.log('vm', vm.user);
+      console.log('auth', userData);
+      if(userData) { 
+        user = userData;
+        vm.user = user; 
         _.defaults(vm.formUser, vm.user);   
         initialize();
       }
@@ -59,12 +57,9 @@
 
       //in case it's the entry point for the app
       $scope.$on('loggedIn', function() {
-        userData = auth.getCurrentUser().data;
-        vm.user = userData;
+        user = auth.getCurrentUser().data;
+        vm.user = user;
         _.defaults(vm.formUser, vm.user);
-        console.log('userda', userData);
-        console.log('vm.u', vm.user);
-        console.log('vm.f', vm.formUser);
         initialize();
       });
 
@@ -79,7 +74,7 @@
       }
 
       function getKits() {
-        var kitIDs = _.pluck(userData.kits, 'id');
+        var kitIDs = _.pluck(user.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           return;
