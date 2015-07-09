@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'AuthUser', 'user', 'auth', 'utils', 'alert'];
-    function MyProfileController($scope, authUser, AuthUser, user, auth, utils, alert) {
+    MyProfileController.$inject = ['$scope', 'authUser', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
+    function MyProfileController($scope, authUser, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
       var userData, kits
 
@@ -106,6 +106,15 @@
       }
 
       function updateUser(userData) {
+        if(!!userData.country.length) {
+          _.each(COUNTRY_CODES, function(value, key, object) {
+            if(value === userData.country) {
+              userData.country_code = key; 
+              return;
+            }
+          });          
+        } 
+
         user.updateUser(userData)
           .then(function() {
             vm.errors = {};

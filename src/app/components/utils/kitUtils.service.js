@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('kitUtils', kitUtils);
 
-    kitUtils.$inject = [];
-    function kitUtils() {
+    kitUtils.$inject = ['COUNTRY_CODES'];
+    function kitUtils(COUNTRY_CODES) {
       var service = {
         parseLocation: parseLocation,
         parseLabels: parseLabels,
@@ -73,11 +73,13 @@
       }
 
       function parseOwner(object) {
+        console.log('obec', object);
         return {
           id: object.owner.id,
           username: object.owner.username,
           kits: object.owner.device_ids,
-          location: object.owner.location.city && object.owner.location.country ? object.owner.location.city + ', ' + object.owner.location.country : null,
+          city: object.owner.location.city,
+          country: COUNTRY_CODES[object.owner.location.country_code],
           url: object.owner.url,
           avatar: object.owner.avatar
         };

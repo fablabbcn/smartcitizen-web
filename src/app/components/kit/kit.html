@@ -248,7 +248,12 @@
                 <p class="kit_owner_location">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
-                  <span>{{ vm.kit.owner.location || 'No location' }}</span>
+                  <span>
+                    <span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span>
+                    <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span>
+                    <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span> 
+                    <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span>
+                  </span>
                 </p>
                 <p class="kit_owner_url">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
