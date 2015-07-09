@@ -134,8 +134,8 @@
             </div>
             <div style="clear: both"></div>
 
+            <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
             <div chart class="chart_container" chart-data="vm.chartDataMain">
-              <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
             </div>
           </div>
         </div>

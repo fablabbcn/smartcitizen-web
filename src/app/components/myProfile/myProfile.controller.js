@@ -56,12 +56,12 @@
 
 
       //in case it's the entry point for the app
-      $scope.$on('loggedIn', function() {
+      /*$scope.$on('loggedIn', function() {
         user = auth.getCurrentUser().data;
         vm.user = user;
         _.defaults(vm.formUser, vm.user);
         initialize();
-      });
+      });*/
 
       setTimeout(function() {
         highlightIcon(0); 

@@ -17,20 +17,34 @@
        * undefined when it doesn't matter whether the user is logged in or not
        */
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        
-        if(toState.authenticate) {
-          if(!auth.isAuth()) {
-            e.preventDefault();
-            $state.go('landing');
-          }
-        }
-
+        console.log('state change');
         if(toState.authenticate === false) {
           if(auth.isAuth()) {
             e.preventDefault()
             $state.go('landing');
+            return;
           } 
         }
+
+        if(toState.authenticate) {
+          if(!auth.isAuth()) {
+            e.preventDefault();
+          } 
+        }
+
+        /*if(auth.isAuth() && !auth.getCurrentUser().data) {
+          auth.registerCallback(function() {
+            auth.setReloading(true);
+            $state.reload();
+            auth.setReloading(false);
+          });          
+        }*/
+
+        if(!auth.reloading()) {
+          window.scrollTo(0, 0);          
+        }
+
+        return;
       });
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {

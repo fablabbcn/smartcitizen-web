@@ -4,13 +4,15 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$http', '$window', 'Restangular', '$rootScope', 'AuthUser'];
-    function auth($http, $window, Restangular, $rootScope, AuthUser) {
+    auth.$inject = ['$http', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser'];
+    function auth($http, $window, $state, Restangular, $rootScope, AuthUser) {
 
     	var user = {
         token: null,
         data: null
       };
+
+      var callback, isReloading;
 
       //wait until http receptor is added to Restangular
       setTimeout(function() {
@@ -26,7 +28,10 @@
         logout: logout,
         recoverPassword: recoverPassword,
         getResetPassword: getResetPassword,
-        patchResetPassword: patchResetPassword
+        patchResetPassword: patchResetPassword,
+        registerCallback: registerCallback,
+        setReloading: setReloading,
+        reloading: reloading
     	};
     	return service;
       
@@ -43,7 +48,20 @@
           .then(function(data) {
             user.data = new AuthUser(data);
             $rootScope.$broadcast('loggedIn');
-            console.log('user', user);
+            if(callback) {
+              callback();
+              callback = undefined;
+            }
+
+            setReloading(true);
+            try {
+              $state.reload();              
+            } catch(err) {
+              setTimeout(function() {
+                $state.reload();                
+              }, 1000);
+            }
+            setReloading(false);
           });
       }
 
@@ -70,13 +88,6 @@
 
       function getCurrentUserInfo() {
         return Restangular.all('').customGET('me');
-        /*return $http({
-          method: 'GET',
-          url: 'https://new-api.smartcitizen.me/v0/me',
-          headers: {
-            'Authorization': 'Bearer ' + user.token
-          }
-        });*/
       }
 
       function recoverPassword(data) {
@@ -88,6 +99,19 @@
       }
       function patchResetPassword(code, data) {
         return Restangular.one('password_resets', code).patch(data);
+      }
+
+      function registerCallback(cb) {
+        if(callback) return;
+        callback = cb;
+      }
+
+      function setReloading(boolean) {
+        isReloading = boolean;
+      }
+
+      function reloading() {
+        return isReloading;
       }
     }
 })();

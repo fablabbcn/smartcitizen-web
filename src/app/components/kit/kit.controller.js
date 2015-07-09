@@ -40,7 +40,7 @@
       vm.selectedSensorToCompareData;
 
       vm.moveChart = moveChart;
-      vm.loadingChart = false;
+      vm.loadingChart = true;
 
       vm.dropdownOptions = [
         {text: 'SET UP', value: '1'},

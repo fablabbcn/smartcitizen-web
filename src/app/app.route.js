@@ -95,9 +95,9 @@
               controllerAs: 'vm'
             }
           },
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          // onEnter: function() {
+          //   window.scrollTo(0,0);
+          // },
           resolve: {
             marker: function($stateParams, device, marker, Marker, animation) {
               return device.getDevice($stateParams.id)
@@ -110,8 +110,8 @@
             belongsToUser: function($stateParams, auth, marker) {
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
-              var authUserKits = auth.getCurrentUser().data.kits;
-              return _.some(authUserKits, function(kit) {
+              var authUserKits = auth.getCurrentUser().data && auth.getCurrentUser().data.kits;
+              return (auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin') || _.some(authUserKits, function(kit) {
                 return kitID === kit.id;
               });
             }
@@ -123,9 +123,9 @@
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           controllerAs: 'vm',
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          // onEnter: function() {
+          //   window.scrollTo(0,0);
+          // },
           resolve: {
             userData: function($stateParams, $state, NonAuthUser, user, auth) {
               var id = $stateParams.id;
@@ -154,9 +154,9 @@
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
-          onEnter: function() {
-            window.scrollTo(0,0);
-          },
+          // onEnter: function() {
+          //   window.scrollTo(0,0);
+          // },
           resolve: {
             userData: function(user, auth) {
               var userData = auth.getCurrentUser().data;
