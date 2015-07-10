@@ -99,19 +99,33 @@
           //   window.scrollTo(0,0);
           // },
           resolve: {
-            marker: function($stateParams, device, marker, Marker, animation) {
+            kitData: function($stateParams, device, marker, FullKit, animation) {
               return device.getDevice($stateParams.id)
                 .then(function(deviceData) {
                   var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};
                   animation.kitLoaded(markerLocation);
-                  return deviceData;
+                  return new FullKit(deviceData);
                 });
+            },
+            ownerKits: function(kitData, PreviewKit, $q, device) {
+              var kitIDs = kitData.owner.kits;
+
+              return $q.all(
+                kitIDs.map(function(id) {
+                  return device.getDevice(id)
+                    .then(function(data) {
+                      return new PreviewKit(data);
+                    });
+                })
+              );
             },
             belongsToUser: function($stateParams, auth, marker) {
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
               var authUserKits = auth.getCurrentUser().data && auth.getCurrentUser().data.kits;
-              return (auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin') || _.some(authUserKits, function(kit) {
+              var isAdmin = auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin';
+
+              return isAdmin || _.some(authUserKits, function(kit) {
                 return kitID === kit.id;
               });
             }
@@ -127,6 +141,14 @@
           //   window.scrollTo(0,0);
           // },
           resolve: {
+            isCurrentUser: function($stateParams, $location, auth) {
+              if(!auth.isAuth()) return false;
+              var userID = parseInt($stateParams.id);
+              var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
+              if(userID === authUserID) {
+                $location.path('/profile');
+              }
+            },
             userData: function($stateParams, $state, NonAuthUser, user, auth) {
               var id = $stateParams.id;
 
@@ -146,6 +168,13 @@
                   return userKits;
                 });
             }
+            /*
+            isAdmin: function() {
+              var isAdmin = auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin';
+              if(isAdmin) return true;
+              return false;
+            },
+            */
           }
         })
         .state('myProfile', {

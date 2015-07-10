@@ -8,6 +8,7 @@
         User.call(this, userData);
 
         this.email = userData.email;
+        this.role = userData.role;
         this.key = '23243532423524234';//userData.key;
         this.macAddress = userData.macAddress; 
       }

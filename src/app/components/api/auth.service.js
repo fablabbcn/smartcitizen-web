@@ -14,10 +14,10 @@
 
       var callback, isReloading;
 
-      //wait until http receptor is added to Restangular
+      //wait until http interceptor is added to Restangular
       setTimeout(function() {
     	  initialize();
-      }, 1000);
+      }, 0);
 
     	var service = {
         isAuth: isAuth,
@@ -57,9 +57,10 @@
             try {
               $state.reload();              
             } catch(err) {
+              //setup listener to reload on controller init
               setTimeout(function() {
                 $state.reload();                
-              }, 1000);
+              }, 3000);
             }
             setReloading(false);
           });

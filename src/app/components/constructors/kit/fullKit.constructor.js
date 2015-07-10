@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', function(Kit, Sensor, kitUtils) {
+    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', 'utils', function(Kit, Sensor, kitUtils, utils) {
 
       function FullKit(object) {
         Kit.call(this, object)
@@ -13,6 +13,9 @@
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);
         this.data = object.data.sensors;
+        this.latitude = object.data.location.latitude;
+        this.longitude = object.data.location.longitude;
+        this.time = moment(utils.parseKitTime(object)).fromNow();
       }
 
       FullKit.prototype = Object.create(Kit.prototype);

@@ -5,6 +5,7 @@
     .factory('User', ['COUNTRY_CODES', function(COUNTRY_CODES) {
 
       function User(userData, options) {
+        this.id = userData.id;
         this.username = userData.username;
         this.avatar = userData.avatar;
         this.kits = userData.devices;
