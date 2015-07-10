@@ -107,6 +107,10 @@
           //enable scrolling on body when search input is not active
           angular.element(document.body).css('overflow', 'auto');
         });
+
+        searchInput.on('focus', function() {
+          angular.element(document.body).css('overflow', 'hidden');
+        })
       }
 
       return {

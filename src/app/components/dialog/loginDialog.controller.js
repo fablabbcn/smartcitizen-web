@@ -12,7 +12,7 @@
         auth.login(answer)
           .then(function(data) {
             var token = data.access_token;
-            auth.saveToken(token);
+            auth.saveData(token);
             alert.success('Signup was successful');
             $mdDialog.hide();
           })

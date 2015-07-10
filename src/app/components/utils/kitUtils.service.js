@@ -73,7 +73,6 @@
       }
 
       function parseOwner(object) {
-        console.log('obec', object);
         return {
           id: object.owner.id,
           username: object.owner.username,

@@ -161,11 +161,11 @@
                       </md-icon>
                     </div>
                     <div class="kitList_content"> 
-                      <div class="kitList_name">{{ kit.name }}</div>
+                      <div class="kitList_name">{{ kit.name || 'No name' }}</div>
                       <div class="kitList_data">
                         <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
                         </md-icon>
-                        <span>{{ kit.location }}</span>
+                        <span>{{ kit.location || 'No location' }}</span>
                         <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
                         </md-icon>
                         <span>{{ kit.type }}</span>

@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$http', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser'];
-    function auth($http, $window, $state, Restangular, $rootScope, AuthUser) {
+    auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser'];
+    function auth($location, $window, $state, Restangular, $rootScope, AuthUser) {
 
     	var user = {
         token: null,
@@ -23,7 +23,7 @@
         isAuth: isAuth,
         setCurrentUser: setCurrentUser,
         getCurrentUser: getCurrentUser,
-        saveToken: saveToken,
+        saveData: saveData,
         login: login,
         logout: logout,
         recoverPassword: recoverPassword,
@@ -38,31 +38,46 @@
       //////////////////////////
 
       function initialize() {
-        setCurrentUser();
+        setCurrentUser('appLoad');
       }
       //run on app initialization so that we have cross-session auth
-      function setCurrentUser() {
-        user.token = $window.localStorage.getItem('smartcitizen.token');
+      function setCurrentUser(time) {
+        user.token = JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
+        user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
         if(!user.token) return;
         getCurrentUserInfo()
           .then(function(data) {
-            user.data = new AuthUser(data);
+            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+            
+            var newUser = new AuthUser(data);;
+            //check sensitive information
+            if(user.data && user.data.role !== newUser.role) {
+              user.data = newUser;
+              $location.path('/');
+            }
+            user.data = newUser;
+
             $rootScope.$broadcast('loggedIn');
-            if(callback) {
+
+
+
+            /*if(callback) {
               callback();
               callback = undefined;
-            }
+            }*/
 
-            setReloading(true);
-            try {
-              $state.reload();              
-            } catch(err) {
-              //setup listener to reload on controller init
-              setTimeout(function() {
-                $state.reload();                
-              }, 3000);
-            }
-            setReloading(false);
+/*            if(time === 'appLoad') {
+              setReloading(true);
+              try {
+                $state.reload();              
+              } catch(err) {
+                //setup listener to reload on controller init
+                setTimeout(function() {
+                  $state.reload();                
+                }, 3000);
+              }
+              setReloading(false);              
+            }*/
           });
       }
 
@@ -74,8 +89,8 @@
         return !!$window.localStorage.getItem('smartcitizen.token');
       }
       //save to localstorage and 
-      function saveToken(token) {
-        $window.localStorage.setItem('smartcitizen.token', token);
+      function saveData(token) {
+        $window.localStorage.setItem('smartcitizen.token', JSON.stringify(token) );
         setCurrentUser();
       }
 
@@ -85,6 +100,7 @@
 
       function logout() {
         $window.localStorage.removeItem('smartcitizen.token');
+        $window.localStorage.removeItem('smartcitizen.data');
       }
 
       function getCurrentUserInfo() {

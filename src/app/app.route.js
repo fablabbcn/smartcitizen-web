@@ -119,13 +119,13 @@
                 })
               );
             },
-            belongsToUser: function($stateParams, auth, marker) {
+            belongsToUser: function($window, $stateParams, auth, marker, AuthUser) {
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
-              var authUserKits = auth.getCurrentUser().data && auth.getCurrentUser().data.kits;
-              var isAdmin = auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin';
+              var userData = ( auth.getCurrentUser().data && auth.getCurrentUser().data) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var isAdmin = userData && userData.role === 'admin';
 
-              return isAdmin || _.some(authUserKits, function(kit) {
+              return isAdmin || _.some(userData.kits, function(kit) {
                 return kitID === kit.id;
               });
             }
@@ -167,14 +167,16 @@
                 .then(function(userKits) {
                   return userKits;
                 });
+            },          
+            isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
+              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role;
+              if(userRole === 'admin') {
+                var userID = $stateParams.id;
+                $location.path('/profile/' + userID);
+              } else {
+                return false;                
+              } 
             }
-            /*
-            isAdmin: function() {
-              var isAdmin = auth.getCurrentUser().data && auth.getCurrentUser().data.role === 'admin';
-              if(isAdmin) return true;
-              return false;
-            },
-            */
           }
         })
         .state('myProfile', {
@@ -187,12 +189,36 @@
           //   window.scrollTo(0,0);
           // },
           resolve: {
-            userData: function(user, auth) {
-              var userData = auth.getCurrentUser().data;
+            userData: function($window, user, auth, AuthUser) {
+              var userData = auth.getCurrentUser().data || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
               if(!userData) return;
               return userData;
             }
           } 
+        })
+        .state('myProfileAdmin', {
+          url: '/profile/:id',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/myProfile.html',
+          controller: 'MyProfileController',
+          controllerAs: 'vm',
+          resolve: {
+            isAdmin: function($window, auth, $location, AuthUser) {
+              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role;
+              if(userRole !== 'admin') {
+                $location.path('/');
+              } else {
+                return true;
+              }
+            },
+            userData: function($stateParams, user, auth, AuthUser) {
+              var userID = $stateParams.id;
+              return user.getUser(userID)
+                .then(function(user) {
+                  return new AuthUser(user);
+                });
+            }
+          }
         })
         .state('login', {
           url: '/login',
