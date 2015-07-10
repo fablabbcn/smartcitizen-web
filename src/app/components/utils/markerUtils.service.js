@@ -12,7 +12,8 @@
         parseLabels: parseLabels,
         parseCoordinates: parseCoordinates,
         parseId: parseId,
-        getIcon: getIcon
+        getIcon: getIcon,
+        parseName: parseName
       };
       _.defaults(service, kitUtils);
       return service;
@@ -76,6 +77,10 @@
           icon = MARKER_ICONS.smartCitizenOnline;
         }  
         return icon;
+      }
+
+      function parseName(object) {
+        return object.name.length <= 41 ? object.name : object.name.slice(0, 41).concat(' ... ');
       }
     }
 })();

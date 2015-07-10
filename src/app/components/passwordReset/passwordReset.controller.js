@@ -12,11 +12,21 @@
       ///////////
 
       function initialize() {
-        getUserData()
+        getUserData();
+      }
+
+      function getUserData() {
+        auth.getResetPassword($stateParams.code)
+          .then(function() {
+            openModal();
+          })
+          .catch(function(err) {
+            alert.error('Wrong url');
+            $location.path('/');
+          });
       }
 
       function openModal() {
-
         $mdDialog.show({
           hasBackdrop: true,
           controller: 'PasswordResetDialogController',
@@ -30,17 +40,6 @@
         .finally(function() {
           //animation.unblur();
         });
-      }
-
-      function getUserData() {
-        auth.getResetPassword($stateParams.code)
-          .then(function() {
-            openModal();
-          })
-          .catch(function(err) {
-            alert.error('Wrong url');
-            $location.path('/');
-          });
       }
     }
 })();

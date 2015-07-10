@@ -4,9 +4,8 @@
   angular.module('app.components')
     .controller('PasswordResetDialogController', PasswordResetDialogController);
 
-    PasswordResetDialogController.$inject = ['$scope', '$mdDialog', '$stateParams', '$location', 'auth', alert];
+    PasswordResetDialogController.$inject = ['$scope', '$mdDialog', '$stateParams', '$location', 'auth', 'alert'];
     function PasswordResetDialogController($scope, $mdDialog, $stateParams, $location, auth, alert) {
-      initialize();
       
       $scope.password = {
         newPassword: undefined,
@@ -26,10 +25,11 @@
           .then(function(data) {
             alert.success('Your data was updated successfully');
             $location.path('/profile');
+            $mdDialog.hide();
           })  
           .catch(function(err) {
             alert.error('Your data wasn\'t updated');
-            $location.path('/');
+            // $location.path('/');
           });
       }
       $scope.cancel = function() {

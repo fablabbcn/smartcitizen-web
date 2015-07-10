@@ -9,7 +9,10 @@
     	var vm = this;
 
       var initialLocation = markers[0];
-
+      var markersByIndex = _.indexBy(markers, function(marker) {
+        return marker.myData.id;
+      });
+      console.log('mar', markersByIndex);
       vm.markers = markers;
       vm.currentMarker = marker.getCurrentMarker();
 
@@ -62,8 +65,8 @@
 
         vm.center = {
           lat: data.leafletEvent.popup._latlng.lat,
-          lng: data.leafletEvent.popup._latlng.lng,
-          zoom: data.model.center.zoom
+          lng: data.leafletEvent.popup._latlng.lng//,
+          // zoom: data.model.center.zoom
         };
         
         var id = data.leafletEvent.popup._source.options.myData.id; 
@@ -73,6 +76,9 @@
       $scope.$on('kitLoaded', function(event, data) {
         vm.center.lat = data.lat;
         vm.center.lng = data.lng; 
+
+        var selectedMarker = markersByIndex[data.id];
+        selectedMarker.focus = true;
       });
       
       /*

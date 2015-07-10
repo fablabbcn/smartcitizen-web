@@ -12,7 +12,7 @@
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
-      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude });
+      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;

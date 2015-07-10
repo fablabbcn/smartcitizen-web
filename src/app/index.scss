@@ -1383,11 +1383,11 @@ section .stickMenu {
 
 .leaflet-popup-content-wrapper {
   border-radius: 2px;
+  width: auto !important;
 }
 
 .leaflet-popup-content {
   margin: 0;
-  width: 100%;
   min-width: 245px;
   position: relative;
   top: -1px;
