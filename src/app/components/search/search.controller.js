@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('SearchController', SearchController);
 
-    SearchController.$inject = ['$scope', 'search'];
-    function SearchController($scope, search) {
+    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location'];
+    function SearchController($scope, search, SearchResult, $location) {
       var vm = this;
       
       vm.searchTextChange = searchTextChange;
@@ -31,7 +31,12 @@
       function searchTextChange() {
       }
 
-      function selectedItemChange() {
+      function selectedItemChange(result) {
+        if(result.type === 'User') {
+          $location.path('/users/' + result.id);
+        } else if(result.type === 'Device') {
+          $location.path('/kits/' + result.id);
+        }
       }
 
       function querySearch(query) {
@@ -48,39 +53,9 @@
             angular.element(document.body).css('overflow', 'hidden');
 
             return data.map(function(object) {
-              if(object.type === 'Location') {
-              } else {
-                var location = parseLocation(object);
-                var name = parseName(object);
-
-                return {
-                  type: object.type,
-                  name: name,
-                  location: location,
-                  image: object.type === 'User' ? './assets/images/avatar.svg' : './assets/images/kit.svg'
-                };
-              }
+              return new SearchResult(object);
             });
           });
       }
-
-      function parseLocation(object) {
-        var location = '';
-
-        if(!!object.city) {
-          location += object.city;
-        }
-        if(!!object.country) {
-          location += ', ' + object.country;
-        }
-
-        return location;
-      }
-
-      function parseName(object) {
-        var name = object.type === 'User' ? object.username : object.name;
-        return !name ? 'No name' : name; 
-      }
-
     }
 })();

@@ -4,10 +4,10 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'authUser', 'User', 'user', 'auth', 'utils', 'alert'];
-    function MyProfileController($scope, authUser, User, user, auth, utils, alert) {
+    MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
+    function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
-      var userData, kits
+      var user;
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
@@ -16,18 +16,16 @@
       vm.formUser = {
         'avatar': null
       };
-      console.log('auth', authUser);
-      if(authUser) { 
-        userData = authUser;
-        // userData = new User(authUser, {type: 'authUser'});
-        vm.user = userData; 
-        console.log('vm', vm.user);
-        _.defaults(vm.formUser, vm.user);       
-        initialize();
+
+      if(userData) { 
+        user = userData;
+        vm.user = user; 
+        _.defaults(vm.formUser, vm.user);   
       }
 
       //KITS TAB
-      vm.kits;
+      var kits = kitsData
+      vm.kits = kitsData;
       vm.kitStatus = undefined;
       vm.filteredKits;
 
@@ -58,35 +56,19 @@
 
 
       //in case it's the entry point for the app
-      $scope.$on('loggedIn', function() {
-        userData = auth.getCurrentUser().data;
-        vm.user = userData;
+      /*$scope.$on('loggedIn', function() {
+        user = auth.getCurrentUser().data;
+        vm.user = user;
         _.defaults(vm.formUser, vm.user);
         initialize();
-      });
+      });*/
 
       setTimeout(function() {
         highlightIcon(0); 
+        setSidebarMinHeight();
       }, 500);
 
       //////////////////
-
-      function initialize() {
-        getKits();
-      }
-
-      function getKits() {
-        var kitIDs = _.pluck(userData.kits, 'id');
-        if(!kitIDs.length) {
-          vm.kits = [];
-          return;
-        };
-        utils.getOwnerKits(kitIDs)
-          .then(function(userKits) {
-            kits = userKits;
-            vm.kits = userKits;
-          });
-      }
 
       function filterKits(status) {
         if(status === 'all') {
@@ -103,6 +85,15 @@
       }
 
       function updateUser(userData) {
+        if(!!userData.country.length) {
+          _.each(COUNTRY_CODES, function(value, key, object) {
+            if(value === userData.country) {
+              userData.country_code = key; 
+              return;
+            }
+          });          
+        } 
+
         user.updateUser(userData)
           .then(function() {
             vm.errors = {};
@@ -139,6 +130,11 @@
 
         icon.find('.stroke_container').css({'stroke': 'none'});
         icon.find('.fill_container').css('fill', '#82A7B0');
+      }
+
+      function setSidebarMinHeight() {
+        var height = document.body.clientHeight / 4 * 3;
+        angular.element('.profile_content').css('min-height', height + 'px');
       }
     }
 })();

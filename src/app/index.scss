@@ -551,6 +551,7 @@ section .kit_menu {
 
   .button_scroll_left {
     left: 0;
+    opacity: 0.5;
   }
 
   .button_scroll_right {
@@ -997,16 +998,16 @@ section .kit_menu {
   }
 }
 
+.chart_spinner {
+  position: absolute;
+  top: 12%;
+  left: 57%;
+}
 .chart_container {
   width: 100%;
   height: 90%;
   position: relative;
   
-  .chart_spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  }
   .chart_line {
     fill: none;
     stroke-width: 2px;
@@ -1188,9 +1189,19 @@ section .stickMenu {
   width: 400px;
   height: 412px;
 }
+.login_spinner {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+}
 .signup {
   width: 400px;
   height: 512px;
+}
+.signup_spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 .modal_mapFilter {
   width: 300px;
@@ -1372,11 +1383,11 @@ section .stickMenu {
 
 .leaflet-popup-content-wrapper {
   border-radius: 2px;
+  width: auto !important;
 }
 
 .leaflet-popup-content {
   margin: 0;
-  width: 100%;
   min-width: 245px;
   position: relative;
   top: -1px;
@@ -1688,7 +1699,6 @@ section .stickMenu {
 }
 
 .profile_content {
-  margin-bottom: 40px;
   min-height: 700px;
   position: relative;
   // color: 
@@ -1904,6 +1914,7 @@ footer {
   width: 50px;
   height: 50px;
 }
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

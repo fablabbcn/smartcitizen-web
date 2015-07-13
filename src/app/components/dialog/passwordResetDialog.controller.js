@@ -4,29 +4,32 @@
   angular.module('app.components')
     .controller('PasswordResetDialogController', PasswordResetDialogController);
 
-    PasswordResetDialogController.$inject = ['$scope', '$mdDialog', 'auth'];
-    function PasswordResetDialogController($scope, $mdDialog, auth) {
+    PasswordResetDialogController.$inject = ['$scope', '$mdDialog', '$stateParams', '$location', 'auth', 'alert'];
+    function PasswordResetDialogController($scope, $mdDialog, $stateParams, $location, auth, alert) {
+      
       $scope.password = {
         newPassword: undefined,
         confirmPassword: undefined
       };
       $scope.isDifferent = false;
 
-      $scope.answer = function(password) {
-        console.log('pass', $scope.password);
-        if(password.newPassword === password.confirmPassword) {
+      $scope.answer = function(data) {
+        if(data.newPassword === data.confirmPassword) {
           $scope.isDifferent = false;
         } else {
           $scope.isDifferent = true;
           return;
         }
 
-        auth.resetPassword()
+        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
           .then(function(data) {
-            console.log('d', data)
+            alert.success('Your data was updated successfully');
+            $location.path('/profile');
+            $mdDialog.hide();
           })  
           .catch(function(err) {
-            console.log('err', err);
+            alert.error('Your data wasn\'t updated');
+            // $location.path('/');
           });
       }
       $scope.cancel = function() {

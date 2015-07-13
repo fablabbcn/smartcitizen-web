@@ -4,19 +4,29 @@
   angular.module('app.components')
     .controller('PasswordResetController', PasswordResetController);
 
-    PasswordResetController.$inject = ['$mdDialog']
-    function PasswordResetController($mdDialog) {
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $location, alert, auth) {
       var vm = this;
 
       initialize();
       ///////////
 
       function initialize() {
-        openModal();
+        getUserData();
+      }
+
+      function getUserData() {
+        auth.getResetPassword($stateParams.code)
+          .then(function() {
+            openModal();
+          })
+          .catch(function(err) {
+            alert.error('Wrong url');
+            $location.path('/');
+          });
       }
 
       function openModal() {
-        console.log('hereee');
         $mdDialog.show({
           hasBackdrop: true,
           controller: 'PasswordResetDialogController',

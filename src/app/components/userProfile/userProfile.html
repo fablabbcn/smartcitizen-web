@@ -5,7 +5,12 @@
       <div class="profile_header_name">{{ vm.user.username }}</div>
       <div class="profile_header_location">
         <md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-        <span>{{ vm.user.location || 'No data' }}</span>
+        <span>
+          <span ng-if="vm.user.city">{{ vm.user.city }}</span> 
+          <span ng-if="vm.user.city && vm.user.country">,</span>
+          <span ng-if="vm.user.country">{{ vm.user.country }}</span>
+          <span ng-if="!vm.user.city && !vm.user.country">No data</span>
+        </span>
       </div>
       <div class="profile_header_url">
         <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
@@ -35,11 +40,11 @@
                 </md-icon>
               </div>
               <div class="kitList_content"> 
-                <div class="kitList_name">{{ kit.name }}</div>
+                <div class="kitList_name">{{ kit.name || 'No name'}}</div>
                 <div class="kitList_data">
                   <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
                   </md-icon>
-                  <span>{{ kit.location }}</span>
+                  <span>{{ kit.location || 'No location'}}</span>
                   <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
                   </md-icon>
                   <span>{{ kit.type }}</span>

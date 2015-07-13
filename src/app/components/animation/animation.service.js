@@ -12,8 +12,8 @@
         unblur: unblur,
         removeNav: removeNav,
         addNav: addNav,
-        showSpinner: showSpinner,
-        hideSpinner: hideSpinner,
+        showChartSpinner: showChartSpinner,
+        hideChartSpinner: hideChartSpinner,
         kitLoaded: kitLoaded,
         showPasswordRecovery: showPasswordRecovery,
         showLogin: showLogin,
@@ -36,11 +36,11 @@
       function addNav() {
         $rootScope.$broadcast('addNav');
       }
-      function showSpinner() {
-        $rootScope.$broadcast('showSpinner');
+      function showChartSpinner() {
+        $rootScope.$broadcast('showChartSpinner');
       }
-      function hideSpinner() {
-        $rootScope.$broadcast('hideSpinner');
+      function hideChartSpinner() {
+        $rootScope.$broadcast('hideChartSpinner');
       }
       function kitLoaded(data) {
         $rootScope.$broadcast('kitLoaded', data);

@@ -4,19 +4,18 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'marker', 'utils', 'sensor', 'Kit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
-    function KitController($state, $scope, $stateParams, marker, utils, sensor, Kit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
       var vm = this;
+
       var getChartDataHasBeenCalled = false;
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
-      // vm.toPickerDisabled = false;
-      animation.kitLoaded({lat: marker.data.location.latitude ,lng: marker.data.location.longitude });
 
+      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+      vm.kit = kitData;
+      vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
-      vm.marker = augmentMarker(marker);
-
-      vm.kit = new Kit(marker);
 
       var mainSensors = vm.kit.getSensors({type: 'main'});  
       vm.battery = mainSensors[1];
@@ -38,7 +37,7 @@
       vm.selectedSensorToCompareData;
 
       vm.moveChart = moveChart;
-      vm.loadingChart = false;
+      vm.loadingChart = true;
 
       vm.dropdownOptions = [
         {text: 'SET UP', value: '1'},
@@ -98,7 +97,8 @@
         
       });
 
-      $scope.$on('hideSpinner', function() {
+      $scope.$on('hideChartSpinner', function() {
+        console.log('hide')
         vm.loadingChart = false;
       });
 
@@ -106,24 +106,9 @@
         colorSensorMainIcon();
         colorArrows();
         colorClock();
-        getOwnerKits();
       }, 1000);
 
       ///////////////
-
-      function getOwnerKits(cb) {
-        var kitIDs = vm.kit.owner.kits;
-
-        utils.getOwnerKits(kitIDs)
-          .then(function(kits) {
-            vm.ownerKits = kits;
-          });
-      }
-      
-      function augmentMarker(marker) {
-        marker.time = moment(utils.parseKitTime(marker)).fromNow();
-        return marker;
-      }
 
       function slide(direction) {
         var slideContainer = angular.element('.sensors_container');

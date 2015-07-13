@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('utils', utils);
 
-    utils.$inject = ['device', 'Kit', '$q'];
-    function utils(device, Kit, $q) {
+    utils.$inject = ['device', 'PreviewKit', '$q'];
+    function utils(device, PreviewKit, $q) {
       var service = {
         parseKit: parseKit,
         parseKitTime: parseKitTime,
@@ -93,7 +93,7 @@
         ids.forEach(function(id, index) {
           device.getDevice(id)
             .then(function(data) {
-              kits[index] = new Kit(data, {type: 'preview'} );
+              kits[index] = new PreviewKit(data);
               kitsResolved++;
 
               if(ids.length === kitsResolved) {

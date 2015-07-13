@@ -8,6 +8,7 @@
     function SignupDialogController($scope, $mdDialog, user, alert, animation) {
 
       $scope.answer = function(answer) {
+        $scope.waitingFromServer = true;
         user.createUser(answer)
           .then(function(data) {
             console.log('data', data);
