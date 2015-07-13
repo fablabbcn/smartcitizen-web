@@ -318,7 +318,7 @@
           var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
           focusMain.attr('transform', 'translate(' + xScale(d.date) + ', ' + yScale0(d.count) + ')');
-          popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          // popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');
           var valueMain = textMain.select('.popup_value').text(parseValue(d.count));
@@ -329,7 +329,14 @@
             textMain,
             date
           ];
-          resizePopup(popupContainer, textContainers);                     
+
+          var popupWidth = resizePopup(popupContainer, textContainers);                     
+
+          if(xScale(d.date) + 80 + popupWidth > options.container.clientWidth) {
+            popup.attr('transform', 'translate(' + (xScale(d.date) - 120) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          } else {
+            popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          }
         }       
       }
 
@@ -525,7 +532,7 @@
           var dMain = x0 - dMain0.date > dMain1.date - x0 ? dMain1 : dMain0;
           focusMain.attr('transform', 'translate(' + xScale(dMain.date) + ', ' + yScale0(dMain.count) + ')');
 
-          popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          // popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');
@@ -542,7 +549,13 @@
             date
           ];
 
-          resizePopup(popupContainer, textContainers);   
+          var popupWidth = resizePopup(popupContainer, textContainers);   
+
+          if(xScale(d.date) + 80 + popupWidth > options.container.clientWidth) {
+            popup.attr('transform', 'translate(' + (xScale(d.date) - 120) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          } else {
+            popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
+          }
         }
       }
 
@@ -590,6 +603,7 @@
         function getContainerSize(container) {
           return container.node().getBBox();
         }
+        return getContainerSize(widestElem).width + margins;
       }
     }
 
