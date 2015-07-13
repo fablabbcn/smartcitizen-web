@@ -283,7 +283,13 @@
           }
         })
         .state('passwordRecovery', {
-          url: '/password_recovery/:code',
+          url: '/password_recovery',
+          templateUrl: 'app/components/passwordRecovery/passwordRecovery.html',
+          controller: 'PasswordRecoveryController',
+          controllerAs: 'vm'
+        })
+        .state('passwordReset', {
+          url: '/password_reset/:code',
           templateUrl: 'app/components/passwordReset/passwordReset.html',
           controller: 'PasswordResetController',
           controllerAs: 'vm'
