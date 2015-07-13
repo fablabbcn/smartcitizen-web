@@ -122,7 +122,7 @@
             belongsToUser: function($window, $stateParams, auth, marker, AuthUser) {
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
-              var userData = ( auth.getCurrentUser().data && auth.getCurrentUser().data) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
               var isAdmin = userData && userData.role === 'admin';
 
               return isAdmin || _.some(userData.kits, function(kit) {
@@ -142,7 +142,7 @@
           // },
           resolve: {
             isCurrentUser: function($stateParams, $location, auth) {
-              if(!auth.isAuth()) return false;
+              if(!auth.isAuth()) return;
               var userID = parseInt($stateParams.id);
               var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
               if(userID === authUserID) {
@@ -157,19 +157,23 @@
                   return new NonAuthUser(user); 
                 });
             },
-            kitsData: function(utils, userData) {
+            kitsData: function($q, device, PreviewKit, userData) {
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
               };
 
-              return utils.getOwnerKits(kitIDs)
-                .then(function(userKits) {
-                  return userKits;
-                });
+              return $q.all(
+                kitIDs.map(function(id) {
+                  return device.getDevice(id)
+                    .then(function(data) {
+                      return new PreviewKit(data);
+                    });
+                })
+              );
             },          
             isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
-              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role;
+              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
               if(userRole === 'admin') {
                 var userID = $stateParams.id;
                 $location.path('/profile/' + userID);
@@ -189,10 +193,25 @@
           //   window.scrollTo(0,0);
           // },
           resolve: {
-            userData: function($window, user, auth, AuthUser) {
-              var userData = auth.getCurrentUser().data || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
+            userData: function($location, $window, user, auth, AuthUser) {
+              var userData = (auth.getCurrentUser().data) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
               if(!userData) return;
               return userData;
+            },
+            kitsData: function($q, device, PreviewKit, userData) {
+              var kitIDs = _.pluck(userData.kits, 'id');
+              if(!kitIDs.length) {
+                return [];
+              };
+
+              return $q.all(
+                kitIDs.map(function(id) {
+                  return device.getDevice(id)
+                    .then(function(data) {
+                      return new PreviewKit(data);
+                    });
+                })
+              );
             }
           } 
         })

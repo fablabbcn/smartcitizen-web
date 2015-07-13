@@ -29,6 +29,7 @@
         if(toState.authenticate) {
           if(!auth.isAuth()) {
             e.preventDefault();
+            $state.go('landing');
           } 
         }
 

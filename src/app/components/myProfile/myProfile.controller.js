@@ -4,10 +4,10 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
-    function MyProfileController($scope, userData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
+    MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
+    function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
-      var user, kits
+      var user;
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
@@ -16,16 +16,16 @@
       vm.formUser = {
         'avatar': null
       };
-      console.log('auth', userData);
+
       if(userData) { 
         user = userData;
         vm.user = user; 
         _.defaults(vm.formUser, vm.user);   
-        initialize();
       }
 
       //KITS TAB
-      vm.kits;
+      var kits = kitsData
+      vm.kits = kitsData;
       vm.kitStatus = undefined;
       vm.filteredKits;
 
@@ -68,23 +68,6 @@
       }, 500);
 
       //////////////////
-
-      function initialize() {
-        getKits();
-      }
-
-      function getKits() {
-        var kitIDs = _.pluck(user.kits, 'id');
-        if(!kitIDs.length) {
-          vm.kits = [];
-          return;
-        };
-        utils.getOwnerKits(kitIDs)
-          .then(function(userKits) {
-            kits = userKits;
-            vm.kits = userKits;
-          });
-      }
 
       function filterKits(status) {
         if(status === 'all') {
