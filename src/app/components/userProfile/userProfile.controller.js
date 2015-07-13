@@ -17,6 +17,9 @@
       vm.filteredKits;
       vm.filterKits = filterKits;
 
+      setTimeout(function() {
+        setSidebarMinHeight();
+      }, 500)
       //////////////////
 
       function filterKits(status) {
@@ -24,6 +27,11 @@
           status = undefined;
         } 
         vm.status = status;
+      }
+
+      function setSidebarMinHeight() {
+        var height = document.body.clientHeight / 4 * 3;
+        angular.element('.profile_content').css('min-height', height + 'px');
       }
     }
 })();

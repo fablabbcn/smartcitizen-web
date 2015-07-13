@@ -65,6 +65,7 @@
 
       setTimeout(function() {
         highlightIcon(0); 
+        setSidebarMinHeight();
       }, 500);
 
       //////////////////
@@ -129,6 +130,11 @@
 
         icon.find('.stroke_container').css({'stroke': 'none'});
         icon.find('.fill_container').css('fill', '#82A7B0');
+      }
+
+      function setSidebarMinHeight() {
+        var height = document.body.clientHeight / 4 * 3;
+        angular.element('.profile_content').css('min-height', height + 'px');
       }
     }
 })();
