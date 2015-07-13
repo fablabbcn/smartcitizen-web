@@ -109,7 +109,7 @@
         width = elem.clientWidth - margin.left - margin.right;
         height = elem.clientHeight - margin.top - margin.bottom;
 
-        xScale = d3.time.scale().range([0, width]);
+        xScale = d3.time.scale.utc().range([0, width]);
         yScale0 = d3.scale.linear().range([height, 0]);
         yScale1 = d3.scale.linear().range([height, 0]);
         yAxisScale = d3.scale.linear().range([height, 0]); 
@@ -570,7 +570,7 @@
       }
 
       function parseTime(time) {
-        return moment(time).format('ddd Do MMM YYYY');
+        return moment(time).format('h:mm a ddd Do MMM YYYY');
       }
 
       function resizePopup(popupContainer, textContainers) {
