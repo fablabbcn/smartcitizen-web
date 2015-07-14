@@ -124,15 +124,14 @@
                 })
               );
             },
-            belongsToUser: function($window, $stateParams, auth, marker, AuthUser) {
+            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
               if(!auth.isAuth()) return false;
               var kitID = parseInt($stateParams.id);
               var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              var isAdmin = userData && userData.role === 'admin';
+              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+              var isAdmin = userUtils.isAdmin(userData);
 
-              return isAdmin || _.some(userData.kits, function(kit) {
-                return kitID === kit.id;
-              });
+              return isAdmin || belongsToUser;
             }
           }
         })
@@ -235,6 +234,21 @@
                 .then(function(user) {
                   return new AuthUser(user);
                 });
+            },
+            kitsData: function($q, device, PreviewKit, userData) {
+              var kitIDs = _.pluck(userData.kits, 'id');
+              if(!kitIDs.length) {
+                return [];
+              };
+
+              return $q.all(
+                kitIDs.map(function(id) {
+                  return device.getDevice(id)
+                    .then(function(data) {
+                      return new PreviewKit(data);
+                    });
+                })
+              );
             }
           }
         })

@@ -31,7 +31,8 @@
         patchResetPassword: patchResetPassword,
         registerCallback: registerCallback,
         setReloading: setReloading,
-        reloading: reloading
+        reloading: reloading,
+        isAdmin: isAdmin
     	};
     	return service;
       
@@ -136,6 +137,9 @@
 
       function reloading() {
         return isReloading;
+      }
+      function isAdmin(userData) {
+        return userData.role === 'admin';
       }
     }
 })();

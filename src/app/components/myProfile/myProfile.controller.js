@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
-    function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -52,14 +52,9 @@
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
 
-
-      //in case it's the entry point for the app
-      /*$scope.$on('loggedIn', function() {
-        user = auth.getCurrentUser().data;
-        vm.user = user;
-        _.defaults(vm.formUser, vm.user);
-        initialize();
-      });*/
+      $scope.$on('loggedOut', function() {
+        $location.path('/');
+      });
 
       setTimeout(function() {
         highlightIcon(0); 

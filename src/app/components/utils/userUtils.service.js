@@ -4,13 +4,20 @@
   angular.module('app.components')
     .factory('userUtils', userUtils);
 
-    userUtils.$inject = []
     function userUtils() {
       var service = {
-
-      }
+        isAdmin: isAdmin,
+        isAuthUser: isAuthUser
+      };
       return service;
 
       ///////////
+
+      function isAdmin(userData) {
+        return userData.role === 'admin';
+      }
+      function isAuthUser(userID, authUserData) {
+        return userID === authUserData.id;
+      }
     }
-})
+})();

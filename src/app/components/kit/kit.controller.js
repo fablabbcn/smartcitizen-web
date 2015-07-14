@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils) {
       var vm = this;
 
       var getChartDataHasBeenCalled = false;
@@ -100,6 +100,21 @@
       $scope.$on('hideChartSpinner', function() {
         console.log('hide')
         vm.loadingChart = false;
+      });
+
+      $scope.$on('loggedIn', function() {
+        var kitID = parseInt($stateParams.id);
+        var userData = auth.getCurrentUser().data;        
+        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+        var isAdmin = userUtils.isAdmin(userData);
+
+        if(isAdmin || belongsToUser) {
+          vm.kitBelongsToUser = true;            
+        }
+      });
+
+      $scope.$on('loggedOut', function() {
+        vm.kitBelongsToUser = false;
       });
 
       setTimeout(function() {

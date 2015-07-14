@@ -15,7 +15,8 @@
         parseVersion: parseVersion,
         parseOwner: parseOwner,
         parseState: parseState,
-        parseAvatar: parseAvatar
+        parseAvatar: parseAvatar,
+        belongsToUser: belongsToUser
       };
 
       return service;
@@ -104,6 +105,12 @@
 
       function parseSensorTime(sensor) {
         return moment(sensor.recorded_at).format('');
+      }
+
+      function belongsToUser(kitsArray, kitID) {
+        return _.some(kitsArray, function(kit) {
+          return kit.id = kitID;
+        });
       }
 
       // function convertTime(time) {
