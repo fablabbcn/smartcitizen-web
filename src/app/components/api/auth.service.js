@@ -57,7 +57,14 @@
             }
             user.data = newUser;
 
-            $rootScope.$broadcast('loggedIn');
+            if(time && time === 'appLoad') {
+              //wait until navbar is loaded to emit event
+              setTimeout(function() {
+                $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
+              }, 2000);              
+            } else {
+              $rootScope.$broadcast('loggedIn', {});
+            }
 
 
 

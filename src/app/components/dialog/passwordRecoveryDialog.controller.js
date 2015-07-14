@@ -22,6 +22,7 @@
         var data = {
           email_or_username: $scope.input
         };
+
         auth.recoverPassword(data)
           .then(function() {
             alert.success('You were sent an email to recover your password');

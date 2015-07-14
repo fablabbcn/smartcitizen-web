@@ -2,11 +2,37 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('NavbarController', NavbarController);
+    .controller('LayoutController', LayoutController);
 
-    NavbarController.$inject = ['$location', '$scope', 'auth', 'animation'];
-    function NavbarController($location, $scope, auth, animation) {
+    LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation'];
+    function LayoutController($location, $state, $scope, auth, animation) {
       var vm = this;
+
+      $scope.$on('loggedIn', function(ev, options) {
+        if(options && options.time === 'appLoad') {
+          $scope.$apply(function() {
+            vm.isLoggedin = true;
+            vm.isShown = true;
+            angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
+            vm.currentUser = auth.getCurrentUser().data;   
+            vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+          });          
+        } else {
+          vm.isLoggedin = true;
+          vm.isShown = true;
+          angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
+          vm.currentUser = auth.getCurrentUser().data;   
+          vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
+        }
+      });
+
+      $scope.$on('loggedOut', function() {
+        vm.isLoggedIn = false;
+        vm.isShown = true;
+        angular.element('navbar .wrap-dd-menu').css('display', 'none');
+      });
+      
+
       vm.isShown = true;
       vm.isLoggedin = false;
       vm.logout = logout;
@@ -39,18 +65,6 @@
         });
       });
 
-      $scope.$on('loggedIn', function() {
-        vm.isLoggedin = true;
-        angular.element('navbar .wrap-dd-menu').css('display', 'initial');           
-        vm.currentUser = auth.getCurrentUser().data;   
-        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
-      });
-
-      $scope.$on('loggedOut', function() {
-        vm.isLoggedIn = false;
-        vm.isShown = true;
-        angular.element('navbar .wrap-dd-menu').css('display', 'none');
-      });
 
       setTimeout(function() {
         var hash = $location.search();

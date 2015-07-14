@@ -40,7 +40,7 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-navbar { 
+.navbar_container { 
   .md-button {
     font-size: 14px;
   }
@@ -1170,6 +1170,7 @@ section .stickMenu {
     .message {
       font-size: 12px;
       margin-bottom: 0;
+      color: #7D7D7D;
     }
   }
 }

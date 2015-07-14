@@ -7,7 +7,6 @@
     MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
     function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
       var vm = this;
-      var user;
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
@@ -18,8 +17,7 @@
       };
 
       if(userData) { 
-        user = userData;
-        vm.user = user; 
+        vm.user = userData; 
         _.defaults(vm.formUser, vm.user);   
       }
 
@@ -85,7 +83,7 @@
       }
 
       function updateUser(userData) {
-        if(!!userData.country.length) {
+        if(userData.country) {
           _.each(COUNTRY_CODES, function(value, key, object) {
             if(value === userData.country) {
               userData.country_code = key; 
