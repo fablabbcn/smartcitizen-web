@@ -44,7 +44,7 @@
               </md-button>
             </div>
             <div class="profile_content_main" flex>
-              <div class="myProfile_content_form">
+              <form ng-submit="vm.updateUser(vm.formUser)" class="myProfile_content_form">
                 <div class="myProfile_form_avatar">
                   <md-icon md-svg-src="{{ vm.user.avatar }}" class="myProfile_tab_icon"></md-icon>
                 </div>
@@ -99,7 +99,8 @@
                       md-search-text="vm.searchText"
                       md-items="item in vm.getCountries(vm.searchText)"
                       md-item-text="item"
-                      md-selected-item="vm.formUser.country">
+                      md-selected-item="vm.formUser.country"
+                      md-floating-label="Favorite state">>
                       <span>{{ item }}</span>
                     </md-autocomplete>
                   </md-input-container>
@@ -121,7 +122,7 @@
                   </p>
                 </div>
 
-                <md-button ng-click="vm.updateUser(vm.formUser)" class="myProfile_form_updateButton">UPDATE PROFILE</md-button>
+                <md-button type="submit" class="myProfile_form_updateButton">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
                 <div class="clearfix"></div>
                 <div class="myProfile_apiKey" layout="row" layout-align="start center">
                   <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
@@ -134,7 +135,7 @@
                 <div class="clearfix"></div>
                 <md-button ng-click="vm.removeUser()" class="myProfile_form_removeButton">DELETE ACCOUNT</md-button>
                 <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
-              </div>
+              </form>
             </div>
           </div>          
         </md-tab-body>

@@ -2023,6 +2023,18 @@ section .stickMenu {
 }
 .countryInput_container {
   overflow: visible;
+  md-autocomplete {
+    background-color: transparent;
+    border-bottom: 1px solid #A1A1A1;
+    box-shadow: none;
+  }
+  input {
+    font-size: 100%;
+  }
+  label {
+    position: relative;
+    bottom: 55px;
+  }
 }
 .myProfile_form_avatar {
   md-icon {

@@ -1,4 +1,5 @@
 <md-dialog>
+  <form name="form" novalidate ng-submit="vm.answer(vm.form)">
   <md-dialog-content class="modal signup">
     <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
     <md-button class="close_icon">
@@ -47,6 +48,7 @@
     </div>
   	<md-button class="md-flat md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
   </md-dialog-content>
+  </form>
   <p class="message_below">
     <span class="message_below_question">Already have an account?</span>
     <md-button class="message_below_link" ng-click="openLogin()">LOG IN</md-button>
