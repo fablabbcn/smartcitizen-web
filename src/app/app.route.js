@@ -30,20 +30,27 @@
                 data = data.plain();
                 
                 var closestMarker = data[0];
-                $state.go('home.kit', {id: closestMarker.id});
+                $state.go('layout.home.kit', {id: closestMarker.id});
               });
             }
           }
         })
-        .state('home', {
+        .state('layout', {
           url: '',
+          abstract: true,
+          templateUrl: 'app/components/layout/layout.html',
+          controller: 'LayoutController',
+          controllerAs: 'vm'
+        })
+        .state('layout.home', {
+          url: '/kits',
           abstract: true,
           views: {
             '': {
               templateUrl: 'app/components/home/template.html'
             },
 
-            'map@home': {
+            'map@layout.home': {
               templateUrl: 'app/components/map/map.html',
               controller: 'MapController',
               controllerAs: 'vm'
@@ -86,24 +93,23 @@
           }
         })
 
-        .state('home.kit', {
-          url: '/kits/:id',
+        .state('layout.home.kit', {
+          url: '/:id',
           views: {
-            'container@home': {
+            'container@layout.home': {
               templateUrl: 'app/components/kit/kit.html',
               controller: 'KitController',
               controllerAs: 'vm'
             }
           },
-          // onEnter: function() {
-          //   window.scrollTo(0,0);
-          // },
+
           resolve: {
             kitData: function($stateParams, device, marker, FullKit, animation) {
-              return device.getDevice($stateParams.id)
+              var kitID = $stateParams.id;
+              return device.getDevice(kitID)
                 .then(function(deviceData) {
-                  var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude};
-                  animation.kitLoaded(markerLocation);
+                  // var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
+                  // animation.kitLoaded(markerLocation);
                   return new FullKit(deviceData);
                 });
             },
@@ -119,37 +125,37 @@
                 })
               );
             },
-            belongsToUser: function($window, $stateParams, auth, marker, AuthUser) {
-              if(!auth.isAuth()) return false;
+            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+              if(!auth.isAuth()) {
+                return false;
+              }
               var kitID = parseInt($stateParams.id);
               var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              var isAdmin = userData && userData.role === 'admin';
+              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+              var isAdmin = userUtils.isAdmin(userData);
 
-              return isAdmin || _.some(userData.kits, function(kit) {
-                return kitID === kit.id;
-              });
+              return isAdmin || belongsToUser;
             }
           }
         })
 
-        .state('userProfile', {
+        .state('layout.userProfile', {
           url: '/users/:id',
           templateUrl: 'app/components/userProfile/userProfile.html',
           controller: 'UserProfileController',
           controllerAs: 'vm',
-          // onEnter: function() {
-          //   window.scrollTo(0,0);
-          // },
           resolve: {
             isCurrentUser: function($stateParams, $location, auth) {
-              if(!auth.isAuth()) return;
+              if(!auth.isAuth()) {
+                return;
+              }
               var userID = parseInt($stateParams.id);
               var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
               if(userID === authUserID) {
                 $location.path('/profile');
               }
             },
-            userData: function($stateParams, $state, NonAuthUser, user, auth) {
+            userData: function($stateParams, $state, NonAuthUser, user) {
               var id = $stateParams.id;
 
               return user.getUser(id)
@@ -161,7 +167,7 @@
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
-              };
+              }
 
               return $q.all(
                 kitIDs.map(function(id) {
@@ -183,26 +189,25 @@
             }
           }
         })
-        .state('myProfile', {
+        .state('layout.myProfile', {
           url: '/profile',
           authenticate: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
-          // onEnter: function() {
-          //   window.scrollTo(0,0);
-          // },
           resolve: {
             userData: function($location, $window, user, auth, AuthUser) {
               var userData = (auth.getCurrentUser().data) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              if(!userData) return;
+              if(!userData) {
+                return;
+              }
               return userData;
             },
             kitsData: function($q, device, PreviewKit, userData) {
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
-              };
+              }
 
               return $q.all(
                 kitIDs.map(function(id) {
@@ -215,7 +220,7 @@
             }
           } 
         })
-        .state('myProfileAdmin', {
+        .state('layout.myProfileAdmin', {
           url: '/profile/:id',
           authenticate: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
@@ -223,7 +228,7 @@
           controllerAs: 'vm',
           resolve: {
             isAdmin: function($window, auth, $location, AuthUser) {
-              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role;
+              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role );
               if(userRole !== 'admin') {
                 $location.path('/');
               } else {
@@ -236,16 +241,28 @@
                 .then(function(user) {
                   return new AuthUser(user);
                 });
+            },
+            kitsData: function($q, device, PreviewKit, userData) {
+              var kitIDs = _.pluck(userData.kits, 'id');
+              if(!kitIDs.length) {
+                return [];
+              }
+
+              return $q.all(
+                kitIDs.map(function(id) {
+                  return device.getDevice(id)
+                    .then(function(data) {
+                      return new PreviewKit(data);
+                    });
+                })
+              );
             }
           }
         })
-        .state('login', {
+        .state('layout.login', {
           url: '/login',
           authenticate: false,
           resolve: {
-            isAuth: function(){
-
-            },
             buttonToClick: function($location, isAuth) {
               if(isAuth) {
                 return $location.path('/');
@@ -255,13 +272,10 @@
             }
           }
         })
-        .state('signup', {
+        .state('layout.signup', {
           url: '/signup',
           authenticate: false,
           resolve: {
-            isAuth: function() {
-
-            },
             buttonToClick: function($location, isAuth) {
               if(isAuth) {
                 return $location.path('/');
@@ -283,7 +297,15 @@
           }
         })
         .state('passwordRecovery', {
-          url: '/password_recovery/:code',
+          url: '/password_recovery',
+          authenticate: false,
+          templateUrl: 'app/components/passwordRecovery/passwordRecovery.html',
+          controller: 'PasswordRecoveryController',
+          controllerAs: 'vm'
+        })
+        .state('passwordReset', {
+          url: '/password_reset/:code',
+          authenticate: false,
           templateUrl: 'app/components/passwordReset/passwordReset.html',
           controller: 'PasswordResetController',
           controllerAs: 'vm'

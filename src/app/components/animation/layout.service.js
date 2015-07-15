@@ -8,7 +8,6 @@
     function layout() {
 
       var kitHeight;
-      var mapHeight;
 
       var service = {
         setKit: setKit,

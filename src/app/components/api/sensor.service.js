@@ -11,7 +11,6 @@
         console.log('sensors', data.plain());
         setTypes(data);
       });
-      var prevDeviceID;
 
       var service = {
         callAPI: callAPI,
@@ -38,12 +37,13 @@
       function getSensorsData(deviceID, dateFrom, dateTo) {
         var rollup = sensorUtils.getRollup(dateFrom, dateTo);
 
-        var dateFrom = utils.convertTime(dateFrom);
-        var dateTo = utils.convertTime(dateTo);
+        dateFrom = utils.convertTime(dateFrom);
+        dateTo = utils.convertTime(dateTo);
         if(!dateFrom || !dateTo) {
           return Restangular.one('devices', deviceID).customGET('pg_readings');        
         }
 
+        /*jshint camelcase: false */
         return Restangular.one('devices', deviceID).customGET('pg_readings', {'from': dateFrom, 'to': dateTo, all_intervals: true, rollup: rollup});
       }
     }

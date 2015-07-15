@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$scope', '$mdDialog', 'auth', 'alert'];
-  function LoginController($scope, $mdDialog, auth, alert) {
+  LoginController.$inject = ['$scope', '$mdDialog'];
+  function LoginController($scope, $mdDialog) {
 
     $scope.showLogin = showLogin;
     //$scope.login = login;

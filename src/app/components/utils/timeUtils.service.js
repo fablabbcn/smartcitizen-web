@@ -19,14 +19,17 @@
     ////////////
 
     function getDateIn(timeMS, format) {
-      if(!format) return timeMS;
+      if(!format) {
+        return timeMS;
+      }
+
       var result;
       if(format === 'ms') {
-        result = timeMS 
+        result = timeMS;
       } else if(format === 's') {
         result = timeMS / 1000;
       } else if(format === 'm') {
-        result = timeMS / 1000 / 60
+        result = timeMS / 1000 / 60;
       } else if(format === 'h') {
         result = timeMS / 1000 / 60 / 60;
       } else if(format === 'd') {
@@ -40,12 +43,12 @@
       return (new Date(date)).getTime();
     }
 
-    function getCurrentRange(fromDate, toDate, options) {
+    function getCurrentRange(fromDate, toDate) {
       return moment(toDate).diff(moment(fromDate), 'days');
     }
 
     function parseTime(time, format) {
-      var time = getSecondsFromDate(time);
+      time = getSecondsFromDate(time);
       return getDateIn(time, format);
     }
 

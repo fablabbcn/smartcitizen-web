@@ -14,7 +14,7 @@
       <div layout layout-sm="column" class="field">
         <md-input-container flex>
           <label>Username</label>
-          <input type="text" ng-model="vm.user.username">
+          <input type="text" ng-model="vm.user.username" autofocus>
         </md-input-container>
         <p class="errors" ng-show="!!errors.username.length">
           <span ng-repeat="error in errors.username">

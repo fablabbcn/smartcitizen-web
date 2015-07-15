@@ -33,4 +33,4 @@
         return !name ? 'No name' : name; 
       }
     }
-})()
+})();

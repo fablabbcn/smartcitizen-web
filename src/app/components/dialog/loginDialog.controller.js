@@ -11,12 +11,13 @@
         $scope.waitingFromServer = true;
         auth.login(answer)
           .then(function(data) {
+            /*jshint camelcase: false */
             var token = data.access_token;
             auth.saveData(token);
             alert.success('Signup was successful');
             $mdDialog.hide();
           })
-          .catch(function(err) {
+          .catch(function() {
             alert.error('Username or password incorrect');
             // $scope.errors = err.data.errors;
           })

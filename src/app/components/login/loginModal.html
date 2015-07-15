@@ -15,7 +15,7 @@
         <div layout layout-sm="column" class="field">
           <md-input-container flex>
             <label>Username</label>
-            <input type="text" name="username" ng-model="vm.user.username" required/>
+            <input type="text" name="username" ng-model="vm.user.username" autofocus required/>
           </md-input-container>
           <p class="errors" ng-show="signup_form.$submitted || signup_form.username.$touched">
             <span ng-show="signup_form.username.$error.required">Username is required</span>

@@ -7,9 +7,9 @@
     PasswordRecoveryDialogController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
     function PasswordRecoveryDialogController($scope, animation, $mdDialog, auth, alert) {
 
-      $scope.answer = function(answer) {
-        //auth.
-      };
+      // $scope.answer = function(answer) {
+      //   //auth.
+      // };
       $scope.hide = function() {
         $mdDialog.hide();
       };
@@ -20,8 +20,10 @@
       $scope.recoverPassword = function() {
         $scope.waitingFromServer = true;
         var data = {
+          /*jshint camelcase: false */
           email_or_username: $scope.input
         };
+
         auth.recoverPassword(data)
           .then(function() {
             alert.success('You were sent an email to recover your password');

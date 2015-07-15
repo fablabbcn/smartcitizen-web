@@ -5,7 +5,7 @@
     .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', 'utils', function(Kit, Sensor, kitUtils, utils) {
 
       function FullKit(object) {
-        Kit.call(this, object)
+        Kit.call(this, object);
 
         this.version = kitUtils.parseVersion(object);
         this.lastTime = moment(kitUtils.parseTime(object)).fromNow(); 
@@ -22,7 +22,6 @@
       FullKit.prototype.constructor = FullKit;
 
       FullKit.prototype.getSensors = function(options) {
-        var data = [];
         var parsedSensors = this.data.map(function(sensor) {
           return new Sensor(sensor); 
         });

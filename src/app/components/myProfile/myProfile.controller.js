@@ -4,10 +4,9 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
-    function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout) {
       var vm = this;
-      var user;
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
@@ -16,20 +15,21 @@
       vm.formUser = {
         'avatar': null
       };
+      vm.getCountries = getCountries;
 
       if(userData) { 
-        user = userData;
-        vm.user = user; 
-        _.defaults(vm.formUser, vm.user);   
+        vm.user = userData; 
+        _.defaults(vm.formUser, vm.user);
+        vm.searchText = vm.formUser.country; 
       }
 
       //KITS TAB
-      var kits = kitsData
+      // var kits = kitsData;
       vm.kits = kitsData;
       vm.kitStatus = undefined;
-      vm.filteredKits;
+      vm.filteredKits = [];
 
-      vm.dropdownSelected;
+      vm.dropdownSelected = undefined;
       vm.dropdownOptions = [
         {text: 'SET UP', value: '1'},
         {text: 'EDIT', value: '2'}
@@ -47,23 +47,18 @@
         {type: 'social', title: 'Be our friend on Google+', description: 'Get informed about latest news of Smart Citizen', avatar: ''},
       ];
       vm.toolType = undefined;
-      vm.filteredTools;
+      vm.filteredTools = [];
 
       vm.filterKits = filterKits;
       vm.filterTools = filterTools;
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
 
+      $scope.$on('loggedOut', function() {
+        $location.path('/');
+      });
 
-      //in case it's the entry point for the app
-      /*$scope.$on('loggedIn', function() {
-        user = auth.getCurrentUser().data;
-        vm.user = user;
-        _.defaults(vm.formUser, vm.user);
-        initialize();
-      });*/
-
-      setTimeout(function() {
+      $timeout(function() {
         highlightIcon(0); 
         setSidebarMinHeight();
       }, 500);
@@ -85,9 +80,10 @@
       }
 
       function updateUser(userData) {
-        if(!!userData.country.length) {
-          _.each(COUNTRY_CODES, function(value, key, object) {
+        if(userData.country) {
+          _.each(COUNTRY_CODES, function(value, key) {
             if(value === userData.country) {
+              /*jshint camelcase: false */
               userData.country_code = key; 
               return;
             }
@@ -100,7 +96,7 @@
             alert.success('User updated');
           })
           .catch(function(err) {
-            alert.error('User could not be updated ')
+            alert.error('User could not be updated ');
             vm.errors = err.data.errors;
           });
       }
@@ -116,7 +112,7 @@
 
         _.each(icons, function(icon) {
           unhighlightIcon(icon);
-        })
+        });
 
         var icon = icons[iconIndex];
         
@@ -126,7 +122,7 @@
       }
 
       function unhighlightIcon(icon) {
-        var icon = angular.element(icon);
+        icon = angular.element(icon);
 
         icon.find('.stroke_container').css({'stroke': 'none'});
         icon.find('.fill_container').css('fill', '#82A7B0');
@@ -135,6 +131,18 @@
       function setSidebarMinHeight() {
         var height = document.body.clientHeight / 4 * 3;
         angular.element('.profile_content').css('min-height', height + 'px');
+      }
+
+      function getCountries(searchText) {
+        return _.filter(COUNTRY_CODES, createFilter(searchText));
+      }
+
+      function createFilter(searchText) {
+        searchText = searchText.toLowerCase();
+        return function(country) {
+          country = country.toLowerCase();
+          return country.indexOf(searchText) !== -1; 
+        };
       }
     }
 })();

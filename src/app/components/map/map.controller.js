@@ -7,12 +7,13 @@
     MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog'];
     function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog) {
     	var vm = this;
+      var updateType, focusedMarkerID;
 
       var initialLocation = markers[0];
       var markersByIndex = _.indexBy(markers, function(marker) {
         return marker.myData.id;
       });
-      console.log('mar', markersByIndex);
+
       vm.markers = markers;
       vm.currentMarker = marker.getCurrentMarker();
 
@@ -61,24 +62,36 @@
         getMarkers(vm.center);
       });*/
 
-      $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
-
-        vm.center = {
-          lat: data.leafletEvent.popup._latlng.lat,
-          lng: data.leafletEvent.popup._latlng.lng//,
+      $scope.$on('leafletDirectiveMarker.click', function(event, data) {
+        console.log('da', event, data)
+        vm.center.lat = data.leafletEvent.latlng.lat;
+        vm.center.lng = data.leafletEvent.latlng.lng;
           // zoom: data.model.center.zoom
-        };
         
-        var id = data.leafletEvent.popup._source.options.myData.id; 
-        $state.go('home.kit', {id: id});
+        updateType = 'map';
+        var id = data.leafletEvent.target.options.myData.id; 
+        $state.go('layout.home.kit', {id: id});
       });    
 
       $scope.$on('kitLoaded', function(event, data) {
+        if(focusedMarkerID) {
+          markersByIndex[focusedMarkerID].focus = false;          
+        }
+        if(updateType === 'map') {
+          updateType = undefined;
+          return;
+        }
+
         vm.center.lat = data.lat;
         vm.center.lng = data.lng; 
 
+        
         var selectedMarker = markersByIndex[data.id];
-        selectedMarker.focus = true;
+
+        if(selectedMarker) {
+          focusedMarkerID = data.id;
+          selectedMarker.focus = true; 
+        }
       });
       
       /*
@@ -118,16 +131,23 @@
         })
         .then(function(data) {
           _.extend(vm.filterData, data);
-          vm.markers = filterMarkers(data);
-        })
-        .finally(function() {
-          //animation.unblur();
+          vm.markers = [];
+          setTimeout(function() {
+            $scope.$apply(function() {
+              vm.markers = filterMarkers(data);              
+            });
+          });
         });
       }
 
       function removeFilter(filterName) {
         vm.filterData[filterName] = false;
-        vm.markers = filterMarkers(vm.filterData);
+        vm.markers = [];
+        setTimeout(function() {
+          $scope.$apply(function() {
+            vm.markers = filterMarkers(vm.filterData);          
+          });
+        });
       }
 
       function filterMarkers(filterData) {

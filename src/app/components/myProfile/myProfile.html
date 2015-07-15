@@ -93,9 +93,15 @@
                   </p>
                 </div>
                 <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
+                  <md-input-container class="countryInput_container" flex>
                     <label>Country</label>
-                    <input type="text" ng-model="vm.formUser.country">
+                    <md-autocomplete
+                      md-search-text="vm.searchText"
+                      md-items="item in vm.getCountries(vm.searchText)"
+                      md-item-text="item"
+                      md-selected-item="vm.formUser.country">
+                      <span>{{ item }}</span>
+                    </md-autocomplete>
                   </md-input-container>
                   <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
                     <span ng-repeat="error in vm.errors.country">

@@ -24,6 +24,7 @@
         var kitType; 
 
         var genericKitData = device.getGenericKitData();
+        /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
         var kitName = kit && kit.name; 
 
@@ -36,6 +37,7 @@
       function parseLocation(object) {
         var location = '';
         
+        /*jshint camelcase: false */
         var city = object.city;
         var country_code = object.country_code;
         var country = COUNTRY_CODES[country_code];
@@ -72,7 +74,7 @@
         var icon;
 
         if(status === 'offline') {
-          icon = MARKER_ICONS.smartCitizenOffline
+          icon = MARKER_ICONS.smartCitizenOffline;
         } else {
           icon = MARKER_ICONS.smartCitizenOnline;
         }  
@@ -80,7 +82,7 @@
       }
 
       function parseName(object) {
-        return object.name.length <= 41 ? object.name : object.name.slice(0, 41).concat(' ... ');
+        return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
       }
     }
 })();

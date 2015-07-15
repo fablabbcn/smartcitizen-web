@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser'];
-    function auth($location, $window, $state, Restangular, $rootScope, AuthUser) {
+    auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser', '$timeout'];
+    function auth($location, $window, $state, Restangular, $rootScope, AuthUser, $timeout) {
 
     	var user = {
         token: null,
@@ -15,7 +15,7 @@
       var callback, isReloading;
 
       //wait until http interceptor is added to Restangular
-      setTimeout(function() {
+      $timeout(function() {
     	  initialize();
       }, 0);
 
@@ -31,7 +31,8 @@
         patchResetPassword: patchResetPassword,
         registerCallback: registerCallback,
         setReloading: setReloading,
-        reloading: reloading
+        reloading: reloading,
+        isAdmin: isAdmin
     	};
     	return service;
       
@@ -44,12 +45,14 @@
       function setCurrentUser(time) {
         user.token = JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
         user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
-        if(!user.token) return;
+        if(!user.token) {
+          return;
+        }
         getCurrentUserInfo()
           .then(function(data) {
             $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
             
-            var newUser = new AuthUser(data);;
+            var newUser = new AuthUser(data);
             //check sensitive information
             if(user.data && user.data.role !== newUser.role) {
               user.data = newUser;
@@ -57,7 +60,14 @@
             }
             user.data = newUser;
 
-            $rootScope.$broadcast('loggedIn');
+            if(time && time === 'appLoad') {
+              //wait until navbar is loaded to emit event
+              $timeout(function() {
+                $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
+              }, 2000);              
+            } else {
+              $rootScope.$broadcast('loggedIn', {});
+            }
 
 
 
@@ -119,7 +129,9 @@
       }
 
       function registerCallback(cb) {
-        if(callback) return;
+        if(callback) {
+          return;
+        }
         callback = cb;
       }
 
@@ -129,6 +141,9 @@
 
       function reloading() {
         return isReloading;
+      }
+      function isAdmin(userData) {
+        return userData.role === 'admin';
       }
     }
 })();

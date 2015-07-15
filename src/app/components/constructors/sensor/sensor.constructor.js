@@ -91,6 +91,7 @@
   }
 
   function getSensorPrevValue(sensor) {
+    /*jshint camelcase: false */
     return sensor.prev_value;
   }
 

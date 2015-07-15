@@ -22,21 +22,24 @@
         }
 
         auth.patchResetPassword($stateParams.code, {password: data.newPassword})
-          .then(function(data) {
+          .then(function() {
             alert.success('Your data was updated successfully');
             $location.path('/profile');
             $mdDialog.hide();
           })  
-          .catch(function(err) {
+          .catch(function() {
             alert.error('Your data wasn\'t updated');
             // $location.path('/');
           });
-      }
+      };
+
       $scope.cancel = function() {
         $mdDialog.hide();
-      }
+      };
+
       $scope.hide = function() {
         $mdDialog.hide();
-      }
+      };
+
     }
 })();

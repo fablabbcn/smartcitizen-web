@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controller: User Profile', function() {
-  var user;
+  // var user;
 
   beforeEach(module('app.components'));
 

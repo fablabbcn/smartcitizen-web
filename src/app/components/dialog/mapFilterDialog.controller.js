@@ -4,7 +4,7 @@
   angular.module('app.components')
     .controller('MapFilterDialogController', MapFilterDialogController);
 
-    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData']
+    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData'];
     function MapFilterDialogController($scope, $mdDialog, filterData) {
       $scope.form = {
         indoor: false,

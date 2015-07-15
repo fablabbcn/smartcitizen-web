@@ -4,8 +4,8 @@
   angular.module('app')
     .run(run);
     
-    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache'];
-    function run($rootScope, $state, Restangular, auth, $templateCache) {
+    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window'];
+    function run($rootScope, $state, Restangular, auth, $templateCache, $window) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -16,11 +16,13 @@
        * false when the user cannot be authenticated to access the route. ex: login, signup
        * undefined when it doesn't matter whether the user is logged in or not
        */
+       
+      /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
         console.log('state change');
         if(toState.authenticate === false) {
           if(auth.isAuth()) {
-            e.preventDefault()
+            e.preventDefault();
             $state.go('landing');
             return;
           } 
@@ -42,7 +44,7 @@
         }*/
 
         if(!auth.reloading()) {
-          window.scrollTo(0, 0);          
+          $window.scrollTo(0, 0);          
         }
 
         return;
