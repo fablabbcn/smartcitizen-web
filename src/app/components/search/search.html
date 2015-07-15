@@ -1,0 +1,34 @@
+<div class="search_icon">
+  <md-icon md-svg-src="./assets/images/search_icon_white.svg" ng-show="vm.isIconWhite">
+  </md-icon>
+  <md-icon md-svg-src="./assets/images/search_icon_black.svg" ng-show="!vm.isIconWhite">
+  </md-icon>
+</div>
+
+<md-autocomplete 
+  md-selected-item="vm.selectedItem" 
+  md-selected-item-change="vm.selectedItemChange(item)"
+  md-search-text="vm.searchText" 
+  md-search-text-change="vm.searchTextChange(vm.searchText)"
+  md-items="item in vm.querySearch(vm.searchText)" 
+  md-item-text="" 
+  placeholder="Search"
+  md-delay="400"
+
+  focus>
+  
+  <md-item-template >
+    <md-icon md-svg-src="{{ item.image }}" class="result_icon"></md-icon>
+    <span class="result_name">{{ item.name }}</span>
+    <span class="result_location">{{ item.location }}</span>
+  </md-item-template>
+   <!--<md-not-found>
+    No matches found. {{ vm.searchText }}
+  </md-not-found>-->
+</md-autocomplete>
+
+
+<!-- 
+<span md-highlight-text="vm.searchText" class="result_name">{{ item.name }}</span>
+<span md-highlight-text="vm.searchText" class="result_location">{{ item.location }}</span>
+-->
