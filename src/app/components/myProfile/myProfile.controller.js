@@ -19,7 +19,8 @@
 
       if(userData) { 
         vm.user = userData; 
-        _.defaults(vm.formUser, vm.user);   
+        _.defaults(vm.formUser, vm.user);
+        vm.searchText = vm.formUser.country; 
       }
 
       //KITS TAB
