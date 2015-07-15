@@ -110,7 +110,7 @@
 
         searchInput.on('focus', function() {
           angular.element(document.body).css('overflow', 'hidden');
-        })
+        });
       }
 
       return {
@@ -120,14 +120,14 @@
 
     changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
     function changeMapHeight($document, layout, $timeout) {
-      function link(scope, element, attrs, animationController) {
+      function link(scope, element) {
 
         var screenHeight = $document[0].body.clientHeight;
         var navbarHeight = angular.element('.stickNav').height();
         
-        var overviewHeight = angular.element('.kit_overview').height(); 
-        var menuHeight = angular.element('.kit_menu').height();
-        var chartHeight = angular.element('.kit_chart').height();
+        // var overviewHeight = angular.element('.kit_overview').height(); 
+        // var menuHeight = angular.element('.kit_menu').height();
+        // var chartHeight = angular.element('.kit_chart').height();
 
         $timeout(function() {
           var overviewHeight = angular.element('.kit_overview').height(); 
@@ -162,15 +162,15 @@
         });
 */        
           var screenHeight = $document[0].body.clientHeight;
-          var navbarHeight = angular.element('.stickNav').height();
+          // var navbarHeight = angular.element('.stickNav').height();
           
           var overviewHeight = angular.element('.kit_overview').height(); 
           var menuHeight = angular.element('.kit_menu').height();
           var chartHeight = angular.element('.kit_chart').height();
 
-            var overviewHeight = angular.element('.kit_overview').height(); 
-            var menuHeight = angular.element('.kit_menu').height();
-            var chartHeight = angular.element('.kit_chart').height();
+            // var overviewHeight = angular.element('.kit_overview').height(); 
+            // var menuHeight = angular.element('.kit_menu').height();
+            // var chartHeight = angular.element('.kit_chart').height();
             
             var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight - chartHeight; // screen height - navbar height - menu height - overview height - charts height
             element.css('margin-top', aboveTheFoldHeight + 'px');  

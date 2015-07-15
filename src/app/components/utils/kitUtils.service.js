@@ -16,7 +16,8 @@
         parseOwner: parseOwner,
         parseState: parseState,
         parseAvatar: parseAvatar,
-        belongsToUser: belongsToUser
+        belongsToUser: belongsToUser,
+        parseSensorTime: parseSensorTime
       };
 
       return service;
@@ -66,6 +67,7 @@
       }
 
       function parseTime(object) {
+        /*jshint camelcase: false */
         return object.updated_at;
       }
 
@@ -77,6 +79,7 @@
         return {
           id: object.owner.id,
           username: object.owner.username,
+          /*jshint camelcase: false */
           kits: object.owner.device_ids,
           city: object.owner.location.city,
           country: COUNTRY_CODES[object.owner.location.country_code],
@@ -95,21 +98,22 @@
         };
       }
 
-      function parseStateName(object) {
+      function parseStateName() {
         return 'Never published';
       }
 
-      function parseAvatar(object) {
+      function parseAvatar() {
         return null;
       }
 
       function parseSensorTime(sensor) {
+        /*jshint camelcase: false */
         return moment(sensor.recorded_at).format('');
       }
 
       function belongsToUser(kitsArray, kitID) {
         return _.some(kitsArray, function(kit) {
-          return kit.id = kitID;
+          return kit.id === kitID;
         });
       }
 

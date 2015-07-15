@@ -4,8 +4,8 @@
 	angular.module('app.components')
 	  .factory('user', user);
 	  
-	  user.$inject = ['$http', 'Restangular', 'auth'];
-	  function user($http, Restangular, auth) {
+	  user.$inject = ['$http', 'Restangular'];
+	  function user($http, Restangular) {
       var service = {
         createUser: createUser,
         getUser: getUser,

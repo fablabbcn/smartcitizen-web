@@ -4,7 +4,7 @@
   angular.module('app.components')
     .factory('Kit', ['Sensor', 'kitUtils', function(Sensor, kitUtils) {
 
-      function Kit(object, options) {
+      function Kit(object) {
 
         this.id = object.device.id;
         this.name = object.device.name;

@@ -4,8 +4,8 @@
   angular.module('app.components') 
     .directive('activeButton', activeButton);
     
-    activeButton.$inject = ['$timeout'];
-    function activeButton($timeout) {
+    activeButton.$inject = ['$timeout', '$window'];
+    function activeButton($timeout, $window) {
       return {
         link: link,
         restrict: 'A'
@@ -19,7 +19,7 @@
         var container;
 
         $timeout(function() {
-          var offsetContainer;
+          // var offsetContainer;
           container = {
             navbar: {
               height: angular.element('.stickNav').height(),
@@ -47,8 +47,10 @@
         }, 1000);
 
         function scrollTo(offset) {
-          if(!container) return;
-          angular.element(window).scrollTop(offset - container.navbar.height - container.kitMenu.height);        
+          if(!container) {
+            return;
+          }
+          angular.element($window).scrollTop(offset - container.navbar.height - container.kitMenu.height);        
         }
 
         function getButton(buttonOrder) {
@@ -84,8 +86,9 @@
         }
 
         //attach event handlers for clicks for every button and scroll to a section when clicked
-        for(var i=0; i<childrens.length; i++) {
-          var button = childrens[i];
+        // for(var i=0; i<childrens.length; i++) {
+        _.each(childrens, function(button) {
+          // var button = childrens[i];
           angular.element(button).on('click', function() {
             var buttonOrder = angular.element(this).index();
             for(var elem in container) {
@@ -95,26 +98,28 @@
               }
             }
           });
-        }
+        });
+        // }
 
         var currentSection;
 
         //on scroll, check if window is on a section
-        angular.element(window).on('scroll', function() {
+        angular.element($window).on('scroll', function() {
           var windowPosition = document.body.scrollTop;
           var appPosition = windowPosition + container.navbar.height + container.kitMenu.height; 
+          var button;
           if(currentSection !== 'none' && appPosition <= container.kitOverview.offset) {
-            var button = getButton(container.kitOverview.buttonOrder);
+            button = getButton(container.kitOverview.buttonOrder);
             unHighlightButtons();
             currentSection = 'none';
           } else if(currentSection !== 'overview' && appPosition >= container.kitOverview.offset && appPosition <= container.kitOverview.offset + container.kitOverview.height) {
-            var button = getButton(container.kitOverview.buttonOrder);
+            button = getButton(container.kitOverview.buttonOrder);
             unHighlightButtons();
             highlightButton(button);
             currentSection = 'overview';
           } else if(currentSection !== 'chart' && appPosition >= container.kitDashboard.offset && appPosition <= container.kitDashboard.offset + container.kitDashboard.height) {
-            var button = getButton(container.kitDashboard.buttonOrder);
-            unHighlightButtons()
+            button = getButton(container.kitDashboard.buttonOrder);
+            unHighlightButtons();
             highlightButton(button); 
             currentSection = 'chart';
           }         

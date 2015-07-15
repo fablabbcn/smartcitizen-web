@@ -4,8 +4,8 @@
   angular.module('app.components')
     .directive('chart', chart);
 
-    chart.$inject = ['sensor', 'animation'];
-    function chart(sensor, animation) { 
+    chart.$inject = ['sensor', 'animation', '$timeout', '$window'];
+    function chart(sensor, animation, $timeout, $window) { 
       var margin, width, height, svg, xScale, yScale0, yScale1, xAxis, yAxisLeft, yAxisRight, dateFormat, areaMain, valueLineMain, areaCompare, valueLineCompare, focusCompare, focusMain, popup, dataMain, colorMain, yAxisScale, unitMain, popupContainer;
 
       return {
@@ -18,19 +18,21 @@
 
       function link(scope, elem) {
 
-        setTimeout(function() {
+        $timeout(function() {
           createChart(elem[0]);                    
         }, 0);
 
         var lastData = {};
 
-        angular.element(window).on('resize', function() {
+        angular.element($window).on('resize', function() {
           createChart(elem[0]);
           updateChartData(lastData.data, {type: lastData.type, container: elem[0], color: lastData.color, unit: lastData.unit});
         });
 
         scope.$watch('chartData', function(newData) {
-          if(!newData) return;
+          if(!newData) {
+            return;
+          }
 
           if(newData !== undefined) {
             if(newData[0] && newData[1]) {
@@ -73,6 +75,7 @@
             } else if(newData[0]) {
 
               var sensorData = newData[0].data;
+              /*jshint -W004 */
               var data = sensorData.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
@@ -587,7 +590,9 @@
       }
 
       function resizePopup(popupContainer, textContainers) {
-        if(!textContainers.length) return;
+        if(!textContainers.length) {
+          return;
+        }
 
         var widestElem = textContainers.reduce(function(widestElemSoFar, textContainer) {
           var currentTextContainerSize = getContainerSize(textContainer);

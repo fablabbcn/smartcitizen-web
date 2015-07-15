@@ -82,8 +82,10 @@
         vm.center.lng = data.lng; 
 
         var selectedMarker = markersByIndex[data.id];
-        console.log('se', selectedMarker);
-        if(selectedMarker) selectedMarker.focus = true;          
+
+        if(selectedMarker) {
+          selectedMarker.focus = true;          
+        }
       });
       
       /*

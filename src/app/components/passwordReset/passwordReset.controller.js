@@ -24,7 +24,7 @@
           .then(function() {
             vm.showForm = true;
           })
-          .catch(function(err) {
+          .catch(function() {
             alert.error('Wrong url');
             $location.path('/');
           });
@@ -41,7 +41,7 @@
         }
 
         auth.patchResetPassword($stateParams.code, {password: data.newPassword})
-          .then(function(data) {
+          .then(function() {
             alert.success('Your data was updated successfully');
             $location.path('/profile');
           })  
@@ -51,7 +51,7 @@
             vm.errors = err.data;
           })
           .finally(function() {
-            vm.waitingFromServer = false
+            vm.waitingFromServer = false;
           });
       }
     }

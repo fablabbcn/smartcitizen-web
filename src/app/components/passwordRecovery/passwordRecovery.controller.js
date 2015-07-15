@@ -8,9 +8,8 @@
     function PasswordRecoveryController(auth, alert, $mdDialog) {
       var vm = this;
 
-      vm.errors;
       vm.waitingFromServer = false;
-
+      vm.errors = {};
       vm.recoverPassword = recoverPassword;
 
       ///////////////
@@ -29,11 +28,11 @@
           })
           .catch(function(err) {          
             alert.error('That username doesn\'t exist');
-            $scope.errors = err.data;
+            vm.errors = err.data;
           })
           .finally(function() {
             vm.waitingFromServer = false;
           }); 
-      };
+      }
     } 
 })();

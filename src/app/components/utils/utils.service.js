@@ -70,10 +70,12 @@
       }
 
       function parseKitTime(object) {
+        /*jshint camelcase: false */
         return object.updated_at;
       }
 
       function parseSensorTime(sensor) {
+        /*jshint camelcase: false */
         return moment(sensor.recorded_at).format('');
       }
 
@@ -85,7 +87,7 @@
         
       }
 
-      function getOwnerKits(ids, cb) {
+      function getOwnerKits(ids) {
         var deferred = $q.defer();
         var kitsResolved = 0;
         var kits = [];

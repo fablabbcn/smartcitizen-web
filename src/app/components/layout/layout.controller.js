@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('LayoutController', LayoutController);
 
-    LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation'];
-    function LayoutController($location, $state, $scope, auth, animation) {
+    LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation', '$timeout'];
+    function LayoutController($location, $state, $scope, auth, animation, $timeout) {
       var vm = this;
 
       $scope.$on('loggedIn', function(ev, options) {
@@ -43,7 +43,7 @@
         {text: 'LOGOUT', href: '/logout'}
       ];
 
-      vm.dropdownSelected;
+      vm.dropdownSelected = undefined;
 
       vm.dropdownOptionsCommunity = [
         {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
@@ -51,7 +51,7 @@
         {text: 'API Reference', href: 'http://api.smartcitizen.me/'},
         {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'}        
       ];
-      vm.dropdownSelectedCommunity;
+      vm.dropdownSelectedCommunity = undefined;
 
       $scope.$on('removeNav', function() {
         $scope.$apply(function() {
@@ -66,15 +66,15 @@
       });
 
 
-      setTimeout(function() {
+      $timeout(function() {
         var hash = $location.search();
-        if(hash['signup']) {
+        if(hash.signup) {
           animation.showSignup();
           // angular.element('.navbar_signup_button button').click();
-        } else if(hash['login']) {
+        } else if(hash.login) {
           //animation.showLogin();
           angular.element('.navbar_login_button button').click();
-        } else if(hash['passwordRecovery']) {
+        } else if(hash.passwordRecovery) {
           animation.showPasswordRecovery();
         }
       }, 1000);

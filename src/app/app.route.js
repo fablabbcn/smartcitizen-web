@@ -126,7 +126,9 @@
               );
             },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
-              if(!auth.isAuth()) return false;
+              if(!auth.isAuth()) {
+                return false;
+              }
               var kitID = parseInt($stateParams.id);
               var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
               var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
@@ -144,14 +146,16 @@
           controllerAs: 'vm',
           resolve: {
             isCurrentUser: function($stateParams, $location, auth) {
-              if(!auth.isAuth()) return;
+              if(!auth.isAuth()) {
+                return;
+              }
               var userID = parseInt($stateParams.id);
               var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
               if(userID === authUserID) {
                 $location.path('/profile');
               }
             },
-            userData: function($stateParams, $state, NonAuthUser, user, auth) {
+            userData: function($stateParams, $state, NonAuthUser, user) {
               var id = $stateParams.id;
 
               return user.getUser(id)
@@ -163,7 +167,7 @@
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
-              };
+              }
 
               return $q.all(
                 kitIDs.map(function(id) {
@@ -194,14 +198,16 @@
           resolve: {
             userData: function($location, $window, user, auth, AuthUser) {
               var userData = (auth.getCurrentUser().data) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              if(!userData) return;
+              if(!userData) {
+                return;
+              }
               return userData;
             },
             kitsData: function($q, device, PreviewKit, userData) {
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
-              };
+              }
 
               return $q.all(
                 kitIDs.map(function(id) {
@@ -240,7 +246,7 @@
               var kitIDs = _.pluck(userData.kits, 'id');
               if(!kitIDs.length) {
                 return [];
-              };
+              }
 
               return $q.all(
                 kitIDs.map(function(id) {

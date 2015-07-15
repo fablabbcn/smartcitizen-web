@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils'];
-    function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils) {
+    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils', '$timeout'];
+    function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils, $timeout) {
       var vm = this;
       var user = userData; 
       var kits = kitsData;
@@ -14,7 +14,7 @@
       vm.user = user;
       vm.kits = kits;
 
-      vm.filteredKits;
+      // vm.filteredKits;
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
@@ -25,9 +25,9 @@
         }
       });
 
-      setTimeout(function() {
+      $timeout(function() {
         setSidebarMinHeight();
-      }, 500)
+      }, 500);
       //////////////////
 
       function filterKits(status) {
