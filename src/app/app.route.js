@@ -108,8 +108,8 @@
               var kitID = $stateParams.id;
               return device.getDevice(kitID)
                 .then(function(deviceData) {
-                  var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
-                  animation.kitLoaded(markerLocation);
+                  // var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
+                  // animation.kitLoaded(markerLocation);
                   return new FullKit(deviceData);
                 });
             },

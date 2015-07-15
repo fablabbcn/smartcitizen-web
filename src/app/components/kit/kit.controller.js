@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout) {
       var vm = this;
 
       var getChartDataHasBeenCalled = false;
@@ -13,7 +13,7 @@
       var picker = initializePicker();
 
       console.log('controller loaded');
-      // animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
@@ -24,7 +24,7 @@
       vm.sensorsToCompare = vm.kit.getSensors({type: 'compare'});
 
       vm.slide = slide;
-      vm.chartData;
+      vm.chartData = [];
 
       vm.selectedSensor = vm.sensors[0].id; 
       vm.selectedSensorData = {
@@ -34,8 +34,8 @@
         color: vm.sensors[0].color
       };
 
-      vm.selectedSensorToCompare;
-      vm.selectedSensorToCompareData;
+      vm.selectedSensorToCompare = undefined;
+      vm.selectedSensorToCompareData = [];
 
       vm.moveChart = moveChart;
       vm.loadingChart = true;
@@ -45,7 +45,7 @@
         {text: 'EDIT', value: '2'}
       ];
 
-      vm.dropdownSelected;
+      vm.dropdownSelected = undefined;
 
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
@@ -66,7 +66,7 @@
 
         vm.sensorsToCompare = getSensorsToCompare();
 
-        setTimeout(function() {
+        $timeout(function() {
           colorSensorMainIcon();
           colorSensorCompareName();    
           
@@ -88,11 +88,13 @@
           }
         });
 
-        setTimeout(function() {
+        $timeout(function() {
           colorSensorCompareName();    
           setSensor({type: 'compare', value: newVal});   
 
-          if(oldVal === undefined && newVal === undefined) return;
+          if(oldVal === undefined && newVal === undefined) {
+            return;
+          }
           changeChart('sensor', [mainSensorID, compareSensorID]);            
         }, 100);
         
@@ -117,7 +119,7 @@
         vm.kitBelongsToUser = false;
       });
 
-      setTimeout(function() {
+      $timeout(function() {
         colorSensorMainIcon();
         colorArrows();
         colorClock();
@@ -145,7 +147,9 @@
       }
 
       function changeChart(updateType, sensorsID, options) {
-        if(!sensorsID[0]) return;
+        if(!sensorsID[0]) {
+          return;
+        }
         
         if(getChartDataHasBeenCalled && !sensorsData) {
           //waiting for the data from the server, render chart on next call
@@ -154,7 +158,7 @@
         } else if(!getChartDataHasBeenCalled) {
           updateType = 'date';
           if(!options) {
-            var options = {};
+            options = {};
           }
           options.from = picker.getValuePickerFrom();
           options.to = picker.getValuePickerTo();
@@ -245,10 +249,12 @@
       }
 
       function colorArrows() {
-        var svgContainer = angular.element('.chart_move_left').find('svg');
+        var svgContainer; 
+
+        svgContainer = angular.element('.chart_move_left').find('svg');
         svgContainer.find('.fill_container').css('fill', '#03252D');
 
-        var svgContainer = angular.element('.chart_move_right').find('svg');
+        svgContainer = angular.element('.chart_move_right').find('svg');
         svgContainer.find('.fill_container').css('fill', '#4E656B');
       }
 
@@ -267,13 +273,14 @@
       }
 
       function moveChart(direction) {
+        var valueTo, valueFrom;
         //grab current date range
         var currentRange = getCurrentRange();
 
         if(direction === 'left') {
           //set both from and to pickers to prev range
-          var valueTo = picker.getValuePickerFrom();
-          var valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
+          valueTo = picker.getValuePickerFrom();
+          valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
           picker.setValuePickers([valueFrom, valueTo]);          
         } else if(direction === 'right') {
           var today = timeUtils.getToday();
@@ -284,8 +291,8 @@
           }
 
           //set both from and to pickers  to next range
-          var valueFrom = picker.getValuePickerTo();
-          var valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
+          valueFrom = picker.getValuePickerTo();
+          valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
           picker.setValuePickers([valueFrom, valueTo]);
         }
       }
@@ -294,7 +301,8 @@
       function initializePicker() {
         var updateType = 'single'; //set update type to single by default 
 
-        var from_$input = $('#picker_from').pickadate({
+        /*jshint camelcase: false*/
+        var from_$input = angular.element('#picker_from').pickadate({
           container: 'body',
           klass: {
             holder: 'picker__holder picker_container'
@@ -302,7 +310,7 @@
         });
         var from_picker = from_$input.pickadate('picker');
 
-        var to_$input = $('#picker_to').pickadate({
+        var to_$input = angular.element('#picker_to').pickadate({
           container: 'body',
           klass: {
             holder: 'picker__holder picker_container'

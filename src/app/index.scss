@@ -1511,7 +1511,7 @@ section .stickMenu {
       height: 10px;
       margin-right: 5px;
     }
-  }  
+  }
 }
 
 .popup_bottom {
@@ -1538,6 +1538,10 @@ section .stickMenu {
       padding: 3px 8px;
     }
   } 
+}
+.popup_icon svg:nth-child(2) {
+  width: 0;
+  height: 0;
 }
 
 .smartcitizen_kit {

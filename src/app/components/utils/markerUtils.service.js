@@ -82,7 +82,7 @@
       }
 
       function parseName(object) {
-        return object.name.length <= 41 ? object.name : object.name.slice(0, 41).concat(' ... ');
+        return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
       }
     }
 })();
