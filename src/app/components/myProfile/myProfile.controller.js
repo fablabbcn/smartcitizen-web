@@ -15,6 +15,7 @@
       vm.formUser = {
         'avatar': null
       };
+      vm.getCountries = getCountries;
 
       if(userData) { 
         vm.user = userData; 
@@ -128,6 +129,18 @@
       function setSidebarMinHeight() {
         var height = document.body.clientHeight / 4 * 3;
         angular.element('.profile_content').css('min-height', height + 'px');
+      }
+
+      function getCountries(searchText) {
+        return _.filter(COUNTRY_CODES, createFilter(searchText));
+      }
+
+      function createFilter(searchText) {
+        searchText = searchText.toLowerCase();
+        return function(country) {
+          country = country.toLowerCase();
+          return country.indexOf(searchText) !== -1; 
+        }
       }
     }
 })();

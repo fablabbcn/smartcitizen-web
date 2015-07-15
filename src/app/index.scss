@@ -1972,6 +1972,9 @@ section .stickMenu {
   margin: 16px 0;
   position: relative;
 }
+.countryInput_container {
+  overflow: visible;
+}
 .myProfile_form_avatar {
   md-icon {
     width: 64px;
