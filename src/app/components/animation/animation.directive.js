@@ -191,6 +191,6 @@
       }
       return {
         link: link
-      }
+      };
     }
 })();

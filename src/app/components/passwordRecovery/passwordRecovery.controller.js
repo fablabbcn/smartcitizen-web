@@ -9,13 +9,14 @@
       var vm = this;
 
       vm.waitingFromServer = false;
-      vm.errors = {};
+      vm.errors = [];
       vm.recoverPassword = recoverPassword;
 
       ///////////////
 
       function recoverPassword() {
         vm.waitingFromServer = true;
+        vm.errors = [];
         
         var data = {
           username: vm.username

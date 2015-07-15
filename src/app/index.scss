@@ -1268,7 +1268,7 @@ section .stickMenu {
 .form_errors {
   position: absolute;
   bottom: 15%;
-  left: 2px;
+  left: 5%;
   color: red;
   font-size: 0.7em;
   line-height: 1;
@@ -1358,6 +1358,16 @@ section .stickMenu {
   }
 }
 
+// override for Iphone 4
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
+  .recovery_container {
+    margin-top: 40px;
+  }
+  .form_field {
+    padding: 5% 0;
+  }
+}
+
 /* 
   RECOVERY FORM
 */
@@ -1375,24 +1385,33 @@ section .stickMenu {
   .recovery_container {
     margin-top: 80px;
   }
+  .formRecovery_errors {
+    bottom: 15%;
+    left: 5%;
+  }
 }
 
 @media (max-width: 500px) {
   .recovery_container {
     margin-top: 20%;
   }
+  .formRecovery_errors {
+    bottom: 23%;
+    left: 5%;
+  }
 }
 
-// override for Iphone 4
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
-  .recovery_container {
-    margin-top: 40px;
-  }
-  .form_field {
-    padding: 5% 0;
+
+  @media (max-width: 500px) {
+    .formRecovery_field {
+      padding: 2% 0;
+    }
+    .formRecovery_errors {
+      bottom: 29%;
+    }
   }
 }
-
 
 /* 
   RESET FORM
@@ -1400,6 +1419,32 @@ section .stickMenu {
 .formReset_field {
   padding: 7% 0;
 }
+
+@media (min-width: 501px) {
+  .formReset_errors {
+    bottom: 5%;
+    left: 1%;
+  }
+}
+
+@media (max-width: 500px) {
+  .formReset_errors {
+    bottom: 18%;
+    left: 1%;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
+  @media (max-width: 500px) {
+    .formReset_errors {
+      top: 65%;         
+    }
+    .formReset_field {
+      padding: 3% 0;
+    }
+  }
+}
+
 /* .blur {
   -ms-filter: blur(20px);  
   -webkit-filter: blur(20px);  
