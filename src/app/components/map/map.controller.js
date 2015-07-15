@@ -7,12 +7,13 @@
     MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog'];
     function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog) {
     	var vm = this;
+      var updateType;
 
       var initialLocation = markers[0];
       var markersByIndex = _.indexBy(markers, function(marker) {
         return marker.myData.id;
       });
-      console.log('mar', markersByIndex);
+
       vm.markers = markers;
       vm.currentMarker = marker.getCurrentMarker();
 
@@ -62,23 +63,27 @@
       });*/
 
       $scope.$on('leafletDirectiveMap.popupopen', function(event, data) {
-
-        vm.center = {
-          lat: data.leafletEvent.popup._latlng.lat,
-          lng: data.leafletEvent.popup._latlng.lng//,
+        vm.center.lat = data.leafletEvent.popup._latlng.lat;
+        vm.center.lng = data.leafletEvent.popup._latlng.lng;
           // zoom: data.model.center.zoom
-        };
         
+        updateType = 'map';
         var id = data.leafletEvent.popup._source.options.myData.id; 
-        $state.go('home.kit', {id: id});
+        $state.go('layout.home.kit', {id: id});
       });    
 
       $scope.$on('kitLoaded', function(event, data) {
+        if(updateType === 'map') {
+          updateType = undefined;
+          return;
+        }
+
         vm.center.lat = data.lat;
         vm.center.lng = data.lng; 
 
         var selectedMarker = markersByIndex[data.id];
-        selectedMarker.focus = true;
+        console.log('se', selectedMarker);
+        if(selectedMarker) selectedMarker.focus = true;          
       });
       
       /*

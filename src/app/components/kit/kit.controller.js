@@ -12,7 +12,8 @@
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
-      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+      console.log('controller loaded');
+      // animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
@@ -98,7 +99,6 @@
       });
 
       $scope.$on('hideChartSpinner', function() {
-        console.log('hide')
         vm.loadingChart = false;
       });
 

@@ -20,7 +20,7 @@
         console.log('state change');
         if(toState.authenticate === false) {
           if(auth.isAuth()) {
-            e.preventDefault()
+            e.preventDefault();
             $state.go('landing');
             return;
           } 
