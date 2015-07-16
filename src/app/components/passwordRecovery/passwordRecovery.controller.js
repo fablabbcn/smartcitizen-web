@@ -9,14 +9,14 @@
       var vm = this;
 
       vm.waitingFromServer = false;
-      vm.errors = [];
+      vm.errors = undefined;
       vm.recoverPassword = recoverPassword;
 
       ///////////////
 
       function recoverPassword() {
         vm.waitingFromServer = true;
-        vm.errors = [];
+        vm.errors = undefined;
         
         var data = {
           username: vm.username
@@ -28,8 +28,10 @@
             $mdDialog.hide();
           })
           .catch(function(err) {          
-            alert.error('That username doesn\'t exist');
-            vm.errors = err.data;
+            vm.errors = err.data.errors;
+            if(vm.errors) {
+              alert.error('That email/username doesn\'t exist');              
+            } 
           })
           .finally(function() {
             vm.waitingFromServer = false;

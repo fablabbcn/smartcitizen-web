@@ -32,6 +32,7 @@
 
       function answer(data) {
         vm.waitingFromServer = true;
+        vm.errors = undefined;
 
         if(data.newPassword === data.confirmPassword) {
           vm.isDifferent = false;
@@ -48,7 +49,7 @@
           .catch(function(err) {
             alert.error('Your data wasn\'t updated');
             console.log('err', err);
-            vm.errors = err.data;
+            vm.errors = err.data.errors;
           })
           .finally(function() {
             vm.waitingFromServer = false;
