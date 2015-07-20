@@ -16,19 +16,30 @@
                 return positionObj;
               }
 
-              return geolocation.callAPI().then(function(data) {
-                var arrLoc = data.data.loc.split(',');
-                var location = {
-                  lat: parseFloat(arrLoc[0]),
-                  lng: parseFloat(arrLoc[1])
-                };
-                return location;
-              });
+              return geolocation.callAPI()
+                .then(function(data) {
+                  var arrLoc = data.data.loc.split(',');
+                  var location = {
+                    lat: parseFloat(arrLoc[0]),
+                    lng: parseFloat(arrLoc[1])
+                  };
+                  return location;
+                })
+                .catch(function(err) {
+                  throw new Error(err);
+                });
             },
             initialMarkers: function($state, device, location) {
+              console.log('lo', location);
+              if(!location || (!location.lat || !location.lng) ) {
+                // set hard-coded location
+                location = {
+                  lat: 41.3860,
+                  lng: 2.1482 
+                };
+              }
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                
                 var closestMarker = data[0];
                 $state.go('layout.home.kit', {id: closestMarker.id});
               });
