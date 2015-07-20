@@ -595,6 +595,9 @@ section .kit_menu {
       color: white;
       float:left;
     }
+    .sensor_value_null {
+      opacity: 0.5;
+    }
     .sensor_icon {
       width: 16px;
       height: 16px;
@@ -2012,6 +2015,9 @@ section .stickMenu {
   margin-right: 8px;
   position: relative;
   top: -1px;
+}
+.myProfile_sidebar_button {
+  padding-left: 28px;
 }
 .myProfile_content_form {
   margin-left: 113px;
