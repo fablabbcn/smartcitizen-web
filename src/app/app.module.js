@@ -7,6 +7,8 @@ angular.module('app', [
 	'restangular', 
   'angularSpinner',
   'ngDropdowns',
+  'oauth',
+  'leaflet-directive',
 	'app.components', 
 	'app.auth'
 ]);
