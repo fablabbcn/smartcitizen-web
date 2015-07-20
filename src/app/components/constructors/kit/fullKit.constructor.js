@@ -21,9 +21,9 @@
       FullKit.prototype = Object.create(Kit.prototype);
       FullKit.prototype.constructor = FullKit;
 
-      FullKit.prototype.getSensors = function(options) {
+      FullKit.prototype.getSensors = function(sensorTypes, options) {
         var parsedSensors = this.data.map(function(sensor) {
-          return new Sensor(sensor); 
+          return new Sensor(sensor, sensorTypes); 
         });
 
         if(options.type === 'compare') {

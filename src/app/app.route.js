@@ -88,7 +88,7 @@
                   return sensorTypes;
                 });
             },
-            markers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
+            markers: function($state, device, location, utils, Kit, Marker) {
 
               return device.getAllDevices().then(function(data) {
                 return _.chain(data)
@@ -123,6 +123,12 @@
                   // animation.kitLoaded(markerLocation);
                   return new FullKit(deviceData);
                 });
+            },
+            mainSensors: function(kitData, sensorTypes) {
+              return kitData.getSensors(sensorTypes, {type: 'main'})
+            },
+            compareSensors: function(kitData, sensorTypes) {
+              return kitData.getSensors(sensorTypes, {type: 'compare'});
             },
             ownerKits: function(kitData, PreviewKit, $q, device) {
               var kitIDs = kitData.owner.kits;

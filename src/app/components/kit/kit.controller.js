@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors) {
       var vm = this;
 
       var getChartDataHasBeenCalled = false;
@@ -18,24 +18,18 @@
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
 
-      var mainSensors = vm.kit.getSensors({type: 'main'});  
       vm.battery = mainSensors[1];
       vm.sensors = mainSensors[0];
-      vm.sensorsToCompare = vm.kit.getSensors({type: 'compare'});
+      vm.sensorsToCompare = compareSensors;
 
       vm.slide = slide;
       vm.chartData = [];
 
       vm.selectedSensor = vm.sensors[0].id; 
-      vm.selectedSensorData = {
-        icon: vm.sensors[0].icon,
-        value: vm.sensors[0].value,
-        unit: vm.sensors[0].unit,
-        color: vm.sensors[0].color
-      };
+      vm.selectedSensorData = {};
 
       vm.selectedSensorToCompare = undefined;
-      vm.selectedSensorToCompareData = [];
+      vm.selectedSensorToCompareData = {};
 
       vm.moveChart = moveChart;
       vm.loadingChart = true;
@@ -55,12 +49,7 @@
 
         vm.sensors.forEach(function(sensor) {
           if(sensor.id === newVal) {
-            vm.selectedSensorData = {
-              icon: sensor.icon,
-              value: sensor.value,
-              unit: sensor.unit,
-              color: sensor.color
-            };
+            _.extend(vm.selectedSensorData, sensor);
           }
         });
 
@@ -77,14 +66,9 @@
       });
 
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
-
         vm.sensorsToCompare.forEach(function(sensor) {
           if(sensor.id === newVal) {
-            vm.selectedSensorToCompareData = {
-              icon: sensor.icon,
-              color: sensor.color,
-              unit: sensor.unit
-            };
+            _.extend(vm.selectedSensorToCompareData, sensor);
           }
         });
 
