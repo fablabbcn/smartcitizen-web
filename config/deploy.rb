@@ -1,14 +1,22 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
+
 set :application, 'smartcitizen-web'
 set :repo_url, 'git@github.com:fablabbcn/smartcitizen-web.git'
-
+set :branch, 'fix-deploy'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/var/www2/smartcitizen'
+set :deploy_to, '/home/deployer/apps/smartcitizen-web'
+set :linked_dirs, %w{node_modules app/bower_components}
+set :default_env, {
+  path: ["~/.rbenv/shims",
+    "#{shared_path}/node_modules/bower/bin",
+    "#{shared_path}/node_modules/gulp/bin",
+    "~/.rbenv/versions/#{fetch(:rbenv_ruby)}/bin",
+    "$PATH"].join(":")
+}
 
 # Default value for :scm is :git
 # set :scm, :git
