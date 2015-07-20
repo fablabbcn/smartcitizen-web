@@ -55,7 +55,7 @@
         <div ng-repeat="sensor in vm.sensors" class="sensor_container">          
           <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon">
           </md-icon>
-          <div class="sensor_value">{{ sensor.value }}</div>
+          <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
           <div class="sensor_right">
             <div class="sensor_unit">{{ sensor.unit }}</div>
             <md-icon md-svg-src="{{ sensor.arrow }}" class="sensor_arrow">
