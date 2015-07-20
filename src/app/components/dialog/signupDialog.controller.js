@@ -11,14 +11,15 @@
         $scope.waitingFromServer = true;
         user.createUser(answer)
           .then(function(data) {
-            console.log('data', data);
             alert.success('Signup was successful');
             $mdDialog.hide();
           })
           .catch(function(err) {
             alert.error('Signup failed');
-            console.log('err', err.data.errors);
             $scope.errors = err.data.errors;
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
           });
       };
       $scope.hide = function() {

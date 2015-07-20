@@ -42,7 +42,7 @@
       }
 
       function parseLabels(object) {
-        var status = object.device.status === 'new' ? 'offline' : object.device.status;
+        var status = object.status === 'new' ? 'offline' : object.status;
         var exposure = object.data.location.exposure;
         return {
           status: status,

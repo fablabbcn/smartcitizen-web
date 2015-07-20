@@ -187,7 +187,7 @@
       function link(scope, elem) {
         $timeout(function() {
           elem.focus();
-        }, 0);
+        });
       }
       return {
         link: link

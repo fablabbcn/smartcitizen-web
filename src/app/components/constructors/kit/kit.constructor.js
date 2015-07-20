@@ -6,8 +6,8 @@
 
       function Kit(object) {
 
-        this.id = object.device.id;
-        this.name = object.device.name;
+        this.id = object.id;
+        this.name = object.name;
         this.type = kitUtils.parseType(object);
         this.location = kitUtils.parseLocation(object);
         this.avatar = kitUtils.parseAvatar(object);
