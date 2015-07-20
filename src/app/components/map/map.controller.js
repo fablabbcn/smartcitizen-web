@@ -63,7 +63,6 @@
       });*/
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        console.log('da', event, data)
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
           // zoom: data.model.center.zoom
@@ -132,7 +131,7 @@
         .then(function(data) {
           _.extend(vm.filterData, data);
           vm.markers = [];
-          setTimeout(function() {
+          $timeout(function() {
             $scope.$apply(function() {
               vm.markers = filterMarkers(data);              
             });
@@ -143,7 +142,7 @@
       function removeFilter(filterName) {
         vm.filterData[filterName] = false;
         vm.markers = [];
-        setTimeout(function() {
+        $timeout(function() {
           $scope.$apply(function() {
             vm.markers = filterMarkers(vm.filterData);          
           });

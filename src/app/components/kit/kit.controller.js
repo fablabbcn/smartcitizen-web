@@ -12,7 +12,7 @@
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
-      console.log('controller loaded');
+      // console.log('controller loaded');
       animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
@@ -303,6 +303,9 @@
 
         /*jshint camelcase: false*/
         var from_$input = angular.element('#picker_from').pickadate({
+          onClose: function(){
+            angular.element(document.activeElement).blur();
+          },
           container: 'body',
           klass: {
             holder: 'picker__holder picker_container'
@@ -311,6 +314,9 @@
         var from_picker = from_$input.pickadate('picker');
 
         var to_$input = angular.element('#picker_to').pickadate({
+          onClose: function(){
+            angular.element(document.activeElement).blur();
+          },
           container: 'body',
           klass: {
             holder: 'picker__holder picker_container'

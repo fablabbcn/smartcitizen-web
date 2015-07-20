@@ -15,7 +15,7 @@
         <div layout layout-sm="column" class="field">
           <md-input-container flex>
             <label>Username</label>
-            <input type="text" name="username" ng-model="vm.user.username" autofocus required/>
+            <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input required/>
           </md-input-container>
           <p class="errors" ng-show="signup_form.$submitted || signup_form.username.$touched">
             <span ng-show="signup_form.username.$error.required">Username is required</span>
@@ -24,7 +24,7 @@
         <div layout layout-sm="column" class="field">
           <md-input-container flex>
             <label>Password</label>
-            <input type="password" name="password" ng-model="vm.user.password"required />
+            <input type="password" name="password" ng-model="vm.user.password" required/>
           </md-input-container>
           <p class="errors" ng-show="signup_form.$submitted || signup_form.password.$touched">
             <span ng-show="signup_form.password.$error.required">Password is required</span>

@@ -8,7 +8,8 @@
       .directive('blur', blur)
       .directive('focus', focus)
       .directive('changeMapHeight', changeMapHeight)
-      .directive('changeContentMargin', changeContentMargin);
+      .directive('changeContentMargin', changeContentMargin)
+      .directive('focusInput', focusInput);
 
     moveDown.$inject = [];
     function moveDown() {
@@ -176,6 +177,18 @@
             element.css('margin-top', aboveTheFoldHeight + 'px');  
       }     
  
+      return {
+        link: link
+      };
+    }
+
+    focusInput.$inject = ['$timeout'];
+    function focusInput($timeout) { 
+      function link(scope, elem) {
+        $timeout(function() {
+          elem.focus();
+        });
+      }
       return {
         link: link
       };

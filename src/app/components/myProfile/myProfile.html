@@ -45,94 +45,97 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="myProfile_content_form">
-                <div class="myProfile_form_avatar">
-                  <md-icon md-svg-src="{{ vm.user.avatar }}" class="myProfile_tab_icon"></md-icon>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
-                    <label>Username</label>
-                    <input type="text" ng-model="vm.formUser.username">
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length">
-                    <span ng-repeat="error in vm.errors.username">
-                      Username {{ error }}<span ng-if="!$last">,</span> 
-                    </span>
-                  </p>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
-                    <label>Password</label>
-                    <input type="password" ng-model="vm.formUser.password">
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length">
-                    <span ng-repeat="error in vm.errors.password">
-                      Password {{ error }}<span ng-if="!$last">,</span>  
-                    </span>
-                  </p>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
-                    <label>Email</label>
-                    <input type="email" ng-model="vm.formUser.email">
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length">
-                    <span ng-repeat="error in vm.errors.email">
-                      Email {{ error }}<span ng-if="!$last">,</span> 
-                    </span>
-                  </p>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
-                    <label>City</label>
-                    <input type="text" ng-model="vm.formUser.city">
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
-                    <span ng-repeat="error in vm.errors.city">
-                      City {{ error }}<span ng-if="!$last">,</span> 
-                    </span>
-                  </p>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container class="countryInput_container" flex>
-                    <label>Country</label>
-                    <md-autocomplete
-                      md-search-text="vm.searchText"
-                      md-items="item in vm.getCountries(vm.searchText)"
-                      md-item-text="item"
-                      md-selected-item="vm.formUser.country">
-                      <span>{{ item }}</span>
-                    </md-autocomplete>
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
-                    <span ng-repeat="error in vm.errors.country">
-                      Country {{ error }}<span ng-if="!$last">,</span> 
-                    </span>
-                  </p>
-                </div>
-                <div layout layout-sm="column" class="field myProfile_content_form_input">
-                  <md-input-container flex>
-                    <label>Website</label>
-                    <input type="text" ng-model="vm.formUser.url">
-                  </md-input-container>
-                  <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
-                    <span ng-repeat="error in vm.errors.url">
-                      URL {{ error }}<span ng-if="!$last">,</span> 
-                    </span>
-                  </p>
-                </div>
+                <form ng-submit="vm.updateUser(vm.formUser)">
+                  <div class="myProfile_form_avatar">
+                    <md-icon md-svg-src="{{ vm.user.avatar }}" class="myProfile_tab_icon"></md-icon>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container flex>
+                      <label>Username</label>
+                      <input type="text" ng-model="vm.formUser.username">
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length">
+                      <span ng-repeat="error in vm.errors.username">
+                        Username {{ error }}<span ng-if="!$last">,</span> 
+                      </span>
+                    </p>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container flex>
+                      <label>Password</label>
+                      <input type="password" ng-model="vm.formUser.password">
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length">
+                      <span ng-repeat="error in vm.errors.password">
+                        Password {{ error }}<span ng-if="!$last">,</span>  
+                      </span>
+                    </p>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container flex>
+                      <label>Email</label>
+                      <input type="email" ng-model="vm.formUser.email">
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length">
+                      <span ng-repeat="error in vm.errors.email">
+                        Email {{ error }}<span ng-if="!$last">,</span> 
+                      </span>
+                    </p>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container flex>
+                      <label>City</label>
+                      <input type="text" ng-model="vm.formUser.city">
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
+                      <span ng-repeat="error in vm.errors.city">
+                        City {{ error }}<span ng-if="!$last">,</span> 
+                      </span>
+                    </p>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container class="countryInput_container" flex>
+                      <label>Country</label>
+                      <md-autocomplete
+                        md-search-text="vm.searchText"
+                        md-items="item in vm.getCountries(vm.searchText)"
+                        md-item-text="item"
+                        md-selected-item="vm.formUser.country"
+                        md-floating-label="Favorite state">>
+                        <span>{{ item }}</span>
+                      </md-autocomplete>
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
+                      <span ng-repeat="error in vm.errors.country">
+                        Country {{ error }}<span ng-if="!$last">,</span> 
+                      </span>
+                    </p>
+                  </div>
+                  <div layout layout-sm="column" class="field myProfile_content_form_input">
+                    <md-input-container flex>
+                      <label>Website</label>
+                      <input type="text" ng-model="vm.formUser.url">
+                    </md-input-container>
+                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
+                      <span ng-repeat="error in vm.errors.url">
+                        URL {{ error }}<span ng-if="!$last">,</span> 
+                      </span>
+                    </p>
+                  </div>
 
-                <md-button ng-click="vm.updateUser(vm.formUser)" class="myProfile_form_updateButton">UPDATE PROFILE</md-button>
+                  <md-button type="submit" class="myProfile_form_updateButton" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
+                </form>
                 <div class="clearfix"></div>
                 <div class="myProfile_apiKey" layout="row" layout-align="start center">
                   <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
                   <span class="myProfile_apiKey_text">API Key:</span>
                   <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
-                  <md-button class="myProfile_apiKey_refreshButton md-flat">
+                  <md-button class="myProfile_apiKey_refreshButton md-flat" type="button">
                     <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
                   </md-button>
                 </div>
                 <div class="clearfix"></div>
-                <md-button ng-click="vm.removeUser()" class="myProfile_form_removeButton">DELETE ACCOUNT</md-button>
+                <md-button ng-click="vm.removeUser()" class="myProfile_form_removeButton" type="button">DELETE ACCOUNT</md-button>
                 <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
               </div>
             </div>
