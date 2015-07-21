@@ -113,7 +113,7 @@
       }
 
       function parseAvatar() {
-        return null;
+        return './assets/images/sckit_avatar.jpg';
       }
 
       function parseSensorTime(sensor) {

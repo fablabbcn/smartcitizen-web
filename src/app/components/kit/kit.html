@@ -149,8 +149,7 @@
           </div>
           <div class="kit_detailed_content_container" layout="row">
             <div class="kit_detailed_avatar">
-              <md-icon md-svg-src="{{ vm.kit.avatar || './assets/images/avatar.svg' }}">
-              </md-icon>
+              <img ng-src="{{ vm.kit.avatar || './assets/images/avatar.svg' }}" />
             </div>
             <div class="kit_details_content_main" flex>
               <div class="kit_details_content">
@@ -267,7 +266,7 @@
                   <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_primary: !vm.kitBelongsToUser, kitList_secondary: vm.kitBelongsToUser, kitList_borderBottom: $last}" layout="row" layout-align="start center">
                     <div class="kitList_container" layout="row" layout-align="start center">
                       <div class="">
-                        <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar || './assets/images/avatar.svg' }}">
+                        <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
                         </md-icon>
                       </div>
                       <div class="kitList_content"> 

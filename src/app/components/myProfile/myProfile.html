@@ -166,8 +166,7 @@
                 <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_borderBottom: $last}">
                   <div class="kitList_container" layout="row" layout-align="start center">
                     <div class="">
-                      <md-icon class="kitList_avatar" md-svg-src="{{ kit.avatar || './assets/images/avatar.svg' }}">
-                      </md-icon>
+                      <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
                     </div>
                     <div class="kitList_content"> 
                       <div class="kitList_name">{{ kit.name || 'No name' }}</div>

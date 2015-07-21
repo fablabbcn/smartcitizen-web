@@ -882,9 +882,10 @@ section .kit_menu {
   .kit_detailed_avatar {
     float: left;
     margin-right: 38px;
-    md-icon {
+    md-icon, img {
       width: 80px;
       height : 80px;
+      border-radius: 40px;
     }
   }
   .kit_detailed_icon_title {
@@ -1819,6 +1820,7 @@ section .stickMenu {
   // float: left;
   width: 44px;
   height: 44px;
+  border-radius: 22px;
   margin-right: 20px;
   // margin-top: 14px;
 }
