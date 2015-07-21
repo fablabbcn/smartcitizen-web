@@ -13,7 +13,8 @@
         parseCoordinates: parseCoordinates,
         parseId: parseId,
         getIcon: getIcon,
-        parseName: parseName
+        parseName: parseName,
+        parseTime: parseTime
       };
       _.defaults(service, kitUtils);
       return service;
@@ -83,6 +84,14 @@
 
       function parseName(object) {
         return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
+      }
+
+      function parseTime(object) {
+        var time = object.data && object.data[''];
+        if(!time) {
+          return 'No time';
+        }
+        return moment(time).fromNow();
       }
     }
 })();
