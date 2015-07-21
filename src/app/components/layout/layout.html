@@ -23,7 +23,7 @@
 
     <search flex></search>
     
-    <section layout="row" class="nav_right" layout-align="space-around center">
+    <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
       <md-button ng-show="vm.isShown" href="#" class="md-flat full_height get" ng-class="{navbar_highlight_button: vm.isLoggedin}">Get your Kit</md-button>
     
       <div ng-show="vm.isShown && !vm.isLoggedin" login class="navbar_login_button md-display-1"></div>

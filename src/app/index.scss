@@ -369,7 +369,7 @@ section.map {
   padding: 1px 6px 3px 6px;
   margin: 0 5px;
   border-radius: 20px;
-  box-shadow: 0 2px 2px #000000;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65)
   // min-width: 60px;
 }
 .map_filter_name {
@@ -394,7 +394,7 @@ section.map {
   margin-right: 15px;
   width: 26px;
   height: 26px;
-  box-shadow: 0 2px 2px #000000;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 
   md-icon {
     width: 18px;
@@ -1469,11 +1469,17 @@ section .stickMenu {
 */
 
 .marker_normal {
-  background-image: url('../assets/images/marker.svg');
+  border: 1px solid #00CBE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
 }
 
 .marker_online {
-  background-image: url('../assets/images/marker.svg');
+ /*  background-image: url('../assets/images/marker.svg'); */
+  border: 2px solid #00CBE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
+  background-color: #00CBE8;
   -webkit-animation: pulse 5s linear infinite;
   -moz-animation: pulse 5s linear infinite;
   -ms-animation: pulse 5s linear infinite;
@@ -1526,7 +1532,10 @@ section .stickMenu {
 }
 
 .marker_offline {
-  background-image: url('../assets/images/marker_offline.svg');
+  border: 2px solid #06CAE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
+  background-color: rgba(0,203,232,0.3);
 }
 
 .popup {
@@ -1683,6 +1692,7 @@ section .stickMenu {
 .nav_right {
 
   .wrap-dd-menu {
+    margin-left: 20px;
     width: 50px;
     display: inline-block;
     margin: 0;
