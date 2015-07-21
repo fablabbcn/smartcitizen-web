@@ -551,7 +551,6 @@ section .kit_menu {
 
   .button_scroll_left {
     left: 0;
-    opacity: 0.5;
   }
 
   .button_scroll_right {
@@ -1692,10 +1691,9 @@ section .stickMenu {
 .nav_right {
 
   .wrap-dd-menu {
-    margin-left: 20px;
     width: 50px;
     display: inline-block;
-    margin: 0;
+    margin: 0 0 0 20px;
     padding: 0;
     display: none;
   }
