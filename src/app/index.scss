@@ -266,13 +266,14 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
 }
 
 md-toast.md-top {
-  z-index: 80;
   position: fixed;
   top: 64px;
   max-width: 100%;
   width: 100%;
-  min-height: 32px;
+  min-height: 42px;
+  opacity: 0.9;
   color: black;
+  font-size: 15px;
 
   .alert_icon {
     width: 16px;
@@ -288,6 +289,7 @@ md-toast.md-top {
 }
 
 md-toast.red {
+  z-index: 80;
   background-color: $alert_red;
 }
 
@@ -298,6 +300,11 @@ md-toast.green {
 
 md-toast.blue {
   background-color: $blue_light;
+}
+
+md-toast.yellow {
+  z-index: 6;
+  background-color: #f1c40f;
 }
 
 md-progress-linear.md-default-theme .md-bar{
@@ -595,7 +602,7 @@ section .kit_menu {
       float:left;
     }
     .sensor_value_null {
-      opacity: 0.5;
+      opacity: 0.15;
     }
     .sensor_icon {
       width: 16px;

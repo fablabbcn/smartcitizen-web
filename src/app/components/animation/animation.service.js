@@ -18,7 +18,8 @@
         showPasswordRecovery: showPasswordRecovery,
         showLogin: showLogin,
         showSignup: showSignup,
-        showPasswordReset: showPasswordReset
+        showPasswordReset: showPasswordReset,
+        hideAlert: hideAlert
     	};
     	return service;
 
@@ -56,6 +57,9 @@
       }
       function showPasswordReset() {
         $rootScope.$broadcast('showPasswordReset');
+      }
+      function hideAlert() {
+        $rootScope.$broadcast('hideAlert');
       }
     }
 })();
