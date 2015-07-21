@@ -7,7 +7,7 @@
       function PreviewKit(object) {
         Kit.call(this, object);
 
-        this.state = kitUtils.parseState(object);
+        this.state = kitUtils.parseState(this.labels.status);
       }
       PreviewKit.prototype = Object.create(Kit.prototype);
       PreviewKit.prototype.constructor = Kit;

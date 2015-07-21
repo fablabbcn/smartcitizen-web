@@ -281,7 +281,7 @@
                           <span>{{ kit.type }}</span>
                         </p>
                       </div>
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">
+                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
                         <span>{{ kit.state.name }}</span>
                       </div>
                     </div>

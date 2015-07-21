@@ -88,8 +88,8 @@
         };
       }
 
-      function parseState(object) {
-        var name = parseStateName(object); 
+      function parseState(status) {
+        var name = parseStateName(status); 
         var className = classify(name); 
         
         return {
@@ -98,8 +98,18 @@
         };
       }
 
-      function parseStateName() {
-        return 'Never published';
+      function parseStateName(status) {
+        switch(status) {
+          case 'new': 
+            return 'Never published';
+
+          case 'online':
+            return 'To be determined';
+
+          case 'offline':
+            return 'To be determined';
+          
+        }
       }
 
       function parseAvatar() {
