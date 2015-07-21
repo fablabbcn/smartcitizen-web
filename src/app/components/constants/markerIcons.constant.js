@@ -7,17 +7,17 @@
       smartCitizenNormal: {
         type: 'div',
         className: 'marker_normal',
-        iconSize: [12, 12]
+        iconSize: [24, 24]
       },
       smartCitizenOnline: {
         type: 'div',
         className: 'marker_online',
-        iconSize: [12, 12]
+        iconSize: [24, 24]
       },
       smartCitizenOffline: {
         type: 'div',
         className: 'marker_offline',
-        iconSize: [12, 12]
+        iconSize: [24, 24]
       }
     });
 })();
