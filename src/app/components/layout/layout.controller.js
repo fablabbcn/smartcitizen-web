@@ -8,6 +8,8 @@
     function LayoutController($location, $state, $scope, auth, animation, $timeout) {
       var vm = this;
 
+      vm.navRightLayout = 'space-around center';
+
       $scope.$on('loggedIn', function(ev, options) {
         if(options && options.time === 'appLoad') {
           $scope.$apply(function() {
@@ -16,6 +18,7 @@
             angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
             vm.currentUser = auth.getCurrentUser().data;   
             vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+            vm.navRightLayout = 'end center';
           });          
         } else {
           vm.isLoggedin = true;
@@ -23,6 +26,7 @@
           angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
           vm.currentUser = auth.getCurrentUser().data;   
           vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
+          vm.navRightLayout = "end center"
         }
       });
 
@@ -30,6 +34,7 @@
         vm.isLoggedIn = false;
         vm.isShown = true;
         angular.element('navbar .wrap-dd-menu').css('display', 'none');
+        vm.navRightLayout = 'space-around center';
       });
       
 

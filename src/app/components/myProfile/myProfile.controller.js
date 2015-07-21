@@ -91,7 +91,9 @@
         } 
 
         user.updateUser(userData)
-          .then(function() {
+          .then(function(data) {
+            var user = new AuthUser(data);
+            _.extend(vm.user, user);
             vm.errors = {};
             alert.success('User updated');
           })
