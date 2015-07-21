@@ -1480,10 +1480,10 @@ section .stickMenu {
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
   background-color: #00CBE8;
-  -webkit-animation: pulse 5s linear infinite;
-  -moz-animation: pulse 5s linear infinite;
-  -ms-animation: pulse 5s linear infinite;
-  animation: pulse 5s linear infinite;
+  // -webkit-animation: pulse 5s linear infinite;
+  // -moz-animation: pulse 5s linear infinite;
+  // -ms-animation: pulse 5s linear infinite;
+  // animation: pulse 5s linear infinite;
 }
 
 @keyframes pulse {
