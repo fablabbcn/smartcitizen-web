@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -53,6 +53,7 @@
       vm.filterTools = filterTools;
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
+      vm.uploadAvatar = uploadAvatar;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
@@ -143,6 +144,22 @@
           country = country.toLowerCase();
           return country.indexOf(searchText) !== -1; 
         };
+      }
+
+      function uploadAvatar(fileData) {
+        console.log('files', fileData)
+        if(fileData && fileData.length) {
+          file.getCredentials(fileData[0].name)
+            .then(function(res) {
+            file.uploadFile(fileData[0], res.key, res.policy, res.signature)
+                .progress(function(ev) {
+                  console.log('ev', ev);
+                })
+                .success(function(data) {                  
+                  vm.user.avatar = file.getImageURL(res.key);
+                });
+            });
+        }
       }
     }
 })();

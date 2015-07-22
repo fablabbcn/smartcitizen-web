@@ -2,6 +2,7 @@
 
 
 angular.module('app', [
+  'ngFileUpload',
 	'ngMaterial', 
 	'ui.router', 
 	'restangular', 
