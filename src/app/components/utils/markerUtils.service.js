@@ -54,10 +54,7 @@
       }
 
       function parseLabels(object) {
-        return {
-          status: object.status,
-          exposure: object.exposure
-        };
+        return object.system_tags;
       }
 
       function parseCoordinates(object) {
@@ -71,15 +68,21 @@
         return object.id;
       }
 
-      function getIcon(status) {
+      function getIcon(labels) {
         var icon;
 
-        if(status === 'offline') {
+        if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.smartCitizenOffline;
         } else {
           icon = MARKER_ICONS.smartCitizenOnline;
         }  
         return icon;
+      }
+
+      function hasLabel(labels, targetLabel) {
+        return _.some(labels, function(label) {
+          return label === targetLabel;
+        });
       }
 
       function parseName(object) {

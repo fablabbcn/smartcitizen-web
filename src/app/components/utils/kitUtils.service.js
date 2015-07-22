@@ -42,12 +42,7 @@
       }
 
       function parseLabels(object) {
-        var status = object.status === 'new' ? 'offline' : object.status;
-        var exposure = object.data.location.exposure;
-        return {
-          status: status,
-          exposure: exposure
-        };
+        return object.system_tags;
       }
 
       function parseType(object) {
@@ -98,18 +93,8 @@
         };
       }
 
-      function parseStateName(status) {
-        switch(status) {
-          case 'new': 
-            return 'Never published';
-
-          case 'online':
-            return 'To be determined';
-
-          case 'offline':
-            return 'To be determined';
-          
-        }
+      function parseStateName(object) {
+        return object.state.replace('_', ' ');
       }
 
       function parseAvatar(object, type) {
