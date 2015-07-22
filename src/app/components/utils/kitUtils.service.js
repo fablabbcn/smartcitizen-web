@@ -98,7 +98,6 @@
       }
 
       function parseAvatar(object, type) {
-        console.log('av', object.plain());
         return './assets/images/sckit_avatar.jpg';
       }
 

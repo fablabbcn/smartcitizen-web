@@ -162,7 +162,7 @@
                 <md-button class="myProfile_addKitButton">ADD A NEW KIT</md-button>
                 <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
-              <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filter: { labels: { status: vm.kitStatus } } ))">
+              <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))">  <!-- filter: { labels: { status: vm.kitStatus } }  -->
                 <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_borderBottom: $last}">
                   <div class="kitList_container" layout="row" layout-align="start center">
                     <div class="">
@@ -179,7 +179,7 @@
                         <span>{{ kit.type }}</span>
                       </div>
                     </div>  
-                    <div class="kitList_state kitList_state_{{ kit.state.className }}">{{ kit.state.name }}</div>               
+                    <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="kit.state.name === 'never published' || kit.state.name === 'not configured'">{{ kit.state.name }}</div>               
                   </div>
                 </md-button>
                 <div class="kitList_config" layout="row" layout="center center">

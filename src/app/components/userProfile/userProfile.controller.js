@@ -13,7 +13,6 @@
       vm.status = undefined;
       vm.user = user;
       vm.kits = kits;
-
       // vm.filteredKits;
       vm.filterKits = filterKits;
 

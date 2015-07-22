@@ -989,7 +989,7 @@ section .kit_menu {
       background-color: #F3C039;
     }
     .kit_owner_kits_list_not_configured {
-      background-color: $alert_red;
+      background-color: #E26061;
     }
     .kit_owner_kits_list_config {
       float: right;
@@ -1857,7 +1857,7 @@ section .stickMenu {
 .kitList_config {
   display: inline-block;
   position: relative;
-  top: 5px;
+  top: -7px;
   width: 4%;
 }
 .kitList_state {
@@ -1876,8 +1876,8 @@ section .stickMenu {
 .kitList_state_never_published {
   background-color: #F3C039;
 }
-.kitList_state_not_setup {
-  background-color: red;
+.kitList_state_not_configured {
+  background-color: #E26061;
 }
 .kitList_dropdownButton {
   display: block;
