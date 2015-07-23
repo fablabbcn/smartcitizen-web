@@ -135,7 +135,7 @@
           var menuHeight = angular.element('.kit_menu').height();
           var chartHeight = angular.element('.kit_chart').height();
           
-          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight - chartHeight; // screen height - navbar height - menu height - overview height - charts height
+          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
           element.css('height', mapHeight + 'px');
           
           //layout.setKit(position);
@@ -173,7 +173,7 @@
             // var menuHeight = angular.element('.kit_menu').height();
             // var chartHeight = angular.element('.kit_chart').height();
             
-            var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight - chartHeight; // screen height - navbar height - menu height - overview height - charts height
+            var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
             element.css('margin-top', aboveTheFoldHeight + 'px');  
       }     
  

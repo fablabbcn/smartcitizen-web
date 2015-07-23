@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData) {
     	var vm = this;
       var updateType, focusedMarkerID;
 
@@ -34,7 +34,10 @@
           realworld: {
             name: 'Real world data',
             type: 'markercluster',
-            visible: true
+            visible: true,
+            layerOptions: {
+              showCoverageOnHover: false            
+            }
           }
         }
       };
@@ -66,7 +69,7 @@
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
           // zoom: data.model.center.zoom
-        
+
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id; 
         $state.go('layout.home.kit', {id: id});
@@ -85,12 +88,29 @@
         vm.center.lng = data.lng; 
 
         
-        var selectedMarker = markersByIndex[data.id];
 
-        if(selectedMarker) {
-          focusedMarkerID = data.id;
-          selectedMarker.focus = true; 
-        }
+        setTimeout(function() {
+          leafletData.getMarkers()
+            .then(function(markers) {
+              var currentMarker = _.find(markers, function(marker) {
+                return data.id === marker.options.myData.id;
+              });
+
+              leafletData.getLayers()
+                .then(function(layers) {
+                  layers.overlays.realworld.__proto__.zoomToShowLayer.call(layers.overlays.realworld, currentMarker, function() {
+                    $scope.$apply(function() {
+                      var selectedMarker = markersByIndex[data.id];
+
+                      if(selectedMarker) {
+                        focusedMarkerID = data.id;
+                        selectedMarker.focus = true; 
+                      }
+                    });
+                  });
+                });
+            });
+        }, 2000);
       });
       
       /*
@@ -113,6 +133,7 @@
 
       vm.openFilterPopup = openFilterPopup;
       vm.removeFilter = removeFilter;
+
 
       /////////////////////
 

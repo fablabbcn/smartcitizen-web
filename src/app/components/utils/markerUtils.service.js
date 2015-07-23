@@ -13,7 +13,8 @@
         parseCoordinates: parseCoordinates,
         parseId: parseId,
         getIcon: getIcon,
-        parseName: parseName
+        parseName: parseName,
+        parseTime: parseTime
       };
       _.defaults(service, kitUtils);
       return service;
@@ -53,10 +54,7 @@
       }
 
       function parseLabels(object) {
-        return {
-          status: object.status,
-          exposure: object.exposure
-        };
+        return object.system_tags;
       }
 
       function parseCoordinates(object) {
@@ -70,10 +68,10 @@
         return object.id;
       }
 
-      function getIcon(status) {
+      function getIcon(labels) {
         var icon;
 
-        if(status === 'offline') {
+        if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.smartCitizenOffline;
         } else {
           icon = MARKER_ICONS.smartCitizenOnline;
@@ -81,8 +79,22 @@
         return icon;
       }
 
+      function hasLabel(labels, targetLabel) {
+        return _.some(labels, function(label) {
+          return label === targetLabel;
+        });
+      }
+
       function parseName(object) {
         return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
+      }
+
+      function parseTime(object) {
+        var time = object.data && object.data[''];
+        if(!time) {
+          return 'No time';
+        }
+        return moment(time).fromNow();
       }
     }
 })();

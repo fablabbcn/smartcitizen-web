@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert) {
       var vm = this;
 
       var getChartDataHasBeenCalled = false;
@@ -109,7 +109,17 @@
         colorClock();
       }, 1000);
 
+      if(sensorHasNoData()) {
+        alert.info('It looks like this sensor has not posted data since a long time ago 😔', false);
+      }
+
       ///////////////
+
+      function sensorHasNoData() {
+        return _.every(vm.sensors, function(sensor) {
+          return sensor.value = "N/A";
+        });
+      }
 
       function slide(direction) {
         var slideContainer = angular.element('.sensors_container');

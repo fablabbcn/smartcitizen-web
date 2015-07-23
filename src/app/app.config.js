@@ -4,8 +4,8 @@
   angular.module('app')
     .run(run);
     
-    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window'];
-    function run($rootScope, $state, Restangular, auth, $templateCache, $window) {
+    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation'];
+    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -42,6 +42,9 @@
             auth.setReloading(false);
           });          
         }*/
+
+        // on state change close all alerts opened
+        animation.hideAlert();
 
         if(!auth.reloading()) {
           $window.scrollTo(0, 0);          

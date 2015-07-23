@@ -42,12 +42,7 @@
       }
 
       function parseLabels(object) {
-        var status = object.status === 'new' ? 'offline' : object.status;
-        var exposure = object.data.location.exposure;
-        return {
-          status: status,
-          exposure: exposure
-        };
+        return object.system_tags;
       }
 
       function parseType(object) {
@@ -88,8 +83,8 @@
         };
       }
 
-      function parseState(object) {
-        var name = parseStateName(object); 
+      function parseState(status) {
+        var name = parseStateName(status); 
         var className = classify(name); 
         
         return {
@@ -98,12 +93,12 @@
         };
       }
 
-      function parseStateName() {
-        return 'Never published';
+      function parseStateName(object) {
+        return object.state.replace('_', ' ');
       }
 
-      function parseAvatar() {
-        return null;
+      function parseAvatar(object, type) {
+        return './assets/images/sckit_avatar.jpg';
       }
 
       function parseSensorTime(sensor) {

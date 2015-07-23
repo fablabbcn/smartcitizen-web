@@ -4,12 +4,16 @@
   angular.module('app.components')
     .controller('AlertController', AlertController);
 
-    AlertController.$inject = ['$mdToast', 'message'];
-    function AlertController($mdToast, message) {
+    AlertController.$inject = ['$scope', '$mdToast', 'message'];
+    function AlertController($scope, $mdToast, message) {
     	var vm = this;
 
     	vm.close = close;
         vm.message = message;
+
+        $scope.$on('hideAlert', function() {
+          close();
+        });
 
     	///////////////////
 

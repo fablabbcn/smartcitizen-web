@@ -266,13 +266,14 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
 }
 
 md-toast.md-top {
-  z-index: 80;
   position: fixed;
   top: 64px;
   max-width: 100%;
   width: 100%;
-  min-height: 32px;
+  min-height: 42px;
+  opacity: 0.9;
   color: black;
+  font-size: 15px;
 
   .alert_icon {
     width: 16px;
@@ -288,6 +289,7 @@ md-toast.md-top {
 }
 
 md-toast.red {
+  z-index: 80;
   background-color: $alert_red;
 }
 
@@ -298,6 +300,11 @@ md-toast.green {
 
 md-toast.blue {
   background-color: $blue_light;
+}
+
+md-toast.yellow {
+  z-index: 6;
+  background-color: #f1c40f;
 }
 
 md-progress-linear.md-default-theme .md-bar{
@@ -369,7 +376,7 @@ section.map {
   padding: 1px 6px 3px 6px;
   margin: 0 5px;
   border-radius: 20px;
-  box-shadow: 0 2px 2px #000000;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65)
   // min-width: 60px;
 }
 .map_filter_name {
@@ -394,7 +401,7 @@ section.map {
   margin-right: 15px;
   width: 26px;
   height: 26px;
-  box-shadow: 0 2px 2px #000000;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
 
   md-icon {
     width: 18px;
@@ -551,7 +558,6 @@ section .kit_menu {
 
   .button_scroll_left {
     left: 0;
-    opacity: 0.5;
   }
 
   .button_scroll_right {
@@ -594,6 +600,9 @@ section .kit_menu {
       font-weight: bold;
       color: white;
       float:left;
+    }
+    .sensor_value_null {
+      opacity: 0.15;
     }
     .sensor_icon {
       width: 16px;
@@ -880,9 +889,10 @@ section .kit_menu {
   .kit_detailed_avatar {
     float: left;
     margin-right: 38px;
-    md-icon {
+    md-icon, img {
       width: 80px;
       height : 80px;
+      border-radius: 40px;
     }
   }
   .kit_detailed_icon_title {
@@ -979,7 +989,7 @@ section .kit_menu {
       background-color: #F3C039;
     }
     .kit_owner_kits_list_not_configured {
-      background-color: $alert_red;
+      background-color: #E26061;
     }
     .kit_owner_kits_list_config {
       float: right;
@@ -1467,15 +1477,21 @@ section .stickMenu {
 */
 
 .marker_normal {
-  background-image: url('../assets/images/marker.svg');
+  border: 1px solid #00CBE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
 }
 
 .marker_online {
-  background-image: url('../assets/images/marker.svg');
-  -webkit-animation: pulse 5s linear infinite;
-  -moz-animation: pulse 5s linear infinite;
-  -ms-animation: pulse 5s linear infinite;
-  animation: pulse 5s linear infinite;
+ /*  background-image: url('../assets/images/marker.svg'); */
+  border: 2px solid #00CBE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
+  background-color: #00CBE8;
+  // -webkit-animation: pulse 5s linear infinite;
+  // -moz-animation: pulse 5s linear infinite;
+  // -ms-animation: pulse 5s linear infinite;
+  // animation: pulse 5s linear infinite;
 }
 
 @keyframes pulse {
@@ -1524,7 +1540,10 @@ section .stickMenu {
 }
 
 .marker_offline {
-  background-image: url('../assets/images/marker_offline.svg');
+  border: 2px solid #06CAE8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
+  background-color: rgba(0,203,232,0.3);
 }
 
 .popup {
@@ -1683,7 +1702,7 @@ section .stickMenu {
   .wrap-dd-menu {
     width: 50px;
     display: inline-block;
-    margin: 0;
+    margin: 0 0 0 20px;
     padding: 0;
     display: none;
   }
@@ -1808,6 +1827,7 @@ section .stickMenu {
   // float: left;
   width: 44px;
   height: 44px;
+  border-radius: 22px;
   margin-right: 20px;
   // margin-top: 14px;
 }
@@ -1837,7 +1857,7 @@ section .stickMenu {
 .kitList_config {
   display: inline-block;
   position: relative;
-  top: 5px;
+  top: -7px;
   width: 4%;
 }
 .kitList_state {
@@ -1856,8 +1876,8 @@ section .stickMenu {
 .kitList_state_never_published {
   background-color: #F3C039;
 }
-.kitList_state_not_setup {
-  background-color: red;
+.kitList_state_not_configured {
+  background-color: #E26061;
 }
 .kitList_dropdownButton {
   display: block;
@@ -2012,6 +2032,9 @@ section .stickMenu {
   margin-right: 8px;
   position: relative;
   top: -1px;
+}
+.myProfile_sidebar_button {
+  padding-left: 28px;
 }
 .myProfile_content_form {
   margin-left: 113px;

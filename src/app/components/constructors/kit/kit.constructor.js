@@ -10,7 +10,7 @@
         this.name = object.name;
         this.type = kitUtils.parseType(object);
         this.location = kitUtils.parseLocation(object);
-        this.avatar = kitUtils.parseAvatar(object);
+        this.avatar = kitUtils.parseAvatar(object, this.type);
         this.labels = kitUtils.parseLabels(object);    
       }
 
