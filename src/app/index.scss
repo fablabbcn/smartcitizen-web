@@ -1905,6 +1905,7 @@ section .stickMenu {
 .profile_header_avatar {
   width: 84px;
   height: 84px;
+  border-radius: 42px;
   margin-right: 29px;
   margin-left: 27px;
 }
@@ -2061,10 +2062,16 @@ section .stickMenu {
   }
 }
 .myProfile_form_avatar {
-  md-icon {
-    width: 64px;
-    height: 64px;
-  }
+  margin-bottom: 30px;  
+}
+.myProfile_form_avatarImage {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  margin-right: 7%;
+}
+.myProfile_form_avatarButton {
+  color: #82A7B0;
 }
 .myProfile_form_updateButton {
   float: right;
