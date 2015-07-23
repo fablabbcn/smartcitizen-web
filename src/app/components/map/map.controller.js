@@ -126,7 +126,7 @@
       var defaultFilters = {
         exposure: null,
         status: null
-      }
+      };
 
       vm.filterData = {
         indoor: true,
@@ -138,9 +138,24 @@
       vm.openFilterPopup = openFilterPopup;
       vm.removeFilter = removeFilter;
 
+      initialize();
 
       /////////////////////
 
+      function initialize() {
+        checkFiltersSelected();
+      }
+
+      function checkFiltersSelected() {
+        var allFiltersSelected = _.every(vm.filterData, function(filterValue) {
+          return filterValue;
+        });
+        if(allFiltersSelected) {
+          vm.allFiltersSelected = true;
+        } else {
+          vm.allFiltersSelected = false;
+        }
+      }
 
       function openFilterPopup() {
         $mdDialog.show({
@@ -156,7 +171,8 @@
         .then(function(data, defaultFiltersFromModal) {
           _.extend(vm.filterData, data);
           _.extend(defaultFilters, defaultFiltersFromModal);
-          updateMarkers(data)
+          updateMarkers(data);
+          checkFiltersSelected();
         });
       }
 
@@ -167,6 +183,7 @@
         vm.filterData[filterName] = false;
         _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
         updateMarkers(vm.filterData);
+        checkFiltersSelected();          
       }
 
       function filterMarkers(filterData) {
