@@ -12,18 +12,18 @@
       <div class="input_filter">
         <h3>Location filter</h3>
         <small>now showing indoor</small>
-        <md-checkbox ng-model="form.indoor" aria-label></md-checkbox>
+        <md-checkbox ng-change="applyFilterRules()" ng-model="form.indoor" aria-label></md-checkbox>
         <span>Indoor</span>
-        <md-checkbox ng-model="form.outdoor" aria-label></md-checkbox>
+        <md-checkbox ng-change="applyFilterRules()" ng-model="form.outdoor" aria-label></md-checkbox>
         <span>Outdoor</span>
       </div>
       <md-divider></md-divider>
       <div class="input_filter">
         <h3>Status filter</h3>
         <small>now showing online</small>
-        <md-checkbox ng-model="form.online" aria-label></md-checkbox>
+        <md-checkbox ng-change="applyFilterRules()" ng-model="form.online" aria-label></md-checkbox>
         <span>Online</span>
-        <md-checkbox ng-model="form.offline" aria-label></md-checkbox>
+        <md-checkbox ng-change="applyFilterRules()" ng-model="form.offline" aria-label></md-checkbox>
         <span>Offline</span>
       </div>
       <md-divider></md-divider>

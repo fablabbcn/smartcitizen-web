@@ -4,8 +4,13 @@
   angular.module('app.components')
     .controller('MapFilterDialogController', MapFilterDialogController);
 
-    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData'];
-    function MapFilterDialogController($scope, $mdDialog, filterData) {
+    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData', 'mapUtils'];
+    function MapFilterDialogController($scope, $mdDialog, filterData, mapUtils) {
+      var defaultFilters = {
+        exposure: null,
+        status: null
+      };
+
       $scope.form = {
         indoor: false,
         outdoor: false,
@@ -21,13 +26,18 @@
             obj[key] = true;
           });
         }
-        $mdDialog.hide(data);
+        $mdDialog.hide(data, defaultFilters);
       };
       $scope.hide = function() {
         $mdDialog.hide();
       };  
       $scope.cancel = function() {
         $mdDialog.hide();
+      };
+
+      $scope.applyFilterRules = function() {
+        _.extend($scope.form, mapUtils.getDefaultFilters($scope.form, defaultFilters) );
+        _.extend(defaultFilters, mapUtils.setDefaultFilters($scope.form, defaultFilters) );
       };
     }
 })();

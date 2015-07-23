@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils) {
     	var vm = this;
       var updateType, focusedMarkerID;
 
@@ -123,6 +123,10 @@
         alert('click');
       });
       */
+      var defaultFilters = {
+        exposure: null,
+        status: null
+      }
 
       vm.filterData = {
         indoor: true,
@@ -149,32 +153,37 @@
             filterData: vm.filterData
           }
         })
-        .then(function(data) {
+        .then(function(data, defaultFiltersFromModal) {
           _.extend(vm.filterData, data);
-          vm.markers = [];
-          $timeout(function() {
-            $scope.$apply(function() {
-              vm.markers = filterMarkers(data);              
-            });
-          });
+          _.extend(defaultFilters, defaultFiltersFromModal);
+          updateMarkers(data)
         });
       }
 
       function removeFilter(filterName) {
+        if(!mapUtils.canFilterBeRemoved(vm.filterData, filterName)) {
+          return;
+        }
         vm.filterData[filterName] = false;
-        vm.markers = [];
-        $timeout(function() {
-          $scope.$apply(function() {
-            vm.markers = filterMarkers(vm.filterData);          
+        _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
+        updateMarkers(vm.filterData);
+      }
+
+      function filterMarkers(filterData) {
+        return markers.filter(function(marker) {        
+          var labels = marker.myData.labels;
+          return _.every(labels, function(label) {
+            return filterData[label];
           });
         });
       }
 
-      function filterMarkers(filterData) {
-        return markers.filter(function(marker) {
-          var status = marker.myData.labels.status === 'online' ? 'online' : 'offline';
-          var exposure = marker.myData.labels.exposure;
-          return filterData[status] && filterData[exposure];
+      function updateMarkers(filterData) {
+        vm.markers = [];
+        $timeout(function() {
+          $scope.$apply(function() {
+            vm.markers = filterMarkers(filterData);           
+          });
         });
       }
     }
