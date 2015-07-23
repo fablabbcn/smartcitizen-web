@@ -89,7 +89,7 @@
 
         
 
-        setTimeout(function() {
+        $timeout(function() {
           leafletData.getMarkers()
             .then(function(markers) {
               var currentMarker = _.find(markers, function(marker) {

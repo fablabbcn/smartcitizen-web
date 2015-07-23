@@ -4,8 +4,8 @@
   angular.module('app.components')
     .directive('horizontalScroll', horizontalScroll);
 
-  horizontalScroll.$inject = ['$window'];
-  function horizontalScroll($window ) {
+  horizontalScroll.$inject = ['$window', '$timeout'];
+  function horizontalScroll($window, $timeout) {
     return {
       link: link,
       restrict: 'A'
@@ -26,7 +26,8 @@
           angular.element('.button_scroll_left').css('opacity', '1');          
           angular.element('.button_scroll_right').css('opacity', '1');
         }
-        if(scrollWidth - width <= position) {
+
+        if(scrollWidth - width - position <= 2) {
           //unhighlight right button
           angular.element('.button_scroll_right').css('opacity', '0.5');
         }
@@ -42,12 +43,12 @@
         angular.element('.button_scroll_right').css('opacity', '1');
       });
 
-      setTimeout(function() {
+      $timeout(function() {
         element.trigger('scroll');        
       });
 
       angular.element($window).on('resize', function() {
-        setTimeout(function() {
+        $timeout(function() {
           element.trigger('scroll');
         }, 1000);
       });

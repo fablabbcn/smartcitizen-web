@@ -117,6 +117,7 @@
           resolve: {
             kitData: function($stateParams, device, marker, FullKit, animation) {
               var kitID = $stateParams.id;
+
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   // var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
@@ -125,7 +126,7 @@
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
-              return kitData.getSensors(sensorTypes, {type: 'main'})
+              return kitData.getSensors(sensorTypes, {type: 'main'});
             },
             compareSensors: function(kitData, sensorTypes) {
               return kitData.getSensors(sensorTypes, {type: 'compare'});

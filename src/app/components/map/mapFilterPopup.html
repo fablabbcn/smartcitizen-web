@@ -11,7 +11,7 @@
       </div>
       <div class="input_filter">
         <h3>Location filter</h3>
-        <small>now showing <span ng-show="form.indoor">Indoor</span><span ng-show="form.indoor && form.outdoor">,</span><span ng-show="form.outdoor">Outdoor</span></small>
+        <small>now showing <span ng-show="form.indoor">Indoor</span><span ng-show="form.indoor && form.outdoor">, </span><span ng-show="form.outdoor">Outdoor</span></small>
         <div class="modal_mapFilter_input">
           <md-checkbox ng-change="applyFilterRules()" ng-model="form.indoor" aria-label></md-checkbox>
           <span>Indoor</span>
@@ -24,7 +24,7 @@
       <md-divider></md-divider>
       <div class="input_filter">
         <h3>Status filter</h3>
-        <small>now showing <span ng-show="form.online">Online</span><span ng-show="form.online && form.offline">,</span><span ng-show="form.offline">Offline</span></small>
+        <small>now showing <span ng-show="form.online">Online</span><span ng-show="form.online && form.offline">, </span><span ng-show="form.offline">Offline</span></small>
         <div class="modal_mapFilter_input">
           <md-checkbox ng-change="applyFilterRules()" ng-model="form.online" aria-label></md-checkbox>
           <span>Online</span>

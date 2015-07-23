@@ -11,6 +11,7 @@
         getSensorName: getSensorName,
         getSensorUnit: getSensorUnit,
         getSensorValue: getSensorValue,
+        getSensorPrevValue: getSensorPrevValue,
         getSensorIcon: getSensorIcon,
         getSensorArrow: getSensorArrow,
         getSensorColor: getSensorColor,
@@ -96,20 +97,22 @@
         var value = sensor.value;
 
         if(!value) {
-          return 'N/A';
+          value =  'N/A';
         } else {
           value = value.toString();
           if(value.indexOf('.') !== -1) {
             value = value.slice(0, value.indexOf('.') + 3);
-          }
+          }          
         }
+
         return value;
       }
 
 
       function getSensorPrevValue(sensor) {
         /*jshint camelcase: false */
-        return sensor.prev_value;
+        var prevValue = sensor.prev_value; 
+        return (prevValue && prevValue.toString() ) || 0;
       }
 
       function getSensorIcon(sensorName) {
@@ -147,9 +150,9 @@
         }
       }
 
-      function getSensorArrow(sensor) {
-        var currentValue = getSensorValue(sensor);
-        var prevValue = getSensorPrevValue(sensor);
+      function getSensorArrow(currentValue, prevValue) {
+        currentValue = parseInt(currentValue) || 0;
+        prevValue = parseInt(prevValue) || 0;
 
         if(currentValue > prevValue) {
           return './assets/images/arrow_up_icon.svg';          

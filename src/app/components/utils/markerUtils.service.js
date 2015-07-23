@@ -54,6 +54,7 @@
       }
 
       function parseLabels(object) {
+        /*jshint camelcase: false */
         return object.system_tags;
       }
 

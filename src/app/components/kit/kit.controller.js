@@ -12,7 +12,6 @@
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
-      // console.log('controller loaded');
       animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
@@ -122,7 +121,7 @@
 
       function sensorHasNoData() {
         return _.every(vm.sensors, function(sensor) {
-          return sensor.value = "N/A";
+          return sensor.value === 'N/A';
         });
       }
 
@@ -131,7 +130,6 @@
         var scrollPosition = slideContainer.scrollLeft();
         var slideStep = 20;
 
-        console.log('scroll', scrollPosition);
         if(direction === 'left') {
           slideContainer.scrollLeft(scrollPosition + slideStep);
         } else if(direction === 'right') {
