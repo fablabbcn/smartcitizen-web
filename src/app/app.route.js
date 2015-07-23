@@ -16,19 +16,30 @@
                 return positionObj;
               }
 
-              return geolocation.callAPI().then(function(data) {
-                var arrLoc = data.data.loc.split(',');
-                var location = {
-                  lat: parseFloat(arrLoc[0]),
-                  lng: parseFloat(arrLoc[1])
-                };
-                return location;
-              });
+              return geolocation.callAPI()
+                .then(function(data) {
+                  var arrLoc = data.data.loc.split(',');
+                  var location = {
+                    lat: parseFloat(arrLoc[0]),
+                    lng: parseFloat(arrLoc[1])
+                  };
+                  return location;
+                })
+                .catch(function(err) {
+                  throw new Error(err);
+                });
             },
             initialMarkers: function($state, device, location) {
+              console.log('lo', location);
+              if(!location || (!location.lat || !location.lng) ) {
+                // set hard-coded location
+                location = {
+                  lat: 41.3860,
+                  lng: 2.1482 
+                };
+              }
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                
                 var closestMarker = data[0];
                 $state.go('layout.home.kit', {id: closestMarker.id});
               });
@@ -77,7 +88,7 @@
                   return sensorTypes;
                 });
             },
-            markers: function($state, device, location, utils, sensorTypes, Kit, Marker) {
+            markers: function($state, device, location, utils, Kit, Marker) {
 
               return device.getAllDevices().then(function(data) {
                 return _.chain(data)
@@ -112,6 +123,12 @@
                   // animation.kitLoaded(markerLocation);
                   return new FullKit(deviceData);
                 });
+            },
+            mainSensors: function(kitData, sensorTypes) {
+              return kitData.getSensors(sensorTypes, {type: 'main'})
+            },
+            compareSensors: function(kitData, sensorTypes) {
+              return kitData.getSensors(sensorTypes, {type: 'compare'});
             },
             ownerKits: function(kitData, PreviewKit, $q, device) {
               var kitIDs = kitData.owner.kits;
