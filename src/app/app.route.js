@@ -29,7 +29,7 @@
                   throw new Error(err);
                 });
             },
-            initialMarkers: function($state, device, location) {
+            initialMarkers: function($state, device, location, HasSensorKit) {
               console.log('lo', location);
               if(!location || (!location.lat || !location.lng) ) {
                 // set hard-coded location
@@ -40,8 +40,23 @@
               }
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                var closestMarker = data[0];
-                $state.go('layout.home.kit', {id: closestMarker.id});
+
+                _(data)
+                  .chain()
+                  .map(function(device) {
+                    return new HasSensorKit(device);
+                  })
+                  .filter(function(kit) {
+                    return !!kit.longitude && !!kit.latitude;
+                  })
+                  .find(function(kit) {
+                    return kit.sensorsHasData();
+                  })
+                  .tap(function(closestKit) {
+                    $state.go('layout.home.kit', {id: closestKit.id});                    
+                  })
+                  .value();
+
               });
             }
           }
