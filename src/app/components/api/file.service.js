@@ -32,6 +32,7 @@
             signature: signature,
             AWSAccessKeyId: 'AKIAJ753OQI6JPSDCPHA',
             acl: 'public-read',
+            /*jshint camelcase: false */
             success_action_status: 200
           },
           file: fileData

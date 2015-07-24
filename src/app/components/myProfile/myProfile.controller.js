@@ -149,15 +149,13 @@
       }
 
       function uploadAvatar(fileData) {
-        console.log('files', fileData)
         if(fileData && fileData.length) {
           file.getCredentials(fileData[0].name)
             .then(function(res) {
             file.uploadFile(fileData[0], res.key, res.policy, res.signature)
-                .progress(function(ev) {
-                  console.log('ev', ev);
+                .progress(function() {
                 })
-                .success(function(data) {                  
+                .success(function() {                  
                   vm.user.avatar = file.getImageURL(res.key);
                 });
             });

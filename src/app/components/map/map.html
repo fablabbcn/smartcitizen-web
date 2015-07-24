@@ -5,11 +5,14 @@
       <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
     </md-button>
     <div class="map_filters">
-      <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="map_filter" ng-if="isFilterSelected" layout="row" layout-align="center center">
+      <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="map_filter" ng-if="isFilterSelected && !vm.allFiltersSelected" layout="row" layout-align="center center">
         <span class="map_filter_name">{{ filterName }}</span>
         <button ng-click="vm.removeFilter(filterName)" class="map_filter_icon" arial-label>
           <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
         </button>
+      </div>
+      <div ng-if="vm.allFiltersSelected" class="map_filter" layout="row" layout-align="center center">
+        <span class="map_filter_name">ALL FILTERS</span>
       </div>
     </div>
   </div>

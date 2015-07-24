@@ -12,7 +12,6 @@
       var mainSensorID, compareSensorID, sensorsData;
       var picker = initializePicker();
 
-      // console.log('controller loaded');
       animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
@@ -103,21 +102,26 @@
         vm.kitBelongsToUser = false;
       });
 
-      $timeout(function() {
-        colorSensorMainIcon();
-        colorArrows();
-        colorClock();
-      }, 1000);
 
-      if(sensorHasNoData()) {
-        alert.info('It looks like this sensor has not posted data since a long time ago 😔', false);
-      }
+      initialize();
 
       ///////////////
 
+      function initialize() {        
+        $timeout(function() {
+          colorSensorMainIcon();
+          colorArrows();
+          colorClock();
+        }, 1000);
+        
+        if(sensorHasNoData()) {
+          alert.info('It looks like this sensor has not posted data since a long time ago 😔', false);
+        }
+      }
+
       function sensorHasNoData() {
         return _.every(vm.sensors, function(sensor) {
-          return sensor.value = "N/A";
+          return sensor.value === 'N/A';
         });
       }
 
@@ -126,7 +130,6 @@
         var scrollPosition = slideContainer.scrollLeft();
         var slideStep = 20;
 
-        console.log('scroll', scrollPosition);
         if(direction === 'left') {
           slideContainer.scrollLeft(scrollPosition + slideStep);
         } else if(direction === 'right') {

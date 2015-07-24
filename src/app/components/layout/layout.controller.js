@@ -26,7 +26,7 @@
           angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
           vm.currentUser = auth.getCurrentUser().data;   
           vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
-          vm.navRightLayout = "end center"
+          vm.navRightLayout = 'end center';
         }
       });
 
@@ -44,8 +44,8 @@
 
       vm.dropdownOptions = [
         {divider: true, text: 'Hello,'},
-        {text: 'PROFILE', href: '/profile'},
-        {text: 'LOGOUT', href: '/logout'}
+        {text: 'PROFILE', href: './profile'},
+        {text: 'LOGOUT', href: './logout'}
       ];
 
       vm.dropdownSelected = undefined;

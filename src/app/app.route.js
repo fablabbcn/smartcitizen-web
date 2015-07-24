@@ -29,7 +29,7 @@
                   throw new Error(err);
                 });
             },
-            initialMarkers: function($state, device, location) {
+            initialMarkers: function($state, device, location, HasSensorKit) {
               console.log('lo', location);
               if(!location || (!location.lat || !location.lng) ) {
                 // set hard-coded location
@@ -40,8 +40,26 @@
               }
               return device.getDevices(location).then(function(data) {
                 data = data.plain();
-                var closestMarker = data[0];
-                $state.go('layout.home.kit', {id: closestMarker.id});
+
+                _(data)
+                  .chain()
+                  .map(function(device) {
+                    return new HasSensorKit(device);
+                  })
+                  .filter(function(kit) {
+                    return !!kit.longitude && !!kit.latitude;
+                  })
+                  .find(function(kit) {
+                    return kit.sensorsHasData();
+                  })
+                  .tap(function(closestKit) {
+                    if(closestKit) {
+                      $state.go('layout.home.kit', {id: closestKit.id});                                          
+                    } else {
+                      $state.go('layout.home.kit', {id: data[0].id});
+                    }
+                  })
+                  .value();
               });
             }
           }
@@ -89,7 +107,10 @@
                 });
             },
             markers: function($state, device, location, utils, Kit, Marker) {
-
+              var worldMarkers = device.getWorldMarkers();
+              if(worldMarkers && worldMarkers.length) {
+                return worldMarkers;
+              }
               return device.getAllDevices().then(function(data) {
                 return _.chain(data)
                   .map(function(device) {
@@ -97,6 +118,9 @@
                   })
                   .filter(function(marker) {
                     return !!marker.lng && !!marker.lat;
+                  })
+                  .tap(function(data) {
+                    device.setWorldMarkers(data);
                   })
                   .value();
               });
@@ -117,6 +141,7 @@
           resolve: {
             kitData: function($stateParams, device, marker, FullKit, animation) {
               var kitID = $stateParams.id;
+
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   // var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
@@ -125,7 +150,7 @@
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
-              return kitData.getSensors(sensorTypes, {type: 'main'})
+              return kitData.getSensors(sensorTypes, {type: 'main'});
             },
             compareSensors: function(kitData, sensorTypes) {
               return kitData.getSensors(sensorTypes, {type: 'compare'});

@@ -42,6 +42,7 @@
       }
 
       function parseLabels(object) {
+        /*jshint camelcase: false */
         return object.system_tags;
       }
 
@@ -97,7 +98,7 @@
         return object.state.replace('_', ' ');
       }
 
-      function parseAvatar(object, type) {
+      function parseAvatar() {
         return './assets/images/sckit_avatar.jpg';
       }
 

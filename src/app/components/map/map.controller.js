@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils) {
     	var vm = this;
       var updateType, focusedMarkerID;
 
@@ -89,7 +89,7 @@
 
         
 
-        setTimeout(function() {
+        $timeout(function() {
           leafletData.getMarkers()
             .then(function(markers) {
               var currentMarker = _.find(markers, function(marker) {
@@ -99,14 +99,13 @@
               leafletData.getLayers()
                 .then(function(layers) {
                   layers.overlays.realworld.__proto__.zoomToShowLayer.call(layers.overlays.realworld, currentMarker, function() {
-                    $scope.$apply(function() {
-                      var selectedMarker = markersByIndex[data.id];
+                    var selectedMarker = markersByIndex[data.id];
 
-                      if(selectedMarker) {
-                        focusedMarkerID = data.id;
-                        selectedMarker.focus = true; 
-                      }
-                    });
+                    if(selectedMarker) {
+                      focusedMarkerID = data.id;
+                      selectedMarker.focus = true; 
+                    }
+                    $scope.$digest();
                   });
                 });
             });
@@ -123,6 +122,10 @@
         alert('click');
       });
       */
+      var defaultFilters = {
+        exposure: null,
+        status: null
+      };
 
       vm.filterData = {
         indoor: true,
@@ -134,9 +137,24 @@
       vm.openFilterPopup = openFilterPopup;
       vm.removeFilter = removeFilter;
 
+      initialize();
 
       /////////////////////
 
+      function initialize() {
+        checkFiltersSelected();
+      }
+
+      function checkFiltersSelected() {
+        var allFiltersSelected = _.every(vm.filterData, function(filterValue) {
+          return filterValue;
+        });
+        if(allFiltersSelected) {
+          vm.allFiltersSelected = true;
+        } else {
+          vm.allFiltersSelected = false;
+        }
+      }
 
       function openFilterPopup() {
         $mdDialog.show({
@@ -149,32 +167,39 @@
             filterData: vm.filterData
           }
         })
-        .then(function(data) {
+        .then(function(data, defaultFiltersFromModal) {
           _.extend(vm.filterData, data);
-          vm.markers = [];
-          $timeout(function() {
-            $scope.$apply(function() {
-              vm.markers = filterMarkers(data);              
-            });
-          });
+          _.extend(defaultFilters, defaultFiltersFromModal);
+          updateMarkers(data);
+          checkFiltersSelected();
         });
       }
 
       function removeFilter(filterName) {
+        if(!mapUtils.canFilterBeRemoved(vm.filterData, filterName)) {
+          return;
+        }
         vm.filterData[filterName] = false;
-        vm.markers = [];
-        $timeout(function() {
-          $scope.$apply(function() {
-            vm.markers = filterMarkers(vm.filterData);          
+        _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
+        updateMarkers(vm.filterData);
+        checkFiltersSelected();          
+      }
+
+      function filterMarkers(filterData) {
+        return markers.filter(function(marker) {        
+          var labels = marker.myData.labels;
+          return _.every(labels, function(label) {
+            return filterData[label];
           });
         });
       }
 
-      function filterMarkers(filterData) {
-        return markers.filter(function(marker) {
-          var status = marker.myData.labels.status === 'online' ? 'online' : 'offline';
-          var exposure = marker.myData.labels.exposure;
-          return filterData[status] && filterData[exposure];
+      function updateMarkers(filterData) {
+        vm.markers = [];
+        $timeout(function() {
+          $scope.$apply(function() {
+            vm.markers = filterMarkers(filterData);           
+          });
         });
       }
     }
