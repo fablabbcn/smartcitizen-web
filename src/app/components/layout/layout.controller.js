@@ -44,8 +44,8 @@
 
       vm.dropdownOptions = [
         {divider: true, text: 'Hello,'},
-        {text: 'PROFILE', href: '/profile'},
-        {text: 'LOGOUT', href: '/logout'}
+        {text: 'PROFILE', href: './profile'},
+        {text: 'LOGOUT', href: './logout'}
       ];
 
       vm.dropdownSelected = undefined;

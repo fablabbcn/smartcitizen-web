@@ -53,10 +53,13 @@
                     return kit.sensorsHasData();
                   })
                   .tap(function(closestKit) {
-                    $state.go('layout.home.kit', {id: closestKit.id});                    
+                    if(closestKit) {
+                      $state.go('layout.home.kit', {id: closestKit.id});                                          
+                    } else {
+                      $state.go('layout.home.kit', {id: data[0].id});
+                    }
                   })
                   .value();
-
               });
             }
           }
@@ -104,7 +107,10 @@
                 });
             },
             markers: function($state, device, location, utils, Kit, Marker) {
-
+              var worldMarkers = device.getWorldMarkers();
+              if(worldMarkers && worldMarkers.length) {
+                return worldMarkers;
+              }
               return device.getAllDevices().then(function(data) {
                 return _.chain(data)
                   .map(function(device) {
@@ -112,6 +118,9 @@
                   })
                   .filter(function(marker) {
                     return !!marker.lng && !!marker.lat;
+                  })
+                  .tap(function(data) {
+                    device.setWorldMarkers(data);
                   })
                   .value();
               });

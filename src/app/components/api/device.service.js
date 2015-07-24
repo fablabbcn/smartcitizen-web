@@ -4,9 +4,9 @@
 	angular.module('app.components')
 	  .factory('device', device);
     
-    device.$inject = ['Restangular'];
-	  function device(Restangular) {
-      var genericKitData;
+    device.$inject = ['Restangular', '$window'];
+	  function device(Restangular, $window) {
+      var genericKitData, worldMarkers;
 
       callGenericKitData()
         .then(function(data) {
@@ -17,7 +17,9 @@
         getDevices: getDevices,
         getAllDevices: getAllDevices,
         getDevice: getDevice,
-        getGenericKitData: getGenericKitData
+        getGenericKitData: getGenericKitData,
+        getWorldMarkers: getWorldMarkers,
+        setWorldMarkers: setWorldMarkers
 	  	};
 
 	  	return service;
@@ -44,6 +46,15 @@
 
       function getGenericKitData() {
         return genericKitData;
+      }
+
+      function getWorldMarkers() {
+        return worldMarkers || ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ));
+      }
+
+      function setWorldMarkers(data) {
+        $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(data) );
+        worldMarkers = data; 
       }
 	  }
 })();

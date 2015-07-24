@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('HasSensorKit', ['Kit', 'kitUtils', 'Sensor', function(Kit, kitUtils, Sensor) {
+    .factory('HasSensorKit', ['Kit', function(Kit) {
 
       function HasSensorKit(object) {
         Kit.call(this, object);
@@ -17,7 +17,7 @@
 
       HasSensorKit.prototype.sensorsHasData = function() {
         var parsedSensors = this.data.map(function(sensor) {
-          return sensor.value
+          return sensor.value;
         });
 
         return _.some(parsedSensors, function(sensorValue) {

@@ -99,14 +99,13 @@
               leafletData.getLayers()
                 .then(function(layers) {
                   layers.overlays.realworld.__proto__.zoomToShowLayer.call(layers.overlays.realworld, currentMarker, function() {
-                    $scope.$apply(function() {
-                      var selectedMarker = markersByIndex[data.id];
+                    var selectedMarker = markersByIndex[data.id];
 
-                      if(selectedMarker) {
-                        focusedMarkerID = data.id;
-                        selectedMarker.focus = true; 
-                      }
-                    });
+                    if(selectedMarker) {
+                      focusedMarkerID = data.id;
+                      selectedMarker.focus = true; 
+                    }
+                    $scope.$digest();
                   });
                 });
             });
