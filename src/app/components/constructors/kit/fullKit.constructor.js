@@ -22,9 +22,13 @@
       FullKit.prototype.constructor = FullKit;
 
       FullKit.prototype.getSensors = function(sensorTypes, options) {
-        var parsedSensors = this.data.map(function(sensor) {
-          return new Sensor(sensor, sensorTypes); 
-        });
+        var parsedSensors = this.data
+          .map(function(sensor) {
+            return new Sensor(sensor, sensorTypes); 
+          })
+          .sort(function(sensorA, sensorB) {
+            return sensorA.id - sensorB.id;
+          });
 
         if(options.type === 'compare') {
           parsedSensors.unshift({
