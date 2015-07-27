@@ -1025,8 +1025,14 @@ section .kit_menu {
 .kit_spinner {
   z-index: 200;
   position: absolute;
-  left: 50%;
-  bottom: 50%;
+  left: 0;
+  bottom: 1%;
+}
+md-progress-linear.md-default-theme.md-hue-3 .md-container{
+  background-color: rgba(79, 201, 232, 0.05);
+}
+md-progress-linear.md-default-theme.md-hue-3 .md-bar {
+  background-color: #4FC9E8;
 }
 .chart_spinner {
   position: absolute;

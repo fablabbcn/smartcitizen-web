@@ -107,7 +107,6 @@
         } else if(state === 'inactive') {
           var targetClass = markerType.split(' ')[0];
           marker.icon = MARKER_ICONS[targetClass];
-          debugger;
         }
         return marker;
       }
