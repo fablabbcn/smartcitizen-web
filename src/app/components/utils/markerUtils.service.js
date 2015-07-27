@@ -14,7 +14,8 @@
         parseId: parseId,
         getIcon: getIcon,
         parseName: parseName,
-        parseTime: parseTime
+        parseTime: parseTime,
+        getMarkerIcon: getMarkerIcon
       };
       _.defaults(service, kitUtils);
       return service;
@@ -73,9 +74,9 @@
         var icon;
 
         if(hasLabel(labels, 'offline')) {
-          icon = MARKER_ICONS.smartCitizenOffline;
+          icon = MARKER_ICONS.markerSmartCitizenOffline;
         } else {
-          icon = MARKER_ICONS.smartCitizenOnline;
+          icon = MARKER_ICONS.markerSmartCitizenOnline;
         }  
         return icon;
       }
@@ -96,6 +97,19 @@
           return 'No time';
         }
         return moment(time).fromNow();
+      }
+
+      function getMarkerIcon(marker, state) {
+        var markerType = marker.icon.className;
+
+        if(state === 'active') {
+          marker.icon = MARKER_ICONS[markerType + 'Active'];
+        } else if(state === 'inactive') {
+          var targetClass = markerType.split(' ')[0];
+          marker.icon = MARKER_ICONS[targetClass];
+          debugger;
+        }
+        return marker;
       }
     }
 })();
