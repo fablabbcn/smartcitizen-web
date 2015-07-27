@@ -577,7 +577,9 @@
       }
 
       function parseValue(value) {
-        if(value.toString().indexOf('.') !== -1) {
+        if(value === 0) {
+          return 'No data';
+        } else if(value.toString().indexOf('.') !== -1) {
           var result = value.toString().split('.');
           return result[0] + '.' + result[1].slice(0, 2);            
         } else {
