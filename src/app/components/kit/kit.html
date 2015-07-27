@@ -13,6 +13,9 @@
         <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
         <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
       </div>
+      <div>
+        <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-circular>
+      </div>
       <div class="kit_navbar" active-button>
         
         <md-button href="#" class="md-flat chart_icon" aria-label="">
@@ -89,9 +92,10 @@
                 <span class="sensor_value">{{ vm.selectedSensorData.value }}<span>
                 <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
-            <div class="sensor_description">
+            <div class="sensor_description" show-popup >
               <h6>{{ vm.selectedSensorData.name }}</h6>
-              <p>{{ vm.selectedSensorData.description }}<a href="#">More info</a></p>
+              <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<!-- <a href="#">More info</a> --></p>
+              <p class="sensor_description_full">{{ vm.selectedSensorData.fullDescription }}</p>
             </div>
             <div class="sensor_compare">
               <p>

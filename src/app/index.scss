@@ -686,22 +686,32 @@ section .kit_menu {
           color: #DDE7EA;
           height: 80px;
           margin-top: 30px;
-          
+          position: relative;
+
           h6 {
             margin: 0;
             line-height: 0;
             color: #87CCDD;
           }
 
-          p {
+          .sensor_description_preview {
             margin-top: 10px;
             line-height: 1.5em;
+            a {
+              margin-left: 10px;
+              text-decoration: none;
+              color: #678085;
+            }
           }
-
-          a {
-            margin-left: 10px;
-            text-decoration: none;
-            color: #678085;
+          .sensor_description_full {
+            position: absolute;
+            top: 0;
+            margin-top: 10px;
+            display: none;
+            overflow: visible;
+            z-index: 200;
+            border: 1px solid grey;
+            background-color: #03252D;
           }
         }
         .sensor_data {
@@ -1012,7 +1022,11 @@ section .kit_menu {
   }
 }
 
-
+.kit_spinner {
+  position: absolute;
+  left: 50%;
+  bottom: -200%;
+}
 .chart_spinner {
   position: absolute;
   top: 12%;

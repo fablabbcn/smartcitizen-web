@@ -26,9 +26,9 @@
           .map(function(sensor) {
             return new Sensor(sensor, sensorTypes); 
           })
-          .sort(function(sensorA, sensorB) {
-            return sensorA.id - sensorB.id;
-          });
+          // .sort(function(sensorA, sensorB) {
+          //   return sensorA.id - sensorB.id;
+          // });
 
         if(options.type === 'compare') {
           parsedSensors.unshift({
