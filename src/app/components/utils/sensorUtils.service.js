@@ -201,7 +201,7 @@
             return sensorType.id === sensorID;
           })
           .value()
-          .measurement.description
+          .measurement.description;
           // .slice(0, 140);
       }
     }

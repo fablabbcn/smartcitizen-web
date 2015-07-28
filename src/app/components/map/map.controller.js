@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', '$stateParams'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils, $stateParams) {
     	var vm = this;
       var updateType, focusedMarkerID;
 
@@ -61,12 +61,12 @@
     	  }
     	};
 
-      /*$scope.$on('leafletDirectiveMap.moveend', function(event) {
-        console.log('inside movend', event);
-        getMarkers(vm.center);
-      });*/
-
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
+        var id = data.leafletEvent.target.options.myData.id; 
+
+        if(id === parseInt($state.params.id)) {
+          return;
+        }
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;

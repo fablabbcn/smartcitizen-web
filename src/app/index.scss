@@ -460,9 +460,10 @@ section .kit_menu {
     font-weight: bold;
     font-size: 13px;
 
-    md-icon {
+    img {
       width: 18px;
       height: 18px;
+      border-radius: 9px;
       margin-right: 8px;
     }
     span {
@@ -477,7 +478,7 @@ section .kit_menu {
     color: $blue_light;
     margin: 0 32px 0 0;
 
-    md-icon {
+    img {
       width: 14px;
       height: 14px;
       margin-right: 8px;

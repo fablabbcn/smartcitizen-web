@@ -1,19 +1,19 @@
   <section class="kit_data" change-content-margin>
   <section class="kit_menu" layout="row" layout-align="center center" stick>
     <div class="container">
-      <div class="kit_user">
-        <md-icon md-svg-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}"></md-icon>
+      <div class="kit_user" layout="row" layout-align="start center">
+        <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
         <span>{{ vm.kit.owner.username}}</span>
       </div>
-      <div class="kit_name">
-        <md-icon md-svg-src="./assets/images/sensor_icon.svg"> </md-icon>
+      <div class="kit_name" layout="row" layout-align="start center">
+        <img ng-src="./assets/images/sensor_icon.svg" />
         <span>{{ vm.kit.name }}</span>
       </div>
-      <div class="kit_battery">
+      <div class="kit_battery" layout="row" layout-align="start center">
         <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
         <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
       </div>
-      <div class="kit_navbar" active-button>
+      <div class="kit_navbar" layout="row" layout-align="start center" active-button>
         
         <md-button href="#" class="md-flat chart_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/chart_icon.svg">
@@ -89,10 +89,12 @@
                 <span class="sensor_value">{{ vm.selectedSensorData.value }}<span>
                 <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
-            <div class="sensor_description" show-popup >
+            <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
-              <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<!-- <a href="#">More info</a> --></p>
-              <p class="sensor_description_full">{{ vm.selectedSensorData.fullDescription }}</p>
+              <div class="sensor_description_content" show-popup > 
+                <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<!-- <a href="#">More info</a> --></p>
+                <p class="sensor_description_full">{{ vm.selectedSensorData.fullDescription }}</p>
+              </div>
             </div>
             <div class="sensor_compare">
               <p>
@@ -237,8 +239,7 @@
           </div>
           <div class="kit_detailed_content_container">
             <div class="kit_detailed_avatar">
-              <md-icon md-svg-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}">
-              </md-icon>
+              <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
             </div>
             <div class="kit_owner_content">
               <div class="kit_owner_info">
