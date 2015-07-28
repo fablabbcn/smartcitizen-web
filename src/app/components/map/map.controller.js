@@ -70,21 +70,30 @@
         vm.center.lng = data.leafletEvent.latlng.lng;
           // zoom: data.model.center.zoom
 
-        $timeout(function() {
-          var updatedMarker = vm.markers[focusedMarkerID];
-          delete vm.markers[focusedMarkerID];
-          $timeout(function() {
-            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');       
-          }, 500);
-        }, 1000);
-
         if(id === parseInt($state.params.id)) {
           $timeout(function() {
-            vm.markers[focusedMarkerID].focus = true;  
+            // vm.markers[focusedMarkerID].focus = true;  
             vm.kitLoading = false;
-          }, 2000);
+          }, 0);
           return;
         }
+        
+        (function(focusedMarkerID) {
+          var updatedMarker = vm.markers[focusedMarkerID];
+          vm.markers[focusedMarkerID] = null;
+          $timeout(function() {
+            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');
+          }, 0);
+        })(focusedMarkerID);
+
+        focusedMarkerID = data.leafletEvent.target.options.myData.id;
+        var updatedMarker = vm.markers[focusedMarkerID];
+        
+        vm.markers[focusedMarkerID] = null;
+
+        $timeout(function() {
+          vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
+        }, 0);
         
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id; 
@@ -96,14 +105,14 @@
           vm.markers[focusedMarkerID].focus = false;
         }
 
-        focusedMarkerID = data.leafletEvent.target.options.myData.id;
-        var updatedMarker = vm.markers[focusedMarkerID]
+        // focusedMarkerID = data.leafletEvent.target.options.myData.id;
+        // var updatedMarker = vm.markers[focusedMarkerID]
         
-        delete vm.markers[focusedMarkerID];
+        // vm.markers[focusedMarkerID] = null;
 
-        $timeout(function() {
-          vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
-        });
+        // $timeout(function() {
+        //   vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
+        // });
       });
 
       $scope.$on('kitLoaded', function(event, data) {
