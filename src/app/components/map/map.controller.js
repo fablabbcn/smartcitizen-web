@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', '$stateParams'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils, $stateParams) {
     	var vm = this;
       var updateType, focusedMarkerID;
 
@@ -14,7 +14,8 @@
         return marker.myData.id;
       });
 
-      vm.markers = markers;
+      // vm.markers = markers;
+      vm.markers = markersByIndex;
       vm.currentMarker = marker.getCurrentMarker();
 
       vm.tiles = {
@@ -60,25 +61,59 @@
     	  }
     	};
 
-      /*$scope.$on('leafletDirectiveMap.moveend', function(event) {
-        console.log('inside movend', event);
-        getMarkers(vm.center);
-      });*/
-
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
+        var id = data.leafletEvent.target.options.myData.id; 
+
+        if(id === parseInt($state.params.id)) {
+          return;
+        }
+        vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
           // zoom: data.model.center.zoom
 
+        // if(focusedMarkerID) {
+        //   markersByIndex[focusedMarkerID].focus = false;
+        // }
+        console.log('f', focusedMarkerID);
+        var updatedMarker = vm.markers[focusedMarkerID];
+        delete vm.markers[focusedMarkerID];
+        setTimeout(function() {
+          $scope.$apply(function() {
+            // markersByIndex[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');                
+            // vm.markers = markersByIndex;
+            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive'); 
+            console.log('markers', vm.markers[focusedMarkerID]);
+          });          
+        });
+        
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id; 
         $state.go('layout.home.kit', {id: id});
       });    
 
-      $scope.$on('kitLoaded', function(event, data) {
+      $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
+        console.log('closed');
         if(focusedMarkerID) {
-          markersByIndex[focusedMarkerID].focus = false;          
+          vm.markers[focusedMarkerID].focus = false;
         }
+
+        focusedMarkerID = data.leafletEvent.target.options.myData.id;
+        var updatedMarker = vm.markers[focusedMarkerID]
+        delete vm.markers[focusedMarkerID];
+        // vm.markers = [];
+
+        setTimeout(function() {
+          $scope.$apply(function() {
+            // markersByIndex[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');                
+            // vm.markers = markersByIndex;
+            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');                
+          });          
+        });
+      });
+
+      $scope.$on('kitLoaded', function(event, data) {
+        vm.kitLoading = false;
         if(updateType === 'map') {
           updateType = undefined;
           return;
@@ -99,17 +134,17 @@
               leafletData.getLayers()
                 .then(function(layers) {
                   layers.overlays.realworld.__proto__.zoomToShowLayer.call(layers.overlays.realworld, currentMarker, function() {
-                    var selectedMarker = markersByIndex[data.id];
+                    var selectedMarker = vm.markers[data.id];
 
                     if(selectedMarker) {
-                      focusedMarkerID = data.id;
+                      // focusedMarkerID = data.id;
                       selectedMarker.focus = true; 
                     }
                     $scope.$digest();
                   });
                 });
             });
-        }, 2000);
+        }, 3000);
       });
       
       /*

@@ -115,7 +115,7 @@
         }, 1000);
         
         if(sensorHasNoData()) {
-          alert.info('It looks like this sensor has not posted data since a long time ago 😔', false);
+          alert.info('It looks like this sensor has not posted data since a long time ago 😔', 10000);
         }
       }
 

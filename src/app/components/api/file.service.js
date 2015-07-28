@@ -19,7 +19,7 @@
         var data = {
           filename: filename
         };
-        return Restangular.all('uploads').post(data);
+        return Restangular.all('me/avatar').post(data);
       }
 
       function uploadFile(fileData, key, policy, signature) {

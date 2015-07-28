@@ -13,7 +13,10 @@
         this.icon = sensorUtils.getSensorIcon(this.name);
         this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
         this.color = sensorUtils.getSensorColor(this.name);
-        this.description = sensorUtils.getSensorDescription(this.id, sensorTypes);
+
+        var description = sensorUtils.getSensorDescription(this.id, sensorTypes);
+        this.fullDescription = description;
+        this.previewDescription = description.length > 140 ? description.slice(0, 140).concat(' ... ') : description;
       }
 
       return Sensor; 

@@ -4,19 +4,29 @@
   angular.module('app.components')
     .constant('MARKER_ICONS', {
       defaultIcon: {},
-      smartCitizenNormal: {
+      markerSmartCitizenNormal: {
         type: 'div',
-        className: 'marker_normal',
+        className: 'markerSmartCitizenNormal',
         iconSize: [24, 24]
       },
-      smartCitizenOnline: {
+      markerSmartCitizenOnline: {
         type: 'div',
-        className: 'marker_online',
+        className: 'markerSmartCitizenOnline',
         iconSize: [24, 24]
       },
-      smartCitizenOffline: {
+      markerSmartCitizenOnlineActive: {
         type: 'div',
-        className: 'marker_offline',
+        className: 'markerSmartCitizenOnline marker_blink',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOffline: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOfflineActive: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline marker_blink',
         iconSize: [24, 24]
       }
     });
