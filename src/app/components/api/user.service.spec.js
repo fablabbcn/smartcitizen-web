@@ -1,13 +1,12 @@
-/*'use strict';
+'use strict';
 
 describe('Service: User', function() {
 
   beforeEach(module('app.components'));
 
-  var $httpBackend, Restangular, user;
+  var $httpBackend, user;
 
   beforeEach(inject( function($injector) {
-    Restangular = $injector.get('Restangular');
     user = $injector.get('user');
     $httpBackend = $injector.get('$httpBackend');
   }));
@@ -17,31 +16,61 @@ describe('Service: User', function() {
   });
 
   it('should have certain properties', function() {
-    expect(Object.keys(user)).toContain('createUser', 'getUser');
+    expect(Object.keys(user)).toContain('createUser', 'getUser', 'updateUser', 'removeUser');
   });
 
   describe('#createUser', function() {
-    it('should return a promise', function() {
-      var createUser = user.createUser();
-      expect(createUser).toEqual(jasmine.any(Object));
-      expect(Object.keys(createUser)).toContain('$$state');
-    });
-
-    describe('with valid data', function() {
-      xit('should create a new user', function() {
-
+    it('should call API to create a user', function() {
+      $httpBackend.whenPOST('/users')
+        .respond(function(method, url, data, headers) {
+          return data;
+        });
+      user.createUser({
+        username: 'Ruben',
+        password: 'secret'
+      }).then(function(res) {
+        expect(_.pluck(res)).toEqual(['username', 'passwor']);
       });
-    });
-
-    describe('with invalid data', function() {
-      xit('should not create a new user', function() {
-
-      });
+      $httpBackend.flush();
     });
   });
 
   describe('#getUser', function() {
+    it('should get a user', function() {
+      var path = new RegExp(/\/users\/[0-9]+/);
+      $httpBackend.whenGET(path)
+        .respond(function(method, url, data, headers) {
+          return {
+            username: 'Ruben',
+            city: 'Barcelona'
+          }
+        });
+      user.getUser(1)
+        .then(function(res) {
+          expect(_.pluck(res)).toEqual(['username', 'city']);
+        });
+      $httpBackend.flush();
+    });
+  });
 
+  describe('#updateUser', function() {
+    it('should update auth user', function() {
+      var path = '/me';
+      $httpBackend.whenPUT(path)
+        .respond(function(method, url, data, headers) {
+          return data
+        });
+      user.updateUser({
+        username: 'Ruben',
+        city: 'Barcelona'
+      }).then(function(res) {
+        expect(_.pluck(res)).toEqual(['username', 'city']);
+      });
+      $httpBackend.flush();
+    });
+  });
+
+  describe('#removeUser', function() {
   });
 }); 
-*/
+
