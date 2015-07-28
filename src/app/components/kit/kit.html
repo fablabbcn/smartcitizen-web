@@ -74,7 +74,7 @@
       <section class="kit_chart">
         <div class="container" layout="row">
           <div class="kit_chart_left">
-            <div class="sensor_select">
+            <div class="sensor_select" >
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
@@ -91,9 +91,9 @@
             </div>
             <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
-              <div class="sensor_description_content" show-popup > 
-                <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<!-- <a href="#">More info</a> --></p>
-                <p class="sensor_description_full">{{ vm.selectedSensorData.fullDescription }}</p>
+              <div class="sensor_description_content" > 
+                <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<a href="#" ng-show="vm.selectedSensorData.previewDescription.length > 140" show-popup>More info</a></p>
+                <p class="sensor_description_full" hide-popup>{{ vm.selectedSensorData.fullDescription }}</p>
               </div>
             </div>
             <div class="sensor_compare">
