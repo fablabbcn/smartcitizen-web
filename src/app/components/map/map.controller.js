@@ -80,7 +80,7 @@
         
         (function(focusedMarkerID) {
           var updatedMarker = vm.markers[focusedMarkerID];
-          vm.markers[focusedMarkerID] = null;
+          delete vm.markers[focusedMarkerID];
           $timeout(function() {
             vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');
           }, 0);
@@ -89,7 +89,7 @@
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
         var updatedMarker = vm.markers[focusedMarkerID];
         
-        vm.markers[focusedMarkerID] = null;
+        delete vm.markers[focusedMarkerID];
 
         $timeout(function() {
           vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
@@ -102,7 +102,10 @@
 
       $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
         if(focusedMarkerID) {
-          vm.markers[focusedMarkerID].focus = false;
+          var marker = vm.markers[focusedMarkerID]; 
+          if(marker) {
+            vm.markers[focusedMarkerID].focus = false;                          
+          }
         }
 
         // focusedMarkerID = data.leafletEvent.target.options.myData.id;

@@ -78,7 +78,7 @@
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
-                  <img class="select_image" src="{{ sensor.icon }}">
+                  <img class="select_image" ng-src="{{ sensor.icon }}">
                   <span>
                     {{ sensor.name }}
                   </span>
@@ -101,7 +101,7 @@
                 <span>Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}">
-                    <img class="select_image" src="{{ sensor.icon }}">
+                    <img class="select_image" ng-src="{{ sensor.icon }}">
                     <span class="sensor_name">
                       {{ sensor.name }}
                     </span>
