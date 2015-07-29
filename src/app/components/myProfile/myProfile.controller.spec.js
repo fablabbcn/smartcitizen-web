@@ -1,43 +1,61 @@
-/*'use strict';
+'use strict';
 
 describe('Controller: User Profile', function() {
 
   beforeEach(module('app.components'));
 
-  var UserProfileController,
+  var MyProfileController,
       scope,
-      user,
+      mockUserData,
+      mockKitsData,
+      mockAlertService,
       deferred;
 
-  beforeEach(inject(function($controller, $rootScope, $q, _user_) {
+  beforeEach(inject(function($controller, $rootScope, $q) {
     scope = $rootScope.$new();
-    user = _user_;
     deferred = $q;
+
+    mockUserData = {
+      username: 'Ruben'
+    };
+
+    mockKitsData = [
+      {name: 'Kit 1', id: 1},
+      {name: 'Kit 2', id: 2}
+    ];
+
+    mockAlertService = {
+      success: function(){},
+      error: function(){}
+    };
+
     
-    spyOn(mockUserService, 'updateUser').and.returnValue(deferred.promise);
+    // spyOn(mockUserService, 'updateUser').and.returnValue(deferred.promise);
     //spyOn(mockAnimationService, 'blur'); 
 
-    UserProfileController = $controller('SignupController', {
-      $scope: scope, user: user
-    });
-    
+    MyProfileController = $controller('MyProfileController', {
+      $scope: scope, userData: mockUserData, kitsData: mockKitsData, alert: mockAlertService
+    });    
+  }));
+
     describe('State', function() {
       it('should expose user instance', function() {
-        expect(UserProfileController.user).toBeDefined();
-        expect(UserProfileController.user.prototype.constructor).toEqual('User');
+        expect(MyProfileController.user).toBeDefined();
+        expect(MyProfileController.user).toEqual(jasmine.any(Object));
+        expect(Object.keys(MyProfileController.user)).toEqual(['username']);
       });
       it('should expose kit instances of the user', function() {
-        expect(UserProfileController.kits).toBeDefined();
-        expect(Array.isArray(UserProfileController.kits)).toBe(true);
-        expect(UserProfileController.kits[0].prototype.constructor).toEqual('Kit');
+        expect(MyProfileController.kits).toBeDefined();
+        expect(Array.isArray(MyProfileController.kits)).toBe(true);
+        expect(_.pluck(MyProfileController.kits, 'id')).toEqual([1,2]);
       });
       it('should expose filterKits function', function() {
-        expect(UserProfileController.filterKits).toBeDefined();
+        expect(MyProfileController.filterKits).toBeDefined();
       });
-      it('should expose updateUser function', function() {
+      xit('should expose updateUser function', function() {
 
       });
-      it('should expose removeUser function', function() {
+      xit('should expose removeUser function', function() {
 
       });
     }); 
@@ -49,7 +67,6 @@ describe('Controller: User Profile', function() {
     describe('Asynchronous calls', function() {
 
     });
-  }));
 });
 
-*/
+
