@@ -9,7 +9,9 @@
     function searchUtils() {
       var service = {
         parseLocation: parseLocation,
-        parseName: parseName
+        parseName: parseName,
+        parseIcon: parseIcon,
+        parseIconType: parseIconType
       };
       return service;
 
@@ -31,6 +33,14 @@
       function parseName(object) {
         var name = object.type === 'User' ? object.username : object.name;
         return !name ? 'No name' : name; 
+      }
+
+      function parseIcon(object, type) {
+        return type === 'User' ? object.avatar : './assets/images/kit.svg';
+      }
+
+      function parseIconType(type) {
+        return type === 'User' ? 'svg' : 'div';
       }
     }
 })();

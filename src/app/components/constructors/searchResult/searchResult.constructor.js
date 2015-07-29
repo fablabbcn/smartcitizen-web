@@ -11,8 +11,8 @@
           this.type = object.type;
           this.name = searchUtils.parseName(object);
           this.location = searchUtils.parseLocation(object);
-          this.icon = object.type === 'User' ? './assets/images/avatar.svg' : './assets/images/kit.svg';
-          this.iconType = object.type === 'User' ? 'svg' : 'div';
+          this.icon = searchUtils.parseIcon(object, this.type);
+          this.iconType = searchUtils.parseIconType(this.type);
         }
       }
       return SearchResult;
