@@ -139,7 +139,7 @@
           },
 
           resolve: {
-            kitData: function($stateParams, device, marker, FullKit, animation) {
+            kitData: function($stateParams, device, marker, FullKit) {
               var kitID = $stateParams.id;
 
               return device.getDevice(kitID)

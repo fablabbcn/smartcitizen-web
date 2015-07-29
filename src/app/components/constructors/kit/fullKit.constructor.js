@@ -25,7 +25,7 @@
         var parsedSensors = this.data
           .map(function(sensor) {
             return new Sensor(sensor, sensorTypes); 
-          })
+          });
           // .sort(function(sensorA, sensorB) {
           //   return sensorA.id - sensorB.id;
           // });

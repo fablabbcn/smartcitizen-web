@@ -4,15 +4,15 @@
   angular.module('app.components')
     .directive('moveFilters', moveFilters);
 
-    moveFilters.$inject = ['$window'];
-    function moveFilters($window) {
+    moveFilters.$inject = ['$window', '$timeout'];
+    function moveFilters($window, $timeout) {
       return {
         link: link
       };
 
       function link(scope, elem) {
         var chartHeight;
-        setTimeout(function() {
+        $timeout(function() {
           chartHeight = angular.element('.kit_chart').height();          
         }, 1000);
 

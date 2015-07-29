@@ -4,8 +4,8 @@
   angular.module('app.components')
     .directive('disableScroll', disableScroll);
 
-    disableScroll.$inject = [];
-    function disableScroll() {
+    disableScroll.$inject = ['$timeout'];
+    function disableScroll($timeout) {
       return {
         // link: {
           // pre: link
@@ -25,9 +25,9 @@
         elem.on('click', function() {
           console.log('e'); 
           angular.element(document.body).css('overflow', 'hidden');
-          setTimeout(function() {
+          $timeout(function() {
             angular.element(document.body).css('overflow', 'initial'); 
-          })
+          });
         });
       }
     }
