@@ -78,22 +78,22 @@
           return;
         }
         
-        (function(focusedMarkerID) {
-          var updatedMarker = vm.markers[focusedMarkerID];
-          delete vm.markers[focusedMarkerID];
-          $timeout(function() {
-            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');
-          }, 0);
-        })(focusedMarkerID);
+        // (function(focusedMarkerID) {
+        //   var updatedMarker = vm.markers[focusedMarkerID];
+        //   delete vm.markers[focusedMarkerID];
+        //   $timeout(function() {
+        //     vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');
+        //   }, 0);
+        // })(focusedMarkerID);
 
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
-        var updatedMarker = vm.markers[focusedMarkerID];
+        // var updatedMarker = vm.markers[focusedMarkerID];
         
-        delete vm.markers[focusedMarkerID];
+        // delete vm.markers[focusedMarkerID];
 
-        $timeout(function() {
-          vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
-        }, 0);
+        // $timeout(function() {
+        //   vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
+        // }, 0);
         
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id; 

@@ -757,7 +757,7 @@ section .kit_menu {
           margin-right: 30px;
 
           > div {
-            display: inline-block;
+            // display: inline-block;
             margin-left: 40px;
           }
           input {
@@ -775,8 +775,8 @@ section .kit_menu {
           .chart_move {
             .chart_move_button {
               width: 40px;
-              height: 10px;
-              display: inline-table;             
+              height: 24px;
+              display: inline-flex;             
               border: 1px solid #6B868D;
             }
             .chart_move_right {
@@ -787,6 +787,8 @@ section .kit_menu {
             md-icon {
               width: 5.5px;
               height: 9px;
+              position: relative;
+              top: 1px;
             }
           }
         }

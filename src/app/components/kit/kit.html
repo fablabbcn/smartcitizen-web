@@ -111,7 +111,7 @@
             </div>
           </div>
           <div class="kit_chart_right" flex>
-            <div class="chart_navigation">
+            <div class="chart_navigation" layout="row" layout-align="end center">
               <div class="kit_time">
                 <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
                 {{ vm.kit.time }}
@@ -125,11 +125,11 @@
                 <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>              
               </div>
               <div class="chart_move">
-                <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="">
+                <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center">
                   <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
                   </md-icon>
                 </md-button>
-                <md-button href="#" ng-click="vm.moveChart('right')" class="chart_move_button chart_move_right" aria-label="">
+                <md-button href="#" ng-click="vm.moveChart('right')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center">
                   <md-icon md-svg-src="./assets/images/arrow_right_icon.svg"> <!-- ng-disabled="vm.toPickerDisabled" -->
                   </md-icon>
                 </md-button>
