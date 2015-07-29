@@ -723,6 +723,8 @@ section .kit_menu {
         }
         .sensor_data {
           margin: 8% 0 5% 0;
+          display: inline-block;
+          
           .sensor_value {
             font-size: 22px;
             font-weight: bold;
@@ -732,7 +734,24 @@ section .kit_menu {
             color: $font_color_blue_light;
             position: relative;
             top: -8px;
-          }          
+          } 
+          .sensor_data_icon {
+            width: 14px;
+            height: 14px;
+            margin-left: 8px;
+          }         
+        }
+        .sensor_data_description {
+          font-size: 12px;
+          display: none;
+          position: absolute;
+          background-color: rgba(255, 255, 255, 0.8);
+          color: #03252D;
+          border-radius: 2px;
+          line-height: 1.5em;
+          padding: 4px 6px; 
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+          max-width: 175px;
         }
         .sensor_compare {
           font-size: 12px;
@@ -781,6 +800,7 @@ section .kit_menu {
               border: 1px solid #6B868D;
             }
             .chart_move_right {
+              margin-left: 4px;
             }
             .chart_move_left {
               background-color: #99AEB2;
@@ -789,7 +809,7 @@ section .kit_menu {
               width: 5.5px;
               height: 9px;
               position: relative;
-              top: 1px;
+              top: 0px;
             }
           }
         }

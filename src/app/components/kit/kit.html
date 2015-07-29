@@ -85,10 +85,12 @@
                 </md-option>
               </md-select>
             </div>
-            <div class="sensor_data">
-                <span class="sensor_value">{{ vm.selectedSensorData.value }}<span>
-                <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
+            <div class="sensor_data" show-popup-info>
+              <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
+              <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
+<!--                 <md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="sensor_data_icon" show-popup-info></md-icon> -->
             </div>
+            <div class="sensor_data_description" hide-popup-info>This is an average value based on previous data</div>
             <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
               <div class="sensor_description_content" > 
