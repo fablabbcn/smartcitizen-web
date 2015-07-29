@@ -104,6 +104,7 @@
 
         if(state === 'active') {
           marker.icon = MARKER_ICONS[markerType + 'Active'];
+          marker.focus = true;
         } else if(state === 'inactive') {
           var targetClass = markerType.split(' ')[0];
           marker.icon = MARKER_ICONS[targetClass];
