@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -17,11 +17,10 @@
       };
       vm.getCountries = getCountries;
 
-      if(userData) { 
-        vm.user = userData; 
-        _.defaults(vm.formUser, vm.user);
-        vm.searchText = vm.formUser.country; 
-      }
+      vm.user = userData; 
+      _.defaults(vm.formUser, vm.user);
+      vm.searchText = vm.formUser.country; 
+
 
       //KITS TAB
       // var kits = kitsData;
@@ -36,16 +35,7 @@
       ];
 
       //TOOLS TAB
-      vm.tools = [
-        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: '', href: 'http://www.google.com'},
-        {type: 'documentation', title: 'Download the latest SCK Firmware', description: 'Github version of the firmware', avatar: ''}, 
-        {type: 'documentation', title: 'RESTful API Documentation', description: 'API Docs', avatar: ''},
-        {type: 'community', title: 'Smart Citizen Forum', description: 'Your feedback is important for us', avatar: ''},
-        {type: 'documentation', title: 'SCK Repository Documentation', description: 'Fork the project', avatar: ''},
-        {type: 'social', title: 'Like us on Facebook', description: 'Follow our news on Facebook', avatar: ''},
-        {type: 'social', title: 'Follow us on Twitter', description: 'Discover the weather and your smart connections on Twitter', avatar: ''},
-        {type: 'social', title: 'Be our friend on Google+', description: 'Get informed about latest news of Smart Citizen', avatar: ''},
-      ];
+      vm.tools = PROFILE_TOOLS;
       vm.toolType = undefined;
       vm.filteredTools = [];
 
