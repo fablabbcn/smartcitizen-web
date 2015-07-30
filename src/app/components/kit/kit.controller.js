@@ -138,7 +138,7 @@
       }
 
       function getSensorsToCompare() {
-        return vm.sensorsToCompare.filter(function(sensor) {
+        return vm.sensors.filter(function(sensor) {
           return sensor.id !== vm.selectedSensor;
         });
       }

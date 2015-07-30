@@ -135,6 +135,7 @@ search {
           margin-right: 12px;
           width: 18px;
           height: 18px;
+          border-radius: 9px;
           // display: inline-block;
         }
         .result_location {
@@ -722,6 +723,8 @@ section .kit_menu {
         }
         .sensor_data {
           margin: 8% 0 5% 0;
+          display: inline-block;
+          
           .sensor_value {
             font-size: 22px;
             font-weight: bold;
@@ -731,7 +734,24 @@ section .kit_menu {
             color: $font_color_blue_light;
             position: relative;
             top: -8px;
-          }          
+          } 
+          .sensor_data_icon {
+            width: 14px;
+            height: 14px;
+            margin-left: 8px;
+          }         
+        }
+        .sensor_data_description {
+          font-size: 12px;
+          display: none;
+          position: absolute;
+          background-color: rgba(255, 255, 255, 0.8);
+          color: #03252D;
+          border-radius: 2px;
+          line-height: 1.5em;
+          padding: 4px 6px; 
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+          max-width: 175px;
         }
         .sensor_compare {
           font-size: 12px;
@@ -757,7 +777,7 @@ section .kit_menu {
           margin-right: 30px;
 
           > div {
-            display: inline-block;
+            // display: inline-block;
             margin-left: 40px;
           }
           input {
@@ -775,11 +795,12 @@ section .kit_menu {
           .chart_move {
             .chart_move_button {
               width: 40px;
-              height: 10px;
-              display: inline-table;             
+              height: 24px;
+              display: inline-flex;             
               border: 1px solid #6B868D;
             }
             .chart_move_right {
+              margin-left: 4px;
             }
             .chart_move_left {
               background-color: #99AEB2;
@@ -787,6 +808,8 @@ section .kit_menu {
             md-icon {
               width: 5.5px;
               height: 9px;
+              position: relative;
+              top: 0px;
             }
           }
         }
@@ -942,7 +965,7 @@ section .kit_menu {
     }
     .kit_owner_content {
       float: left;
-      width: 75%;
+      width: 85%;//75
       margin-bottom: 60px;
 
       h3, p {
@@ -1910,7 +1933,7 @@ section .stickMenu {
 .kitList_state {
   // display: inline-block;
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   border-radius: 20px;
   padding: 6px 11px;
   margin-right: 15px;
@@ -1919,6 +1942,7 @@ section .stickMenu {
   top: 35%;
   right: 0;
   height: 25px;
+  text-transform: uppercase;
 }
 .kitList_state_never_published {
   background-color: #F3C039;

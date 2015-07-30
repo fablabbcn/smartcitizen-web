@@ -68,32 +68,15 @@
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
-          // zoom: data.model.center.zoom
 
         if(id === parseInt($state.params.id)) {
           $timeout(function() {
-            // vm.markers[focusedMarkerID].focus = true;  
             vm.kitLoading = false;
           }, 0);
           return;
         }
-        
-        (function(focusedMarkerID) {
-          var updatedMarker = vm.markers[focusedMarkerID];
-          vm.markers[focusedMarkerID] = null;
-          $timeout(function() {
-            vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'inactive');
-          }, 0);
-        })(focusedMarkerID);
 
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
-        var updatedMarker = vm.markers[focusedMarkerID];
-        
-        vm.markers[focusedMarkerID] = null;
-
-        $timeout(function() {
-          vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
-        }, 0);
         
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id; 
@@ -102,17 +85,11 @@
 
       $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
         if(focusedMarkerID) {
-          vm.markers[focusedMarkerID].focus = false;
+          var marker = vm.markers[focusedMarkerID]; 
+          if(marker) {
+            vm.markers[focusedMarkerID].focus = false;                          
+          }
         }
-
-        // focusedMarkerID = data.leafletEvent.target.options.myData.id;
-        // var updatedMarker = vm.markers[focusedMarkerID]
-        
-        // vm.markers[focusedMarkerID] = null;
-
-        // $timeout(function() {
-        //   vm.markers[focusedMarkerID] = markerUtils.getMarkerIcon(updatedMarker, 'active');
-        // });
       });
 
       $scope.$on('kitLoaded', function(event, data) {
