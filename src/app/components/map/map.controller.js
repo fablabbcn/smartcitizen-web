@@ -113,12 +113,12 @@
 
               leafletData.getLayers()
                 .then(function(layers) {
-                  layers.overlays.realworld.__proto__.zoomToShowLayer.call(layers.overlays.realworld, currentMarker, function() {
+                  layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
                     var selectedMarker = vm.markers[data.id];
 
                     if(selectedMarker) {
                       // focusedMarkerID = data.id;
-                      selectedMarker.focus = true; 
+                      selectedMarker.focus = true;
                     }
                     $scope.$digest();
                   });
@@ -187,6 +187,9 @@
           _.extend(defaultFilters, defaultFiltersFromModal);
           updateMarkers(data);
           checkFiltersSelected();
+          $timeout(function() {
+            checkMarkersLeftOnMap();            
+          });
         });
       }
 
@@ -197,7 +200,10 @@
         vm.filterData[filterName] = false;
         _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
         updateMarkers(vm.filterData);
-        checkFiltersSelected();          
+        checkFiltersSelected();
+        $timeout(function() {
+          checkMarkersLeftOnMap();
+        });
       }
 
       function filterMarkers(filterData) {
@@ -216,6 +222,61 @@
             vm.markers = filterMarkers(filterData);           
           });
         });
+      }
+
+      function checkMarkersLeftOnMap() {
+        return leafletData.getMarkers()
+          .then(function(markers) {
+            return leafletData.getLayers()
+              .then(function(layers) {
+                var isThereMarkers = mapContainsAnyMarker(layers, markers);
+
+                if(!isThereMarkers) {
+                  leafletData.getMap()
+                    .then(function(map) {
+                      var center = L.latLng(vm.center.lat, vm.center.lng);
+                      var closestMarker = _.reduce(markers, function(closestMarkerSoFar, marker) {
+                        var distanceToMarker = center.distanceTo(marker.getLatLng());
+                        var distanceToClosest = center.distanceTo(closestMarkerSoFar.getLatLng());
+                        return distanceToMarker < distanceToClosest ? marker : closestMarkerSoFar;
+                      }, markers[0]);
+
+                      zoomOutWhileNoMarker(layers, closestMarker);
+                    });
+                }
+              });
+          });
+      }
+      function mapContainsAnyMarker(layers, data) {
+        var bounds = layers.overlays.realworld._currentShownBounds;              
+        return _.some(data, function(marker) {
+          return mapContainsMarker(bounds, marker);
+        });              
+      }
+
+      function mapContainsMarker(bounds, marker) {
+        return bounds.contains(marker.getLatLng());
+      }
+
+      function zoomOutWhileNoMarker(layers, marker) {
+        var bounds = layers.overlays.realworld._currentShownBounds;
+
+        if(!mapContainsMarker(bounds, marker)) {
+          zoomOutMap();
+          leafletData.getLayers()
+            .then(function(newLayers) {
+              $timeout(function() {
+                zoomOutWhileNoMarker(newLayers, marker);                
+              });
+            });
+        }
+      }
+
+      function zoomOutMap() {
+        if(vm.center.zoom === 0) {
+          return;
+        }
+        vm.center.zoom = vm.center.zoom - 3;
       }
     }
 
