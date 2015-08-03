@@ -342,7 +342,7 @@ section.map {
   height: 100%;
   border: 1px solid grey;
   color: black;
-  z-index: $small_priority;
+  z-index: 0;//$small_priority;
   position: fixed;
   top: 64px;
   
@@ -1687,6 +1687,10 @@ section .stickMenu {
   background-color: $blue_light;
 }
 
+/**
+ * OVERRIDE LEAFLET
+ */
+
 .leaflet-popup-content-wrapper {
   border-radius: 2px;
   width: auto !important;
@@ -1707,6 +1711,10 @@ section .stickMenu {
 
 .leaflet-popup-close-button {
   display: none;
+}
+
+.leaflet-overlay-pane .leaflet-zoom-animated path {
+  stroke: grey;
 }
 
 /* 
@@ -1863,11 +1871,6 @@ section .stickMenu {
   background-color: white;
   border-radius: 0 !important;
   text-transform: none;
-  display: -moz-inline-flex;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flex;
-  display: -o-inline-flex;
-  display: inline-flex;
 
   .wrap-dd-menu {
     width: 50px;
