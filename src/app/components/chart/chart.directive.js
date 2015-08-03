@@ -597,20 +597,29 @@
         }
 
         var widestElem = textContainers.reduce(function(widestElemSoFar, textContainer) {
-          var currentTextContainerSize = getContainerSize(textContainer);
-          var prevTextContainerSize = getContainerSize(widestElemSoFar);
-          return prevTextContainerSize.width >= currentTextContainerSize.width ? widestElemSoFar : textContainer; 
+          var currentTextContainerWidth = getContainerWidth(textContainer);
+          var prevTextContainerWidth = getContainerWidth(widestElemSoFar);
+          return prevTextContainerWidth >= currentTextContainerWidth ? widestElemSoFar : textContainer; 
         }, textContainers[0]);
 
         var margins = widestElem.attr('dx') * 2;
 
         popupContainer
-          .attr('width', getContainerSize(widestElem).width + margins);
+          .attr('width', getContainerWidth(widestElem) + margins);
 
-        function getContainerSize(container) {
-          return container.node().getBBox();
+        function getContainerWidth(container) {
+          var node = container.node();
+          var width;
+          if(node.getComputedTextLength) {
+            width = node.getComputedTextLength();
+          } else if(node.getBoundingClientRect) {
+            width = node.getBoundingClientRect().width;
+          } else {
+            width = node.getBBox().width;
+          }
+          return width;
         }
-        return getContainerSize(widestElem).width + margins;
+        return getContainerWidth(widestElem) + margins;
       }
     }
 
