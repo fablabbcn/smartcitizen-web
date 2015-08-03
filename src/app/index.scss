@@ -1,6 +1,24 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
 @import '_variables';
 
+/**
+ *  MOZILLA-SPECIFIC CSS
+ */
+ @-moz-document url-prefix() {
+  .kit_detailed .kit_chart .container .kit_chart_left .sensor_select .sensor_icon_selected {
+    transform: translateY(-8px);
+  }
+  .kit_detailed .kit_chart .container .kit_chart_left .sensor_compare md-select {
+    transform: translateY(8px);
+    margin: 0;
+  }
+  body .kit_detailed .kit_chart .container .kit_chart_left .sensor_data {
+    margin: 5% 0 4% 0;
+  }
+/*   section.map {
+    z-index: 0;
+  } */
+}
 
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: $font_color_white;
@@ -327,6 +345,7 @@ md-backdrop.md-opaque.md-default-theme {
 
 .map_state {
   position: fixed;
+  z-index: 1;
 }
 
 @media only screen and (max-device-width: 1024px) {
@@ -342,7 +361,7 @@ section.map {
   height: 100%;
   border: 1px solid grey;
   color: black;
-  z-index: 0;//$small_priority;
+  z-index: 1;//$small_priority;
   position: fixed;
   top: 64px;
   
@@ -467,8 +486,10 @@ section .kit_menu {
       border-radius: 9px;
       margin-right: 8px;
     }
-    span {
-      vertical-align: middle;
+
+    a {
+      color: $font_color_blue_grey;
+      text-decoration: none;
     }
   }
   .kit_name {
@@ -687,7 +708,7 @@ section .kit_menu {
           font-weight: normal;
           color: #DDE7EA;
           height: 80px;
-          margin-top: 30px;
+          margin-top: 25px; //30;
           position: relative;
 
           h6 {

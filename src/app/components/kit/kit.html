@@ -3,7 +3,7 @@
     <div class="container">
       <div class="kit_user" layout="row" layout-align="start center">
         <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
-        <span>{{ vm.kit.owner.username}}</span>
+        <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
       </div>
       <div class="kit_name" layout="row" layout-align="start center">
         <img ng-src="./assets/images/sensor_icon.svg" />
@@ -74,7 +74,7 @@
       <section class="kit_chart">
         <div class="container" layout="row">
           <div class="kit_chart_left">
-            <div class="sensor_select" >
+            <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
