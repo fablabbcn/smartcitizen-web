@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
+    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
     	var vm = this;
       var updateType;
 
@@ -244,7 +244,11 @@
                         return distanceToMarker < distanceToClosest ? marker : closestMarkerSoFar;
                       }, markers[0]);
 
-                      zoomOutWhileNoMarker(layers, closestMarker);
+                      if(closestMarker) {
+                        zoomOutWhileNoMarker(layers, closestMarker);                        
+                      } else {
+                        alert.info('No markers found with those filters', 5000);
+                      }
                     });
                 }
               });
