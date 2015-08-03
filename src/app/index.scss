@@ -745,6 +745,10 @@ section .kit_menu {
           font-size: 12px;
           display: none;
           position: absolute;
+          -webkit-transform: translate(5px, 5px);
+          -moz-transform: translate(5px, 5px);
+          -ms-transform: translate(5px, 5px);
+          -o-transform: translate(5px, 5px);
           transform: translate(5px, 5px);
           background-color: rgba(255, 255, 255, 0.8);
           color: #03252D;

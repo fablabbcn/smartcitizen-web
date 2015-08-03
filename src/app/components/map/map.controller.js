@@ -230,8 +230,8 @@
             return leafletData.getLayers()
               .then(function(layers) {
                 var isThereMarkers = mapContainsAnyMarker(layers, markers);
-                console.log('is', isThereMarkers);
-                // if(!isThereMarkers) {
+
+                if(!isThereMarkers) {
                   leafletData.getMap()
                     .then(function(map) {
                       var center = L.latLng(vm.center.lat, vm.center.lng);
@@ -243,7 +243,7 @@
 
                       zoomOutWhileNoMarker(layers, closestMarker);
                     });
-                // }
+                }
               });
           });
       }
