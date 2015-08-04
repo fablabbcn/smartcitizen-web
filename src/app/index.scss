@@ -603,14 +603,13 @@ section .kit_menu {
     position: relative;
     color: $font_color_blue_light;
     min-width: 50px;
-    display: table;
+    display: inline-table;
 
     .clear {
       clear: both;
     }
     
     .sensor_right {
-      float:left;
       position: relative;
       left: 5px;
       .sensor_unit {
@@ -625,7 +624,6 @@ section .kit_menu {
       font-size: 34px;
       font-weight: bold;
       color: white;
-      float:left;
     }
     .sensor_value_null {
       opacity: 0.15;
@@ -633,9 +631,8 @@ section .kit_menu {
     .sensor_icon {
       width: 16px;
       height: 16px;
-      float:left;
       position: relative;
-      top: 15px;
+      top: 14px;
       right: 5px;
     }
     .sensor_name {
