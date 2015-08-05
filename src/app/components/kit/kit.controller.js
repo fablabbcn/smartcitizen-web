@@ -60,7 +60,7 @@
           colorSensorCompareName();    
           
           setSensor({type: 'main', value: newVal});
-          changeChart('sensor', [mainSensorID]);        
+          changeChart([mainSensorID]);        
         }, 100);
 
       });
@@ -79,7 +79,7 @@
           if(oldVal === undefined && newVal === undefined) {
             return;
           }
-          changeChart('sensor', [compareSensorID]);
+          changeChart([compareSensorID]);
         }, 100);
         
       });
@@ -145,7 +145,7 @@
         });
       }
 
-      function changeChart(updateType, sensorsID, options) {
+      function changeChart(sensorsID, options) {
         if(!sensorsID[0]) {
           return;
         }
@@ -154,9 +154,10 @@
           //waiting for the data from the server, render chart on next call
           return;
         //if data is not loaded, get it first -> happens on controller initialization
-        } else if(!getChartDataHasBeenCalled) {
-          updateType = 'date';
         } 
+        // else if(!getChartDataHasBeenCalled) {
+          // updateType = 'date';
+        // } 
 
         if(!options) {
           options = {};
@@ -164,7 +165,6 @@
         options.from = options && options.from || picker.getValuePickerFrom();
         options.to = options && options.to || picker.getValuePickerTo();
 
-        debugger;
         //show spinner
         vm.loadingChart = true;
         //grab chart data and save it
@@ -341,7 +341,7 @@
         from_picker.on('set', function(event) {
           if(event.select) {
             if(to_picker.get('value') && updateType === 'single') {
-              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+              changeChart([mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -352,7 +352,7 @@
         to_picker.on('set', function(event) {
           if(event.select) {  
             if(from_picker.get('value')) {
-              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                             
+              changeChart([mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                             
             }          
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
