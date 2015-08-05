@@ -341,7 +341,11 @@
         from_picker.on('set', function(event) {
           if(event.select) {
             if(to_picker.get('value') && updateType === 'single') {
-              changeChart([mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+              var sensors = [mainSensorID, compareSensorID];
+              sensors = sensors.filter(function(sensor) {
+                return sensor;
+              }); 
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                                          
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -352,7 +356,11 @@
         to_picker.on('set', function(event) {
           if(event.select) {  
             if(from_picker.get('value')) {
-              changeChart([mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                             
+              var sensors = [mainSensorID, compareSensorID];
+              sensors = sensors.filter(function(sensor) {
+                return sensor;
+              }); 
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                             
             }          
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
