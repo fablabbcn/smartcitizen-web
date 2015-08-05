@@ -1,10 +1,17 @@
-<!doctype html><html ng-app="app"><head><base href="http://fablabbcn.github.io/smartcitizen-web/"><meta charset="utf-8"><title>Smart Citizen</title><meta name="description" content=""><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><link rel="stylesheet" href="styles/vendor-2e4052fd.css"><link rel="stylesheet" href="styles/app-becdcbec.css"></head><body><!--[if lt IE 10]>
+<!doctype html><html ng-app="app"><head><base href="http://fablabbcn.github.io/smartcitizen-web/"><meta charset="utf-8"><title>Smart Citizen</title><meta name="description" content=""><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><link rel="stylesheet" href="styles/vendor-2e4052fd.css"><link rel="stylesheet" href="styles/app-5861b67b.css"></head><body><!--[if lt IE 10]>
  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
- <![endif]--><div blur=""><div ui-view="" autoscroll="false"></div></div><script>
+ <![endif]--><div blur=""><div loading-backdrop=""></div><div ui-view="" autoscroll="false"></div></div><script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script><script src="scripts/vendor-8d9a0bf5.js"></script><script src="scripts/app-de24d915.js"></script></body></html>
+    </script><script type="text/javascript">
+        window.doorbellOptions = {
+            appKey: 'epGCzRsQjOyOPslP2rONu5XUVwoAAKY4yQZy21baD3Sb0RolnuBi6G9H4Kd9tgzG'
+        };
+        (function(d, t) {
+            var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/1904?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+        }(document, 'script'));
+    </script><script src="scripts/vendor-8d9a0bf5.js"></script><script src="scripts/app-aa8a5c50.js"></script></body></html>
