@@ -2003,9 +2003,9 @@ section .stickMenu {
   top: -2px;
 }
 .kitList_config {
-  display: inline-block;
-  position: relative;
-  top: -7px;
+  // display: inline-block;
+  // position: relative;
+  // top: -7px;
   width: 4%;
 }
 .kitList_state {
@@ -2031,6 +2031,11 @@ section .stickMenu {
 .kitList_dropdownButton {
   display: block;
   margin: 0 auto;
+
+  img {
+    position: relative;
+    top: 2px;
+  }
 }
 .kitList_noKits {
   line-height: 5;

@@ -4,9 +4,11 @@
 	angular.module('app.components')
 	  .factory('device', device);
     
-    device.$inject = ['Restangular', '$window'];
-	  function device(Restangular, $window) {
+    device.$inject = ['Restangular', '$window', 'timeUtils'];
+	  function device(Restangular, $window, timeUtils) {
       var genericKitData, worldMarkers;
+
+      initialize();
 
       callGenericKitData()
         .then(function(data) {
@@ -25,6 +27,12 @@
 	  	return service;
 
 	  	//////////////////////////
+
+      function initialize() {
+        if(areMarkersOld()) {
+          removeMarkers();
+        }
+      }
       
       function getDevices(location) {
       	var parameter = '';
@@ -53,8 +61,25 @@
       }
 
       function setWorldMarkers(data) {
-        $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(data) );
+        var obj = {
+          timestamp: new Date(),
+          data: data
+        };
+
+        $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
         worldMarkers = data; 
+      }
+
+      function areMarkersOld() {
+        var TODAY = moment(new Date());
+        var markers = getWorldMarkers();
+        var timestamp = markers && markers.timestamp;        
+        var markersDate = moment(timestamp);
+        return !timeUtils.isSameDay(TODAY, markersDate);
+      }
+
+      function removeMarkers() {
+        $window.localStorage.removeItem('smartcitizen.markers');
       }
 	  }
 })();
