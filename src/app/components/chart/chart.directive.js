@@ -40,7 +40,8 @@
               var dataMain = sensorDataMain.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && datePoint.value       
                 };
               });
 
@@ -52,7 +53,8 @@
               var dataCompare = sensorDataCompare.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && dataPoint.value      
                 };
               });
 
@@ -79,7 +81,8 @@
               var data = sensorData.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && dataPoint.value        
                 };
               });
 
@@ -578,7 +581,8 @@
 
       function parseValue(value) {
         if(value === 0) {
-          return 'No data';
+          // return 'No data';
+          return '0'
         } else if(value.toString().indexOf('.') !== -1) {
           var result = value.toString().split('.');
           return result[0] + '.' + result[1].slice(0, 2);            
