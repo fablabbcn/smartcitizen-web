@@ -9,6 +9,9 @@
       $stateProvider
         .state('landing', {
           url: '/',
+          onEnter: function(animation) {
+            animation.viewLoading();
+          },
           resolve: {
             location: function(geolocation) {
               var positionObj = geolocation.getPositionObj();
@@ -74,6 +77,9 @@
         .state('layout.home', {
           url: '/kits',
           abstract: true,
+          onEnter: function(animation) {
+            animation.viewLoading();
+          },
           views: {
             '': {
               templateUrl: 'app/components/home/template.html'

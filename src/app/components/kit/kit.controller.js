@@ -112,6 +112,7 @@
           colorSensorMainIcon();
           colorArrows();
           colorClock();
+          animation.viewLoaded();
         }, 1000);
         
         if(sensorHasNoData()) {

@@ -20,6 +20,10 @@
   } */
 }
 
+/**
+ *  INPUT CSS
+ */
+
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: $font_color_white;
 }
@@ -57,6 +61,10 @@ html {
 body {
   background-color: rgba(0, 0, 0, 0);
 }
+
+/**
+ *  NAVBAR
+ */
 
 .navbar_container { 
   .md-button {
@@ -131,6 +139,10 @@ body {
     }
   }
 }
+
+/**
+ *  SEARCH COMPONENT
+ */
 
 search {
   position: relative;
@@ -287,6 +299,10 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
   } 
 }
 
+/**
+ * ALERT COMPONENT
+ */
+
 md-toast.md-top {
   position: fixed;
   top: 64px;
@@ -329,9 +345,19 @@ md-toast.yellow {
   background-color: #f1c40f;
 }
 
+/**
+ *  SPINNER/PROGRESS BAR COMPONENTS
+ */
+
 md-progress-linear.md-default-theme .md-bar{
   background-color: #044150;
 }
+
+/**
+ *  BACKDROP COMPONENT
+ */
+
+// Popup backdrop
 
 md-backdrop.md-opaque.md-default-theme {
   background-color: rgba(30, 30, 30, 0.6);
@@ -342,6 +368,29 @@ md-backdrop.md-opaque.md-default-theme {
   -o-filter: blur(20px);  
   filter: blur(20px); */
 }
+
+//Loading backdrop 
+
+md-backdrop.md-mainBackdrop {
+  background-color: #2A4E62;
+  width: 100%;
+  height: 100%;
+}
+
+.backdrop_spinner {
+  top: 40%;
+  left: 50%;
+}
+
+.backdrop_icon {
+  margin: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+/**
+ *  MAP
+ */
 
 .map_state {
   position: fixed;
