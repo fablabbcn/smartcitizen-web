@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils', '$timeout'];
-    function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils, $timeout) {
+    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils', '$timeout', 'animation'];
+    function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils, $timeout, animation) {
       var vm = this;
       var user = userData; 
       var kits = kitsData;
@@ -24,10 +24,16 @@
         }
       });
 
-      $timeout(function() {
-        setSidebarMinHeight();
-      }, 500);
+      initialize();
+
       //////////////////
+
+      function initialize() {
+        $timeout(function() {
+          setSidebarMinHeight();
+          animation.viewLoaded();
+        }, 500);
+      }
 
       function filterKits(status) {
         if(status === 'all') {

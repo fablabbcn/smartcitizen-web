@@ -32,6 +32,8 @@
 
         if((new RegExp('sck', 'i')).test(kitName)) { 
           kitType = 'SmartCitizen Kit';
+        } else {
+          kitType = 'Unknown Kit';
         }
         return kitType; 
       }

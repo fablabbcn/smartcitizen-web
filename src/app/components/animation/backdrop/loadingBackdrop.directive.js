@@ -11,13 +11,16 @@
         controller: function($scope) {
           var vm = this;  
           vm.isViewLoading = true;
+          angular.element('#doorbell-button').hide();
 
           $scope.$on('viewLoading', function() {
             vm.isViewLoading = true;
+            angular.element('#doorbell-button').hide();
           });
 
           $scope.$on('viewLoaded', function() {
             vm.isViewLoading = false;
+            angular.element('#doorbell-button').show();
           })
         },
         controllerAs: 'vm'
