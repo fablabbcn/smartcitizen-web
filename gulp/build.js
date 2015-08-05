@@ -80,9 +80,15 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/'));
   });
 
+
   gulp.task('clean', function (done) {
     $.del([options.dist + '/', options.tmp + '/'], done);
   });
 
-  gulp.task('build', ['html', 'fonts', 'other']);
+  gulp.task('external-assets', function() {
+    return gulp.src(['bower_components/leaflet/dist/images/**'])
+      .pipe(gulp.dest(options.dist + '/styles/images'));
+  });
+
+  gulp.task('build', ['html', 'fonts', 'other', 'external-assets']);
 };

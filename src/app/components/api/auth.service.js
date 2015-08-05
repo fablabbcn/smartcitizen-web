@@ -43,7 +43,7 @@
       }
       //run on app initialization so that we have cross-session auth
       function setCurrentUser(time) {
-        user.token = JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
+        user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
         user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
         if(!user.token) {
           return;

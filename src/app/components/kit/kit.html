@@ -3,7 +3,7 @@
     <div class="container">
       <div class="kit_user" layout="row" layout-align="start center">
         <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
-        <span>{{ vm.kit.owner.username}}</span>
+        <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
       </div>
       <div class="kit_name" layout="row" layout-align="start center">
         <img ng-src="./assets/images/sensor_icon.svg" />
@@ -52,16 +52,19 @@
         </md-icon>
       </md-button>
       <div class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
-        <div ng-repeat="sensor in vm.sensors" class="sensor_container">          
-          <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon">
-          </md-icon>
-          <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
-          <div class="sensor_right">
-            <div class="sensor_unit">{{ sensor.unit }}</div>
-            <md-icon md-svg-src="{{ sensor.arrow }}" class="sensor_arrow">
-            </md-icon>
+        <div ng-repeat="sensor in vm.sensors" class="sensor_container">
+          <div layout="row">
+            <div>
+              <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon" flex="20">
+              </md-icon>
+            </div>
+            <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
+            <div class="sensor_right">
+              <div class="sensor_unit">{{ sensor.unit }}</div>
+              <md-icon md-svg-src="{{ sensor.arrow }}" class="sensor_arrow">
+              </md-icon>
+            </div>
           </div>
-          <div class="clear"></div>
           <div class="sensor_name">{{ sensor.name }}</div>
         </div>
       </div>
@@ -74,7 +77,7 @@
       <section class="kit_chart">
         <div class="container" layout="row">
           <div class="kit_chart_left">
-            <div class="sensor_select" >
+            <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
@@ -114,19 +117,19 @@
           </div>
           <div class="kit_chart_right" flex>
             <div class="chart_navigation" layout="row" layout-align="end center">
-              <div class="kit_time">
+              <span class="kit_time" layout="row" layout-align="center center">
                 <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
                 {{ vm.kit.time }}
-              </div>
-              <div class="picker_container">
+              </span>
+              <div class="picker_container" layout="row" layout-align="center center">
                 <label for="picker_from">From: </label>
                 <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></input>
               </div>
-              <div class="picker_container">
+              <div class="picker_container" layout="row" layout-align="center center">
                 <label for="picker_to">To: </label>              
                 <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>              
               </div>
-              <div class="chart_move">
+              <div class="chart_move" layout="row" layout-align="center center">
                 <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center">
                   <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
                   </md-icon>
@@ -137,7 +140,7 @@
                 </md-button>
               </div>
             </div>
-            <div style="clear: both"></div>
+            <!-- <div style="clear: both"></div> -->
 
             <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
             <div chart class="chart_container" chart-data="vm.chartDataMain">
@@ -266,8 +269,8 @@
               </div>
               <div class="kit_owner_kits">
                 <h3 class="kit_owner_kits_title">Kits of {{ vm.kit.owner.username }}</h3>
-                <div class="kitList_parent" ng-repeat="kit in vm.ownerKits | limitTo: 5">
-                  <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_primary: !vm.kitBelongsToUser, kitList_secondary: vm.kitBelongsToUser, kitList_borderBottom: $last}" layout="row" layout-align="start center">
+                <div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in vm.ownerKits | limitTo: 5">
+                  <md-button ng-href="./kits/{{kit.id}}" class="kitList" ng-class="{kitList_primary: !vm.kitBelongsToUser, kitList_secondary: vm.kitBelongsToUser, kitList_borderBottom: $last}" layout="row" layout-align="start center">
                     <div class="kitList_container" layout="row" layout-align="start center">
                       <div class="">
                         <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />

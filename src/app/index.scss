@@ -1,6 +1,24 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,700,700italic,400italic);
 @import '_variables';
 
+/**
+ *  MOZILLA-SPECIFIC CSS
+ */
+ @-moz-document url-prefix() {
+  .kit_detailed .kit_chart .container .kit_chart_left .sensor_select .sensor_icon_selected {
+    transform: translateY(-8px);
+  }
+  .kit_detailed .kit_chart .container .kit_chart_left .sensor_compare md-select {
+    transform: translateY(8px);
+    margin: 0;
+  }
+  body .kit_detailed .kit_chart .container .kit_chart_left .sensor_data {
+    margin: 5% 0 4% 0;
+  }
+/*   section.map {
+    z-index: 0;
+  } */
+}
 
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: $font_color_white;
@@ -327,6 +345,7 @@ md-backdrop.md-opaque.md-default-theme {
 
 .map_state {
   position: fixed;
+  z-index: 1;
 }
 
 @media only screen and (max-device-width: 1024px) {
@@ -342,7 +361,7 @@ section.map {
   height: 100%;
   border: 1px solid grey;
   color: black;
-  z-index: $small_priority;
+  z-index: 1;//$small_priority;
   position: fixed;
   top: 64px;
   
@@ -467,8 +486,10 @@ section .kit_menu {
       border-radius: 9px;
       margin-right: 8px;
     }
-    span {
-      vertical-align: middle;
+
+    a {
+      color: $font_color_blue_grey;
+      text-decoration: none;
     }
   }
   .kit_name {
@@ -582,14 +603,13 @@ section .kit_menu {
     position: relative;
     color: $font_color_blue_light;
     min-width: 50px;
-    display: table;
+    display: inline-table;
 
     .clear {
       clear: both;
     }
     
     .sensor_right {
-      float:left;
       position: relative;
       left: 5px;
       .sensor_unit {
@@ -604,7 +624,6 @@ section .kit_menu {
       font-size: 34px;
       font-weight: bold;
       color: white;
-      float:left;
     }
     .sensor_value_null {
       opacity: 0.15;
@@ -612,9 +631,8 @@ section .kit_menu {
     .sensor_icon {
       width: 16px;
       height: 16px;
-      float:left;
       position: relative;
-      top: 15px;
+      top: 14px;
       right: 5px;
     }
     .sensor_name {
@@ -687,7 +705,7 @@ section .kit_menu {
           font-weight: normal;
           color: #DDE7EA;
           height: 80px;
-          margin-top: 30px;
+          margin-top: 25px; //30;
           position: relative;
 
           h6 {
@@ -778,7 +796,7 @@ section .kit_menu {
         .chart_navigation {
           height: 10%;
           font-size: 11px;
-          float: right;
+          // float: right;
           margin-right: 30px;
 
           > div {
@@ -1060,7 +1078,7 @@ section .kit_menu {
   z-index: 200;
   position: absolute;
   left: 0;
-  bottom: 1%;
+  bottom: 4px;
 }
 md-progress-linear.md-default-theme.md-hue-3 .md-container{
   background-color: rgba(79, 201, 232, 0.05);
@@ -1687,6 +1705,10 @@ section .stickMenu {
   background-color: $blue_light;
 }
 
+/**
+ * OVERRIDE LEAFLET
+ */
+
 .leaflet-popup-content-wrapper {
   border-radius: 2px;
   width: auto !important;
@@ -1707,6 +1729,10 @@ section .stickMenu {
 
 .leaflet-popup-close-button {
   display: none;
+}
+
+.leaflet-overlay-pane .leaflet-zoom-animated path {
+  stroke: grey;
 }
 
 /* 
@@ -1863,11 +1889,6 @@ section .stickMenu {
   background-color: white;
   border-radius: 0 !important;
   text-transform: none;
-  display: -moz-inline-flex;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flex;
-  display: -o-inline-flex;
-  display: inline-flex;
 
   .wrap-dd-menu {
     width: 50px;
