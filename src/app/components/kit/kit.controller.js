@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q) {
       var vm = this;
+      var sensorsData = [];
 
       var getChartDataHasBeenCalled = false;
-      var mainSensorID, compareSensorID, sensorsData;
+      var mainSensorID, compareSensorID;
       var picker = initializePicker();
 
       animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
@@ -59,7 +60,7 @@
           colorSensorCompareName();    
           
           setSensor({type: 'main', value: newVal});
-          changeChart('sensor', [mainSensorID, compareSensorID]);        
+          changeChart([mainSensorID]);        
         }, 100);
 
       });
@@ -78,7 +79,7 @@
           if(oldVal === undefined && newVal === undefined) {
             return;
           }
-          changeChart('sensor', [mainSensorID, compareSensorID]);            
+          changeChart([compareSensorID]);
         }, 100);
         
       });
@@ -144,7 +145,7 @@
         });
       }
 
-      function changeChart(updateType, sensorsID, options) {
+      function changeChart(sensorsID, options) {
         if(!sensorsID[0]) {
           return;
         }
@@ -153,36 +154,43 @@
           //waiting for the data from the server, render chart on next call
           return;
         //if data is not loaded, get it first -> happens on controller initialization
-        } else if(!getChartDataHasBeenCalled) {
-          updateType = 'date';
-          if(!options) {
-            options = {};
-          }
-          options.from = picker.getValuePickerFrom();
-          options.to = picker.getValuePickerTo();
         } 
+        // else if(!getChartDataHasBeenCalled) {
+          // updateType = 'date';
+        // } 
 
-        if(updateType === 'date') {
-          //show spinner
-          vm.loadingChart = true;
-          //grab chart data and save it
-          getChartData(options.from, options.to)
-            .then(function() {
-              vm.chartDataMain = prepareChartData(sensorsID);
-            });
-        } else if(updateType === 'sensor') {         
-          vm.chartDataMain = prepareChartData(sensorsID);
+        if(!options) {
+          options = {};
         }
+        options.from = options && options.from || picker.getValuePickerFrom();
+        options.to = options && options.to || picker.getValuePickerTo();
+
+        //show spinner
+        vm.loadingChart = true;
+        //grab chart data and save it
+
+        $q.all(
+          _.map(sensorsID, function(sensorID) {
+            return getChartData($stateParams.id, sensorID, options.from, options.to)
+              .then(function(data) {
+                return data;
+              });
+          })
+        ).then(function() {
+          vm.chartDataMain = prepareChartData([mainSensorID, compareSensorID]);
+          console.log('vm', vm.chartDataMain);
+        });
       }
       
-      function getChartData(dateFrom, dateTo, options) {
+      function getChartData(deviceID, sensorID, dateFrom, dateTo, options) {
         getChartDataHasBeenCalled = true;
-        var deviceID = $stateParams.id;
+        // var deviceID = $stateParams.id;
 
-        return sensor.getSensorsData(deviceID, dateFrom, dateTo)
+        return sensor.getSensorsDataNew(deviceID, sensorID, dateFrom, dateTo)
           .then(function(data) {
             //save sensor data of this kit so that it can be reused
-            sensorsData = data.readings;
+            sensorsData[sensorID] = data.readings;
+            return data;
           });       
       }
 
@@ -209,14 +217,15 @@
         if(data.length === 0) {
           return [];
         }
-        return data.map(function(dataPoint) {
-          var time = dataPoint && dataPoint.timestamp;
-          var data = dataPoint && dataPoint.data[sensorID];
-          data = data === null ? 0 : data;  
+        return data[sensorID].map(function(dataPoint) {
+          var time = dataPoint[0];
+          var value = dataPoint[1];
+          var data = value === null ? 0 : value;  
           
           return {
             time: time,
-            data: data
+            data: data,
+            value: value
           };
         });
       }
@@ -332,7 +341,11 @@
         from_picker.on('set', function(event) {
           if(event.select) {
             if(to_picker.get('value') && updateType === 'single') {
-              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+              var sensors = [mainSensorID, compareSensorID];
+              sensors = sensors.filter(function(sensor) {
+                return sensor;
+              }); 
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                                          
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -343,7 +356,11 @@
         to_picker.on('set', function(event) {
           if(event.select) {  
             if(from_picker.get('value')) {
-              changeChart('date', [mainSensorID, compareSensorID], {from: from_picker.get('value'), to: to_picker.get('value') });                             
+              var sensors = [mainSensorID, compareSensorID];
+              sensors = sensors.filter(function(sensor) {
+                return sensor;
+              }); 
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                             
             }          
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {

@@ -16,7 +16,8 @@
         callAPI: callAPI,
         setTypes: setTypes,
         getTypes: getTypes,
-        getSensorsData: getSensorsData
+        getSensorsData: getSensorsData,
+        getSensorsDataNew: getSensorsDataNew
       };
       return service;
 
@@ -45,6 +46,14 @@
 
         /*jshint camelcase: false */
         return Restangular.one('devices', deviceID).customGET('pg_readings', {'from': dateFrom, 'to': dateTo, all_intervals: true, rollup: rollup});
+      }
+
+      function getSensorsDataNew(deviceID, sensorID, dateFrom, dateTo) {
+        var rollup = sensorUtils.getRollup(dateFrom, dateTo);
+        dateFrom = utils.convertTime(dateFrom);
+        dateTo = utils.convertTime(dateTo);
+
+        return Restangular.one('devices', deviceID).customGET('readings', {'from': dateFrom, 'to': dateTo, 'rollup': rollup, 'sensor_id': sensorID});
       }
     }
 })();
