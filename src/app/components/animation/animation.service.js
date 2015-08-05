@@ -19,7 +19,9 @@
         showLogin: showLogin,
         showSignup: showSignup,
         showPasswordReset: showPasswordReset,
-        hideAlert: hideAlert
+        hideAlert: hideAlert,
+        viewLoading: viewLoading,
+        viewLoaded: viewLoaded
     	};
     	return service;
 
@@ -60,6 +62,12 @@
       }
       function hideAlert() {
         $rootScope.$broadcast('hideAlert');
+      }
+      function viewLoading() {
+        $rootScope.$broadcast('viewLoading');
+      }
+      function viewLoaded() {
+        $rootScope.$broadcast('viewLoaded');
       }
     }
 })();
