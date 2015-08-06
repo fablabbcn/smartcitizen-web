@@ -57,7 +57,7 @@
       }
 
       function getWorldMarkers() {
-        return worldMarkers || ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ));
+        return worldMarkers || ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ).data);
       }
 
       function setWorldMarkers(data) {
@@ -67,7 +67,7 @@
         };
 
         $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
-        worldMarkers = data; 
+        worldMarkers = obj.data; 
       }
 
       function areMarkersOld() {
