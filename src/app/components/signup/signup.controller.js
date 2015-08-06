@@ -21,14 +21,7 @@
           hasBackdrop: true,
           controller: 'SignupDialogController',
           templateUrl: 'app/components/signup/signupModal.html',
-          //targetEvent: ev,
           clickOutsideToClose: true
-        })
-        .then(function() {
-          //signup(signupData);
-        })
-        .finally(function() {
-          //animation.unblur();
         });
       }
     }

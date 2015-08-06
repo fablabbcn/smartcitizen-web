@@ -48,7 +48,6 @@
           })  
           .catch(function(err) {
             alert.error('Your data wasn\'t updated');
-            console.log('err', err);
             vm.errors = err.data.errors;
           })
           .finally(function() {
