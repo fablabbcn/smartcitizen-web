@@ -103,13 +103,10 @@ body {
     width: 204px;
     margin: 0px 16px;
     .map {
-      // width: 66px;
       width: 70px;
-      // margin-right: 8px;
     }
     .community {
       width: 114px;
-      // margin-left: 8px;
     }
   }
 
@@ -118,12 +115,8 @@ body {
     margin: 0px 16px;
 
     .get {
-      // width: 98px;
-      // margin-right: 8px;
     }
     .log {
-      // width: 56px;
-      // margin: 0px 8px;
     }
     .navbar_signup_button {
       text-align: center;
@@ -166,7 +159,6 @@ search {
           width: 18px;
           height: 18px;
           border-radius: 9px;
-          // display: inline-block;
         }
         .result_location {
           color: $blue_light;
@@ -221,24 +213,9 @@ search {
   }
 }
 
-[layout=row] {
-  flex-direction: row;
-}
-
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-.thumbnail {
-  height: 200px;
-
-  img.pull-right {
-    width: 50px;
-  }
-}
+/**
+ * ANGULAR MATERIAL OVERRIDING
+ */
 
 md-select-menu {
   background-color: white;
@@ -276,14 +253,6 @@ md-dialog.md-default-theme {
   box-shadow: 0px 0px 0px 0px transparent;
   max-height: 100%;
 }
-
-/*md-dialog.md-default-theme.transition-in {
-  transition: all 0.2s ease-out 0s;
-}
-
-md-dialog.md-default-theme.transition-out {
-  transition: all 0.2s ease-out 0s;
-}*/
 
 md-dialog-content { 
   background-color: white;
@@ -361,12 +330,6 @@ md-progress-linear.md-default-theme .md-bar{
 
 md-backdrop.md-opaque.md-default-theme {
   background-color: rgba(30, 30, 30, 0.6);
-  // position:absolute;
-  /*-ms-filter: blur(20px);  
-  -webkit-filter: blur(20px);  
-  -moz-filter: blur(20px);  
-  -o-filter: blur(20px);  
-  filter: blur(20px); */
 }
 
 //Loading backdrop 
@@ -449,7 +412,6 @@ section.map {
   margin: 0 5px;
   border-radius: 20px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.65)
-  // min-width: 60px;
 }
 .map_filter_name {
   font-size: 12px;
@@ -482,20 +444,6 @@ section.map {
 }
 .md-button.md-default-theme.map_filter_button:hover, .md-button.md-default-theme.map_filter_button:focus {
   background-color: white;
-}
-
-.techs {
-  display: flex;
-  flex-flow: row wrap;
-
-  md-card {
-    width: 30%;
-
-    img.pull-right {
-      float: right;
-      width: 50px;
-    }
-  }
 }
 
 .kit_fixed {
@@ -598,20 +546,6 @@ section .kit_menu {
   }    
 
 }
-/*.svg-active {
-  stroke: white;
-  stroke-width: 0.01px;
-  fill: white;
-  
-  svg {
-    color: brown;
-    > g {
-      stroke: white;
-      stroke-width: 0.01px;     
-    }    
-  }
-}
-*/
 
 .kit_overview {
   width: 100%;
@@ -625,10 +559,6 @@ section .kit_menu {
     top: 0;
     width: 60px;
     height: 96px;
-
-    md-icon {
-
-    }
   }
 
   .button_scroll_left {
@@ -695,6 +625,7 @@ section .kit_menu {
  *  KIT DETAILS
  *  
  */
+
  .kit_details_notAuth {
   font-size: 14px;
  }
@@ -827,11 +758,7 @@ section .kit_menu {
         }
         .sensor_compare {
           font-size: 12px;
-          /*.sensor_icon_selected_compare {
-            margin: 0 1% 0 2%;
-            width: 15px;
-            height: 15px;
-          }*/
+
           span {
             margin-right: 10px;
           }
@@ -845,11 +772,9 @@ section .kit_menu {
         .chart_navigation {
           height: 10%;
           font-size: 11px;
-          // float: right;
           margin-right: 30px;
 
           > div {
-            // display: inline-block;
             margin-left: 40px;
           }
           input {
@@ -944,8 +869,6 @@ section .kit_menu {
     font-size: 12px;
   }
   .kit_details_manage {
-    // float: right;
-    // margin-right: 40px;
   }
   .kit_details_manage_buttons {
     margin-bottom: 32px;
@@ -1037,8 +960,8 @@ section .kit_menu {
     }
     .kit_owner_content {
       float: left;
-      width: 85%;//75
-      margin-bottom: 60px;
+      width: 85%;
+      margin-bottom: 100px;
 
       h3, p {
         line-height: 0.4em;
@@ -1155,10 +1078,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
     stroke-width: 2px;
   }
   .chart_area {
-    /*stroke-width: 0px;*/
     opacity: 0.1;
-    /*fill: url(#linearGradient);*/
-    /*stroke-width: 3px;*/
   }
 
   .axis path,.axis line {
@@ -1397,6 +1317,7 @@ section .stickMenu {
 /* 
  CORE FORM COMPONENT
  */
+
 .form_container {
   font-size: 16px;
   position: relative;
@@ -1590,14 +1511,10 @@ section .stickMenu {
   }
 }
 
-/* .blur {
-  -ms-filter: blur(20px);  
-  -webkit-filter: blur(20px);  
-  -moz-filter: blur(20px);  
-  -o-filter: blur(20px);  
-  filter: blur(20px);  
-}
+/**
+ * MOVE DOWN EFFECT ON SCROLL
  */
+
 .move_down {
   -ms-transform: translateY(32px);
   -webkit-transform: translateY(32px);
@@ -1617,18 +1534,13 @@ section .stickMenu {
 }
 
 .markerSmartCitizenOnline {
- /*  background-image: url('../assets/images/marker.svg'); */
   border: 2px solid #00CBE8;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
   background-color: #00CBE8;
-  // -webkit-animation: pulse 5s linear infinite;
-  // -moz-animation: pulse 5s linear infinite;
-  // -ms-animation: pulse 5s linear infinite;
-  // animation: pulse 5s linear infinite;
 }
 
-@keyframes pulse {
+/* @keyframes pulse {
   0% {
     opacity: 0.2;
   }
@@ -1671,7 +1583,7 @@ section .stickMenu {
   100% {
     opacity: 0.2;
   }
-}
+} */
 
 .markerSmartCitizenOffline {
   border: 2px solid #06CAE8;
@@ -1680,12 +1592,12 @@ section .stickMenu {
   background-color: rgba(0,203,232,0.3);
 }
 
-.marker_blink {
+/* .marker_blink {
   -webkit-animation: pulse 2s linear infinite;
   -moz-animation: pulse 2s linear infinite;
   -ms-animation: pulse 2s linear infinite;
   animation: pulse 2s linear infinite;
-}
+} */
 
 .popup {
   width: 101%;;
@@ -1775,7 +1687,6 @@ section .stickMenu {
 
   p {
     margin: 0;
-    /*line-height: 0;*/
   }
 }
 
@@ -1894,7 +1805,6 @@ section .stickMenu {
     right: 0px;
     border-radius: 0px;
     font-size: 14px;
-    // width: 100px;
     li a {
       text-align: center;
       border-bottom: 0px;
@@ -1966,22 +1876,16 @@ section .stickMenu {
 }
 
 .kitList_container {
-  // width: 95%;
-  // margin: 0 auto;
   margin-left: 15px;
   margin-right: 15px;
 }
 .kitList_avatar {
-  // float: left;
   width: 44px;
   height: 44px;
   border-radius: 22px;
   margin-right: 20px;
-  // margin-top: 14px;
 }
 .kitList_content {
-  // float: left;
-  // margin-top: 0;
   text-align: initial;
 }
 .kitList_name {
@@ -2003,13 +1907,9 @@ section .stickMenu {
   top: -2px;
 }
 .kitList_config {
-  // display: inline-block;
-  // position: relative;
-  // top: -7px;
   width: 4%;
 }
 .kitList_state {
-  // display: inline-block;
   color: white;
   font-size: 11px;
   border-radius: 20px;
@@ -2137,9 +2037,6 @@ section .stickMenu {
 .profile_content_main_top {
   margin: 0 0 42px 20px;
 }
-.profile_content_main_kits {
-  // border-bottom: 1px solid #EAECF1;
-}
 
 /**
  *  MY PROFILE STATE
@@ -2178,8 +2075,6 @@ section .stickMenu {
   transform: translateY(-48px);
 }
 .myProfile_tabs {
-  // position: relative;
-  // top: 45.5px;
 }
 .myProfile_tab_icon {
   width: 16px;
