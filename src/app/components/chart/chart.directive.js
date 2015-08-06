@@ -41,7 +41,7 @@
                 return {
                   date: dateFormat(dataPoint.time),
                   count: dataPoint && dataPoint.count,
-                  value: dataPoint && datePoint.value       
+                  value: dataPoint && dataPoint.value       
                 };
               });
 
