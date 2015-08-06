@@ -211,11 +211,11 @@
         return data[sensorID].map(function(dataPoint) {
           var time = dataPoint[0];
           var value = dataPoint[1];
-          var data = value === null ? 0 : value;  
+          var count = value === null ? 0 : value;  
           
           return {
             time: time,
-            data: data,
+            count: count,
             value: value
           };
         });
