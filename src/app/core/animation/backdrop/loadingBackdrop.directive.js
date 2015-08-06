@@ -7,7 +7,7 @@
     loadingBackdrop.$inject = [];
     function loadingBackdrop() {
       return {
-        templateUrl: 'app/components/animation/backdrop/loadingBackdrop.html',
+        templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
         controller: function($scope) {
           var vm = this;  
           vm.isViewLoading = true;

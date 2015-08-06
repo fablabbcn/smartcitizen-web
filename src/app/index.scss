@@ -1993,7 +1993,6 @@ section .stickMenu {
 .profile_content {
   min-height: 700px;
   position: relative;
-  margin-bottom: 65px;
 }
 /* profile sidebar */
 .profile_sidebar {
@@ -2033,6 +2032,7 @@ section .stickMenu {
 .profile_content_main {
   min-height: inherit;
   padding: 82px 26px 0 41px;
+  margin-bottom: 65px;
 }
 .profile_content_main_top {
   margin: 0 0 42px 20px;
