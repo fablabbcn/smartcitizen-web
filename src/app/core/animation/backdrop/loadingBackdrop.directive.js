@@ -9,7 +9,6 @@
       return {
         templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
         controller: function($scope) {
-          angular.element('#doorbell-button').hide();
           var vm = this;  
           vm.isViewLoading = true;
 
