@@ -15,14 +15,13 @@
       });
       var focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
 
-      // vm.markers = markers;
       vm.markers = markersByIndex;
       vm.currentMarker = marker.getCurrentMarker();
 
       vm.tiles = {
         url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
       };
-      //'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
+      //previous tile -->'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
 
       vm.layers = {
         baselayers: {
@@ -34,7 +33,7 @@
         },
         overlays: {
           realworld: {
-            name: 'Real world data',
+            name: 'Devices',
             type: 'markercluster',
             visible: true,
             layerOptions: {
@@ -61,7 +60,7 @@
     	vm.events = {
     	  map: {
     	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart'],
-    	  	logic: 'broadcast' // might have to use emit later
+    	  	logic: 'broadcast'
     	  }
     	};
 
@@ -120,7 +119,6 @@
                     var selectedMarker = vm.markers[data.id];
 
                     if(selectedMarker) {
-                      // focusedMarkerID = data.id;
                       selectedMarker.focus = true;
                     }
                     $scope.$digest();
@@ -130,16 +128,6 @@
         }, 3000);
       });
       
-      /*
-       $scope.$on('leafletDirectiveMap.touchstart', function(event, otro) {
-        console.log('touch', event, otro);
-        alert('touch');
-      });  
-      $scope.$on('leafletDirectiveMap.mousedown', function(event) {
-        console.log('popup', event);
-        alert('click');
-      });
-      */
       var defaultFilters = {
         exposure: null,
         status: null
