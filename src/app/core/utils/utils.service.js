@@ -11,7 +11,6 @@
         parseKitTime: parseKitTime,
         parseSensorTime: parseSensorTime,
         convertTime: convertTime,
-        getTimeDifferenceInDays: getTimeDifferenceInDays,
         getOwnerKits: getOwnerKits
       };
       return service;
@@ -81,10 +80,6 @@
 
       function convertTime(time) {
         return moment(time).format('YYYY-MM-DDThh:mm:ss') + 'Z';
-      }
-
-      function getTimeDifferenceInDays() {
-        
       }
 
       function getOwnerKits(ids) {

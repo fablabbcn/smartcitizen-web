@@ -202,7 +202,6 @@
           })
           .value()
           .measurement.description;
-          // .slice(0, 140);
       }
     }
 })();
