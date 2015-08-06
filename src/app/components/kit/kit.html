@@ -165,7 +165,7 @@
                 <p class="kit_details_location">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
-                  <span>{{ vm.kit.location }}</span>
+                  <span>{{ vm.kit.location || 'No location' }}</span>
                 </p>
                 <p class="kit_details_type">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
@@ -284,7 +284,7 @@
                           <span>{{ kit.location || 'No location' }}</span>
                           <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
                           </md-icon>
-                          <span>{{ kit.type }}</span>
+                          <span>{{ kit.type || 'Unknown Kit'}}</span>
                         </p>
                       </div>
                       <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
@@ -292,7 +292,7 @@
                       </div>
                     </div>
                   </md-button>
-                  <div class="kitList_config" ng-if="vm.kitBelongsToUser">                    
+                  <div class="kitList_config" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">                    
                     <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
                         dropdown-model="vm.dropdownSelected"
                         dropdown-item-label="text">

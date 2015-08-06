@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -49,12 +49,17 @@
         $location.path('/');
       });
 
-      $timeout(function() {
-        highlightIcon(0); 
-        setSidebarMinHeight();
-      }, 500);
+      initialize();
 
       //////////////////
+
+      function initialize() {
+        $timeout(function() {
+          highlightIcon(0); 
+          setSidebarMinHeight();
+          animation.viewLoaded();
+        }, 500);
+      }
 
       function filterKits(status) {
         if(status === 'all') {

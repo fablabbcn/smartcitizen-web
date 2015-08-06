@@ -40,7 +40,8 @@
               var dataMain = sensorDataMain.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && datePoint.value       
                 };
               });
 
@@ -52,7 +53,8 @@
               var dataCompare = sensorDataCompare.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && dataPoint.value      
                 };
               });
 
@@ -79,7 +81,8 @@
               var data = sensorData.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
-                  count: dataPoint && dataPoint.data           
+                  count: dataPoint && dataPoint.data,
+                  value: dataPoint && dataPoint.value        
                 };
               });
 
@@ -324,7 +327,7 @@
           // popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');
-          var valueMain = textMain.select('.popup_value').text(parseValue(d.count));
+          var valueMain = textMain.select('.popup_value').text(parseValue(d.value));
           var unitMain = textMain.select('.popup_unit').text(options.unit);
           var date = popupText.select('.popup_date').text(parseTime(d.date));
 
@@ -539,10 +542,10 @@
           
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');
-          textMain.select('.popup_value').text(parseValue(dMain.count));
+          textMain.select('.popup_value').text(parseValue(dMain.value));
           textMain.select('.popup_unit').text(options.unit[0]);
           var textCompare = popupText.select('.popup_compare');
-          textCompare.select('.popup_value').text(parseValue(d.count));
+          textCompare.select('.popup_value').text(parseValue(d.value));
           textCompare.select('.popup_unit').text(options.unit[1]);
           var date = popupText.select('.popup_date').text(parseTime(d.date));     
 
@@ -577,7 +580,7 @@
       }
 
       function parseValue(value) {
-        if(value === 0) {
+        if(value === null) {
           return 'No data';
         } else if(value.toString().indexOf('.') !== -1) {
           var result = value.toString().split('.');
