@@ -4,8 +4,8 @@
 	angular.module('app.components')
 	  .factory('user', user);
 	  
-	  user.$inject = ['$http', 'Restangular'];
-	  function user($http, Restangular) {
+	  user.$inject = ['Restangular'];
+	  function user(Restangular) {
       var service = {
         createUser: createUser,
         getUser: getUser,
@@ -26,14 +26,6 @@
 
       function updateUser(updateData) {
         return Restangular.all('me').customPUT(updateData);
-        /*return $http({
-          method: 'PATCH',
-          url: 'https://new-api.smartcitizen.me/v0/me',
-          data: updateData,
-          headers: {
-            'Authorization': 'Bearer ' + auth.getCurrentUser().token 
-          }
-        });*/
       }
 
       function removeUser() {

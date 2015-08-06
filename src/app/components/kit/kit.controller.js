@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
     
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'DROPDOWN_OPTIONS'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, DROPDOWN_OPTIONS) {
       var vm = this;
       var sensorsData = [];
 
@@ -34,10 +34,7 @@
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
-      vm.dropdownOptions = [
-        {text: 'SET UP', value: '1'},
-        {text: 'EDIT', value: '2'}
-      ];
+      vm.dropdownOptions = DROPDOWN_OPTIONS;
 
       vm.dropdownSelected = undefined;
 
@@ -153,11 +150,7 @@
         if(getChartDataHasBeenCalled && !sensorsData) {
           //waiting for the data from the server, render chart on next call
           return;
-        //if data is not loaded, get it first -> happens on controller initialization
         } 
-        // else if(!getChartDataHasBeenCalled) {
-          // updateType = 'date';
-        // } 
 
         if(!options) {
           options = {};
@@ -178,13 +171,11 @@
           })
         ).then(function() {
           vm.chartDataMain = prepareChartData([mainSensorID, compareSensorID]);
-          console.log('vm', vm.chartDataMain);
         });
       }
       
       function getChartData(deviceID, sensorID, dateFrom, dateTo, options) {
         getChartDataHasBeenCalled = true;
-        // var deviceID = $stateParams.id;
 
         return sensor.getSensorsDataNew(deviceID, sensorID, dateFrom, dateTo)
           .then(function(data) {
@@ -293,7 +284,6 @@
           var today = timeUtils.getToday();
           var currentValueTo = picker.getValuePickerTo();
           if( timeUtils.isSameDay(today, currentValueTo) ) {
-            // vm.toPickerDisabled = true;
             return;
           }
 
