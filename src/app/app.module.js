@@ -10,6 +10,5 @@ angular.module('app', [
   'ngDropdowns',
   'oauth',
   'leaflet-directive',
-	'app.components', 
-	'app.auth'
+	'app.components'
 ]);

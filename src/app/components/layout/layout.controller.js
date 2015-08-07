@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('LayoutController', LayoutController);
 
-    LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation', '$timeout'];
-    function LayoutController($location, $state, $scope, auth, animation, $timeout) {
+    LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
+    function LayoutController($location, $state, $scope, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
       var vm = this;
 
       vm.navRightLayout = 'space-around center';
@@ -42,20 +42,10 @@
       vm.isLoggedin = false;
       vm.logout = logout;
 
-      vm.dropdownOptions = [
-        {divider: true, text: 'Hello,'},
-        {text: 'PROFILE', href: './profile'},
-        {text: 'LOGOUT', href: './logout'}
-      ];
-
+      vm.dropdownOptions = DROPDOWN_OPTIONS_USER;
       vm.dropdownSelected = undefined;
 
-      vm.dropdownOptionsCommunity = [
-        {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
-        {text: 'Documentation', href: 'http://docs.smartcitizen.me/#/'},
-        {text: 'API Reference', href: 'http://api.smartcitizen.me/'},
-        {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'}        
-      ];
+      vm.dropdownOptionsCommunity = DROPDOWN_OPTIONS_COMMUNITY;
       vm.dropdownSelectedCommunity = undefined;
 
       $scope.$on('removeNav', function() {
@@ -70,22 +60,22 @@
         });
       });
 
-
-      $timeout(function() {
-        var hash = $location.search();
-        if(hash.signup) {
-          animation.showSignup();
-          // angular.element('.navbar_signup_button button').click();
-        } else if(hash.login) {
-          //animation.showLogin();
-          angular.element('.navbar_login_button button').click();
-        } else if(hash.passwordRecovery) {
-          animation.showPasswordRecovery();
-        }
-      }, 1000);
-
+      initialize();
 
       //////////////////
+
+      function initialize() {
+        $timeout(function() {
+          var hash = $location.search();
+          if(hash.signup) {
+            animation.showSignup();
+          } else if(hash.login) {
+            animation.showLogin();
+          } else if(hash.passwordRecovery) {
+            animation.showPasswordRecovery();
+          }
+        }, 1000);        
+      }
 
       function logout() {
         auth.logout();

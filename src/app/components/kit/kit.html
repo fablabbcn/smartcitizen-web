@@ -93,7 +93,7 @@
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
 <!--                 <md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="sensor_data_icon" show-popup-info></md-icon> -->
             </div>
-            <div class="sensor_data_description" hide-popup-info>This is an average value based on previous data</div>
+            <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
               <div class="sensor_description_content" > 
@@ -199,7 +199,7 @@
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">Mac Address:</span>
-                  <span>00:00:00:00:01</span>
+                  <span>{{ vm.kit.macAddress }}</span>
                 </div>
                 <div class="kit_details_debug data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">

@@ -111,9 +111,5 @@
           return kit.id === kitID;
         });
       }
-
-      // function convertTime(time) {
-      //   return moment(time).format('YYYY-MM-DDThh:mm:ss') + 'Z';
-      // }
     }
 })();

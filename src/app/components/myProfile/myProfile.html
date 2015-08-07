@@ -45,11 +45,11 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="myProfile_content_form">
+                <div class="myProfile_form_avatar" layout="row" layout-align="start center">
+                  <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
+                  <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
+                </div>
                 <form ng-submit="vm.updateUser(vm.formUser)">
-                  <div class="myProfile_form_avatar" layout="row" layout-align="start center">
-                    <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
-                    <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
-                  </div>
                   <div layout layout-sm="column" class="field myProfile_content_form_input">
                     <md-input-container flex>
                       <label>Username</label>

@@ -13,7 +13,7 @@
       vm.status = undefined;
       vm.user = user;
       vm.kits = kits;
-      // vm.filteredKits;
+      vm.filteredKits = [];
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {

@@ -4,46 +4,41 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
       vm.unhighlightIcon = unhighlightIcon; 
 
       //PROFILE TAB
-      vm.formUser = {
-        'avatar': null
-      };
+      vm.formUser = {};
       vm.getCountries = getCountries;
 
       vm.user = userData; 
-      _.defaults(vm.formUser, vm.user);
+      copyUserToForm(vm.formUser, vm.user);
       vm.searchText = vm.formUser.country; 
 
+      vm.updateUser = updateUser;
+      vm.removeUser = removeUser;
+      vm.uploadAvatar = uploadAvatar;
 
       //KITS TAB
-      // var kits = kitsData;
       vm.kits = kitsData;
       vm.kitStatus = undefined;
       vm.filteredKits = [];
 
       vm.dropdownSelected = undefined;
-      vm.dropdownOptions = [
-        {text: 'SET UP', value: '1'},
-        {text: 'EDIT', value: '2'}
-      ];
+      vm.dropdownOptions = DROPDOWN_OPTIONS_KIT;
 
       //TOOLS TAB
       vm.tools = PROFILE_TOOLS;
       vm.toolType = undefined;
       vm.filteredTools = [];
 
+      //SIDEBAR
       vm.filterKits = filterKits;
       vm.filterTools = filterTools;
-      vm.updateUser = updateUser;
-      vm.removeUser = removeUser;
-      vm.uploadAvatar = uploadAvatar;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
@@ -147,13 +142,21 @@
         if(fileData && fileData.length) {
           file.getCredentials(fileData[0].name)
             .then(function(res) {
-            file.uploadFile(fileData[0], res.key, res.policy, res.signature)
-                .progress(function() {
-                })
+              file.uploadFile(fileData[0], res.key, res.policy, res.signature)
                 .success(function() {                  
                   vm.user.avatar = file.getImageURL(res.key);
                 });
-            });
+              });
+        }
+      }
+
+      function copyUserToForm(formData, userData) {
+        var props = {username: true, email: true, city: true, country: true, country_code: true, website: true, constructor: false};
+
+        for(var key in userData) {
+          if(props[key]) {
+            formData[key] = userData[key];
+          }
         }
       }
     }
