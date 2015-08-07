@@ -40,6 +40,10 @@
       }
 
       function querySearch(query) {
+        if(query.length < 3) {
+          return [];
+        }
+
         return search.globalSearch(query)
           .then(function(data) {
             
