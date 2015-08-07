@@ -16,6 +16,7 @@
         this.latitude = object.data.location.latitude;
         this.longitude = object.data.location.longitude;
         this.time = moment(utils.parseKitTime(object)).fromNow();
+        this.macAddress = object.mac_address;
       }
 
       FullKit.prototype = Object.create(Kit.prototype);
