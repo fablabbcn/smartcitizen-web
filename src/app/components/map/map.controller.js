@@ -170,13 +170,14 @@
           //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {
-            filterData: vm.filterData
+            filterData: vm.filterData,
+            defaultFiltersFromController: defaultFilters
           }
         })
-        .then(function(data, defaultFiltersFromModal) {
-          _.extend(vm.filterData, data);
-          _.extend(defaultFilters, defaultFiltersFromModal);
-          updateMarkers(data);
+        .then(function(obj) {
+          _.extend(vm.filterData, obj.data);
+          _.extend(defaultFilters, obj.defaultFilters);
+          updateMarkers(obj.data);
           checkFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();            
