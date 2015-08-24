@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapFilterDialogController', MapFilterDialogController);
 
-    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData', 'mapUtils'];
-    function MapFilterDialogController($scope, $mdDialog, filterData, mapUtils) {
+    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData', 'defaultFiltersFromController', 'mapUtils'];
+    function MapFilterDialogController($scope, $mdDialog, filterData, defaultFiltersFromController, mapUtils) {
       var defaultFilters = {
         exposure: null,
         status: null
@@ -19,6 +19,7 @@
       };
 
       _.extend($scope.form, filterData);
+      _.extend(defaultFilters, defaultFiltersFromController);
 
       $scope.answer = function(data) {
         if(!data) {
@@ -26,7 +27,11 @@
             obj[key] = true;
           });
         }
-        $mdDialog.hide(data, defaultFilters);
+        var obj = {
+          data: data,
+          defaultFilters: defaultFilters
+        };
+        $mdDialog.hide(obj);
       };
       $scope.hide = function() {
         $mdDialog.hide();
