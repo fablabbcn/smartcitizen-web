@@ -70,10 +70,14 @@
         worldMarkers = obj.data; 
       }
 
+      function getTimeStamp() {
+        return ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ).timestamp); 
+      }
+
       function areMarkersOld() {
         var TODAY = moment(new Date());
         var markers = getWorldMarkers();
-        var timestamp = markers && markers.timestamp;        
+        var timestamp = getTimeStamp();      
         var markersDate = moment(timestamp);
         return !timeUtils.isSameDay(TODAY, markersDate);
       }
