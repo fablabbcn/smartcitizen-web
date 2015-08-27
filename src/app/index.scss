@@ -469,8 +469,15 @@ section .kit_menu {
     width: 100%;
     height: 100%;
   }
-
-
+  
+  .kit_time {
+    position: relative;
+    left: -100px;
+    color: #82A7B0;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
   .kit_user {    
     float: left;
     line-height: 30px;

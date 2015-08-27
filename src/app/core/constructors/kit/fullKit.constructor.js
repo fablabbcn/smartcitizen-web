@@ -6,16 +6,18 @@
 
       function FullKit(object) {
         Kit.call(this, object);
+        var time = kitUtils.parseTime(object);
 
         this.version = kitUtils.parseVersion(object);
-        this.lastTime = moment(kitUtils.parseTime(object)).fromNow(); 
+        this.time = moment(time).format('MMMM DD, YYYY - HH:mm');
+        this.lastTime = moment(time).fromNow(); 
         this.class = kitUtils.classify(kitUtils.parseType(object)); 
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);
         this.data = object.data.sensors;
         this.latitude = object.data.location.latitude;
         this.longitude = object.data.location.longitude;
-        this.time = moment(utils.parseKitTime(object)).fromNow();
+        // this.time = moment(utils.parseKitTime(object)).fromNow();
         this.macAddress = object.mac_address;
       }
 

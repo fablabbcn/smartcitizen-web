@@ -63,7 +63,7 @@
 
       function parseTime(object) {
         /*jshint camelcase: false */
-        return object.updated_at;
+        return object.last_reading_at;
       }
 
       function parseVersion(object) {
