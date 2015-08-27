@@ -37,7 +37,7 @@
       function getDevices(location) {
       	var parameter = '';
       	parameter += location.lat + ',' + location.lng;
-      	return Restangular.all('devices').getList({near: parameter});
+      	return Restangular.all('devices').getList({near: parameter, 'per_page': '100'});
       }
 
       function getAllDevices() {
