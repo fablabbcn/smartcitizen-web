@@ -75,11 +75,8 @@
       }
 
       function areMarkersOld() {
-        var TODAY = moment(new Date());
-        var markers = getWorldMarkers();
-        var timestamp = getTimeStamp();      
-        var markersDate = moment(timestamp);
-        return !timeUtils.isSameDay(TODAY, markersDate);
+        var markersDate = getTimeStamp();      
+        return !timeUtils.isWithin15min(markersDate);
       }
 
       function removeMarkers() {
