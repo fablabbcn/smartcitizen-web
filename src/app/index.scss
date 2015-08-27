@@ -162,7 +162,9 @@ search {
         }
         .result_location {
           color: $blue_light;
-          margin-left: 6px;
+        }
+        .result_name {
+          margin-right: 10px;
         }
 
         border: 0px;
