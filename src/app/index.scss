@@ -644,7 +644,7 @@ section .kit_menu {
   color: $blue_light;
 }
 .kit_detailed {
-  height: 1000px;
+  // height: 1000px;
   z-index: $medium_priority;
   background-color: white;
   position: relative;
@@ -961,9 +961,8 @@ section .kit_menu {
       margin: 0 auto;
     }
     .kit_owner_content {
-      float: left;
       width: 85%;
-      margin-bottom: 100px;
+      // margin-bottom: 100px;
 
       h3, p {
         line-height: 0.4em;
@@ -1046,6 +1045,15 @@ section .kit_menu {
       color: #35C2E5;
     }
   }
+}
+
+/* 
+=========================================
+KIT COMMENTS MODULE
+=========================================
+*/
+.kit_comments {
+  padding-bottom: 100px;
 }
 
 .kit_spinner {

@@ -30,10 +30,10 @@
           </md-icon>
         </md-button>      
          
-        <!--<md-button href="#" class="md-flat discussion_icon" aria-label="">
+        <md-button href="#" class="md-flat discussion_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/discussion_icon.svg">
           </md-icon>
-        </md-button>-->
+        </md-button>
       
         <!--<md-button href="" class="md-flat shape_icon kit_owner_dropdown_button" aria-label="" dropdown-menu="vm.dropdownOptions"
             dropdown-model="vm.dropdownSelected"
@@ -242,7 +242,7 @@
             </md-icon>
             <h2 class="kit_detailed_title">KIT OWNER</h2>
           </div>
-          <div class="kit_detailed_content_container">
+          <div class="kit_detailed_content_container" layout="row">
             <div class="kit_detailed_avatar">
               <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
             </div>
@@ -307,15 +307,16 @@
         </div>
         <div class="clearfix"></div>
       </section>
-      <!--<section class="kit_comments">
+      <section class="kit_comments">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">
             <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/discussion_icon.svg">
             </md-icon>
             <h2 class="kit_detailed_title">DISCUSSION</h2>
           </div>
+          <div class="kit_detailed_content_container" ng-include="'app/components/disqus/disqus.html'"></div>
         </div>
-      </section>-->
+      </section>
     </section>
   </section>
 </section>
