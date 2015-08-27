@@ -305,8 +305,8 @@
           url: '/login',
           authenticate: false,
           resolve: {
-            buttonToClick: function($location, isAuth) {
-              if(isAuth) {
+            buttonToClick: function($location, auth) {
+              if(auth.isAuth()) {
                 return $location.path('/');
               }
               $location.path('/kits/667');
@@ -318,8 +318,8 @@
           url: '/signup',
           authenticate: false,
           resolve: {
-            buttonToClick: function($location, isAuth) {
-              if(isAuth) {
+            buttonToClick: function($location, auth) {
+              if(auth.isAuth()) {
                 return $location.path('/');
               }
               $location.path('/kits/667');
