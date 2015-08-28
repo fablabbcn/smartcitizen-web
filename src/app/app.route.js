@@ -4,8 +4,8 @@
   angular.module('app')
     .config(config);
     
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider'];
-    function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider) {
+    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider'];
+    function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider) {
       $stateProvider
         .state('landing', {
           url: '/',
@@ -361,5 +361,7 @@
       }).hashPrefix('!');
 
       RestangularProvider.setBaseUrl('https://new-api.smartcitizen.me/v0');
+
+      $logProvider.debugEnabled(false);
     }
 })();

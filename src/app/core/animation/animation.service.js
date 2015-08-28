@@ -21,7 +21,8 @@
         showPasswordReset: showPasswordReset,
         hideAlert: hideAlert,
         viewLoading: viewLoading,
-        viewLoaded: viewLoaded
+        viewLoaded: viewLoaded,
+        kitWithoutData: kitWithoutData
     	};
     	return service;
 
@@ -68,6 +69,9 @@
       }
       function viewLoaded() {
         $rootScope.$broadcast('viewLoaded');
+      }
+      function kitWithoutData(data) {
+        $rootScope.$broadcast('kitWithoutData', data);
       }
     }
 })();
