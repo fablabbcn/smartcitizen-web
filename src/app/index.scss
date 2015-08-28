@@ -2018,7 +2018,8 @@ section .stickMenu {
 }
 /* profile sidebar */
 .profile_sidebar {
-  min-height: inherit;
+  min-height: 400px;
+  // min-height: inherit;
   width: 256px;
   background-color: #F5F5F5;
   padding-top: 80px;
