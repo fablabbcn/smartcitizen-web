@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT) {
+    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog'];
+    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -95,9 +95,15 @@
       }
 
       function removeUser() {
-        user.removeUser()
-          .then(function() {
-          });
+        var alert = $mdDialog.alert()
+          .title('Delete your account?')
+          .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+          .ariaLabel('')
+          .ok('OK!')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog.show(alert);
       }
 
       function highlightIcon(iconIndex) {

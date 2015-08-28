@@ -9,8 +9,7 @@
       var service = {
         createUser: createUser,
         getUser: getUser,
-        updateUser: updateUser,
-        removeUser: removeUser
+        updateUser: updateUser
       };
       return service;
 
@@ -26,10 +25,6 @@
 
       function updateUser(updateData) {
         return Restangular.all('me').customPUT(updateData);
-      }
-
-      function removeUser() {
-        return Restangular.all('me').remove();
       }
 	  }
 })();

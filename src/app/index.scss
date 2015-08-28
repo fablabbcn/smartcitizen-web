@@ -219,6 +219,7 @@ search {
  * ANGULAR MATERIAL OVERRIDING
  */
 
+
 md-select-menu {
   background-color: white;
 }
@@ -250,6 +251,9 @@ md-toolbar.md-default-theme {
   color: white;
 }
 
+md-dialog.md-primary-theme {
+  background-color: white;
+}
 md-dialog.md-default-theme { 
   background-color: rgba(255, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px transparent;
