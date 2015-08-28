@@ -37,7 +37,7 @@
       function getDevices(location) {
       	var parameter = '';
       	parameter += location.lat + ',' + location.lng;
-      	return Restangular.all('devices').getList({near: parameter});
+      	return Restangular.all('devices').getList({near: parameter, 'per_page': '100'});
       }
 
       function getAllDevices() {
@@ -75,11 +75,8 @@
       }
 
       function areMarkersOld() {
-        var TODAY = moment(new Date());
-        var markers = getWorldMarkers();
-        var timestamp = getTimeStamp();      
-        var markersDate = moment(timestamp);
-        return !timeUtils.isSameDay(TODAY, markersDate);
+        var markersDate = getTimeStamp();      
+        return !timeUtils.isWithin15min(markersDate);
       }
 
       function removeMarkers() {

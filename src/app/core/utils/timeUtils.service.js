@@ -12,7 +12,8 @@
       getSevenDaysAgo: getSevenDaysAgo,
       getDateIn: getDateIn,
       parseTime: parseTime,
-      isSameDay: isSameDay
+      isSameDay: isSameDay,
+      isWithin15min: isWithin15min
     };
     return service;
 
@@ -68,6 +69,14 @@
         return true;
       }
       return false;
+    }
+
+    function isWithin15min(dateToCheck) {
+      var fifteenMinAgo = moment().subtract(15, 'minutes').valueOf();
+      dateToCheck = moment(dateToCheck).valueOf();
+
+      var result = dateToCheck > fifteenMinAgo;
+      return result;
     }
   }
 })();
