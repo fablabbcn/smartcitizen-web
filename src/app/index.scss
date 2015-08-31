@@ -301,11 +301,13 @@ md-toast.md-top {
   }
 
   .alert_button {
+    margin-left: 5px;
     color: #53460B;
     background-color: #C1A212;
     height: 26px;
     border-radius: 13px;
     font-size: 12px;
+    padding: 6px 12px;
   }
 }
 
@@ -374,7 +376,7 @@ md-backdrop.md-noDataBackdrop {
   color: white;
 
   .block {
-    width: 30%;
+    width: 425px;
     margin: 0 auto;
 
   }
