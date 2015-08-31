@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('SearchController', SearchController);
 
-    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location'];
-    function SearchController($scope, search, SearchResult, $location) {
+    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
+    function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
       var vm = this;
       
       vm.searchTextChange = searchTextChange;
@@ -36,6 +36,8 @@
           $location.path('/users/' + result.id);
         } else if(result.type === 'Device') {
           $location.path('/kits/' + result.id);
+        } else {
+          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type});
         }
       }
 
@@ -57,7 +59,12 @@
             angular.element(document.body).css('overflow', 'hidden');
 
             return data.map(function(object) {
-              return new SearchResult(object);
+
+              if(object.type === 'City' || object.type === 'Country') {
+                return new SearchResultLocation(object);
+              } else {
+                return new SearchResult(object)
+              }
             });
           });
       }
