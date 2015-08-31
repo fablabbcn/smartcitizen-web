@@ -118,7 +118,11 @@
         }
 
         if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
-          alert.info.noData();
+          if(vm.kitBelongsToUser) {
+            alert.info.noData.owner();            
+          } else {
+            alert.info.noData.visitor();
+          }
           setTimeout(function() {
             animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});            
           }, 1000);          
