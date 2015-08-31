@@ -993,11 +993,12 @@ section .kit_menu {
   .kit_detailed_content_container {
     width: 95%;
     margin: 0 auto;
+    padding-bottom: 30px;
   }
   .kit_owner {
     color: $background_blue_dark_navbar;
     background-color: #F5F5F5;
-
+  
     .container {
       width: 95%;
       margin: 0 auto;
@@ -1083,7 +1084,7 @@ section .kit_menu {
       font-size: 16px;
       float: right;
       right: 5%;
-      margin: 32px 0 64px 0;
+      margin-top: 32px;
       color: #35C2E5;
     }
   }
@@ -2048,7 +2049,8 @@ section .stickMenu {
 }
 /* profile sidebar */
 .profile_sidebar {
-  min-height: inherit;
+  min-height: 400px;
+  // min-height: inherit;
   width: 256px;
   background-color: #F5F5F5;
   padding-top: 80px;

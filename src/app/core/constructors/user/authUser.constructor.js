@@ -9,7 +9,7 @@
 
         this.email = userData.email;
         this.role = userData.role;
-        this.key = '23243532423524234';//userData.key;
+        this.key = userData.legacy_api_key;
         this.macAddress = userData.macAddress; 
       }
       AuthUser.prototype = Object.create(User.prototype);
