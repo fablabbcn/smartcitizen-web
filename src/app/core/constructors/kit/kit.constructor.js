@@ -11,7 +11,8 @@
         this.type = kitUtils.parseType(object);
         this.location = kitUtils.parseLocation(object);
         this.avatar = kitUtils.parseAvatar(object, this.type);
-        this.labels = kitUtils.parseLabels(object);    
+        this.labels = kitUtils.parseLabels(object);
+        this.state = kitUtils.parseState(object);
       }
 
       return Kit;

@@ -1,0 +1,16 @@
+<md-backdrop ng-if="vm.kitWithoutData" class="md-noDataBackdrop">
+  <div class="block" layout="column" layout-align="center center">
+    <div ng-if="vm.user === 'visitor'">
+      <h2 class="title">
+        This kit hasn’t still said a word 👶
+      </h2>
+      <p class="message"><a href="#disqus_thread">Leave a commment</a> below to let its owner know</p>
+    </div>
+    <div ng-if="vm.user === 'owner'">
+      <h2 class="title">
+        This kit hasn’t still said a word 👶
+      </h2>
+      <p class="message">Please, <a href="#disqus_thread">check kit settings</a> or reach the support team.</p>
+    </div>
+  </div>
+</md-backdrop>

@@ -116,6 +116,12 @@
         if(sensorHasNoData()) {
           alert.info('It looks like this sensor has not posted data since a long time ago 😔', 10000);
         }
+
+        if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
+          setTimeout(function() {
+            animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});            
+          }, 1000);          
+        }
       }
 
       function sensorHasNoData() {
