@@ -6,11 +6,11 @@
 
       function FullKit(object) {
         Kit.call(this, object);
-        var time = kitUtils.parseTime(object);
 
         this.version = kitUtils.parseVersion(object);
-        this.time = moment(time).format('MMMM DD, YYYY - HH:mm');
-        this.lastTime = moment(time).fromNow(); 
+        this.time = kitUtils.parseTime(object);
+        this.timeParsed = moment(this.time).format('MMMM DD, YYYY - HH:mm');
+        this.timeAgo = moment(this.time).fromNow(); 
         this.class = kitUtils.classify(kitUtils.parseType(object)); 
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);

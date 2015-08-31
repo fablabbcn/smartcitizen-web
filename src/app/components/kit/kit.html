@@ -1,4 +1,4 @@
-  <section class="kit_data" change-content-margin>
+<section class="kit_data" change-content-margin>
   <section class="kit_menu" layout="row" layout-align="center center" stick>
     <div class="container" layout="row" layout-align="space-between center">
       <div>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="kit_time" layout="row" layout-align="start center">
-        <span>Last data received: {{ vm.kit.time }}</span>
+        <span>Last data received: {{ vm.kit.timeParsed }}</span>
       </div>
       <div class="kit_navbar" layout="row" layout-align="start center" active-button>
         
@@ -125,7 +125,7 @@
             <div class="chart_navigation" layout="row" layout-align="end center">
               <span class="kit_time" layout="row" layout-align="center center">
                 <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
-                {{ vm.kit.time }}
+                <span>{{ vm.kit.timeAgo }}</span>
               </span>
               <div class="picker_container" layout="row" layout-align="center center">
                 <label for="picker_from">From: </label>
@@ -183,7 +183,7 @@
                 <p class="kit_details_lastTime">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/update_icon.svg">
                   </md-icon>
-                  <span>{{ vm.kit.lastTime }}</span>
+                  <span>{{ vm.kit.timeAgo }}</span>
                 </p>
                 <p class="kit_details_labels">
                   <span ng-repeat="label in vm.kit.labels">{{ label }}</span>

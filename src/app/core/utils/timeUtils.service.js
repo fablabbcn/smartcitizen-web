@@ -13,7 +13,9 @@
       getDateIn: getDateIn,
       parseTime: parseTime,
       isSameDay: isSameDay,
-      isWithin15min: isWithin15min
+      isWithin15min: isWithin15min,
+      isWithin1Month: isWithin1Month,
+      isWithin: isWithin
     };
     return service;
 
@@ -75,8 +77,21 @@
       var fifteenMinAgo = moment().subtract(15, 'minutes').valueOf();
       dateToCheck = moment(dateToCheck).valueOf();
 
-      var result = dateToCheck > fifteenMinAgo;
-      return result;
+      return dateToCheck > fifteenMinAgo;
+    }
+
+    function isWithin1Month(dateToCheck) {
+      var oneMonthAgo = moment().subtract(1, 'months').valueOf();
+      dateToCheck = moment(dateToCheck).valueOf();
+
+      return dateToCheck > oneMonthAgo;
+    }
+
+    function isWithin(number, type, dateToCheck) {
+      var ago = moment().subtract(number, type).valueOf();
+      dateToCheck = moment(dateToCheck).valueOf();
+
+      return dateToCheck > ago;
     }
   }
 })();

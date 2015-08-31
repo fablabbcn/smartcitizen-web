@@ -114,9 +114,6 @@
           animation.viewLoaded();
         }, 1000);
         
-        if(sensorHasNoData()) {
-          // alert.info('It looks like this sensor has not posted data since a long time ago 😔', 10000);
-        }
 
         if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
           if(vm.kitBelongsToUser) {
@@ -127,6 +124,8 @@
           setTimeout(function() {
             animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});            
           }, 1000);          
+        } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+          alert.info.longTime();
         }
       }
 
@@ -385,8 +384,22 @@
           return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
         }
 
-        //set from-picker to seven days ago
-        from_picker.set('select', getSevenDaysAgo());
+        function getDateToHaveDataInChart() {
+          var today = moment();
+          var lastTime = moment(kitData.time);
+          var difference = today.diff(lastTime, 'days');
+          var result = 0.75 * difference / 0.25;
+          
+          return lastTime.subtract(result, 'days').valueOf();
+        }
+
+        if(timeUtils.isWithin(7, 'days', kitData.time) || !kitData.time) {
+          //set from-picker to seven days ago
+          from_picker.set('select', getSevenDaysAgo());
+        } else {
+          // set from-picker to
+          from_picker.set('select', getDateToHaveDataInChart());
+        }
         //set to-picker to today
         to_picker.set('select', getToday());
 
