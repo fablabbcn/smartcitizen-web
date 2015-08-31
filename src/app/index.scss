@@ -288,16 +288,24 @@ md-toast.md-top {
   color: black;
   font-size: 15px;
 
-  .alert_icon {
+  .alert_typeIcon {
     width: 16px;
     height: 16px;
     margin-right: 16px;
   }
 
-  .close_icon {
+  .alert_closeIcon {
     width: 10.5px;
     height: 10.5px;
     margin: 0 auto;
+  }
+
+  .alert_button {
+    color: #53460B;
+    background-color: #C1A212;
+    height: 26px;
+    border-radius: 13px;
+    font-size: 12px;
   }
 }
 
