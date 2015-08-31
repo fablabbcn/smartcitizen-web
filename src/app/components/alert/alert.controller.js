@@ -11,6 +11,7 @@
     	vm.close = close;
         vm.message = message;
 
+        // hideAlert will be triggered on state change
         $scope.$on('hideAlert', function() {
           close();
         });

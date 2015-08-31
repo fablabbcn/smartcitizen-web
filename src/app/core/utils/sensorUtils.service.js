@@ -96,7 +96,7 @@
       function getSensorValue(sensor) {
         var value = sensor.value;
 
-        if(parseInt(value) === NaN) {
+        if(isNaN(parseInt(value))) {
           value =  'N/A';
         } else {
           value = value.toString();
