@@ -31,6 +31,7 @@
       vm.selectedSensorToCompare = undefined;
       vm.selectedSensorToCompareData = {};
 
+      vm.showSensorOnChart = showSensorOnChart;
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
@@ -133,6 +134,10 @@
         return _.every(vm.sensors, function(sensor) {
           return sensor.value === 'N/A';
         });
+      }
+
+      function showSensorOnChart(sensorID) {
+        vm.selectedSensor = sensorID;
       }
 
       function slide(direction) {
