@@ -2376,6 +2376,21 @@ button#doorbell-button {
   right: 1%;
 }
 
+/* 
+  TIMELINE COMPONENT
+
+  used on add and setup kit
+*/
+
+.timeline {
+  margin-top: 64px;
+  background-color: #043846;
+  height: 128px;
+}
+
+.timeline_content {
+  
+}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
