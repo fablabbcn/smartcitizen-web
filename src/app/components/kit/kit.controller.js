@@ -388,7 +388,7 @@
           var today = moment();
           var lastTime = moment(kitData.time);
           var difference = today.diff(lastTime, 'days');
-          var result = 0.75 * difference / 0.25;
+          var result = difference * 3;
           
           return lastTime.subtract(result, 'days').valueOf();
         }
