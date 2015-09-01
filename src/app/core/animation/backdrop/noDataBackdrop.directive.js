@@ -17,7 +17,7 @@
 
           $scope.$on('kitWithoutData', function(ev, data) {
             vm.kitWithoutData = true;
-            debugger;
+
             if(data.belongsToUser) {
               vm.user = 'owner';
             } else {

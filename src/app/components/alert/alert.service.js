@@ -10,7 +10,10 @@
       success: success,
       error: error,
       info: {
-        noData: infoNoData,
+        noData: {
+          visitor: infoNoDataVisitor,
+          owner: infoNoDataOwner
+        },
         generic: info
       }
     };
@@ -27,19 +30,22 @@
       toast('error', message);
     }
 
-    function infoNoData() {
-      info('Woha! This kit has still not published any data yet. Leave a comment to its owner to make him/ her know', 10000, {button: true});
+    function infoNoDataVisitor() {
+      info('Woha! This kit has still not published any data yet. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment'});
+    }
+    function infoNoDataOwner() {
+      info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings'});
     }
 
     function info(message, delay, options) {
       if(options.button) {
-        toast('infoButton', message, undefined, delay);
+        toast('infoButton', message, options.button, undefined, delay);
       } else {
-        toast('info', message, undefined, delay);     
+        toast('info', message, button, undefined, delay);     
       }
     }
 
-    function toast(type, message, position, delay) {
+    function toast(type, message, button, position, delay) {
       position = position === undefined ? 'top': position;
       delay = delay === undefined ? 5000 : delay;
 
@@ -49,7 +55,10 @@
         templateUrl: 'app/components/alert/alert' + type + '.html',
         hideDelay: delay,
         position: position,
-        locals: {message: message}
+        locals: {
+          message: message,
+          button: button
+        }
       });
     }
   }
