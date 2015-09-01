@@ -637,6 +637,7 @@ section .kit_menu {
     color: $font_color_blue_light;
     min-width: 50px;
     display: inline-table;
+    cursor: pointer;
 
     .clear {
       clear: both;
@@ -1123,7 +1124,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
 }
 .chart_spinner {
   position: absolute;
-  top: 12%;
+  top: 9%;
   left: 57%;
 }
 
@@ -1211,6 +1212,10 @@ section .stickMenu {
   position: fixed;
   top: 64px;
 }
+
+/* 
+  SHARED MODAL FOR LOGIN, SIGNUP, STORE,..
+*/
 
 .modal {
   border: 0.5px solid grey;
@@ -1311,6 +1316,10 @@ section .stickMenu {
   }
 }
 
+/* 
+  MODAL FOR LOGIN
+ */
+
 .modal_login {
   width: 400px;
   height: 412px;
@@ -1320,6 +1329,11 @@ section .stickMenu {
   top: 45%;
   left: 45%;
 }
+
+/* 
+  MODAL FOR SIGNUP
+*/
+
 .signup {
   width: 400px;
   height: 512px;
@@ -1329,6 +1343,11 @@ section .stickMenu {
   top: 50%;
   left: 50%;
 }
+
+/*  
+  MODAL FOR MAP FILTER
+*/
+
 .modal_mapFilter {
   width: 300px;
   height: 478px;
@@ -1368,12 +1387,53 @@ section .stickMenu {
     margin: 8px 0;
   }
 }
+
+/* 
+  MODAL RECOVERY PASSWORD
+*/
 .modal_recovery {
   width: 400px;
   height: 376px;
 
   .modal_message {
     margin-bottom: 5px;
+  }
+}
+
+/*
+  MODAL STORE
+*/
+.modal_store {
+  width: 500px;
+  height: 480px;
+  
+  .header.store {
+    margin-top: 40px;
+  }
+  .subheader.store {
+    line-height: 1.5;
+  }
+
+  .store_itemImage {
+    border-radius: 50%;
+    width: 179px;
+    height: 179px;
+  }
+
+  .store_itemDescription {
+    ul {
+      padding-left: 18px;
+      list-style-image: url('../assets/images/sucesses_icon.png');
+      list-style-position: inherit;
+      font-size: 14px;
+      line-height: 1.8em;
+      color: #5FB303;
+    }
+  }
+  .store_itemDescription_title {
+    color: #065063;
+    font-weight: bold;
+    font-size: 16px;
   }
 }
 

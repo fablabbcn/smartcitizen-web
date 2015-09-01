@@ -1,0 +1,32 @@
+<md-dialog>
+  <md-dialog-content class="modal modal_store">
+    <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
+    <md-button class="close_icon" aria-label>
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="hide()" class="" >
+      </md-icon>
+    </md-button>
+    <div>
+      <div class="modal_content_container">
+        <h2>SHOP</h2>
+        <div class="modal_message">
+          <p class="header store">Get your Smartcitizen Kit</p>
+          <p class="subheader store">An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web API, and mobile app.</p>
+        </div>
+        <div class="main_content" layout="row" layout-align="space-between center" layout-padding>
+          <img class="store_itemImage" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit">
+          <div class="store_itemDescription">
+            <h3 class="store_itemDescription_title">This is what you get</h3>
+            <ul>
+              <li>Free web platform registration</li>
+              <li>Private RESTful API Key</li>
+              <li>Ambient Board</li>
+              <li>Data-Processing Board Arduino compatible</li>
+              <li>Android App (iOS comming soon!)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <md-button class="md-flat md-primary main">ORDER WITH PAYPAL</md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>
