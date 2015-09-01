@@ -127,6 +127,12 @@
             });
         }, 3000);
       });
+
+      $scope.$on('goToLocation', function(event, data) {
+        vm.center.lat = data.lat;
+        vm.center.lng = data.lng;
+        vm.center.zoom = data.type === 'City' ? 8 : 5;
+      });
       
       var defaultFilters = {
         exposure: null,

@@ -22,7 +22,8 @@
         hideAlert: hideAlert,
         viewLoading: viewLoading,
         viewLoaded: viewLoaded,
-        kitWithoutData: kitWithoutData
+        kitWithoutData: kitWithoutData,
+        goToLocation: goToLocation
     	};
     	return service;
 
@@ -72,6 +73,9 @@
       }
       function kitWithoutData(data) {
         $rootScope.$broadcast('kitWithoutData', data);
+      }
+      function goToLocation(data) {
+        $rootScope.$broadcast('goToLocation', data);
       }
     }
 })();
