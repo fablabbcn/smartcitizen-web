@@ -58,7 +58,7 @@
         </md-icon>
       </md-button>
       <div class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
-        <div ng-repeat="sensor in vm.sensors" class="sensor_container">
+        <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)">
           <div layout="row">
             <div>
               <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon" flex="20">
