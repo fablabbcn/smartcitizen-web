@@ -14,6 +14,7 @@
           visitor: infoNoDataVisitor,
           owner: infoNoDataOwner
         },
+        longTime: infoLongTime,
         generic: info
       }
     };
@@ -35,6 +36,10 @@
     }
     function infoNoDataOwner() {
       info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings'});
+    }
+
+    function infoLongTime() {
+      info('😅 It looks like this post has not posted any data since long time ago. Leave a comment to its owner to make him/ her know', 10000, {button: true});
     }
 
     function info(message, delay, options) {
