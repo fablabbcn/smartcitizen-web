@@ -2392,6 +2392,52 @@ button#doorbell-button {
   
 }
 
+
+/* 
+  ADD KIT STATE
+*/
+
+.kit_dataChange {
+  .form_block {
+    height: 250px;
+    padding: 40px 30px;
+
+    &.isEven {
+      background-color: #F9F9FB;
+    }
+  }
+  .form_blockInput {
+  }
+  .form_blockInput_container {
+    width: 70%;
+  }
+  .form_blockContent {
+    padding-top: 5px;
+    float: left;
+    margin-right: 150px;
+    img, div {
+      float: left;
+    }
+  }
+  .form_blockContent_image {
+    position: relative;
+    top: 3px;
+  }
+  .form_blockContent_text {
+    margin-left: 10px;
+    width: 240px;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    p {
+      font-size: 14px;
+      color: #A5A5A5;
+    }
+  }
+}
+
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
 // injector
