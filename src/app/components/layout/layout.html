@@ -25,7 +25,7 @@
     
     <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
 
-      <div ng-show="vm.isShown" store class="md-flat full_height get" ng-class="{navbar_highlight_button: vm.isLoggedin}"></div>
+      <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat full_height get"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" login class="navbar_login_button md-display-1"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button md-display-1"></div>
 

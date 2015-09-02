@@ -7,7 +7,7 @@
     function store() {
       return {
         scope: {
-          show: '='
+          isLoggedin: '=logged'
         },
         restrict: 'A',
         controller: 'StoreController',
