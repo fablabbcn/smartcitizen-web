@@ -1435,6 +1435,13 @@ section .stickMenu {
     font-weight: bold;
     font-size: 16px;
   }
+
+  .paypal_button {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    bottom: -48px;
+  }
 }
 
 /* 
