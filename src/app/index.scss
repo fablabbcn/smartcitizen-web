@@ -1649,10 +1649,10 @@ section .stickMenu {
 } */
 
 .markerSmartCitizenOffline {
-  border: 2px solid #06CAE8;
+  border: 2px solid rgba(0,0,0, 0.2);
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
-  background-color: rgba(0,203,232,0.3);
+  background-color: rgba(0,0,0,0.2);
 }
 
 /* .marker_blink {

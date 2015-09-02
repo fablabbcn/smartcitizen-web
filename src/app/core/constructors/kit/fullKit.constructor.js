@@ -9,8 +9,8 @@
 
         this.version = kitUtils.parseVersion(object);
         this.time = kitUtils.parseTime(object);
-        this.timeParsed = moment(this.time).format('MMMM DD, YYYY - HH:mm');
-        this.timeAgo = moment(this.time).fromNow(); 
+        this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
+        this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
         this.class = kitUtils.classify(kitUtils.parseType(object)); 
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);
