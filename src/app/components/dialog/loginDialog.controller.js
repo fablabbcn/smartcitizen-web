@@ -14,7 +14,6 @@
             /*jshint camelcase: false */
             var token = data.access_token;
             auth.saveData(token);
-            alert.success('Signup was successful');
             $mdDialog.hide();
           })
           .catch(function() {

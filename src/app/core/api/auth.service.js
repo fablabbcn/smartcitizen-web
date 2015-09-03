@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('auth', auth);
     
-    auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser', '$timeout'];
-    function auth($location, $window, $state, Restangular, $rootScope, AuthUser, $timeout) {
+    auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser', '$timeout', 'alert'];
+    function auth($location, $window, $state, Restangular, $rootScope, AuthUser, $timeout, alert) {
 
     	var user = {
         token: null,
@@ -41,7 +41,7 @@
       function initialize() {
         setCurrentUser('appLoad');
       }
-      //run on app initialization so that we have cross-session auth
+      //run on app initialization so that we can keep auth across different sessions
       function setCurrentUser(time) {
         user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
         user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
@@ -66,28 +66,12 @@
                 $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
               }, 2000);              
             } else {
-              $rootScope.$broadcast('loggedIn', {});
+              $state.reload();
+              setTimeout(function() {
+                alert.success('Signup was successful');
+                $rootScope.$broadcast('loggedIn', {});                
+              }, 2000);
             }
-
-
-
-            /*if(callback) {
-              callback();
-              callback = undefined;
-            }*/
-
-/*            if(time === 'appLoad') {
-              setReloading(true);
-              try {
-                $state.reload();              
-              } catch(err) {
-                //setup listener to reload on controller init
-                setTimeout(function() {
-                  $state.reload();                
-                }, 3000);
-              }
-              setReloading(false);              
-            }*/
           });
       }
 
