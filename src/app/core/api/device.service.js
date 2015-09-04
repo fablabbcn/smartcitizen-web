@@ -19,6 +19,8 @@
         getDevices: getDevices,
         getAllDevices: getAllDevices,
         getDevice: getDevice,
+        createDevice: createDevice,
+        updateDevice: updateDevice,
         getGenericKitData: getGenericKitData,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers
@@ -46,6 +48,14 @@
 
       function getDevice(id) {
         return Restangular.one('devices', id).get();
+      }
+
+      function createDevice(data) {
+        return Restangular.all('devices').post(data);
+      }
+
+      function updateDevice(data) {
+        return Restangular.all('devices').patch(data);
       }
 
       function callGenericKitData() {

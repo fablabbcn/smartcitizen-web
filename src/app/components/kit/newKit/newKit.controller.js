@@ -4,11 +4,12 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation'];
-    function NewKitController($scope, animation) {
+    NewKitController.$inject = ['$scope', 'animation', 'device'];
+    function NewKitController($scope, animation, device) {
       var vm = this;
 
       vm.step = 1;
+      vm.submitForm = submitForm;
 
       // FORM INFO
       vm.kitForm = {
@@ -96,6 +97,17 @@
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
           return tag.value !== tagValue;
         });
+      }
+
+      function submitForm() {
+        var data = {
+          name: vm.kitForm.name,
+          description: vm.kitForm.description,
+          exposure: vm.kitForm.exposure,
+          latitude: vm.kitForm.location.lat,
+          longitude: vm.kitForm.location.longitude
+        }
+        device.createDevice(data);
       }
     }
 })();

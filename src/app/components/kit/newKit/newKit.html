@@ -14,7 +14,7 @@
         <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
           2
         </div>
-        <div class="timeline_stepName">
+        <div class="timeline_stepName vertical">
           Set up
         </div>
       </div>    
@@ -133,7 +133,7 @@
           </div>
         </section>
       </form>
-      <md-button class="md-flat md-primary timeline_button" ng-click="vm.step = 2">Next</md-button>
+      <md-button class="md-flat md-primary timeline_button" ng-click="">Next</md-button>
     </section>
     <section ng-if="vm.step === 2">
       

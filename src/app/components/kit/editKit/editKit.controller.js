@@ -4,9 +4,11 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation'];
-    function EditKitController($scope, animation) {
+    EditKitController.$inject = ['$scope', 'animation', 'device'];
+    function EditKitController($scope, animation, device) {
       var vm = this;
+
+      vm.submitForm = submitForm;
 
       // FORM INFO
       vm.kitForm = {
@@ -94,6 +96,17 @@
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
           return tag.value !== tagValue;
         });
+      }
+
+      function submitForm() {
+        var data = {
+          name: vm.kitForm.name,
+          description: vm.kitForm.description,
+          exposure: vm.kitForm.exposure,
+          latitude: vm.kitForm.location.lat,
+          longitude: vm.kitForm.location.longitude
+        }
+        device.updateDevice(data);
       }
     }
 })();
