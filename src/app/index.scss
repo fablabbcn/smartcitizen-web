@@ -223,6 +223,13 @@ search {
 md-select-menu {
   background-color: white;
 }
+md-select,
+md-select-menu {
+  text-transform: uppercase;
+}
+md-select.md-default-theme:not([disabled]):focus .md-select-label {
+  border-bottom-color: #6B868D;
+}
 
 md-content.md-default-theme {
   width: 100%;
@@ -443,39 +450,50 @@ section.map {
   }
 }
 
+/* 
+  CORE CHIP COMPONENT
+ */
+.chips {
+  display: inline-block;
+}
+.chip {
+  display: inline-block;
+  padding: 1px 6px 3px 6px;
+  margin: 0 5px;
+  border-radius: 20px;
+
+  .chip_name {
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-left: 3px;
+    margin-right: 7px;
+  }
+  .chip_icon {
+    border: 0;
+    background-color: inherit;
+    md-icon {
+      width: 8px;
+      height: 8px;
+      float: right;
+      margin-top: 3px;    
+    }
+  }
+
+  &.map_filter {
+    background-color: white;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  }
+  &.kit_tag {
+    background-color: #C8E6ED;
+  }
+}
+/* 
+  MAP FILTERS  
+*/
 .map_legend {
   position: absolute;
   bottom: 12px;
   margin-left: 24px;
-}
-
-.map_filters {
-  display: inline-block;
-}
-.map_filter {
-  display: inline-block;
-  background-color: white;
-  padding: 1px 6px 3px 6px;
-  margin: 0 5px;
-  border-radius: 20px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.65)
-}
-.map_filter_name {
-  font-size: 12px;
-  text-transform: capitalize;
-  margin-left: 3px;
-  margin-right: 7px;
-}
-.map_filter_icon {
-  border: 0;
-  background-color: white;
-
-  md-icon {
-    width: 8px;
-    height: 8px;
-    float: right;
-    margin-top: 3px;    
-  }
 }
 .map_filter_button {
   background-color: white;
@@ -493,6 +511,10 @@ section.map {
   background-color: white;
 }
 
+/* 
+  CONTAINERS USED ON SHOW KIT STATE
+ */
+
 .kit_fixed {
   z-index: $medium-priority;
   position: relative;
@@ -503,6 +525,9 @@ section.map {
   overflow: hidden;
 }
 
+/* 
+  KIT MENU MODULE
+ */
 section .kit_menu {
   width: 100%;
   height: 32px;
@@ -1827,6 +1852,13 @@ section .stickMenu {
 .leaflet-overlay-pane .leaflet-zoom-animated path {
   stroke: grey;
 }
+// override z-index of map controls
+.leaflet-top.leaflet-left {
+  z-index: 1;
+}
+.leaflet-bottom.leaflet-right {
+  z-index: 1;
+}
 
 /* 
   PICKER COMPONENT
@@ -2376,6 +2408,140 @@ button#doorbell-button {
   right: 1%;
 }
 
+/* 
+  TIMELINE COMPONENT
+
+  used on add and setup kit
+*/
+
+.timeline {
+  margin-top: 64px;
+  background-color: #043846;
+  height: 128px;
+}
+.timeline_container {
+  margin: 0 20px;
+  width: 100%;
+}
+.timeline_line {
+  width: 500px;
+  border: 1px solid #4495AA;
+  position: relative;
+  top: 14px;
+}
+.timeline_stepCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0 8px;
+  color: white;
+  font-weight: bold;
+  &.is-on {
+    background-color: #70D3EC;
+  }
+  &.is-off {
+    background-color: #82A7B0;
+  }
+}
+.timeline_stepName {
+  text-transform: uppercase;
+  color: #4495AA;
+
+  &.vertical {
+    margin-top: 10px;     
+  }
+}
+.timeline_content {
+  
+}
+.timeline_button {  
+  width: 100%;
+  height: 90px;
+  font-size: 26px;
+
+  &.timeline_buttonOpen.md-button.md-primary {
+    color: #38CEF3
+  }
+  
+}
+.md-button.timeline_buttonSave {
+  width: 130px;
+  height: 44px;
+  border-radius: 22px;
+  font-size: 18px;
+}
+
+/* 
+  ADD KIT STATE
+*/
+
+.kit_dataChange {
+  .form_block {
+    padding: 40px 30px;
+
+    &.isEven {
+      background-color: #F9F9FB;
+    }
+    &.form_blockNormal {
+      height: 250px;
+    }
+    &.form_blockMap {
+      height: 290px;
+    }
+  }
+  .form_blockInput {
+    height: 100%;
+    margin-left: 150px;
+  }
+  .form_blockInput_container {
+    height: inherit;
+    width: 70%;
+  }
+  .form_blockInput_button {
+    height:inherit;
+
+    button {
+      display: inline-block;
+      width: 200px;
+      height: 50px;      
+    }
+  }
+  .form_blockInput_map {
+    height: inherit;
+  }
+  .form_blockInput_select label{
+    color: #38CEF3;
+    margin-right: 10px;
+  }
+  .form_blockInput_chips {
+    margin-top: 35px;
+  }
+  .form_blockContent {
+    padding-top: 5px;
+    float: left;
+    img, div {
+      float: left;
+    }
+  }
+  .form_blockContent_image {
+    position: relative;
+    top: 3px;
+  }
+  .form_blockContent_text {
+    margin-left: 10px;
+    width: 240px;
+    h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    p {
+      font-size: 14px;
+      color: #A5A5A5;
+      line-height: 1.5;
+    }
+  }
+}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
