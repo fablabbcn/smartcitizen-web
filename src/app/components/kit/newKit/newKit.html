@@ -1,6 +1,24 @@
 <section class="kit_dataChange">
-  <section class="timeline" flex="1">
-      
+  <section class="timeline" flex="1" layout="row" layout-align="center center">
+    <div class="timeline_container" layout="row" layout-align="center start">
+      <div layout="column" layout-align="start center">
+        <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 1, 'is-off': vm.step !== 1}">
+          1
+        </div>
+        <div class="timeline_stepName">
+          Kit data
+        </div>
+      </div>
+      <div class="timeline_line"></div>
+      <div layout="column" layout-align="start center">
+        <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
+          2
+        </div>
+        <div class="timeline_stepName">
+          Set up
+        </div>
+      </div>    
+    </div>
   </section>
   <section class="timeline_content" flex="1">
     <section ng-if="vm.step === 1">
@@ -52,7 +70,9 @@
           </div>
           <div class="form_blockInput" flex>
             <div ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-              <button ng-click="vm.getLocation()">Get your location</button>
+              <div class="form_blockInput_container" layout="row" layout-align="center center">
+                <md-button class="md-flat md-primary form_blockInput_button" ng-click="vm.getLocation()">Get your location</md-button>              
+              </div>
             </div>
             <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
               <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
@@ -72,22 +92,13 @@
             </div>
           </div>
           <div class="form_blockInput" flex>
-            <div>
+            <div class="form_blockInput_container">
               <md-input-container>
-                <label>Kit Name</label>
+                <label>Choose a tag</label>
                 <input type="text" ng-model="vm.kitForm.name">
               </md-input-container>
               <div layout="row" layout-align="space-between start">
-                <md-input-container>
-                  <label>Elevation</label>
-                  <input type="text" ng-model="vm.kitForm.elevation">            
-                </md-input-container>
-                <div>
-                  <label for="exposure">Exposure:</label>
-                  <md-select id="exposure" ng-model="vm.kitForm.exposure">
-                    <md-option ng-value="{{ exposure }}" ng-repeat="exposure in vm.exposure">{{ exposure }}</md-option>
-                  </md-select>
-                </div>
+                
               </div>
             </div>
           </div>

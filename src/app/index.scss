@@ -2394,7 +2394,31 @@ button#doorbell-button {
   background-color: #043846;
   height: 128px;
 }
-
+.timeline_line {
+  width: 500px;
+  border: 1px solid #4495AA;
+  position: relative;
+  top: 14px;
+}
+.timeline_stepCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0 8px;
+  color: white;
+  font-weight: bold;
+  &.is-on {
+    background-color: #4495AA;
+  }
+  &.is-off {
+    background-color: #82A7B0;
+  }
+}
+.timeline_stepName {
+  text-transform: uppercase;
+  color: #4495AA;
+  margin-top: 10px; 
+}
 .timeline_content {
   
 }
@@ -2423,7 +2447,13 @@ button#doorbell-button {
     margin-left: 150px;
   }
   .form_blockInput_container {
+    height: inherit;
     width: 70%;
+  }
+  .form_blockInput_button {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
   }
   .form_blockInput_map {
     height: inherit;
@@ -2450,6 +2480,7 @@ button#doorbell-button {
     p {
       font-size: 14px;
       color: #A5A5A5;
+      line-height: 1.5;
     }
   }
 }
