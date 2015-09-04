@@ -458,30 +458,35 @@ section.map {
 }
 .chip {
   display: inline-block;
-  background-color: white;
   padding: 1px 6px 3px 6px;
   margin: 0 5px;
   border-radius: 20px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.65)
-}
-.chip_name {
-  font-size: 12px;
-  text-transform: capitalize;
-  margin-left: 3px;
-  margin-right: 7px;
-}
-.chip_icon {
-  border: 0;
-  background-color: white;
 
-  md-icon {
-    width: 8px;
-    height: 8px;
-    float: right;
-    margin-top: 3px;    
+  .chip_name {
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-left: 3px;
+    margin-right: 7px;
+  }
+  .chip_icon {
+    border: 0;
+    background-color: inherit;
+    md-icon {
+      width: 8px;
+      height: 8px;
+      float: right;
+      margin-top: 3px;    
+    }
+  }
+
+  &.map_filter {
+    background-color: white;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  }
+  &.kit_tag {
+    background-color: #C8E6ED;
   }
 }
-
 /* 
   MAP FILTERS  
 */
@@ -2442,6 +2447,11 @@ button#doorbell-button {
 .timeline_content {
   
 }
+.timeline_button {
+  width: 100%;
+  height: 90px;
+  font-size: 26px;
+}
 
 
 /* 
@@ -2471,9 +2481,13 @@ button#doorbell-button {
     width: 70%;
   }
   .form_blockInput_button {
-    display: inline-block;
-    width: 200px;
-    height: 50px;
+    height:inherit;
+
+    button {
+      display: inline-block;
+      width: 200px;
+      height: 50px;      
+    }
   }
   .form_blockInput_map {
     height: inherit;

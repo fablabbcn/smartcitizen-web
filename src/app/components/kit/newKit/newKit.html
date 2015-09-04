@@ -69,9 +69,9 @@
             </div>
           </div>
           <div class="form_blockInput" flex>
-            <div ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+            <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
               <div class="form_blockInput_container" layout="row" layout-align="center center">
-                <md-button class="md-flat md-primary form_blockInput_button" ng-click="vm.getLocation()">Get your location</md-button>              
+                <md-button class="md-flat md-primary" ng-click="vm.getLocation()">Get your location</md-button>              
               </div>
             </div>
             <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
@@ -100,7 +100,7 @@
               </div>
               <div class="form_blockInput_chips">
                 <div class="chips" layout="row" layout-align="start center">
-                  <div class="chip" ng-repeat="tag in vm.kitForm.tags">
+                  <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
                     <span class="chip_name">{{ tag.name }}</span>
                     <button class="chip_icon" ng-click="vm.removeTag(tag.value)" class="map_filter_icon" arial-label>
                       <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
@@ -133,6 +133,7 @@
           </div>
         </section>
       </form>
+      <md-button class="md-flat md-primary timeline_button" ng-click="vm.step = 2">Next</md-button>
     </section>
     <section ng-if="vm.step === 2">
       

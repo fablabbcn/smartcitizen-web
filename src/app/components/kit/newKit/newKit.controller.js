@@ -34,7 +34,6 @@
         {name: 'uno', value: 1},
         {name: 'dos', value: 2}
       ];
-
       $scope.$watch('vm.tag', function(newVal, oldVal) {
         if(!newVal) {
           return;
@@ -54,7 +53,6 @@
         });
         vm.kitForm.tags.push(tag);
       });
-
       vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
