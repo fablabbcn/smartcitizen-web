@@ -35,20 +35,11 @@
           } 
         }
 
-        /*if(auth.isAuth() && !auth.getCurrentUser().data) {
-          auth.registerCallback(function() {
-            auth.setReloading(true);
-            $state.reload();
-            auth.setReloading(false);
-          });          
-        }*/
-
         // on state change close all alerts opened
         animation.hideAlert();
 
-        if(!auth.reloading()) {
-          $window.scrollTo(0, 0);          
-        }
+        // move window up on state change
+        $window.scrollTo(0, 0);
 
         return;
       });
@@ -65,20 +56,6 @@
           httpConfig: httpConfig
         };
       });
-
-      /*$templateCache.put('ngDropdowns/templates/dropdownMenu.html', [
-        '<div class="wrap-dd-select my-custom-class">',
-          '<span class="selected my-selected-class">{{dropdownModel[labelField]}}</span>',
-          '<ul class="custom-dropdown">',
-            '<li ng-repeat="item in dropdownSelect"',
-            ' class="dropdown-item"',
-            ' dropdown-select-item="item"',
-            ' dropdown-item-label="labelField">',
-            '</li>',
-          '</ul>',
-        '</div>'
-      ].join(''));
-      */
     }
 
 })();

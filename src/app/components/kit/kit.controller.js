@@ -39,6 +39,7 @@
 
       vm.dropdownSelected = undefined;
 
+      // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
         vm.selectedSensorToCompare = undefined;
         vm.selectedSensorToCompareData = {};
@@ -63,6 +64,7 @@
 
       });
 
+      // event listener on change of value of compare sensor selector
       $scope.$watch('vm.selectedSensorToCompare', function(newVal, oldVal) {
         vm.sensorsToCompare.forEach(function(sensor) {
           if(sensor.id === newVal) {

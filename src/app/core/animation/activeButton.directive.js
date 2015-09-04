@@ -19,29 +19,45 @@
         var container;
 
         $timeout(function() {
-          // var offsetContainer;
+          var navbar = angular.element('.stickNav');
+          var kitMenu = angular.element('.kit_menu');
+          var kitOverview = angular.element('.kit_overview');
+          var kitDashboard = angular.element('.kit_chart');
+          var kitDetails = angular.element('.kit_details');
+          var kitOwner = angular.element('.kit_owner');
+          var kitComments = angular.element('.kit_comments');
+
           container = {
             navbar: {
-              height: angular.element('.stickNav').height(),
+              height: navbar.height()
             },            
             kitMenu: {
-              height: angular.element('.kit_menu').height()
+              height: kitMenu.height()
             },
             kitOverview: {               
-              height: angular.element('.kit_overview').height(),
-              offset: angular.element('.kit_overview').offset().top,
+              height: kitOverview.height(),
+              offset: kitOverview.offset().top,
               buttonOrder: 0                   
             },
             kitDashboard: {
-              height: angular.element('.kit_chart').height(),
-              offset: angular.element('.kit_chart').offset().top,
+              height: kitDashboard.height(),
+              offset: kitDashboard.offset().top,
+              buttonOrder: 40
+            },
+            kitDetails: {
+              height: kitDetails.height(),
+              offset: kitDetails.offset().top,
               buttonOrder: 1
             },
-            kitUser: {
-
+            kitOwner: {
+              height: kitOwner.height(),
+              offset: kitOwner.offset().top,
+              buttonOrder: 2
             },
             kitComments: {
-              
+              height: kitComments.height(),
+              offset: kitComments.offset().top,
+              buttonOrder: 3
             }
           };
         }, 1000);
@@ -86,20 +102,18 @@
         }
 
         //attach event handlers for clicks for every button and scroll to a section when clicked
-        // for(var i=0; i<childrens.length; i++) {
         _.each(childrens, function(button) {
-          // var button = childrens[i];
           angular.element(button).on('click', function() {
             var buttonOrder = angular.element(this).index();
             for(var elem in container) {
               if(container[elem].buttonOrder === buttonOrder) {
                 var offset = container[elem].offset;
                 scrollTo(offset);
+                angular.element($window).trigger('scroll');
               }
             }
           });
         });
-        // }
 
         var currentSection;
 
@@ -117,12 +131,22 @@
             unHighlightButtons();
             highlightButton(button);
             currentSection = 'overview';
-          } else if(currentSection !== 'chart' && appPosition >= container.kitDashboard.offset && appPosition <= container.kitDashboard.offset + container.kitDashboard.height) {
-            button = getButton(container.kitDashboard.buttonOrder);
+          } else if(currentSection !== 'details' && appPosition >= container.kitDetails.offset && appPosition <= container.kitDetails.offset + container.kitDetails.height) {
+            button = getButton(container.kitDetails.buttonOrder);
             unHighlightButtons();
-            highlightButton(button); 
-            currentSection = 'chart';
-          }         
+            highlightButton(button);
+            currentSection = 'details';
+          } else if(currentSection !== 'owner' && appPosition >= container.kitOwner.offset && appPosition <= container.kitOwner.offset + container.kitOwner.height) {
+            button = getButton(container.kitOwner.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'owner';
+          } else if(currentSection !== 'comments' && appPosition >= container.kitComments.offset && appPosition <= container.kitComments.offset + container.kitOwner.height) {
+            button = getButton(container.kitComments.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'comments';
+          }
         });
       }
     } 
