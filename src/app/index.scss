@@ -1827,6 +1827,13 @@ section .stickMenu {
 .leaflet-overlay-pane .leaflet-zoom-animated path {
   stroke: grey;
 }
+// override z-index of map controls
+.leaflet-top.leaflet-left {
+  z-index: 1;
+}
+.leaflet-bottom.leaflet-right {
+  z-index: 1;
+}
 
 /* 
   PICKER COMPONENT
@@ -2399,22 +2406,31 @@ button#doorbell-button {
 
 .kit_dataChange {
   .form_block {
-    height: 250px;
     padding: 40px 30px;
 
     &.isEven {
       background-color: #F9F9FB;
     }
+    &.form_blockNormal {
+      height: 250px;
+    }
+    &.form_blockMap {
+      height: 290px;
+    }
   }
   .form_blockInput {
+    height: 100%;
+    margin-left: 150px;
   }
   .form_blockInput_container {
     width: 70%;
   }
+  .form_blockInput_map {
+    height: inherit;
+  }
   .form_blockContent {
     padding-top: 5px;
     float: left;
-    margin-right: 150px;
     img, div {
       float: left;
     }
