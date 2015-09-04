@@ -2419,6 +2419,10 @@ button#doorbell-button {
   background-color: #043846;
   height: 128px;
 }
+.timeline_container {
+  margin: 0 20px;
+  width: 100%;
+}
 .timeline_line {
   width: 500px;
   border: 1px solid #4495AA;
@@ -2433,7 +2437,7 @@ button#doorbell-button {
   color: white;
   font-weight: bold;
   &.is-on {
-    background-color: #4495AA;
+    background-color: #70D3EC;
   }
   &.is-off {
     background-color: #82A7B0;
@@ -2442,17 +2446,30 @@ button#doorbell-button {
 .timeline_stepName {
   text-transform: uppercase;
   color: #4495AA;
-  margin-top: 10px; 
+
+  &.vertical {
+    margin-top: 10px;     
+  }
 }
 .timeline_content {
   
 }
-.timeline_button {
+.timeline_button {  
   width: 100%;
   height: 90px;
   font-size: 26px;
-}
 
+  &.timeline_buttonOpen.md-button.md-primary {
+    color: #38CEF3
+  }
+  
+}
+.md-button.timeline_buttonSave {
+  width: 130px;
+  height: 44px;
+  border-radius: 22px;
+  font-size: 18px;
+}
 
 /* 
   ADD KIT STATE
