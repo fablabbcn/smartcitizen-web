@@ -46,10 +46,10 @@
                   <label>Elevation</label>
                   <input type="text" ng-model="vm.kitForm.elevation">            
                 </md-input-container>
-                <div>
-                  <label for="exposure">Exposure:</label>
-                  <md-select id="exposure" ng-model="vm.kitForm.exposure" placeholder="Select exposure">
-                    <md-option ng-value="{{ exposure }}" ng-repeat="exposure in vm.exposure">{{ exposure }}</md-option>
+                <div class="form_blockInput_select">
+                  <label>Exposure:</label>
+                  <md-select ng-model="vm.esto" placeholder="Select exposure">
+                    <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                   </md-select>
                 </div>
               </div>
@@ -88,17 +88,25 @@
               <div class="form_blockContent_text">
                 <h2>Kit tags</h2>
                 <p>Kits can be grouped by tags. Choose from the available tags or submit a tag request to our Support Team.</p>
-              </div>              
+              </div>
             </div>
           </div>
           <div class="form_blockInput" flex>
             <div class="form_blockInput_container">
-              <md-input-container>
-                <label>Choose a tag</label>
-                <input type="text" ng-model="vm.kitForm.name">
-              </md-input-container>
-              <div layout="row" layout-align="space-between start">
-                
+              <div>
+                <md-select ng-model="vm.tag" placeholder="Select tag">
+                  <md-option ng-value="{{ tag.value }}" ng-repeat="tag in vm.tags">{{ tag.name }}</md-option>
+                </md-select>                
+              </div>
+              <div class="form_blockInput_chips">
+                <div class="chips" layout="row" layout-align="start center">
+                  <div class="chip" ng-repeat="tag in vm.kitForm.tags">
+                    <span class="chip_name">{{ tag.name }}</span>
+                    <button class="chip_icon" ng-click="vm.removeTag(tag.value)" class="map_filter_icon" arial-label>
+                      <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

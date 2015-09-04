@@ -223,6 +223,13 @@ search {
 md-select-menu {
   background-color: white;
 }
+md-select,
+md-select-menu {
+  text-transform: uppercase;
+}
+md-select.md-default-theme:not([disabled]):focus .md-select-label {
+  border-bottom-color: #6B868D;
+}
 
 md-content.md-default-theme {
   width: 100%;
@@ -443,16 +450,13 @@ section.map {
   }
 }
 
-.map_legend {
-  position: absolute;
-  bottom: 12px;
-  margin-left: 24px;
-}
-
-.map_filters {
+/* 
+  CORE CHIP COMPONENT
+ */
+.chips {
   display: inline-block;
 }
-.map_filter {
+.chip {
   display: inline-block;
   background-color: white;
   padding: 1px 6px 3px 6px;
@@ -460,13 +464,13 @@ section.map {
   border-radius: 20px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.65)
 }
-.map_filter_name {
+.chip_name {
   font-size: 12px;
   text-transform: capitalize;
   margin-left: 3px;
   margin-right: 7px;
 }
-.map_filter_icon {
+.chip_icon {
   border: 0;
   background-color: white;
 
@@ -476,6 +480,15 @@ section.map {
     float: right;
     margin-top: 3px;    
   }
+}
+
+/* 
+  MAP FILTERS  
+*/
+.map_legend {
+  position: absolute;
+  bottom: 12px;
+  margin-left: 24px;
 }
 .map_filter_button {
   background-color: white;
@@ -493,6 +506,10 @@ section.map {
   background-color: white;
 }
 
+/* 
+  CONTAINERS USED ON SHOW KIT STATE
+ */
+
 .kit_fixed {
   z-index: $medium-priority;
   position: relative;
@@ -503,6 +520,9 @@ section.map {
   overflow: hidden;
 }
 
+/* 
+  KIT MENU MODULE
+ */
 section .kit_menu {
   width: 100%;
   height: 32px;
@@ -2457,6 +2477,13 @@ button#doorbell-button {
   }
   .form_blockInput_map {
     height: inherit;
+  }
+  .form_blockInput_select label{
+    color: #38CEF3;
+    margin-right: 10px;
+  }
+  .form_blockInput_chips {
+    margin-top: 35px;
   }
   .form_blockContent {
     padding-top: 5px;
