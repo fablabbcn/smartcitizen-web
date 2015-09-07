@@ -116,7 +116,7 @@
 
         if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
           if(vm.kitBelongsToUser) {
-            alert.info.noData.owner();            
+            alert.info.noData.owner($stateParams.id);            
           } else {
             alert.info.noData.visitor();
           }

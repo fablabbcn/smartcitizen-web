@@ -32,10 +32,10 @@
     }
 
     function infoNoDataVisitor() {
-      info('Woha! This kit has still not published any data yet. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment'});
+      info('Woha! This kit has still not published any data yet. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment', href: '#disqus_thread'});
     }
-    function infoNoDataOwner() {
-      info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings'});
+    function infoNoDataOwner(kitID) {
+      info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings', href: '/kits/edit/' + kitID});
     }
 
     function infoLongTime() {
@@ -44,13 +44,13 @@
 
     function info(message, delay, options) {
       if(options.button) {
-        toast('infoButton', message, options.button, undefined, delay);
+        toast('infoButton', message, options, undefined, delay);
       } else {
         toast('info', message, button, undefined, delay);     
       }
     }
 
-    function toast(type, message, button, position, delay) {
+    function toast(type, message, options, position, delay) {
       position = position === undefined ? 'top': position;
       delay = delay === undefined ? 5000 : delay;
 
@@ -62,7 +62,8 @@
         position: position,
         locals: {
           message: message,
-          button: button
+          button: options.button,
+          href: options.href
         }
       });
     }
