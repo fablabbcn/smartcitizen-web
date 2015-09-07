@@ -4,23 +4,24 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device'];
-    function EditKitController($scope, animation, device) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData'];
+    function EditKitController($scope, animation, device, kitData) {
       var vm = this;
 
       vm.submitForm = submitForm;
 
       // FORM INFO
       vm.kitForm = {
-        name: undefined,
-        elevation: undefined,
-        exposure: undefined, //TODO: before submitting change value for name
+        name: kitData.name,
+        elevation: kitData.elevation,
+        exposure: kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor',
         location: {
-          lat: undefined,
-          lng: undefined,
+          lat: kitData.latitude,
+          lng: kitData.longitude,
           zoom: 16
         },
-        tags: []
+        tags: [],
+        description: kitData.description
       };
 
       // EXPOSURE SELECT

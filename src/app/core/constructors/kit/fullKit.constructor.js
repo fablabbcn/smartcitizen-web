@@ -18,6 +18,8 @@
         this.latitude = object.data.location.latitude;
         this.longitude = object.data.location.longitude;
         this.macAddress = object.mac_address;
+        this.elevation = object.data.location.elevation;
+        debugger;
       }
 
       FullKit.prototype = Object.create(Kit.prototype);
