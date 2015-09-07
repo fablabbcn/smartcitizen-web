@@ -4,6 +4,13 @@
   angular.module('app.components')
     .factory('PreviewKit', ['Kit', 'kitUtils',function(Kit, kitUtils) {
 
+      /** 
+       * Preview Kit constructor.
+       * Used for kits stacked in a list, like in User Profile or Kit states
+       * @extends Kit
+       * @constructor
+       * @param {Object} object - Object with all the data about the kit from the API
+       */
       function PreviewKit(object) {
         Kit.call(this, object);
 

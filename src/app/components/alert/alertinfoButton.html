@@ -4,7 +4,7 @@
              alt="Alert icon" class="alert_typeIcon">
     </md-icon>
     <span flex>{{ vm.message }}</span>
-    <md-button href="#disqus_thread" class="alert_button" ng-click="vm.goToComment()">{{ vm.button }}</md-button>    
+    <md-button ng-href="{{ vm.href}}" class="alert_button" ng-click="vm.goToComment()">{{ vm.button }}</md-button>    
   </div>
   <md-button ng-click="vm.close()" aria-label>
     <md-icon md-svg-src="./assets/images/close_icon_black.svg"

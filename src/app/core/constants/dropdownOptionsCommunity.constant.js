@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Dropdown options for community button
+   * @constant
+   * @type {Array}
+   */
+
   angular.module('app.components')
     .constant('DROPDOWN_OPTIONS_COMMUNITY', [
       {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
