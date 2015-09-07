@@ -4,7 +4,7 @@ lock '3.4.0'
 
 set :application, 'smartcitizen-web'
 set :repo_url, 'git@github.com:fablabbcn/smartcitizen-web.git'
-set :branch, 'feat-alertLongTime'
+set :branch, 'develop'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

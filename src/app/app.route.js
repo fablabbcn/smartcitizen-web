@@ -71,6 +71,21 @@
           controller: 'LayoutController',
           controllerAs: 'vm'
         })
+
+        .state('layout.kitEdit', {
+          url: '/kits/edit/:id',
+          templateUrl: 'app/components/kit/editKit/editKit.html',
+          controller: 'EditKitController',
+          controllerAs: 'vm'
+        })
+
+        .state('layout.kitAdd', {
+          url: '/kits/new', 
+          templateUrl: 'app/components/kit/newKit/newKit.html',
+          controller: 'NewKitController',
+          controllerAs: 'vm'
+        })
+
         .state('layout.home', {
           url: '/kits',
           abstract: true,
@@ -132,7 +147,7 @@
           url: '/:id',
           views: {
             'container@layout.home': {
-              templateUrl: 'app/components/kit/kit.html',
+              templateUrl: 'app/components/kit/showKit/showKit.html',
               controller: 'KitController',
               controllerAs: 'vm'
             }
