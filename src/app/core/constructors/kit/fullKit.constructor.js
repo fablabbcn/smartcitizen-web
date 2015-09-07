@@ -4,6 +4,23 @@
   angular.module('app.components')
     .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', 'utils', function(Kit, Sensor, kitUtils, utils) {
 
+      /**
+       * Full Kit constructor.
+       * @constructor
+       * @extends Kit
+       * @param {Object} object - Object with all the data about the kit from the API
+       * @property {string} version - Kit version. Ex: 1.0
+       * @property {string} time - Last time kit sent data in UTC format
+       * @property {string} timeParsed - Last time kit sent data in readable format
+       * @property {string} timeAgo - Last time kit sent data in 'ago' format. Ex: 'a few seconds ago'
+       * @property {string} class - CSS class for kit
+       * @property {string} description - Kit description
+       * @property {Object} owner - Kit owner data
+       * @property {Array} data - Kit sensor's data
+       * @property {number} latitude - Kit latitude
+       * @property {number} longitude - Kit longitude
+       * @property {string} macAddress - Kit mac address
+       */
       function FullKit(object) {
         Kit.call(this, object);
 

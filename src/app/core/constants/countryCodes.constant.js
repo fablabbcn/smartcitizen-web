@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Country codes.
+   * @constant 
+   * @type {Object}
+   */
+  
   angular.module('app.components')
     .constant('COUNTRY_CODES', {
       'AF': 'Afghanistan',

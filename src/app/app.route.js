@@ -3,10 +3,18 @@
 
   angular.module('app')
     .config(config);
+
+    /*
+      Check app.config.js to know how states are protected
+    */
     
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider) {
       $stateProvider
+        /*
+         -- Landing state -- 
+         Grabs your location and redirects you to the closest marker with data
+        */
         .state('landing', {
           url: '/',
           resolve: {
@@ -64,6 +72,10 @@
             }
           }
         })
+        /*
+        -- Layout state --
+        Top-level state used for inserting the layout(navbar and footer)
+        */
         .state('layout', {
           url: '',
           abstract: true,
@@ -109,6 +121,12 @@
           controllerAs: 'vm'
         })
 
+        /*
+        -- Home state --
+        Nested inside the layout state
+        It contains the map and all the data related to it
+        Abstract state, it only activates when there's a child state activated
+        */
         .state('layout.home', {
           url: '/kits',
           abstract: true,
@@ -163,7 +181,11 @@
             }
           }
         })
-
+        /*
+        -- Show Kit state --
+        Nested inside layout and home state
+        It's the state that displays all the data related to a kit below the map
+        */
         .state('layout.home.kit', {
           url: '/:id',
           views: {
@@ -214,7 +236,12 @@
             }
           }
         })
-
+        /*
+        -- User Profile state --
+        Nested inside layout state
+        Public profile of a given user
+        Redirects to My Profile/My Profile Admin if the user is the one authenticated or if the authenticated user is an admin
+        */
         .state('layout.userProfile', {
           url: '/users/:id',
           templateUrl: 'app/components/userProfile/userProfile.html',
@@ -265,6 +292,10 @@
             }
           }
         })
+        /*
+        -- My Profile state --
+        Private profile of the authenticated user at the moment
+        */
         .state('layout.myProfile', {
           url: '/profile',
           authenticate: true,
@@ -296,6 +327,10 @@
             }
           } 
         })
+        /*
+        -- My Profile Admin --
+        State to let admins see private profiles of users with full data
+        */
         .state('layout.myProfileAdmin', {
           url: '/profile/:id',
           authenticate: true,
@@ -335,6 +370,10 @@
             }
           }
         })
+        /*
+        -- Login --
+        It redirects to a certain kit state and opens the login dialog automatically
+        */
         .state('layout.login', {
           url: '/login',
           authenticate: false,
@@ -348,6 +387,10 @@
             }
           }
         })
+        /*
+        -- Signup --
+        It redirects to a certain kit state and opens the signup dialog automatically
+        */
         .state('layout.signup', {
           url: '/signup',
           authenticate: false,
@@ -361,6 +404,10 @@
             }
           }
         })
+        /*
+        -- Logout --
+        It removes all the user data from localstorage and redirects to landing state
+        */
         .state('logout', {
           url: '/logout',
           authenticate: true,
@@ -372,6 +419,10 @@
             }
           }
         })
+        /*
+        -- Password Recovery --
+        Form to input your email address to receive an email to reset your password
+        */
         .state('passwordRecovery', {
           url: '/password_recovery',
           authenticate: false,
@@ -379,6 +430,11 @@
           controller: 'PasswordRecoveryController',
           controllerAs: 'vm'
         })
+        /*
+        -- Password Reset --
+        This link will be given by the email you received after giving your email in the previous state
+        Here, you can input your new password
+        */
         .state('passwordReset', {
           url: '/password_reset/:code',
           authenticate: false,
@@ -387,6 +443,7 @@
           controllerAs: 'vm'
         });
 
+      /* Default state */
       $urlRouterProvider.otherwise('/');
 
       $locationProvider.html5Mode({
@@ -396,6 +453,7 @@
 
       RestangularProvider.setBaseUrl('https://new-api.smartcitizen.me/v0');
 
+      /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
     }
 })();

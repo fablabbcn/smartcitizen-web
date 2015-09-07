@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Marker icons
+   * @constant
+   * @type {Object}
+   */
+
   angular.module('app.components')
     .constant('MARKER_ICONS', {
       defaultIcon: {},

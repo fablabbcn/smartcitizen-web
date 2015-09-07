@@ -1,6 +1,12 @@
 (function() {
   'use strict';
 
+  /**
+   * Tools links for user profile
+   * @constant
+   * @type {Array}
+   */
+
   angular.module('app.components')
     .constant('PROFILE_TOOLS', [
       {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: '', href: 'http://www.google.com'},
