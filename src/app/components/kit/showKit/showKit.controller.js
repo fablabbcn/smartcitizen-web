@@ -9,7 +9,7 @@
       var vm = this;
       var sensorsData = [];
 
-      var getChartDataHasBeenCalled = false;
+      // var getChartDataHasBeenCalled = false;
       var mainSensorID, compareSensorID;
       var picker = initializePicker();
 
@@ -23,7 +23,7 @@
       vm.sensorsToCompare = compareSensors;
 
       vm.slide = slide;
-      vm.chartData = [];
+      // vm.chartData = [];
 
       vm.selectedSensor = vm.sensors[0].id; 
       vm.selectedSensorData = {};
@@ -85,20 +85,20 @@
         vm.loadingChart = false;
       });
 
-      $scope.$on('loggedIn', function() {
-        var kitID = parseInt($stateParams.id);
-        var userData = auth.getCurrentUser().data;        
-        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
-        var isAdmin = userUtils.isAdmin(userData);
+      // $scope.$on('loggedIn', function() {
+      //   var kitID = parseInt($stateParams.id);
+      //   var userData = auth.getCurrentUser().data;        
+      //   var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+      //   var isAdmin = userUtils.isAdmin(userData);
 
-        if(isAdmin || belongsToUser) {
-          vm.kitBelongsToUser = true;            
-        }
-      });
+      //   if(isAdmin || belongsToUser) {
+      //     vm.kitBelongsToUser = true;            
+      //   }
+      // });
 
-      $scope.$on('loggedOut', function() {
-        vm.kitBelongsToUser = false;
-      });
+      // $scope.$on('loggedOut', function() {
+      //   vm.kitBelongsToUser = false;
+      // });
 
 
       initialize();
@@ -161,10 +161,10 @@
           return;
         }
         
-        if(getChartDataHasBeenCalled && !sensorsData) {
+        // if(getChartDataHasBeenCalled && !sensorsData) {
           //waiting for the data from the server, render chart on next call
-          return;
-        } 
+          // return;
+        // } 
 
         if(!options) {
           options = {};
@@ -189,7 +189,7 @@
       }
       
       function getChartData(deviceID, sensorID, dateFrom, dateTo, options) {
-        getChartDataHasBeenCalled = true;
+        // getChartDataHasBeenCalled = true;
 
         return sensor.getSensorsDataNew(deviceID, sensorID, dateFrom, dateTo)
           .then(function(data) {
@@ -402,6 +402,7 @@
         //set to-picker to today
         to_picker.set('select', getToday());
 
+        // api to interact with the picker from outside
         return {
           getValuePickerFrom: function() {
             return from_picker.get('value');
