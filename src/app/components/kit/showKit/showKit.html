@@ -299,9 +299,10 @@
                     </div>
                   </md-button>
                   <div class="kitList_config" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">                    
-                    <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
-                        dropdown-model="vm.dropdownSelected"
-                        dropdown-item-label="text">
+                    <md-button class="kitList_dropdownButton" 
+                      dropdown-menu="kit.dropdownOptions"
+                      dropdown-model="vm.dropdownSelected"
+                      dropdown-item-label="text">
                         <img src="./assets/images/config_icon.svg" />
                     </md-button>
                   </div>

@@ -76,7 +76,30 @@
           url: '/kits/edit/:id',
           templateUrl: 'app/components/kit/editKit/editKit.html',
           controller: 'EditKitController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            belongsToUser: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
+              if(!auth.isAuth()) {
+                $location.path('/');
+              }
+              var kitID = parseInt($stateParams.id);
+              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+              var isAdmin = userUtils.isAdmin(userData);
+
+              if(!isAdmin || !belongsToUser) {
+                $location.path('/');
+              }
+            },
+            kitData: function($stateParams, device, marker, FullKit) {
+              var kitID = $stateParams.id;
+
+              return device.getDevice(kitID)
+                .then(function(deviceData) {
+                  return new FullKit(deviceData);
+                });
+            }
+          }
         })
 
         .state('layout.kitAdd', {
@@ -116,9 +139,7 @@
 
               return sensor.callAPI()
                 .then(function(sensorTypes) {
-                  sensorTypes = sensorTypes.plain();
-                  //sensor.setTypes(sensorTypes);
-                  return sensorTypes;
+                  return sensorTypes.plain();
                 });
             },
             markers: function($state, device, location, utils, Kit, Marker) {
@@ -159,8 +180,6 @@
 
               return device.getDevice(kitID)
                 .then(function(deviceData) {
-                  // var markerLocation = {lat: deviceData.data.location.latitude, lng: deviceData.data.location.longitude, id: parseInt(kitID)};
-                  // animation.kitLoaded(markerLocation);
                   return new FullKit(deviceData);
                 });
             },

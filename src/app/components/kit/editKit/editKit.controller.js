@@ -4,30 +4,32 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device'];
-    function EditKitController($scope, animation, device) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData'];
+    function EditKitController($scope, animation, device, kitData) {
       var vm = this;
 
       vm.submitForm = submitForm;
 
-      // FORM INFO
-      vm.kitForm = {
-        name: undefined,
-        elevation: undefined,
-        exposure: undefined, //TODO: before submitting change value for name
-        location: {
-          lat: undefined,
-          lng: undefined,
-          zoom: 16
-        },
-        tags: []
-      };
-
-      // EXPOSURE SELECT
+      // EXPOSURE SELECT -> TODO: change value to name on form submit
       vm.exposure = [
         {name: 'indoor', value: 1},
         {name: 'outdoor', value: 2}
       ];
+
+      // FORM INFO
+      vm.kitForm = {
+        name: kitData.name,
+        elevation: kitData.elevation,
+        exposure: findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor'),
+        location: {
+          lat: kitData.latitude,
+          lng: kitData.longitude,
+          zoom: 16
+        },
+        tags: [],
+        description: kitData.description
+      };
+
 
       // TAGS SELECT
       vm.tags = [
@@ -54,13 +56,14 @@
         vm.kitForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
+      
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
       vm.markers = {
         main: {
-          lat: undefined,
-          lng: undefined,
+          lat: kitData.latitude,
+          lng: kitData.longitude,
           draggable: true
         }
       };
@@ -107,6 +110,15 @@
           longitude: vm.kitForm.location.longitude
         }
         device.updateDevice(data);
+      }
+
+      function findExposure(exposure) {
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList.name === exposure;
+        });
+        if(option) {
+          return option.value;
+        }
       }
     }
 })();

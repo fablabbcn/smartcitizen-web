@@ -160,7 +160,7 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
-                <md-button class="myProfile_addKitButton">ADD A NEW KIT</md-button>
+                <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
                 <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
               <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))" layout="row" layout-align="start center">  <!-- filter: { labels: { status: vm.kitStatus } }  -->
@@ -184,9 +184,10 @@
                   </div>
                 </md-button>
                 <div class="kitList_config" layout="row" layout="center center">
-                  <md-button class="kitList_dropdownButton" dropdown-menu="vm.dropdownOptions"
-                      dropdown-model="vm.dropdownSelected"
-                      dropdown-item-label="text">
+                  <md-button class="kitList_dropdownButton" 
+                    dropdown-menu="kit.dropdownOptions"
+                    dropdown-model="vm.dropdownSelected"
+                    dropdown-item-label="text">
                       <img src="./assets/images/config_icon.svg" />
                   </md-button>
                 </div>

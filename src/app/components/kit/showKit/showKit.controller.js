@@ -35,9 +35,6 @@
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
-      vm.dropdownOptions = DROPDOWN_OPTIONS_KIT;
-
-      vm.dropdownSelected = undefined;
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
