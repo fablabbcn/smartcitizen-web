@@ -62,8 +62,8 @@
         position: position,
         locals: {
           message: message,
-          button: options.button,
-          href: options.href
+          button: options && options.button,
+          href: options && options.href
         }
       });
     }

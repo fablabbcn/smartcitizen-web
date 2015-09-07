@@ -93,13 +93,14 @@
             belongsToUser: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
               if(!auth.isAuth()) {
                 $location.path('/');
+                return;
               }
               var kitID = parseInt($stateParams.id);
               var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
               var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
               var isAdmin = userUtils.isAdmin(userData);
 
-              if(!isAdmin || !belongsToUser) {
+              if(!isAdmin && !belongsToUser) {
                 $location.path('/');
               }
             },
