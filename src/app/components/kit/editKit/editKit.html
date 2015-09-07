@@ -39,7 +39,7 @@
               </md-input-container>
               <div class="form_blockInput_select">
                 <label>Exposure:</label>
-                <md-select ng-model="vm.esto" placeholder="Select exposure">
+                <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
                   <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                 </md-select>
               </div>

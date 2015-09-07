@@ -35,20 +35,6 @@
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
-      vm.dropdownOptions = [
-        {text: 'SET UP', value: '1', href: '/kits/new'},
-        {text: 'EDIT', value: '2'}
-      ];
-      // vm.dropdownChange = function(sel) {
-      //   console.log('sle', sel, vm.dropdownSelected);        
-      //   setTimeout(function() {
-      //     console.log('sle', sel, vm.dropdownSelected);
-      //   }, 5000);
-      // }
-      vm.dropdownSelected = undefined;
-      // $scope.$watch('vm.dropdownSelected', function(newVal, oldVal) {
-      //   console.log('change val', newVal, oldVal);
-      // });
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {

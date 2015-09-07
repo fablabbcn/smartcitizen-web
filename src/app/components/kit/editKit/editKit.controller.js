@@ -10,11 +10,17 @@
 
       vm.submitForm = submitForm;
 
+      // EXPOSURE SELECT -> TODO: change value to name on form submit
+      vm.exposure = [
+        {name: 'indoor', value: 1},
+        {name: 'outdoor', value: 2}
+      ];
+
       // FORM INFO
       vm.kitForm = {
         name: kitData.name,
         elevation: kitData.elevation,
-        exposure: kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor',
+        exposure: findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor'),
         location: {
           lat: kitData.latitude,
           lng: kitData.longitude,
@@ -24,11 +30,6 @@
         description: kitData.description
       };
 
-      // EXPOSURE SELECT
-      vm.exposure = [
-        {name: 'indoor', value: 1},
-        {name: 'outdoor', value: 2}
-      ];
 
       // TAGS SELECT
       vm.tags = [
@@ -55,13 +56,14 @@
         vm.kitForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
+      
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
       vm.markers = {
         main: {
-          lat: undefined,
-          lng: undefined,
+          lat: kitData.latitude,
+          lng: kitData.longitude,
           draggable: true
         }
       };
@@ -108,6 +110,15 @@
           longitude: vm.kitForm.location.longitude
         }
         device.updateDevice(data);
+      }
+
+      function findExposure(exposure) {
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList.name === exposure;
+        });
+        if(option) {
+          return option.value;
+        }
       }
     }
 })();
