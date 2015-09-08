@@ -20,7 +20,7 @@
        * @property {number} latitude - Kit latitude
        * @property {number} longitude - Kit longitude
        * @property {string} macAddress - Kit mac address
-       * @property {Array} userTags - User tags. Ex: ''
+       * @property {number} elevation
        */
       function FullKit(object) {
         Kit.call(this, object);
@@ -37,7 +37,6 @@
         this.longitude = object.data.location.longitude;
         this.macAddress = object.mac_address;
         this.elevation = object.data.location.elevation;
-        this.userTags = object.user_tags;
       }
 
       FullKit.prototype = Object.create(Kit.prototype);
