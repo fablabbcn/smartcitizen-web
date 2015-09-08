@@ -2484,8 +2484,12 @@ button#doorbell-button {
 
 .kit_dataChange {
   .form_block {
-    padding: 40px 20%;
-
+    padding: 40px 30px;
+    
+    > div {
+      margin: 0 10%;
+      height: 100%;
+    }    
     &.isEven {
       background-color: #F9F9FB;
     }
@@ -2497,7 +2501,7 @@ button#doorbell-button {
     }
   }
   .form_blockInput {
-    height: 100%;
+    height: inherit;
     margin-left: 150px;
   }
   .form_blockInput_container {
