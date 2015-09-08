@@ -15,7 +15,7 @@
       vm.kitForm = {
         name: undefined,
         elevation: undefined,
-        exposure: undefined, //TODO: before submitting change value for name
+        exposure: undefined,
         location: {
           lat: undefined,
           lng: undefined,
@@ -101,10 +101,12 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
-          exposure: vm.kitForm.exposure,
+          exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.longitude
-        }
+          longitude: vm.kitForm.location.lng,
+          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
+        };
+        debugger;
         device.createDevice(data);
       }
 
@@ -113,6 +115,26 @@
           .then(function(tagsData) {
             vm.tags = tagsData;
           });
+      }
+
+      //TODO: move to utils
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
+        }
+
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList[findProp] === nameOrValue;
+        });
+        if(option) {
+          return option[resultProp];
+        }
       }
     }
 })();

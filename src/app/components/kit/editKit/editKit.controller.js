@@ -16,6 +16,7 @@
         {name: 'outdoor', value: 2}
       ];
 
+      vm.submitForm = submitForm;
       // FORM INFO
       vm.kitForm = {
         name: kitData.name,
@@ -103,19 +104,32 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
-          exposure: vm.kitForm.exposure,
+          exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.longitude
+          longitude: vm.kitForm.location.lng,
+          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         }
-        device.updateDevice(data);
+        debugger;
+        device.updateDevice(kitData.id, data);
       }
 
-      function findExposure(exposure) {
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
+        }
+
         var option = _.find(vm.exposure, function(exposureFromList) {
-          return exposureFromList.name === exposure;
+          return exposureFromList[findProp] === nameOrValue;
         });
         if(option) {
-          return option.value;
+          return option[resultProp];
         }
       }
 
