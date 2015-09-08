@@ -17,6 +17,7 @@
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
+      vm.removeUser = removeUser;
 
       vm.battery = mainSensors[1];
       vm.sensors = mainSensors[0];
@@ -126,6 +127,18 @@
         } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
           alert.info.longTime();
         }
+      }
+
+      function removeUser() {
+        var alert = $mdDialog.alert()
+          .title('Delete your account?')
+          .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+          .ariaLabel('')
+          .ok('OK!')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog.show(alert);
       }
 
       function sensorHasNoData() {
