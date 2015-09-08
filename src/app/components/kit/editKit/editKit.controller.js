@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData'];
-    function EditKitController($scope, animation, device, kitData) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag'];
+    function EditKitController($scope, animation, device, kitData, tag) {
       var vm = this;
 
       vm.submitForm = submitForm;
@@ -26,16 +26,13 @@
           lng: kitData.longitude,
           zoom: 16
         },
-        tags: [],
+        tags: kitData.userTags,
         description: kitData.description
       };
 
 
       // TAGS SELECT
-      vm.tags = [
-        {name: 'uno', value: 1},
-        {name: 'dos', value: 2}
-      ];
+      vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
         if(!newVal) {
           return;
@@ -44,14 +41,14 @@
         vm.tag = undefined;
 
         var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         if(alreadyPushed) {
           return;
         }
 
         var tag = _.find(vm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         vm.kitForm.tags.push(tag);
       });
@@ -80,6 +77,7 @@
 
       function initialize() {
         animation.viewLoaded();
+        getTags();
       }
 
       function getLocation() {
@@ -95,9 +93,9 @@
         });
       }
 
-      function removeTag(tagValue) {
+      function removeTag(tagID) {
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag.value !== tagValue;
+          return tag.id !== tagID;
         });
       }
 
@@ -119,6 +117,13 @@
         if(option) {
           return option.value;
         }
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
       }
     }
 })();

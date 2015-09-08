@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device'];
-    function NewKitController($scope, animation, device) {
+    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag'];
+    function NewKitController($scope, animation, device, tag) {
       var vm = this;
 
       vm.step = 1;
@@ -31,10 +31,7 @@
       ];
 
       // TAGS SELECT
-      vm.tags = [
-        {name: 'uno', value: 1},
-        {name: 'dos', value: 2}
-      ];
+      vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
         if(!newVal) {
           return;
@@ -43,14 +40,14 @@
         vm.tag = undefined;
 
         var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         if(alreadyPushed) {
           return;
         }
 
         var tag = _.find(vm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         vm.kitForm.tags.push(tag);
       });
@@ -78,6 +75,7 @@
 
       function initialize() {
         animation.viewLoaded();
+        getTags();
       }
 
       function getLocation() {
@@ -93,9 +91,9 @@
         });
       }
 
-      function removeTag(tagValue) {
+      function removeTag(tagID) {
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag.value !== tagValue;
+          return tag.id !== tagID;
         });
       }
 
@@ -108,6 +106,13 @@
           longitude: vm.kitForm.location.longitude
         }
         device.createDevice(data);
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
       }
     }
 })();

@@ -13,7 +13,7 @@
        * @property {string} type - Type of kit. Ex: SmartCitizen Kit
        * @property {string} location - Location of kit. Ex: Madrid, Spain; Germany; Paris, France
        * @property {string} avatar - URL that contains the user avatar
-       * @property {Array} labels - Array containing system tags
+       * @property {Array} labels - System tags
        * @property {string} state - State of the kit. Ex: Never published
        */
       function Kit(object) {
