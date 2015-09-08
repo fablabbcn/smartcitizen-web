@@ -112,6 +112,7 @@
           colorArrows();
           colorClock();
           animation.viewLoaded();
+          animation.mapStateLoaded();
         }, 1000);
         
 
