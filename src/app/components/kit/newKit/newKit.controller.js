@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag'];
-    function NewKitController($scope, animation, device, tag) {
+    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert'];
+    function NewKitController($scope, animation, device, tag, alert) {
       var vm = this;
 
       vm.step = 1;
@@ -107,7 +107,14 @@
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         };
         debugger;
-        device.createDevice(data);
+        device.createDevice(data)
+          .then(
+            function() {
+              alert.success('Your kit was created but has not been configured');
+            },
+            function() {
+              alert.error('There has been an error during kit set up');
+            });
       }
 
       function getTags() {

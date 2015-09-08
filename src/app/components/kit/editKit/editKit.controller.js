@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag'];
-    function EditKitController($scope, animation, device, kitData, tag) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert'];
+    function EditKitController($scope, animation, device, kitData, tag, alert) {
       var vm = this;
 
       vm.submitForm = submitForm;
@@ -110,7 +110,14 @@
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         }
         debugger;
-        device.updateDevice(kitData.id, data);
+        device.updateDevice(kitData.id, data)
+          .then(
+            function() {
+              alert.success('Your kit was successfully updated');
+            },
+            function() {
+              alert.error('There has been an error during kit set up');
+            });
       }
 
       function findExposure(nameOrValue) {
