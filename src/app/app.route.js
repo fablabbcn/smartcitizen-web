@@ -162,6 +162,7 @@
                 });
             },
             markers: function($state, device, location, utils, Kit, Marker) {
+              // It could be refactor to use HTTP caching instead of holding them in localstorage
               var worldMarkers = device.getWorldMarkers();
               if(worldMarkers && worldMarkers.length) {
                 return worldMarkers;
