@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MapController', MapController);
     
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', 'marker', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
-    function MapController($scope, $state, $timeout, location, markers, device, marker, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
+    function MapController($scope, $state, $timeout, location, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
     	var vm = this;
       var updateType;
 
@@ -16,7 +16,6 @@
       var focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
 
       vm.markers = markersByIndex;
-      vm.currentMarker = marker.getCurrentMarker();
 
       vm.tiles = {
         url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'

@@ -7,7 +7,7 @@
 	  geolocation.$inject = ['$http'];
 	  function geolocation($http) {
       var position; 
-      getPosition();
+      initialize();
 
       var service = {
         getPosition: getPosition,
@@ -17,6 +17,10 @@
       return service;
 
       ///////////////////////////
+      
+      function initialize() {
+        getPosition();
+      }
       
       function getPosition() {
         return callAPI().success(function(data) {

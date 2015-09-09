@@ -4,6 +4,11 @@
   angular.module('app.components')
     .directive('hidePopup', hidePopup);
 
+    /**
+     * Used on kit dashboard to hide popup with full sensor description
+     * 
+     */
+    
     hidePopup.$inject = [];
     function hidePopup() {
       return {

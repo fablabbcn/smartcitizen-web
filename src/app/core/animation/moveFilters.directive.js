@@ -4,6 +4,10 @@
   angular.module('app.components')
     .directive('moveFilters', moveFilters);
 
+    /**
+     * Moves map filters when scrolling
+     * 
+     */
     moveFilters.$inject = ['$window', '$timeout'];
     function moveFilters($window, $timeout) {
       return {

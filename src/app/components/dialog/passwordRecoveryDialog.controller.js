@@ -7,9 +7,6 @@
     PasswordRecoveryDialogController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
     function PasswordRecoveryDialogController($scope, animation, $mdDialog, auth, alert) {
 
-      // $scope.answer = function(answer) {
-      //   //auth.
-      // };
       $scope.hide = function() {
         $mdDialog.hide();
       };

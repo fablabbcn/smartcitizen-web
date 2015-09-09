@@ -12,12 +12,12 @@
         data: null
       };
 
-      var callback, isReloading;
+      // var callback, isReloading;
 
       //wait until http interceptor is added to Restangular
       $timeout(function() {
     	  initialize();
-      }, 0);
+      }, 1000);
 
     	var service = {
         isAuth: isAuth,
@@ -29,9 +29,9 @@
         recoverPassword: recoverPassword,
         getResetPassword: getResetPassword,
         patchResetPassword: patchResetPassword,
-        registerCallback: registerCallback,
-        setReloading: setReloading,
-        reloading: reloading,
+        // registerCallback: registerCallback,
+        // setReloading: setReloading,
+        // reloading: reloading,
         isAdmin: isAdmin
     	};
     	return service;
@@ -112,20 +112,20 @@
         return Restangular.one('password_resets', code).patch(data);
       }
 
-      function registerCallback(cb) {
-        if(callback) {
-          return;
-        }
-        callback = cb;
-      }
+      // function registerCallback(cb) {
+      //   if(callback) {
+      //     return;
+      //   }
+      //   callback = cb;
+      // }
 
-      function setReloading(boolean) {
-        isReloading = boolean;
-      }
+      // function setReloading(boolean) {
+      //   isReloading = boolean;
+      // }
 
-      function reloading() {
-        return isReloading;
-      }
+      // function reloading() {
+      //   return isReloading;
+      // }
       function isAdmin(userData) {
         return userData.role === 'admin';
       }
