@@ -4,6 +4,12 @@
   angular.module('app.components') 
     .directive('activeButton', activeButton);
     
+    /**
+     * Used to highlight and unhighlight buttons on kit menu
+     *
+     * It attaches click handlers dynamically 
+     */
+    
     activeButton.$inject = ['$timeout', '$window'];
     function activeButton($timeout, $window) {
       return {

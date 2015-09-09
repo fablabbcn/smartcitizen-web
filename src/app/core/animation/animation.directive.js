@@ -1,7 +1,10 @@
 (function() {
   'use strict';
 
-
+    /**
+     * TODO: This directives can be split up each one in a different file
+     */
+    
     angular.module('app.components')
       .directive('moveDown', moveDown)
       .directive('stick', stick)
@@ -11,6 +14,10 @@
       .directive('changeContentMargin', changeContentMargin)
       .directive('focusInput', focusInput);
 
+    /**
+     * It moves down kit section to ease the transition after the kit menu is sticked to the top
+     * 
+     */
     moveDown.$inject = [];
     function moveDown() {
       
@@ -31,6 +38,10 @@
       };
     }
 
+    /**
+     * It sticks kit menu when kit menu touchs navbar on scrolling
+     * 
+     */
     stick.$inject = ['$window', '$timeout'];
     function stick($window, $timeout) {
       function link(scope, element) {
@@ -46,9 +57,7 @@
           
 
         angular.element($window).on('scroll', function() {
-          var windowPosition = document.body.scrollTop;
-
-          //highlight buttons 
+          var windowPosition = document.body.scrollTop; 
           
           //sticking menu and moving up/down
           if(windowPosition + navbarHeight >= elementPosition) {
@@ -72,6 +81,11 @@
       };
     }
 
+    /**
+     * Unused directive. Double-check is not being used before removing it
+     * 
+     */
+    
     function blur() {
       
       function link(scope, element) {
@@ -92,6 +106,10 @@
       };
     }
 
+    /**
+     * Used to remove nav and unable scrolling when searching 
+     * 
+     */
     focus.$inject = ['animation'];
     function focus(animation) {
       function link(scope, element) {
@@ -119,6 +137,10 @@
       };
     }
 
+    /**
+     * Changes map section based on screen size
+     * 
+     */
     changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
     function changeMapHeight($document, layout, $timeout) {
       function link(scope, element) {
@@ -150,6 +172,10 @@
         restrict: 'A'
       };
     }
+
+    /**
+     * Changes margin on kit section based on above-the-fold space left after map section is resize
+     */
     
     changeContentMargin.$inject = ['layout', '$timeout', '$document'];
     function changeContentMargin(layout, $timeout, $document) {
@@ -182,6 +208,10 @@
       };
     }
 
+    /**
+     * Fixes autofocus for inputs that are inside modals
+     *
+     */
     focusInput.$inject = ['$timeout'];
     function focusInput($timeout) { 
       function link(scope, elem) {
