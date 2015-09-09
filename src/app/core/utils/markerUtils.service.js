@@ -10,6 +10,7 @@
         parseType: parseType,
         parseLocation: parseLocation,
         parseLabels: parseLabels,
+        parseUserTags: parseUserTags,
         parseCoordinates: parseCoordinates,
         parseId: parseId,
         getIcon: getIcon,
@@ -59,6 +60,10 @@
       function parseLabels(object) {
         /*jshint camelcase: false */
         return object.system_tags;
+      }
+
+      function parseUserTags(object) {
+        return object.user_tags;
       }
 
       function parseCoordinates(object) {
