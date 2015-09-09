@@ -4,6 +4,10 @@
   angular.module('app.components')
     .directive('loadingBackdrop', loadingBackdrop);
 
+    /**
+     * Backdrop for app initialization and between states
+     * 
+     */
     loadingBackdrop.$inject = [];
     function loadingBackdrop() {
       return {
@@ -13,6 +17,7 @@
           vm.isViewLoading = true;
           vm.mapStateLoading = false;
 
+          // listen for app loading event
           $scope.$on('viewLoading', function() {
             vm.isViewLoading = true;
             angular.element('#doorbell-button').hide();
@@ -23,6 +28,7 @@
             angular.element('#doorbell-button').show();
           });
 
+          // listen for map state loading event 
           $scope.$on('mapStateLoading', function() {
             if(vm.isViewLoading) {
               return;

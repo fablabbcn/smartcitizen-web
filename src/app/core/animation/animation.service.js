@@ -4,6 +4,12 @@
   angular.module('app.components')
     .factory('animation', animation);
     
+    /**
+     * Used to emit events from rootscope. 
+     *
+     * This events are then listened by $scope on controllers and directives that care about that particular event
+     */
+    
     animation.$inject = ['$rootScope'];
     function animation($rootScope) {
 

@@ -29,7 +29,6 @@
           })  
           .catch(function() {
             alert.error('Your data wasn\'t updated');
-            // $location.path('/');
           });
       };
 

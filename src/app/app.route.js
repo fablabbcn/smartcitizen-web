@@ -104,7 +104,7 @@
                 $location.path('/');
               }
             },
-            kitData: function($stateParams, device, marker, FullKit) {
+            kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
               return device.getDevice(kitID)
@@ -162,6 +162,7 @@
                 });
             },
             markers: function($state, device, location, utils, Kit, Marker) {
+              // It could be refactor to use HTTP caching instead of holding them in localstorage
               var worldMarkers = device.getWorldMarkers();
               if(worldMarkers && worldMarkers.length) {
                 return worldMarkers;
@@ -198,7 +199,7 @@
           },
 
           resolve: {
-            kitData: function($stateParams, device, marker, FullKit) {
+            kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
               return device.getDevice(kitID)
