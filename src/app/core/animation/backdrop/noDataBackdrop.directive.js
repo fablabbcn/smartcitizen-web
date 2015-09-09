@@ -4,6 +4,10 @@
   angular.module('app.components')
     .directive('noDataBackdrop', noDataBackdrop);
 
+    /**
+     * Backdrop for chart section when kit has no data
+     * 
+     */
     noDataBackdrop.$inject = [];
     function noDataBackdrop() {
       return {
