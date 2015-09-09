@@ -18,7 +18,6 @@
           })
           .catch(function() {
             alert.error('Username or password incorrect');
-            // $scope.errors = err.data.errors;
           })
           .finally(function() {
             $scope.waitingFromServer = false;
@@ -41,15 +40,9 @@
           hasBackdrop: true,
           controller: 'PasswordRecoveryDialogController',
           templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
-          //targetEvent: ev,
           clickOutsideToClose: true
-        })
-        .then(function() {
-          //signup(signupData);
-        })
-        .finally(function() {
-          //animation.unblur();
         });
+
         $mdDialog.hide();
       };
     }
