@@ -17,7 +17,7 @@
       //wait until http interceptor is added to Restangular
       $timeout(function() {
     	  initialize();
-      }, 0);
+      }, 1000);
 
     	var service = {
         isAuth: isAuth,
