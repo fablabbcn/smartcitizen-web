@@ -47,6 +47,9 @@
       }
 
       function parseType(object) {
+        if(!object.kit) {
+          return;
+        }
         var kitType; 
         if((new RegExp('sck', 'i')).test(object.kit.name)) { 
           kitType = 'SmartCitizen Kit';

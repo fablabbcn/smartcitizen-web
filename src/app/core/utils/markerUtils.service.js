@@ -90,6 +90,9 @@
       }
 
       function parseName(object) {
+        if(!object.name) {
+          return;
+        }
         return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
       }
 

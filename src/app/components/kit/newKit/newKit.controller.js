@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert'];
-    function NewKitController($scope, animation, device, tag, alert) {
+    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert', 'auth'];
+    function NewKitController($scope, animation, device, tag, alert, auth) {
       var vm = this;
 
       vm.step = 1;
-      vm.submitForm = submitForm;
+      vm.submitStepOne = submitStepOne;
+      vm.submitStepTwo = submitStepTwo;
 
       // FORM INFO
       vm.kitForm = {
@@ -97,7 +98,7 @@
         });
       }
 
-      function submitForm() {
+      function submitStepOne() {
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
@@ -106,15 +107,22 @@
           longitude: vm.kitForm.location.lng,
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         };
-        debugger;
+
         device.createDevice(data)
           .then(
             function() {
-              alert.success('Your kit was created but has not been configured');
+              alert.success('Your kit was created but has not been configured yet');
+              auth.updateUser();
+              vm.step = 2;
             },
-            function() {
+            function(err) {
+              vm.errors = err.data.errors;
               alert.error('There has been an error during kit set up');
             });
+      }
+
+      function submitStepTwo() {
+        
       }
 
       function getTags() {

@@ -21,6 +21,7 @@
         isAuth: isAuth,
         setCurrentUser: setCurrentUser,
         getCurrentUser: getCurrentUser,
+        updateUser: updateUser,
         saveData: saveData,
         login: login,
         logout: logout,
@@ -67,6 +68,13 @@
                 $rootScope.$broadcast('loggedIn', {});                
               }, 2000);
             }
+          });
+      }
+
+      function updateUser(delay) {
+        getCurrentUserInfo()
+          .then(function(data) {
+            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
           });
       }
 
