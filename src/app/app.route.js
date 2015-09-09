@@ -104,7 +104,7 @@
                 $location.path('/');
               }
             },
-            kitData: function($stateParams, device, marker, FullKit) {
+            kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
               return device.getDevice(kitID)
@@ -199,7 +199,7 @@
           },
 
           resolve: {
-            kitData: function($stateParams, device, marker, FullKit) {
+            kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
               return device.getDevice(kitID)
