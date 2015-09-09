@@ -93,6 +93,7 @@
           colorSensorMainIcon();
           colorArrows();
           colorClock();
+          // events below can probably be refactored to use $viewContentLoaded https://github.com/angular-ui/ui-router/wiki#user-content-view-load-events
           animation.viewLoaded();
           animation.mapStateLoaded();
         }, 1000);
@@ -124,11 +125,11 @@
         $mdDialog.show(alert);
       }
 
-      function sensorHasNoData() {
-        return _.every(vm.sensors, function(sensor) {
-          return sensor.value === 'N/A';
-        });
-      }
+      // function sensorHasNoData() {
+      //   return _.every(vm.sensors, function(sensor) {
+      //     return sensor.value === 'N/A';
+      //   });
+      // }
 
       function showSensorOnChart(sensorID) {
         vm.selectedSensor = sensorID;
@@ -167,6 +168,7 @@
         vm.loadingChart = true;
         //grab chart data and save it
 
+        // it can be either 2 sensors or 1 sensor, so we use $q.all to wait for all
         $q.all(
           _.map(sensorsID, function(sensorID) {
             return getChartData($stateParams.id, sensorID, options.from, options.to)
@@ -175,10 +177,12 @@
               });
           })
         ).then(function() {
+          // after all sensors resolve, prepare data and attach it to scope
+          // the variable on the scope will pass the data to the chart directive
           vm.chartDataMain = prepareChartData([mainSensorID, compareSensorID]);
         });
       }
-      
+      // calls api to get sensor data and saves it to sensorsData array
       function getChartData(deviceID, sensorID, dateFrom, dateTo, options) {
         return sensor.getSensorsDataNew(deviceID, sensorID, dateFrom, dateTo)
           .then(function(data) {
