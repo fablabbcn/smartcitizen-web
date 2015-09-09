@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData'];
-    function EditKitController($scope, animation, device, kitData) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert'];
+    function EditKitController($scope, animation, device, kitData, tag, alert) {
       var vm = this;
 
       vm.submitForm = submitForm;
@@ -16,6 +16,7 @@
         {name: 'outdoor', value: 2}
       ];
 
+      vm.submitForm = submitForm;
       // FORM INFO
       vm.kitForm = {
         name: kitData.name,
@@ -26,16 +27,13 @@
           lng: kitData.longitude,
           zoom: 16
         },
-        tags: [],
+        tags: kitData.userTags,
         description: kitData.description
       };
 
 
       // TAGS SELECT
-      vm.tags = [
-        {name: 'uno', value: 1},
-        {name: 'dos', value: 2}
-      ];
+      vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
         if(!newVal) {
           return;
@@ -44,14 +42,14 @@
         vm.tag = undefined;
 
         var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         if(alreadyPushed) {
           return;
         }
 
         var tag = _.find(vm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         vm.kitForm.tags.push(tag);
       });
@@ -80,6 +78,7 @@
 
       function initialize() {
         animation.viewLoaded();
+        getTags();
       }
 
       function getLocation() {
@@ -95,9 +94,9 @@
         });
       }
 
-      function removeTag(tagValue) {
+      function removeTag(tagID) {
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag.value !== tagValue;
+          return tag.id !== tagID;
         });
       }
 
@@ -105,20 +104,47 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
-          exposure: vm.kitForm.exposure,
+          exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.longitude
+          longitude: vm.kitForm.location.lng,
+          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         }
-        device.updateDevice(data);
+        debugger;
+        device.updateDevice(kitData.id, data)
+          .then(
+            function() {
+              alert.success('Your kit was successfully updated');
+            },
+            function() {
+              alert.error('There has been an error during kit set up');
+            });
       }
 
-      function findExposure(exposure) {
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
+        }
+
         var option = _.find(vm.exposure, function(exposureFromList) {
-          return exposureFromList.name === exposure;
+          return exposureFromList[findProp] === nameOrValue;
         });
         if(option) {
-          return option.value;
+          return option[resultProp];
         }
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
       }
     }
 })();

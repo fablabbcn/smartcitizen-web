@@ -196,8 +196,8 @@
             </div>
             <div class="kit_details_manage" ng-if="vm.kitBelongsToUser" flex>
               <div class="kit_details_manage_buttons">
-                <md-button href="#" ng-click="" class="kit_details_button_setup" aria-label="">SET UP</md-button>
-                <md-button href="#" ng-click="" class="kit_details_button_edit" aria-label="">EDIT</md-button>
+                <md-button ng-href="/kits/new?step=2" class="kit_details_button_setup" aria-label="">SET UP</md-button>
+                <md-button ng-href="/kits/edit/{{vm.kit.id}}" class="kit_details_button_edit" aria-label="">EDIT</md-button>
                 <md-button ng-click="vm.removeUser()" class="kit_details_button_delete" aria-label="">DELETE</md-button>
               </div>
               <div class="kit_details_manage_data">
@@ -293,8 +293,15 @@
                           <span>{{ kit.type || 'Unknown Kit'}}</span>
                         </p>
                       </div>
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
-                        <span>{{ kit.state.name }}</span>
+                      <div class="kitList_right" layout="row" layout-align="end center">
+                        <div class="chips">
+                          <div class="chip kit_tag" ng-repeat="tag in kit.labels.concat(kit.userTags)">
+                            <span class="chip_name">{{ tag }}</span>
+                          </div>
+                        </div>
+                        <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
+                          <span>{{ kit.state.name }}</span>
+                        </div>                        
                       </div>
                     </div>
                   </md-button>

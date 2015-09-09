@@ -13,8 +13,9 @@
        * @property {string} type - Type of kit. Ex: SmartCitizen Kit
        * @property {string} location - Location of kit. Ex: Madrid, Spain; Germany; Paris, France
        * @property {string} avatar - URL that contains the user avatar
-       * @property {Array} labels - Array containing system tags
+       * @property {Array} labels - System tags
        * @property {string} state - State of the kit. Ex: Never published
+       * @property {Array} userTags - User tags. Ex: ''
        */
       function Kit(object) {
         this.id = object.id;
@@ -22,8 +23,9 @@
         this.type = kitUtils.parseType(object);
         this.location = kitUtils.parseLocation(object);
         this.avatar = kitUtils.parseAvatar(object, this.type);
-        this.labels = kitUtils.parseLabels(object);
+        this.labels = kitUtils.parseLabels(object); //TODO: refactor to systemTags
         this.state = kitUtils.parseState(object);
+        this.userTags = object.user_tags;
       }
 
       return Kit;

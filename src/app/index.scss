@@ -2036,6 +2036,11 @@ section .stickMenu {
       border-bottom: 0px;
     }
   }
+
+  .chips {
+    position: absolute;
+    right: 130px;
+  }
 }
 .kitList_primary {
   width: 100%;
@@ -2078,6 +2083,15 @@ section .stickMenu {
 .kitList_config {
   width: 4%;
 }
+.kitList_right {
+  position: absolute;
+  top: 35%;
+  right: 0;
+
+  .chip .chip_name {
+    text-transform: uppercase;
+  }
+}
 .kitList_state {
   color: white;
   font-size: 11px;
@@ -2085,9 +2099,6 @@ section .stickMenu {
   padding: 6px 11px;
   margin-right: 15px;
   font-weight: bold;
-  position: absolute;
-  top: 35%;
-  right: 0;
   height: 25px;
   text-transform: uppercase;
 }
@@ -2484,8 +2495,12 @@ button#doorbell-button {
 
 .kit_dataChange {
   .form_block {
-    padding: 40px 20%;
-
+    padding: 40px 30px;
+    
+    > div {
+      margin: 0 10%;
+      height: 100%;
+    }    
     &.isEven {
       background-color: #F9F9FB;
     }
@@ -2497,7 +2512,7 @@ button#doorbell-button {
     }
   }
   .form_blockInput {
-    height: 100%;
+    height: inherit;
     margin-left: 150px;
   }
   .form_blockInput_container {

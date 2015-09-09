@@ -54,8 +54,8 @@
         return Restangular.all('devices').post(data);
       }
 
-      function updateDevice(data) {
-        return Restangular.all('devices').patch(data);
+      function updateDevice(id, data) {
+        return Restangular.one('devices', id).patch(data);
       }
 
       function callGenericKitData() {

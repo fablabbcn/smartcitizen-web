@@ -20,6 +20,7 @@
        * @property {number} latitude - Kit latitude
        * @property {number} longitude - Kit longitude
        * @property {string} macAddress - Kit mac address
+       * @property {number} elevation
        */
       function FullKit(object) {
         Kit.call(this, object);

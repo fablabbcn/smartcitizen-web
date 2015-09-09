@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device'];
-    function NewKitController($scope, animation, device) {
+    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert'];
+    function NewKitController($scope, animation, device, tag, alert) {
       var vm = this;
 
       vm.step = 1;
@@ -15,7 +15,7 @@
       vm.kitForm = {
         name: undefined,
         elevation: undefined,
-        exposure: undefined, //TODO: before submitting change value for name
+        exposure: undefined,
         location: {
           lat: undefined,
           lng: undefined,
@@ -31,10 +31,7 @@
       ];
 
       // TAGS SELECT
-      vm.tags = [
-        {name: 'uno', value: 1},
-        {name: 'dos', value: 2}
-      ];
+      vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
         if(!newVal) {
           return;
@@ -43,14 +40,14 @@
         vm.tag = undefined;
 
         var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         if(alreadyPushed) {
           return;
         }
 
         var tag = _.find(vm.tags, function(tag) {
-          return tag.value === newVal;
+          return tag.id === newVal;
         });
         vm.kitForm.tags.push(tag);
       });
@@ -78,6 +75,7 @@
 
       function initialize() {
         animation.viewLoaded();
+        getTags();
       }
 
       function getLocation() {
@@ -93,9 +91,9 @@
         });
       }
 
-      function removeTag(tagValue) {
+      function removeTag(tagID) {
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag.value !== tagValue;
+          return tag.id !== tagID;
         });
       }
 
@@ -103,11 +101,47 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
-          exposure: vm.kitForm.exposure,
+          exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.longitude
+          longitude: vm.kitForm.location.lng,
+          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
+        };
+        debugger;
+        device.createDevice(data)
+          .then(
+            function() {
+              alert.success('Your kit was created but has not been configured');
+            },
+            function() {
+              alert.error('There has been an error during kit set up');
+            });
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
+      }
+
+      //TODO: move to utils
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
         }
-        device.createDevice(data);
+
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList[findProp] === nameOrValue;
+        });
+        if(option) {
+          return option[resultProp];
+        }
       }
     }
 })();
