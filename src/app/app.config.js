@@ -19,7 +19,9 @@
        
       /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        console.log('state change');
+        if(toState.name === 'layout.home.kit') {
+          animation.mapStateLoading();
+        }
         if(toState.authenticate === false) {
           if(auth.isAuth()) {
             e.preventDefault();

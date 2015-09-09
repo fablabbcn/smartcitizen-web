@@ -23,7 +23,9 @@
         viewLoading: viewLoading,
         viewLoaded: viewLoaded,
         kitWithoutData: kitWithoutData,
-        goToLocation: goToLocation
+        goToLocation: goToLocation,
+        mapStateLoading: mapStateLoading,
+        mapStateLoaded: mapStateLoaded
     	};
     	return service;
 
@@ -76,6 +78,12 @@
       }
       function goToLocation(data) {
         $rootScope.$broadcast('goToLocation', data);
+      }
+      function mapStateLoading() {
+        $rootScope.$broadcast('mapStateLoading');
+      }
+      function mapStateLoaded() {
+        $rootScope.$broadcast('mapStateLoaded');
       }
     }
 })();

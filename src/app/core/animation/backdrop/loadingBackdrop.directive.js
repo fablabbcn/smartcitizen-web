@@ -11,6 +11,7 @@
         controller: function($scope) {
           var vm = this;  
           vm.isViewLoading = true;
+          vm.mapStateLoading = false;
 
           $scope.$on('viewLoading', function() {
             vm.isViewLoading = true;
@@ -20,7 +21,18 @@
           $scope.$on('viewLoaded', function() {
             vm.isViewLoading = false;
             angular.element('#doorbell-button').show();
-          })
+          });
+
+          $scope.$on('mapStateLoading', function() {
+            if(vm.isViewLoading) {
+              return;
+            }
+            vm.mapStateLoading = true;
+          });
+
+          $scope.$on('mapStateLoaded', function() {
+            vm.mapStateLoading = false;
+          });
         },
         controllerAs: 'vm'
       }
