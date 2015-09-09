@@ -19,7 +19,7 @@
        
       /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        if(toState.name === 'layout.home.kit') {
+        if(toState.name === 'layout.home.kit' && fromState.name !== 'layout.home.kit') {
           animation.mapStateLoading();
         }
         if(toState.authenticate === false) {

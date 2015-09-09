@@ -56,15 +56,17 @@
             }
             user.data = newUser;
 
+            // used for app initialization
             if(time && time === 'appLoad') {
               //wait until navbar is loaded to emit event
               $timeout(function() {
                 $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
               }, 2000);              
             } else {
+              // used for login
               $state.reload();
               setTimeout(function() {
-                alert.success('Signup was successful');
+                alert.success('Login was successful');
                 $rootScope.$broadcast('loggedIn', {});                
               }, 2000);
             }
