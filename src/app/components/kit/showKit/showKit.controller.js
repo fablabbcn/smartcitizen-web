@@ -125,12 +125,6 @@
         $mdDialog.show(alert);
       }
 
-      // function sensorHasNoData() {
-      //   return _.every(vm.sensors, function(sensor) {
-      //     return sensor.value === 'N/A';
-      //   });
-      // }
-
       function showSensorOnChart(sensorID) {
         vm.selectedSensor = sensorID;
       }
