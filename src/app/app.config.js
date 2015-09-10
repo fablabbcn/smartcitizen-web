@@ -20,7 +20,10 @@
       /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
         if(toState.name === 'layout.home.kit') {
-          /* Code to fix Disqus error on state change */
+          /* 
+            Code to fix Disqus error on state change 
+            https://help.disqus.com/customer/portal/articles/472107-using-disqus-on-ajax-sites
+          */
           // DISQUS.reset({
           //   reload: true,
           //   config: function () {
