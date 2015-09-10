@@ -2470,7 +2470,8 @@ button#doorbell-button {
   }
 }
 .timeline_content {
-  
+  min-height: 400px;
+  width: 100%;
 }
 .timeline_button {  
   width: 100%;
@@ -2571,6 +2572,9 @@ button#doorbell-button {
     line-height: 1;
   }
 }
+
+
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

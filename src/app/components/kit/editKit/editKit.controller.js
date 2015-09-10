@@ -22,7 +22,7 @@
       vm.kitForm = {
         name: kitData.name,
         elevation: kitData.elevation,
-        exposure: findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor'),
+        exposure: (kitData.labels.indexOf('indoor') >= 0 || kitData.labels.indexOf('outdoor') >= 0 ) && ( findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor') ),
         location: {
           lat: kitData.latitude,
           lng: kitData.longitude,

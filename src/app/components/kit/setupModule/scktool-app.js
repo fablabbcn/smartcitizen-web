@@ -4,7 +4,7 @@
  * 2013-2015 SmartCitizen
  * Licensed under MIT
  */
-var debugLevel = 0; // 0 no messages, 5 all messages
+var debugLevel = 5; // 0 no messages, 5 all messages
 
 var scktool = {
     init: function(options, elem) {
