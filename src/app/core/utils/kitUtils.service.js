@@ -75,6 +75,9 @@
       }
 
       function parseVersion(object) {
+        if(!object.kit) {
+          return;
+        }
         return object.kit.name.match(/[0-9]+.?[0-9]*/)[0];
       }
 
