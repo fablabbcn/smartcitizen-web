@@ -73,7 +73,7 @@
           });
       }
 
-      function updateUser(delay) {
+      function updateUser() {
         getCurrentUserInfo()
           .then(function(data) {
             $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );

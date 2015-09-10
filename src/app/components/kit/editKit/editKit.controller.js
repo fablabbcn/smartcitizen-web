@@ -83,7 +83,7 @@
       }
 
       function getLocation() {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
@@ -109,8 +109,8 @@
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
-        }
-        debugger;
+        };
+
         device.updateDevice(kitData.id, data)
           .then(
             function() {
@@ -122,7 +122,7 @@
       }
 
       function openKitSetup() {
-        $("#setuptool").scktool();
+        $('#setuptool').scktool();
       }
 
       function findExposure(nameOrValue) {
