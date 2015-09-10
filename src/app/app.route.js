@@ -38,7 +38,6 @@
                 });
             },
             initialMarkers: function($state, device, location, HasSensorKit) {
-              console.log('lo', location);
               if(!location || (!location.lat || !location.lng) ) {
                 // set hard-coded location
                 location = {

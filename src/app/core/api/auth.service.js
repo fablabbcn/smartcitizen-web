@@ -65,7 +65,7 @@
             } else {
               // used for login
               $state.reload();
-              setTimeout(function() {
+              $timeout(function() {
                 alert.success('Login was successful');
                 $rootScope.$broadcast('loggedIn', {});                
               }, 2000);

@@ -46,7 +46,7 @@
       if(options.button) {
         toast('infoButton', message, options, undefined, delay);
       } else {
-        toast('info', message, button, undefined, delay);     
+        toast('info', message, options, undefined, delay);     
       }
     }
 

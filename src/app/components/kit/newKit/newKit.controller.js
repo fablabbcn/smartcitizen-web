@@ -80,7 +80,7 @@
       }
 
       function getLocation() {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
@@ -105,6 +105,7 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          /*jshint camelcase: false */
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         };
 
@@ -115,8 +116,7 @@
               auth.updateUser();
               // move to step 2 and initialize setup module
               vm.step = 2;
-              debugger;
-              $("#setuptool").scktool();
+              $('#setuptool').scktool();
             },
             function(err) {
               vm.errors = err.data.errors;

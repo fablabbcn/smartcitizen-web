@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('PreviewKit', ['Kit', 'kitUtils',function(Kit, kitUtils) {
+    .factory('PreviewKit', ['Kit', function(Kit) {
 
       /** 
        * Preview Kit constructor.

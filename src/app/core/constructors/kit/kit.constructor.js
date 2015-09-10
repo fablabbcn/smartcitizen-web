@@ -23,8 +23,9 @@
         this.type = kitUtils.parseType(object);
         this.location = kitUtils.parseLocation(object);
         this.avatar = kitUtils.parseAvatar(object, this.type);
-        this.labels = kitUtils.parseLabels(object); //TODO: refactor to systemTags
+        this.labels = kitUtils.parseLabels(object); //TODO: refactor name to systemTags
         this.state = kitUtils.parseState(object);
+        /*jshint camelcase: false */
         this.userTags = object.user_tags;
       }
 

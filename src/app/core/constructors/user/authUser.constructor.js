@@ -18,6 +18,7 @@
 
         this.email = userData.email;
         this.role = userData.role;
+        /*jshint camelcase: false */
         this.key = userData.legacy_api_key;
       }
       AuthUser.prototype = Object.create(User.prototype);
