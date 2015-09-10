@@ -52,18 +52,14 @@
       }
 
       function parseType(object) {
-        if(!object.kit) {
-          return;
-        }
         var kitType;
 
-        var genericKitData = device.getGenericKitData();
-        /*jshint camelcase: false */
-        var kit = genericKitData[object.kit_id];
-        var kitName = kit && kit.name; 
+        var kitName = !object.kit ? 'No kit property': object.kit.name;
 
         if((new RegExp('sck', 'i')).test(kitName)) { 
           kitType = 'SmartCitizen Kit';
+        } else {
+          kitType = 'Unknown Kit';
         }
         return kitType; 
       }

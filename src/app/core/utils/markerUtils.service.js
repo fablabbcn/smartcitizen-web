@@ -24,16 +24,12 @@
       ///////////////
 
       function parseType(object) {
-        if(!object.kit) {
-          // TODO: return default kit name instead of undefined
-          return;
-        }
         var kitType; 
 
         var genericKitData = device.getGenericKitData();
         /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
-        var kitName = kit && kit.name; 
+        var kitName = !kit ? 'No name': kit.name;
 
         if((new RegExp('sck', 'i')).test(kitName)) { 
           kitType = 'SmartCitizen Kit';
