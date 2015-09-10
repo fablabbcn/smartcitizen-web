@@ -113,7 +113,10 @@
             function() {
               alert.success('Your kit was created but has not been configured yet');
               auth.updateUser();
+              // move to step 2 and initialize setup module
               vm.step = 2;
+              debugger;
+              $("#setuptool").scktool();
             },
             function(err) {
               vm.errors = err.data.errors;

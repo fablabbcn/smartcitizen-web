@@ -1,0 +1,330 @@
+/*!
+ * The Smart Citizen Tool v0.8.0 (http://smartcitizen.me)
+ * 2013-2015 SmartCitizen
+ * Licensed under MIT
+ */
+.scktool {
+    padding: 20px;
+    margin: 40px;
+
+}
+.configurator .credits {
+    margin: 40px 0 0 0;
+}
+.port-select-block {
+    position: relative;
+    height: 65px;
+}
+.port-select-block div.input.action-button {
+    margin-left: 20px;
+}
+.port-select-block div.input.action-button input {
+    width: 100% !important;
+}
+.messages-block {
+    min-height: 75px;
+    min-width: 600px;
+}
+.messages-block ul {
+    list-style: none;
+    margin: 20px 0;
+    font-size: 18px;
+    line-height: 26px;
+}
+.progress-block {
+    height: 10px;
+    width: 90%;
+    border-radius: 4px;
+    margin: 5px;
+    !important;
+    -moz-box-shadow: 0px 0px 3px #BDBDBD;
+    -webkit-box-shadow: 0px 0px 3px #BDBDBD;
+    box-shadow: inset 0px 0px 3px #86a6ac;
+}
+.progress-block .bar {
+    margin: 0;
+    border-radius: 4px;
+    background-color: #06c2f0
+}
+.widget-block .body,
+.widget-block .footer {
+    min-width: 600px;
+    line-height: 24px;
+    padding: 20px 20px !important;
+    -moz-box-shadow: 0px 0px 3px #BDBDBD;
+    -webkit-box-shadow: 0px 0px 3px #BDBDBD;
+    box-shadow: inset 0px 0px 3px #86a6ac;
+}
+.widget-block .body,
+.widget-block .footer .button {
+    margin-right: 20px !important;
+}
+.widget-block .body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 4px 4px 0 0;
+    margin: 10px 50px 0 0;
+    background-color: #ecf9fc;
+    width: 100%;
+}
+.widget-block .footer {
+    border-radius: 0 0 4px 4px;
+    background-color: #ffffff;
+    margin: 0 50px 30px 0;
+    overflow: hidden;
+    width: 100%;
+}
+.widget-block .footer p {
+    display: inline-block;
+    margin-left: 10px;
+    width: 100%;
+}
+.widget-block .body.limit-scroll {
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.widget-block .net-item {
+    border-radius: 4px;
+    margin: 5px;
+    padding: 10px !important;
+    -moz-box-shadow: 0px 0px 3px #BDBDBD;
+    -webkit-box-shadow: 0px 0px 3px #BDBDBD;
+    box-shadow: inset 0px 0px 3px #86a6ac;
+}
+.widget-block .clear {
+    overflow: hidden;
+}
+.widget-block .button.delete {
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    width: 40px;
+    padding: 0 10px;
+}
+.widget-block .body .section {
+    margin: 0 0 60px 0;
+}
+.widget-block .net-item .input.select select {
+    width: 100%;
+}
+.widget-block .upload .input.select select {
+    width: 100%;
+}
+.widget-block .left {
+    width: 40%;
+    float: left;
+}
+.widget-block .right {
+    width: 40%;
+    float: right;
+}
+.widget-block .large {
+    width: 55%;
+}
+.widget-block .add.action-button {
+    position: absolute;
+    right: 10px;
+    height: 60px;
+}
+.widget-block .add.action-button .button {
+    position: relative;
+    /*width: 40px;*/
+}
+.widget-block .input.range {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.widget-block .input.range input {
+    width: 100%;
+}
+.widget-block .interval-message {
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+}
+.widget-block .interval-message span {
+    color: #06c2f0 !important;
+    font-size: 16px;
+}
+.start-message {
+    width: 450px;
+}
+.start-message p {
+    font-size: 16px;
+}
+/* HELPERS */
+
+.relative {
+    position: relative;
+}
+/* TRICKS (must change) */
+
+input[type="checkbox"]:hover,
+input[type="checkbox"]:focus {
+    -webkit-appearance: checkbox;
+}
+.widget-block .input.range label {
+    overflow: visible;
+    margin-top: -25px;
+}
+section.addSensorForm .submit input[type="submit"] {
+    width: 190px !important;
+    margin: 26px 0 0 20px;
+}
+.rangeslider {
+    position: relative;
+}
+.rangeslider__range,
+.rangeslider__fill {
+    background: #e6e6e6;
+    border: none;
+    display: block;
+    height: 20px;
+    width: 100%;
+    margin: 0;
+    -webkit-box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(255, 255, 255, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+}
+.rangeslider__fill {
+    background: #00ff00;
+    position: absolute;
+    top: 0;
+}
+.rangeslider__handle {
+    background: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: -10px;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+    background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+    background-image: -moz-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+    background-image: -o-linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.1));
+    -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    border-radius: 20px;
+}
+.rangeslider__handle:after {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.13)), color-stop(100%, rgba(255, 255, 255, 0)));
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+    background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+    background-image: -o-linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.13), rgba(255, 255, 255, 0));
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    border-radius: 20px;
+}
+.rangeslider__range {
+    margin-top: 30px;
+    height: 6px;
+}
+.rangeslider__fill {
+    height: 6px;
+    background: #06c2f0;
+}
+.rangeslider__handle {
+    height: 12px;
+    width: 12px;
+    top: -3px;
+}
+.rangeslider__handle:after {
+    height: 5px;
+    width: 5px;
+}
+.button,
+button,
+input[type="button"],
+input[type="submit"]
+{
+    float: none;
+    clear: none;
+    display: inline-block;
+    height: 40px;
+    margin: 0px 0;
+    padding: 0px 20px;
+    background: #06c2f0;
+    cursor: pointer;
+    font-weight: 300;
+    font-size: 14px;
+    color: #FFF;
+    line-height: 40px;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+    border: none;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+}
+.button:hover, button:hover
+{
+    color: #069dbc;
+    background: #FFF;
+}
+.button:disabled, button:disabled
+ {
+    background: #8AD8EB;
+    border: none;
+}
+select {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    float: left;
+    clear: both;
+    background: #FFF;
+    display: block;
+    width: 264px;
+    height: 40px;
+    color: #666;
+    border: 1px #e5e5e5 solid;
+    padding: 0 8px;
+    outline: none;
+    margin: 0 0 10px 0;
+    font-size: 19px;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+}

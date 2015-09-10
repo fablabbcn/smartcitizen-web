@@ -9,6 +9,7 @@
       var vm = this;
 
       vm.submitForm = submitForm;
+      vm.openKitSetup = openKitSetup;
 
       // EXPOSURE SELECT -> TODO: change value to name on form submit
       vm.exposure = [
@@ -118,6 +119,10 @@
             function() {
               alert.error('There has been an error during kit set up');
             });
+      }
+
+      function openKitSetup() {
+        $("#setuptool").scktool();
       }
 
       function findExposure(nameOrValue) {
