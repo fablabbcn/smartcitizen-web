@@ -15,7 +15,7 @@
       //wait until http interceptor is added to Restangular
       $timeout(function() {
     	  initialize();
-      }, 1000);
+      }, 100);
 
     	var service = {
         isAuth: isAuth,
@@ -61,7 +61,7 @@
               //wait until navbar is loaded to emit event
               $timeout(function() {
                 $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
-              }, 2000);              
+              }, 3000);              
             } else {
               // used for login
               $state.reload();
