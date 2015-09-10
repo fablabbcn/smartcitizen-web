@@ -90,5 +90,13 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/styles/images'));
   });
 
-  gulp.task('build', ['html', 'fonts', 'other', 'external-assets']);
+  gulp.task('oldModule-js', function() {
+    return gulp.src([
+      options.src + '/app/components/kit/setupModule/scktool-app.js',
+      options.src + '/app/components/kit/setupModule/scktool-connector.js'
+    ])
+      .pipe(gulp.dest(options.dist + '/scripts/'));
+  });
+
+  gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'oldModule-js']);
 };
