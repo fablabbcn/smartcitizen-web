@@ -11,7 +11,7 @@
       vm.submitForm = submitForm;
       vm.openKitSetup = openKitSetup;
 
-      // EXPOSURE SELECT -> TODO: change value to name on form submit
+      // EXPOSURE SELECT
       vm.exposure = [
         {name: 'indoor', value: 1},
         {name: 'outdoor', value: 2}

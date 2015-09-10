@@ -10,6 +10,7 @@
 
       vm.navRightLayout = 'space-around center';
 
+      // listen for any login event so that the navbar can be updated
       $scope.$on('loggedIn', function(ev, options) {
         if(options && options.time === 'appLoad') {
           $scope.$apply(function() {
@@ -30,6 +31,7 @@
         }
       });
 
+      // listen for logout events so that the navbar can be updated 
       $scope.$on('loggedOut', function() {
         vm.isLoggedIn = false;
         vm.isShown = true;
