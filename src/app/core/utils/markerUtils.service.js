@@ -24,6 +24,10 @@
       ///////////////
 
       function parseType(object) {
+        if(!object.kit) {
+          // TODO: return default kit name instead of undefined
+          return;
+        }
         var kitType; 
 
         var genericKitData = device.getGenericKitData();

@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('kitUtils', kitUtils);
 
-    kitUtils.$inject = ['COUNTRY_CODES'];
-    function kitUtils(COUNTRY_CODES) {
+    kitUtils.$inject = ['COUNTRY_CODES', 'device'];
+    function kitUtils(COUNTRY_CODES, device) {
       var service = {
         parseLocation: parseLocation,
         parseLabels: parseLabels,
@@ -55,8 +55,14 @@
         if(!object.kit) {
           return;
         }
-        var kitType; 
-        if((new RegExp('sck', 'i')).test(object.kit.name)) { 
+        var kitType;
+
+        var genericKitData = device.getGenericKitData();
+        /*jshint camelcase: false */
+        var kit = genericKitData[object.kit_id];
+        var kitName = kit && kit.name; 
+
+        if((new RegExp('sck', 'i')).test(kitName)) { 
           kitType = 'SmartCitizen Kit';
         }
         return kitType; 
