@@ -9,6 +9,7 @@
       var service = {
         parseLocation: parseLocation,
         parseLabels: parseLabels,
+        parseUserTags: parseUserTags,
         parseType: parseType,
         classify: classify,
         parseTime: parseTime,
@@ -46,7 +47,14 @@
         return object.system_tags;
       }
 
+      function parseUserTags(object) {
+        return object.user_tags;
+      }
+
       function parseType(object) {
+        if(!object.kit) {
+          return;
+        }
         var kitType; 
         if((new RegExp('sck', 'i')).test(object.kit.name)) { 
           kitType = 'SmartCitizen Kit';

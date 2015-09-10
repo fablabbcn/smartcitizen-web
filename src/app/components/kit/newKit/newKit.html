@@ -41,6 +41,9 @@
                 <md-input-container>
                   <label>Kit Name</label>
                   <input type="text" ng-model="vm.kitForm.name">
+                  <div class="form_errors">
+                    <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
+                  </div>
                 </md-input-container>
                 <div layout="row" layout-align="space-between start">
                   <md-input-container>
@@ -141,7 +144,7 @@
           </div>
         </section>
       </form>
-      <md-button class="md-flat md-primary timeline_button" ng-click="vm.step = 2">Next</md-button>
+      <md-button class="md-flat md-primary timeline_button" ng-click="vm.submitStepOne()">Next</md-button>
     </section>
     <section ng-if="vm.step === 2">
       

@@ -10,6 +10,7 @@
         parseType: parseType,
         parseLocation: parseLocation,
         parseLabels: parseLabels,
+        parseUserTags: parseUserTags,
         parseCoordinates: parseCoordinates,
         parseId: parseId,
         getIcon: getIcon,
@@ -61,6 +62,10 @@
         return object.system_tags;
       }
 
+      function parseUserTags(object) {
+        return object.user_tags;
+      }
+
       function parseCoordinates(object) {
         return {
           lat: object.latitude,
@@ -90,6 +95,9 @@
       }
 
       function parseName(object) {
+        if(!object.name) {
+          return;
+        }
         return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
       }
 

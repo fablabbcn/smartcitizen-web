@@ -24,6 +24,7 @@
 
         var lastData = {};
 
+        // on window resize, it re-renders the chart to fit into the new window size
         angular.element($window).on('resize', function() {
           createChart(elem[0]);
           updateChartData(lastData.data, {type: lastData.type, container: elem[0], color: lastData.color, unit: lastData.unit});
@@ -35,8 +36,10 @@
           }
 
           if(newData !== undefined) {
+            // if there's data for 2 sensors
             if(newData[0] && newData[1]) {
               var sensorDataMain = newData[0].data;
+              // we could get some performance from saving the map in the showKit controller on line 218 and putting that logic in here
               var dataMain = sensorDataMain.map(function(dataPoint) {
                 return {
                   date: dateFormat(dataPoint.time),
@@ -44,7 +47,7 @@
                   value: dataPoint && dataPoint.value       
                 };
               });
-
+              // sort data points by date
               dataMain.sort(function(a, b) {
                 return a.date - b.date;
               });
@@ -65,15 +68,16 @@
               var data = [dataMain, dataCompare];
               var colors = [newData[0].color, newData[1].color];
               var units = [newData[0].unit, newData[1].unit];
-
+              // saves everything in case we need to re-render
               lastData = {
                 data: data,
                 type: 'both',
                 color: colors,
                 unit: units
               };
-
+              // call function to update the chart with the new data
               updateChartData(data, {type: 'both', container: elem[0], color: colors, unit: units });
+            // if only data for the main sensor
             } else if(newData[0]) {
 
               var sensorData = newData[0].data;
@@ -107,7 +111,7 @@
         });
       }
 
-
+      // creates the container that is re-used across different sensor charts
       function createChart(elem) {
         d3.select(elem).selectAll('*').remove();
 
@@ -167,7 +171,7 @@
           .append('g')
             .attr('transform', 'translate(' + (margin.left - margin.right) + ',' + margin.top + ')');
       }
-
+      // calls functions depending on type of chart
       function updateChartData(newData, options) {
         if(options.type === 'main') {
           updateChartMain(newData, options);
@@ -175,33 +179,12 @@
           updateChartCompare(newData, options);
         }
       }
-
+      // function in charge of rendering when there's data for 1 sensor
       function updateChartMain(data, options) {
         xScale.domain(d3.extent(data, function(d) { return d.date; }));
         yScale0.domain([(d3.min(data, function(d) { return d.count; })) * 0.8, (d3.max(data, function(d) { return d.count; })) * 1.2]);      
 
         svg.selectAll('*').remove();
-
-        // var top = d3.select('.chart_container svg');
-
-        /*var gradient = svg.append('svg:defs')
-            .append('svg:linearGradient')
-            .attr('id', 'gradient')
-            .attr('y1', '0%')
-            .attr('x1', '0%')
-            .attr('y2', '100%')
-            .attr('x2', '100%')
-            .attr('spreadMethod', 'pad');
-
-        gradient.append('svg:stop')
-            .attr('offset', '0%')
-            .attr('stop-color', 'black')
-            .attr('stop-opacity', 1);
-
-        gradient.append('svg:stop')
-            .attr('offset', '100%')
-            .attr('stop-color', 'white')
-            .attr('stop-opacity', 1);*/
 
         //Add the area path
         svg.append('path')
@@ -324,7 +307,6 @@
           var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
           focusMain.attr('transform', 'translate(' + xScale(d.date) + ', ' + yScale0(d.count) + ')');
-          // popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');
           var valueMain = textMain.select('.popup_value').text(parseValue(d.value));
@@ -346,7 +328,7 @@
         }       
       }
 
-
+      // function in charge of rendering when there's data for 2 sensors
       function updateChartCompare(data, options) {
         xScale.domain(d3.extent(data[0], function(d) { return d.date; }));
         yScale0.domain([(d3.min(data[0], function(d) { return d.count; })) * 0.8, (d3.max(data[0], function(d) { return d.count; })) * 1.2]);                
@@ -537,8 +519,6 @@
           var dMain1 = data[0][i];
           var dMain = x0 - dMain0.date > dMain1.date - x0 ? dMain1 : dMain0;
           focusMain.attr('transform', 'translate(' + xScale(dMain.date) + ', ' + yScale0(dMain.count) + ')');
-
-          // popup.attr('transform', 'translate(' + (xScale(d.date) + 80) + ', ' + (d3.mouse(this)[1] - 20) + ')');
           
           var popupText = popup.select('text');
           var textMain = popupText.select('.popup_main');

@@ -21,6 +21,7 @@
         isAuth: isAuth,
         setCurrentUser: setCurrentUser,
         getCurrentUser: getCurrentUser,
+        updateUser: updateUser,
         saveData: saveData,
         login: login,
         logout: logout,
@@ -55,18 +56,27 @@
             }
             user.data = newUser;
 
+            // used for app initialization
             if(time && time === 'appLoad') {
               //wait until navbar is loaded to emit event
               $timeout(function() {
                 $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
               }, 2000);              
             } else {
+              // used for login
               $state.reload();
               setTimeout(function() {
-                alert.success('Signup was successful');
+                alert.success('Login was successful');
                 $rootScope.$broadcast('loggedIn', {});                
               }, 2000);
             }
+          });
+      }
+
+      function updateUser(delay) {
+        getCurrentUserInfo()
+          .then(function(data) {
+            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
           });
       }
 
