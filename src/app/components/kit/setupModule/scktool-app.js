@@ -1,17 +1,16 @@
 /*!
  * The Smart Citizen Tool v0.6.0 (http://smartcitizen.me)
- * Proudly based in BabelFish by Codebender 
  * 2013-2015 SmartCitizen
  * Licensed under MIT
  */
 var debugLevel = 5; // 0 no messages, 5 all messages
 
-var scktool = {
+var sckapp = {
     init: function(options, elem) {
         this.options = $.extend({}, this.options, options);
         this.elem = elem;
         this.$elem = $(elem);
-        this.debugLevel = debugLevel
+        this.debugLevel = debugLevel;
         this._build();
         return this;
     },
@@ -31,7 +30,6 @@ var scktool = {
     },
     _initEvents: function() {
         var self = this;
-
         window.onbeforeunload = function() {
             self._disconnect();
         };
@@ -77,13 +75,18 @@ var scktool = {
     initBlocksUI: function() {
         this.$elem.addClass("scktool");
         this.$elem.append([
-            $("div").addClass("start-message"),
-            $("div").addClass("start-block"),
-            $("div").addClass("messages-block"),
-            $("div").addClass("board-block"),
-            $("div").addClass("config-block"),
-            $("div").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Condebender</a>.</p>')
+            $("<div>").addClass("start-message"),
+            $("<div>").addClass("start-block"),
+            $("<div>").addClass("messages-block"),
+            $("<div>").addClass("board-block"),
+            $("<div>").addClass("config-block"),
+            $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Condebender</a>.</p>')
         ]);
+    },
+    resetProcess: function(){
+        this.$elem.find(".board-block").children().remove();
+        this.$elem.find(".config-block").children().remove();
+        this.initInternalUI();
     },
     initInternalUI: function() {
         this.updatesUI = this.initUpdatesUI();
@@ -106,9 +109,9 @@ var scktool = {
                 var label = $('<label>').text(labelTxt).attr('for', name);
                 var input = label.append(input);
             }
-            
+
             return this.createInputWrapper(type).append(input);
-            
+
         }
 
         _UI.createInputWrapper = function(type) {
@@ -142,14 +145,14 @@ var scktool = {
         _UI.createRangeElement = function(name, value, step, min, max, labelTxt) {
             var range = $('<input>').val(value).attr('name', name);
             range.prop("type", "range").prop("step", step).prop("min", min).prop("max", max).css('width', '220px');
-            
+
             if (labelTxt) {
                 var label = $('<label>').text(labelTxt).attr('for', name);
                 var range = label.append(range);
             }
-            
+
             return this.createInputWrapper('range').append(range);
-            
+
         }
         _UI.remove = function() {
             if (!this.widget) return;
@@ -371,7 +374,7 @@ var scktool = {
             right.append(rightElements);
             left.appendTo(this.widget);
             right.appendTo(this.widget);
-            $('input[type="range"]').rangeslider(); //tmp               
+            $('input[type="range"]').rangeslider(); //tmp
         }
         _updatesUI.setSensorResolution = function(value) {
             this.setRangeElement("resolution", value)
@@ -526,9 +529,7 @@ var scktool = {
         }
 
         _configUI.createWidgetWrapper = function(name, title, description, trigger, extraTrigger) {
-            if (!self.temp_block_upload) {
-                self.temp_block_upload = this.createWidgetsWrapper(trigger, extraTrigger);
-            }
+            self.temp_block_upload = this.createWidgetsWrapper(trigger, extraTrigger);
             var section = $('<div>').addClass('section').addClass(name);
             var title = $('<h4>').text(title);
             var description = $('<p>').text(description);
@@ -683,20 +684,6 @@ var scktool = {
                     });
                 });
             }
-            /*var boardStarter = function(isBoardOK) {
-                if (isBoardOK) {
-                    self._message("Your kit is a " + self._getBoardDescription() + ".")
-                    self._message("Your kit is running " + self._getFirmwareDescription() + ". This is the latest version.")
-                    self._message("Your Smart Citizen Kit is ready!");
-                    boardReady();
-                } else {
-                    self._message("Your kit is running " + self._getFirmwareDescription());
-                    //self._message("Press Upload Firmware to upgrage the firmware of your Smart Citizen Kit");
-                    self._updateFirmware(function(state) {
-                        if (state) boardReady();
-                    })
-                }
-            }*/
         var boardStarter = function(isBoardOK) {
             self._message("Your kit is a " + self._getBoardDescription());
             if (self.sck.version.firmware < self.latestFirmwareVersion) {
@@ -710,7 +697,14 @@ var scktool = {
                 if (state) boardReady();
             });
         }
+
         self._userStart(function() {
+            if(self.isAlreadyStarted){
+                self.resetProcess();
+
+            } else {
+                self.isAlreadyStarted = true;
+            }
             self._message("Checking your Smart Citizen Kit version. This could take a while, please wait.");
             self._checkVersion(function(isBoardOK) {
                 boardStarter(isBoardOK);
@@ -738,7 +732,7 @@ var scktool = {
             });
         }
         var validateMac = function(mac) {
-            var regex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/;
+            var regex = /^(([a-f0-9]{2}:){5}[a-f0-9]{2},?)+$/i;
             return regex.test(mac);
         }
         var platformResponse = function(mac, status) {
@@ -752,24 +746,15 @@ var scktool = {
                 self._message("Registered to the Platform failed, please check your internet connection!");
             }
         }
-        var registerToPlatform = function(mac, callback) {
-            /* Here will go the ajax */
-            //platformResponse(mac, 1);
-            updatePageForm(mac);
-            callback();
-        }
 
-        var updatePageForm = function(mac) {
-            $("#DeviceMacadress").val(mac);
-            $('#register input[type="submit"]').removeAttr('disabled');
-        }
 
         var register = function() {
+
             getMac(function(mac) {
                 if (mac) {
-                    registerToPlatform(mac, function() {
-                        callback();
-                    });
+                    self.sck.mac = mac;
+                    self._sendUpdateEvent();
+                    callback();
                 } else {
                     self._message("Failed to get the mac address from the kit. Try again later!");
                     callback();
@@ -778,27 +763,26 @@ var scktool = {
         }
         register();
     },
+    _sendUpdateEvent: function() {
+        var self = this;
+        self._debug(self.sck);
+        self.$elem.trigger('sck_info', [self.sck]);
+    },
     _startConfigManager: function(callback) {
         this._startGetAll();
     },
     _userStart: function(callback) {
         var self = this;
-
         self.startUI.createStartElement(callback); //self._run
 
         self._windowsDriversWarning();
 
-        //  setTimeout(function() {
         self._message("Please, reset your kit by pressing the reset button or switching it off / on.");
-        //   setTimeout(function() {
         self._message("Once reseted, select your SmartCitizen serial port and click Start process...");
-        //   }, 4000);
-        // }, 4000);
-
     },
     _windowsDriversWarning: function() {
         if (navigator.platform.toLowerCase().indexOf("win") != -1) {
-            this._message("Remember on Windows you need the Arduino drivers to be installed, you can easily follow this <a  target='_blank' href='https://codebender.cc/static/walkthrough/page/1'>guide</a>");
+            this._message("Remember on Windows you need the Arduino drivers to be installed, you can easily follow this <a  target='_blank' href='http://docs.smartcitizen.me/#/start/how-to-install-the-drivers-on-windows'>guide</a>");
         }
     },
     _checkVersion: function(callback) {
@@ -885,7 +869,7 @@ var scktool = {
                 self._getSCKVersion(function(sckVersion) {
                     callback(validateVersion(sckVersion));
                 });
-            }, 6000);
+            }, 4000);
         }
         var retry = function() {
             setTimeout(function() {
@@ -978,8 +962,6 @@ var scktool = {
         var setAndgetSCKUpdates = function(callback) {
             self._setSCKUpdates(update, function(sentUpdate) {
                 self._getSCKUpdates(function(receiveUpdate) {
-                    // cosole.warn(sentUpdate);
-                    // cosole.warn(receiveUpdate);
                     self._debug(sentUpdate, 2);
                     self._debug(receiveUpdate, 2);
                     if (validateSet(sentUpdate, receiveUpdate)) {
@@ -1025,7 +1007,7 @@ var scktool = {
     },
     _setSCKUpdates: function(update, callback) {
         var self = this;
-        update = stringNumberProperties(update);
+        update = self.stringNumberProperties(update);
         self._enterCmdMode(function() {
             self._sendCMD("set time update " + update.time, function(data) {
                 self._sendCMD("set number updates " + update.updates, function(data) {
@@ -1240,7 +1222,7 @@ var scktool = {
     _serialWrite: function(msg) {
         var self = this;
         self._debugMessage(msg, "send");
-        self.codebenderPlugin.serialWrite(msg);
+        self.sckTool.serialWrite(msg);
     },
     _serialWriteLn: function(msg) {
         msg += '\r';
@@ -1269,7 +1251,7 @@ var scktool = {
             speed: 115200
         }
         self._debug("...reading! " + JSON.stringify(sck), 2);
-        self.codebenderPlugin.serialRead(sck.port, sck.speed, function(from, line) {
+        self.sckTool.serialRead(sck.port, sck.speed, function(from, line) {
             self._debug("  @@ >> " + from + " " + line);
             self._input(line);
         }, function(from, line) {
@@ -1282,7 +1264,7 @@ var scktool = {
         self._checkPermissions();
         self._disconnect();
         self.connected = true;
-        var firmURL = "/firmwares/json/" + self.boards[boardID].firmware.firmwareFile;
+        var firmURL = self.firmwaresPath + self.boards[boardID].firmware.firmwareFile;
         $.getJSON(firmURL, function(firm) {
             self._debug(firm, 3);
             var flash = {
@@ -1295,7 +1277,7 @@ var scktool = {
                 disable_flushing: self.boards[boardID].upload.disable_flushing
             }
             self._debug(flash, 2);
-            self.codebenderPlugin.flash(flash.port, flash.binary, flash.maximum_size, flash.protocol, flash.disable_flushing, flash.speed, flash.mcu, function(from, progress) {
+            self.sckTool.flash(flash.port, flash.binary, flash.maximum_size, flash.protocol, flash.disable_flushing, flash.speed, flash.mcu, function(from, progress) {
                 self._debug(from, 3);
                 self._debug(progress, 3);
                 self.isFlashing = false;
@@ -1303,7 +1285,7 @@ var scktool = {
                     self._debug("FLASH PROGRESS");
                     self._debug(progress);
                     if (progress != 0 && (progress > -1 || progress < -23) && progress != -30 && progress != -55 && progress != -56 && progress != -57) {
-                        self.codebenderPlugin.codebenderPlugin.getFlashResult(function(result) {
+                        self.sckTool.sckTool.getFlashResult(function(result) {
                             self._debug("FLASH RESULT");
                             self._debug(result);
                         });
@@ -1430,16 +1412,15 @@ var scktool = {
         this.oldPorts = "";
         window.setTimeout(function() {
             self._scan();
-        }, 1000);
+        }, 500);
     },
     _scan: function() {
         var self = this;
         self._debug("HASPERM...");
-        self.hasPerm = self.codebenderPlugin.setCallback(function(from, output) {
+        self.hasPerm = self.sckTool.setCallback(function(from, output) {
             if (output == "disconnect") {
                 if (self.isFlashing) {
                     self._debug("Disconnected by plugin request", 1);
-                    //self._disconnect();
                 }
             } else {
                 output = output.replace(/Leonardo/g, "");
@@ -1479,11 +1460,8 @@ var scktool = {
         self.startUI.createupdatePortSelect();
     },
     _getFire: function() {
-
         var self = this;
-        // try {
-
-        self.codebenderPlugin.getPorts(function(portsAvailable) {
+        self.sckTool.getPorts(function(portsAvailable) {
             if (portsAvailable != self.oldPorts) {
 
                 var jsonPorts = $.parseJSON(portsAvailable);
@@ -1497,29 +1475,18 @@ var scktool = {
                 self.oldPorts = portsAvailable;
             }
         });
-
-
-
-
-        // } catch (error) {
-        //  self._debug(error, 2);
-        //     self.oldPorts = self.ports;
-        // }
     },
     _disconnect: function() {
         var self = this;
         self._debug("disconnecting!", 2);
         self.connected = false;
-        self.codebenderPlugin.serialMonitorSetStatus();
+        self.sckTool.serialMonitorSetStatus();
 
     },
     _checkPermissions: function() {
         var self = this;
         if ((navigator.appVersion.indexOf("X11") != -1) || (navigator.appVersion.indexOf("Linux") != -1)) {
             var message = 'If you have issues connecting with your kit on Linux ensure you have the appropiate permissions to access the serial port. You can quickly solve this by installing the latest Arduino IDE <i>(sudo apt-get install arduino arduino-core)</i> or manually following this <a target=\"_blank\" href=\"http://codebender.uservoice.com/knowledgebase/articles/95620-my-arduino-is-not-recognized-by-codebender-what-s"\">guide</a>.';
-            self._message(message);
-        } else if (navigator.appVersion.indexOf("MSIE") != -1) {
-            var message = 'If you have issues connecting with you kit you need to disable the <strong>Protected Mode</strong> to communicate with yout Smart Citizen kit. <a target=\"_blank\" href=\"https://codebender.uservoice.com/knowledgebase/articles/188530-running-the-codebender-plugin-on-internet-explorer\">Learn More</a>.';
             self._message(message);
         }
     },
@@ -1532,7 +1499,7 @@ var scktool = {
             } else if (status == "available") {
                 self._startmessage('<strong>Preparing the installation...</strong>');
                 self._startmessage('<strong>To configure your kit you will need to install the Smart Citizen Kit App for Chrome<button id="install-button">Add to Chrome</button></strong>You can also install it manually from the <a href="' +  self.pluginChromeStoreURL + '" target="_blank">Chrome store</a> and refresh the page.');
-                $('#install-button').click(function() {
+                self.$elem.find('#install-button').click(function() {
                     chrome.webstore.install(self.pluginChromeStoreURL, function() {
                         self._startmessage('<strong>Finishing the installation...</strong>');
                         setTimeout(function() {
@@ -1554,10 +1521,10 @@ var scktool = {
         var self = this;
         $('head').append('<link rel="chrome-webstore-item" href="' + self.pluginChromeStoreURL + '">');
         if (window.chrome && !self._isMobile()) {
-            self.codebenderPlugin = new window.Scktoolapp();
-            self.codebenderPlugin.getVersion(function(version) {
+            self.sckTool = new window.SckToolChromeAppConnector();
+            self.sckTool.getVersion(function(version) {
                 if (!version.hasOwnProperty("error")) {
-                    self.codebenderPlugin.init(function() {
+                    self.sckTool.init(function() {
                         self._enableUSB();
                         self._debug(version, 1);
                         self._debug("Plugin installed and ready");
@@ -1572,18 +1539,6 @@ var scktool = {
             self._debug("Plugin not supported on this browser");
             callback(false);
         }
-    },
-    _searchFirefox: function() {
-        for (var i = 0; i < navigator.plugins.length; i++) {
-            if (navigator.plugins[i].name == "Codebender.cc" || navigator.plugins[i].name == "Codebendercc") {
-                return true;
-            }
-        }
-        return false;
-    },
-    _addPluginConnector: function() {
-        var connector = '<object id="codebender-plugin" type="application/x-codebendercc" width="0" height="0" xmlns="http://www.w3.org/1999/html"></object>';
-        this.$elem.append(connector);
     },
     _isMobile: function() {
         return navigator.userAgent.match(/Android/i) ? true : false || navigator.userAgent.match(/BlackBerry/i) ? true : false || navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false || navigator.userAgent.match(/IEMobile/i) ? true : false;
@@ -1605,7 +1560,7 @@ var scktool = {
             build: bui
         }
     },
-    _comparePluginVersions: function(firstVersion, secondVersion) {
+    _compareExtensionVersions: function(firstVersion, secondVersion) {
         var major = firstVersion.major - secondVersion.major;
         var minor = firstVersion.minor - secondVersion.minor;
         var patch = firstVersion.patch - secondVersion.patch;
@@ -1615,7 +1570,16 @@ var scktool = {
         if (patch != 0) return patch;
         return build;
     },
+    stringNumberProperties: function(obj) {
+        for (var property in obj) {
+            if (obj.hasOwnProperty(property)) {
+                if (!isNaN(obj[property])) obj[property] = obj[property].toString();
+            }
+        }
+        return obj;
+    },
     pluginChromeStoreURL: "https://chrome.google.com/webstore/detail/llohmdkdoablhnefekgllopdgmmphpif",
+    firmwaresPath: "/firmwares/json/",
     lineBuffer: [],
     lineString: "",
     cmdStatus: "NO",
@@ -1900,40 +1864,13 @@ if (typeof Object.create !== 'function') {
 }
 (function($) {
     // Start a plugin
-    $.fn.scktool = function(options) {
+    $.fn.sckapp = function(options) {
         if (this.length) {
             return this.each(function() {
-                var myscktool = Object.create(scktool);
-                myscktool.init(options, this); // `this` refers to the element
-                $.data(this, 'scktool', myscktool);
+                var mysckapp = Object.create(sckapp);
+                mysckapp.init(options, this); // `this` refers to the element
+                $.data(this, 'sckapp', mysckapp);
             });
         }
     };
 })(jQuery);
-
-
-
-/* EXTRA FUNC  */
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-// Array.prototype.clean = function(deleteValue) {
-//     for (var i = 0; i < this.length; i++) {
-//         if (this[i] == deleteValue) {
-//             this.splice(i, 1);
-//             i--;
-//         }
-//     }
-//     return this;
-// };
-
-function stringNumberProperties(obj) {
-    for (var property in obj) {
-        if (obj.hasOwnProperty(property)) {
-            if (!isNaN(obj[property])) obj[property] = obj[property].toString();
-        }
-    }
-    return obj;
-};

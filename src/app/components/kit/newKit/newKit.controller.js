@@ -8,7 +8,9 @@
     function NewKitController($scope, animation, device, tag, alert, auth) {
       var vm = this;
 
-      vm.step = 1;
+      vm.step = 2;
+      // TODELETE: Force scktool from the init
+
       vm.submitStepOne = submitStepOne;
       vm.submitStepTwo = submitStepTwo;
 
@@ -70,6 +72,8 @@
         scrollWheelZoom: false
       };
 
+      vm.macAddress = undefined;
+
       initialize();
 
       //////////////
@@ -125,7 +129,7 @@
       }
 
       function submitStepTwo() {
-        
+
       }
 
       function getTags() {
