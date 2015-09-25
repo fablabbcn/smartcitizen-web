@@ -44,10 +44,10 @@
         if(!user.token) {
           return;
         }
-        getCurrentUserInfo()
+        return getCurrentUserInfo()
           .then(function(data) {
             $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
-            
+
             var newUser = new AuthUser(data);
             //check sensitive information
             if(user.data && user.data.role !== newUser.role) {
@@ -61,20 +61,20 @@
               //wait until navbar is loaded to emit event
               $timeout(function() {
                 $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
-              }, 3000);              
+              }, 3000);
             } else {
               // used for login
               $state.reload();
               $timeout(function() {
                 alert.success('Login was successful');
-                $rootScope.$broadcast('loggedIn', {});                
+                $rootScope.$broadcast('loggedIn', {});
               }, 2000);
             }
           });
       }
 
       function updateUser() {
-        getCurrentUserInfo()
+        return getCurrentUserInfo()
           .then(function(data) {
             $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
           });
@@ -87,7 +87,7 @@
       function isAuth() {
         return !!$window.localStorage.getItem('smartcitizen.token');
       }
-      //save to localstorage and 
+      //save to localstorage and
       function saveData(token) {
         $window.localStorage.setItem('smartcitizen.token', JSON.stringify(token) );
         setCurrentUser();

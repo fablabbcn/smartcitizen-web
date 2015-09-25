@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert', 'step'];
-    function EditKitController($scope, animation, device, kitData, tag, alert, step) {
+    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 'kitData', 'tag', 'alert', 'step'];
+    function EditKitController($scope, $location, animation, device, kitData, tag, alert, step) {
       var vm = this;
 
       vm.step = step;
@@ -128,7 +128,7 @@
       }
 
       function openKitSetup() {
-        vm.step = 2;
+        $location.path($location.path()).search({'step':2});
       }
 
       function findExposure(nameOrValue) {

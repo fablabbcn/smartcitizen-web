@@ -100,6 +100,7 @@
               var isAdmin = userUtils.isAdmin(userData);
 
               if(!isAdmin && !belongsToUser) {
+                console.error("This kit does not belong to user");
                 $location.path('/');
               }
             },
