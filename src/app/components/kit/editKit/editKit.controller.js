@@ -4,9 +4,11 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert'];
-    function EditKitController($scope, animation, device, kitData, tag, alert) {
+    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert', 'step'];
+    function EditKitController($scope, animation, device, kitData, tag, alert, step) {
       var vm = this;
+
+      vm.step = step;
 
       vm.submitForm = submitForm;
       vm.openKitSetup = openKitSetup;
@@ -32,7 +34,7 @@
         description: kitData.description
       };
 
-
+      
       // TAGS SELECT
       vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
@@ -55,7 +57,7 @@
         vm.kitForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
-      
+
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
@@ -111,6 +113,10 @@
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         };
 
+        if(vm.macAddress){
+          data.macAddress = vm.macAddress;
+        }
+
         device.updateDevice(kitData.id, data)
           .then(
             function() {
@@ -122,7 +128,7 @@
       }
 
       function openKitSetup() {
-        $('#setuptool').scktool();
+        vm.step = 2;
       }
 
       function findExposure(nameOrValue) {

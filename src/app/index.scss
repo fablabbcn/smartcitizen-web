@@ -66,7 +66,7 @@ body {
  *  NAVBAR
  */
 
-.navbar_container { 
+.navbar_container {
   .md-button {
     font-size: 14px;
   }
@@ -81,7 +81,7 @@ body {
 
   .logo_link {
     text-align: center;
-    
+
     .logo_icon {
       margin-left: 15px;
       height: 32px;
@@ -94,7 +94,7 @@ body {
     height: 14px;
     width: 14px;
   }
-  
+
   .md-button.full_height {
     padding: 24px 10px;
   }
@@ -180,7 +180,7 @@ search {
     top: 3.2px;
     left: 14px;
     z-index: $large_priority;
-    
+
     md-icon {
       width: 14px;
       height: 14px;
@@ -235,7 +235,7 @@ md-content.md-default-theme {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
   position: relative;
-} 
+}
 
 md-toolbar.md-default-theme {
   background-color: $background_blue_dark_navbar;
@@ -243,12 +243,12 @@ md-toolbar.md-default-theme {
   height: 64px;
 }
 
-.md-button.md-default-theme.md-flat.md-primary { 
+.md-button.md-default-theme.md-flat.md-primary {
   background-color: $terciary_color;
   color: white;
 }
 
-.md-button.md-default-theme.md-primary.md-flat:not([disabled]):hover { 
+.md-button.md-default-theme.md-primary.md-flat:not([disabled]):hover {
   background-color: $terciary_color;
   color: white;
 }
@@ -261,13 +261,13 @@ md-toolbar.md-default-theme {
 md-dialog.md-primary-theme {
   background-color: white;
 }
-md-dialog.md-default-theme { 
+md-dialog.md-default-theme {
   background-color: rgba(255, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px transparent;
   max-height: 100%;
 }
 
-md-dialog-content { 
+md-dialog-content {
   background-color: white;
 }
 
@@ -278,7 +278,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
 
   .md-input {
     border-color: rgba(0,0,0,0.12);
-  } 
+  }
 }
 
 /**
@@ -355,7 +355,7 @@ md-backdrop.md-opaque.md-default-theme {
   background-color: rgba(30, 30, 30, 0.6);
 }
 
-//Loading backdrop 
+//Loading backdrop
 
 md-backdrop.md-mainBackdrop {
   background-color: #2A4E62;
@@ -437,7 +437,7 @@ section.map {
   z-index: 1;//$small_priority;
   position: fixed;
   top: 64px;
-  
+
   @media all and (max-height: 1200px) and (min-height: 1000px) {
     height: 950px;
   }
@@ -457,7 +457,7 @@ section.map {
   }
 }
 
-/* 
+/*
   CORE CHIP COMPONENT
  */
 .chips {
@@ -482,7 +482,7 @@ section.map {
       width: 8px;
       height: 8px;
       float: right;
-      margin-top: 3px;    
+      margin-top: 3px;
     }
   }
 
@@ -494,8 +494,8 @@ section.map {
     background-color: #C8E6ED;
   }
 }
-/* 
-  MAP FILTERS  
+/*
+  MAP FILTERS
 */
 .map_legend {
   position: absolute;
@@ -518,7 +518,7 @@ section.map {
   background-color: white;
 }
 
-/* 
+/*
   CONTAINERS USED ON SHOW KIT STATE
  */
 
@@ -532,7 +532,7 @@ section.map {
   overflow: hidden;
 }
 
-/* 
+/*
   KIT MENU MODULE
  */
 section .kit_menu {
@@ -546,7 +546,7 @@ section .kit_menu {
     width: 100%;
     height: 100%;
   }
-  
+
   .kit_time {
     position: relative;
     left: -100px;
@@ -555,7 +555,7 @@ section .kit_menu {
     font-size: 14px;
     text-transform: uppercase;
   }
-  .kit_user {    
+  .kit_user {
     float: left;
     line-height: 30px;
     margin: 0 32px 0 20px;
@@ -591,17 +591,17 @@ section .kit_menu {
     span {
       vertical-align: middle;
     }
-  }    
-  
+  }
+
   .kit_battery {
-    float: left; 
+    float: left;
     line-height: 30px;
     color: $font_color_blue_grey;
     font-size: 12px;
     font-weight: bold;
 
     md-icon {
-      width: 14px; 
+      width: 14px;
       height: 14px;
       margin-right: 8px;
     }
@@ -617,7 +617,7 @@ section .kit_menu {
       width: 14px;
       height: 14px;
     }
-    
+
     .md-button.md-default-theme {
       display: inline-table;
       width: 30px;
@@ -629,7 +629,7 @@ section .kit_menu {
       border-bottom: 2px solid $blue_light;
     }
 
-  }    
+  }
 
 }
 
@@ -659,10 +659,10 @@ section .kit_menu {
     width: 90%;
     height: 96px;
     margin: 0 auto;
-    overflow-x: scroll;
+    overflow-x: hidden;
     overflow-y: hidden;
   }
-  
+
   .sensor_container {
     margin: 30px;
     position: relative;
@@ -674,7 +674,7 @@ section .kit_menu {
     .clear {
       clear: both;
     }
-    
+
     .sensor_right {
       position: relative;
       left: 5px;
@@ -710,7 +710,7 @@ section .kit_menu {
 
 /**
  *  KIT DETAILS
- *  
+ *
  */
 
  .kit_details_notAuth {
@@ -749,7 +749,7 @@ section .kit_menu {
     .container {
       padding: 1% 2% 1% 2%;
       height: 100%;
-      
+
       .kit_chart_left {
         display: inline-block;
         width: 240px;
@@ -809,7 +809,7 @@ section .kit_menu {
         .sensor_data {
           margin: 8% 0 5% 0;
           display: inline-block;
-          
+
           .sensor_value {
             font-size: 22px;
             font-weight: bold;
@@ -819,12 +819,12 @@ section .kit_menu {
             color: $font_color_blue_light;
             position: relative;
             top: -8px;
-          } 
+          }
           .sensor_data_icon {
             width: 14px;
             height: 14px;
             margin-left: 8px;
-          }         
+          }
         }
         .sensor_data_description {
           font-size: 12px;
@@ -839,7 +839,7 @@ section .kit_menu {
           color: #03252D;
           border-radius: 2px;
           line-height: 1.5em;
-          padding: 4px 6px; 
+          padding: 4px 6px;
           box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
           max-width: 175px;
         }
@@ -874,13 +874,13 @@ section .kit_menu {
               width: 11px;
               height: 11px;
               margin-right: 8px;
-            }            
+            }
           }
           .chart_move {
             .chart_move_button {
               width: 40px;
               height: 24px;
-              display: inline-flex;             
+              display: inline-flex;
               border: 1px solid #6B868D;
             }
             .chart_move_right {
@@ -989,7 +989,7 @@ section .kit_menu {
   .kit_details_key_refreshButton {
     height: inherit;
     background-color: #DBDBDB;
-    border-radius: 0 4px 4px 0; 
+    border-radius: 0 4px 4px 0;
     md-icon {
       height: 15px;
       width: 15px;
@@ -1041,7 +1041,7 @@ section .kit_menu {
   .kit_owner {
     color: $background_blue_dark_navbar;
     background-color: #F5F5F5;
-  
+
     .container {
       width: 95%;
       margin: 0 auto;
@@ -1133,7 +1133,7 @@ section .kit_menu {
   }
 }
 
-/* 
+/*
 =========================================
 KIT COMMENTS MODULE
 =========================================
@@ -1160,7 +1160,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
   left: 57%;
 }
 
-/* 
+/*
   CHART COMPONENT
 */
 
@@ -1168,7 +1168,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
   width: 100%;
   height: 90%;
   position: relative;
-  
+
   .chart_line {
     fill: none;
     stroke-width: 2px;
@@ -1245,7 +1245,7 @@ section .stickMenu {
   top: 64px;
 }
 
-/* 
+/*
   SHARED MODAL FOR LOGIN, SIGNUP, STORE,..
 */
 
@@ -1253,11 +1253,11 @@ section .stickMenu {
   border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
-  
+
   .field {
     position: relative;
   }
-  
+
   .errors {
     position: absolute;
     top: 50px;
@@ -1332,8 +1332,8 @@ section .stickMenu {
 }
 
 .message_below {
-  text-align: center; 
-  font-size: 16px; 
+  text-align: center;
+  font-size: 16px;
 
   .message_below_question {
     color: $font_color_white;
@@ -1348,7 +1348,7 @@ section .stickMenu {
   }
 }
 
-/* 
+/*
   MODAL FOR LOGIN
  */
 
@@ -1362,7 +1362,7 @@ section .stickMenu {
   left: 45%;
 }
 
-/* 
+/*
   MODAL FOR SIGNUP
 */
 
@@ -1376,14 +1376,14 @@ section .stickMenu {
   left: 50%;
 }
 
-/*  
+/*
   MODAL FOR MAP FILTER
 */
 
 .modal_mapFilter {
   width: 300px;
   height: 478px;
-  
+
   .modal_content_container_filter {
     width: 85%;
     margin: 0 auto;
@@ -1420,7 +1420,7 @@ section .stickMenu {
   }
 }
 
-/* 
+/*
   MODAL RECOVERY PASSWORD
 */
 .modal_recovery {
@@ -1438,7 +1438,7 @@ section .stickMenu {
 .modal_store {
   width: 500px;
   height: 480px;
-  
+
   .header.store {
     margin-top: 40px;
   }
@@ -1476,7 +1476,7 @@ section .stickMenu {
   }
 }
 
-/* 
+/*
  CORE FORM COMPONENT
  */
 
@@ -1492,7 +1492,7 @@ section .stickMenu {
 .form_field {
   position: relative;
 }
-  
+
 .form_errors {
   position: absolute;
   bottom: 15%;
@@ -1550,7 +1550,7 @@ section .stickMenu {
   margin-bottom: 0;
 }
 
-/* 
+/*
   CORE LARGE DEVICES FORM
 */
 @media (min-width: 501px) {
@@ -1567,10 +1567,10 @@ section .stickMenu {
     position: relative;
     margin: 0 auto;
     font-size: 1.5em;
-  }  
+  }
 }
 
-/* 
+/*
   CORE MOBILE DEVICES FORM
 */
 
@@ -1578,7 +1578,7 @@ section .stickMenu {
   .form_container {
     width: 80%;
     font-size: 12px;
-  } 
+  }
   .md-primary.form_button {
     width: 100%;
     position: absolute;
@@ -1596,7 +1596,7 @@ section .stickMenu {
   }
 }
 
-/* 
+/*
   RECOVERY FORM
 */
 .recovery_container {
@@ -1641,7 +1641,7 @@ section .stickMenu {
   }
 }
 
-/* 
+/*
   RESET FORM
 */
 .formReset_field {
@@ -1665,7 +1665,7 @@ section .stickMenu {
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
   @media (max-width: 500px) {
     .formReset_errors {
-      top: 65%;         
+      top: 65%;
     }
     .formReset_field {
       padding: 3% 0;
@@ -1685,7 +1685,7 @@ section .stickMenu {
   transform: translateY(32px);
 }
 
-/* 
+/*
   MARKER AND POPUP MARKER
 */
 
@@ -1771,11 +1771,11 @@ section .stickMenu {
 .popup_top {
   height: 72px;
   border-radius: 2px 2px 0 0;
-  
+
   .popup_name {
     padding: 0 0 1px 8px;
     font-size: 16px;
-    font-weight: bold;  
+    font-weight: bold;
   }
   .popup_type {
     font-size: 14px;
@@ -1817,7 +1817,7 @@ section .stickMenu {
       margin-right: 10px;
       padding: 3px 8px;
     }
-  } 
+  }
 }
 .popup_icon svg:nth-child(2) {
   width: 0;
@@ -1867,7 +1867,7 @@ section .stickMenu {
   z-index: 1;
 }
 
-/* 
+/*
   PICKER COMPONENT
 */
 
@@ -1908,7 +1908,7 @@ section .stickMenu {
       text-align: center;
       border-bottom: 0px;
     }
-  }  
+  }
 }
 .kitList_parent {
 
@@ -2123,8 +2123,8 @@ section .stickMenu {
 .kitList_borderBottom {
   border-bottom: 1px solid #EAECF1;
 }
- 
-/** 
+
+/**
  *  USER PROFILE STATE
  *  most styles are re-used on my profile state
  */
@@ -2223,7 +2223,7 @@ section .stickMenu {
  *  MY PROFILE STATE
  */
 
-//override angular-material  
+//override angular-material
 
 .myProfile_state {
   md-tab md-tab-label {
@@ -2238,7 +2238,7 @@ section .stickMenu {
   md-tabs.md-default-theme md-tabs-ink-bar {
     color: $blue_light;
     background-color: $blue_light;
-  }  
+  }
 }
 
 .myProfile_header {
@@ -2292,7 +2292,7 @@ section .stickMenu {
   }
 }
 .myProfile_form_avatar {
-  margin-bottom: 30px;  
+  margin-bottom: 30px;
 }
 .myProfile_form_avatarImage {
   width: 64px;
@@ -2357,7 +2357,7 @@ section .stickMenu {
 }
 .md-button.md-default-theme.myProfile_addKitButton {
   color: white;
-  background-color: $blue_light;  
+  background-color: $blue_light;
   border-radius: 20px;
   padding: 8px 31px;
 }
@@ -2383,7 +2383,7 @@ section .stickMenu {
   clear: both;
 }
 
-/* 
+/*
   FOOTER COMPONENT
 */
 
@@ -2399,7 +2399,7 @@ section .stickMenu {
   height: 32px;
 }
 
-/* 
+/*
   RECOVERY PASSWORD STATE
 */
 .recovery_header {
@@ -2426,7 +2426,7 @@ button#doorbell-button {
   right: 1%;
 }
 
-/* 
+/*
   TIMELINE COMPONENT
 
   used on add and setup kit
@@ -2447,6 +2447,11 @@ button#doorbell-button {
   position: relative;
   top: 14px;
 }
+.timeline_line_small {
+  width: 100px !important;
+  margin: 0px 20px;
+  top:0px !important;
+}
 .timeline_stepCircle {
   width: 30px;
   height: 30px;
@@ -2466,14 +2471,14 @@ button#doorbell-button {
   color: #4495AA;
 
   &.vertical {
-    margin-top: 10px;     
+    margin-top: 10px;
   }
 }
 .timeline_content {
   min-height: 400px;
   width: 100%;
 }
-.timeline_button {  
+.timeline_button {
   width: 100%;
   height: 90px;
   font-size: 26px;
@@ -2481,7 +2486,7 @@ button#doorbell-button {
   &.timeline_buttonOpen.md-button.md-primary {
     color: #38CEF3
   }
-  
+
 }
 .md-button.timeline_buttonSave {
   width: 130px;
@@ -2490,18 +2495,18 @@ button#doorbell-button {
   font-size: 18px;
 }
 
-/* 
+/*
   ADD KIT STATE
 */
 
 .kit_dataChange {
   .form_block {
     padding: 40px 30px;
-    
+
     > div {
       margin: 0 10%;
       height: 100%;
-    }    
+    }
     &.isEven {
       background-color: #F9F9FB;
     }
@@ -2525,7 +2530,7 @@ button#doorbell-button {
     button {
       display: inline-block;
       width: 200px;
-      height: 50px;      
+      height: 50px;
     }
   }
   .form_blockInput_map {

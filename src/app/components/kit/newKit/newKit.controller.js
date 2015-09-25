@@ -4,12 +4,11 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert', 'auth'];
-    function NewKitController($scope, animation, device, tag, alert, auth) {
+    NewKitController.$inject = ['$scope', '$location', 'animation', 'device', 'tag', 'alert', 'auth'];
+    function NewKitController($scope, $location, animation, device, tag, alert, auth) {
       var vm = this;
 
-      vm.step = 2;
-      // TODELETE: Force scktool from the init
+      vm.step = 1;
 
       vm.submitStepOne = submitStepOne;
       vm.submitStepTwo = submitStepTwo;
@@ -115,12 +114,12 @@
 
         device.createDevice(data)
           .then(
-            function() {
+            function(response) {
               alert.success('Your kit was created but has not been configured yet');
               auth.updateUser();
               // move to step 2 and initialize setup module
-              vm.step = 2;
-              $('#setuptool').scktool();
+              var kitID = response.id;
+              $location.path('/kits/edit/'+kitID).search({step:2});
             },
             function(err) {
               vm.errors = err.data.errors;
