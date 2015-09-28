@@ -8,8 +8,8 @@
   function scktoolService(angularLoad, $q, $rootScope){
     var d = $q.defer();
     var scripts = [
-      'app/components/kit/setupModule/scktool-app.js',
-      'app/components/kit/setupModule/scktool-connector.js'
+      'scripts/scktool-app.js',
+      'scripts/scktool-connector.js'
     ];
     var scriptsLoaded = 0;
 

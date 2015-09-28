@@ -33,7 +33,7 @@ module.exports = function(options) {
     };
 
     var htmlFilter = $.filter('*.html');
-    var jsFilter = $.filter('**/*.js');
+    var jsFilter = $.filter('**/*.js', '!'+options.src+'/**/scktool-*.js');
     var cssFilter = $.filter('**/*.css');
     var assets;
 
