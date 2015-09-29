@@ -9,6 +9,7 @@
     "angular-material": "https://github.com/lafosca/material.git#fix-scrolling",
     "angular-spinner": "~0.6.1",
     "angular-ui-router": "~0.2.13",
+    "angulartics-google-analytics": "~0.1.1",
     "d3": "~3.5.5",
     "jquery": "~2.1.4",
     "leaflet.markercluster": "~0.4.0",
