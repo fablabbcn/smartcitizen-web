@@ -22,7 +22,8 @@
   </div>
   <div class="myProfile_tabs_parent">
     <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
-      <md-tab label md-on-select="vm.highlightIcon(0)" >
+      <md-tab label md-on-select="vm.highlightIcon(0)" analytics-on="click"
+        analytics-event="Profile" analytics-action="profile">
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
           <span>PROFILE</span>
@@ -57,7 +58,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length">
                       <span ng-repeat="error in vm.errors.username">
-                        Username {{ error }}<span ng-if="!$last">,</span> 
+                        Username {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -68,7 +69,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length">
                       <span ng-repeat="error in vm.errors.password">
-                        Password {{ error }}<span ng-if="!$last">,</span>  
+                        Password {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -79,7 +80,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length">
                       <span ng-repeat="error in vm.errors.email">
-                        Email {{ error }}<span ng-if="!$last">,</span> 
+                        Email {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -90,7 +91,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
                       <span ng-repeat="error in vm.errors.city">
-                        City {{ error }}<span ng-if="!$last">,</span> 
+                        City {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -108,7 +109,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
                       <span ng-repeat="error in vm.errors.country">
-                        Country {{ error }}<span ng-if="!$last">,</span> 
+                        Country {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -119,7 +120,7 @@
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
                       <span ng-repeat="error in vm.errors.url">
-                        URL {{ error }}<span ng-if="!$last">,</span> 
+                        URL {{ error }}<span ng-if="!$last">,</span>
                       </span>
                     </p>
                   </div>
@@ -140,10 +141,11 @@
                 <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
               </div>
             </div>
-          </div>          
+          </div>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.highlightIcon(1)" >
+      <md-tab label md-on-select="vm.highlightIcon(1)" analytics-on="click"
+        analytics-event="Profile" analytics-action="kits">
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
           <span>KITS</span>
@@ -153,9 +155,21 @@
             <div class="profile_sidebar">
               <p class="profile_sidebar_title">FILTER KITS BY</p>
               <div class="profile_sidebar_options">
-                <md-button ng-click="vm.filterKits('all')" class="profile_sidebar_button">ALL</md-button>
-                <md-button ng-click="vm.filterKits('online')" class="profile_sidebar_button">ONLINE</md-button>
-                <md-button ng-click="vm.filterKits('offline')" class="profile_sidebar_button">OFFLINE</md-button>
+                <md-button ng-click="vm.filterKits('all')" 
+                class="profile_sidebar_button" analytics-on="click"
+                analytics-event="Profile" analytics-action="kit filter">
+                  ALL
+                </md-button>
+                <md-button ng-click="vm.filterKits('online')"
+                  class="profile_sidebar_button" analytics-on="click"
+                  analytics-event="Profile" analytics-action="kit filter">
+                  ONLINE
+                </md-button>
+                <md-button ng-click="vm.filterKits('offline')"
+                class="profile_sidebar_button" analytics-on="click"
+                analytics-event="Profile" analytics-action="kit filter">
+                  OFFLINE
+                </md-button>
               </div>
             </div>
             <div class="profile_content_main" flex>
@@ -169,7 +183,7 @@
                     <div class="">
                       <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
                     </div>
-                    <div class="kitList_content"> 
+                    <div class="kitList_content">
                       <div class="kitList_name">{{ kit.name || 'No name' }}</div>
                       <div class="kitList_data">
                         <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
@@ -179,7 +193,7 @@
                         </md-icon>
                         <span>{{ kit.type }}</span>
                       </div>
-                    </div>  
+                    </div>
                     <div class="kitList_right" layout="row" layout-align="end center">
                       <div class="chips" layout="row" layout-align="start center">
                         <div class="chip kit_tag" ng-repeat="tag in kit.labels">
@@ -190,7 +204,7 @@
                         </div>
                       </div>
                       <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="kit.state.name === 'never published' || kit.state.name === 'not configured'"><span>{{ kit.state.name }}</span></div>
-                    </div>                    
+                    </div>
                   </div>
                 </md-button>
                 <div class="kitList_config" layout="row" layout="center center">
@@ -210,10 +224,11 @@
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.highlightIcon(2)">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
+      <md-tab label md-on-select="vm.highlightIcon(2)" analytics-on="click"
+        analytics-event="Profile" analytics-action="tools">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
         <md-tab-label>
           <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
           <span>TOOLS</span>
@@ -231,7 +246,7 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
-                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>        
+                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
               </div>
               <div class="profile_content_main_kits">
                 <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
@@ -241,7 +256,7 @@
                         <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
                         </md-icon>
                       </div>
-                      <div class="kitList_content"> 
+                      <div class="kitList_content">
                         <div class="kitList_name">{{ tool.title }}</div>
                         <div class="kitList_data">
                           <span>{{ tool.description }}</span>

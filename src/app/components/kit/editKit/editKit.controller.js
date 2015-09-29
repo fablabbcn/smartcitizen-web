@@ -34,7 +34,7 @@
         description: kitData.description
       };
 
-      
+
       // TAGS SELECT
       vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
@@ -121,9 +121,11 @@
           .then(
             function() {
               alert.success('Your kit was successfully updated');
+              ga('send', 'event', 'Kit', 'update');
             },
             function() {
               alert.error('There has been an error during kit set up');
+              ga('send', 'event', 'Kit', 'update failed');
             });
       }
 

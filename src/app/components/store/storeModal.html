@@ -32,9 +32,13 @@
         <input type="hidden" name="hosted_button_id" value="ZKWC47Y7FPPLE">
         <input type="hidden" name="os0" value="Sensor Kit (with Ambient Sensor Board)">
         <input type="hidden" name="currency_code" value="EUR">
-        <md-button type="submit" name="submit" class="md-flat md-primary main">ORDER WITH PAYPAL</md-button>
+        <md-button type="submit" name="submit"
+        class="md-flat md-primary main" analytics-on="store"
+        analytics-event="Kit Purchase" analytics-action="purchase">
+          ORDER WITH PAYPAL
+        </md-button>
         <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
-        </form>        
+        </form>
       </div>
     </div>
   </md-dialog-content>

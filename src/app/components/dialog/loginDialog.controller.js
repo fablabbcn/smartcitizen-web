@@ -18,9 +18,11 @@
           })
           .catch(function() {
             alert.error('Username or password incorrect');
+            ga('send', 'event', 'Login', 'logged in');
           })
           .finally(function() {
             $scope.waitingFromServer = false;
+            ga('send', 'event', 'Login', 'failed');
           });
       };
       $scope.hide = function() {
