@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('PreviewKit', ['Kit', 'kitUtils',function(Kit, kitUtils) {
+    .factory('PreviewKit', ['Kit', function(Kit) {
 
       /** 
        * Preview Kit constructor.
@@ -15,7 +15,7 @@
         Kit.call(this, object);
 
         this.dropdownOptions = [
-          {text: 'SET UP', value: '1', href: 'kits/new'},
+          {text: 'SET UP', value: '1', href: 'kits/edit/' + this.id + '?step=2'},
           {text: 'EDIT', value: '2', href: 'kits/edit/' + this.id}
         ];
       }

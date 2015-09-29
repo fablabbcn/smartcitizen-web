@@ -10,26 +10,38 @@
 
       vm.navRightLayout = 'space-around center';
 
+      // listen for any login event so that the navbar can be updated
       $scope.$on('loggedIn', function(ev, options) {
-        if(options && options.time === 'appLoad') {
-          $scope.$apply(function() {
-            vm.isLoggedin = true;
-            vm.isShown = true;
-            angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
-            vm.currentUser = auth.getCurrentUser().data;   
-            vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
-            vm.navRightLayout = 'end center';
-          });          
-        } else {
-          vm.isLoggedin = true;
-          vm.isShown = true;
-          angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
-          vm.currentUser = auth.getCurrentUser().data;   
-          vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
-          vm.navRightLayout = 'end center';
+        // if(options && options.time === 'appLoad') {
+        //   $scope.$apply(function() {
+        //     vm.isLoggedin = true;
+        //     vm.isShown = true;
+        //     angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
+        //     vm.currentUser = auth.getCurrentUser().data;   
+        //     vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        //     vm.navRightLayout = 'end center';
+        //   });          
+        // } else {
+        //   vm.isLoggedin = true;
+        //   vm.isShown = true;
+        //   angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
+        //   vm.currentUser = auth.getCurrentUser().data;   
+        //   vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
+        //   vm.navRightLayout = 'end center';
+        // }
+         
+        vm.isLoggedin = true;
+        vm.isShown = true;
+        angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
+        vm.currentUser = auth.getCurrentUser().data;   
+        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        vm.navRightLayout = 'end center';
+        if(!$scope.$$phase) {
+          $scope.$digest();                      
         }
       });
 
+      // listen for logout events so that the navbar can be updated 
       $scope.$on('loggedOut', function() {
         vm.isLoggedIn = false;
         vm.isShown = true;

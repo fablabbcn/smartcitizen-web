@@ -7,12 +7,12 @@
     /*
       Check app.config.js to know how states are protected
     */
-    
+
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider'];
     function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider) {
       $stateProvider
         /*
-         -- Landing state -- 
+         -- Landing state --
          Grabs your location and redirects you to the closest marker with data
         */
         .state('landing', {
@@ -38,12 +38,11 @@
                 });
             },
             initialMarkers: function($state, device, location, HasSensorKit) {
-              console.log('lo', location);
               if(!location || (!location.lat || !location.lng) ) {
                 // set hard-coded location
                 location = {
                   lat: 41.3860,
-                  lng: 2.1482 
+                  lng: 2.1482
                 };
               }
               return device.getDevices(location).then(function(data) {
@@ -62,7 +61,7 @@
                   })
                   .tap(function(closestKit) {
                     if(closestKit) {
-                      $state.go('layout.home.kit', {id: closestKit.id});                                          
+                      $state.go('layout.home.kit', {id: closestKit.id});
                     } else {
                       $state.go('layout.home.kit', {id: data[0].id});
                     }
@@ -85,7 +84,7 @@
         })
 
         .state('layout.kitEdit', {
-          url: '/kits/edit/:id',
+          url: '/kits/edit/:id?step',
           templateUrl: 'app/components/kit/editKit/editKit.html',
           controller: 'EditKitController',
           controllerAs: 'vm',
@@ -101,6 +100,7 @@
               var isAdmin = userUtils.isAdmin(userData);
 
               if(!isAdmin && !belongsToUser) {
+                console.error("This kit does not belong to user");
                 $location.path('/');
               }
             },
@@ -111,12 +111,15 @@
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
                 });
+            },
+            step: function($stateParams){
+              return parseInt($stateParams.step) || 1;
             }
           }
         })
 
         .state('layout.kitAdd', {
-          url: '/kits/new', 
+          url: '/kits/new',
           templateUrl: 'app/components/kit/newKit/newKit.html',
           controller: 'NewKitController',
           controllerAs: 'vm'
@@ -265,7 +268,7 @@
 
               return user.getUser(id)
                 .then(function(user) {
-                  return new NonAuthUser(user); 
+                  return new NonAuthUser(user);
                 });
             },
             kitsData: function($q, device, PreviewKit, userData) {
@@ -282,15 +285,15 @@
                     });
                 })
               );
-            },          
+            },
             isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
               var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
               if(userRole === 'admin') {
                 var userID = $stateParams.id;
                 $location.path('/profile/' + userID);
               } else {
-                return false;                
-              } 
+                return false;
+              }
             }
           }
         })
@@ -327,7 +330,7 @@
                 })
               );
             }
-          } 
+          }
         })
         /*
         -- My Profile Admin --

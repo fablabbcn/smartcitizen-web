@@ -4,13 +4,16 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', 'animation', 'device', 'kitData', 'tag', 'alert'];
-    function EditKitController($scope, animation, device, kitData, tag, alert) {
+    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 'kitData', 'tag', 'alert', 'step'];
+    function EditKitController($scope, $location, animation, device, kitData, tag, alert, step) {
       var vm = this;
 
-      vm.submitForm = submitForm;
+      vm.step = step;
 
-      // EXPOSURE SELECT -> TODO: change value to name on form submit
+      vm.submitForm = submitForm;
+      vm.openKitSetup = openKitSetup;
+
+      // EXPOSURE SELECT
       vm.exposure = [
         {name: 'indoor', value: 1},
         {name: 'outdoor', value: 2}
@@ -21,7 +24,7 @@
       vm.kitForm = {
         name: kitData.name,
         elevation: kitData.elevation,
-        exposure: findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor'),
+        exposure: (kitData.labels.indexOf('indoor') >= 0 || kitData.labels.indexOf('outdoor') >= 0 ) && ( findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor') ),
         location: {
           lat: kitData.latitude,
           lng: kitData.longitude,
@@ -31,7 +34,7 @@
         description: kitData.description
       };
 
-
+      
       // TAGS SELECT
       vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
@@ -54,7 +57,7 @@
         vm.kitForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
-      
+
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
@@ -82,7 +85,7 @@
       }
 
       function getLocation() {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
@@ -108,8 +111,12 @@
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
+        };
+
+        if(vm.macAddress){
+          data.macAddress = vm.macAddress;
         }
-        debugger;
+
         device.updateDevice(kitData.id, data)
           .then(
             function() {
@@ -118,6 +125,10 @@
             function() {
               alert.error('There has been an error during kit set up');
             });
+      }
+
+      function openKitSetup() {
+        $location.path($location.path()).search({'step':2});
       }
 
       function findExposure(nameOrValue) {

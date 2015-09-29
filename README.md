@@ -61,3 +61,8 @@ Constructor: <Name of constructor capitalized>. Ex: User, Kit. Note: Constructor
 Constants: <Name of constant uppercase joined by an underscore>. Ex: PROFILE_TOOLS
 
 For data that has been resolved from the router, I've normally appended 'Data' to the name.
+
+### Deployment
+
+Staging - Change base tag on index.html to base url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do 'gulp deploy'
+Production - Change base tag back to '/'. Do cap production deploy and insert code

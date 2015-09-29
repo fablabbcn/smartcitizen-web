@@ -16,7 +16,6 @@
 
         this.lat = object.latitude;
         this.lng = object.longitude;
-        debugger;
       }
       return SearchResultLocation;
     }]);

@@ -63,7 +63,7 @@
               if(object.type === 'City' || object.type === 'Country') {
                 return new SearchResultLocation(object);
               } else {
-                return new SearchResult(object)
+                return new SearchResult(object);
               }
             });
           });

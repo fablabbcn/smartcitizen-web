@@ -4,11 +4,12 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', 'animation', 'device', 'tag', 'alert', 'auth'];
-    function NewKitController($scope, animation, device, tag, alert, auth) {
+    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth'];
+    function NewKitController($scope, $state, animation, device, tag, alert, auth) {
       var vm = this;
 
       vm.step = 1;
+
       vm.submitStepOne = submitStepOne;
       vm.submitStepTwo = submitStepTwo;
 
@@ -70,6 +71,8 @@
         scrollWheelZoom: false
       };
 
+      vm.macAddress = undefined;
+
       initialize();
 
       //////////////
@@ -80,7 +83,7 @@
       }
 
       function getLocation() {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
@@ -105,15 +108,19 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          /*jshint camelcase: false */
           user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
         };
 
         device.createDevice(data)
           .then(
-            function() {
+            function(response) {
               alert.success('Your kit was created but has not been configured yet');
-              auth.updateUser();
-              vm.step = 2;
+              auth.setCurrentUser('appLoad').then(function(){
+                var kitID = response.id;
+                $state.go('layout.kitEdit', {id:kitID, step:2});
+              });
+
             },
             function(err) {
               vm.errors = err.data.errors;
@@ -122,7 +129,7 @@
       }
 
       function submitStepTwo() {
-        
+
       }
 
       function getTags() {

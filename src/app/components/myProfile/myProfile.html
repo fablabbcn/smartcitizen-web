@@ -131,7 +131,7 @@
                   <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
                   <span class="myProfile_apiKey_text">API Key:</span>
                   <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
-                  <md-button class="myProfile_apiKey_refreshButton md-flat" type="button">
+                  <md-button class="myProfile_apiKey_refreshButton md-flat" type="button" aria-label>
                     <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
                   </md-button>
                 </div>
@@ -194,7 +194,7 @@
                   </div>
                 </md-button>
                 <div class="kitList_config" layout="row" layout="center center">
-                  <md-button class="kitList_dropdownButton" 
+                  <md-button class="kitList_dropdownButton" aria-label
                     dropdown-menu="kit.dropdownOptions"
                     dropdown-model="vm.dropdownSelected"
                     dropdown-item-label="text">

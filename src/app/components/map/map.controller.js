@@ -120,7 +120,9 @@
                     if(selectedMarker) {
                       selectedMarker.focus = true;
                     }
-                    $scope.$digest();
+                    if(!$scope.$$phase) {
+                      $scope.$digest();                      
+                    }
                   });
                 });
             });

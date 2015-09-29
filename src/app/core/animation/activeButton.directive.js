@@ -125,6 +125,8 @@
 
         //on scroll, check if window is on a section
         angular.element($window).on('scroll', function() {
+          if(!container) return;
+
           var windowPosition = document.body.scrollTop;
           var appPosition = windowPosition + container.navbar.height + container.kitMenu.height; 
           var button;

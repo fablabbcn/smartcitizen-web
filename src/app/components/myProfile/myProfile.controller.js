@@ -4,20 +4,20 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog'];
-    function MyProfileController($scope, $location, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog) {
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
+    function MyProfileController($scope, $location, $q, $interval, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
-      vm.unhighlightIcon = unhighlightIcon; 
+      vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
       vm.formUser = {};
       vm.getCountries = getCountries;
 
-      vm.user = userData; 
+      vm.user = userData;
       copyUserToForm(vm.formUser, vm.user);
-      vm.searchText = vm.formUser.country; 
+      vm.searchText = vm.formUser.country;
 
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
@@ -40,9 +40,16 @@
       vm.filterKits = filterKits;
       vm.filterTools = filterTools;
 
+      var updateKitsTimer = undefined;
+
       $scope.$on('loggedOut', function() {
         $location.path('/');
       });
+      $scope.$on("$destroy", function() {
+        if (updateKitsTimer) {
+            $interval.cancel(updateKitsTimer);
+        }
+    });
 
       initialize();
 
@@ -50,23 +57,25 @@
 
       function initialize() {
         $timeout(function() {
-          highlightIcon(0); 
+          highlightIcon(0);
           setSidebarMinHeight();
           animation.viewLoaded();
         }, 500);
+
+        updateKitsTimer = $interval(updateKits, 4000);
       }
 
       function filterKits(status) {
         if(status === 'all') {
           status = undefined;
-        } 
+        }
         vm.kitStatus = status;
       }
 
       function filterTools(type) {
         if(type === 'all') {
           type = undefined;
-        } 
+        }
         vm.toolType = type;
       }
 
@@ -75,11 +84,11 @@
           _.each(COUNTRY_CODES, function(value, key) {
             if(value === userData.country) {
               /*jshint camelcase: false */
-              userData.country_code = key; 
+              userData.country_code = key;
               return;
             }
-          });          
-        } 
+          });
+        }
 
         user.updateUser(userData)
           .then(function(data) {
@@ -107,14 +116,14 @@
       }
 
       function highlightIcon(iconIndex) {
-        var icons = angular.element('.myProfile_tab_icon'); 
+        var icons = angular.element('.myProfile_tab_icon');
 
         _.each(icons, function(icon) {
           unhighlightIcon(icon);
         });
 
         var icon = icons[iconIndex];
-        
+
         angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
         angular.element(icon).find('.fill_container').css('fill', 'white');
 
@@ -140,7 +149,7 @@
         searchText = searchText.toLowerCase();
         return function(country) {
           country = country.toLowerCase();
-          return country.indexOf(searchText) !== -1; 
+          return country.indexOf(searchText) !== -1;
         };
       }
 
@@ -149,7 +158,7 @@
           file.getCredentials(fileData[0].name)
             .then(function(res) {
               file.uploadFile(fileData[0], res.key, res.policy, res.signature)
-                .success(function() {                  
+                .success(function() {
                   vm.user.avatar = file.getImageURL(res.key);
                 });
               });
@@ -164,6 +173,25 @@
             formData[key] = userData[key];
           }
         }
+      }
+
+      function updateKits() {
+        var kitIDs = _.pluck(vm.user.kits, 'id');
+        if(!kitIDs.length) {
+          return [];
+        }
+
+        $q.all(
+          kitIDs.map(function(id) {
+            return device.getDevice(id)
+              .then(function(data) {
+                return new PreviewKit(data);
+              });
+          })
+        )
+        .then(function(data){
+          vm.kits = data;
+        });
       }
     }
 })();

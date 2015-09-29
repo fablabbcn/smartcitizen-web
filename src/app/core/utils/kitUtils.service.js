@@ -4,8 +4,8 @@
   angular.module('app.components')
     .factory('kitUtils', kitUtils);
 
-    kitUtils.$inject = ['COUNTRY_CODES'];
-    function kitUtils(COUNTRY_CODES) {
+    kitUtils.$inject = ['COUNTRY_CODES', 'device'];
+    function kitUtils(COUNTRY_CODES, device) {
       var service = {
         parseLocation: parseLocation,
         parseLabels: parseLabels,
@@ -52,12 +52,14 @@
       }
 
       function parseType(object) {
-        if(!object.kit) {
-          return;
-        }
-        var kitType; 
-        if((new RegExp('sck', 'i')).test(object.kit.name)) { 
+        var kitType;
+
+        var kitName = !object.kit ? 'No kit property': object.kit.name;
+
+        if((new RegExp('sck', 'i')).test(kitName)) { 
           kitType = 'SmartCitizen Kit';
+        } else {
+          kitType = 'Unknown Kit';
         }
         return kitType; 
       }
@@ -75,6 +77,9 @@
       }
 
       function parseVersion(object) {
+        if(!object.kit) {
+          return;
+        }
         return object.kit.name.match(/[0-9]+.?[0-9]*/)[0];
       }
 

@@ -219,7 +219,7 @@
                   </md-icon>
                   <span class="kit_details_manage_data_name">API Key:</span>
                   <div class="kit_details_key_number">{{ 32323 }}</div>
-                  <md-button class="kit_details_key_refreshButton">
+                  <md-button class="kit_details_key_refreshButton" aria-label>
                     <md-icon class="" md-svg-src="./assets/images/refresh_icon_white.svg">
                     </md-icon>
                   </md-button>
@@ -310,7 +310,7 @@
                     </div>
                   </md-button>
                   <div class="kitList_config" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">                    
-                    <md-button class="kitList_dropdownButton" 
+                    <md-button class="kitList_dropdownButton" aria-label
                       dropdown-menu="kit.dropdownOptions"
                       dropdown-model="vm.dropdownSelected"
                       dropdown-item-label="text">

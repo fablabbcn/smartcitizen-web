@@ -8,7 +8,6 @@
     function sensor(Restangular, utils, sensorUtils) {
       var sensorTypes;
       callAPI().then(function(data) {
-        console.log('sensors', data.plain());
         setTypes(data);
       });
 

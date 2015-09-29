@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', 'utils', function(Kit, Sensor, kitUtils, utils) {
+    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', function(Kit, Sensor, kitUtils) {
 
       /**
        * Full Kit constructor.
@@ -35,6 +35,7 @@
         this.data = object.data.sensors;
         this.latitude = object.data.location.latitude;
         this.longitude = object.data.location.longitude;
+        /*jshint camelcase: false */
         this.macAddress = object.mac_address;
         this.elevation = object.data.location.elevation;
       }
