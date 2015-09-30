@@ -32,13 +32,13 @@
     }
 
     function infoNoDataVisitor() {
-      info('Woha! This kit has still not published any data yet. Leave a \
-      comment to its owner to make him/ her know',
+      info('Woha! This kit has still not published any data yet. Leave a ' +
+        'comment to its owner to make him/ her know',
       10000,
       {
         button: 'Leave comment',
-        buttonAttributes: 'analytics-on="click" analytics-event="click"\
-          analytics-category="Offline Kit Comment Link"',
+        buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
+          'analytics-category="Offline Kit Comment Link"',
         href: '#disqus_thread'
       });
     }
