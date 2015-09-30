@@ -2511,10 +2511,10 @@ button#doorbell-button {
       background-color: #F9F9FB;
     }
     &.form_blockNormal {
-      height: 250px;
+      min-height: 250px;
     }
     &.form_blockMap {
-      height: 290px;
+      min-height: 290px;
     }
   }
   .form_blockInput {
@@ -2557,6 +2557,9 @@ button#doorbell-button {
   .form_blockContent_text {
     margin-left: 10px;
     width: 240px;
+    &.long{
+      width: auto !important;
+    }
     h2 {
       margin-top: 0;
       margin-bottom: 8px;
