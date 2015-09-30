@@ -2484,7 +2484,12 @@ button#doorbell-button {
   font-size: 26px;
 
   &.timeline_buttonOpen.md-button.md-primary {
-    color: #38CEF3
+    color: #38CEF3;
+
+    &.inverted{
+      color: white;
+      background-color: #38CEF3;
+    }
   }
 
 }
