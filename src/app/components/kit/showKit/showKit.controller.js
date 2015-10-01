@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device', 'HasSensorKit'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, device, HasSensorKit) {
       var vm = this;
       var sensorsData = [];
 
@@ -37,6 +37,7 @@
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
+      vm.geolocate = geolocate;
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
@@ -421,6 +422,42 @@
             to_picker.set('select', to);
           }
         };
+      }
+
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position){
+            var location = {
+              lat:position.coords.latitude,
+              lng:position.coords.longitude
+            };
+            device.getDevices(location)
+              .then(function(data){
+                data = data.plain();
+
+                _(data)
+                  .chain()
+                  .map(function(device) {
+                    return new HasSensorKit(device);
+                  })
+                  .filter(function(kit) {
+                    return !!kit.longitude && !!kit.latitude;
+                  })
+                  .find(function(kit) {
+                    console.log(kit.labels);
+                    return _.contains(kit.labels, "online");
+                  })
+                  .tap(function(closestKit) {
+                    if(closestKit) {
+                      $state.go('layout.home.kit', {id: closestKit.id});
+                    } else {
+                      $state.go('layout.home.kit', {id: data[0].id});
+                    }
+                  })
+                  .value();
+              });
+          });
+        }
       }
     }
 })();

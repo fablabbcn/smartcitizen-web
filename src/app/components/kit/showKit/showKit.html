@@ -52,7 +52,20 @@
     </div>
   </section>
   <section class="kit_fixed" move-down>
-    <section class="overlay" ng-if="!vm.kit"></section>
+    <section class="overlay" ng-if="!vm.kit">
+      <h1>
+        No kit selected <span class="emoji">👆</span>
+      </h1>
+      <p>
+        Browse the map and tap on any kit to see its data.
+      </p>
+      <div class="hint">
+        <p>
+          We can also take you to your nearest online kit by letting us know your location.
+        </p>
+        <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
+      </div>
+    </section>
     <div no-data-backdrop></div>
     <section class="kit_overview">
       <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" layout="column" layout-align="center center" aria-label="">

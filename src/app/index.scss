@@ -537,6 +537,27 @@ section.map {
     position:absolute;
     background-color:#032933;
     z-index: 3;
+    color: white;
+    text-align:center;
+    font-size:20px;
+    font-weight: lighter;
+
+    h1{
+      font-size:24px;
+      margin:0;
+      font-weight: normal;
+    }
+    p{
+      margin: 0.5em;
+    }
+    .hint{
+      margin-top: 65px;
+      color:#82A7B0;
+
+      .md-button{
+        margin-top:20px;
+      }
+    }
   }
 }
 
@@ -2363,7 +2384,8 @@ section .stickMenu {
   margin-top: 63px;
   margin-bottom: 65px;
 }
-.md-button.md-default-theme.myProfile_addKitButton {
+.md-button.md-default-theme.myProfile_addKitButton,
+.md-button.md-default-theme.call-to-action {
   color: white;
   background-color: $blue_light;
   border-radius: 20px;
@@ -2594,7 +2616,9 @@ button#doorbell-button {
   }
 }
 
-
+.emoji{
+  font-weight:400;
+}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
