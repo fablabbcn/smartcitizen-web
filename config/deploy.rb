@@ -4,9 +4,9 @@ lock '3.4.0'
 
 set :application, 'smartcitizen-web'
 set :repo_url, 'git@github.com:fablabbcn/smartcitizen-web.git'
-set :branch, 'integrateSetup'
+
 # Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 set :deploy_to, '/home/deployer/apps/smartcitizen-web'
 set :linked_dirs, %w{node_modules app/bower_components}
