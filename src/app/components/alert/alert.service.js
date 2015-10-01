@@ -3,7 +3,7 @@
 
   angular.module('app.components')
     .factory('alert', alert);
-  
+
   alert.$inject = ['$mdToast'];
   function alert($mdToast) {
     var service = {
@@ -39,14 +39,14 @@
     }
 
     function infoLongTime() {
-      info('😅 It looks like this post has not posted any data since long time ago. Leave a comment to its owner to make him/ her know', 10000, {button: true});
+      info('😅 It looks like this post has not posted any data since long time ago. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment'});
     }
 
     function info(message, delay, options) {
       if(options.button) {
         toast('infoButton', message, options, undefined, delay);
       } else {
-        toast('info', message, options, undefined, delay);     
+        toast('info', message, options, undefined, delay);
       }
     }
 

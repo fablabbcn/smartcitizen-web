@@ -3,9 +3,9 @@
 
   angular.module('app.components')
     .controller('MapController', MapController);
-    
-    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
-    function MapController($scope, $state, $timeout, location, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
+
+    MapController.$inject = ['$scope', '$state', '$timeout', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
+    function MapController($scope, $state, $timeout, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
     	var vm = this;
       var updateType;
 
@@ -13,7 +13,9 @@
       var markersByIndex = _.indexBy(markers, function(marker) {
         return marker.myData.id;
       });
-      var focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
+      var focusedMarkerID = $state.params.id?
+        markersByIndex[parseInt($state.params.id)].myData.id :
+        undefined;
 
       vm.markers = markersByIndex;
 
@@ -36,7 +38,7 @@
             type: 'markercluster',
             visible: true,
             layerOptions: {
-              showCoverageOnHover: false            
+              showCoverageOnHover: false
             }
           }
         }
@@ -50,9 +52,9 @@
 
 
     	vm.defaults = {
-        dragging: true, 
-        touchZoom: true, 
-        scrollWheelZoom: false, 
+        dragging: true,
+        touchZoom: true,
+        scrollWheelZoom: false,
         doubleClickZoom: true
     	};
 
@@ -64,7 +66,7 @@
     	};
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        var id = data.leafletEvent.target.options.myData.id; 
+        var id = data.leafletEvent.target.options.myData.id;
 
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
@@ -78,17 +80,17 @@
         }
 
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
-        
+
         updateType = 'map';
-        var id = data.leafletEvent.target.options.myData.id; 
+        var id = data.leafletEvent.target.options.myData.id;
         $state.go('layout.home.kit', {id: id});
-      });    
+      });
 
       $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
         if(focusedMarkerID) {
-          var marker = vm.markers[focusedMarkerID]; 
+          var marker = vm.markers[focusedMarkerID];
           if(marker) {
-            vm.markers[focusedMarkerID].focus = false;                          
+            vm.markers[focusedMarkerID].focus = false;
           }
         }
       });
@@ -101,9 +103,9 @@
         }
 
         vm.center.lat = data.lat;
-        vm.center.lng = data.lng; 
+        vm.center.lng = data.lng;
 
-        
+
 
         $timeout(function() {
           leafletData.getMarkers()
@@ -121,7 +123,7 @@
                       selectedMarker.focus = true;
                     }
                     if(!$scope.$$phase) {
-                      $scope.$digest();                      
+                      $scope.$digest();
                     }
                   });
                 });
@@ -134,7 +136,7 @@
         vm.center.lng = data.lng;
         vm.center.zoom = data.type === 'City' ? 8 : 5;
       });
-      
+
       var defaultFilters = {
         exposure: null,
         status: null
@@ -187,7 +189,7 @@
           updateMarkers(obj.data);
           checkFiltersSelected();
           $timeout(function() {
-            checkMarkersLeftOnMap();            
+            checkMarkersLeftOnMap();
           });
         });
       }
@@ -206,7 +208,7 @@
       }
 
       function filterMarkers(filterData) {
-        return markers.filter(function(marker) {        
+        return markers.filter(function(marker) {
           var labels = marker.myData.labels;
           return _.every(labels, function(label) {
             return filterData[label];
@@ -218,7 +220,7 @@
         vm.markers = [];
         $timeout(function() {
           $scope.$apply(function() {
-            vm.markers = filterMarkers(filterData);           
+            vm.markers = filterMarkers(filterData);
           });
         });
       }
@@ -241,7 +243,7 @@
                       }, markers[0]);
 
                       if(closestMarker) {
-                        zoomOutWhileNoMarker(layers, closestMarker);                        
+                        zoomOutWhileNoMarker(layers, closestMarker);
                       } else {
                         alert.info('No markers found with those filters', 5000);
                       }
@@ -251,10 +253,10 @@
           });
       }
       function mapContainsAnyMarker(layers, data) {
-        var bounds = layers.overlays.realworld._currentShownBounds;              
+        var bounds = layers.overlays.realworld._currentShownBounds;
         return _.some(data, function(marker) {
           return mapContainsMarker(bounds, marker);
-        });              
+        });
       }
 
       function mapContainsMarker(bounds, marker) {
@@ -269,7 +271,7 @@
           leafletData.getLayers()
             .then(function(newLayers) {
               $timeout(function() {
-                zoomOutWhileNoMarker(newLayers, marker);                
+                zoomOutWhileNoMarker(newLayers, marker);
               });
             });
         }

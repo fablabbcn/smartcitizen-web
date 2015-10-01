@@ -17,58 +17,8 @@
         */
         .state('landing', {
           url: '/',
-          resolve: {
-            location: function(geolocation) {
-              var positionObj = geolocation.getPositionObj();
-              if(positionObj) {
-                return positionObj;
-              }
-
-              return geolocation.callAPI()
-                .then(function(data) {
-                  var arrLoc = data.data.loc.split(',');
-                  var location = {
-                    lat: parseFloat(arrLoc[0]),
-                    lng: parseFloat(arrLoc[1])
-                  };
-                  return location;
-                })
-                .catch(function(err) {
-                  throw new Error(err);
-                });
-            },
-            initialMarkers: function($state, device, location, HasSensorKit) {
-              if(!location || (!location.lat || !location.lng) ) {
-                // set hard-coded location
-                location = {
-                  lat: 41.3860,
-                  lng: 2.1482
-                };
-              }
-              return device.getDevices(location).then(function(data) {
-                data = data.plain();
-
-                _(data)
-                  .chain()
-                  .map(function(device) {
-                    return new HasSensorKit(device);
-                  })
-                  .filter(function(kit) {
-                    return !!kit.longitude && !!kit.latitude;
-                  })
-                  .find(function(kit) {
-                    return kit.sensorsHasData();
-                  })
-                  .tap(function(closestKit) {
-                    if(closestKit) {
-                      $state.go('layout.home.kit', {id: closestKit.id});
-                    } else {
-                      $state.go('layout.home.kit', {id: data[0].id});
-                    }
-                  })
-                  .value();
-              });
-            }
+          controller: function($state){
+            $state.go('layout.home.kit');
           }
         })
         /*
@@ -146,25 +96,13 @@
             }
           },
           resolve: {
-            location: function(geolocation) {
-              return geolocation.callAPI().then(function(data) {
-                var arrLoc = data.data.loc.split(',');
-                var location = {
-                  lat: parseFloat(arrLoc[0]),
-                  lng: parseFloat(arrLoc[1])
-                };
-
-                return location;
-              });
-            },
             sensorTypes: function(sensor) {
-
               return sensor.callAPI()
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
             },
-            markers: function($state, device, location, utils, Kit, Marker) {
+            markers: function($state, device, utils, Kit, Marker) {
               // It could be refactor to use HTTP caching instead of holding them in localstorage
               var worldMarkers = device.getWorldMarkers();
               if(worldMarkers && worldMarkers.length) {
@@ -205,18 +143,23 @@
             kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
+              if(!kitID) return undefined;
+
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
+              if(!kitData) return undefined;
               return kitData.getSensors(sensorTypes, {type: 'main'});
             },
             compareSensors: function(kitData, sensorTypes) {
+              if(!kitData) return undefined;
               return kitData.getSensors(sensorTypes, {type: 'compare'});
             },
             ownerKits: function(kitData, PreviewKit, $q, device) {
+              if(!kitData) return undefined;
               var kitIDs = kitData.owner.kits;
 
               return $q.all(
@@ -229,7 +172,7 @@
               );
             },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
-              if(!auth.isAuth()) {
+              if(!auth.isAuth() || !$stateParams.id) {
                 return false;
               }
               var kitID = parseInt($stateParams.id);

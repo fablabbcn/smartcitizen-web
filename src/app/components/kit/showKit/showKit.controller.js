@@ -3,28 +3,31 @@
 
   angular.module('app.components')
     .controller('KitController', KitController);
-    
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q) {
+
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device', 'HasSensorKit'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, device, HasSensorKit) {
       var vm = this;
       var sensorsData = [];
 
       var mainSensorID, compareSensorID;
       var picker = initializePicker();
 
-      animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+      if(kitData){
+        animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+      }
+
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
       vm.kitBelongsToUser = belongsToUser;
       vm.removeUser = removeUser;
 
-      vm.battery = mainSensors[1];
-      vm.sensors = mainSensors[0];
+      vm.battery = mainSensors? mainSensors[1] : undefined;
+      vm.sensors = mainSensors? mainSensors[0] : undefined;
       vm.sensorsToCompare = compareSensors;
 
       vm.slide = slide;
 
-      vm.selectedSensor = vm.sensors[0].id; 
+      vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
       vm.selectedSensorData = {};
 
       vm.selectedSensorToCompare = undefined;
@@ -34,6 +37,7 @@
       vm.moveChart = moveChart;
       vm.loadingChart = true;
 
+      vm.geolocate = geolocate;
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
@@ -42,20 +46,21 @@
         vm.chartDataCompare = [];
         compareSensorID = undefined;
 
-        vm.sensors.forEach(function(sensor) {
-          if(sensor.id === newVal) {
-            _.extend(vm.selectedSensorData, sensor);
-          }
-        });
-
+        if(vm.sensors){
+          vm.sensors.forEach(function(sensor) {
+            if(sensor.id === newVal) {
+              _.extend(vm.selectedSensorData, sensor);
+            }
+          });
+        }
         vm.sensorsToCompare = getSensorsToCompare();
 
         $timeout(function() {
           colorSensorMainIcon();
-          colorSensorCompareName();    
-          
+          colorSensorCompareName();
+
           setSensor({type: 'main', value: newVal});
-          changeChart([mainSensorID]);        
+          changeChart([mainSensorID]);
         }, 100);
 
       });
@@ -69,15 +74,15 @@
         });
 
         $timeout(function() {
-          colorSensorCompareName();    
-          setSensor({type: 'compare', value: newVal});   
+          colorSensorCompareName();
+          setSensor({type: 'compare', value: newVal});
 
           if(oldVal === undefined && newVal === undefined) {
             return;
           }
           changeChart([compareSensorID]);
         }, 100);
-        
+
       });
 
       $scope.$on('hideChartSpinner', function() {
@@ -88,7 +93,7 @@
 
       ///////////////
 
-      function initialize() {        
+      function initialize() {
         $timeout(function() {
           colorSensorMainIcon();
           colorArrows();
@@ -97,19 +102,20 @@
           animation.viewLoaded();
           animation.mapStateLoaded();
         }, 1000);
-        
 
-        if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
-          if(vm.kitBelongsToUser) {
-            alert.info.noData.owner($stateParams.id);            
-          } else {
-            alert.info.noData.visitor();
+        if(vm.kit){
+          if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
+            if(vm.kitBelongsToUser) {
+              alert.info.noData.owner($stateParams.id);
+            } else {
+              alert.info.noData.visitor();
+            }
+            $timeout(function() {
+              animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});
+            }, 1000);
+          } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+            alert.info.longTime();
           }
-          $timeout(function() {
-            animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});            
-          }, 1000);          
-        } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-          alert.info.longTime();
         }
       }
 
@@ -137,14 +143,14 @@
         if(direction === 'left') {
           slideContainer.scrollLeft(scrollPosition + slideStep);
         } else if(direction === 'right') {
-          slideContainer.scrollLeft(scrollPosition - slideStep);          
+          slideContainer.scrollLeft(scrollPosition - slideStep);
         }
       }
 
       function getSensorsToCompare() {
-        return vm.sensors.filter(function(sensor) {
+        return vm.sensors ? vm.sensors.filter(function(sensor) {
           return sensor.id !== vm.selectedSensor;
-        });
+        }) : [];
       }
 
       function changeChart(sensorsID, options) {
@@ -183,7 +189,7 @@
             //save sensor data of this kit so that it can be reused
             sensorsData[sensorID] = data.readings;
             return data;
-          });       
+          });
       }
 
       function prepareChartData(sensorsID) {
@@ -194,14 +200,14 @@
           unit: vm.selectedSensorData.unit
         };
         if(sensorsID[1] && sensorsID[1] !== -1) {
-          var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);                
+          var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);
           var compareSensor = {
             data: parsedDataCompare,
             color: vm.selectedSensorToCompareData.color,
             unit: vm.selectedSensorToCompareData.unit
           };
         }
-        var newChartData = [mainSensor, compareSensor]; 
+        var newChartData = [mainSensor, compareSensor];
         return newChartData;
       }
 
@@ -212,8 +218,8 @@
         return data[sensorID].map(function(dataPoint) {
           var time = dataPoint[0];
           var value = dataPoint[1];
-          var count = value === null ? 0 : value;  
-          
+          var count = value === null ? 0 : value;
+
           return {
             time: time,
             count: count,
@@ -228,7 +234,7 @@
           return;
         }
         if(options.type === 'main') {
-          mainSensorID = sensorID;          
+          mainSensorID = sensorID;
         } else if(options.type === 'compare') {
           compareSensorID = sensorID;
         }
@@ -237,18 +243,18 @@
       function colorSensorMainIcon() {
         var svgContainer = angular.element('.sensor_icon_selected');
         var parent = svgContainer.find('.container_parent');
-        parent.css('fill', vm.selectedSensorData.color); 
+        parent.css('fill', vm.selectedSensorData.color);
       }
 
       function colorSensorCompareName() {
         var name = angular.element('.sensor_compare').find('md-select-label').find('span');
-        name.css('color', vm.selectedSensorToCompareData.color || 'white');  
+        name.css('color', vm.selectedSensorToCompareData.color || 'white');
         var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
         icon.css('color', 'white');
       }
 
       function colorArrows() {
-        var svgContainer; 
+        var svgContainer;
 
         svgContainer = angular.element('.chart_move_left').find('svg');
         svgContainer.find('.fill_container').css('fill', '#03252D');
@@ -280,7 +286,7 @@
           //set both from and to pickers to prev range
           valueTo = picker.getValuePickerFrom();
           valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
-          picker.setValuePickers([valueFrom, valueTo]);          
+          picker.setValuePickers([valueFrom, valueTo]);
         } else if(direction === 'right') {
           var today = timeUtils.getToday();
           var currentValueTo = picker.getValuePickerTo();
@@ -297,7 +303,7 @@
 
       //hide everything but the functions to interact with the pickers
       function initializePicker() {
-        var updateType = 'single'; //set update type to single by default 
+        var updateType = 'single'; //set update type to single by default
 
         /*jshint camelcase: false*/
         var from_$input = angular.element('#picker_from').pickadate({
@@ -324,7 +330,7 @@
 
         if( from_picker.get('value') ) {
           to_picker.set('min', from_picker.get('select') );
-        } 
+        }
         if( to_picker.get('value') ) {
           from_picker.set('max', to_picker.get('select') );
         }
@@ -335,8 +341,8 @@
               var sensors = [mainSensorID, compareSensorID];
               sensors = sensors.filter(function(sensor) {
                 return sensor;
-              }); 
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+              });
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -345,14 +351,14 @@
         });
 
         to_picker.on('set', function(event) {
-          if(event.select) {  
+          if(event.select) {
             if(from_picker.get('value')) {
               var sensors = [mainSensorID, compareSensorID];
               sensors = sensors.filter(function(sensor) {
                 return sensor;
-              }); 
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                             
-            }          
+              });
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
+            }
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
             from_picker.set('max', false);
@@ -375,19 +381,21 @@
           var lastTime = moment(kitData.time);
           var difference = today.diff(lastTime, 'days');
           var result = difference * 3;
-          
+
           return lastTime.subtract(result, 'days').valueOf();
         }
 
-        if(timeUtils.isWithin(7, 'days', kitData.time) || !kitData.time) {
-          //set from-picker to seven days ago
-          from_picker.set('select', getSevenDaysAgo());
-        } else {
-          // set from-picker to
-          from_picker.set('select', getDateToHaveDataInChart());
+        if(kitData){
+          if(timeUtils.isWithin(7, 'days', kitData.time) || !kitData.time) {
+            //set from-picker to seven days ago
+            from_picker.set('select', getSevenDaysAgo());
+          } else {
+            // set from-picker to
+            from_picker.set('select', getDateToHaveDataInChart());
+          }
+          //set to-picker to today
+          to_picker.set('select', getToday());
         }
-        //set to-picker to today
-        to_picker.set('select', getToday());
 
         // api to interact with the picker from outside
         return {
@@ -409,11 +417,47 @@
             var from = newValues[0];
             var to = newValues[1];
 
-            updateType = 'pair'; 
+            updateType = 'pair';
             from_picker.set('select', from);
             to_picker.set('select', to);
           }
         };
+      }
+
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position){
+            var location = {
+              lat:position.coords.latitude,
+              lng:position.coords.longitude
+            };
+            device.getDevices(location)
+              .then(function(data){
+                data = data.plain();
+
+                _(data)
+                  .chain()
+                  .map(function(device) {
+                    return new HasSensorKit(device);
+                  })
+                  .filter(function(kit) {
+                    return !!kit.longitude && !!kit.latitude;
+                  })
+                  .find(function(kit) {
+                    console.log(kit.labels);
+                    return _.contains(kit.labels, "online");
+                  })
+                  .tap(function(closestKit) {
+                    if(closestKit) {
+                      $state.go('layout.home.kit', {id: closestKit.id});
+                    } else {
+                      $state.go('layout.home.kit', {id: data[0].id});
+                    }
+                  })
+                  .value();
+              });
+          });
+        }
       }
     }
 })();

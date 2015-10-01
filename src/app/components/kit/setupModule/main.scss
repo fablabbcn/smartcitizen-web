@@ -21,8 +21,17 @@
       width: 100% !important;
   }
   .messages-block {
-      min-height: 75px;
-      min-width: 600px;
+      // min-height: 75px;
+      // min-width: 600px;
+
+      font-family: monospace;
+      padding:10px;
+      border: 1px solid #E4E4E4;
+      background-color: #F3F3F3;
+      border-radius:4px;
+      height:75px;
+      color:grey;
+      line-height: 1.4;
   }
   .messages-block ul {
       list-style: none;
@@ -49,21 +58,21 @@
   .widget-block .footer {
       min-width: 600px;
       line-height: 24px;
-      padding: 20px 20px !important;
-      -moz-box-shadow: 0px 0px 3px #BDBDBD;
-      -webkit-box-shadow: 0px 0px 3px #BDBDBD;
-      box-shadow: inset 0px 0px 3px #86a6ac;
+      // padding: 20px 20px !important;
+      // -moz-box-shadow: 0px 0px 3px #BDBDBD;
+      // -webkit-box-shadow: 0px 0px 3px #BDBDBD;
+      // box-shadow: inset 0px 0px 3px #86a6ac;
   }
   .widget-block .body,
   .widget-block .footer .button {
-      margin-right: 20px !important;
+      // margin-right: 20px !important;
   }
   .widget-block .body {
       overflow-y: auto;
       overflow-x: hidden;
-      border-radius: 4px 4px 0 0;
-      margin: 10px 50px 0 0;
-      background-color: #ecf9fc;
+      // border-radius: 4px 4px 0 0;
+      // margin: 10px 50px 0 0;
+      // background-color: #ecf9fc;
       width: 100%;
   }
   .widget-block .footer {
@@ -87,19 +96,17 @@
       border-radius: 4px;
       margin: 5px;
       padding: 10px !important;
-      -moz-box-shadow: 0px 0px 3px #BDBDBD;
-      -webkit-box-shadow: 0px 0px 3px #BDBDBD;
-      box-shadow: inset 0px 0px 3px #86a6ac;
+      border: 1px solid #E4E4E4;
   }
   .widget-block .clear {
       overflow: hidden;
   }
   .widget-block .button.delete {
-      bottom: 0px;
-      right: 0px;
-      position: absolute;
-      width: 40px;
-      padding: 0 10px;
+      margin: 10px 0px;
+
+      span:before{
+        content: "Delete";
+      }
   }
   .widget-block .body .section {
       margin: 0 0 60px 0;
@@ -123,7 +130,7 @@
   }
   .widget-block .add.action-button {
       position: absolute;
-      right: 10px;
+      right: -5px;
       height: 60px;
   }
   .widget-block .add.action-button .button {
@@ -159,9 +166,12 @@
   }
   /* TRICKS (must change) */
 
-  input[type="checkbox"]:hover,
-  input[type="checkbox"]:focus {
+  input[type="checkbox"]{
+    margin-left: 10px;
+    &:hover,
+    &:focus {
       -webkit-appearance: checkbox;
+    }
   }
   .widget-block .input.range label {
       overflow: visible;
@@ -267,7 +277,7 @@
       clear: none;
       display: inline-block;
       height: 40px;
-      margin: 0px 0;
+      margin: 0px 10px;
       padding: 0px 20px;
       background: #06c2f0;
       cursor: pointer;
@@ -280,25 +290,17 @@
       text-align: center;
       letter-spacing: 1px;
       border: none;
-      -webkit-transition: all 0.5s ease-out;
-      -moz-transition: all 0.5s ease-out;
-      -ms-transition: all 0.5s ease-out;
-      -o-transition: all 0.5s ease-out;
-      transition: all 0.5s ease-out;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
-      -ms-border-radius: 4px;
-      -o-border-radius: 4px;
+      transition: all 0.25s ease-out;
       border-radius: 4px;
   }
   .button:hover, button:hover
   {
-      color: #069dbc;
-      background: #FFF;
+      color: #FFFFFF;
+      background: #009DC3;
   }
   .button:disabled, button:disabled
    {
-      background: #8AD8EB;
+      background: grey;
       border: none;
   }
   select {
@@ -326,5 +328,28 @@
       -ms-border-radius: 4px;
       -o-border-radius: 4px;
       border-radius: 4px;
+  }
+  .credits-block p{
+    font-size: 12px;
+    color:grey;
+    a {
+      color:grey;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+  .net-item{
+    background-color:#FDFDFD;
+    .text input{
+      width: 250px;
+      height: 40px;
+      border-radius:4px;
+      border:1px solid #e5e5e5;
+      padding: 5px;
+
+      &[name="phrase"]{
+        margin-top:10px;
+      }
+    }
   }
 }

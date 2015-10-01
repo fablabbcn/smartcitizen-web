@@ -1,15 +1,15 @@
 (function() {
   'use strict';
 
-  angular.module('app.components') 
+  angular.module('app.components')
     .directive('activeButton', activeButton);
-    
+
     /**
      * Used to highlight and unhighlight buttons on kit menu
      *
-     * It attaches click handlers dynamically 
+     * It attaches click handlers dynamically
      */
-    
+
     activeButton.$inject = ['$timeout', '$window'];
     function activeButton($timeout, $window) {
       return {
@@ -36,14 +36,14 @@
           container = {
             navbar: {
               height: navbar.height()
-            },            
+            },
             kitMenu: {
               height: kitMenu.height()
             },
-            kitOverview: {               
+            kitOverview: {
               height: kitOverview.height(),
               offset: kitOverview.offset().top,
-              buttonOrder: 0                   
+              buttonOrder: 0
             },
             kitDashboard: {
               height: kitDashboard.height(),
@@ -52,17 +52,17 @@
             },
             kitDetails: {
               height: kitDetails.height(),
-              offset: kitDetails.offset().top,
+              offset: kitDetails.offset() ? kitDetails.offset().top : 0,
               buttonOrder: 1
             },
             kitOwner: {
               height: kitOwner.height(),
-              offset: kitOwner.offset().top,
+              offset: kitOwner.offset() ? kitOwner.offset().top : 0,
               buttonOrder: 2
             },
             kitComments: {
               height: kitComments.height(),
-              offset: kitComments.offset().top,
+              offset: kitComments.offset() ? kitComments.offset().top : 0,
               buttonOrder: 3
             }
           };
@@ -72,26 +72,26 @@
           if(!container) {
             return;
           }
-          angular.element($window).scrollTop(offset - container.navbar.height - container.kitMenu.height);        
+          angular.element($window).scrollTop(offset - container.navbar.height - container.kitMenu.height);
         }
 
         function getButton(buttonOrder) {
           return childrens[buttonOrder];
         }
 
-        function unHighlightButtons() {          
+        function unHighlightButtons() {
           //remove border, fill and stroke of every icon
           var activeButton = angular.element('.md-button.button_active');
           if(activeButton.length) {
             activeButton.removeClass('button_active');
-            
+
             var strokeContainer = activeButton.find('.stroke_container');
             strokeContainer.css('stroke', 'none');
             strokeContainer.css('stroke-width', '1');
 
             var fillContainer = strokeContainer.find('.fill_container');
             fillContainer.css('fill', '#82A7B0');
-          }          
+          }
         }
 
         function highlightButton(button) {
@@ -128,7 +128,7 @@
           if(!container) return;
 
           var windowPosition = document.body.scrollTop;
-          var appPosition = windowPosition + container.navbar.height + container.kitMenu.height; 
+          var appPosition = windowPosition + container.navbar.height + container.kitMenu.height;
           var button;
           if(currentSection !== 'none' && appPosition <= container.kitOverview.offset) {
             button = getButton(container.kitOverview.buttonOrder);
@@ -157,5 +157,5 @@
           }
         });
       }
-    } 
+    }
 })();
