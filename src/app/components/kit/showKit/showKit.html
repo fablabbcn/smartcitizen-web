@@ -1,5 +1,6 @@
 <section class="kit_data" change-content-margin>
   <section class="kit_menu" layout="row" layout-align="center center" stick>
+    <section class="overlay" ng-if="!vm.kit"></section>
     <div class="container" layout="row" layout-align="space-between center">
       <div>
         <div class="kit_user" layout="row" layout-align="start center">
@@ -19,38 +20,39 @@
         <span>Last data received: {{ vm.kit.timeParsed }}</span>
       </div>
       <div class="kit_navbar" layout="row" layout-align="start center" active-button>
-        
+
         <md-button href="#" class="md-flat chart_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/chart_icon.svg">
           </md-icon>
         </md-button>
- 
+
         <md-button href="#" class="md-flat kit_details_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
           </md-icon>
         </md-button>
-          
+
         <md-button href="#" class="md-flat user_details" aria-label="">
           <md-icon md-svg-src="./assets/images/user_details_icon.svg">
           </md-icon>
-        </md-button>      
-         
+        </md-button>
+
         <md-button href="#" class="md-flat discussion_icon" aria-label="">
           <md-icon md-svg-src="./assets/images/discussion_icon.svg">
           </md-icon>
         </md-button>
-      
+
         <!--<md-button href="" class="md-flat shape_icon kit_owner_dropdown_button" aria-label="" dropdown-menu="vm.dropdownOptions"
             dropdown-model="vm.dropdownSelected"
             dropdown-item-label="text">
           <md-icon md-svg-src="./assets/images/shape_icon.svg">
           </md-icon>
         </md-button>-->
- 
+
       </div>
     </div>
   </section>
   <section class="kit_fixed" move-down>
+    <section class="overlay" ng-if="!vm.kit"></section>
     <div no-data-backdrop></div>
     <section class="kit_overview">
       <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" layout="column" layout-align="center center" aria-label="">
@@ -102,7 +104,7 @@
             <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
-              <div class="sensor_description_content" > 
+              <div class="sensor_description_content" >
                 <p class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<a href="#" ng-show="vm.selectedSensorData.previewDescription.length > 140" show-popup>More info</a></p>
                 <p class="sensor_description_full" hide-popup>{{ vm.selectedSensorData.fullDescription }}</p>
               </div>
@@ -132,8 +134,8 @@
                 <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></input>
               </div>
               <div class="picker_container" layout="row" layout-align="center center">
-                <label for="picker_to">To: </label>              
-                <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>              
+                <label for="picker_to">To: </label>
+                <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>
               </div>
               <div class="chart_move" layout="row" layout-align="center center">
                 <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center">
@@ -154,7 +156,7 @@
           </div>
         </div>
       </section>
-      <section class="kit_details">
+      <section class="kit_details" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">
             <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon_normal.svg">
@@ -242,7 +244,7 @@
           </div>
         </div>
       </section>
-      <section class="kit_owner">
+      <section class="kit_owner" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">
             <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/user_details_icon.svg">
@@ -264,7 +266,7 @@
                   <span>
                     <span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span>
                     <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span>
-                    <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span> 
+                    <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span>
                     <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span>
                   </span>
                 </p>
@@ -283,7 +285,7 @@
                         <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
                         </md-icon>
                       </div>
-                      <div class="kitList_content"> 
+                      <div class="kitList_content">
                         <p class="kitList_name">{{ kit.name || 'No name' }}</p>
                         <p class="kitList_data">
                           <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
@@ -305,11 +307,11 @@
                         </div>
                         <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
                           <span>{{ kit.state.name }}</span>
-                        </div>                        
+                        </div>
                       </div>
                     </div>
                   </md-button>
-                  <div class="kitList_config" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">                    
+                  <div class="kitList_config" ng-if="vm.kitBelongsToUser" layout="row" layout-align="center center">
                     <md-button class="kitList_dropdownButton" aria-label
                       dropdown-menu="kit.dropdownOptions"
                       dropdown-model="vm.dropdownSelected"
@@ -320,12 +322,12 @@
                 </div>
                 <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.ownerKits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
               </div>
-            </div> 
-          </div>           
+            </div>
+          </div>
         </div>
         <div class="clearfix"></div>
       </section>
-      <section class="kit_comments">
+      <section class="kit_comments" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_title_container">
             <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/discussion_icon.svg">

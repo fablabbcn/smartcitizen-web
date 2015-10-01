@@ -530,6 +530,14 @@ section.map {
 .kit_data {
   margin-top: 376px;
   overflow: hidden;
+
+  section.overlay{
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color:#032933;
+    z-index: 3;
+  }
 }
 
 /*
