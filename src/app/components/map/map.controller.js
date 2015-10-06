@@ -45,9 +45,9 @@
       };
 
       vm.center = {
-        lat: initialLocation.lat,
-        lng: initialLocation.lng,
-        zoom: 12
+        lat: 13.14950321154457,
+        lng: -1.58203125,
+        zoom: 2
       };
 
 
@@ -135,6 +135,10 @@
         vm.center.lat = data.lat;
         vm.center.lng = data.lng;
         vm.center.zoom = data.type === 'City' ? 8 : 5;
+      });
+
+      $scope.$on('leafletDirectiveMap.moveend', function(event, data){
+        console.log(event.currentScope.vm.center);
       });
 
       var defaultFilters = {
