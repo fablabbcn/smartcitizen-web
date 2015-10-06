@@ -1,15 +1,14 @@
 /*!
  * The Smart Citizen Tool v0.8.0 (http://smartcitizen.me)
  * scktool-connector.js is proudly based in BabelFish by Codebender.cc
- * 2013-2015 SmartCitizen
+ * 2015 Codebender.cc - BabelFish https://github.com/fablabbcn/BabelFish
+ * 2015 SmartCitizen
  * Licensed under MIT
  */
 function debugConnector(message) {
     if (debugLevel > 1) console.log(message); //This is temporary. Will be implemented as log.proto
 }
-debugConnector("BETA version. You are in developer mode!");
 var extensionSet;
-window.codebenderChromeDeveloperMode = true;
 (function e(t, n, r) {
     function s(o, u) {
         if (!n[o]) {
@@ -282,13 +281,10 @@ window.codebenderChromeDeveloperMode = true;
         };
         if (window.chrome && window.chrome.runtime && window.chrome.runtime.id)
             config.extensionId = chrome.runtime.id;
-        if (window.codebenderChromeDeveloperMode)
-            try {
-                module.exports = config;
-                if (window)
-                    window.config = config;
-            } catch (e) {;
-            }
+
+        module.exports = config;
+        if (window) window.config = config;
+
     }, {}],
     3: [function(require, module, exports) {
         function binToHex(bin) {
@@ -14431,10 +14427,10 @@ window.codebenderChromeDeveloperMode = true;
         // file: chrome-loader.js
         var _create_chrome_client = require('./../chrome-extension/client/rpc-client');
         if (_create_chrome_client.extentionAvailable) {
-            window.Scktoolapp = require('./chrome-plugin');
+            window.SckToolChromeAppConnector = require('./chrome-plugin');
         }
 
-        if (!window.Scktoolapp) {
+        if (!window.SckToolChromeAppConnector) {
             debugConnector("No chrome app.");
         }
 
