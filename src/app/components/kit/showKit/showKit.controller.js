@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device', 'HasSensorKit'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, device, HasSensorKit) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device', 'HasSensorKit', 'geolocation'];
+    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, device, HasSensorKit, geolocation) {
       var vm = this;
       var sensorsData = [];
 
@@ -116,7 +116,12 @@
           } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
             alert.info.longTime();
           }
+        }else{
+          if(geolocation.isHTML5GeolocationGranted()){
+            geolocate();
+          }
         }
+
       }
 
       function removeUser() {
@@ -427,6 +432,12 @@
       function geolocate() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position){
+            if(!position){
+              return;
+            }
+
+            geolocation.grantHTML5Geolocation();
+
             var location = {
               lat:position.coords.latitude,
               lng:position.coords.longitude
@@ -444,7 +455,6 @@
                     return !!kit.longitude && !!kit.latitude;
                   })
                   .find(function(kit) {
-                    console.log(kit.labels);
                     return _.contains(kit.labels, "online");
                   })
                   .tap(function(closestKit) {
