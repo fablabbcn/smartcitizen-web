@@ -433,9 +433,10 @@
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position){
             if(!position){
+              alert.error("Please, allow smartcitizen to geolocate your position so we can find a kit near you.");
               return;
             }
-
+            
             geolocation.grantHTML5Geolocation();
 
             var location = {
