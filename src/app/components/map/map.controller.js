@@ -137,10 +137,6 @@
         vm.center.zoom = data.type === 'City' ? 8 : 5;
       });
 
-      $scope.$on('leafletDirectiveMap.moveend', function(event, data){
-        console.log(event.currentScope.vm.center);
-      });
-
       var defaultFilters = {
         exposure: null,
         status: null
