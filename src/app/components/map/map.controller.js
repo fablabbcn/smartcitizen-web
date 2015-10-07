@@ -45,9 +45,9 @@
       };
 
       vm.center = {
-        lat: initialLocation.lat,
-        lng: initialLocation.lng,
-        zoom: 12
+        lat: 13.14950321154457,
+        lng: -1.58203125,
+        zoom: 2
       };
 
 
