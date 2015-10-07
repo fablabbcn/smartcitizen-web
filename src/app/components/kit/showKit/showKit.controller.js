@@ -14,7 +14,7 @@
       timeUtils, animation, $location, auth, kitUtils, userUtils,
       $timeout, mainSensors, compareSensors, alert, $q, device,
       HasSensorKit, geolocation) {
-        
+
       var vm = this;
       var sensorsData = [];
 
@@ -448,8 +448,8 @@
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position){
             if(!position){
-              alert.error('Please, allow smartcitizen to geolocate your'
-                + 'position so we can find a kit near you.');
+              alert.error('Please, allow smartcitizen to geolocate your' +
+                'position so we can find a kit near you.');
               return;
             }
 
