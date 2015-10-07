@@ -7,7 +7,7 @@
     UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils', '$timeout', 'animation'];
     function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils, $timeout, animation) {
       var vm = this;
-      var user = userData; 
+      var user = userData;
       var kits = kitsData;
 
       vm.status = undefined;
@@ -38,7 +38,7 @@
       function filterKits(status) {
         if(status === 'all') {
           status = undefined;
-        } 
+        }
         vm.status = status;
       }
 

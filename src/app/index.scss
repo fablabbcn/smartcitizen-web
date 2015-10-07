@@ -2620,6 +2620,75 @@ button#doorbell-button {
   font-weight:400;
 }
 
+/*
+  STATIC PAGES
+*/
+.static_page{
+  color:#065063;
+  font-size: 17px;
+  line-height: 1.7;
+
+  .timeline{
+    color:white;
+    align-items: flex-start stretch;
+
+    .content{
+      padding:0 10px;
+    }
+
+    h1{
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+
+  .content{
+    max-width: 60em;
+    margin: 0 auto;
+    padding:40px 10px;
+  }
+
+  .row{
+    min-height: 200px;
+
+    &:nth-child(even){
+      background-color: #F9F9FB;
+    }
+  }
+
+  h3{
+    color: #4FC9E8;
+    font-size:18px;
+  }
+  h4{
+    font-size:16px;
+    text-transform: uppercase;
+  }
+
+  .md-button.md-default-theme.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab{
+    padding: 6px 20px;
+    height: 44px;
+    border-radius: 22px;
+    font-size: 18px;
+    background-color: #4FC9E8;
+    color:white;
+
+    &:hover, &:focus{
+      background-color: #3C98AF;
+    }
+
+    &:not([disabled]){
+      box-shadow: none;
+    }
+  }
+
+  .md-button.md-default-theme.md-primary{
+    color: #4FC9E8;
+  }
+
+
+}
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
