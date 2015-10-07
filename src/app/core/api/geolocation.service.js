@@ -48,7 +48,8 @@
 			}
 
 			function isHTML5GeolocationGranted(){
-				return $window.localStorage.getItem('smartcitizen.geolocation_granted');
+				return $window.localStorage
+					.getItem('smartcitizen.geolocation_granted');
 			}
 	  }
 })();

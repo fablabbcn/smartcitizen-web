@@ -4,8 +4,17 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData', 'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser', 'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils', '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device', 'HasSensorKit', 'geolocation'];
-    function KitController($state, $scope, $stateParams, kitData, ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser, timeUtils, animation, $location, auth, kitUtils, userUtils, $timeout, mainSensors, compareSensors, alert, $q, device, HasSensorKit, geolocation) {
+    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData',
+      'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
+      'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
+      '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device',
+      'HasSensorKit', 'geolocation'];
+    function KitController($state, $scope, $stateParams, kitData,
+      ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser,
+      timeUtils, animation, $location, auth, kitUtils, userUtils,
+      $timeout, mainSensors, compareSensors, alert, $q, device,
+      HasSensorKit, geolocation) {
+        
       var vm = this;
       var sensorsData = [];
 
@@ -347,7 +356,10 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
+              changeChart(sensors, {
+                from: from_picker.get('value'),
+                to: to_picker.get('value')
+              });
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -362,7 +374,10 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
+              changeChart(sensors, {
+                from: from_picker.get('value'),
+                to: to_picker.get('value')
+              });
             }
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
@@ -433,10 +448,11 @@
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position){
             if(!position){
-              alert.error("Please, allow smartcitizen to geolocate your position so we can find a kit near you.");
+              alert.error('Please, allow smartcitizen to geolocate your'
+                + 'position so we can find a kit near you.');
               return;
             }
-            
+
             geolocation.grantHTML5Geolocation();
 
             var location = {
