@@ -36,6 +36,7 @@
 
       vm.slide = slide;
 
+
       vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
       vm.selectedSensorData = {};
 
@@ -125,10 +126,23 @@
           } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
             alert.info.longTime();
           }
+        }
+
+        if(vm.kit.state.name === 'never published' ||
+        vm.kit.state.name === 'not configured') {
+          if(vm.kitBelongsToUser) {
+            alert.info.noData.owner($stateParams.id);
+          } else {
+            alert.info.noData.visitor();
+          }
+          $timeout(function() {
+            animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});
+          }, 1000);
+        } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+          alert.info.longTime();
         }else{
           if(geolocation.isHTML5GeolocationGranted()){
             geolocate();
-          }
         }
 
       }
@@ -321,6 +335,9 @@
 
         /*jshint camelcase: false*/
         var from_$input = angular.element('#picker_from').pickadate({
+          onOpen: function(){
+            ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+          },
           onClose: function(){
             angular.element(document.activeElement).blur();
           },
@@ -332,6 +349,9 @@
         var from_picker = from_$input.pickadate('picker');
 
         var to_$input = angular.element('#picker_to').pickadate({
+          onOpen: function(){
+            ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+          },
           onClose: function(){
             angular.element(document.activeElement).blur();
           },

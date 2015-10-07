@@ -16,39 +16,40 @@
         //   $scope.$apply(function() {
         //     vm.isLoggedin = true;
         //     vm.isShown = true;
-        //     angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
-        //     vm.currentUser = auth.getCurrentUser().data;   
+        //     angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        //     vm.currentUser = auth.getCurrentUser().data;
         //     vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
         //     vm.navRightLayout = 'end center';
-        //   });          
+        //   });
         // } else {
         //   vm.isLoggedin = true;
         //   vm.isShown = true;
-        //   angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
-        //   vm.currentUser = auth.getCurrentUser().data;   
-        //   vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;          
+        //   angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        //   vm.currentUser = auth.getCurrentUser().data;
+        //   vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
         //   vm.navRightLayout = 'end center';
         // }
-         
+
         vm.isLoggedin = true;
         vm.isShown = true;
-        angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');           
-        vm.currentUser = auth.getCurrentUser().data;   
+        angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        vm.currentUser = auth.getCurrentUser().data;
         vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
         vm.navRightLayout = 'end center';
         if(!$scope.$$phase) {
-          $scope.$digest();                      
+          $scope.$digest();
         }
       });
 
-      // listen for logout events so that the navbar can be updated 
+      // listen for logout events so that the navbar can be updated
       $scope.$on('loggedOut', function() {
         vm.isLoggedIn = false;
         vm.isShown = true;
         angular.element('navbar .wrap-dd-menu').css('display', 'none');
         vm.navRightLayout = 'space-around center';
+        ga('send', 'event', 'Logout', 'click');
       });
-      
+
 
       vm.isShown = true;
       vm.isLoggedin = false;
@@ -86,7 +87,7 @@
           } else if(hash.passwordRecovery) {
             animation.showPasswordRecovery();
           }
-        }, 1000);        
+        }, 1000);
       }
 
       function logout() {

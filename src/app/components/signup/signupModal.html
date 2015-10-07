@@ -19,7 +19,7 @@
           </md-input-container>
           <p class="errors" ng-show="!!errors.username.length">
             <span ng-repeat="error in errors.username">
-              Username {{ error }}<span ng-if="!$last">,</span> 
+              Username {{ error }}<span ng-if="!$last">,</span>
             </span>
           </p>
         </div>
@@ -30,7 +30,7 @@
           </md-input-container>
           <p class="errors" ng-show="!!errors.password.length">
             <span ng-repeat="error in errors.password">
-              Password {{ error }}<span ng-if="!$last">,</span>  
+              Password {{ error }}<span ng-if="!$last">,</span>
             </span>
           </p>
         </div>
@@ -41,7 +41,7 @@
           </md-input-container>
           <p class="errors" ng-show="!!errors.email.length">
             <span ng-repeat="error in errors.email">
-              Email {{ error }}<span ng-if="!$last">,</span> 
+              Email {{ error }}<span ng-if="!$last">,</span>
             </span>
           </p>
         </div>
@@ -51,6 +51,9 @@
   </md-dialog-content>
   <p class="message_below">
     <span class="message_below_question">Already have an account?</span>
-    <md-button class="message_below_link" ng-click="openLogin()">LOG IN</md-button>
+    <md-button class="message_below_link" ng-click="openLogin()"
+      analytics-on="click" analytics-event="Signup" analytics-action="login">
+      LOG IN
+    </md-button>
   </p>
 </md-dialog>

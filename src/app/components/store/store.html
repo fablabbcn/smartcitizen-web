@@ -1,1 +1,7 @@
-<md-button class="md-flat full_height" ng-class="{navbar_highlight_button: isLoggedin}" ng-click="showStore($event)">Get your Kit</md-button>
+<md-button class="md-flat full_height"
+  ng-class="{navbar_highlight_button: isLoggedin}"
+  ng-click="showStore($event)"
+  analytics-on="click" analytics-event="Kit Purchase"
+  analytics-action="view">
+  Get your Kit
+</md-button>

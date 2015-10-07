@@ -11,5 +11,7 @@ angular.module('app', [
   'oauth',
   'leaflet-directive',
 	'app.components',
-  'angularLoad'
+  'angularLoad',
+  'angulartics',
+  'angulartics.google.analytics'
 ]);

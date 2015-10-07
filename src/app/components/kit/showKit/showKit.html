@@ -21,22 +21,30 @@
       </div>
       <div class="kit_navbar" layout="row" layout-align="start center" active-button>
 
-        <md-button href="#" class="md-flat chart_icon" aria-label="">
+        <md-button href="#" class="md-flat chart_icon" aria-label=""
+          analytics-on="click" analytics-category="Kit Detail Section Button"
+          analytics-event="click" analytics-label="Chart">
           <md-icon md-svg-src="./assets/images/chart_icon.svg">
           </md-icon>
         </md-button>
 
-        <md-button href="#" class="md-flat kit_details_icon" aria-label="">
+        <md-button href="#" class="md-flat kit_details_icon" aria-label=""
+          analytics-on="click" analytics-category="Kit Detail Section Button"
+          analytics-event="click" analytics-label="Kit">
           <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
           </md-icon>
         </md-button>
 
-        <md-button href="#" class="md-flat user_details" aria-label="">
+        <md-button href="#" class="md-flat user_details" aria-label=""
+          analytics-on="click" analytics-category="Kit Detail Section Button"
+          analytics-event="click" analytics-label="User">
           <md-icon md-svg-src="./assets/images/user_details_icon.svg">
           </md-icon>
         </md-button>
 
-        <md-button href="#" class="md-flat discussion_icon" aria-label="">
+        <md-button href="#" class="md-flat discussion_icon" aria-label=""
+          analytics-on="click" analytics-category="Kit Detail Section Button"
+          analytics-event="click" analytics-label="Comments">
           <md-icon md-svg-src="./assets/images/discussion_icon.svg">
           </md-icon>
         </md-button>
@@ -100,7 +108,9 @@
           <div class="kit_chart_left">
             <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
-              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor">
+              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
+                analytics-on="click" analytics-category="Kit Chart"
+                analytics-event="click" analytics-label="Metric">
                 <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
                   <img class="select_image" ng-src="{{ sensor.icon }}">
                   <span>
@@ -126,7 +136,9 @@
               <p>
                 <span>Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
+                    analytics-on="click" analytics-category="Kit Chart"
+                    analytics-event="click" analytics-label="Compare">
                     <img class="select_image" ng-src="{{ sensor.icon }}">
                     <span class="sensor_name">
                       {{ sensor.name }}

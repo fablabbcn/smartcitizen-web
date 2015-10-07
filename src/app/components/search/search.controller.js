@@ -7,7 +7,7 @@
     SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
     function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
       var vm = this;
-      
+
       vm.searchTextChange = searchTextChange;
       vm.selectedItemChange = selectedItemChange;
       vm.querySearch = querySearch;
@@ -25,7 +25,7 @@
           vm.isIconWhite = true;
         });
       });
-     
+
       ///////////////////
 
       function searchTextChange() {
@@ -46,9 +46,10 @@
           return [];
         }
 
+        ga('send', 'event', 'Search Input', 'search', query);
         return search.globalSearch(query)
           .then(function(data) {
-            
+
             if(data.length === 0) {
               //enable scrolling on body if there is no dropdown
               angular.element(document.body).css('overflow', 'auto');

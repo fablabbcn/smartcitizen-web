@@ -4,10 +4,13 @@
   angular.module('app.components')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$state', '$timeout', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
-    function MapController($scope, $state, $timeout, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'location', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
+    function MapController($scope, $state, $timeout, location, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
     	var vm = this;
       var updateType;
+      var mapMoved = false;
+      var kitLoaded = false;
+      var mapClicked = false;
 
       var initialLocation = markers[0];
       var markersByIndex = _.indexBy(markers, function(marker) {
@@ -60,7 +63,7 @@
 
     	vm.events = {
     	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart'],
+    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
     	  	logic: 'broadcast'
     	  }
     	};
@@ -83,6 +86,10 @@
 
         updateType = 'map';
         var id = data.leafletEvent.target.options.myData.id;
+
+        var availability = data.leafletEvent.target.options.myData.labels[0];
+        ga('send', 'event', 'Kit Marker', 'click', availability);
+
         $state.go('layout.home.kit', {id: id});
       });
 
@@ -125,6 +132,8 @@
                     if(!$scope.$$phase) {
                       $scope.$digest();
                     }
+
+                    kitLoaded = true;
                   });
                 });
             });
@@ -135,6 +144,18 @@
         vm.center.lat = data.lat;
         vm.center.lng = data.lng;
         vm.center.zoom = data.type === 'City' ? 8 : 5;
+      });
+
+      $scope.$on('leafletDirectiveMap.moveend', function(){
+        reportMapMove();
+      });
+
+      $scope.$on('leafletDirectiveMap.zoomend', function(){
+        reportMapMove();
+      });
+
+      $scope.$on('leafletDirectiveMap.mousedown', function(){
+        mapClicked = true;
       });
 
       var defaultFilters = {
@@ -282,6 +303,13 @@
           return;
         }
         vm.center.zoom = vm.center.zoom - 3;
+      }
+
+      function reportMapMove(){
+        if(kitLoaded && !mapMoved && mapClicked){
+          ga('send', 'event', 'Map', 'moved');
+          mapMoved = true;
+        }
       }
     }
 

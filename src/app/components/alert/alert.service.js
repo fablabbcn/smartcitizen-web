@@ -32,7 +32,15 @@
     }
 
     function infoNoDataVisitor() {
-      info('Woha! This kit has still not published any data yet. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment', href: '#disqus_thread'});
+      info('Woha! This kit has still not published any data yet. Leave a ' +
+        'comment to its owner to make him/ her know',
+      10000,
+      {
+        button: 'Leave comment',
+        buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
+          'analytics-category="Offline Kit Comment Link"',
+        href: '#disqus_thread'
+      });
     }
     function infoNoDataOwner(kitID) {
       info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings', href: '/kits/edit/' + kitID});
@@ -63,6 +71,7 @@
         locals: {
           message: message,
           button: options && options.button,
+          buttonAttributes: options && options.buttonAttributes,
           href: options && options.href
         }
       });

@@ -37,11 +37,18 @@
   <p class="message_below">
     <span>
       <span class="message_below_question">New here?</span>
-      <md-button class="message_below_link" ng-click="openSignup()">SIGN UP</md-button>
+      <md-button class="message_below_link" ng-click="openSignup()"
+        angular-on="click" angular-event="Login" angular-action="signup">
+        SIGN UP
+      </md-button>
     </span>
     <span>
       <span class="message_below_question">Forgot your password?</span>
-      <md-button class="message_below_link" ng-click="openPasswordRecovery()">REQUEST</md-button>
+      <md-button class="message_below_link" ng-click="openPasswordRecovery()"
+        angular-on="click" angular-event="Login"
+        angular-action="password recover">
+        REQUEST
+      </md-button>
     </span>
   </p>
 </md-dialog>
