@@ -32,7 +32,16 @@
           controller: 'LayoutController',
           controllerAs: 'vm'
         })
-
+        /*
+        -- Static page template --
+        Template for creating other static pages.
+        */
+        .state('layout.static', {
+          url: '/static',
+          templateUrl: 'app/components/static/static.html',
+          controller: 'StaticController',
+          controllerAs: 'vm'
+        })
         .state('layout.kitEdit', {
           url: '/kits/edit/:id?step',
           templateUrl: 'app/components/kit/editKit/editKit.html',
@@ -50,7 +59,7 @@
               var isAdmin = userUtils.isAdmin(userData);
 
               if(!isAdmin && !belongsToUser) {
-                console.error("This kit does not belong to user");
+                console.error('This kit does not belong to user');
                 $location.path('/');
               }
             },
@@ -143,7 +152,9 @@
             kitData: function($stateParams, device, FullKit) {
               var kitID = $stateParams.id;
 
-              if(!kitID) return undefined;
+              if(!kitID) {
+                return undefined;
+              }
 
               return device.getDevice(kitID)
                 .then(function(deviceData) {
@@ -151,15 +162,21 @@
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
-              if(!kitData) return undefined;
+              if(!kitData) {
+                return undefined;
+              }
               return kitData.getSensors(sensorTypes, {type: 'main'});
             },
             compareSensors: function(kitData, sensorTypes) {
-              if(!kitData) return undefined;
+              if(!kitData) {
+                return undefined;
+              }
               return kitData.getSensors(sensorTypes, {type: 'compare'});
             },
             ownerKits: function(kitData, PreviewKit, $q, device) {
-              if(!kitData) return undefined;
+              if(!kitData) {
+                return undefined;
+              }
               var kitIDs = kitData.owner.kits;
 
               return $q.all(
