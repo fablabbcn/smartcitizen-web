@@ -125,26 +125,12 @@
             }, 1000);
           } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
             alert.info.longTime();
+          }else{
+            if(geolocation.isHTML5GeolocationGranted()){
+              geolocate();
+            }
           }
         }
-
-        if(vm.kit.state.name === 'never published' ||
-        vm.kit.state.name === 'not configured') {
-          if(vm.kitBelongsToUser) {
-            alert.info.noData.owner($stateParams.id);
-          } else {
-            alert.info.noData.visitor();
-          }
-          $timeout(function() {
-            animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});
-          }, 1000);
-        } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-          alert.info.longTime();
-        }else{
-          if(geolocation.isHTML5GeolocationGranted()){
-            geolocate();
-        }
-
       }
 
       function removeUser() {
@@ -221,6 +207,7 @@
       }
 
       function prepareChartData(sensorsID) {
+        var compareSensor;
         var parsedDataMain = parseSensorData(sensorsData, sensorsID[0]);
         var mainSensor = {
           data: parsedDataMain,
@@ -229,7 +216,7 @@
         };
         if(sensorsID[1] && sensorsID[1] !== -1) {
           var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);
-          var compareSensor = {
+          compareSensor = {
             data: parsedDataCompare,
             color: vm.selectedSensorToCompareData.color,
             unit: vm.selectedSensorToCompareData.unit
@@ -492,7 +479,7 @@
                     return !!kit.longitude && !!kit.latitude;
                   })
                   .find(function(kit) {
-                    return _.contains(kit.labels, "online");
+                    return _.contains(kit.labels, 'online');
                   })
                   .tap(function(closestKit) {
                     if(closestKit) {

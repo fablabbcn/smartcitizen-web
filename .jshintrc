@@ -38,6 +38,7 @@
     "moment": false,
     "d3": false,
     "_": false,
-    "ga": false
+    "ga": false,
+    "navigator": false
   }
 }
