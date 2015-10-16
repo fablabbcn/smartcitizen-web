@@ -2595,6 +2595,12 @@ button#doorbell-button {
     &.long{
       width: auto !important;
     }
+    img {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      margin: 5px 20px;
+    }
     h2 {
       margin-top: 0;
       margin-bottom: 8px;
