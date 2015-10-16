@@ -10,6 +10,7 @@
 
         $provide.decorator('$exceptionHandler', ['$delegate', function($delegate) {
           return function (exception, cause) {
+            /*jshint camelcase: false */
             exception.params = { angular_cause: cause };
             airbrake.notify(exception);
             $delegate(exception, cause);
