@@ -1,0 +1,20 @@
+<md-dialog>
+  <md-dialog-content class="modal modal_beta">
+    <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
+    <md-button class="close_icon" aria-label>
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="hide()" class="" >
+      </md-icon>
+    </md-button>
+    <div>
+      <div class="modal_content_container">
+        <h2>SMART CITIZEN BETA</h2>
+        <div class="modal_message">
+          <p class="header beta">Welcome SmartCitizen!</p>
+          <p class="subheader beta">This is the new SmartCitizen platform. Explore the new design and functionalities and tell us what you think using the feedback button.</p><p class="subheader beta">Any changes to any existing device will be overwriten by the current platform once this is released.</p>
+        </div>
+      </div>
+      <div class="img_claim">
+      </div>
+    </div>
+  </md-dialog-content>
+</md-dialog>

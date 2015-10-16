@@ -1506,6 +1506,30 @@ section .stickMenu {
 }
 
 /*
+  MODAL STORE
+*/
+.modal_beta {
+  width: 500px;
+  height: 470px;
+
+  .header.beta {
+    margin-top: 40px;
+  }
+
+  .subheader.beta {
+    line-height: 1.5;
+  }
+
+  .img_claim {
+    height: 270px; 
+    background-image: url('../assets/images/beta_claim.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center 230px; 
+  }
+}
+
+/*
  CORE FORM COMPONENT
  */
 
