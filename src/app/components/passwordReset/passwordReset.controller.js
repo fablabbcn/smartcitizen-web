@@ -4,8 +4,11 @@
   angular.module('app.components')
     .controller('PasswordResetController', PasswordResetController);
 
-    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $location, alert, auth) {
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
+      'animation', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $timeout,
+      animation, $location, alert, auth) {
+        
       var vm = this;
       vm.showForm = false;
       vm.form = {};
@@ -16,6 +19,9 @@
       ///////////
 
       function initialize() {
+        $timeout(function() {
+          animation.viewLoaded();
+        }, 500);
         getUserData();
       }
 
@@ -45,7 +51,7 @@
           .then(function() {
             alert.success('Your data was updated successfully');
             $location.path('/profile');
-          })  
+          })
           .catch(function(err) {
             alert.error('Your data wasn\'t updated');
             vm.errors = err.data.errors;

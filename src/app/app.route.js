@@ -389,7 +389,7 @@
         Form to input your email address to receive an email to reset your password
         */
         .state('passwordRecovery', {
-          url: '/password_recovery',
+          url: '/password_reset',
           authenticate: false,
           templateUrl: 'app/components/passwordRecovery/passwordRecovery.html',
           controller: 'PasswordRecoveryController',
