@@ -4,8 +4,11 @@
   angular.module('app.components')
     .controller('PasswordResetController', PasswordResetController);
 
-    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout', 'animation', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $timeout, animation, $location, alert, auth) {
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
+      'animation', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $timeout,
+      animation, $location, alert, auth) {
+        
       var vm = this;
       vm.showForm = false;
       vm.form = {};
