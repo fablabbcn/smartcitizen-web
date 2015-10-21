@@ -1,4 +1,6 @@
-# smartcitizen
+# SmartCitizen
+
+The new SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
 
 ### Prerequisites
 
@@ -64,5 +66,5 @@ For data that has been resolved from the router, I've normally appended 'Data' t
 
 ### Deployment
 
-Staging - Change base tag on index.html to base url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do 'gulp deploy'
-Production - Change base tag back to '/'. Do cap production deploy and insert code
+* **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`. 
+* **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.
