@@ -116,7 +116,7 @@
                   <div layout layout-sm="column" class="field myProfile_content_form_input">
                     <md-input-container flex>
                       <label>Website</label>
-                      <input type="text" ng-model="vm.formUser.url">
+                      <input type="url" ng-model="vm.formUser.url">
                     </md-input-container>
                     <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
                       <span ng-repeat="error in vm.errors.url">
@@ -155,7 +155,7 @@
             <div class="profile_sidebar">
               <p class="profile_sidebar_title">FILTER KITS BY</p>
               <div class="profile_sidebar_options">
-                <md-button ng-click="vm.filterKits('all')" 
+                <md-button ng-click="vm.filterKits('all')"
                 class="profile_sidebar_button" analytics-on="click"
                 analytics-event="Profile" analytics-action="kit filter">
                   ALL
