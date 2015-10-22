@@ -22,8 +22,13 @@
 
       vm.markers = markersByIndex;
 
+      var retinaSuffix = isRetina() ? '@2x' : '';
+
       vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'
+          + retinaSuffix +'.png'
+          + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
+          + 'loQdtLNQ8GJkJl2LUzzxVg'
       };
       //previous tile -->'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
 
@@ -32,7 +37,10 @@
           osm: {
             name: 'OpenStreetMap',
             type: 'xyz',
-            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
+            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/'
+              + '{x}/{y}' + retinaSuffix + '.png'
+              + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
+              + 'loQdtLNQ8GJkJl2LUzzxVg'
           }
         },
         overlays: {
@@ -310,6 +318,19 @@
           ga('send', 'event', 'Map', 'moved');
           mapMoved = true;
         }
+      }
+
+      function isRetina(){
+        return ((window.matchMedia &&
+          (window.matchMedia('only screen and (min-resolution: 192dpi), ' +
+            'only screen and (min-resolution: 2dppx), only screen and ' +
+            '(min-resolution: 75.6dpcm)').matches ||
+          window.matchMedia('only screen and (-webkit-min-device-pixel-ra' +
+            'tio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only' +
+            ' screen and (min--moz-device-pixel-ratio: 2), only screen and ' +
+            '(min-device-pixel-ratio: 2)').matches)) ||
+          (window.devicePixelRatio && window.devicePixelRatio >= 2)) &&
+          /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
       }
     }
 
