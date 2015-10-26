@@ -13,5 +13,6 @@ angular.module('app', [
 	'app.components',
   'angularLoad',
   'angulartics',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'ngSanitize'
 ]);

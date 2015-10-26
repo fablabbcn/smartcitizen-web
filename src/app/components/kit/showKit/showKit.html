@@ -289,7 +289,8 @@
                 <p class="kit_owner_url">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                   </md-icon>
-                  <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url || 'No URL'}}</a>
+                  <!-- <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url || 'No URL'}}</a> -->
+                  <span ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
                 </p>
               </div>
               <div class="kit_owner_kits">
