@@ -8,6 +8,7 @@
     "angular-leaflet-directive": "~0.8.6",
     "angular-load": "~0.3.0",
     "angular-material": "https://github.com/lafosca/material.git#fix-scrolling",
+    "angular-sanitize": "~1.4.7",
     "angular-spinner": "~0.6.1",
     "angular-ui-router": "~0.2.13",
     "angulartics-google-analytics": "~0.1.1",
