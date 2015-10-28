@@ -101,7 +101,6 @@
       }
 
       function submitForm() {
-        debugger;
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
