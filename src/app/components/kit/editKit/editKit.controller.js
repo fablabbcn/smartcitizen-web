@@ -23,7 +23,6 @@
       // FORM INFO
       vm.kitForm = {
         name: kitData.name,
-        elevation: kitData.elevation,
         exposure: (kitData.labels.indexOf('indoor') >= 0 || kitData.labels.indexOf('outdoor') >= 0 ) && ( findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor') ),
         location: {
           lat: kitData.latitude,
