@@ -36,12 +36,25 @@
         -- Static page template --
         Template for creating other static pages.
         */
-        .state('layout.static', {
-          url: '/static',
-          templateUrl: 'app/components/static/static.html',
+        // .state('layout.static', {
+        //   url: '/static',
+        //   templateUrl: 'app/components/static/static.html',
+        //   controller: 'StaticController',
+        //   controllerAs: 'vm'
+        // })
+        .state('layout.policy', {
+          url: '/policy',
+          templateUrl: 'app/components/static/policy.html',
           controller: 'StaticController',
           controllerAs: 'vm'
         })
+        .state('layout.about', {
+          url: '/about',
+          templateUrl: 'app/components/static/about.html',
+          controller: 'StaticController',
+          controllerAs: 'vm'
+        })
+
         .state('layout.kitEdit', {
           url: '/kits/edit/:id?step',
           templateUrl: 'app/components/kit/editKit/editKit.html',
