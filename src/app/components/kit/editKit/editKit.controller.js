@@ -19,7 +19,6 @@
         {name: 'outdoor', value: 2}
       ];
 
-      vm.submitForm = submitForm;
       // FORM INFO
       vm.kitForm = {
         name: kitData.name,
@@ -32,7 +31,6 @@
         tags: kitData.userTags,
         description: kitData.description
       };
-
 
       // TAGS SELECT
       vm.tags = [];
@@ -53,7 +51,7 @@
         var tag = _.find(vm.tags, function(tag) {
           return tag.id === newVal;
         });
-        vm.kitForm.tags.push(tag);
+        vm.kitForm.tags.push(tag.name);
       });
       vm.removeTag = removeTag;
 
@@ -103,13 +101,14 @@
       }
 
       function submitForm() {
+        debugger;
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
-          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
+          user_tags: vm.kitForm.tags.join(',')
         };
 
         if(vm.macAddress){
@@ -155,7 +154,7 @@
       function getTags() {
         tag.getTags()
           .then(function(tagsData) {
-            vm.tags = tagsData;
+            vm.tags = tagsData.plain();
           });
       }
     }
