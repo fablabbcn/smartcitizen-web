@@ -63,7 +63,7 @@ body {
 }
 
 a.about{
-  cursor: pointer;  
+  cursor: pointer;
   text-decoration: none;
   color: $blue_light;
 }
@@ -2796,7 +2796,7 @@ p.no-margin {
 }
 
 .logo-box-no-shadow {
-  box-shadow: 
+  box-shadow:
 }
 
 
@@ -2815,8 +2815,6 @@ a.about:active {
 a.about:hover {
   text-decoration:underline;color:#3F51B5;
 }
-
-
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
