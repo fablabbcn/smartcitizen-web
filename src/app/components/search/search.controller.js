@@ -36,8 +36,8 @@
           $location.path('/users/' + result.id);
         } else if(result.type === 'Device') {
           $location.path('/kits/' + result.id);
-        } else {
-          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type});
+        } else if (result.type === 'City'){
+          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type, layer: result.layer});
         }
       }
 
