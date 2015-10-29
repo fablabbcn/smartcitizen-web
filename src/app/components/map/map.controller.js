@@ -143,7 +143,7 @@
       $scope.$on('goToLocation', function(event, data) {
         vm.center.lat = data.lat;
         vm.center.lng = data.lng;
-        vm.center.zoom = data.type === 'City' ? 8 : 5;
+        vm.center.zoom = getZoomLevel(data);
       });
 
       $scope.$on('leafletDirectiveMap.moveend', function(){
@@ -303,6 +303,14 @@
           return;
         }
         vm.center.zoom = vm.center.zoom - 3;
+      }
+
+      function getZoomLevel(data) {
+        var LAYER_ZOOMS = [{name: "venue", zoom: 18 }, {name: "address", zoom: 18 }, {name: "locality", zoom: 13 }, {name: "localadmin", zoom: 10 }, {name: "county", zoom: 10 }, {name: "region", zoom: 8 }, {name: "country", zoom: 7 }, {name: "coarse", zoom: 7 }];
+        if (!data.layer) return 5;
+        return _.find(LAYER_ZOOMS, function(layer) {
+          return layer.name === data.layer;
+        }).zoom;
       }
 
       function reportMapMove(){
