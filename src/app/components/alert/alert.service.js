@@ -32,7 +32,7 @@
     }
 
     function infoNoDataVisitor() {
-      info("Woah! This kit still hasn't published any data. Leave a " +
+      info('Woah! This kit still hasn\'t published any data. Leave a ' +
         'comment to let its owner know.',
       10000,
       {
@@ -43,11 +43,15 @@
       });
     }
     function infoNoDataOwner(kitID) {
-      info("Woah! This kit still hasn't published any data. Please check its settings or contact the support team.", 10000, {button: 'Kit settings', href: '/kits/edit/' + kitID});
+      info('Woah! This kit still hasn\'t published any data. Please check ' +
+        'its settings or contact the support team.', 10000,
+        {button: 'Kit settings', href: '/kits/edit/' + kitID});
     }
 
     function infoLongTime() {
-      info("😅 It looks like this kit hasn't posted any data in a long time. Why not leave a comment to let its owner know?", 10000, {button: 'Leave comment'});
+      info('😅 It looks like this kit hasn\'t posted any data in a long ' +
+        'time. Why not leave a comment to let its owner know?', 10000,
+        {button: 'Leave comment'});
     }
 
     function info(message, delay, options) {
