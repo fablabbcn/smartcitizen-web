@@ -36,6 +36,9 @@
 
       vm.slide = slide;
 
+      vm.legacyApiKey = belongsToUser ?
+        auth.getCurrentUser().data.key :
+        undefined;
 
       vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
       vm.selectedSensorData = {};
