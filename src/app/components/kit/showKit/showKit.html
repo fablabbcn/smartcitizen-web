@@ -48,14 +48,6 @@
           <md-icon md-svg-src="./assets/images/discussion_icon.svg">
           </md-icon>
         </md-button>
-
-        <!--<md-button href="" class="md-flat shape_icon kit_owner_dropdown_button" aria-label="" dropdown-menu="vm.dropdownOptions"
-            dropdown-model="vm.dropdownSelected"
-            dropdown-item-label="text">
-          <md-icon md-svg-src="./assets/images/shape_icon.svg">
-          </md-icon>
-        </md-button>-->
-
       </div>
     </div>
   </section>
@@ -122,7 +114,6 @@
             <div class="sensor_data" show-popup-info>
               <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
-<!--                 <md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="sensor_data_icon" show-popup-info></md-icon> -->
             </div>
             <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description" >
@@ -245,7 +236,7 @@
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
                   </md-icon>
                   <span class="kit_details_manage_data_name">API Key:</span>
-                  <div class="kit_details_key_number">{{ 32323 }}</div>
+                  <div class="kit_details_key_number">{{ vm.legacyApiKey }}</div>
                   <md-button class="kit_details_key_refreshButton" aria-label>
                     <md-icon class="" md-svg-src="./assets/images/refresh_icon_white.svg">
                     </md-icon>
@@ -298,7 +289,7 @@
                 <p class="kit_owner_url">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                   </md-icon>
-                  <a ng-href="{{ vm.kit.owner.url }}">{{ vm.kit.owner.url || 'No URL'}}</a>
+                  <span ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
                 </p>
               </div>
               <div class="kit_owner_kits">

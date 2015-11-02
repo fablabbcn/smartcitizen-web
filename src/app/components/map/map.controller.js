@@ -65,8 +65,9 @@
     	vm.defaults = {
         dragging: true,
         touchZoom: true,
-        scrollWheelZoom: false,
-        doubleClickZoom: true
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        minZoom:2
     	};
 
     	vm.events = {

@@ -38,7 +38,7 @@
                 </div>
                 <div class="form_blockContent_text">
                   <h2>Basic information</h2>
-                  <p>Please, provide kit basic info. That includes a name, its elevation and exposure</p>
+                  <p>Please, provide kit basic info. That includes a name and exposure</p>
                 </div>
               </div>
             </div>
@@ -49,10 +49,6 @@
                   <input type="text" ng-model="vm.kitForm.name">
                 </md-input-container>
                 <div layout="row" layout-align="space-between start">
-                  <md-input-container>
-                    <label>Elevation</label>
-                    <input type="text" ng-model="vm.kitForm.elevation">
-                  </md-input-container>
                   <div class="form_blockInput_select">
                     <label>Exposure:</label>
                     <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
@@ -112,7 +108,7 @@
                 <div class="form_blockInput_chips">
                   <div class="chips" layout="row" layout-align="start center">
                     <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
-                      <span class="chip_name">{{ tag.name }}</span>
+                      <span class="chip_name">{{ tag }}</span>
                       <button class="chip_icon" ng-click="vm.removeTag(tag.id)" class="map_filter_icon" arial-label>
                         <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
                       </button>

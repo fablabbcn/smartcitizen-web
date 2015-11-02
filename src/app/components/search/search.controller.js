@@ -21,9 +21,7 @@
       });
 
       $scope.$on('addNav', function() {
-        $scope.$apply(function() {
           vm.isIconWhite = true;
-        });
       });
 
       ///////////////////

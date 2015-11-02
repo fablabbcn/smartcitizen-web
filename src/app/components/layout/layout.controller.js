@@ -68,9 +68,7 @@
       });
 
       $scope.$on('addNav', function() {
-        $scope.$apply(function() {
           vm.isShown = true;
-        });
       });
 
       initialize();

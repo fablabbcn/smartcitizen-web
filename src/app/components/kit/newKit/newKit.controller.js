@@ -16,7 +16,6 @@
       // FORM INFO
       vm.kitForm = {
         name: undefined,
-        elevation: undefined,
         exposure: undefined,
         location: {
           lat: undefined,
