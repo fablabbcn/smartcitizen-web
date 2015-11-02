@@ -36,8 +36,8 @@
         });
 
         function scrollToComments(){
-          location.hash = "";
-          location.hash = "#disqus_thread";
+          location.hash = '';
+          location.hash = '#disqus_thread';
         }
       },
       controllerAs: 'vm'
