@@ -107,6 +107,7 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };
 
