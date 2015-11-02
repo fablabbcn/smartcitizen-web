@@ -32,8 +32,8 @@
     }
 
     function infoNoDataVisitor() {
-      info('Woha! This kit has still not published any data yet. Leave a ' +
-        'comment to its owner to make him/ her know',
+      info('Woah! This kit still hasn\'t published any data. Leave a ' +
+        'comment to let its owner know.',
       10000,
       {
         button: 'Leave comment',
@@ -43,11 +43,15 @@
       });
     }
     function infoNoDataOwner(kitID) {
-      info('Woha! This kit has still not published any data yet. Please, check its settings or reach the support team', 10000, {button: 'Kit settings', href: '/kits/edit/' + kitID});
+      info('Woah! This kit still hasn\'t published any data. Please check ' +
+        'its settings or contact the support team.', 10000,
+        {button: 'Kit settings', href: '/kits/edit/' + kitID});
     }
 
     function infoLongTime() {
-      info('😅 It looks like this post has not posted any data since long time ago. Leave a comment to its owner to make him/ her know', 10000, {button: 'Leave comment'});
+      info('😅 It looks like this kit hasn\'t posted any data in a long ' +
+        'time. Why not leave a comment to let its owner know?', 10000,
+        {button: 'Leave comment'});
     }
 
     function info(message, delay, options) {
