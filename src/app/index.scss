@@ -62,6 +62,13 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+a.about{
+  cursor: pointer;  
+  text-decoration: none;
+  color: $blue_light;
+}
+
+
 /**
  *  NAVBAR
  */
