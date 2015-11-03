@@ -1,6 +1,6 @@
 <section class="kit_data" change-content-margin>
-  <section class="kit_menu" layout="row" layout-align="center center" stick>
-    <section class="overlay" ng-if="!vm.kit"></section>
+  <section class="kit_menu" layout="row" layout-align="center center" stick ng-show="vm.kit">
+    <!-- <section class="overlay" ng-if="!vm.kit"></section>  -->
     <div class="container" layout="row" layout-align="space-between center">
       <div>
         <div class="kit_user" layout="row" layout-align="start center">
@@ -51,23 +51,40 @@
       </div>
     </div>
   </section>
-  <section class="kit_fixed" move-down>
-    <section class="overlay" ng-if="!vm.kit">
-      <h1>
-        No kit selected <span class="emoji">👆</span>
-      </h1>
-      <p>
-        Browse the map and tap on any kit to see its data.
-      </p>
-      <div class="hint">
+  <section class="overlay kit_noKit" ng-show="!vm.kit">
+    <div class="kit_textContainer">
+        <h1>
+          No kit selected <span class="emoji"></span>
+        </h1>
         <p>
-          We can also take you to your nearest online kit by letting us know your location.
+          Browse the map and tap on any kit to see its data.
         </p>
-        <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
-      </div>
-    </section>
-    <div no-data-backdrop></div>
-    <section class="kit_overview">
+        <div class="hint">
+          <p>
+            We can also take you to your nearest online kit by letting us know your location.
+          </p>
+          <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
+        </div>
+    </div>
+  </section>
+  <section class="kit_fixed" move-down>
+<!--     <section class="overlay" ng-if="!vm.kit">
+  <h1>
+    No kit selected <span class="emoji"></span>
+  </h1>
+  <p>
+    Browse the map and tap on any kit to see its data.
+  </p>
+  <div class="hint">
+    <p>
+      We can also take you to your nearest online kit by letting us know your location.
+    </p>
+    <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
+  </div>
+</section> 
+    <div no-data-backdrop></div> -->
+
+    <section class="kit_overview" ng-show="vm.kit">
       <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" layout="column" layout-align="center center" aria-label="">
         <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
         </md-icon>
@@ -94,7 +111,7 @@
         </md-icon>
       </md-button>
     </section>
-    <section class="kit_detailed" >
+    <section class="kit_detailed" ng-show="vm.kit">
       <section class="kit_chart">
         <div class="container" layout="row">
           <div class="kit_chart_left">
