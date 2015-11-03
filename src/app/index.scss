@@ -1521,11 +1521,17 @@ section .stickMenu {
   }
 
   .img_claim {
-    height: 270px; 
+    overflow: hidden;
+    height: 270px;
     background-image: url('../assets/images/beta_claim.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-position: center 260px; 
+    background-position: center 260px;
+
+    img{
+      top: -35%;
+      position: relative;
+    }
   }
 }
 
