@@ -141,8 +141,8 @@
      * Changes map section based on screen size
      * 
      */
-    changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
-    function changeMapHeight($document, layout, $timeout) {
+    changeMapHeight.$inject = ['$document', 'layout', '$timeout', 'leafletData'];
+    function changeMapHeight($document, layout, $timeout, leafletData) {
       function link(scope, element) {
 
         var screenHeight = $document[0].body.clientHeight;
@@ -153,13 +153,23 @@
         // var chartHeight = angular.element('.kit_chart').height();
 
         $timeout(function() {
-          var overviewHeight = angular.element('.kit_overview').height(); 
-          var menuHeight = angular.element('.kit_menu').height();
-          var chartHeight = angular.element('.kit_chart').height();
+          var overviewHeight = 0;
+           var menuHeight = 0;
+
+          if (!angular.element('.kit_overview').hasClass('ng-hide')){
+            overviewHeight = angular.element('.kit_overview').height();
+            menuHeight = angular.element('.kit_menu').height();
+          }
+
+          var chartHeight = angular.element('.kit_chart').height(); //is this required anymore? --Riccardo
           
           var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
           element.css('height', mapHeight + 'px');
-          
+
+          leafletData.getMap()
+            .then(function(map){
+              map.invalidateSize();
+            });          
           //layout.setKit(position);
           //var position = mapHeight + navbarHeight // map height + navbar height;
         });
@@ -177,8 +187,8 @@
      * Changes margin on kit section based on above-the-fold space left after map section is resize
      */
     
-    changeContentMargin.$inject = ['layout', '$timeout', '$document'];
-    function changeContentMargin(layout, $timeout, $document) {
+    changeContentMargin.$inject = ['layout', '$timeout', '$document', 'leafletData'];
+    function changeContentMargin(layout, $timeout, $document, leafletData) {
       function link(scope, element) {
 /*        $timeout(function() {
           var mapHeight = angular.element('.angular-leaflet-map').height();
@@ -188,12 +198,12 @@
           element.css('margin-top', mapHeight + navbarHeight + 'px');
         });
 */        
-          var screenHeight = $document[0].body.clientHeight;
-          // var navbarHeight = angular.element('.stickNav').height();
-          
-          var overviewHeight = angular.element('.kit_overview').height(); 
-          var menuHeight = angular.element('.kit_menu').height();
-          var chartHeight = angular.element('.kit_chart').height();
+            var screenHeight = $document[0].body.clientHeight;
+            // var navbarHeight = angular.element('.stickNav').height();
+            
+            var overviewHeight = angular.element('.kit_overview').height(); 
+            var menuHeight = angular.element('.kit_menu').height();
+            var chartHeight = angular.element('.kit_chart').height();
 
             // var overviewHeight = angular.element('.kit_overview').height(); 
             // var menuHeight = angular.element('.kit_menu').height();
@@ -201,6 +211,10 @@
             
             var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
             element.css('margin-top', aboveTheFoldHeight + 'px');  
+            leafletData.getMap()
+              .then(function(map){
+                map.invalidateSize();
+              });     
       }     
  
       return {
