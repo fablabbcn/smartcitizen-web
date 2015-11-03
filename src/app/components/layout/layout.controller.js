@@ -62,9 +62,7 @@
       vm.dropdownSelectedCommunity = undefined;
 
       $scope.$on('removeNav', function() {
-        $scope.$apply(function() {
           vm.isShown = false;
-        });
       });
 
       $scope.$on('addNav', function() {
@@ -87,7 +85,7 @@
           } else {
             setTimeout(function() {
               if(!vm.isLoggedin) $scope.$broadcast('showBeta');
-            }, 500); // waits for the loggedIn event to set vm.isLoggedin. this is temp.      
+            }, 500); // waits for the loggedIn event to set vm.isLoggedin. this is temp.
           }
         }, 1000);
       }
