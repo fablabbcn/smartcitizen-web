@@ -81,7 +81,9 @@
       }
 
       function getTimeStamp() {
-        return ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ).timestamp);
+        return ($window.localStorage.getItem('smartcitizen.markers') &&
+					JSON.parse($window.localStorage
+						.getItem('smartcitizen.markers') ).timestamp);
       }
 
       function areMarkersOld() {
