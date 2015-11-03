@@ -1508,13 +1508,7 @@ section .stickMenu {
 /*
   MODAL STORE
 */
-.modal_beta {
-  width: 500px;
-  height: 490px;
-
-  .header.beta {
-    margin-top: 40px;
-  }
+.modal_beta, .modal_mobile{
 
   .subheader.beta {
     line-height: 1.5;
@@ -1532,6 +1526,21 @@ section .stickMenu {
       top: -35%;
       position: relative;
     }
+  }
+}
+.modal_beta {
+  width: 500px;
+  height: 490px;
+
+  .header.beta {
+    margin-top: 40px;
+  }
+
+}
+.modal_mobile{
+  .img_claim img{
+    top: -30%;
+    left: -30%;
   }
 }
 
