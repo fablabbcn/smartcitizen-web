@@ -1508,6 +1508,26 @@ section .stickMenu {
 /*
   MODAL STORE
 */
+.modal_beta, .modal_mobile{
+
+  .subheader.beta {
+    line-height: 1.5;
+  }
+
+  .img_claim {
+    overflow: hidden;
+    height: 270px;
+    background-image: url('../assets/images/beta_claim.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center 260px;
+
+    img{
+      top: -35%;
+      position: relative;
+    }
+  }
+}
 .modal_beta {
   width: 500px;
   height: 490px;
@@ -1516,16 +1536,11 @@ section .stickMenu {
     margin-top: 40px;
   }
 
-  .subheader.beta {
-    line-height: 1.5;
-  }
-
-  .img_claim {
-    height: 270px; 
-    background-image: url('../assets/images/beta_claim.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center 260px; 
+}
+.modal_mobile{
+  .img_claim img{
+    top: -30%;
+    left: -30%;
   }
 }
 
