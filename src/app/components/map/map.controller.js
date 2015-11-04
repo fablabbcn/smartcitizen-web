@@ -21,8 +21,10 @@
       if($state.params.id && markersByIndex[parseInt($state.params.id)]){
         markersByIndex[parseInt($state.params.id)].myData.id;
       }else{
-        alert.error('This kit cannot be located in the map because its ' +
-          'location has not been set up.');
+        if($state.params.id){
+          alert.error('This kit cannot be located in the map because its ' +
+            'location has not been set up.');
+        }
       }
 
       vm.markers = markersByIndex;
