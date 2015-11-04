@@ -29,11 +29,18 @@
         // We must wait here if the genericKitData is not already defined.
         var genericKitData = device.getGenericKitData();
 
+<<<<<<< f11684dd2bb014504d01e7850aad9aa3d0ab49d5
         if(!genericKitData){
             kitType = 'SmartCitizen Kit';
             return kitType;
         }
         //////////////////////////////////////////////////////////////////
+=======
+        if(!object.kit_id){
+          kitType = 'SmartCitizen Kit';
+          return;
+        }
+>>>>>>> fix: prevent app to crash if kit has not kit_id
 
         /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
