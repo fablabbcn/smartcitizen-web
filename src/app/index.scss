@@ -551,11 +551,10 @@ section.map {
       margin: 0.5em;
     }
     .hint{
-      margin-top: 65px;
       color:#82A7B0;
 
       .md-button{
-        margin-top:20px;
+        margin-top:10px;
       }
     }
   }
@@ -740,8 +739,8 @@ section .kit_menu {
 section.overlay.kit_noKit{
     width: 80vw;
     height: 10vh;
-    min-height: 85px;
-    max-height: 100px;
+    min-height: 140px;
+    max-height: 180px;
     background-color: white;
     position: absolute;
     bottom: 5%;
@@ -756,8 +755,8 @@ section.overlay.kit_noKit{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     color: black;
 }
 

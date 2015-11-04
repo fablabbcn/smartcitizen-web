@@ -12,7 +12,8 @@
       .directive('focus', focus)
       .directive('changeMapHeight', changeMapHeight)
       .directive('changeContentMargin', changeContentMargin)
-      .directive('focusInput', focusInput);
+      .directive('focusInput', focusInput)
+      .directive('watchMapMovement', watchMapMovement);
 
     /**
      * It moves down kit section to ease the transition after the kit menu is sticked to the top
@@ -198,23 +199,23 @@
           element.css('margin-top', mapHeight + navbarHeight + 'px');
         });
 */        
-            var screenHeight = $document[0].body.clientHeight;
-            // var navbarHeight = angular.element('.stickNav').height();
-            
-            var overviewHeight = angular.element('.kit_overview').height(); 
-            var menuHeight = angular.element('.kit_menu').height();
-            var chartHeight = angular.element('.kit_chart').height();
+        var screenHeight = $document[0].body.clientHeight;
+        // var navbarHeight = angular.element('.stickNav').height();
+        
+        var overviewHeight = angular.element('.kit_overview').height(); 
+        var menuHeight = angular.element('.kit_menu').height();
+        var chartHeight = angular.element('.kit_chart').height();
 
-            // var overviewHeight = angular.element('.kit_overview').height(); 
-            // var menuHeight = angular.element('.kit_menu').height();
-            // var chartHeight = angular.element('.kit_chart').height();
-            
-            var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
-            element.css('margin-top', aboveTheFoldHeight + 'px');  
-            leafletData.getMap()
-              .then(function(map){
-                map.invalidateSize();
-              });     
+        // var overviewHeight = angular.element('.kit_overview').height(); 
+        // var menuHeight = angular.element('.kit_menu').height();
+        // var chartHeight = angular.element('.kit_chart').height();
+        
+        var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+        element.css('margin-top', aboveTheFoldHeight + 'px');  
+        leafletData.getMap()
+          .then(function(map){
+            map.invalidateSize();
+          });     
       }     
  
       return {
@@ -236,5 +237,28 @@
       return {
         link: link
       };
+    }
+
+    watchMapMovement.$inject = ['leafletData', '$timeout'];
+    function watchMapMovement(leafletData, $timeout){
+      function link(scope, element){
+        leafletData.getMap()
+            .then(function(map){
+              var bounds = L.latLngBounds([[-90, -180], [90, 180]]);
+              map.setMaxBounds(bounds);
+              map.on('drag', function() {
+                map.panInsideBounds(bounds, { animate: false });
+              });
+
+              map.on('moveend', function(){
+                $timeout(function(){
+                  map.invalidateSize();  
+                },1000);
+              });
+            });          
+      }
+      return {
+        link:link
+      }
     }
 })();

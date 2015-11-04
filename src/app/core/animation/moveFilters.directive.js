@@ -16,14 +16,18 @@
 
       function link(scope, elem) {
         var chartHeight;
+        var kitOverviewHeight;
+        var kitMenuHeight;
         $timeout(function() {
-          chartHeight = angular.element('.kit_chart').height();          
+          chartHeight = angular.element('.kit_chart').height();    
+          kitOverviewHeight = angular.element('.kit_overview').height();    
+          kitMenuHeight = angular.element('.kit_menu').height();
         }, 1000);
 
         angular.element($window).on('scroll', function() {
           var windowPosition = document.body.scrollTop;
           if(chartHeight > windowPosition) {
-            elem.css('bottom', 12 + windowPosition + 'px');
+            elem.css('bottom', 12 + windowPosition + kitMenuHeight + kitOverviewHeight + 'px');
           }
         });
       }
