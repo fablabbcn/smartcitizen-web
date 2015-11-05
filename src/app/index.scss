@@ -1167,15 +1167,6 @@ section .kit_menu {
     }
     .kit_owner_content {
       width: 85%;
-      // margin-bottom: 100px;
-
-      h3, p {
-        line-height: 0.4em;
-      }
-      h3 {
-        color: #24454E;
-        font-size: 18px;
-      }
     }
     .kit_owner_info {
       margin-bottom: 65px;
@@ -2209,6 +2200,10 @@ section .stickMenu {
   border-radius: 0 !important;
   text-transform: none;
   padding:15px;
+
+  p{
+    line-height: 0.4em;
+  }
 
   .wrap-dd-menu {
     width: 50px;
