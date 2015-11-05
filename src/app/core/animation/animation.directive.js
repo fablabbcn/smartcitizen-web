@@ -1,264 +1,273 @@
 (function() {
   'use strict';
 
-    /**
-     * TODO: This directives can be split up each one in a different file
-     */
-    
-    angular.module('app.components')
-      .directive('moveDown', moveDown)
-      .directive('stick', stick)
-      .directive('blur', blur)
-      .directive('focus', focus)
-      .directive('changeMapHeight', changeMapHeight)
-      .directive('changeContentMargin', changeContentMargin)
-      .directive('focusInput', focusInput)
-      .directive('watchMapMovement', watchMapMovement);
+  /**
+   * TODO: This directives can be split up each one in a different file
+   */
 
-    /**
-     * It moves down kit section to ease the transition after the kit menu is sticked to the top
-     * 
-     */
-    moveDown.$inject = [];
-    function moveDown() {
-      
-      function link(scope, element) {
-        scope.$watch('moveDown', function(isTrue) {
-          if(isTrue) {
-            element.addClass('move_down');
-          } else {
-            element.removeClass('move_down');
-          }
-        });
-      }
+  angular.module('app.components')
+    .directive('moveDown', moveDown)
+    .directive('stick', stick)
+    .directive('blur', blur)
+    .directive('focus', focus)
+    .directive('changeMapHeight', changeMapHeight)
+    .directive('changeContentMargin', changeContentMargin)
+    .directive('focusInput', focusInput)
+    .directive('watchMapMovement', watchMapMovement);
 
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
+  /**
+   * It moves down kit section to ease the transition after the kit menu is sticked to the top
+   * 
+   */
+  moveDown.$inject = [];
+
+  function moveDown() {
+
+    function link(scope, element) {
+      scope.$watch('moveDown', function(isTrue) {
+        if (isTrue) {
+          element.addClass('move_down');
+        } else {
+          element.removeClass('move_down');
+        }
+      });
     }
 
-    /**
-     * It sticks kit menu when kit menu touchs navbar on scrolling
-     * 
-     */
-    stick.$inject = ['$window', '$timeout'];
-    function stick($window, $timeout) {
-      function link(scope, element) {
-        var elementPosition = element[0].offsetTop;
+    return {
+      link: link,
+      scope: false,
+      restrict: 'A'
+    };
+  }
+
+  /**
+   * It sticks kit menu when kit menu touchs navbar on scrolling
+   * 
+   */
+  stick.$inject = ['$window', '$timeout'];
+
+  function stick($window, $timeout) {
+    function link(scope, element) {
+      var elementPosition = element[0].offsetTop;
+      //var elementHeight = element[0].offsetHeight;
+      var navbarHeight = angular.element('.stickNav').height();
+
+      $timeout(function() {
+        elementPosition = element[0].offsetTop;
         //var elementHeight = element[0].offsetHeight;
-        var navbarHeight = angular.element('.stickNav').height();  
+        navbarHeight = angular.element('.stickNav').height();
+      }, 1000);
 
-        $timeout(function() {
-          elementPosition = element[0].offsetTop;
-          //var elementHeight = element[0].offsetHeight;
-          navbarHeight = angular.element('.stickNav').height();          
-        }, 1000);  
-          
 
-        angular.element($window).on('scroll', function() {
-          var windowPosition = document.body.scrollTop; 
-          
-          //sticking menu and moving up/down
-          if(windowPosition + navbarHeight >= elementPosition) {
-            element.addClass('stickMenu');
-            scope.$apply(function() {
-              scope.moveDown = true;
-            });
-          } else {
-            element.removeClass('stickMenu');
-            scope.$apply(function() {
-              scope.moveDown = false;
-            });
-          }
-        });
-      }
+      angular.element($window).on('scroll', function() {
+        var windowPosition = document.body.scrollTop;
 
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
+        //sticking menu and moving up/down
+        if (windowPosition + navbarHeight >= elementPosition) {
+          element.addClass('stickMenu');
+          scope.$apply(function() {
+            scope.moveDown = true;
+          });
+        } else {
+          element.removeClass('stickMenu');
+          scope.$apply(function() {
+            scope.moveDown = false;
+          });
+        }
+      });
     }
 
-    /**
-     * Unused directive. Double-check is not being used before removing it
-     * 
-     */
-    
-    function blur() {
-      
-      function link(scope, element) {
+    return {
+      link: link,
+      scope: false,
+      restrict: 'A'
+    };
+  }
 
-        scope.$on('blur', function() {
-          element.addClass('blur');
-        });
+  /**
+   * Unused directive. Double-check is not being used before removing it
+   * 
+   */
 
-        scope.$on('unblur', function() {
-          element.removeClass('blur');
-        });
-      }
+  function blur() {
 
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
+    function link(scope, element) {
+
+      scope.$on('blur', function() {
+        element.addClass('blur');
+      });
+
+      scope.$on('unblur', function() {
+        element.removeClass('blur');
+      });
     }
 
-    /**
-     * Used to remove nav and unable scrolling when searching 
-     * 
-     */
-    focus.$inject = ['animation'];
-    function focus(animation) {
-      function link(scope, element) {
-        element.on('focusin', function() {
-          animation.removeNav();
-        });
+    return {
+      link: link,
+      scope: false,
+      restrict: 'A'
+    };
+  }
 
-        element.on('focusout', function() {
-          animation.addNav();
-        });
+  /**
+   * Used to remove nav and unable scrolling when searching 
+   * 
+   */
+  focus.$inject = ['animation'];
 
-        var searchInput = element.find('input');
-        searchInput.on('blur', function() {
-          //enable scrolling on body when search input is not active
-          angular.element(document.body).css('overflow', 'auto');
-        });
+  function focus(animation) {
+    function link(scope, element) {
+      element.on('focusin', function() {
+        animation.removeNav();
+      });
 
-        searchInput.on('focus', function() {
-          angular.element(document.body).css('overflow', 'hidden');
-        });
-      }
+      element.on('focusout', function() {
+        animation.addNav();
+      });
 
-      return {
-        link: link
-      };
+      var searchInput = element.find('input');
+      searchInput.on('blur', function() {
+        //enable scrolling on body when search input is not active
+        angular.element(document.body).css('overflow', 'auto');
+      });
+
+      searchInput.on('focus', function() {
+        angular.element(document.body).css('overflow', 'hidden');
+      });
     }
 
-    /**
-     * Changes map section based on screen size
-     * 
-     */
-    changeMapHeight.$inject = ['$document', 'layout', '$timeout', 'leafletData'];
-    function changeMapHeight($document, layout, $timeout, leafletData) {
-      function link(scope, element) {
+    return {
+      link: link
+    };
+  }
 
-        var screenHeight = $document[0].body.clientHeight;
-        var navbarHeight = angular.element('.stickNav').height();
-        
-        // var overviewHeight = angular.element('.kit_overview').height(); 
-        // var menuHeight = angular.element('.kit_menu').height();
-        // var chartHeight = angular.element('.kit_chart').height();
+  /**
+   * Changes map section based on screen size
+   * 
+   */
+  changeMapHeight.$inject = ['$document', 'layout', '$timeout', 'leafletData'];
 
-        $timeout(function() {
-          var overviewHeight = 0;
-           var menuHeight = 0;
+  function changeMapHeight($document, layout, $timeout, leafletData) {
+    function link(scope, element) {
 
-          if (!angular.element('.kit_overview').hasClass('ng-hide')){
-            overviewHeight = angular.element('.kit_overview').height();
-            menuHeight = angular.element('.kit_menu').height();
-          }
+      var screenHeight = $document[0].body.clientHeight;
+      var navbarHeight = angular.element('.stickNav').height();
 
-          var chartHeight = angular.element('.kit_chart').height(); //is this required anymore? --Riccardo
-          
-          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
-          element.css('height', mapHeight + 'px');
+      // var overviewHeight = angular.element('.kit_overview').height(); 
+      // var menuHeight = angular.element('.kit_menu').height();
+      // var chartHeight = angular.element('.kit_chart').height();
 
-          leafletData.getMap()
-            .then(function(map){
-              map.invalidateSize();
-            });          
-          //layout.setKit(position);
-          //var position = mapHeight + navbarHeight // map height + navbar height;
-        });
-        
-      }
+      $timeout(function() {
+        var overviewHeight = 0;
+        var menuHeight = 0;
 
-      return {
-        link: link,
-        scope: true,
-        restrict: 'A'
-      };
-    }
+        if (!angular.element('.kit_overview').hasClass('ng-hide')) {
+          overviewHeight = angular.element('.kit_overview').height();
+          menuHeight = angular.element('.kit_menu').height();
+        }
 
-    /**
-     * Changes margin on kit section based on above-the-fold space left after map section is resize
-     */
-    
-    changeContentMargin.$inject = ['layout', '$timeout', '$document', 'leafletData'];
-    function changeContentMargin(layout, $timeout, $document, leafletData) {
-      function link(scope, element) {
-/*        $timeout(function() {
-          var mapHeight = angular.element('.angular-leaflet-map').height();
-          var navbarHeight = angular.element('.stickNav').height();
-          var chartHeight = angular.element('.kit_chart').height();
+        var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight;
+        element.css('height', mapHeight + 'px');
 
-          element.css('margin-top', mapHeight + navbarHeight + 'px');
-        });
-*/        
-        var screenHeight = $document[0].body.clientHeight;
-        // var navbarHeight = angular.element('.stickNav').height();
-        
-        var overviewHeight = angular.element('.kit_overview').height(); 
-        var menuHeight = angular.element('.kit_menu').height();
-        var chartHeight = angular.element('.kit_chart').height();
-
-        // var overviewHeight = angular.element('.kit_overview').height(); 
-        // var menuHeight = angular.element('.kit_menu').height();
-        // var chartHeight = angular.element('.kit_chart').height();
-        
-        var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
-        element.css('margin-top', aboveTheFoldHeight + 'px');  
         leafletData.getMap()
-          .then(function(map){
+          .then(function(map) {
             map.invalidateSize();
-          });     
-      }     
- 
-      return {
-        link: link
-      };
+          });
+        //layout.setKit(position);
+        //var position = mapHeight + navbarHeight // map height + navbar height;
+      });
+
     }
 
-    /**
-     * Fixes autofocus for inputs that are inside modals
-     *
-     */
-    focusInput.$inject = ['$timeout'];
-    function focusInput($timeout) { 
-      function link(scope, elem) {
-        $timeout(function() {
-          elem.focus();
+    return {
+      link: link,
+      scope: true,
+      restrict: 'A'
+    };
+  }
+
+  /**
+   * Changes margin on kit section based on above-the-fold space left after map section is resize
+   */
+
+  changeContentMargin.$inject = ['layout', '$timeout', '$document', 'leafletData'];
+
+  function changeContentMargin(layout, $timeout, $document, leafletData) {
+    function link(scope, element) {
+      /*        $timeout(function() {
+                var mapHeight = angular.element('.angular-leaflet-map').height();
+                var navbarHeight = angular.element('.stickNav').height();
+                var chartHeight = angular.element('.kit_chart').height();
+
+                element.css('margin-top', mapHeight + navbarHeight + 'px');
+              });
+      */
+      var screenHeight = $document[0].body.clientHeight;
+      // var navbarHeight = angular.element('.stickNav').height();
+
+      var overviewHeight = angular.element('.kit_overview').height();
+      var menuHeight = angular.element('.kit_menu').height();
+
+      // var overviewHeight = angular.element('.kit_overview').height(); 
+      // var menuHeight = angular.element('.kit_menu').height();
+      // var chartHeight = angular.element('.kit_chart').height();
+
+      var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight;
+      element.css('margin-top', aboveTheFoldHeight + 'px');
+      leafletData.getMap()
+        .then(function(map) {
+          map.invalidateSize();
         });
-      }
-      return {
-        link: link
-      };
     }
 
-    watchMapMovement.$inject = ['leafletData', '$timeout'];
-    function watchMapMovement(leafletData, $timeout){
-      function link(scope, element){
-        leafletData.getMap()
-            .then(function(map){
-              var bounds = L.latLngBounds([[-90, -180], [90, 180]]);
-              map.setMaxBounds(bounds);
-              map.on('drag', function() {
-                map.panInsideBounds(bounds, { animate: false });
-              });
+    return {
+      link: link
+    };
+  }
 
-              map.on('moveend', function(){
-                $timeout(function(){
-                  map.invalidateSize();  
-                },1000);
-              });
-            });          
-      }
-      return {
-        link:link
-      }
+  /**
+   * Fixes autofocus for inputs that are inside modals
+   *
+   */
+  focusInput.$inject = ['$timeout'];
+
+  function focusInput($timeout) {
+    function link(scope, elem) {
+      $timeout(function() {
+        elem.focus();
+      });
     }
+    return {
+      link: link
+    };
+  }
+
+  watchMapMovement.$inject = ['leafletData', '$timeout'];
+
+  function watchMapMovement(leafletData, $timeout) {
+    function link(scope, element) {
+      leafletData.getMap()
+        .then(function(map) {
+          var bounds = L.latLngBounds([
+            [-90, -180],
+            [90, 180]
+          ]);
+          map.setMaxBounds(bounds);
+          map.on('drag', function() {
+            map.panInsideBounds(bounds, {
+              animate: false
+            });
+          });
+
+          map.on('moveend', function() {
+            $timeout(function() {
+              map.invalidateSize();
+            }, 1000);
+          });
+        });
+    }
+    return {
+      link: link
+    };
+  }
 })();
