@@ -162,6 +162,7 @@ div[api-key]{
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  color: $secondary_color_light;
 
   .api_key_number {
     flex:1;
@@ -181,6 +182,10 @@ div[api-key]{
       display: block;
     }
   }
+}
+
+md-tabs.md-default-theme .md-header{
+  background-color: $background_blue_dark_menu;
 }
 
 /**
@@ -2425,7 +2430,7 @@ section .stickMenu {
 }
 
 .myProfile_header {
-  height: 236px;
+  height: 188px;
   position: relative;
 }
 .myProfile_header_container {
@@ -2434,9 +2439,6 @@ section .stickMenu {
 }
 .myProfile_header_avatar {
   margin-left: 0;
-}
-.myProfile_tabs_parent {
-  transform: translateY(-48px);
 }
 .myProfile_tabs {
 }
@@ -2452,7 +2454,6 @@ section .stickMenu {
 }
 .myProfile_content_form {
   margin-left: 113px;
-  margin-right: 20%;
   max-width: 500px;
 }
 .myProfile_content_form_input {
