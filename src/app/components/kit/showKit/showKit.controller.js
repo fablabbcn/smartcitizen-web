@@ -137,6 +137,7 @@
         //     geolocate();
         //   }
         // }
+
       }
 
       function removeUser() {

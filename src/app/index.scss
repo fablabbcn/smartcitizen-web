@@ -56,6 +56,7 @@
 
 html {
   font-family: 'Roboto Condensed';
+  font-size: 18px;
 }
 
 body {
@@ -68,6 +69,68 @@ a.about{
   color: $blue_light;
 }
 
+
+/**
+  * TYPOGRAPHY
+  */
+
+h1{
+  font-size: 2.2em;
+  color: $terciary_color;
+  font-weight: normal;
+}
+h2{
+  font-size: 1.7em;
+  color: $secondary_color;
+}
+h3{
+
+}
+h4, .h4{
+  font-size: 1.1em;
+  color:$secondary_color;
+}
+
+html p, body p{
+  line-height: 1.5;
+}
+
+span.label, span.tag{
+  text-transform: uppercase;
+  font-size: 0.7em;
+  border-radius:20px;
+  padding:3px 8px;
+  margin-right: 8px;
+}
+span.label{
+  background-color: $secondary_color_light;
+  color:white;
+}
+span.tag{
+  background-color: $terciary_color_light;
+  color: $secondary_color_light;
+}
+
+section.info{
+  h1{
+    color: $info_primary;
+    font-size:1.3em;
+  }
+  p{
+    color: $info_secondary;
+    font-weight: lighter;
+  }
+}
+
+a.md-button, a.md-default-theme,
+button.md-button, button.md-default-theme{
+  color: $terciary_color;
+}
+
+a.warn,
+button.warn{
+  color: $alert_red;
+}
 
 /**
  *  NAVBAR
@@ -750,19 +813,16 @@ section .kit_menu {
  */
 
  .kit_details_notAuth {
-  font-size: 14px;
+  width: 500px;
  }
 .kit_details_notAuth_title {
   margin: 0;
-  font-size: 24px;
  }
 .kit_details_notAuth_subheader {
   color: #00637C;
-  font-size: 14px;
 }
 .kit_details_notAuth_button {
   float: right;
-  color: $blue_light;
 }
 .kit_detailed {
   // height: 1000px;
@@ -783,8 +843,8 @@ section .kit_menu {
     }
 
     .container {
-      padding: 1% 2% 1% 2%;
-      height: 90%;
+      padding: 37px;
+      height: 100%;
 
       .kit_chart_left {
         display: inline-block;
@@ -890,12 +950,10 @@ section .kit_menu {
       .kit_chart_right {
         display: inline-block;
         height: 100%;
-        padding-right: 25px;
 
         .chart_navigation {
           height: 10%;
           font-size: 11px;
-          margin-right: 30px;
 
           > div {
             margin-left: 40px;
@@ -937,7 +995,6 @@ section .kit_menu {
     }
   }
   .kit_details {
-    height: 348px;
     color: $background_blue_dark_navbar;
   }
   .kit_details_content {
@@ -946,12 +1003,13 @@ section .kit_menu {
     h3, h4, p {
       line-height: 0.4em;
     }
+
+    .kit_details_labels{
+      margin-top:30px;
+    }
   }
   .kit_details_name {
     margin: 5px 0 20px 0;
-  }
-  .kit_details_location {
-    font-weight: bold;
   }
   .kit_details_type {
     > span {
@@ -970,17 +1028,7 @@ section .kit_menu {
       font-weight: bold;
     }
   }
-  .kit_details_labels {
-    margin-top: 20px;
-    color: white;
-    font-size: 13px;
-    span {
-      background-color: #4F8390;
-      margin-right: 16px;
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
-  }
+
   .kit_details_description {
     padding-top: 4px;
   }
@@ -1035,10 +1083,6 @@ section .kit_menu {
   .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
     background-color: #DBDBDB;
   }
-  .kit_detailed_name {
-    font-size: 18px;
-    color: $blue_light;
-  }
   .kit_detailed_icon_content {
     width: 14px;
     height: 14px;
@@ -1070,9 +1114,11 @@ section .kit_menu {
     display: inline;
   }
   .kit_detailed_content_container {
-    width: 95%;
-    margin: 0 auto;
-    padding-bottom: 30px;
+    margin: 62px 37px 0px;
+
+    .kit_details_content_main {
+      width: 500px;
+    }
   }
   .kit_owner {
     color: $background_blue_dark_navbar;

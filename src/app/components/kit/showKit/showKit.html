@@ -173,51 +173,31 @@
         </div>
       </section>
       <section class="kit_details" ng-if="vm.kit">
-        <div class="kit_detailed_content_container">
-          <div class="kit_detailed_title_container">
-            <md-icon class="kit_detailed_icon_title" md-svg-src="./assets/images/kit_details_icon_normal.svg">
-            </md-icon>
-            <h2 class="kit_detailed_title">KIT DETAILS</h2>
-          </div>
-          <div class="kit_detailed_content_container" layout="row">
-            <div class="kit_detailed_avatar">
-              <img ng-src="{{ vm.kit.avatar || './assets/images/avatar.svg' }}" />
-            </div>
+          <div class="kit_detailed_content_container" layout="row" layout-align="space-between start">
             <div class="kit_details_content_main" flex>
               <div class="kit_details_content">
-                <h3 class="kit_detailed_name kit_details_name">{{ vm.kit.name }}</h3>
+                <h1 class="kit_details_name">{{ vm.kit.name }}</h1>
                 <p class="kit_details_location">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
-                  <span>{{ vm.kit.location || 'No location' }}</span>
+                  <span class="h4">{{ vm.kit.location || 'No location' }}</span>
                 </p>
                 <p class="kit_details_type">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
                   </md-icon>
-                  <span>{{ vm.kit.type }}</span>
-                  <span class="kit_details_version"><span>SCK:</span> {{ vm.kit.version }}</span>
-                  <span class="kit_details_id"><span>ID:</span> {{ vm.kit.id }}</span>
-                </p>
-                <p class="kit_details_lastTime">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/update_icon.svg">
-                  </md-icon>
-                  <span>{{ vm.kit.timeAgo }}</span>
+                  <span class="h4">{{ vm.kit.type }}</span>
                 </p>
                 <p class="kit_details_labels">
-                  <span ng-repeat="label in vm.kit.labels">{{ label }}</span>
-                  <span ng-repeat='tag in vm.kit.userTags'>{{ tag }}</span>
+                  <span class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
+                  <span class="tag" ng-repeat='tag in vm.kit.userTags'>{{ tag }}</span>
                 </p>
-                <div class="kit_details_description">
-                  <h4 class="kit_details_description_title">Kit Description:</h4>
-                  <p class="kit_details_description_content">{{ vm.kit.description || 'No data' }}</p>
-                </div>
               </div>
             </div>
-            <div class="kit_details_manage" ng-if="vm.kitBelongsToUser" flex>
+            <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
               <div class="kit_details_manage_buttons">
                 <md-button ng-href="/kits/new?step=2" class="kit_details_button_setup" aria-label="">SET UP</md-button>
                 <md-button ng-href="/kits/edit/{{vm.kit.id}}" class="kit_details_button_edit" aria-label="">EDIT</md-button>
-                <md-button ng-click="vm.removeUser()" class="kit_details_button_delete" aria-label="">DELETE</md-button>
+                <md-button ng-click="vm.removeUser()" class="warn" aria-label="">DELETE</md-button>
               </div>
               <div class="kit_details_manage_data">
                 <div class="kit_details_macaddress data_container">
@@ -251,14 +231,12 @@
                 </div>
               </div>
             </div>
-            <div class="kit_details_notAuth" ng-if="!vm.kitBelongsToUser" flex>
-            <h3 class="kit_details_notAuth_title">People looking for a better city</h3>
-            <small class="kit_details_notAuth_subheader">You're part of them? Feel free to join us!</small>
-            <p class="kit_details_notAuth_description">Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
-            <md-button class="kit_details_notAuth_button">GET YOUR KIT AND JOIN US</md-button>
-            </div>
+            <section class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
+              <h1>People looking for a better city</h1>
+              <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
+              <md-button>GET YOUR KIT AND JOIN US</md-button>
+            </section>
           </div>
-        </div>
       </section>
       <section class="kit_owner" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
