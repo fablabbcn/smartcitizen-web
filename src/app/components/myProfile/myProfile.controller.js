@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
-    function MyProfileController($scope, $location, $q, $interval, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
+    function MyProfileController($scope, $location, $q, $interval, userData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -24,7 +24,7 @@
       vm.uploadAvatar = uploadAvatar;
 
       //KITS TAB
-      vm.kits = kitsData;
+      vm.kits = undefined;
       vm.kitStatus = undefined;
       vm.filteredKits = [];
 
@@ -62,7 +62,8 @@
           animation.viewLoaded();
         }, 500);
 
-        updateKitsTimer = $interval(updateKits, 4000);
+        updateKitsTimer = $interval(reloadUser, 4000);
+        processKits();
       }
 
       function filterKits(status) {
@@ -177,22 +178,16 @@
         }
       }
 
-      function updateKits() {
-        var kitIDs = _.pluck(vm.user.kits, 'id');
-        if(!kitIDs.length) {
-          return [];
-        }
+      function reloadUser(){
+        auth.updateUser().then(function(){
+          vm.user = auth.getCurrentUser().data;
+          processKits();
+        });
+      }
 
-        $q.all(
-          kitIDs.map(function(id) {
-            return device.getDevice(id)
-              .then(function(data) {
-                return new PreviewKit(data);
-              });
-          })
-        )
-        .then(function(data){
-          vm.kits = data;
+      function processKits(){
+        vm.kits = _.map(vm.user.kits, function(kitData){
+          return new PreviewKit({data:kitData});
         });
       }
     }

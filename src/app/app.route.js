@@ -287,21 +287,6 @@
                 return;
               }
               return userData;
-            },
-            kitsData: function($q, device, PreviewKit, userData) {
-              var kitIDs = _.pluck(userData.kits, 'id');
-              if(!kitIDs.length) {
-                return [];
-              }
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
             }
           }
         })
