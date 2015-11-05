@@ -16,8 +16,8 @@
     .directive('watchMapMovement', watchMapMovement);
 
   /**
-   * It moves down kit section to ease the transition after the kit menu is sticked to the top
-   * 
+   * It moves down kit section to ease the transition 
+   * after the kit menu is sticked to the top
    */
   moveDown.$inject = [];
 
@@ -187,7 +187,8 @@
   }
 
   /**
-   * Changes margin on kit section based on above-the-fold space left after map section is resize
+   * Changes margin on kit section based on above-the-fold space 
+   * left after map section is resize
    */
 
   changeContentMargin.$inject = ['layout', '$timeout', '$document', 'leafletData'];
@@ -245,7 +246,7 @@
   watchMapMovement.$inject = ['leafletData', '$timeout'];
 
   function watchMapMovement(leafletData, $timeout) {
-    function link(scope, element) {
+    function link() {
       leafletData.getMap()
         .then(function(map) {
           var bounds = L.latLngBounds([
