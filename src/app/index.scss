@@ -81,20 +81,21 @@ a.about{
   * TYPOGRAPHY
   */
 
-h1{
+html h1, body h1{
   font-size: 2.2em;
   color: $terciary_color;
   font-weight: normal;
 }
-h2{
+html h2, body h2{
   font-size: 1.7em;
   color: $secondary_color;
   font-weight: normal;
 }
-h3{
-
+html h3, body h3{
+  font-size: 1.3em;
+  color: $secondary_color;
 }
-h4, .h4{
+html h4, body h4, .h4{
   font-size: 1.1em;
   color:$secondary_color;
   font-weight: normal;
@@ -106,6 +107,11 @@ h4, .h4{
 html p, body p{
   line-height: 1.5;
   color: $secondary_color;
+}
+
+td{
+  color: $secondary_color;
+  padding:5px;
 }
 
 span.label, span.tag{
@@ -138,6 +144,11 @@ section.info{
 a{
   color: $secondary_color;
   text-decoration: none;
+
+  &:hover, &:active{
+    text-decoration: none;
+    color: $secondary_color_light;
+  }
 }
 a.md-button, a.md-default-theme,
 button.md-button, button.md-default-theme{
@@ -2780,26 +2791,16 @@ button#doorbell-button {
   STATIC PAGES
 */
 .static_page{
-  color:#065063;
-  font-size: 17px;
-  line-height: 1.7;
-
   .timeline{
-    color:white;
     align-items: flex-start stretch;
 
     .content{
       padding:0 10px;
     }
-
-    h1{
-      font-size: 24px;
-      font-weight: normal;
-    }
   }
 
   .content{
-    max-width: 60em;
+    max-width: 50em;
     margin: 0 auto;
     padding:40px 10px;
   }
@@ -2811,14 +2812,9 @@ button#doorbell-button {
       background-color: #F9F9FB;
     }
   }
-
-  h3{
-    color: #4FC9E8;
-    font-size:18px;
-  }
   h4{
-    font-size:16px;
-    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 0.2em;
   }
 
   .md-button.md-default-theme.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab{
@@ -2872,22 +2868,6 @@ p.no-margin {
   box-shadow:
 }
 
-
-a.about:link {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:visited {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:active {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:hover {
-  text-decoration:underline;color:#3F51B5;
-}
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
