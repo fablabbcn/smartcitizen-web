@@ -211,23 +211,13 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
-                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
+                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} tools filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
               </div>
               <div class="profile_content_main_kits">
                 <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
-                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="row" layout-align="start center">
-                    <div class="kitList_container" layout="row" layout-align="start center">
-                      <div class="">
-                        <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
-                        </md-icon>
-                      </div>
-                      <div class="kitList_content">
-                        <div class="kitList_name">{{ tool.title }}</div>
-                        <div class="kitList_data">
-                          <span>{{ tool.description }}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="column" layout-align="start start">
+                    <h4>{{ tool.title }}</h4>
+                    <p>{{ tool.description }}</p>
                   </md-button>
                 </div>
               </div>
