@@ -62,6 +62,13 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
+a.about{
+  cursor: pointer;  
+  text-decoration: none;
+  color: $blue_light;
+}
+
+
 /**
  *  NAVBAR
  */
@@ -2756,6 +2763,51 @@ button#doorbell-button {
 
 
 }
+
+
+// About
+
+.sensor-image-margin {
+  margin-top: 40px;
+}
+
+h3.no-margin {
+  margin: 0;
+}
+
+p.no-margin {
+  margin: 0;
+}
+
+.team-cells-margin {
+  margin-bottom: 25px;
+}
+
+.subtitle-separation {
+  margin-top: 60px;
+}
+
+.logo-box-no-shadow {
+  box-shadow: 
+}
+
+
+a.about:link {
+  text-decoration:none;color:#4FC9E8;
+}
+
+a.about:visited {
+  text-decoration:none;color:#4FC9E8;
+}
+
+a.about:active {
+  text-decoration:none;color:#4FC9E8;
+}
+
+a.about:hover {
+  text-decoration:underline;color:#3F51B5;
+}
+
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
