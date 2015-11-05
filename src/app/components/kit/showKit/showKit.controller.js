@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-    KitController.$inject = ['$state','$scope', '$stateParams', 'kitData',
+    KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
+      'kitData',
       'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
       'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
       '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device',
       'HasSensorKit', 'geolocation'];
-    function KitController($state, $scope, $stateParams, kitData,
+    function KitController($state, $scope, $stateParams, $filter, kitData,
       ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser,
       timeUtils, animation, $location, auth, kitUtils, userUtils,
       $timeout, mainSensors, compareSensors, alert, $q, device,
@@ -22,11 +23,13 @@
       var picker = initializePicker();
 
       if(kitData){
-        animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude, id: parseInt($stateParams.id) });
+        animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude,
+          id: parseInt($stateParams.id) });
       }
 
       vm.kit = kitData;
       vm.ownerKits = ownerKits;
+      vm.sampleKits = $filter('limitTo')(ownerKits, 5);
       vm.kitBelongsToUser = belongsToUser;
       vm.removeUser = removeUser;
 

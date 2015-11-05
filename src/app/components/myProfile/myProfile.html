@@ -178,45 +178,9 @@
                 <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
                 <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
-              <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))" layout="row" layout-align="start center">  <!-- filter: { labels: { status: vm.kitStatus } }  -->
-                <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_borderBottom: $last}" layout="row" layout-align="start center">
-                  <div class="kitList_container" layout="row" layout-align="start center">
-                    <div class="">
-                      <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
-                    </div>
-                    <div class="kitList_content">
-                      <div class="kitList_name">{{ kit.name || 'No name' }}</div>
-                      <div class="kitList_data">
-                        <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
-                        </md-icon>
-                        <span>{{ kit.location || 'No location' }}</span>
-                        <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
-                        </md-icon>
-                        <span>{{ kit.type }}</span>
-                      </div>
-                    </div>
-                    <div class="kitList_right" layout="row" layout-align="end center">
-                      <div class="chips" layout="row" layout-align="start center">
-                        <div class="chip kit_tag" ng-repeat="tag in kit.labels">
-                          <span class="chip_name">{{ tag }}</span>
-                        </div>
-                        <div class="chip kit_tag" ng-repeat="userTag in kit.userTags">
-                          <span class="chip_name">{{ userTag }}</span>
-                        </div>
-                      </div>
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="kit.state.name === 'never published' || kit.state.name === 'not configured'"><span>{{ kit.state.name }}</span></div>
-                    </div>
-                  </div>
-                </md-button>
-                <div class="kitList_config" layout="row" layout="center center">
-                  <md-button class="kitList_dropdownButton" aria-label
-                    dropdown-menu="kit.dropdownOptions"
-                    dropdown-model="vm.dropdownSelected"
-                    dropdown-item-label="text">
-                      <img src="./assets/images/config_icon.svg" />
-                  </md-button>
-                </div>
-              </div>
+              <!-- KIT LIST -->
+              <kit-list kits="(vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))"></kit-list>
+              <!-- End kit list -->
               <div class="kitList kitList_primary kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
                 <div class="kitList_container">
                   <div class="kitList_noKits">
