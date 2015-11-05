@@ -62,7 +62,7 @@
           animation.viewLoaded();
         }, 500);
 
-        // updateKitsTimer = $interval(updateKits, 4000);
+        updateKitsTimer = $interval(updateKits, 4000);
       }
 
       function filterKits(status) {
