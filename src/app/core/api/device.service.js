@@ -4,8 +4,8 @@
 	angular.module('app.components')
 	  .factory('device', device);
 
-    device.$inject = ['Restangular', '$window', 'timeUtils'];
-	  function device(Restangular, $window, timeUtils) {
+    device.$inject = ['Restangular', '$window', 'timeUtils','$http'];
+	  function device(Restangular, $window, timeUtils, $http) {
       var genericKitData, worldMarkers;
 
       initialize();
@@ -23,7 +23,8 @@
         updateDevice: updateDevice,
         getGenericKitData: getGenericKitData,
         getWorldMarkers: getWorldMarkers,
-        setWorldMarkers: setWorldMarkers
+        setWorldMarkers: setWorldMarkers,
+        mailReadings: mailReadings
 	  	};
 
 	  	return service;
@@ -93,6 +94,10 @@
 
       function removeMarkers() {
         $window.localStorage.removeItem('smartcitizen.markers');
+      }
+
+      function mailReadings() {
+        return;
       }
 	  }
 })();

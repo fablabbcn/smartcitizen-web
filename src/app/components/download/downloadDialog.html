@@ -1,0 +1,20 @@
+<md-dialog>
+  <md-dialog-content class="modal modal_download">
+    <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
+    <md-button class="close_icon" aria-label>
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="downloadDialog.hide()" class="" >
+      </md-icon>
+    </md-button>
+    <div class="modal_downloadBtn">
+      <div class="modal_content_container">
+        <h2>DOWNLOAD DATA</h2>
+        <div class="main_content" layout="row" layout-align="space-between center" layout-padding>
+          <p>We will process your sensor data and send you an email with a download link when it is ready</p>
+        </div>
+        <div>
+           <md-button class="call-to-action" ng-click="downloadDialog.download(downloadDialog.kit)">Download</md-button>
+        </div>
+      </div>
+    </div>
+  </md-dialog-content>
+</md-dialog>
