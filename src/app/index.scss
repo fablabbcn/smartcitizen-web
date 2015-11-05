@@ -158,6 +158,31 @@ button.warn{
   font-weight: bold;
 }
 
+div[api-key]{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .api_key_number {
+    flex:1;
+    margin-left: 5px;
+    background-color: #F2F2F2;
+    padding: 2px 10px;
+    display: inline-block;
+    height: inherit;
+  }
+  .api_key_refresh_button {
+    height: inherit;
+    background-color: #DBDBDB;
+    border-radius: 0 4px 4px 0;
+    md-icon {
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+  }
+}
+
 /**
  *  NAVBAR
  */
@@ -1084,23 +1109,6 @@ section .kit_menu {
   .kit_details_key {
     float: left;
     height: 26px;
-  }
-  .kit_details_key_number {
-    margin-left: 5px;
-    background-color: #F2F2F2;
-    padding: 2px 10px;
-    display: inline-block;
-    height: inherit;
-  }
-  .kit_details_key_refreshButton {
-    height: inherit;
-    background-color: #DBDBDB;
-    border-radius: 0 4px 4px 0;
-    md-icon {
-      height: 15px;
-      width: 15px;
-      display: block;
-    }
   }
   .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
     background-color: #DBDBDB;

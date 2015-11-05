@@ -216,11 +216,7 @@
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
                   </md-icon>
                   <span class="bold">API Key:</span>
-                  <div class="kit_details_key_number">{{ vm.legacyApiKey }}</div>
-                  <md-button class="kit_details_key_refreshButton" aria-label>
-                    <md-icon class="" md-svg-src="./assets/images/refresh_icon_white.svg">
-                    </md-icon>
-                  </md-button>
+                  <div api-key="vm.legacyApiKey"></div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="kit_details_download data_container">
@@ -258,7 +254,7 @@
                   <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span>
                 </span>
               </p>
-              <p class="h4">
+              <p class="h4" ng-if="vm.kit.owner.url">
                 <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                 </md-icon>
                 <span ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
@@ -318,11 +314,6 @@
       </section>
       <section class="kit_comments" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
-          <div class="kit_detailed_title_container">
-            <md-icon class="icon_label" md-svg-src="./assets/images/discussion_icon.svg">
-            </md-icon>
-            <h2 class="kit_detailed_title">DISCUSSION</h2>
-          </div>
           <div class="kit_detailed_content_container" ng-include="'app/components/disqus/disqus.html'"></div>
         </div>
       </section>
