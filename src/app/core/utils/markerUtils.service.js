@@ -24,24 +24,32 @@
       ///////////////
 
       function parseType(object) {
-        var kitType; 
+        var kitType;
 
+        // We must wait here if the genericKitData is not already defined.
         var genericKitData = device.getGenericKitData();
+
+        if(!genericKitData){
+            kitType = 'SmartCitizen Kit';
+            return kitType;
+        }
+        //////////////////////////////////////////////////////////////////
+
         /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
         var kitName = !kit ? 'No name': kit.name;
 
-        if((new RegExp('sck', 'i')).test(kitName)) { 
+        if((new RegExp('sck', 'i')).test(kitName)) {
           kitType = 'SmartCitizen Kit';
         } else {
           kitType = 'Unknown Kit';
         }
-        return kitType; 
+        return kitType;
       }
 
       function parseLocation(object) {
         var location = '';
-        
+
         /*jshint camelcase: false */
         var city = object.city;
         var country_code = object.country_code;
@@ -84,7 +92,7 @@
           icon = MARKER_ICONS.markerSmartCitizenOffline;
         } else {
           icon = MARKER_ICONS.markerSmartCitizenOnline;
-        }  
+        }
         return icon;
       }
 

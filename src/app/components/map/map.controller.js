@@ -16,9 +16,16 @@
       var markersByIndex = _.indexBy(markers, function(marker) {
         return marker.myData.id;
       });
-      var focusedMarkerID = $state.params.id?
-        markersByIndex[parseInt($state.params.id)].myData.id :
-        undefined;
+      var focusedMarkerID;
+
+      if($state.params.id && markersByIndex[parseInt($state.params.id)]){
+        focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
+      }else{
+        if($state.params.id){
+          alert.error('This kit cannot be located in the map because its ' +
+            'location has not been set up.');
+        }
+      }
 
       vm.markers = markersByIndex;
 
@@ -132,18 +139,20 @@
 
               leafletData.getLayers()
                 .then(function(layers) {
-                  layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
-                    var selectedMarker = vm.markers[data.id];
+                  if(currentMarker){
+                    layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
+                      var selectedMarker = vm.markers[data.id];
 
-                    if(selectedMarker) {
-                      selectedMarker.focus = true;
-                    }
-                    if(!$scope.$$phase) {
-                      $scope.$digest();
-                    }
+                      if(selectedMarker) {
+                        selectedMarker.focus = true;
+                      }
+                      if(!$scope.$$phase) {
+                        $scope.$digest();
+                      }
 
-                    kitLoaded = true;
-                  });
+                      kitLoaded = true;
+                    });
+                  }
                 });
             });
         }, 3000);

@@ -15,9 +15,7 @@
       vm.isIconWhite = true;
 
       $scope.$on('removeNav', function() {
-        $scope.$apply(function() {
           vm.isIconWhite = false;
-        });
       });
 
       $scope.$on('addNav', function() {

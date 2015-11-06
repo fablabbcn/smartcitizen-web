@@ -771,7 +771,7 @@ section .kit_menu {
   position: relative;
 
   .kit_chart {
-    height: 285px;
+    height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
 
@@ -784,7 +784,7 @@ section .kit_menu {
 
     .container {
       padding: 1% 2% 1% 2%;
-      height: 100%;
+      height: 90%;
 
       .kit_chart_left {
         display: inline-block;
@@ -1364,6 +1364,14 @@ section .stickMenu {
       margin-bottom: 0;
       color: #7D7D7D;
     }
+  }
+}
+
+.modal_download{
+  text-align: center;
+  .modal_downloadBtn{
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 

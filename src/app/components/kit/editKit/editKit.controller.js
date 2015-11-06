@@ -112,7 +112,8 @@
         };
 
         if(vm.macAddress){
-          data.macAddress = vm.macAddress;
+          /*jshint camelcase: false */
+          data.mac_address = vm.macAddress;
         }
 
         device.updateDevice(kitData.id, data)

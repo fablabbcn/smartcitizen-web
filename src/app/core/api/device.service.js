@@ -3,9 +3,9 @@
 
 	angular.module('app.components')
 	  .factory('device', device);
-    
-    device.$inject = ['Restangular', '$window', 'timeUtils'];
-	  function device(Restangular, $window, timeUtils) {
+
+    device.$inject = ['Restangular', '$window', 'timeUtils','$http'];
+	  function device(Restangular, $window, timeUtils, $http) {
       var genericKitData, worldMarkers;
 
       initialize();
@@ -23,7 +23,8 @@
         updateDevice: updateDevice,
         getGenericKitData: getGenericKitData,
         getWorldMarkers: getWorldMarkers,
-        setWorldMarkers: setWorldMarkers
+        setWorldMarkers: setWorldMarkers,
+        mailReadings: mailReadings
 	  	};
 
 	  	return service;
@@ -35,7 +36,7 @@
           removeMarkers();
         }
       }
-      
+
       function getDevices(location) {
       	var parameter = '';
       	parameter += location.lat + ',' + location.lng;
@@ -77,20 +78,28 @@
         };
 
         $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
-        worldMarkers = obj.data; 
+        worldMarkers = obj.data;
       }
 
       function getTimeStamp() {
-        return ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ).timestamp); 
+        return ($window.localStorage.getItem('smartcitizen.markers') &&
+					JSON.parse($window.localStorage
+						.getItem('smartcitizen.markers') ).timestamp);
       }
 
       function areMarkersOld() {
-        var markersDate = getTimeStamp();      
+        var markersDate = getTimeStamp();
         return !timeUtils.isWithin15min(markersDate);
       }
 
       function removeMarkers() {
         $window.localStorage.removeItem('smartcitizen.markers');
+      }
+
+      function mailReadings(kit) {
+      return Restangular
+          .one('devices', kit.id)
+          .customGET('readings/csv_archive');
       }
 	  }
 })();
