@@ -841,6 +841,12 @@ section .kit_menu {
     min-width: 50px;
     display: inline-table;
     cursor: pointer;
+    text-align: center;
+
+    small{
+      font-size: 0.8em;
+      font-weight: normal;
+    }
 
     .clear {
       clear: both;
@@ -850,9 +856,11 @@ section .kit_menu {
       position: relative;
       left: 5px;
       .sensor_unit {
+        margin-top:8px;
         font-size: 14px;
       }
       .sensor_arrow {
+        margin-top:-15px;
         width: 14px;
         height: 7px;
       }
@@ -871,10 +879,6 @@ section .kit_menu {
       position: relative;
       top: 14px;
       right: 5px;
-    }
-    .sensor_name {
-      font-size: 10px;
-      text-align: center;
     }
   }
 }
