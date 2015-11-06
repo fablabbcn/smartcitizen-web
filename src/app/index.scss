@@ -1372,6 +1372,14 @@ section .stickMenu {
 */
 
 .modal {
+  h2{
+    color: $terciary_color;
+    margin-top:0.5em;
+  }
+  h3{
+    margin-top:0em;
+  }
+
   border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
@@ -1410,7 +1418,6 @@ section .stickMenu {
     background-color: $terciary_color;
     height: 64px;
     font-size: 24px;
-    position: absolute;
     bottom: 0px;
     left: 0px;
     border-radius: 0px 0px 2px 2px;
@@ -1419,11 +1426,6 @@ section .stickMenu {
   .modal_content_container {
     width: 92%;
     margin: 0 auto;
-  }
-
-  h2 {
-    color: $terciary_color;
-    font-weight: normal;
   }
 
   [layout] {
@@ -1567,11 +1569,8 @@ section .stickMenu {
 */
 .modal_store {
   width: 500px;
-  height: 480px;
+  // height: 480px;
 
-  .header.store {
-    margin-top: 40px;
-  }
   .subheader.store {
     line-height: 1.5;
   }
@@ -1587,9 +1586,9 @@ section .stickMenu {
       padding-left: 18px;
       list-style-image: url('../assets/images/sucesses_icon.png');
       list-style-position: inherit;
-      font-size: 14px;
+      font-size: .8em;
       line-height: 1.8em;
-      color: #5FB303;
+      color: $info_secondary;
     }
   }
   .store_itemDescription_title {
