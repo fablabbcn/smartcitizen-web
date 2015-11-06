@@ -13,7 +13,12 @@
 		vm.download = download;
 
 		function download(kit){
-			$mdDialog.cancel('awful error');
+			device.mailReadings(kit)
+				.then(function (resp){
+					$mdDialog.hide();
+				}).catch(function(err){
+					$mdDialog.cancel(err);
+				});
 		}
 	};
 

@@ -517,7 +517,7 @@
           .theme('primary')
           .clickOutsideToClose(true);
 
-        $mdDialog.show(alert);
+          $mdDialog.show(alert);
         }).catch(function(err){
           if (!err){
             return;
@@ -530,7 +530,7 @@
           .theme('primary')
           .clickOutsideToClose(false);
 
-        $mdDialog.show(errorAlert);
+          $mdDialog.show(errorAlert);
         })
       }
     }

@@ -96,8 +96,10 @@
         $window.localStorage.removeItem('smartcitizen.markers');
       }
 
-      function mailReadings() {
-        return;
+      function mailReadings(kit) {
+      return Restangular
+          .one('devices', kit.id)
+          .customGET('readings/csv_archive');
       }
 	  }
 })();
