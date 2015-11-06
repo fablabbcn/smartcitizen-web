@@ -114,6 +114,10 @@ td{
   padding:5px;
 }
 
+small{
+  color: $secondary_color_light;
+}
+
 span.label, span.tag{
   text-transform: uppercase;
   font-size: 0.7em;
@@ -932,28 +936,25 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          font-size: 14px;
-          font-weight: normal;
           color: #DDE7EA;
           height: 80px;
-          margin-top: 25px; //30;
+          margin-top: 0px; //30;
           position: relative;
 
           h6 {
             margin: 0;
-            line-height: 0;
             color: #87CCDD;
           }
-
-          .sensor_description_preview {
-            margin-top: 10px;
-            line-height: 1.5em;
-            a {
-              margin-left: 10px;
-              text-decoration: none;
-              color: #678085;
-            }
+          small{
+            line-height: 1em;
           }
+
+          a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #678085;
+          }
+
           .sensor_description_full {
             position: absolute;
             top: -50px;
@@ -1008,9 +1009,11 @@ section .kit_menu {
           max-width: 175px;
         }
         .sensor_compare {
-          font-size: 12px;
+          font-size: .8em;
+          padding-top:20px;
 
           span {
+            color: $terciary_color_light;
             margin-right: 10px;
           }
         }
@@ -1377,7 +1380,10 @@ section .stickMenu {
     margin-top:0.5em;
   }
   h3{
-    margin-top:0em;
+    margin:0em;
+  }
+  p{
+    margin-top:.5em;
   }
 
   border: 0.5px solid grey;
@@ -1514,7 +1520,6 @@ section .stickMenu {
 
 .modal_mapFilter {
   width: 300px;
-  height: 478px;
 
   .modal_content_container_filter {
     width: 85%;
