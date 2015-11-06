@@ -14,12 +14,12 @@
 
 		function download(kit){
 			device.mailReadings(kit)
-				.then(function (resp){
+				.then(function (){
 					$mdDialog.hide();
 				}).catch(function(err){
 					$mdDialog.cancel(err);
 				});
 		}
-	};
+	}
 
 })();
