@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('KitListController', KitListController);
 
-  KitListController.$inject = ['auth', 'AuthUser', 'kitUtils', 'userUtils'];
-  function KitListController(auth, AuthUser, kitUtils, userUtils){
+  KitListController.$inject = ['$window', 'auth', 'AuthUser', 'kitUtils', 'userUtils'];
+  function KitListController($window, auth, AuthUser, kitUtils, userUtils){
     var vm = this;
 
     vm.kitBelongsToUser = kitBelongsToUser;
@@ -17,7 +17,11 @@
         return false;
       }
       var kitID = parseInt(kit.id);
-      var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+      var userData = ( auth.getCurrentUser().data ) ||
+        ($window.localStorage.getItem('smartcitizen.data') &&
+        new AuthUser( JSON.parse(
+          $window.localStorage.getItem('smartcitizen.data') )));
+
       var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
       var isAdmin = userUtils.isAdmin(userData);
 

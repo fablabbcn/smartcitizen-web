@@ -13,6 +13,6 @@
       controller: 'ApiKeyController',
       controllerAs: 'vm',
       templateUrl: 'app/components/apiKey/apiKey.html'
-    }
+    };
   }
 })();

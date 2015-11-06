@@ -5,10 +5,10 @@
     .controller('ApiKeyController', ApiKeyController);
 
   function ApiKeyController(){
-    var vm = this;
+    // var vm = this;
 
     ///////////////
 
-    
+
   }
 })();
