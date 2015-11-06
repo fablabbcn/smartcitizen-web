@@ -56,6 +56,7 @@
 
 html {
   font-family: 'Roboto Condensed';
+  font-size: 18px;
 }
 
 body {
@@ -63,11 +64,144 @@ body {
 }
 
 a.about{
-  cursor: pointer;  
+  cursor: pointer;
   text-decoration: none;
   color: $blue_light;
 }
 
+.icon_label{
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  position: relative;
+  top: -2px;
+}
+
+/**
+  * TYPOGRAPHY
+  */
+
+html h1, body h1{
+  font-size: 2.2em;
+  color: $terciary_color;
+  font-weight: normal;
+}
+html h2, body h2{
+  font-size: 1.7em;
+  color: $secondary_color;
+  font-weight: normal;
+}
+html h3, body h3{
+  font-size: 1.3em;
+  color: $secondary_color;
+}
+html h4, body h4, .h4{
+  font-size: 1.1em;
+  color:$secondary_color;
+  font-weight: normal;
+}
+.h4{
+  margin: .4em 0em;
+}
+
+html p, body p{
+  line-height: 1.5;
+  color: $secondary_color;
+}
+
+td{
+  color: $secondary_color;
+  padding:5px;
+}
+
+small{
+  color: $secondary_color_light;
+}
+
+span.label, span.tag{
+  text-transform: uppercase;
+  font-size: 0.7em;
+  border-radius:20px;
+  padding:3px 8px;
+  margin-right: 8px;
+}
+span.label{
+  background-color: $secondary_color_light;
+  color:white;
+}
+span.tag{
+  background-color: $terciary_color_light;
+  color: $secondary_color_light;
+}
+
+section.info{
+  h1{
+    color: $info_primary;
+    font-size:1.3em;
+  }
+  p{
+    color: $info_secondary;
+    font-weight: lighter;
+  }
+}
+
+a{
+  color: $secondary_color;
+  text-decoration: none;
+
+  &:hover, &:active{
+    text-decoration: none;
+    color: $secondary_color_light;
+  }
+}
+a.md-button, a.md-default-theme,
+button.md-button, button.md-default-theme{
+  color: $terciary_color;
+}
+
+a.md-button h4, a.md-button .h4{
+  color: $terciary_color;
+  margin: 0;
+}
+
+a.warn,
+button.warn{
+  color: $alert_red;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+div[api-key]{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  color: $secondary_color_light;
+
+  .api_key_number {
+    flex:1;
+    margin-left: 5px;
+    background-color: #F2F2F2;
+    padding: 2px 10px;
+    display: inline-block;
+    height: inherit;
+  }
+  .api_key_refresh_button {
+    height: inherit;
+    background-color: #DBDBDB;
+    border-radius: 0 4px 4px 0;
+    md-icon {
+      height: 15px;
+      width: 15px;
+      display: block;
+    }
+  }
+}
+
+md-tabs.md-default-theme .md-header{
+  background-color: $background_blue_dark_menu;
+}
 
 /**
  *  NAVBAR
@@ -550,11 +684,12 @@ section.map {
     font-weight: lighter;
 
     h1{
-      font-size:24px;
+      color:white;
+      font-size: 1.8em;
       margin:0;
-      font-weight: normal;
     }
     p{
+      color: $terciary_color_light;
       margin: 0.5em;
     }
     .hint{
@@ -706,6 +841,12 @@ section .kit_menu {
     min-width: 50px;
     display: inline-table;
     cursor: pointer;
+    text-align: center;
+
+    small{
+      font-size: 0.8em;
+      font-weight: normal;
+    }
 
     .clear {
       clear: both;
@@ -715,9 +856,11 @@ section .kit_menu {
       position: relative;
       left: 5px;
       .sensor_unit {
+        margin-top:8px;
         font-size: 14px;
       }
       .sensor_arrow {
+        margin-top:-15px;
         width: 14px;
         height: 7px;
       }
@@ -737,10 +880,6 @@ section .kit_menu {
       top: 14px;
       right: 5px;
     }
-    .sensor_name {
-      font-size: 10px;
-      text-align: center;
-    }
   }
 }
 
@@ -750,19 +889,16 @@ section .kit_menu {
  */
 
  .kit_details_notAuth {
-  font-size: 14px;
+  width: 500px;
  }
 .kit_details_notAuth_title {
   margin: 0;
-  font-size: 24px;
  }
 .kit_details_notAuth_subheader {
   color: #00637C;
-  font-size: 14px;
 }
 .kit_details_notAuth_button {
   float: right;
-  color: $blue_light;
 }
 .kit_detailed {
   // height: 1000px;
@@ -783,8 +919,8 @@ section .kit_menu {
     }
 
     .container {
-      padding: 1% 2% 1% 2%;
-      height: 90%;
+      padding: 37px;
+      height: 100%;
 
       .kit_chart_left {
         display: inline-block;
@@ -804,28 +940,25 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          font-size: 14px;
-          font-weight: normal;
           color: #DDE7EA;
           height: 80px;
-          margin-top: 25px; //30;
+          margin-top: 0px; //30;
           position: relative;
 
           h6 {
             margin: 0;
-            line-height: 0;
             color: #87CCDD;
           }
-
-          .sensor_description_preview {
-            margin-top: 10px;
-            line-height: 1.5em;
-            a {
-              margin-left: 10px;
-              text-decoration: none;
-              color: #678085;
-            }
+          small{
+            line-height: 1em;
           }
+
+          a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: #678085;
+          }
+
           .sensor_description_full {
             position: absolute;
             top: -50px;
@@ -880,9 +1013,11 @@ section .kit_menu {
           max-width: 175px;
         }
         .sensor_compare {
-          font-size: 12px;
+          font-size: .8em;
+          padding-top:20px;
 
           span {
+            color: $terciary_color_light;
             margin-right: 10px;
           }
         }
@@ -890,12 +1025,10 @@ section .kit_menu {
       .kit_chart_right {
         display: inline-block;
         height: 100%;
-        padding-right: 25px;
 
         .chart_navigation {
           height: 10%;
           font-size: 11px;
-          margin-right: 30px;
 
           > div {
             margin-left: 40px;
@@ -937,7 +1070,6 @@ section .kit_menu {
     }
   }
   .kit_details {
-    height: 348px;
     color: $background_blue_dark_navbar;
   }
   .kit_details_content {
@@ -946,12 +1078,13 @@ section .kit_menu {
     h3, h4, p {
       line-height: 0.4em;
     }
+
+    .kit_details_labels{
+      margin-top:30px;
+    }
   }
   .kit_details_name {
     margin: 5px 0 20px 0;
-  }
-  .kit_details_location {
-    font-weight: bold;
   }
   .kit_details_type {
     > span {
@@ -970,17 +1103,7 @@ section .kit_menu {
       font-weight: bold;
     }
   }
-  .kit_details_labels {
-    margin-top: 20px;
-    color: white;
-    font-size: 13px;
-    span {
-      background-color: #4F8390;
-      margin-right: 16px;
-      padding: 3px 8px;
-      border-radius: 20px;
-    }
-  }
+
   .kit_details_description {
     padding-top: 4px;
   }
@@ -1007,52 +1130,28 @@ section .kit_menu {
       margin: 9px 0;
     }
   }
-  .kit_details_manage_data_name {
-    font-weight: bold;
-  }
   .kit_details_key {
     float: left;
     height: 26px;
   }
-  .kit_details_key_number {
-    margin-left: 5px;
-    font-weight: bold;
-    background-color: #F2F2F2;
-    padding: 5px 10px;
-    display: inline-block;
-    height: inherit;
-  }
-  .kit_details_key_refreshButton {
-    height: inherit;
-    background-color: #DBDBDB;
-    border-radius: 0 4px 4px 0;
-    md-icon {
-      height: 15px;
-      width: 15px;
-      display: block;
-    }
-  }
   .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
     background-color: #DBDBDB;
-  }
-  .kit_detailed_name {
-    font-size: 18px;
-    color: $blue_light;
   }
   .kit_detailed_icon_content {
     width: 14px;
     height: 14px;
-    margin-right: 8px;
+    margin-right: 4px;
     position: relative;
     top: -1px;
   }
   .kit_detailed_avatar {
     float: left;
-    margin-right: 38px;
+    margin-right: 26px;
     md-icon, img {
-      width: 80px;
-      height : 80px;
-      border-radius: 40px;
+      width: 100px;
+      height : 100px;
+      border-radius: 50px;
+      margin-top: 55px;
     }
   }
   .kit_detailed_icon_title {
@@ -1070,13 +1169,16 @@ section .kit_menu {
     display: inline;
   }
   .kit_detailed_content_container {
-    width: 95%;
-    margin: 0 auto;
-    padding-bottom: 30px;
+    margin: 62px 37px 0px;
+
+    .kit_details_content_main {
+      width: 500px;
+    }
   }
   .kit_owner {
     color: $background_blue_dark_navbar;
     background-color: #F5F5F5;
+    padding-bottom:40px;
 
     .container {
       width: 95%;
@@ -1084,15 +1186,6 @@ section .kit_menu {
     }
     .kit_owner_content {
       width: 85%;
-      // margin-bottom: 100px;
-
-      h3, p {
-        line-height: 0.4em;
-      }
-      h3 {
-        color: #24454E;
-        font-size: 18px;
-      }
     }
     .kit_owner_info {
       margin-bottom: 65px;
@@ -1101,7 +1194,7 @@ section .kit_menu {
       text-decoration: none;
     }
     .kit_owner_usernameText {
-      margin: 5px 0 20px 0;
+      margin: 50px 0 20px 0;
     }
     .kit_owner_location {
       color: #065063;
@@ -1286,6 +1379,17 @@ section .stickMenu {
 */
 
 .modal {
+  h2{
+    color: $terciary_color;
+    margin-top:0.5em;
+  }
+  h3{
+    margin:0em;
+  }
+  p{
+    margin-top:.5em;
+  }
+
   border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
@@ -1324,7 +1428,6 @@ section .stickMenu {
     background-color: $terciary_color;
     height: 64px;
     font-size: 24px;
-    position: absolute;
     bottom: 0px;
     left: 0px;
     border-radius: 0px 0px 2px 2px;
@@ -1333,11 +1436,6 @@ section .stickMenu {
   .modal_content_container {
     width: 92%;
     margin: 0 auto;
-  }
-
-  h2 {
-    color: $terciary_color;
-    font-weight: normal;
   }
 
   [layout] {
@@ -1426,7 +1524,6 @@ section .stickMenu {
 
 .modal_mapFilter {
   width: 300px;
-  height: 478px;
 
   .modal_content_container_filter {
     width: 85%;
@@ -1481,11 +1578,8 @@ section .stickMenu {
 */
 .modal_store {
   width: 500px;
-  height: 480px;
+  // height: 480px;
 
-  .header.store {
-    margin-top: 40px;
-  }
   .subheader.store {
     line-height: 1.5;
   }
@@ -1501,9 +1595,9 @@ section .stickMenu {
       padding-left: 18px;
       list-style-image: url('../assets/images/sucesses_icon.png');
       list-style-position: inherit;
-      font-size: 14px;
+      font-size: .8em;
       line-height: 1.8em;
-      color: #5FB303;
+      color: $info_secondary;
     }
   }
   .store_itemDescription_title {
@@ -2122,10 +2216,14 @@ section .stickMenu {
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
   border-left: 1px solid #EAECF1;
-  height: 82px;
   background-color: white;
   border-radius: 0 !important;
   text-transform: none;
+  padding:15px;
+
+  p{
+    line-height: 0.4em;
+  }
 
   .wrap-dd-menu {
     width: 50px;
@@ -2147,6 +2245,11 @@ section .stickMenu {
     position: absolute;
     right: 130px;
   }
+
+  .kitList_tags{
+    margin-top:5px;
+    margin-left: 60px;
+  }
 }
 .kitList_primary {
   width: 100%;
@@ -2154,16 +2257,12 @@ section .stickMenu {
 .kitList_secondary {
   width: 95%;
 }
-
-.kitList_container {
-  margin-left: 15px;
-  margin-right: 15px;
-}
 .kitList_avatar {
   width: 44px;
   height: 44px;
   border-radius: 22px;
-  margin-right: 20px;
+  margin-top:-10px;
+  margin-right: 14px;
 }
 .kitList_content {
   text-align: initial;
@@ -2174,7 +2273,6 @@ section .stickMenu {
   color: $blue_light;
 }
 .kitList_data {
-  font-size: 16px;
   span {
     margin-right: 15px;
   }
@@ -2187,11 +2285,10 @@ section .stickMenu {
   top: -2px;
 }
 .kitList_config {
-  width: 4%;
+  width: 60px;
 }
 .kitList_right {
   position: absolute;
-  top: 35%;
   right: 0;
 
   .chip .chip_name {
@@ -2348,7 +2445,7 @@ section .stickMenu {
 }
 
 .myProfile_header {
-  height: 236px;
+  height: 188px;
   position: relative;
 }
 .myProfile_header_container {
@@ -2357,9 +2454,6 @@ section .stickMenu {
 }
 .myProfile_header_avatar {
   margin-left: 0;
-}
-.myProfile_tabs_parent {
-  transform: translateY(-48px);
 }
 .myProfile_tabs {
 }
@@ -2375,7 +2469,6 @@ section .stickMenu {
 }
 .myProfile_content_form {
   margin-left: 113px;
-  margin-right: 20%;
   max-width: 500px;
 }
 .myProfile_content_form_input {
@@ -2707,26 +2800,16 @@ button#doorbell-button {
   STATIC PAGES
 */
 .static_page{
-  color:#065063;
-  font-size: 17px;
-  line-height: 1.7;
-
   .timeline{
-    color:white;
     align-items: flex-start stretch;
 
     .content{
       padding:0 10px;
     }
-
-    h1{
-      font-size: 24px;
-      font-weight: normal;
-    }
   }
 
   .content{
-    max-width: 60em;
+    max-width: 50em;
     margin: 0 auto;
     padding:40px 10px;
   }
@@ -2738,14 +2821,12 @@ button#doorbell-button {
       background-color: #F9F9FB;
     }
   }
-
-  h3{
-    color: #4FC9E8;
-    font-size:18px;
+  h1{
+    color:white;
   }
   h4{
-    font-size:16px;
-    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 0.2em;
   }
 
   .md-button.md-default-theme.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab{
@@ -2796,26 +2877,8 @@ p.no-margin {
 }
 
 .logo-box-no-shadow {
-  box-shadow: 
+  box-shadow:
 }
-
-
-a.about:link {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:visited {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:active {
-  text-decoration:none;color:#4FC9E8;
-}
-
-a.about:hover {
-  text-decoration:underline;color:#3F51B5;
-}
-
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

@@ -1,0 +1,44 @@
+<div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in kits">
+  <md-button ng-href="./kits/{{kit.id}}" class="kitList"
+    ng-class="{kitList_primary: !vm.kitBelongsToUser(kit),
+      kitList_secondary: vm.kitBelongsToUser(kit),
+      kitList_borderBottom: $last}"
+    layout="column">
+    <div layout="column">
+      <div class="kitList_container" layout="row" layout-align="start center">
+        <div class="">
+          <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
+          </md-icon>
+        </div>
+        <div class="kitList_content">
+          <h4>{{ kit.name || 'No name' }}</h4>
+          <p class="kitList_data">
+            <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg">
+            </md-icon>
+            <span>{{ kit.location || 'No location' }}</span>
+            <md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg">
+            </md-icon>
+            <span>{{ kit.type || 'Unknown Kit'}}</span>
+          </p>
+        </div>
+        <div class="kitList_right" layout="row" layout-align="end center">
+          <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser(kit) && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
+            <span>{{ kit.state.name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="kitList_tags" layout="row" layout-align="start center">
+        <span class="label" ng-repeat="label in kit.labels">{{ label }}</span>
+        <span class="tag" ng-repeat="tag in kit.userTags">{{ tag }}</span>
+      </div>
+    </div>
+  </md-button>
+  <div class="kitList_config" ng-if="vm.kitBelongsToUser(kit)" layout="row" layout-align="center center">
+    <md-button class="kitList_dropdownButton" aria-label
+      dropdown-menu="kit.dropdownOptions"
+      dropdown-model="vm.dropdownSelected"
+      dropdown-item-label="text">
+        <img src="./assets/images/config_icon.svg" />
+    </md-button>
+  </div>
+</div>

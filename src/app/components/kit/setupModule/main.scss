@@ -29,9 +29,11 @@
       border: 1px solid #E4E4E4;
       background-color: #F3F3F3;
       border-radius:4px;
-      height:75px;
+      height:150px;
       color:grey;
       line-height: 1.4;
+      font-size:0.8em;
+      overflow-y:scroll;
   }
   .messages-block ul {
       list-style: none;

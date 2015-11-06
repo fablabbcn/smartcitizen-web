@@ -36,6 +36,12 @@
         //////////////////////////////////////////////////////////////////
 
         /*jshint camelcase: false */
+        if(!object.kit_id){
+          kitType = 'SmartCitizen Kit';
+          return;
+        }
+
+        /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
         var kitName = !kit ? 'No name': kit.name;
 

@@ -1,4 +1,4 @@
-<section class="myProfile_state">
+<section class="myProfile_state" layout="column">
   <div class="profile_header myProfile_header">
     <div class="myProfile_header_container" layout="row">
       <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="profile_header_avatar myProfile_header_avatar" />
@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <div class="myProfile_tabs_parent">
+  <div class="myProfile_tabs_parent" flex>
     <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
       <md-tab label md-on-select="vm.highlightIcon(0)" analytics-on="click"
         analytics-event="Profile" analytics-action="profile">
@@ -131,13 +131,14 @@
                 <div class="myProfile_apiKey" layout="row" layout-align="start center">
                   <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
                   <span class="myProfile_apiKey_text">API Key:</span>
-                  <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
+                  <div api-key="vm.user.key"></div>
+                  <!-- <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
                   <md-button class="myProfile_apiKey_refreshButton md-flat" type="button" aria-label>
                     <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
-                  </md-button>
+                  </md-button> -->
                 </div>
                 <div class="clearfix"></div>
-                <md-button ng-click="vm.removeUser()" class="myProfile_form_removeButton" type="button">DELETE ACCOUNT</md-button>
+                <md-button ng-click="vm.removeUser()" class="warn" type="button">DELETE ACCOUNT</md-button><br>
                 <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
               </div>
             </div>
@@ -177,45 +178,9 @@
                 <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
                 <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
               </div>
-              <div class="kitList_parent" ng-repeat="kit in (vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))" layout="row" layout-align="start center">  <!-- filter: { labels: { status: vm.kitStatus } }  -->
-                <md-button ng-href="./kits/{{kit.id}}" class="kitList kitList_secondary" ng-class="{kitList_borderBottom: $last}" layout="row" layout-align="start center">
-                  <div class="kitList_container" layout="row" layout-align="start center">
-                    <div class="">
-                      <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
-                    </div>
-                    <div class="kitList_content">
-                      <div class="kitList_name">{{ kit.name || 'No name' }}</div>
-                      <div class="kitList_data">
-                        <md-icon class="kitList_icon" md-svg-src="./assets/images/location_icon_light.svg">
-                        </md-icon>
-                        <span>{{ kit.location || 'No location' }}</span>
-                        <md-icon class="kitList_icon" md-svg-src="./assets/images/sensor_icon.svg">
-                        </md-icon>
-                        <span>{{ kit.type }}</span>
-                      </div>
-                    </div>
-                    <div class="kitList_right" layout="row" layout-align="end center">
-                      <div class="chips" layout="row" layout-align="start center">
-                        <div class="chip kit_tag" ng-repeat="tag in kit.labels">
-                          <span class="chip_name">{{ tag }}</span>
-                        </div>
-                        <div class="chip kit_tag" ng-repeat="userTag in kit.userTags">
-                          <span class="chip_name">{{ userTag }}</span>
-                        </div>
-                      </div>
-                      <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="kit.state.name === 'never published' || kit.state.name === 'not configured'"><span>{{ kit.state.name }}</span></div>
-                    </div>
-                  </div>
-                </md-button>
-                <div class="kitList_config" layout="row" layout="center center">
-                  <md-button class="kitList_dropdownButton" aria-label
-                    dropdown-menu="kit.dropdownOptions"
-                    dropdown-model="vm.dropdownSelected"
-                    dropdown-item-label="text">
-                      <img src="./assets/images/config_icon.svg" />
-                  </md-button>
-                </div>
-              </div>
+              <!-- KIT LIST -->
+              <kit-list kits="(vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))"></kit-list>
+              <!-- End kit list -->
               <div class="kitList kitList_primary kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
                 <div class="kitList_container">
                   <div class="kitList_noKits">
@@ -246,23 +211,13 @@
             </div>
             <div class="profile_content_main" flex>
               <div class="profile_content_main_top">
-                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} kits filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
+                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} tools filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
               </div>
               <div class="profile_content_main_kits">
                 <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
-                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="row" layout-align="start center">
-                    <div class="kitList_container" layout="row" layout-align="start center">
-                      <div class="">
-                        <md-icon class="kitList_avatar" md-svg-src="{{ tool.avatar || './assets/images/user_details_icon.svg'}}">
-                        </md-icon>
-                      </div>
-                      <div class="kitList_content">
-                        <div class="kitList_name">{{ tool.title }}</div>
-                        <div class="kitList_data">
-                          <span>{{ tool.description }}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="column" layout-align="start start">
+                    <h4>{{ tool.title }}</h4>
+                    <p>{{ tool.description }}</p>
                   </md-button>
                 </div>
               </div>
