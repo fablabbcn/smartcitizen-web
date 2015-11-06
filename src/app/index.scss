@@ -101,7 +101,7 @@ html h4, body h4, .h4{
   font-weight: normal;
 }
 .h4{
-  margin: .8em 0em;
+  margin: .4em 0em;
 }
 
 html p, body p{
@@ -680,11 +680,12 @@ section.map {
     font-weight: lighter;
 
     h1{
-      font-size:24px;
+      color:white;
+      font-size: 1.8em;
       margin:0;
-      font-weight: normal;
     }
     p{
+      color: $terciary_color_light;
       margin: 0.5em;
     }
     .hint{
