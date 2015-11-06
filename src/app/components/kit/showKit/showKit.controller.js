@@ -511,7 +511,7 @@
         }).then(function(){
           var alert = $mdDialog.alert()
           .title('SUCCESS')
-          .content('We are processing your data. Soon you will be notified in you inbox')
+          .content('We are processing your data. Soon you will be notified in your inbox')
           .ariaLabel('')
           .ok('OK!')
           .theme('primary')

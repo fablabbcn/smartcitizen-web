@@ -12,8 +12,10 @@
 		vm.kit = thisKit;
 		vm.download = download;
 
-		function download(kit){
-			device.mailReadings(kit)
+		////////////////////////////
+
+		function download(){
+			device.mailReadings(vm.kit)
 				.then(function (){
 					$mdDialog.hide();
 				}).catch(function(err){
