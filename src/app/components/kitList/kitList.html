@@ -1,3 +1,6 @@
+<div class="" ng-if="kits.length === 0">
+  <small>No kits</small>
+</div>
 <div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in kits">
   <md-button ng-href="./kits/{{kit.id}}" class="kitList"
     ng-class="{kitList_primary: !vm.kitBelongsToUser(kit),
