@@ -229,6 +229,18 @@ md-tabs.md-default-theme .md-header{
   }
 }
 
+.dark{
+  h1, h2{
+    color:white;
+  }
+  h1, h2{
+    margin:0;
+  }
+  h3, h4, .h4, a{
+    color: $font_color_blue_grey;
+  }
+}
+
 /**
  *  NAVBAR
  */
@@ -2364,8 +2376,8 @@ section .stickMenu {
   margin-top: 64px;
 }
 .profile_header_avatar {
-  width: 84px;
-  height: 84px;
+  width: 100px;
+  height: 100px;
   border-radius: 42px;
   margin-right: 29px;
   margin-left: 27px;
@@ -2381,20 +2393,6 @@ section .stickMenu {
   margin-right: 6px;
   position: relative;
   top: -1px;
-}
-.profile_header_name {
-  color: white;
-  font-size: 24px;
-}
-.profile_header_location {
-  font-size: 20px;
-}
-.profile_header_url {
-  font-size: 16px;
-  a {
-    text-decoration: none;
-    color: $font_color_blue_grey;
-  }
 }
 
 .profile_content {
