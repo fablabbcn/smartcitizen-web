@@ -244,20 +244,20 @@
               <a href="./users/{{vm.kit.owner.id}}" class="kit_owner_usernameLink">
                 <h2 class="kit_owner_usernameText">{{ vm.kit.owner.username }}</h2>
               </a>
-              <p class="h4">
+              <p>
                 <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                 </md-icon>
-                <span>
+                <span class="h4">
                   <span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span>
                   <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span>
                   <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span>
                   <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span>
                 </span>
               </p>
-              <p class="h4" ng-if="vm.kit.owner.url">
+              <p ng-if="vm.kit.owner.url">
                 <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                 </md-icon>
-                <span ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
+                <span class="h4" ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
               </p>
             </div>
             <div class="kit_owner_kits">

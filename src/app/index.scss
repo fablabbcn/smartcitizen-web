@@ -140,6 +140,7 @@ section.info{
     font-size:1.3em;
   }
   p{
+    line-height: inherit;
     color: $info_secondary;
     font-weight: lighter;
   }
@@ -906,6 +907,10 @@ section .kit_menu {
   background-color: white;
   position: relative;
 
+  h3, h4, p{
+    line-height: 0.4em;
+  }
+
   .kit_chart {
     height: 340px;
     background-color: $background_blue_dark_chart;
@@ -1074,10 +1079,6 @@ section .kit_menu {
   }
   .kit_details_content {
     float: left;
-
-    h3, h4, p {
-      line-height: 0.4em;
-    }
 
     .kit_details_labels{
       margin-top:30px;
