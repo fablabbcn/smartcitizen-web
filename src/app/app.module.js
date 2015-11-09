@@ -14,5 +14,6 @@ angular.module('app', [
   'angularLoad',
   'angulartics',
   'angulartics.google.analytics',
-  'ngSanitize'
+  'ngSanitize',
+  'ngCookies'
 ]);

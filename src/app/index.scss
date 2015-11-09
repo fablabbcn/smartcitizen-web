@@ -487,6 +487,23 @@ md-progress-linear.md-default-theme .md-bar{
 }
 
 /**
+ *  COOKIES POLICY COMPONENT
+ */
+
+ .cookies-policy_container{
+    background-color: rgba(60, 60, 60, 1);
+    color:$font_color_blue_light;
+    position: fixed;
+    top: 96vh;
+    left: 0;
+    width: 100%;
+    height: 4vh;
+    z-index: 999;
+    text-align: center;
+    line-height: 4vh;
+ }
+
+/**
  *  BACKDROP COMPONENT
  */
 
