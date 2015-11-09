@@ -1,21 +1,19 @@
 <section class="myProfile_state" layout="column">
-  <div class="profile_header myProfile_header">
+  <div class="profile_header myProfile_header dark">
     <div class="myProfile_header_container" layout="row">
       <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="profile_header_avatar myProfile_header_avatar" />
       <div class="profile_header_content">
-        <div class="profile_header_name">{{ vm.user.username || 'No data' }}</div>
+        <h2 class="profile_header_name">{{ vm.user.username || 'No data' }}</h2>
         <div class="profile_header_location">
           <md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-          <span>
-            <span ng-if="vm.user.city">{{ vm.user.city }}</span>
-            <span ng-if="vm.user.city && vm.user.country">,</span>
-            <span ng-if="vm.user.country">{{ vm.user.country }}</span>
-            <span ng-if="!vm.user.city && !vm.user.country">No data</span>
-          </span>
+          <span class="h4" ng-if="vm.user.city">{{ vm.user.city }}</span>
+          <span class="h4" ng-if="vm.user.city && vm.user.country">,</span>
+          <span class="h4" ng-if="vm.user.country">{{ vm.user.country }}</span>
+          <span class="h4" ng-if="!vm.user.city && !vm.user.country">No data</span>
         </div>
         <div class="profile_header_url">
           <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-          <a ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No data' }}</a>
+          <a class="h4" ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No data' }}</a>
         </div>
       </div>
     </div>
