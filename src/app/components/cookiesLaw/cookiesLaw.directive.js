@@ -1,12 +1,16 @@
+(function(){
+'use strict';
+
 angular.module('app.components')
   .directive('cookiesLaw', cookiesLaw);
 
 
-cookiesLaw.$inject = ['$cookies','$location'];
+cookiesLaw.$inject = ['$cookies', '$location'];
 
-function cookiesLaw($cookies,$location) {
+function cookiesLaw($cookies, $location) {
   return {
-    template: '<div class="cookies-policy_container" ng-hide="consent()">' +
+    template: 
+      '<div class="cookies-policy_container" ng-hide="consent()">' +
       'This site uses cookies to offer you a better experience.  ' +
       ' <a href="" ng-click="consent(true)">Accept</a> or' +
       ' <a href="" ng-click="goToPolicy()">Learn More</a> ' +
@@ -21,9 +25,12 @@ function cookiesLaw($cookies,$location) {
           _consent = true;
         }
       };
-      $scope.goToPolicy = function(){
+      $scope.goToPolicy = function() {
         $location.path('/policy');
-      }
+      };
     }
   };
-};
+}
+
+
+})();
