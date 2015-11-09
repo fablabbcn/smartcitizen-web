@@ -1,5 +1,5 @@
 <md-backdrop ng-if="vm.kitWithoutData" class="md-noDataBackdrop">
-  <div class="block" layout="column" layout-align="center center">
+  <div class="block info_overlay" layout="column" layout-align="center center">
     <div ng-if="vm.user === 'visitor'">
       <h2 class="title">
         This kit hasn’t still said a word 👶
@@ -11,7 +11,7 @@
         below to let its owner know
       </p>
     </div>
-    <div ng-if="vm.user === 'owner'">
+    <div ng-if="vm.user === 'owner'" class="static_page">
       <h2 class="title">
         This kit has still not posted any data 🔧🔩🔨
       </h2>

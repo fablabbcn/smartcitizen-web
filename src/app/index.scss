@@ -118,7 +118,7 @@ small{
   color: $secondary_color_light;
 }
 
-span.label, span.tag{
+span.label, span.tag, span.state{
   text-transform: uppercase;
   font-size: 0.7em;
   border-radius:20px;
@@ -202,6 +202,26 @@ div[api-key]{
 
 md-tabs.md-default-theme .md-header{
   background-color: $background_blue_dark_menu;
+}
+
+.inside_list{
+  h1{
+    color: $secondary_color_light;
+    font-size:1.1em;
+  }
+
+}
+
+.info_overlay{
+  h2{
+    color:white;
+  }
+  p{
+    margin: 0;
+    font-size: 20px;
+    font-weight: 300;
+    color:$terciary_color_light;
+  }
 }
 
 /**
@@ -532,7 +552,6 @@ md-backdrop.md-noDataBackdrop {
   color: white;
 
   .block {
-    width: 425px;
     margin: 0 auto;
 
   }
@@ -721,7 +740,7 @@ section .kit_menu {
 
   .kit_time {
     position: relative;
-    left: -100px;
+    left: -40px;
     color: #82A7B0;
     letter-spacing: 0.5px;
     font-size: 14px;
@@ -2222,6 +2241,9 @@ section .stickMenu {
   text-transform: none;
   padding:15px;
 
+  h1,h2,h3,h4{
+    line-height: inherit;
+  }
   p{
     line-height: 0.4em;
   }
@@ -2248,7 +2270,6 @@ section .stickMenu {
   }
 
   .kitList_tags{
-    margin-top:5px;
     margin-left: 60px;
   }
 }
@@ -2297,13 +2318,8 @@ section .stickMenu {
   }
 }
 .kitList_state {
-  color: white;
-  font-size: 11px;
-  border-radius: 20px;
-  padding: 6px 11px;
+  color:white;
   margin-right: 15px;
-  font-weight: bold;
-  height: 25px;
   text-transform: uppercase;
 }
 .kitList_state_never_published {

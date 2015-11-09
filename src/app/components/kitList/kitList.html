@@ -22,8 +22,8 @@
           </p>
         </div>
         <div class="kitList_right" layout="row" layout-align="end center">
-          <div class="kitList_state kitList_state_{{ kit.state.className }}" ng-if="vm.kitBelongsToUser(kit) && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
-            <span>{{ kit.state.name }}</span>
+          <div class="" ng-if="vm.kitBelongsToUser(kit) && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
+            <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
           </div>
         </div>
       </div>
