@@ -134,6 +134,11 @@ span.tag{
   color: $secondary_color_light;
 }
 
+.leaflet-container span.tag, .leaflet-container span.label,
+.leaflet-container span.state{
+  font-size:1em;
+}
+
 section.info{
   h1{
     color: $info_primary;
@@ -1004,11 +1009,11 @@ section .kit_menu {
           display: inline-block;
 
           .sensor_value {
-            font-size: 22px;
+            font-size: 2em;
             font-weight: bold;
           }
           .sensor_unit {
-            font-size: 10px;
+            font-size: .8em;
             color: $font_color_blue_light;
             position: relative;
             top: -8px;
@@ -1968,6 +1973,8 @@ section .stickMenu {
 .popup_top {
   height: 72px;
   border-radius: 2px 2px 0 0;
+  background-color: $background_blue_light;
+  padding-top:5px;
 
   .popup_name {
     padding: 0 0 1px 8px;
@@ -2010,7 +2017,6 @@ section .stickMenu {
 
     span {
       border-radius: 20px;
-      background-color: $background_blue_light;
       margin-right: 10px;
       padding: 3px 8px;
     }
@@ -2033,8 +2039,9 @@ section .stickMenu {
  */
 
 .leaflet-popup-content-wrapper {
-  border-radius: 2px;
+  border-radius: 4px;
   width: auto !important;
+  overflow: hidden;
 }
 
 .leaflet-popup-content {
