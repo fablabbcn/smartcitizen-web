@@ -519,6 +519,17 @@ md-toast.yellow {
   background-color: #f1c40f;
 }
 
+md-checkbox .md-label {
+    pointer-events: auto;
+}
+md-checkbox .md-label span {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /**
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
