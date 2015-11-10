@@ -53,6 +53,9 @@
 
       vm.downloadData = downloadData;
 
+      vm.timeOpt = ['hour', 'day' , 'month'];
+      vm.timeOptSelected = timeOptSelected;
+
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal) {
 
@@ -418,9 +421,19 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+              if (from_picker.hours){
+              var from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+              }
+              if (to_picker.hours){
+              var to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+              }  
               changeChart(sensors, {
-                from: from_picker.get('value'),
-                to: to_picker.get('value')
+                from: from || from_picker.get('value'),
+                to: to || to_picker.get('value')
               });
             }
             to_picker.set('min', from_picker.get('select') );
@@ -436,9 +449,19 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+              if (from_picker.hours){
+              var from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+              }
+              if (to_picker.hours){
+              var to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+              }  
               changeChart(sensors, {
-                from: from_picker.get('value'),
-                to: to_picker.get('value')
+                from: from || from_picker.get('value'),
+                to: to || to_picker.get('value')
               });
             }
             from_picker.set('max', to_picker.get('select'));
@@ -486,12 +509,16 @@
           },
           setValuePickerFrom: function(newValue) {
             updateType = 'single';
+            from_picker.hours = newValue.getUTCHours();
+            from_picker.minutes = newValue.getUTCMinutes();
             from_picker.set('select', newValue);
           },
           getValuePickerTo: function() {
             return to_picker.get('value');
           },
           setValuePickerTo: function(newValue) {
+            to_picker.hours = newValue.getUTCHours();
+            to_picker.minutes = newValue.getUTCMinutes();
             updateType = 'single';
             to_picker.set('select', newValue);
           },
@@ -616,6 +643,11 @@
         var before = moment().subtract(1, what);
         picker.setValuePickerFrom(before.toDate());
         picker.setValuePickerTo(now.toDate());
+      }
+      function timeOptSelected(){
+        if (vm.dropDownSelection){
+          setFromLast(vm.dropDownSelection);
+        }
       }
     }
 

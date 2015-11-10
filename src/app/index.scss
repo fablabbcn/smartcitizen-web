@@ -981,7 +981,11 @@ section .kit_menu {
   h3, h4, p{
     line-height: 0.4em;
   }
-
+  
+  .kit_timeOpts{
+    margin-top:0;
+  }
+  
   .kit_chart {
     height: 340px;
     background-color: $background_blue_dark_chart;

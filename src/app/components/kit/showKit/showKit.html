@@ -146,19 +146,10 @@
                 <span>{{ vm.kit.timeAgo }}</span>
               </span>
               <div class="picker_container" layout="row" layout-align="center center">
-                <md-button href="#" ng-click="vm.setFromLast('months')" class="chart_move_button" aria-label="" layout="row" layout-align="center center">
-                  Last Month
-                </md-button>
-              </div>
-              <div class="picker_container" layout="row" layout-align="center center">
-                <md-button href="#" ng-click="vm.setFromLast('days')" class="chart_move_button" aria-label="" layout="row" layout-align="center center">
-                  Last Day
-                </md-button>
-              </div>
-              <div class="picker_container" layout="row" layout-align="center center">
-                <md-button href="#" ng-click="vm.setFromLast('hours')" class="chart_move_button" aria-label="" layout="row" layout-align="center center">
-                  Last Hour
-                </md-button>
+                <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last.."
+                  ng-change="vm.timeOptSelected()">
+                  <md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option>
+                </md-select>
               </div>
               <div class="picker_container" layout="row" layout-align="center center">
                 <label for="picker_from">From: </label>
