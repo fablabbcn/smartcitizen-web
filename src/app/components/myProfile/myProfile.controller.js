@@ -4,129 +4,135 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES'];
-    function MyProfileController($scope, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES) {
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
+    function MyProfileController($scope, $location, $q, $interval, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
       var vm = this;
-      var user;
 
       vm.highlightIcon = highlightIcon;
-      vm.unhighlightIcon = unhighlightIcon; 
+      vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
-      vm.formUser = {
-        'avatar': null
-      };
+      vm.formUser = {};
+      vm.getCountries = getCountries;
 
-      if(userData) { 
-        user = userData;
-        vm.user = user; 
-        _.defaults(vm.formUser, vm.user);   
-      }
+      vm.user = userData;
+      copyUserToForm(vm.formUser, vm.user);
+      vm.searchText = vm.formUser.country;
 
-      //KITS TAB
-      var kits = kitsData
-      vm.kits = kitsData;
-      vm.kitStatus = undefined;
-      vm.filteredKits;
-
-      vm.dropdownSelected;
-      vm.dropdownOptions = [
-        {text: 'SET UP', value: '1'},
-        {text: 'EDIT', value: '2'}
-      ];
-
-      //TOOLS TAB
-      vm.tools = [
-        {type: 'documentation', title: 'How to connect your Smart Citizen Kit tutorial', description: 'Adding a Smart Citizen Kit', avatar: '', href: 'http://www.google.com'},
-        {type: 'documentation', title: 'Download the latest SCK Firmware', description: 'Github version of the firmware', avatar: ''}, 
-        {type: 'documentation', title: 'RESTful API Documentation', description: 'API Docs', avatar: ''},
-        {type: 'community', title: 'Smart Citizen Forum', description: 'Your feedback is important for us', avatar: ''},
-        {type: 'documentation', title: 'SCK Repository Documentation', description: 'Fork the project', avatar: ''},
-        {type: 'social', title: 'Like us on Facebook', description: 'Follow our news on Facebook', avatar: ''},
-        {type: 'social', title: 'Follow us on Twitter', description: 'Discover the weather and your smart connections on Twitter', avatar: ''},
-        {type: 'social', title: 'Be our friend on Google+', description: 'Get informed about latest news of Smart Citizen', avatar: ''},
-      ];
-      vm.toolType = undefined;
-      vm.filteredTools;
-
-      vm.filterKits = filterKits;
-      vm.filterTools = filterTools;
       vm.updateUser = updateUser;
       vm.removeUser = removeUser;
+      vm.uploadAvatar = uploadAvatar;
 
+      //KITS TAB
+      vm.kits = kitsData;
+      vm.kitStatus = undefined;
+      vm.filteredKits = [];
 
-      //in case it's the entry point for the app
-      /*$scope.$on('loggedIn', function() {
-        user = auth.getCurrentUser().data;
-        vm.user = user;
-        _.defaults(vm.formUser, vm.user);
-        initialize();
-      });*/
+      vm.dropdownSelected = undefined;
+      vm.dropdownOptions = DROPDOWN_OPTIONS_KIT;
 
-      setTimeout(function() {
-        highlightIcon(0); 
-        setSidebarMinHeight();
-      }, 500);
+      //TOOLS TAB
+      vm.tools = PROFILE_TOOLS;
+      vm.toolType = undefined;
+      vm.filteredTools = [];
+
+      //SIDEBAR
+      vm.filterKits = filterKits;
+      vm.filterTools = filterTools;
+
+      var updateKitsTimer = undefined;
+
+      $scope.$on('loggedOut', function() {
+        $location.path('/');
+      });
+      $scope.$on("$destroy", function() {
+        if (updateKitsTimer) {
+            $interval.cancel(updateKitsTimer);
+        }
+    });
+
+      initialize();
 
       //////////////////
+
+      function initialize() {
+        $timeout(function() {
+          highlightIcon(0);
+          setSidebarMinHeight();
+          animation.viewLoaded();
+        }, 500);
+
+        // updateKitsTimer = $interval(updateKits, 4000);
+      }
 
       function filterKits(status) {
         if(status === 'all') {
           status = undefined;
-        } 
+        }
         vm.kitStatus = status;
       }
 
       function filterTools(type) {
         if(type === 'all') {
           type = undefined;
-        } 
+        }
         vm.toolType = type;
       }
 
       function updateUser(userData) {
-        if(!!userData.country.length) {
-          _.each(COUNTRY_CODES, function(value, key, object) {
+        if(userData.country) {
+          _.each(COUNTRY_CODES, function(value, key) {
             if(value === userData.country) {
-              userData.country_code = key; 
+              /*jshint camelcase: false */
+              userData.country_code = key;
               return;
             }
-          });          
-        } 
+          });
+        }
 
         user.updateUser(userData)
-          .then(function() {
+          .then(function(data) {
+            var user = new AuthUser(data);
+            _.extend(vm.user, user);
             vm.errors = {};
             alert.success('User updated');
+            ga('send', 'event', 'Profile', 'update');
           })
           .catch(function(err) {
-            alert.error('User could not be updated ')
+            alert.error('User could not be updated ');
             vm.errors = err.data.errors;
+            ga('send', 'event', 'Profile', 'update failed');
           });
       }
 
       function removeUser() {
-        user.removeUser()
-          .then(function() {
-          });
+        var alert = $mdDialog.alert()
+          .title('Delete your account?')
+          .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+          .ariaLabel('')
+          .ok('OK!')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog.show(alert);
       }
 
       function highlightIcon(iconIndex) {
-        var icons = angular.element('.myProfile_tab_icon'); 
+        var icons = angular.element('.myProfile_tab_icon');
 
         _.each(icons, function(icon) {
           unhighlightIcon(icon);
-        })
+        });
 
         var icon = icons[iconIndex];
-        
+
         angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
         angular.element(icon).find('.fill_container').css('fill', 'white');
 
       }
 
       function unhighlightIcon(icon) {
-        var icon = angular.element(icon);
+        icon = angular.element(icon);
 
         icon.find('.stroke_container').css({'stroke': 'none'});
         icon.find('.fill_container').css('fill', '#82A7B0');
@@ -135,6 +141,59 @@
       function setSidebarMinHeight() {
         var height = document.body.clientHeight / 4 * 3;
         angular.element('.profile_content').css('min-height', height + 'px');
+      }
+
+      function getCountries(searchText) {
+        return _.filter(COUNTRY_CODES, createFilter(searchText));
+      }
+
+      function createFilter(searchText) {
+        searchText = searchText.toLowerCase();
+        return function(country) {
+          country = country.toLowerCase();
+          return country.indexOf(searchText) !== -1;
+        };
+      }
+
+      function uploadAvatar(fileData) {
+        if(fileData && fileData.length) {
+          file.getCredentials(fileData[0].name)
+            .then(function(res) {
+              file.uploadFile(fileData[0], res.key, res.policy, res.signature)
+                .success(function() {
+                  vm.user.avatar = file.getImageURL(res.key);
+                });
+              });
+        }
+      }
+
+      function copyUserToForm(formData, userData) {
+        var props = {username: true, email: true, city: true, country: true, country_code: true, website: true, constructor: false};
+
+        for(var key in userData) {
+          if(props[key]) {
+            formData[key] = userData[key];
+          }
+        }
+      }
+
+      function updateKits() {
+        var kitIDs = _.pluck(vm.user.kits, 'id');
+        if(!kitIDs.length) {
+          return [];
+        }
+
+        $q.all(
+          kitIDs.map(function(id) {
+            return device.getDevice(id)
+              .then(function(data) {
+                return new PreviewKit(data);
+              });
+          })
+        )
+        .then(function(data){
+          vm.kits = data;
+        });
       }
     }
 })();

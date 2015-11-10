@@ -2,11 +2,18 @@
 
 
 angular.module('app', [
-	'ngMaterial', 
-	'ui.router', 
-	'restangular', 
+  'ngFileUpload',
+	'ngMaterial',
+	'ui.router',
+	'restangular',
   'angularSpinner',
   'ngDropdowns',
-	'app.components', 
-	'app.auth'
+  'oauth',
+  'leaflet-directive',
+	'app.components',
+  'angularLoad',
+  'angulartics',
+  'angulartics.google.analytics',
+  'ngSanitize',
+  'angular-clipboard'
 ]);

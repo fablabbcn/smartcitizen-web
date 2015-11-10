@@ -4,10 +4,10 @@
   angular.module('app.components')
     .controller('SearchController', SearchController);
 
-    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location'];
-    function SearchController($scope, search, SearchResult, $location) {
+    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
+    function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
       var vm = this;
-      
+
       vm.searchTextChange = searchTextChange;
       vm.selectedItemChange = selectedItemChange;
       vm.querySearch = querySearch;
@@ -15,17 +15,13 @@
       vm.isIconWhite = true;
 
       $scope.$on('removeNav', function() {
-        $scope.$apply(function() {
           vm.isIconWhite = false;
-        });
       });
 
       $scope.$on('addNav', function() {
-        $scope.$apply(function() {
           vm.isIconWhite = true;
-        });
       });
-     
+
       ///////////////////
 
       function searchTextChange() {
@@ -36,13 +32,20 @@
           $location.path('/users/' + result.id);
         } else if(result.type === 'Device') {
           $location.path('/kits/' + result.id);
+        } else if (result.type === 'City'){
+          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type, layer: result.layer});
         }
       }
 
       function querySearch(query) {
+        if(query.length < 3) {
+          return [];
+        }
+
+        ga('send', 'event', 'Search Input', 'search', query);
         return search.globalSearch(query)
           .then(function(data) {
-            
+
             if(data.length === 0) {
               //enable scrolling on body if there is no dropdown
               angular.element(document.body).css('overflow', 'auto');
@@ -53,7 +56,12 @@
             angular.element(document.body).css('overflow', 'hidden');
 
             return data.map(function(object) {
-              return new SearchResult(object);
+
+              if(object.type === 'City' || object.type === 'Country') {
+                return new SearchResultLocation(object);
+              } else {
+                return new SearchResult(object);
+              }
             });
           });
       }

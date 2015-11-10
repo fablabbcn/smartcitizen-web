@@ -11,14 +11,17 @@
         $scope.waitingFromServer = true;
         user.createUser(answer)
           .then(function(data) {
-            console.log('data', data);
             alert.success('Signup was successful');
             $mdDialog.hide();
+            ga('send', 'event', 'Signup', 'signed up');
           })
           .catch(function(err) {
             alert.error('Signup failed');
-            console.log('err', err.data.errors);
             $scope.errors = err.data.errors;
+            ga('send', 'event', 'Signup', 'failed');
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
           });
       };
       $scope.hide = function() {

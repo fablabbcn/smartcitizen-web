@@ -4,8 +4,8 @@
   angular.module('app')
     .run(run);
     
-    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache'];
-    function run($rootScope, $state, Restangular, auth, $templateCache) {
+    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation'];
+    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -16,11 +16,31 @@
        * false when the user cannot be authenticated to access the route. ex: login, signup
        * undefined when it doesn't matter whether the user is logged in or not
        */
+       
+      /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        console.log('state change');
+        if(toState.name === 'layout.home.kit') {
+          /* 
+            Code to fix Disqus error on state change 
+            https://help.disqus.com/customer/portal/articles/472107-using-disqus-on-ajax-sites
+          */
+          // DISQUS.reset({
+          //   reload: true,
+          //   config: function () {
+          //     this.page.identifier = toParams.id;
+          //     this.page.url = '/kits/' + toParams.id;
+          //     this.page.title = 'Kit number ' + toParams.id;
+          //     this.language = 'en';
+          //   }
+          // });
+        }
+
+        if(toState.name === 'layout.home.kit' && fromState.name !== 'layout.home.kit') {
+          animation.mapStateLoading();
+        }
         if(toState.authenticate === false) {
           if(auth.isAuth()) {
-            e.preventDefault()
+            e.preventDefault();
             $state.go('landing');
             return;
           } 
@@ -33,17 +53,11 @@
           } 
         }
 
-        /*if(auth.isAuth() && !auth.getCurrentUser().data) {
-          auth.registerCallback(function() {
-            auth.setReloading(true);
-            $state.reload();
-            auth.setReloading(false);
-          });          
-        }*/
+        // on state change close all alerts opened
+        animation.hideAlert();
 
-        if(!auth.reloading()) {
-          window.scrollTo(0, 0);          
-        }
+        // move window up on state change
+        $window.scrollTo(0, 0);
 
         return;
       });
@@ -60,20 +74,6 @@
           httpConfig: httpConfig
         };
       });
-
-      /*$templateCache.put('ngDropdowns/templates/dropdownMenu.html', [
-        '<div class="wrap-dd-select my-custom-class">',
-          '<span class="selected my-selected-class">{{dropdownModel[labelField]}}</span>',
-          '<ul class="custom-dropdown">',
-            '<li ng-repeat="item in dropdownSelect"',
-            ' class="dropdown-item"',
-            ' dropdown-select-item="item"',
-            ' dropdown-item-label="labelField">',
-            '</li>',
-          '</ul>',
-        '</div>'
-      ].join(''));
-      */
     }
 
 })();

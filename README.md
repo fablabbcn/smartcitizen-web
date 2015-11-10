@@ -1,4 +1,6 @@
-# smartcitizen
+# SmartCitizen
+
+The new SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
 
 ### Prerequisites
 
@@ -46,3 +48,23 @@ Run:
 
 ### Git Commit Guidelines
 Visit https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md
+
+
+### Naming conventions for files
+Same for all types of components:
+<Name of component camelcased>.<Type of module>.js
+Ex: kit.controller.js, sensor.service.js, profileTools.constant.js
+
+
+### Naming conventions for components
+Controller: <Name of controller capitalized>Controller. Ex: MapController
+Service: <Name of service camelcased>. Ex: device, kit, user 
+Constructor: <Name of constructor capitalized>. Ex: User, Kit. Note: Constructors are actually made using services.
+Constants: <Name of constant uppercase joined by an underscore>. Ex: PROFILE_TOOLS
+
+For data that has been resolved from the router, I've normally appended 'Data' to the name.
+
+### Deployment
+
+* **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`. 
+* **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.

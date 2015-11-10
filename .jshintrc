@@ -24,6 +24,7 @@
     "inject": false,
     "module": false,
     // JASMINE
+    "jasmine": false,
     "describe": false,
     "it": false,
     "before": false,
@@ -36,6 +37,8 @@
     "spyOn": false,
     "moment": false,
     "d3": false,
-    "_": false
+    "_": false,
+    "ga": false,
+    "navigator": false
   }
 }

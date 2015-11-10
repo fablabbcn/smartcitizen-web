@@ -2,9 +2,5 @@
 	'use strict';
 
 
-	angular.module('app.components', [
-		'oauth',
-		'leaflet-directive',
-    'restangular'
-	]);
+	angular.module('app.components', []);
 })();

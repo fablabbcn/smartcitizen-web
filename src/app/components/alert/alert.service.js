@@ -3,13 +3,20 @@
 
   angular.module('app.components')
     .factory('alert', alert);
-  
+
   alert.$inject = ['$mdToast'];
   function alert($mdToast) {
     var service = {
       success: success,
       error: error,
-      info: info
+      info: {
+        noData: {
+          visitor: infoNoDataVisitor,
+          owner: infoNoDataOwner
+        },
+        longTime: infoLongTime,
+        generic: info
+      }
     };
 
     return service;
@@ -24,20 +31,53 @@
       toast('error', message);
     }
 
-    function info(message) {
-      toast('info', message);
+    function infoNoDataVisitor() {
+      info('Woah! This kit still hasn\'t published any data. Leave a ' +
+        'comment to let its owner know.',
+      10000,
+      {
+        button: 'Leave comment',
+        buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
+          'analytics-category="Offline Kit Comment Link"',
+        href: '#disqus_thread'
+      });
+    }
+    function infoNoDataOwner(kitID) {
+      info('Woah! This kit still hasn\'t published any data. Please check ' +
+        'its settings or contact the support team.', 10000,
+        {button: 'Kit settings', href: '/kits/edit/' + kitID});
     }
 
-    function toast(type, message, position) {
+    function infoLongTime() {
+      info('😅 It looks like this kit hasn\'t posted any data in a long ' +
+        'time. Why not leave a comment to let its owner know?', 10000,
+        {button: 'Leave comment'});
+    }
+
+    function info(message, delay, options) {
+      if(options.button) {
+        toast('infoButton', message, options, undefined, delay);
+      } else {
+        toast('info', message, options, undefined, delay);
+      }
+    }
+
+    function toast(type, message, options, position, delay) {
       position = position === undefined ? 'top': position;
+      delay = delay === undefined ? 5000 : delay;
 
        $mdToast.show({
         controller: 'AlertController',
         controllerAs: 'vm',
         templateUrl: 'app/components/alert/alert' + type + '.html',
-        hideDelay: 5000,
+        hideDelay: delay,
         position: position,
-        locals: {message: message}
+        locals: {
+          message: message,
+          button: options && options.button,
+          buttonAttributes: options && options.buttonAttributes,
+          href: options && options.href
+        }
       });
     }
   }

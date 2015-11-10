@@ -6,12 +6,7 @@
     .directive('search', search);
 
   function search() {
-    
-    function link() {
-    }
-
     return {
-      link: link,
       scope: true,
       restrict: 'E',
       templateUrl: 'app/components/search/search.html',

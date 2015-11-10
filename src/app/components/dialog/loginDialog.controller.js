@@ -11,17 +11,18 @@
         $scope.waitingFromServer = true;
         auth.login(answer)
           .then(function(data) {
+            /*jshint camelcase: false */
             var token = data.access_token;
             auth.saveData(token);
-            alert.success('Signup was successful');
             $mdDialog.hide();
           })
-          .catch(function(err) {
+          .catch(function() {
             alert.error('Username or password incorrect');
-            // $scope.errors = err.data.errors;
+            ga('send', 'event', 'Login', 'logged in');
           })
           .finally(function() {
             $scope.waitingFromServer = false;
+            ga('send', 'event', 'Login', 'failed');
           });
       };
       $scope.hide = function() {
@@ -41,15 +42,9 @@
           hasBackdrop: true,
           controller: 'PasswordRecoveryDialogController',
           templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
-          //targetEvent: ev,
           clickOutsideToClose: true
-        })
-        .then(function() {
-          //signup(signupData);
-        })
-        .finally(function() {
-          //animation.unblur();
         });
+
         $mdDialog.hide();
       };
     }
