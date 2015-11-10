@@ -5,9 +5,9 @@ angular.module('app.components')
   .directive('cookiesLaw', cookiesLaw);
 
 
-cookiesLaw.$inject = ['$cookies', '$location'];
+cookiesLaw.$inject = ['$cookies'];
 
-function cookiesLaw($cookies, $location) {
+function cookiesLaw($cookies) {
   return {
     template: 
       '<div class="cookies-policy_container" ng-hide="consent()">' +
@@ -16,12 +16,12 @@ function cookiesLaw($cookies, $location) {
       ' <a ui-sref="layout.policy">Learn More</a> ' +
       '</div>',
     controller: function($scope) {
-      var _consent = $cookies['consent'];
+      var _consent = $cookies.consent;
       $scope.consent = function(consent) {
         if (consent === undefined) {
           return _consent;
         } else if (consent) {
-          $cookies['consent'] = true;
+          $cookies.consent = true;
           _consent = true;
         }
       };
