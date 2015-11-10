@@ -43,5 +43,10 @@
         animation.showLogin();
         $mdDialog.hide();
       };
+
+      $scope.goToPolicy = function(){
+        $location.path('/policy');
+        $mdDialog.hide();
+      };
     }
 })();
