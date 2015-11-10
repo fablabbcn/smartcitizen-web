@@ -1,84 +1,74 @@
-<section style="padding:80px 80px 40px 80px" layout="row">
-  <div flex="50" layout="column">
-    <p>Text styles</p>
-    <h1>h1 Heading</h1>
-    <h2>h2 Heading</h2>
-    <h3>h3 Heading</h3>
-    <h4>h4 Heading</h4>
-    <p>Paragraph</p>
-    <p style="color:#4F8390;font-weight:300;">Paragraph info</p>
-    <small style="margin-top:20px;">Small text</small>
-  </div>
-  <div flex="50" layout="column" style="padding-left:80px; background-color:#032933;">
-    <p style="color:#fff">Text styles - Negative</p>
-    <h1 style="color:#fff">h1 Heading</h1>
-    <h2 style="color:#fff">h2 Heading</h2>
-    <h4 style="color:#82A7B0">h4 Heading</h4>
-    <h6 style="color:#87CCDD">h6 Heading</h6>
-    <p style="color:#C8E6ED;font-weight:300;">Paragraph</p>
-    <small style="margin-top:20px;color:#4F8390;">Small text</small>
-  </div>
-</section>
-
-<section style="padding:40px 80px" layout="row">
-  <div flex="50" layout="row">
-    <div flex="50" layout="column" style="padding-right:40px;">
-      <p>Flat buttons</p>
-      <button class="muProfile_form_updateButton md-button md-default-theme">
-        <span class="ng-scope">Flat Button</span>
-      </button>
-      <button class="warn md-button md-default-theme" style="margin-top:30px;">
-        <span class="ng-scope">Warn button</span>
-      </button>
-    </div>
+<div class="styleguide">
+  <section>
+    <h1>Styleguide</h1>
+  </section>
+  <section layout="row">
     <div flex="50" layout="column">
-      <p>Raised buttons</p>
-      <button class="call-to-action md-button md-default-theme">
-        <span class="ng-scope">Raised Button 1</span>
-      </button>
-      <a class="myProfile_addKitButton md-button md-default-theme" style="margin-top:30px;">
-        <span class="ng-scope">Raised Button 2</span>
-      </a>
-      <button class="md-flat md-primary main md-button md-default-theme" style="margin-top:30px;">
-        <span class="ng-scope">Raised Button 3</span>
-      </button>
+      <h1 class="sg-titles">Text styles</h1>
+      <!-- <section> -->
+      <h1>h1 Heading</h1>
+      <h2>h2 Heading</h2>
+      <h3>h3 Heading</h3>
+      <h4>h4 Heading</h4>
+      <!-- </section> -->
+      <p>Paragraph</p>
+      <p style="color:#4F8390;font-weight:300;">Paragraph info</p>
+      <small style="margin-top:20px;">Small text</small>
     </div>
-  </div>
-  <div flex="50" layout="row" style="padding-left:80px;">
-    <div flex="50" layout="column" style="padding-right:40px;">
-      <p>Tags</p>
-      <span class="label">offline</span>
-      <div class="chip kit_tag" style="margin-top:20px;">
-        <span class="chip_name">offline</span>
+    <div flex="50" layout="column" style="padding-left:80px; background-color:#032933;">
+      <p style="color:#fff">Text styles - Negative</p>
+      <h1 style="color:#fff">h1 Heading</h1>
+      <h2 style="color:#fff">h2 Heading</h2>
+      <h4 style="color:#82A7B0">h4 Heading</h4>
+      <h6 style="color:#87CCDD">h6 Heading</h6>
+      <p style="color:#C8E6ED;font-weight:300;">Paragraph</p>
+      <small style="margin-top:20px;color:#4F8390;">Small text</small>
+    </div>
+  </section>
+
+  <section layout="row">
+    <div flex layout="row">
+      <div flex="25">
+        <p>Flat buttons</p>
+        <md-button class="">Raised button</md-button><br>
+        <md-button class="md-warn" style="margin-top:20px;">Warn button</md-button>
+      </div>
+      <div flex="25">
+        <p>Raised buttons</p>
+        <md-button class="md-flat md-primary">Raised button</md-button>
+        <md-button ng-href="/about" class="md-flat md-primary">Link button</md-button>
+      </div>
+      <div flex="25">
+        <p>Tags</p>
+        <span class="label">offline</span>
+        <span class="tag">Barcelona</span>
       </div>
     </div>
-    <div flex="50" layout="column">
-    </div>
-  </div>
-</section>
+  </section>
 
-<section style="padding:40px 80px">
-  <p>Colors</p>
-  <div layout="row">
-    <div flex="20" style="background-color:#065063;">
-      <p style="padding-left:20px;color:#fff;">#065063</p>
-      <p style="padding-left:20px;color:#fff;">$secondary_color</p>
+  <section>
+    <p>Colors</p>
+    <div layout="row">
+      <div flex="20" style="background-color:#065063;">
+        <p style="padding-left:20px;color:#fff;">#065063</p>
+        <p style="padding-left:20px;color:#fff;">$secondary_color</p>
+      </div>
+      <div flex="20" style="background-color:#38CEF3;">
+        <p style="padding-left:20px;color:#fff;">#38CEF3</p>
+        <p style="padding-left:20px;color:#fff;">$terciary_color</p>
+      </div>
+      <div flex="20" style="background-color:#8DB2BA;">
+        <p style="padding-left:20px;color:#fff;">#8DB2BA</p>
+        <p style="padding-left:20px;color:#fff;">$secondary_color_light</p>
+      </div>
+      <div flex="20" style="background-color:#C8E6ED;">
+        <p style="padding-left:20px;color:#8DB2BA;">#C8E6ED</p>
+        <p style="padding-left:20px;color:#8DB2BA;">$ "p - no bot selected"</p>
+      </div>
+      <div flex="20" style="border:1px solid #C8E6ED">
+        <p style="padding-left:20px;color:#8DB2BA;">#FFFFFF</p>
+        <p style="padding-left:20px;color:#8DB2BA;">$ "h1 - no bot selected"</p>
+      </div>
     </div>
-    <div flex="20" style="background-color:#38CEF3;">
-      <p style="padding-left:20px;color:#fff;">#38CEF3</p>
-      <p style="padding-left:20px;color:#fff;">$terciary_color</p>
-    </div>
-    <div flex="20" style="background-color:#8DB2BA;">
-      <p style="padding-left:20px;color:#fff;">#8DB2BA</p>
-      <p style="padding-left:20px;color:#fff;">$secondary_color_light</p>
-    </div>
-    <div flex="20" style="background-color:#C8E6ED;">
-      <p style="padding-left:20px;color:#8DB2BA;">#C8E6ED</p>
-      <p style="padding-left:20px;color:#8DB2BA;">$</p>
-    </div>
-    <div flex="20" style="border:1px solid #C8E6ED">
-      <p style="padding-left:20px;color:#8DB2BA;">#FFFFFF</p>
-      <p style="padding-left:20px;color:#8DB2BA;">$</p>
-    </div>
-  </div>
-</section>
+  </section>
+</div>

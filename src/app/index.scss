@@ -2995,6 +2995,16 @@ p.no-margin {
 
 // Styleguide
 
+.styleguide {
+  section {
+    padding:40px 80px 40px 80px;
+  }
+
+  .sg-titles h1 {
+    font-size: 16px !important;
+    color: #a7a7a7 !important;
+  }
+}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
