@@ -135,11 +135,11 @@
             alert.info.longTime();
           }
         }
-        // else{
-        //   if(geolocation.isHTML5GeolocationGranted()){
-        //     geolocate();
-        //   }
-        // }
+        else{
+          if(geolocation.isHTML5GeolocationGranted()){
+            geolocate();
+          }
+        }
 
       }
 
