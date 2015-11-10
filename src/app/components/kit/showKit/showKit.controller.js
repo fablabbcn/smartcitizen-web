@@ -43,6 +43,8 @@
       vm.selectedSensorToCompare = undefined;
       vm.selectedSensorToCompareData = {};
 
+      vm.setFromLast = setFromLast;
+
       vm.showSensorOnChart = showSensorOnChart;
       vm.moveChart = moveChart;
       vm.loadingChart = true;
@@ -608,5 +610,13 @@
           })
         );
       }
-    }  
+
+      function setFromLast(what){
+        var now = moment();
+        var before = moment().subtract(1, what);
+        picker.setValuePickerFrom(before.toDate());
+        picker.setValuePickerTo(now.toDate());
+      }
+    }
+
 })();
