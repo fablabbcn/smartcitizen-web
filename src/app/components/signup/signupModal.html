@@ -43,6 +43,16 @@
             </span>
           </p>
         </div>
+        <div layout layout-sm="column" class="field">
+          <md-checkbox ng-model="vm.user.conditions" aria-label="Terms and Conditions" required>
+            I <a ui-sref="layout.policy" ng-click="hide()">have read</a>  and accept Terms and Conditions 
+          </md-checkbox>
+           <p class="errors" ng-show="!!errors.conditions.length">
+            <span ng-repeat="error in errors.conditions">
+               {{ error }}<span ng-if="!$last">,</span>
+            </span>
+          </p>
+        </div>
       </div>
     	<md-button class="md-flat md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
     </form>

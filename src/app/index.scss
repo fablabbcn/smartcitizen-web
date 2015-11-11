@@ -519,6 +519,17 @@ md-toast.yellow {
   background-color: #f1c40f;
 }
 
+md-checkbox .md-label {
+    pointer-events: auto;
+}
+md-checkbox .md-label span {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /**
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
@@ -526,6 +537,27 @@ md-toast.yellow {
 md-progress-linear.md-default-theme .md-bar{
   background-color: #044150;
 }
+
+/**
+ *  COOKIES POLICY COMPONENT
+ */
+
+ .cookies-policy_container{
+    background-color: rgba(60, 60, 60, 1);
+    color:$font_color_blue_light;
+    position: fixed;
+    top: 96vh;
+    left: 0;
+    width: 100%;
+    height: 4vh;
+    z-index: 999;
+    text-align: center;
+    line-height: 4vh;
+
+    a{
+      color:$secondary_color_light;
+    }
+ }
 
 /**
  *  BACKDROP COMPONENT
