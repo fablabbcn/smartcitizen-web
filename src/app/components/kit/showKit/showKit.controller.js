@@ -55,6 +55,7 @@
 
       vm.timeOpt = ['hour', 'day' , 'month'];
       vm.timeOptSelected = timeOptSelected;
+      vm.resetTimeOpts = resetTimeOpts;
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal) {
@@ -382,6 +383,7 @@
         var from_$input = angular.element('#picker_from').pickadate({
           onOpen: function(){
             ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+            vm.resetTimeOpts();
           },
           onClose: function(){
             angular.element(document.activeElement).blur();
@@ -396,6 +398,7 @@
         var to_$input = angular.element('#picker_to').pickadate({
           onOpen: function(){
             ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+            vm.resetTimeOpts();
           },
           onClose: function(){
             angular.element(document.activeElement).blur();
@@ -660,6 +663,9 @@
         if (vm.dropDownSelection){
           setFromLast(vm.dropDownSelection);
         }
+      }
+      function resetTimeOpts(){
+        vm.dropDownSelection = undefined;
       }
     }
 
