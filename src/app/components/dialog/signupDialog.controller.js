@@ -6,13 +6,14 @@
 
     SignupDialogController.$inject = ['$scope', '$mdDialog', 'user',
       'alert', 'animation', '$location'];
-    function SignupDialogController($scope, $mdDialog, user, 
+    function SignupDialogController($scope, $mdDialog, user,
       alert, animation, $location) {
 
       $scope.answer = function(answer) {
 
         if (!$scope.form.$valid){
-          $scope.errors = {conditions: ['You have to accept our Terms and Conditions first']};
+          $scope.errors = {conditions: ['You have to accept our Terms and ' +
+            'Conditions first']};
           return;
         }
 
