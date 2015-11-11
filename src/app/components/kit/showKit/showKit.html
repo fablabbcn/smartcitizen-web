@@ -141,10 +141,6 @@
           </div>
           <div class="kit_chart_right" flex>
             <div class="chart_navigation" layout="row" layout-align="end center">
-              <span class="kit_time" layout="row" layout-align="center center">
-                <md-icon class="kit_time_icon" md-svg-src="./assets/images/update_icon.svg"></md-icon>
-                <span>{{ vm.kit.timeAgo }}</span>
-              </span>
               <div class="picker_container" layout="row" layout-align="center center">
                 <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last.."
                   ng-change="vm.timeOptSelected()">

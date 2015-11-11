@@ -505,20 +505,32 @@
         // api to interact with the picker from outside
         return {
           getValuePickerFrom: function() {
-            return from_picker.get('value');
+            var from;
+            if (from_picker.hours){
+              from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+            }
+            return from || from_picker.get('value');
           },
           setValuePickerFrom: function(newValue) {
             updateType = 'single';
-            from_picker.hours = newValue.getUTCHours();
-            from_picker.minutes = newValue.getUTCMinutes();
+            from_picker.hours = newValue.getHours();
+            from_picker.minutes = newValue.getMinutes();
             from_picker.set('select', newValue);
           },
           getValuePickerTo: function() {
-            return to_picker.get('value');
+            var to;
+            if (to_picker.hours){
+              to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+            }  
+            return to || to_picker.get('value');
           },
           setValuePickerTo: function(newValue) {
-            to_picker.hours = newValue.getUTCHours();
-            to_picker.minutes = newValue.getUTCMinutes();
+            to_picker.hours = newValue.getHours();
+            to_picker.minutes = newValue.getMinutes();
             updateType = 'single';
             to_picker.set('select', newValue);
           },
