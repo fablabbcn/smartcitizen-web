@@ -4,7 +4,7 @@
   angular.module('app.components')
     .controller('SignupDialogController', SignupDialogController);
 
-    SignupDialogController.$inject = ['$scope', '$mdDialog', 'user', 
+    SignupDialogController.$inject = ['$scope', '$mdDialog', 'user',
       'alert', 'animation', '$location'];
     function SignupDialogController($scope, $mdDialog, user, 
       alert, animation, $location) {
@@ -41,11 +41,6 @@
 
       $scope.openLogin = function() {
         animation.showLogin();
-        $mdDialog.hide();
-      };
-
-      $scope.goToPolicy = function(){
-        $location.path('/policy');
         $mdDialog.hide();
       };
     }

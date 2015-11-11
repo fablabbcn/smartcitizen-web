@@ -9,11 +9,11 @@ cookiesLaw.$inject = ['$cookies'];
 
 function cookiesLaw($cookies) {
   return {
-    template: 
+    template:
       '<div class="cookies-policy_container" ng-hide="consent()">' +
       'This site uses cookies to offer you a better experience.  ' +
       ' <a href="" ng-click="consent(true)">Accept</a> or' +
-      ' <a ui-sref="layout.policy">Learn More</a> ' +
+      ' <a ui-sref="layout.policy">Learn More.</a> ' +
       '</div>',
     controller: function($scope) {
       var _consent = $cookies.consent;

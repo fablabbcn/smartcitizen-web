@@ -553,6 +553,10 @@ md-progress-linear.md-default-theme .md-bar{
     z-index: 999;
     text-align: center;
     line-height: 4vh;
+
+    a{
+      color:$secondary_color_light;
+    }
  }
 
 /**
