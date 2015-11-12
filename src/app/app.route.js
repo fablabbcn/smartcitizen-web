@@ -82,14 +82,6 @@
                 $location.path('/');
               }
             },
-            kitData: function($stateParams, device, FullKit) {
-              var kitID = $stateParams.id;
-
-              return device.getDevice(kitID)
-                .then(function(deviceData) {
-                  return new FullKit(deviceData);
-                });
-            },
             step: function($stateParams){
               return parseInt($stateParams.step) || 1;
             }

@@ -72,7 +72,9 @@
           colorSensorCompareName();
 
           setSensor({type: 'main', value: newVal});
-          changeChart([mainSensorID]);
+          if (picker){
+            changeChart([mainSensorID]);
+          }
         }, 100);
 
       });
