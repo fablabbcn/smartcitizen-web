@@ -3,13 +3,13 @@
 
   angular.module('app.components')
     .factory('auth', auth);
-    
+
     auth.$inject = ['$location', '$window', '$state', 'Restangular', '$rootScope', 'AuthUser', '$timeout', 'alert'];
     function auth($location, $window, $state, Restangular, $rootScope, AuthUser, $timeout, alert) {
 
     	var user = {
-        token: null,
-        data: null
+        token: $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
+        data: $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ))
       };
 
       //wait until http interceptor is added to Restangular
@@ -31,7 +31,7 @@
         isAdmin: isAdmin
     	};
     	return service;
-      
+
       //////////////////////////
 
       function initialize() {

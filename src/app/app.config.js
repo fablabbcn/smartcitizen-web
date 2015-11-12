@@ -3,7 +3,7 @@
 
   angular.module('app')
     .run(run);
-    
+
     run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation'];
     function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation) {
       /**
@@ -16,12 +16,12 @@
        * false when the user cannot be authenticated to access the route. ex: login, signup
        * undefined when it doesn't matter whether the user is logged in or not
        */
-       
+
       /*jshint unused:false*/
       $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
         if(toState.name === 'layout.home.kit') {
-          /* 
-            Code to fix Disqus error on state change 
+          /*
+            Code to fix Disqus error on state change
             https://help.disqus.com/customer/portal/articles/472107-using-disqus-on-ajax-sites
           */
           // DISQUS.reset({
@@ -43,14 +43,14 @@
             e.preventDefault();
             $state.go('landing');
             return;
-          } 
+          }
         }
 
         if(toState.authenticate) {
           if(!auth.isAuth()) {
             e.preventDefault();
             $state.go('landing');
-          } 
+          }
         }
 
         // on state change close all alerts opened
