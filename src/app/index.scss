@@ -3031,17 +3031,19 @@ p.no-margin {
     margin-top: 20px;
   }
 
+  .sg-text-box {
+    background-color: #f7f7f7;
+    margin: -1px 0px 70px 0px;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+
   pre {
     word-break: normal;
+    margin-bottom: 0;
     padding: 16px;
-    overflow: auto;
     font-size: 16px;
+    line-height: 1.45;
     color: #a7a7a7;
-    background-color: #f7f7f7;
-    border-radius: 3px;
-    margin: 0px 0px 70px 0px;
-    border-top-width: 0 !important;
-    border: 1px solid rgba(0,0,0,0.12);
   }
 
   .dark-text-section {
