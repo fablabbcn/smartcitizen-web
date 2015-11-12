@@ -4,7 +4,7 @@
   </section>
   <section layout="row">
     <div class="profile_sidebar">
-      <p class="profile_sidebar_title">TITLE</p>
+      <p class="profile_sidebar_title">MENU</p>
       <div class="profile_sidebar_options">
         <button class="profile_sidebar_button md-button md-default-theme">
           Fonts
@@ -20,17 +20,34 @@
 
     <div flex class="profile_content_main">
       <div layout="column" class="light-text-section">
-        <h2 class="sg-titles">Font style - Light</h2>
-        <h1>h1 Heading</h1>
-        <h2>h2 Heading</h2>
+        <h2 class="sg-titles">Font style - Light theme</h2>
+        <div layout="row">
+          <h1>h1 Heading</h1>
+          <span flex></span>
+          <h1 class="info-text">2.2 em</h1>
+          <span flex></span>
+          <h1 class="info-text">normal</h1>
+          <span flex></span>
+        </div>
+        <md-divider></md-divider>
+        <div layout="row">
+          <h2>h2 Heading</h2>
+          <span flex></span>
+          <h2 class="info-text">1.7 em</h2>
+          <span flex></span>
+          <h2 class="info-text">normal</h2>
+          <span flex></span>
+        </div>
+        <md-divider></md-divider>
         <h3>h3 Heading</h3>
         <h4>h4 Heading</h4>
         <p>Paragraph</p>
         <p class="sg-paragraph2">Paragraph info</p>
         <small>Small text</small>
       </div>
-      <div style="background-color:#032933;" class="dark-text-section">
-        <h2 class="sg-titles">Font style - Dark</h2>
+
+      <div class="dark-text-section section-padding">
+        <h2 class="sg-titles">Font style - Dark theme</h2>
         <h1>h1 Heading</h1>
         <h2>h2 Heading</h2>
         <h4>h4 Heading</h4>
@@ -39,7 +56,7 @@
         <small>Small text</small>
       </div>
 
-      <div flex layout="row" class="buttons-section">
+      <div flex layout="row" class="section-padding">
         <div flex="25">
           <h2 class="sg-titles">Flat buttons</h2>
           <md-button>Button</md-button><br>
@@ -56,7 +73,7 @@
           <span class="tag">Barcelona</span>
         </div>
       </div>
-      <div class="colors-section">
+      <div class="colors-section section-padding">
         <h2 class="sg-titles">Colors</h2>
         <div layout="row">
           <div flex="20" class="secondary-color">
