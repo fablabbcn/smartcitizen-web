@@ -2844,7 +2844,7 @@ button#doorbell-button {
     height: auto;
     max-width: 2000px;
     position: relative; 
-    margin: 40px 0 0 0;  
+    margin: 0 0 -5px 0;  
   }
 
   .embed-container { 
@@ -2877,7 +2877,7 @@ button#doorbell-button {
   .row{
     min-height: 200px;
 
-    &:nth-child(even){
+    &:nth-child(odd){
       background-color: #F9F9FB;
     }
   }
