@@ -129,26 +129,6 @@
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
-            },
-            markers: function($state, device, utils, Kit, Marker) {
-              // It could be refactor to use HTTP caching instead of holding them in localstorage
-              var worldMarkers = device.getWorldMarkers();
-              if(worldMarkers && worldMarkers.length) {
-                return worldMarkers;
-              }
-              return device.getAllDevices().then(function(data) {
-                return _.chain(data)
-                  .map(function(device) {
-                    return new Marker(device);
-                  })
-                  .filter(function(marker) {
-                    return !!marker.lng && !!marker.lat;
-                  })
-                  .tap(function(data) {
-                    device.setWorldMarkers(data);
-                  })
-                  .value();
-              });
             }
           }
         })

@@ -4,30 +4,16 @@
   angular.module('app.components')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$state', '$timeout', 'markers', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert'];
-    function MapController($scope, $state, $timeout, markers, device, $mdDialog, leafletData, mapUtils, markerUtils, alert) {
+    MapController.$inject = ['$scope', '$state', '$timeout', 'device', '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 'Marker'];
+    function MapController($scope, $state, $timeout, device, $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker) {
     	var vm = this;
       var updateType;
       var mapMoved = false;
       var kitLoaded = false;
       var mapClicked = false;
-
-      var initialLocation = markers[0];
-      var markersByIndex = _.indexBy(markers, function(marker) {
-        return marker.myData.id;
-      });
       var focusedMarkerID;
 
-      if($state.params.id && markersByIndex[parseInt($state.params.id)]){
-        focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
-      }else{
-        if($state.params.id){
-          alert.error('This kit cannot be located in the map because its ' +
-            'location has not been set up.');
-        }
-      }
-
-      vm.markers = markersByIndex;
+      vm.markers = [];
 
       var retinaSuffix = isRetina() ? '@2x' : '';
 
@@ -196,6 +182,37 @@
       /////////////////////
 
       function initialize() {
+        vm.markers = device.getWorldMarkers();
+        device.getAllDevices()
+          .then(function(data){
+            if (!vm.markers || vm.markers.length == 0){
+              vm.markers = _.chain(data)
+                  .map(function(device) {
+                    return new Marker(device);
+                  })
+                  .filter(function(marker) {
+                    return !!marker.lng && !!marker.lat;
+                  })
+                  .tap(function(data) {
+                    device.setWorldMarkers(data);
+                  })
+                  .value();
+            }
+            var initialLocation = vm.markers[0];
+            var markersByIndex = _.indexBy(vm.markers, function(marker) {
+              return marker.myData.id;
+            });
+
+            if($state.params.id && markersByIndex[parseInt($state.params.id)]){
+              focusedMarkerID = markersByIndex[parseInt($state.params.id)].myData.id;
+            }else{
+              if($state.params.id){
+                alert.error('This kit cannot be located in the map because its ' +
+                  'location has not been set up.');
+              }
+            }
+          });
+
         checkFiltersSelected();
       }
 
