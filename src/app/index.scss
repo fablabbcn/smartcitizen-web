@@ -3002,18 +3002,20 @@ p.no-margin {
     margin: 64px 0px 50px 0px;
   }
 
-  section {
-    padding:40px 80px 40px 80px;
-  }
+  // section {
+  //   padding:40px 80px 40px 80px;
+  // }
 
   h1.sg-pageTitle {
     font-size: 36px;
     color: #fff;
+    padding:60px 47px;
   }
 
   h2.sg-titles {
     font-size: 16px;
     color: #a1a1a1;
+    margin-top: 0;
   }
 
   p.sg-paragraph2 {
@@ -3025,9 +3027,14 @@ p.no-margin {
     margin-top: 20px;
   }
 
-  .dark-theme-text {
+  .light-text-section {
+    padding: 0px 0px 60px 60px;
+  }
+
+  .dark-text-section {
     background-color: #032933;
-    padding-left: 80px;
+    padding: 60px;
+    margin: 0px 0px 60px 0px;
 
     h1 {
       font-size: 1.8em;
@@ -3065,11 +3072,16 @@ p.no-margin {
     margin-top: 20px;
   }
 
+  .buttons-section {
+    padding: 60px;
+  }
+
   .last-section {
     margin-bottom: 100px;
   }
 
   .colors-section {
+    padding: 60px;
     p {
       padding-left: 20px;
     }

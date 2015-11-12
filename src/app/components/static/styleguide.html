@@ -1,77 +1,85 @@
 <div class="styleguide">
-  <section class="sg-title-section">
+  <section class="profile_header">
     <h1 class="sg-pageTitle">Styleguide</h1>
   </section>
   <section layout="row">
-    <div flex="25" layout="column">
-      <h2 class="sg-titles">Title style - Light</h2>
-      <h1>h1 Heading</h1>
-      <h2>h2 Heading</h2>
-      <h3>h3 Heading</h3>
-      <h4>h4 Heading</h4>
+    <div class="profile_sidebar">
+      <p class="profile_sidebar_title">TITLE</p>
+      <div class="profile_sidebar_options">
+        <button class="profile_sidebar_button md-button md-default-theme">
+          Fonts
+        </button>
+        <button class="profile_sidebar_button md-button md-default-theme">
+          Buttons
+        </button>
+        <button class="profile_sidebar_button md-button md-default-theme">
+          Colors
+        </button>
+      </div>
     </div>
-    <div flex="25" layout="column">
-      <h2 class="sg-titles">Text style - Light</h2>
-      <p>Paragraph</p>
-      <p class="sg-paragraph2">Paragraph info</p>
-      <small>Small text</small>
-    </div>
-    <div flex="25" layout="column" class="dark-theme-text">
-      <h2 class="sg-titles">Title style - Dark</h2>
-      <h1>h1 Heading</h1>
-      <h2>h2 Heading</h2>
-      <h4>h4 Heading</h4>
-      <h6>h6 Heading</h6>
-    </div>
-    <div flex="25" layout="column" class="dark-theme-text">
-      <h2 class="sg-titles">Text style - Dark</h2>
-      <p>Paragraph</p>
-      <small>Small text</small>
-    </div>
-  </section>
 
-  <section>
-    <div flex layout="row">
-      <div flex="25">
-        <h2 class="sg-titles">Flat buttons</h2>
-        <md-button>Button</md-button><br>
-        <md-button class="md-warn sg-button-margin">Warn button</md-button>
+    <div flex class="profile_content_main">
+      <div layout="column" class="light-text-section">
+        <h2 class="sg-titles">Font style - Light</h2>
+        <h1>h1 Heading</h1>
+        <h2>h2 Heading</h2>
+        <h3>h3 Heading</h3>
+        <h4>h4 Heading</h4>
+        <p>Paragraph</p>
+        <p class="sg-paragraph2">Paragraph info</p>
+        <small>Small text</small>
       </div>
-      <div flex="25">
-        <h2 class="sg-titles">Raised buttons</h2>
-        <md-button ng-href="/about" class="call-to-action">Link button</md-button><br>
-        <md-button class="md-flat md-primary sg-button-margin">Raised button</md-button>
+      <div style="background-color:#032933;" class="dark-text-section">
+        <h2 class="sg-titles">Font style - Dark</h2>
+        <h1>h1 Heading</h1>
+        <h2>h2 Heading</h2>
+        <h4>h4 Heading</h4>
+        <h6>h6 Heading</h6>
+        <p>Paragraph</p>
+        <small>Small text</small>
       </div>
-      <div flex="25">
-        <h2 class="sg-titles">Tags</h2>
-        <span class="label">offline</span>
-        <span class="tag">Barcelona</span>
-      </div>
-    </div>
-  </section>
 
-  <section class="colors-section last-section">
-    <h2 class="sg-titles">Colors</h2>
-    <div layout="row">
-      <div flex="20" class="secondary-color">
-        <p>#065063</p>
-        <p>$secondary_color</p>
+      <div flex layout="row" class="buttons-section">
+        <div flex="25">
+          <h2 class="sg-titles">Flat buttons</h2>
+          <md-button>Button</md-button><br>
+          <md-button class="md-warn sg-button-margin">Warn button</md-button>
+        </div>
+        <div flex="25">
+          <h2 class="sg-titles" style="padding-bottom:5px;">Raised buttons</h2>
+          <md-button ng-href="/about" class="call-to-action">Link button</md-button><br>
+          <md-button class="md-flat md-primary sg-button-margin">Raised button</md-button>
+        </div>
+        <div flex="25">
+          <h2 class="sg-titles">Tags</h2>
+          <span class="label">offline</span>
+          <span class="tag">Barcelona</span>
+        </div>
       </div>
-      <div flex="20" class="terciary_color">
-        <p>#38CEF3</p>
-        <p>$terciary_color</p>
-      </div>
-      <div flex="20" class="secondary_color_light">
-        <p>#8DB2BA</p>
-        <p>$secondary_color_light</p>
-      </div>
-      <div flex="20" class="secondary-color-pastel">
-        <p>#C8E6ED</p>
-        <p>$ "p - no bot selected"</p>
-      </div>
-      <div flex="20" class="white">
-        <p>#FFFFFF</p>
-        <p>$ "h1 - no bot selected"</p>
+      <div class="colors-section">
+        <h2 class="sg-titles">Colors</h2>
+        <div layout="row">
+          <div flex="20" class="secondary-color">
+            <p>#065063</p>
+            <p>$secondary_color</p>
+          </div>
+          <div flex="20" class="terciary_color">
+            <p>#38CEF3</p>
+            <p>$terciary_color</p>
+          </div>
+          <div flex="20" class="secondary_color_light">
+            <p>#8DB2BA</p>
+            <p>$secondary_color_light</p>
+          </div>
+          <div flex="20" class="secondary-color-pastel">
+            <p>#C8E6ED</p>
+            <p>$ "p - no bot selected"</p>
+          </div>
+          <div flex="20" class="white">
+            <p>#FFFFFF</p>
+            <p>$ "h1 - no bot selected"</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
