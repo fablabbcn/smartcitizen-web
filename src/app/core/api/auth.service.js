@@ -39,8 +39,12 @@
       }
       //run on app initialization so that we can keep auth across different sessions
       function setCurrentUser(time) {
-        user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
-        user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
+        user.token = $window.localStorage.getItem('smartcitizen.token') &&
+          JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
+        user.data = $window.localStorage.getItem('smartcitizen.data') &&
+          new AuthUser(JSON.parse(
+            $window.localStorage.getItem('smartcitizen.data')
+          ));
         if(!user.token) {
           return;
         }
