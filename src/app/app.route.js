@@ -148,55 +148,6 @@
           },
 
           resolve: {
-            kitData: function($stateParams, $state, $timeout, device, FullKit,
-              alert) {
-                
-              var kitID = $stateParams.id;
-
-              if(!kitID) {
-                return undefined;
-              }
-
-              return device.getDevice(kitID)
-                .then(function(deviceData) {
-                  return new FullKit(deviceData);
-                })
-                .catch(function(){
-                  $state.go('layout.home.kit');
-
-                  $timeout(function(){
-                    alert.error('Kit not found.');
-                  }, 1000);
-                  return;
-                });
-            },
-            mainSensors: function(kitData, sensorTypes) {
-              if(!kitData) {
-                return undefined;
-              }
-              return kitData.getSensors(sensorTypes, {type: 'main'});
-            },
-            compareSensors: function(kitData, sensorTypes) {
-              if(!kitData) {
-                return undefined;
-              }
-              return kitData.getSensors(sensorTypes, {type: 'compare'});
-            },
-            ownerKits: function(kitData, PreviewKit, $q, device) {
-              if(!kitData) {
-                return undefined;
-              }
-              var kitIDs = kitData.owner.kits;
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
-            },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
               if(!auth.isAuth() || !$stateParams.id) {
                 return false;
