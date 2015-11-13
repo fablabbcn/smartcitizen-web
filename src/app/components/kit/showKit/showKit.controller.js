@@ -57,7 +57,8 @@
         // ugly but prevents undesired api calls. 
         // newVal might be empty obj so
         // if(newVal) won't be enough here
-        if (Object.getOwnPropertyNames(newVal).length == 0){
+        if ((Object.getOwnPropertyNames(newVal).length == 0) && 
+          (typeof(newVal) != 'number')){
           return;
         }
 
