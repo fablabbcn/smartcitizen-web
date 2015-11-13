@@ -219,12 +219,12 @@
                   <div api-key="vm.legacyApiKey"></div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="kit_details_download data_container">
+                <md-button class="kit_details_download data_container"
+                  ng-click="vm.downloadData(vm.kit)">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)">
                   </md-icon>
                   <span class="bold">Download Data</span>
-                  <span>Choose your format</span>
-                </div>
+                </md-button>
               </div>
             </div>
             <section class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
