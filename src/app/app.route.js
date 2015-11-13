@@ -175,29 +175,6 @@
                 $location.path('/profile');
               }
             },
-            userData: function($stateParams, $state, NonAuthUser, user) {
-              var id = $stateParams.id;
-
-              return user.getUser(id)
-                .then(function(user) {
-                  return new NonAuthUser(user);
-                });
-            },
-            kitsData: function($q, device, PreviewKit, userData) {
-              var kitIDs = _.pluck(userData.kits, 'id');
-              if(!kitIDs.length) {
-                return [];
-              }
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
-            },
             isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
               var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
               if(userRole === 'admin') {

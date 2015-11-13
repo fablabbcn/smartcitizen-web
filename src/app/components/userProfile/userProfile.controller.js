@@ -4,20 +4,24 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 'userData', 'kitsData', 'auth', 'userUtils', '$timeout', 'animation'];
-    function UserProfileController($scope, $stateParams, $location, utils, userData, kitsData, auth, userUtils, $timeout, animation) {
+    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 'utils', 
+      'user', 'device', 'auth', 'userUtils', '$timeout', 'animation', 
+      'NonAuthUser', '$q', 'PreviewKit'];
+    function UserProfileController($scope, $stateParams, $location, utils, 
+        user, device, auth, userUtils, $timeout, animation, 
+        NonAuthUser, $q, PreviewKit) {
+
       var vm = this;
-      var user = userData;
-      var kits = kitsData;
+      var userID = parseInt($stateParams.id);
 
       vm.status = undefined;
-      vm.user = user;
-      vm.kits = kits;
+      vm.user = {};
+      vm.kits = [];
       vm.filteredKits = [];
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
-        var userID = parseInt($stateParams.id);
+        
         var authUser = auth.getCurrentUser().data;
         if( userUtils.isAuthUser(userID, authUser) ) {
           $location.path('/profile');
@@ -29,6 +33,31 @@
       //////////////////
 
       function initialize() {
+
+        user.getUser(userID)
+          .then(function(user) {
+            vm.user = new NonAuthUser(user); 
+
+            var kitIDs = _.pluck(vm.user.kits, 'id');
+            if(!kitIDs.length) {
+              return [];
+            }
+
+            return $q.all(
+              kitIDs.map(function(id) {
+                return device.getDevice(id)
+                  .then(function(data) {
+                    return new PreviewKit(data);
+                  });
+              })
+            );
+
+          }).then(function(kitsData){
+            if (kitsData){
+              vm.kits = kitsData;
+            }
+          });
+
         $timeout(function() {
           setSidebarMinHeight();
           animation.viewLoaded();
