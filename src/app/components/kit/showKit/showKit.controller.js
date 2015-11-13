@@ -21,7 +21,7 @@
       var mainSensorID, compareSensorID;
       var picker;
 
-      vm.kit = {};
+      vm.kit = undefined;
       vm.ownerKits = [];
       vm.sampleKits = [];
       vm.kitBelongsToUser = belongsToUser;
@@ -118,6 +118,9 @@
         }, 1000);
 
         var kitID = $stateParams.id;
+        if (!kitID || kitID === ''){
+          return;
+        }
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
