@@ -53,6 +53,14 @@
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
+
+        // ugly but prevents undesired api calls. 
+        // newVal might be empty obj so
+        // if(newVal) won't be enough here
+        if (Object.getOwnPropertyNames(newVal).length == 0){
+          return;
+        }
+
         vm.selectedSensorToCompare = undefined;
         vm.selectedSensorToCompareData = {};
         vm.chartDataCompare = [];

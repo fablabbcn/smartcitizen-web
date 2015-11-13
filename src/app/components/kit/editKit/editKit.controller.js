@@ -68,6 +68,12 @@
       function initialize() {
         var kitID = $stateParams.id;
 
+        animation.viewLoaded();
+        getTags();
+
+        if (!kitID || kitID === ''){
+          return;
+        }
         device.getDevice(kitID)
           .then(function(deviceData) {
             var kitData = new FullKit(deviceData);
@@ -90,9 +96,6 @@
               }
             }
           });
-
-        animation.viewLoaded();
-        getTags();
       }
 
       function getLocation() {
