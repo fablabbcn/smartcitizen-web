@@ -172,6 +172,9 @@
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
+                })
+                .catch(function(err){
+                  return undefined;
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
