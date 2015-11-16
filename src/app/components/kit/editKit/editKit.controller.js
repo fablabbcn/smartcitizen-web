@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 'kitData', 
-    'tag', 'alert', 'step', '$timeout', '$state'];
+    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 
+    'kitData', 'tag', 'alert', 'step', '$timeout', '$state'];
     function EditKitController($scope, $location, animation, device, kitData, 
       tag, alert, step, $timeout, $state) {
       var vm = this;
