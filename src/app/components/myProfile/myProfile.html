@@ -19,8 +19,8 @@
     </div>
   </div>
   <div class="myProfile_tabs_parent" flex>
-    <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
-      <md-tab label md-on-select="vm.selectThisTab(0, 'kits')" analytics-on="click"
+    <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.startingTab"> <!-- md-dynamic-height="false" -->
+      <md-tab label md-on-select="vm.selectThisTab(0, 'layout.myProfile.kits')" analytics-on="click"
       analytics-event="Profile" analytics-action="kits">
         <md-tab-label>
         <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
@@ -29,7 +29,7 @@
         <md-tab-body ui-view>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.selectThisTab(1, 'user')" analytics-on="click"
+      <md-tab label md-on-select="vm.selectThisTab(1, 'layout.myProfile.user')" analytics-on="click"
       analytics-event="Profile" analytics-action="profile">
         <md-tab-label>
         <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
@@ -39,7 +39,7 @@
         <md-tab-body ui-view>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.selectThisTab(2, 'tools')" analytics-on="click"
+      <md-tab label md-on-select="vm.selectThisTab(2, 'layout.myProfile.tools')" analytics-on="click"
         analytics-event="Profile" analytics-action="tools">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
         <md-tab-label>
         <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
