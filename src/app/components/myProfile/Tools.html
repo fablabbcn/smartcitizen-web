@@ -1,0 +1,24 @@
+<div class="profile_content" layout="row">
+    <div class="profile_sidebar">
+        <p class="profile_sidebar_title">FILTER TOOLS BY</p>
+        <div class="profile_sidebar_options">
+            <md-button ng-click="vm.filterTools('all')" class="profile_sidebar_button">ALL</md-button>
+            <md-button ng-click="vm.filterTools('documentation')" class="profile_sidebar_button">DOCUMENTATION</md-button>
+            <md-button ng-click="vm.filterTools('community')" class="profile_sidebar_button">COMMUNITY</md-button>
+            <md-button ng-click="vm.filterTools('social')" class="profile_sidebar_button">SOCIAL</md-button>
+        </div>
+    </div>
+    <div class="profile_content_main" flex>
+        <div class="profile_content_main_top">
+            <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} tools filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
+        </div>
+        <div class="profile_content_main_kits">
+            <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
+                <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="column" layout-align="start start">
+                <h4>{{ tool.title }}</h4>
+                <p>{{ tool.description }}</p>
+                </md-button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,9 +14,10 @@
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
       userUtils, $filter) {
+
       var vm = this;
 
-      vm.highlightIcon = highlightIcon;
+      vm.selectThisTab = selectThisTab;
       vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
@@ -128,7 +129,14 @@
         $mdDialog.show(alert);
       }
 
+      function selectThisTab(iconIndex, uistate){
+        var thisState = uistate || 'kits';
+        highlightIcon(iconIndex);
+        $state.transitionTo('layout.myProfile.' + thisState);
+      }
+
       function highlightIcon(iconIndex) {
+        
         var icons = angular.element('.myProfile_tab_icon');
 
         _.each(icons, function(icon) {
@@ -139,7 +147,6 @@
 
         angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
         angular.element(icon).find('.fill_container').css('fill', 'white');
-
       }
 
       function unhighlightIcon(icon) {

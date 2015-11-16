@@ -20,257 +20,32 @@
   </div>
   <div class="myProfile_tabs_parent" flex>
     <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.selectedTab"> <!-- md-dynamic-height="false" -->
-      <md-tab label md-on-select="vm.highlightIcon(1)" analytics-on="click"
-        analytics-event="Profile" analytics-action="kits">
+      <md-tab label md-on-select="vm.selectThisTab(0, 'kits')" analytics-on="click"
+      analytics-event="Profile" analytics-action="kits">
         <md-tab-label>
-          <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
-          <span>KITS</span>
+        <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
+        <span>KITS</span>
         </md-tab-label>
-        <md-tab-body>
-          <div class="profile_content" layout="row">
-            <div class="profile_sidebar">
-              <p class="profile_sidebar_title">FILTER KITS BY</p>
-              <div class="profile_sidebar_options">
-                <md-button ng-click="vm.filterKits('all')"
-                class="profile_sidebar_button" analytics-on="click"
-                analytics-event="Profile" analytics-action="kit filter">
-                  ALL
-                </md-button>
-                <md-button ng-click="vm.filterKits('online')"
-                  class="profile_sidebar_button" analytics-on="click"
-                  analytics-event="Profile" analytics-action="kit filter">
-                  ONLINE
-                </md-button>
-                <md-button ng-click="vm.filterKits('offline')"
-                class="profile_sidebar_button" analytics-on="click"
-                analytics-event="Profile" analytics-action="kit filter">
-                  OFFLINE
-                </md-button>
-              </div>
-            </div>
-            <div class="profile_content_main" flex>
-              <div class="profile_content_main_top">
-                <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
-                <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
-              </div>
-              <!-- KIT LIST -->
-              <kit-list kits="(vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))"></kit-list>
-              <!-- End kit list -->
-              <div class="kitList kitList_primary kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
-                <div class="kitList_container">
-                  <div class="kitList_noKits">
-                    <span>There are not kits yet</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <md-tab-body ui-view>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.highlightIcon(0)" analytics-on="click"
-        analytics-event="Profile" analytics-action="profile">
+      <md-tab label md-on-select="vm.selectThisTab(1, 'user')" analytics-on="click"
+      analytics-event="Profile" analytics-action="profile">
         <md-tab-label>
-          <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
-          <span>PROFILE</span>
+        <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
+        <span>USER</span>
         </md-tab-label>
-        <md-tab-body>
-          <div class="profile_content" layout="row">
-            <div class="profile_sidebar">
-              <p class="profile_sidebar_title">EDIT YOUR PROFILE</p>
-              <p class="profile_sidebar_description">
-                A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
-              </p>
-              <md-button ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
-                <md-icon md-svg-src="./assets/images/support_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
-                <span>Support</span>
-              </md-button>
-              <md-button ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
-                <md-icon md-svg-src="./assets/images/community_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
-                <span>Community</span>
-              </md-button>
-            </div>
-            <div class="profile_content_main" flex>
-              <div class="myProfile_content_form">
-                <div class="myProfile_form_avatar" layout="row" layout-align="start center">
-                  <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
-                  <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
-                </div>
-                <form ng-submit="vm.updateUser(vm.formUser)">
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container flex>
-                      <label>Username</label>
-                      <input type="text" ng-model="vm.formUser.username">
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length">
-                      <span ng-repeat="error in vm.errors.username">
-                        Username {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container flex>
-                      <label>Password</label>
-                      <input type="password" ng-model="vm.formUser.password">
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length">
-                      <span ng-repeat="error in vm.errors.password">
-                        Password {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container flex>
-                      <label>Email</label>
-                      <input type="email" ng-model="vm.formUser.email">
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length">
-                      <span ng-repeat="error in vm.errors.email">
-                        Email {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container flex>
-                      <label>City</label>
-                      <input type="text" ng-model="vm.formUser.city">
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length">
-                      <span ng-repeat="error in vm.errors.city">
-                        City {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container class="countryInput_container" flex>
-                      <label>Country</label>
-                      <md-autocomplete
-                        md-search-text="vm.searchText"
-                        md-items="item in vm.getCountries(vm.searchText)"
-                        md-item-text="item"
-                        md-selected-item="vm.formUser.country"
-                        md-floating-label="Favorite state">>
-                        <span>{{ item }}</span>
-                      </md-autocomplete>
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length">
-                      <span ng-repeat="error in vm.errors.country">
-                        Country {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-                  <div layout layout-sm="column" class="field myProfile_content_form_input">
-                    <md-input-container flex>
-                      <label>Website</label>
-                      <input type="url" ng-model="vm.formUser.url">
-                    </md-input-container>
-                    <p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length">
-                      <span ng-repeat="error in vm.errors.url">
-                        URL {{ error }}<span ng-if="!$last">,</span>
-                      </span>
-                    </p>
-                  </div>
-
-                  <md-button type="submit" class="myProfile_form_updateButton" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
-                </form>
-                <div class="clearfix"></div>
-                <div class="myProfile_apiKey" layout="row" layout-align="start center">
-                  <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
-                  <span class="myProfile_apiKey_text">API Key:</span>
-                  <div api-key="vm.user.key"></div>
-                  <!-- <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
-                  <md-button class="myProfile_apiKey_refreshButton md-flat" type="button" aria-label>
-                    <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
-                  </md-button> -->
-                </div>
-                <div class="clearfix"></div>
-                <md-button ng-click="vm.removeUser()" class="warn" type="button">DELETE ACCOUNT</md-button><br>
-                <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
-              </div>
-            </div>
-          </div>
+      </a>  
+        <md-tab-body ui-view>
         </md-tab-body>
       </md-tab>
-<<<<<<< a165aa05d963c4068d9bc8041795d4401aa3478d
-      <md-tab label md-on-select="vm.highlightIcon(1)" analytics-on="click"
-        analytics-event="Profile" analytics-action="kits">
-        <md-tab-label>
-          <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
-          <span>KITS</span>
-        </md-tab-label>
-        <md-tab-body>
-          <div class="profile_content" layout="row">
-            <div class="profile_sidebar">
-              <p class="profile_sidebar_title">FILTER KITS BY</p>
-              <div class="profile_sidebar_options">
-                <md-button ng-click="vm.filterKits('all')"
-                class="profile_sidebar_button" analytics-on="click"
-                analytics-event="Profile" analytics-action="kit filter">
-                  ALL
-                </md-button>
-                <md-button ng-click="vm.filterKits('online')"
-                  class="profile_sidebar_button" analytics-on="click"
-                  analytics-event="Profile" analytics-action="kit filter">
-                  ONLINE
-                </md-button>
-                <md-button ng-click="vm.filterKits('offline')"
-                class="profile_sidebar_button" analytics-on="click"
-                analytics-event="Profile" analytics-action="kit filter">
-                  OFFLINE
-                </md-button>
-              </div>
-            </div>
-            <div class="profile_content_main" flex>
-              <div class="profile_content_main_top">
-                <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
-                <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
-              </div>
-              <!-- KIT LIST -->
-              <kit-list kits="vm.filteredKits"></kit-list>
-              <!-- End kit list -->
-              <div class="kitList kitList_primary kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
-                <div class="kitList_container">
-                  <div class="kitList_noKits">
-                    <span>There are not kits yet</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </md-tab-body>
-      </md-tab>
-=======
->>>>>>> Fix: move kits tab to first place
-      <md-tab label md-on-select="vm.highlightIcon(2)" analytics-on="click"
+      <md-tab label md-on-select="vm.selectThisTab(2, 'tools')" analytics-on="click"
         analytics-event="Profile" analytics-action="tools">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
         <md-tab-label>
-          <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
-          <span>TOOLS</span>
+        <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
+        <span>TOOLS</span>
         </md-tab-label>
-        <md-tab-body>
-          <div class="profile_content" layout="row">
-            <div class="profile_sidebar">
-              <p class="profile_sidebar_title">FILTER TOOLS BY</p>
-              <div class="profile_sidebar_options">
-                <md-button ng-click="vm.filterTools('all')" class="profile_sidebar_button">ALL</md-button>
-                <md-button ng-click="vm.filterTools('documentation')" class="profile_sidebar_button">DOCUMENTATION</md-button>
-                <md-button ng-click="vm.filterTools('community')" class="profile_sidebar_button">COMMUNITY</md-button>
-                <md-button ng-click="vm.filterTools('social')" class="profile_sidebar_button">SOCIAL</md-button>
-              </div>
-            </div>
-            <div class="profile_content_main" flex>
-              <div class="profile_content_main_top">
-                <span class="profile_content_main_title">{{ vm.filteredTools.length || 0 }} tools filtering by {{ vm.toolType.toUpperCase() || 'ALL' }}</span>
-              </div>
-              <div class="profile_content_main_kits">
-                <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
-                  <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="column" layout-align="start start">
-                    <h4>{{ tool.title }}</h4>
-                    <p>{{ tool.description }}</p>
-                  </md-button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <md-tab-body ui-view>
         </md-tab-body>
       </md-tab>
     </md-tabs>
