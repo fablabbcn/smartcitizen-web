@@ -162,7 +162,9 @@
           },
 
           resolve: {
-            kitData: function($stateParams, device, FullKit) {
+            kitData: function($stateParams, $state, $timeout, device, FullKit,
+              alert) {
+                
               var kitID = $stateParams.id;
 
               if(!kitID) {
@@ -172,6 +174,14 @@
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
+                })
+                .catch(function(){
+                  $state.go('layout.home.kit');
+
+                  $timeout(function(){
+                    alert.error('Kit not found.');
+                  }, 1000);
+                  return;
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
@@ -304,6 +314,24 @@
               );
             }
           }
+        })
+        .state('layout.myProfile.kits', {
+          url: '/kits',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Kits.html',
+          controllerAs: 'vm',
+        })
+        .state('layout.myProfile.user', {
+          url: '/users',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Users.html',
+          controllerAs: 'vm',
+        })
+        .state('layout.myProfile.tools', {
+          url: '/tools',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Tools.html',
+          controllerAs: 'vm',
         })
         /*
         -- My Profile Admin --

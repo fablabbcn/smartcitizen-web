@@ -519,6 +519,17 @@ md-toast.yellow {
   background-color: #f1c40f;
 }
 
+md-checkbox .md-label {
+    pointer-events: auto;
+}
+md-checkbox .md-label span {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /**
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
@@ -526,6 +537,27 @@ md-toast.yellow {
 md-progress-linear.md-default-theme .md-bar{
   background-color: #044150;
 }
+
+/**
+ *  COOKIES POLICY COMPONENT
+ */
+
+ .cookies-policy_container{
+    background-color: rgba(60, 60, 60, 1);
+    color:$font_color_blue_light;
+    position: fixed;
+    top: 96vh;
+    left: 0;
+    width: 100%;
+    height: 4vh;
+    z-index: 999;
+    text-align: center;
+    line-height: 4vh;
+
+    a{
+      color:$secondary_color_light;
+    }
+ }
 
 /**
  *  BACKDROP COMPONENT
@@ -2381,7 +2413,7 @@ section .stickMenu {
 .profile_header_avatar {
   width: 100px;
   height: 100px;
-  border-radius: 42px;
+  border-radius: 50px;
   margin-right: 29px;
   margin-left: 27px;
 }
@@ -2596,6 +2628,14 @@ section .stickMenu {
   float: right;
 }
 
+.myProfile_hiddenhref{
+  position:absolute;
+  height: 100%;
+  width:100%;
+  top:0;
+  left:0;
+}
+
 /**
  * TOOL LIST
  *
@@ -2725,6 +2765,16 @@ button#doorbell-button {
   font-size: 18px;
 }
 
+.md-button.timeline_buttonBack{
+  flex-shrink: 1;
+  flex-basis: 200px;
+  height: 44px;
+  border-radius: 22px;
+  font-size: 18px;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
 /*
   ADD KIT STATE
 */
@@ -2843,24 +2893,24 @@ button#doorbell-button {
     width: 100%;
     height: auto;
     max-width: 2000px;
-    position: relative; 
-    margin: 0 0 -5px 0;  
+    position: relative;
+    margin: 0 0 -5px 0;
   }
 
-  .embed-container { 
-      position: relative; 
-      padding-bottom: 56.25%; 
-      height: 0; 
-      overflow: hidden; 
-      max-width: 100%; 
-      iframe, object, embed { 
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%; 
+  .embed-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      iframe, object, embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
       }
-  } 
+  }
 
   .md-button {
       color: white;
@@ -2934,10 +2984,6 @@ p.no-margin {
 
 .subtitle-separation {
   margin-top: 60px;
-}
-
-.logo-box-no-shadow {
-  box-shadow:
 }
 
 // Feedback

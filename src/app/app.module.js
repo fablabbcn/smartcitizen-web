@@ -15,5 +15,6 @@ angular.module('app', [
   'angulartics',
   'angulartics.google.analytics',
   'ngSanitize',
-  'angular-clipboard'
+  'angular-clipboard',
+  'ngCookies'
 ]);

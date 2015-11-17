@@ -4,8 +4,10 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 'kitData', 'tag', 'alert', 'step'];
-    function EditKitController($scope, $location, animation, device, kitData, tag, alert, step) {
+    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 
+    'kitData', 'tag', 'alert', 'step', '$timeout', '$state'];
+    function EditKitController($scope, $location, animation, device, kitData, 
+      tag, alert, step, $timeout, $state) {
       var vm = this;
 
       vm.step = step;
@@ -32,9 +34,11 @@
         description: kitData.description
       };
 
+      vm.backToProfile = backToProfile;
+
       // TAGS SELECT
       vm.tags = [];
-      $scope.$watch('vm.tag', function(newVal, oldVal) {
+      $scope.$watch('vm.tag', function(newVal) {
         if(!newVal) {
           return;
         }
@@ -121,11 +125,16 @@
             function() {
               alert.success('Your kit was successfully updated');
               ga('send', 'event', 'Kit', 'update');
-            },
-            function() {
+            })
+          .catch(function() {
               alert.error('There has been an error during kit set up');
               ga('send', 'event', 'Kit', 'update failed');
-            });
+            })
+          .finally(function(){
+            $timeout(function(){
+              backToProfile();
+            },1000);
+          });
       }
 
       function openKitSetup() {
@@ -157,6 +166,10 @@
           .then(function(tagsData) {
             vm.tags = tagsData.plain();
           });
+      }
+
+      function backToProfile(){
+        $state.go('layout.myProfile');
       }
     }
 })();

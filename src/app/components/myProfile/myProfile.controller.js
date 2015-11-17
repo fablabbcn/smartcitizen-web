@@ -4,11 +4,27 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
-    function MyProfileController($scope, $location, $q, $interval, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 
+    'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
+    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
+    'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
+    'userUtils', '$filter','$state'];
+    function MyProfileController($scope, $location, $q, $interval, 
+      userData, kitsData, AuthUser, user, auth, utils, alert,
+      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
+      DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
+      userUtils, $filter, $state) {
+
       var vm = this;
 
-      vm.highlightIcon = highlightIcon;
+      vm.selectThisTab = selectThisTab;
+      if ($state.current.name === 'layout.myProfile.user'){
+        vm.startingTab = 1;
+      } else if ($state.current.name === 'layout.myProfile.tools'){
+        vm.startingTab = 2;
+      } else {
+        vm.startingTab = 0;
+      }
       vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
@@ -25,7 +41,7 @@
 
       //KITS TAB
       vm.kits = kitsData;
-      vm.kitStatus = undefined;
+      vm.kitStatus = vm.kitStatus || 'all';
       vm.filteredKits = [];
 
       vm.dropdownSelected = undefined;
@@ -45,11 +61,11 @@
       $scope.$on('loggedOut', function() {
         $location.path('/');
       });
-      $scope.$on("$destroy", function() {
+/*      $scope.$on("$destroy", function() {
         if (updateKitsTimer) {
             $interval.cancel(updateKitsTimer);
         }
-    });
+    });*/
 
       initialize();
 
@@ -57,7 +73,8 @@
 
       function initialize() {
         $timeout(function() {
-          highlightIcon(0);
+          mapWithBelongstoUser(vm.kits);
+          filterKits(vm.status);
           setSidebarMinHeight();
           animation.viewLoaded();
         }, 500);
@@ -70,6 +87,7 @@
           status = undefined;
         }
         vm.kitStatus = status;
+        vm.filteredKits = $filter('filterLabel')(vm.kits, vm.kitStatus);
       }
 
       function filterTools(type) {
@@ -117,7 +135,18 @@
         $mdDialog.show(alert);
       }
 
+      function selectThisTab(iconIndex, uistate){
+        
+        var thisState = uistate || 
+          $state.current.name || 
+          'layout.myProfile.kits';
+
+        highlightIcon(iconIndex);
+        $state.transitionTo(thisState);
+      }
+
       function highlightIcon(iconIndex) {
+
         var icons = angular.element('.myProfile_tab_icon');
 
         _.each(icons, function(icon) {
@@ -128,7 +157,6 @@
 
         angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
         angular.element(icon).find('.fill_container').css('fill', 'white');
-
       }
 
       function unhighlightIcon(icon) {
@@ -194,6 +222,31 @@
         .then(function(data){
           vm.kits = data;
         });
+      }
+
+      function mapWithBelongstoUser(kits){
+        _.map(kits, addBelongProperty);
+      }
+
+      function addBelongProperty(kit){
+        kit.belongProperty = kitBelongsToUser(kit);
+        return kit;
+      }
+
+      function kitBelongsToUser(kit){
+        if(!auth.isAuth() || !kit || !kit.id) {
+          return false;
+        }
+        var kitID = parseInt(kit.id);
+        var userData = ( auth.getCurrentUser().data ) ||
+          ($window.localStorage.getItem('smartcitizen.data') &&
+          new AuthUser( JSON.parse(
+            $window.localStorage.getItem('smartcitizen.data') )));
+
+        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+        var isAdmin = userUtils.isAdmin(userData);
+
+        return isAdmin || belongsToUser;
       }
     }
 })();
