@@ -198,7 +198,7 @@
                   })
                   .value();
             }
-            var initialLocation = vm.markers[0];
+
             var markersByIndex = _.indexBy(vm.markers, function(marker) {
               return marker.myData.id;
             });
