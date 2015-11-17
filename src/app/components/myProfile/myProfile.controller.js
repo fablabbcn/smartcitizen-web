@@ -8,15 +8,23 @@
     'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
     'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
-    'userUtils', '$filter'];
+    'userUtils', '$filter','$state'];
     function MyProfileController($scope, $location, $q, $interval, 
       userData, kitsData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
-      userUtils, $filter) {
+      userUtils, $filter, $state) {
+
       var vm = this;
 
-      vm.highlightIcon = highlightIcon;
+      vm.selectThisTab = selectThisTab;
+      if ($state.current.name === 'layout.myProfile.user'){
+        vm.startingTab = 1;
+      } else if ($state.current.name === 'layout.myProfile.tools'){
+        vm.startingTab = 2;
+      } else {
+        vm.startingTab = 0;
+      }
       vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
@@ -67,7 +75,6 @@
         $timeout(function() {
           mapWithBelongstoUser(vm.kits);
           filterKits(vm.status);
-          highlightIcon(0);
           setSidebarMinHeight();
           animation.viewLoaded();
         }, 500);
@@ -128,7 +135,18 @@
         $mdDialog.show(alert);
       }
 
+      function selectThisTab(iconIndex, uistate){
+        
+        var thisState = uistate || 
+          $state.current.name || 
+          'layout.myProfile.kits';
+
+        highlightIcon(iconIndex);
+        $state.transitionTo(thisState);
+      }
+
       function highlightIcon(iconIndex) {
+
         var icons = angular.element('.myProfile_tab_icon');
 
         _.each(icons, function(icon) {
@@ -139,7 +157,6 @@
 
         angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
         angular.element(icon).find('.fill_container').css('fill', 'white');
-
       }
 
       function unhighlightIcon(icon) {
