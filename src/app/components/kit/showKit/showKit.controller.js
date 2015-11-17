@@ -135,12 +135,6 @@
             alert.info.longTime();
           }
         }
-        else{
-          if(geolocation.isHTML5GeolocationGranted()){
-            geolocate();
-          }
-        }
-
       }
 
       function removeUser() {

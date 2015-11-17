@@ -18,7 +18,7 @@
         .state('landing', {
           url: '/',
           controller: function($state){
-            $state.go('layout.home.kit');
+            $state.go('layout.home');
           }
         })
         /*
