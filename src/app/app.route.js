@@ -162,7 +162,9 @@
           },
 
           resolve: {
-            kitData: function($stateParams, $state, $timeout, device, FullKit, alert) {
+            kitData: function($stateParams, $state, $timeout, device, FullKit,
+              alert) {
+                
               var kitID = $stateParams.id;
 
               if(!kitID) {
@@ -173,7 +175,7 @@
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
                 })
-                .catch(function(err){
+                .catch(function(){
                   $state.go('layout.home.kit');
 
                   $timeout(function(){
