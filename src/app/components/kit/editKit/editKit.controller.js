@@ -79,7 +79,10 @@
             var kitData = new FullKit(deviceData);
             vm.kitForm = {
               name: kitData.name,
-              exposure: (kitData.labels.indexOf('indoor') >= 0 || kitData.labels.indexOf('outdoor') >= 0 ) && ( findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor') ),
+              exposure: (kitData.labels.indexOf('indoor') >= 0 || 
+                kitData.labels.indexOf('outdoor') >= 0 ) && 
+              ( findExposure(kitData.labels.indexOf('indoor') ? 
+                'indoor' : 'outdoor') ),
               location: {
                 lat: kitData.latitude,
                 lng: kitData.longitude,
@@ -94,7 +97,7 @@
                 lng: kitData.longitude,
                 draggable: true
               }
-            }
+            };
           });
       }
 

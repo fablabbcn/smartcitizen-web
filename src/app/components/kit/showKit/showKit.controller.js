@@ -144,7 +144,8 @@
               sensor.callAPI()
                 .then(function(sensorTypesRes) {
                   sensorTypes = sensorTypesRes.plain();
-                  return $q.all([getMainSensors(vm.kit, sensorTypes), getCompareSensors(vm.kit, sensorTypes)]);    
+                  return $q.all([getMainSensors(vm.kit, sensorTypes), 
+                    getCompareSensors(vm.kit, sensorTypes)]);    
                 }).then(function(sensorsRes){
 
                   var mainSensors = sensorsRes[0];
@@ -171,7 +172,7 @@
                   alert.info.noData.visitor();
                 }
                 $timeout(function() {
-                  animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});
+                  animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
                 }, 1000);
               } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
                 alert.info.longTime();
