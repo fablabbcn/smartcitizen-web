@@ -8,19 +8,19 @@
     'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
     'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
-    'userUtils', '$filter'];
+    'userUtils', '$filter','$state'];
     function MyProfileController($scope, $location, $q, $interval, 
       userData, kitsData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
-      userUtils, $filter) {
+      userUtils, $filter, $state) {
 
       var vm = this;
 
       vm.selectThisTab = selectThisTab;
-      if ($state.current.name == 'layout.myProfile.user'){
+      if ($state.current.name === 'layout.myProfile.user'){
         vm.startingTab = 1;
-      } else if ($state.current.name == 'layout.myProfile.tools'){
+      } else if ($state.current.name === 'layout.myProfile.tools'){
         vm.startingTab = 2;
       } else {
         vm.startingTab = 0;
