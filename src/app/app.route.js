@@ -162,7 +162,9 @@
           },
 
           resolve: {
-            kitData: function($stateParams, device, FullKit) {
+            kitData: function($stateParams, $state, $timeout, device, FullKit,
+              alert) {
+                
               var kitID = $stateParams.id;
 
               if(!kitID) {
@@ -172,6 +174,14 @@
               return device.getDevice(kitID)
                 .then(function(deviceData) {
                   return new FullKit(deviceData);
+                })
+                .catch(function(){
+                  $state.go('layout.home.kit');
+
+                  $timeout(function(){
+                    alert.error('Kit not found.');
+                  }, 1000);
+                  return;
                 });
             },
             mainSensors: function(kitData, sensorTypes) {
