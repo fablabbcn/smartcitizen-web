@@ -136,7 +136,11 @@
       }
 
       function selectThisTab(iconIndex, uistate){
-        var thisState = uistate || $state.current.name || 'layout.myProfile.kits';
+        
+        var thisState = uistate || 
+          $state.current.name || 
+          'layout.myProfile.kits';
+
         highlightIcon(iconIndex);
         $state.transitionTo(thisState);
       }
