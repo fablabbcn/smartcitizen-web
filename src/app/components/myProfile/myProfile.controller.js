@@ -4,8 +4,16 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device'];
-    function MyProfileController($scope, $location, $q, $interval, userData, kitsData, AuthUser, user, auth, utils, alert, COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device) {
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 
+    'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
+    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
+    'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
+    'userUtils', '$filter'];
+    function MyProfileController($scope, $location, $q, $interval, 
+      userData, kitsData, AuthUser, user, auth, utils, alert,
+      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
+      DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
+      userUtils, $filter) {
       var vm = this;
 
       vm.highlightIcon = highlightIcon;
@@ -25,7 +33,7 @@
 
       //KITS TAB
       vm.kits = kitsData;
-      vm.kitStatus = undefined;
+      vm.kitStatus = vm.kitStatus || 'all';
       vm.filteredKits = [];
 
       vm.dropdownSelected = undefined;
@@ -45,11 +53,11 @@
       $scope.$on('loggedOut', function() {
         $location.path('/');
       });
-      $scope.$on("$destroy", function() {
+/*      $scope.$on("$destroy", function() {
         if (updateKitsTimer) {
             $interval.cancel(updateKitsTimer);
         }
-    });
+    });*/
 
       initialize();
 
@@ -57,6 +65,8 @@
 
       function initialize() {
         $timeout(function() {
+          mapWithBelongstoUser(vm.kits);
+          filterKits(vm.status);
           highlightIcon(0);
           setSidebarMinHeight();
           animation.viewLoaded();
@@ -70,6 +80,7 @@
           status = undefined;
         }
         vm.kitStatus = status;
+        vm.filteredKits = $filter('filterLabel')(vm.kits, vm.kitStatus);
       }
 
       function filterTools(type) {
@@ -194,6 +205,31 @@
         .then(function(data){
           vm.kits = data;
         });
+      }
+
+      function mapWithBelongstoUser(kits){
+        _.map(kits, addBelongProperty);
+      }
+
+      function addBelongProperty(kit){
+        kit.belongProperty = kitBelongsToUser(kit);
+        return kit;
+      }
+
+      function kitBelongsToUser(kit){
+        if(!auth.isAuth() || !kit || !kit.id) {
+          return false;
+        }
+        var kitID = parseInt(kit.id);
+        var userData = ( auth.getCurrentUser().data ) ||
+          ($window.localStorage.getItem('smartcitizen.data') &&
+          new AuthUser( JSON.parse(
+            $window.localStorage.getItem('smartcitizen.data') )));
+
+        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+        var isAdmin = userUtils.isAdmin(userData);
+
+        return isAdmin || belongsToUser;
       }
     }
 })();

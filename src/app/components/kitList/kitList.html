@@ -1,10 +1,10 @@
 <div class="" ng-if="kits.length === 0">
   <small>No kits</small>
 </div>
-<div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in kits">
+<div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in kits track by kit.id">
   <md-button ng-href="./kits/{{kit.id}}" class="kitList"
-    ng-class="{kitList_primary: !vm.kitBelongsToUser(kit),
-      kitList_secondary: vm.kitBelongsToUser(kit),
+    ng-class="{kitList_primary: !kit.belongProperty,
+      kitList_secondary: kit.belongProperty,
       kitList_borderBottom: $last}"
     layout="column">
     <div layout="column">
@@ -25,7 +25,7 @@
           </p>
         </div>
         <div class="kitList_right" layout="row" layout-align="end center">
-          <div class="" ng-if="vm.kitBelongsToUser(kit) && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
+          <div class="" ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')" layout="row" layout-align="center center"> <!-- ng-if="kit.state.name" -->
             <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
           </div>
         </div>
@@ -36,7 +36,7 @@
       </div>
     </div>
   </md-button>
-  <div class="kitList_config" ng-if="vm.kitBelongsToUser(kit)" layout="row" layout-align="center center">
+  <div class="kitList_config" ng-if="kit.belongProperty" layout="row" layout-align="center center">
     <md-button class="kitList_dropdownButton" aria-label
       dropdown-menu="kit.dropdownOptions"
       dropdown-model="vm.dropdownSelected"
