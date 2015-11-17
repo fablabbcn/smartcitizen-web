@@ -111,10 +111,7 @@
           return;
         }
 
-        vm.center.lat = data.lat;
-        vm.center.lng = data.lng;
-
-
+        goToLocation(null, data)
 
         $timeout(function() {
           leafletData.getMarkers()
@@ -127,7 +124,7 @@
                 .then(function(layers) {
                   if(currentMarker){
                     layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
-                      var selectedMarker = vm.markers[data.id];
+                      var selectedMarker = currentMarker;
 
                       if(selectedMarker) {
                         selectedMarker.focus = true;
@@ -137,17 +134,17 @@
                       }
 
                       kitLoaded = true;
+                      
                     });
                   }
                 });
             });
         }, 3000);
+
       });
 
       $scope.$on('goToLocation', function(event, data) {
-        vm.center.lat = data.lat;
-        vm.center.lng = data.lng;
-        vm.center.zoom = getZoomLevel(data);
+        goToLocation(event, data)
       });
 
       $scope.$on('leafletDirectiveMap.moveend', function(){
@@ -366,6 +363,12 @@
             '(min-device-pixel-ratio: 2)').matches)) ||
           (window.devicePixelRatio && window.devicePixelRatio >= 2)) &&
           /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
+      }
+
+      function goToLocation(event, data){
+        vm.center.lat = data.lat;
+        vm.center.lng = data.lng;
+        vm.center.zoom = getZoomLevel(data);
       }
     }
 
