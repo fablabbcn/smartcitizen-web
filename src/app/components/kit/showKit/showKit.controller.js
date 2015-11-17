@@ -52,13 +52,13 @@
       vm.downloadData = downloadData;
 
       // event listener on change of value of main sensor selector
-      $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
+      $scope.$watch('vm.selectedSensor', function(newVal) {
 
         // ugly but prevents undesired api calls. 
         // newVal might be empty obj so
         // if(newVal) won't be enough here
-        if ((Object.getOwnPropertyNames(newVal).length == 0) && 
-          (typeof(newVal) != 'number')){
+        if ((Object.getOwnPropertyNames(newVal).length === 0) && 
+          (typeof(newVal) !== 'number')){
           return;
         }
 
@@ -154,16 +154,17 @@
                   vm.sensors = mainSensors[0];
                   vm.sensorsToCompare = compareSensors;
 
-                  vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined
+                  vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
                 });
 
               getOwnerKits(vm.kit)
                 .then(function(oKits){
                   vm.ownerKits = oKits;
                   vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
-                })
+                });
 
-              if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
+              if(vm.kit.state.name === 'never published' || 
+                vm.kit.state.name === 'not configured') {
                 if(vm.kitBelongsToUser) {
                   alert.info.noData.owner($stateParams.id);
                 } else {

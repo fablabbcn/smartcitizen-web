@@ -146,7 +146,7 @@
       });
 
       $scope.$on('goToLocation', function(event, data) {
-        goToLocation(event, data)
+        goToLocation(event, data);
       });
 
       $scope.$on('leafletDirectiveMap.moveend', function(){
