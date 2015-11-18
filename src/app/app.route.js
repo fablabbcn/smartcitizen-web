@@ -32,6 +32,12 @@
           controller: 'LayoutController',
           controllerAs: 'vm'
         })
+        .state('layout.styleguide',{
+          url: '/styleguide',
+          templateUrl: 'app/components/static/styleguide.html',
+          controller: 'StaticController',
+          controllerAs: 'vm',
+        })
         /*
         -- Static page template --
         Template for creating other static pages.
