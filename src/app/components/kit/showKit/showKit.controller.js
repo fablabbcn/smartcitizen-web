@@ -53,17 +53,21 @@
 
       vm.downloadData = downloadData;
 
+<<<<<<< d9c36233693855fd922b17b1077bfafe077e3871
       vm.timeOpt = ['hour', 'day' , 'month'];
       vm.timeOptSelected = timeOptSelected;
       vm.resetTimeOpts = resetTimeOpts;
+=======
+      var focused = true;
+>>>>>>> fix: prevent redirect if user is not in the state
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal) {
 
-        // ugly but prevents undesired api calls. 
+        // ugly but prevents undesired api calls.
         // newVal might be empty obj so
         // if(newVal) won't be enough here
-        if ((Object.getOwnPropertyNames(newVal).length === 0) && 
+        if ((Object.getOwnPropertyNames(newVal).length === 0) &&
           (typeof(newVal) !== 'number')){
           return;
         }
@@ -116,6 +120,10 @@
 
       $scope.$on('hideChartSpinner', function() {
         vm.loadingChart = false;
+      });
+
+      $scope.$on('$destroy', function() {
+        focused = false;
       });
 
       initialize();
@@ -606,10 +614,12 @@
                     return _.contains(kit.labels, 'online');
                   })
                   .tap(function(closestKit) {
-                    if(closestKit) {
-                      $state.go('layout.home.kit', {id: closestKit.id});
-                    } else {
-                      $state.go('layout.home.kit', {id: data[0].id});
+                    if(focused){
+                      if(closestKit) {
+                        $state.go('layout.home.kit', {id: closestKit.id});
+                      } else {
+                        $state.go('layout.home.kit', {id: data[0].id});
+                      }
                     }
                   })
                   .value();
@@ -679,6 +689,7 @@
           })
         );
       }
+<<<<<<< d9c36233693855fd922b17b1077bfafe077e3871
 
       function setFromLast(what){
         var now = moment();
@@ -696,4 +707,7 @@
       }
     }
 
+=======
+    }
+>>>>>>> fix: prevent redirect if user is not in the state
 })();
