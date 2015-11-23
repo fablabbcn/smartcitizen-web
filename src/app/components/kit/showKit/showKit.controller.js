@@ -153,8 +153,11 @@
 
                 picker = initializePicker();
 
-                animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
-                  id: parseInt($stateParams.id) });
+                animation.kitLoaded({
+                  lat: vm.kit.latitude,
+                  lng: vm.kit.longitude,
+                  id: parseInt($stateParams.id)
+                });
 
                 var sensorTypes;
                 sensor.callAPI()
@@ -171,7 +174,8 @@
                     vm.sensors = mainSensors[0];
                     vm.sensorsToCompare = compareSensors;
 
-                    vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+                    vm.selectedSensor =
+                      vm.sensors ? vm.sensors[0].id : undefined;
                   });
 
                 getOwnerKits(vm.kit)
@@ -188,7 +192,9 @@
                     alert.info.noData.visitor();
                   }
                   $timeout(function() {
-                    animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
+                    animation.kitWithoutData({
+                      belongsToUser:vm.kitBelongsToUser
+                    });
                   }, 1000);
                 } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
                   alert.info.longTime();
