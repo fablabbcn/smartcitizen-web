@@ -134,62 +134,60 @@
 
         var kitID = $stateParams.id;
         if (!kitID || kitID === ''){
-          return;
-        }
-        device.getDevice(kitID)
-          .then(function(deviceData) {
-            vm.kit = new FullKit(deviceData);
-            if(vm.kit){
+          if(geolocation.isHTML5GeolocationGranted()){
+            geolocate();
+          }
+        }else{
+          device.getDevice(kitID)
+            .then(function(deviceData) {
+              vm.kit = new FullKit(deviceData);
+              if(vm.kit){
 
-              picker = initializePicker();
+                picker = initializePicker();
 
-              animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
-                id: parseInt($stateParams.id) });
+                animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
+                  id: parseInt($stateParams.id) });
 
-              var sensorTypes;
-              sensor.callAPI()
-                .then(function(sensorTypesRes) {
-                  sensorTypes = sensorTypesRes.plain();
-                  return $q.all([getMainSensors(vm.kit, sensorTypes), 
-                    getCompareSensors(vm.kit, sensorTypes)]);    
-                }).then(function(sensorsRes){
+                var sensorTypes;
+                sensor.callAPI()
+                  .then(function(sensorTypesRes) {
+                    sensorTypes = sensorTypesRes.plain();
+                    return $q.all([getMainSensors(vm.kit, sensorTypes),
+                      getCompareSensors(vm.kit, sensorTypes)]);
+                  }).then(function(sensorsRes){
 
-                  var mainSensors = sensorsRes[0];
-                  var compareSensors = sensorsRes[1];
+                    var mainSensors = sensorsRes[0];
+                    var compareSensors = sensorsRes[1];
 
-                  vm.battery = mainSensors[1];
-                  vm.sensors = mainSensors[0];
-                  vm.sensorsToCompare = compareSensors;
+                    vm.battery = mainSensors[1];
+                    vm.sensors = mainSensors[0];
+                    vm.sensorsToCompare = compareSensors;
 
-                  vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
-                });
+                    vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+                  });
 
-              getOwnerKits(vm.kit)
-                .then(function(oKits){
-                  vm.ownerKits = oKits;
-                  vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
-                });
+                getOwnerKits(vm.kit)
+                  .then(function(oKits){
+                    vm.ownerKits = oKits;
+                    vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
+                  });
 
-              if(vm.kit.state.name === 'never published' || 
-                vm.kit.state.name === 'not configured') {
-                if(vm.kitBelongsToUser) {
-                  alert.info.noData.owner($stateParams.id);
-                } else {
-                  alert.info.noData.visitor();
+                if(vm.kit.state.name === 'never published' ||
+                  vm.kit.state.name === 'not configured') {
+                  if(vm.kitBelongsToUser) {
+                    alert.info.noData.owner($stateParams.id);
+                  } else {
+                    alert.info.noData.visitor();
+                  }
+                  $timeout(function() {
+                    animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
+                  }, 1000);
+                } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+                  alert.info.longTime();
                 }
-                $timeout(function() {
-                  animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
-                }, 1000);
-              } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-                alert.info.longTime();
               }
-            }
-            else{
-              if(geolocation.isHTML5GeolocationGranted()){
-                geolocate();
-              }
-            }
-          });
+            });
+        }
       }
 
       function removeUser() {
