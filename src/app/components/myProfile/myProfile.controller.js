@@ -88,16 +88,16 @@
           ).then(function(kitsData){
             if (kitsData){
               vm.kits = kitsData;
+
+              $timeout(function() {
+                mapWithBelongstoUser(vm.kits);
+                filterKits(vm.status);
+                setSidebarMinHeight();
+                animation.viewLoaded();
+              }, 500);
             }
           });
         }
-
-        $timeout(function() {
-          mapWithBelongstoUser(vm.kits);
-          filterKits(vm.status);
-          setSidebarMinHeight();
-          animation.viewLoaded();
-        }, 500);
 
         // updateKitsTimer = $interval(updateKits, 4000);
       }
