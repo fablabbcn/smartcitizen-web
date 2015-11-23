@@ -120,6 +120,7 @@
         height = elem.clientHeight - margin.top - margin.bottom;
 
         xScale = d3.time.scale.utc().range([0, width]);
+        xScale.tickFormat("%Y-%m-%d %I:%M:%S");
         yScale0 = d3.scale.linear().range([height, 0]);
         yScale1 = d3.scale.linear().range([height, 0]);
         yAxisScale = d3.scale.linear().range([height, 0]);

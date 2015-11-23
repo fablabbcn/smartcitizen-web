@@ -43,6 +43,8 @@
       vm.selectedSensorToCompare = undefined;
       vm.selectedSensorToCompareData = {};
 
+      vm.setFromLast = setFromLast;
+
       vm.showSensorOnChart = showSensorOnChart;
       vm.moveChart = moveChart;
       vm.loadingChart = true;
@@ -50,6 +52,10 @@
       vm.geolocate = geolocate;
 
       vm.downloadData = downloadData;
+
+      vm.timeOpt = ['hour', 'day' , 'month'];
+      vm.timeOptSelected = timeOptSelected;
+      vm.resetTimeOpts = resetTimeOpts;
 
       // event listener on change of value of main sensor selector
       $scope.$watch('vm.selectedSensor', function(newVal) {
@@ -342,31 +348,51 @@
       }
 
       function getCurrentRange() {
-        return getSecondsFromDate( picker.getValuePickerTo() ) - getSecondsFromDate( picker.getValuePickerFrom() );
+        var to = moment(picker.getValuePickerTo());
+        var from = moment(picker.getValuePickerFrom());
+        return to.diff(from)/1000;
       }
 
       function moveChart(direction) {
+
         var valueTo, valueFrom;
         //grab current date range
         var currentRange = getCurrentRange();
 
+        /*jshint camelcase: false*/
+        var from_picker = angular.element('#picker_from').pickadate('picker');
+        var to_picker = angular.element('#picker_to').pickadate('picker');
+
         if(direction === 'left') {
           //set both from and to pickers to prev range
-          valueTo = picker.getValuePickerFrom();
-          valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
-          picker.setValuePickers([valueFrom, valueTo]);
+          valueTo = moment(picker.getValuePickerFrom());
+          valueFrom = moment(picker.getValuePickerFrom()).subtract(currentRange, 'seconds');
+          from_picker.hours = valueFrom.hours();
+          from_picker.minutes = valueFrom.minutes();
+          to_picker.hours = valueTo.hours();
+          to_picker.minutes = valueTo.minutes();
+
+          picker.setValuePickers([valueFrom.toDate(), valueTo.toDate()]);
+
         } else if(direction === 'right') {
           var today = timeUtils.getToday();
           var currentValueTo = picker.getValuePickerTo();
-          if( timeUtils.isSameDay(today, currentValueTo) ) {
+          if( timeUtils.isSameDay(today, getSecondsFromDate(currentValueTo)) ) {
             return;
           }
 
-          //set both from and to pickers  to next range
-          valueFrom = picker.getValuePickerTo();
-          valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
-          picker.setValuePickers([valueFrom, valueTo]);
+          valueFrom = moment(picker.getValuePickerTo());
+          valueTo = moment(picker.getValuePickerTo()).add(currentRange, 'seconds');
+
+          from_picker.hours = valueFrom.hours();
+          from_picker.minutes = valueFrom.minutes();
+          to_picker.hours = valueTo.hours();
+          to_picker.minutes = valueTo.minutes();
+
+          picker.setValuePickers([valueFrom.toDate(), valueTo.toDate()]);
+
         }
+        resetTimeOpts();
       }
 
       //hide everything but the functions to interact with the pickers
@@ -377,6 +403,7 @@
         var from_$input = angular.element('#picker_from').pickadate({
           onOpen: function(){
             ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+            vm.resetTimeOpts();
           },
           onClose: function(){
             angular.element(document.activeElement).blur();
@@ -391,6 +418,7 @@
         var to_$input = angular.element('#picker_to').pickadate({
           onOpen: function(){
             ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
+            vm.resetTimeOpts();
           },
           onClose: function(){
             angular.element(document.activeElement).blur();
@@ -416,9 +444,21 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+
+              var from, to;
+              if (from_picker.hours){
+                from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+              }
+              if (to_picker.hours){
+                to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+              }  
               changeChart(sensors, {
-                from: from_picker.get('value'),
-                to: to_picker.get('value')
+                from: from || from_picker.get('value'),
+                to: to || to_picker.get('value')
               });
             }
             to_picker.set('min', from_picker.get('select') );
@@ -434,9 +474,21 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+
+              var from, to;
+              if (from_picker.hours){
+                from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+              }
+              if (to_picker.hours){
+                to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+              }  
               changeChart(sensors, {
-                from: from_picker.get('value'),
-                to: to_picker.get('value')
+                from: from || from_picker.get('value'),
+                to: to || to_picker.get('value')
               });
             }
             from_picker.set('max', to_picker.get('select'));
@@ -480,22 +532,43 @@
         // api to interact with the picker from outside
         return {
           getValuePickerFrom: function() {
-            return from_picker.get('value');
+            var from;
+            if (from_picker.hours){
+              from = moment(from_picker.get('select').obj)
+                .hour(from_picker.hours)
+                .minutes(from_picker.minutes);
+            }
+            return from || from_picker.get('value');
           },
           setValuePickerFrom: function(newValue) {
             updateType = 'single';
+            from_picker.hours = newValue.getHours();
+            from_picker.minutes = newValue.getMinutes();
             from_picker.set('select', newValue);
           },
           getValuePickerTo: function() {
-            return to_picker.get('value');
+            var to;
+            if (to_picker.hours){
+              to = moment(to_picker.get('select').obj)
+                .hour(to_picker.hours)
+                .minutes(to_picker.minutes);
+            }  
+            return to || to_picker.get('value');
           },
           setValuePickerTo: function(newValue) {
+            to_picker.hours = newValue.getHours();
+            to_picker.minutes = newValue.getMinutes();
             updateType = 'single';
             to_picker.set('select', newValue);
           },
           setValuePickers: function(newValues) {
             var from = newValues[0];
             var to = newValues[1];
+
+            from_picker.hours = from.getHours();
+            from_picker.minutes = from.getMinutes();
+            to_picker.hours = to.getHours();
+            to_picker.minutes = to.getMinutes();
 
             updateType = 'pair';
             from_picker.set('select', from);
@@ -608,5 +681,21 @@
           })
         );
       }
-    }  
+
+      function setFromLast(what){
+        var now = moment();
+        var before = moment().subtract(1, what);
+
+        picker.setValuePickers([before.toDate(), now.toDate()]);
+      }
+      function timeOptSelected(){
+        if (vm.dropDownSelection){
+          setFromLast(vm.dropDownSelection);
+        }
+      }
+      function resetTimeOpts(){
+        vm.dropDownSelection = undefined;
+      }
+    }
+
 })();

@@ -981,7 +981,12 @@ section .kit_menu {
   h3, h4, p{
     line-height: 0.4em;
   }
-
+  
+  .kit_timeOpts{
+    margin-top:0;
+    font-size: 1.5em;
+  }
+  
   .kit_chart {
     height: 340px;
     background-color: $background_blue_dark_chart;
@@ -2990,9 +2995,7 @@ p.no-margin {
 
 #doorbell-button {
  background-color: #4FC9E8 !important;
-}
-
-
+} 
 
 // Styleguide
 
