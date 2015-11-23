@@ -5,12 +5,12 @@
     .controller('MyProfileController', MyProfileController);
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 
-    'userData', 'kitsData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
+    'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
     'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
     'userUtils', '$filter','$state'];
     function MyProfileController($scope, $location, $q, $interval, 
-      userData, kitsData, AuthUser, user, auth, utils, alert,
+      userData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
       userUtils, $filter, $state) {
@@ -40,8 +40,9 @@
       vm.uploadAvatar = uploadAvatar;
 
       //KITS TAB
-      vm.kits = kitsData;
-      vm.kitStatus = vm.kitStatus || 'all';
+      vm.kits = [];
+      vm.kitStatus = undefined;
+
       vm.filteredKits = [];
 
       vm.dropdownSelected = undefined;
@@ -56,7 +57,7 @@
       vm.filterKits = filterKits;
       vm.filterTools = filterTools;
 
-      var updateKitsTimer = undefined;
+      var updateKitsTimer;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
@@ -72,12 +73,31 @@
       //////////////////
 
       function initialize() {
-        $timeout(function() {
-          mapWithBelongstoUser(vm.kits);
-          filterKits(vm.status);
-          setSidebarMinHeight();
-          animation.viewLoaded();
-        }, 500);
+
+        var kitIDs = _.pluck(vm.user.kits, 'id');
+        if(!kitIDs.length) {
+          vm.kits = [];
+        } else {
+          $q.all(
+            kitIDs.map(function(id) {
+              return device.getDevice(id)
+                .then(function(data) {
+                  return new PreviewKit(data);
+                });
+            })
+          ).then(function(kitsData){
+            if (kitsData){
+              vm.kits = kitsData;
+
+              $timeout(function() {
+                mapWithBelongstoUser(vm.kits);
+                filterKits(vm.status);
+                setSidebarMinHeight();
+                animation.viewLoaded();
+              }, 500);
+            }
+          });
+        }
 
         // updateKitsTimer = $interval(updateKits, 4000);
       }

@@ -5,37 +5,31 @@
     .controller('KitController', KitController);
 
     KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
-      'kitData',
-      'ownerKits', 'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
+      'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
       'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
-      '$timeout', 'mainSensors', 'compareSensors', 'alert', '$q', 'device',
-      'HasSensorKit', 'geolocation'];
-    function KitController($state, $scope, $stateParams, $filter, kitData,
-      ownerKits, utils, sensor, FullKit, $mdDialog, belongsToUser,
+      '$timeout', 'alert', '$q', 'device',
+      'HasSensorKit', 'geolocation', 'PreviewKit'];
+    function KitController($state, $scope, $stateParams, $filter,
+      utils, sensor, FullKit, $mdDialog, belongsToUser,
       timeUtils, animation, $location, auth, kitUtils, userUtils,
-      $timeout, mainSensors, compareSensors, alert, $q, device,
-      HasSensorKit, geolocation) {
+      $timeout, alert, $q, device,
+      HasSensorKit, geolocation, PreviewKit) {
 
       var vm = this;
       var sensorsData = [];
 
       var mainSensorID, compareSensorID;
-      var picker = initializePicker();
+      var picker;
 
-      if(kitData){
-        animation.kitLoaded({lat: kitData.latitude ,lng: kitData.longitude,
-          id: parseInt($stateParams.id) });
-      }
-
-      vm.kit = kitData;
-      vm.ownerKits = ownerKits;
-      vm.sampleKits = $filter('limitTo')(ownerKits, 5);
+      vm.kit = undefined;
+      vm.ownerKits = [];
+      vm.sampleKits = [];
       vm.kitBelongsToUser = belongsToUser;
       vm.removeUser = removeUser;
 
-      vm.battery = mainSensors? mainSensors[1] : undefined;
-      vm.sensors = mainSensors? mainSensors[0] : undefined;
-      vm.sensorsToCompare = compareSensors;
+      vm.battery = {};
+      vm.sensors = [];
+      vm.sensorsToCompare = [];
 
       vm.slide = slide;
 
@@ -43,7 +37,7 @@
         auth.getCurrentUser().data.key :
         undefined;
 
-      vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+      vm.selectedSensor = {};
       vm.selectedSensorData = {};
 
       vm.selectedSensorToCompare = undefined;
@@ -58,7 +52,16 @@
       vm.downloadData = downloadData;
 
       // event listener on change of value of main sensor selector
-      $scope.$watch('vm.selectedSensor', function(newVal, oldVal) {
+      $scope.$watch('vm.selectedSensor', function(newVal) {
+
+        // ugly but prevents undesired api calls. 
+        // newVal might be empty obj so
+        // if(newVal) won't be enough here
+        if ((Object.getOwnPropertyNames(newVal).length === 0) && 
+          (typeof(newVal) !== 'number')){
+          return;
+        }
+
         vm.selectedSensorToCompare = undefined;
         vm.selectedSensorToCompareData = {};
         vm.chartDataCompare = [];
@@ -78,7 +81,9 @@
           colorSensorCompareName();
 
           setSensor({type: 'main', value: newVal});
-          changeChart([mainSensorID]);
+          if (picker){
+            changeChart([mainSensorID]);
+          }
         }, 100);
 
       });
@@ -121,26 +126,64 @@
           animation.mapStateLoaded();
         }, 1000);
 
-        if(vm.kit){
-          if(vm.kit.state.name === 'never published' || vm.kit.state.name === 'not configured') {
-            if(vm.kitBelongsToUser) {
-              alert.info.noData.owner($stateParams.id);
-            } else {
-              alert.info.noData.visitor();
-            }
-            $timeout(function() {
-              animation.kitWithoutData({belongsToUser: vm.kitBelongsToUser});
-            }, 1000);
-          } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-            alert.info.longTime();
-          }
+        var kitID = $stateParams.id;
+        if (!kitID || kitID === ''){
+          return;
         }
-        else{
-          if(geolocation.isHTML5GeolocationGranted()){
-            geolocate();
-          }
-        }
+        device.getDevice(kitID)
+          .then(function(deviceData) {
+            vm.kit = new FullKit(deviceData);
+            if(vm.kit){
 
+              picker = initializePicker();
+
+              animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
+                id: parseInt($stateParams.id) });
+
+              var sensorTypes;
+              sensor.callAPI()
+                .then(function(sensorTypesRes) {
+                  sensorTypes = sensorTypesRes.plain();
+                  return $q.all([getMainSensors(vm.kit, sensorTypes), 
+                    getCompareSensors(vm.kit, sensorTypes)]);    
+                }).then(function(sensorsRes){
+
+                  var mainSensors = sensorsRes[0];
+                  var compareSensors = sensorsRes[1];
+
+                  vm.battery = mainSensors[1];
+                  vm.sensors = mainSensors[0];
+                  vm.sensorsToCompare = compareSensors;
+
+                  vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+                });
+
+              getOwnerKits(vm.kit)
+                .then(function(oKits){
+                  vm.ownerKits = oKits;
+                  vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
+                });
+
+              if(vm.kit.state.name === 'never published' || 
+                vm.kit.state.name === 'not configured') {
+                if(vm.kitBelongsToUser) {
+                  alert.info.noData.owner($stateParams.id);
+                } else {
+                  alert.info.noData.visitor();
+                }
+                $timeout(function() {
+                  animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
+                }, 1000);
+              } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+                alert.info.longTime();
+              }
+            }
+            else{
+              if(geolocation.isHTML5GeolocationGranted()){
+                geolocate();
+              }
+            }
+          });
       }
 
       function removeUser() {
@@ -415,15 +458,15 @@
 
         function getDateToHaveDataInChart() {
           var today = moment();
-          var lastTime = moment(kitData.time);
+          var lastTime = moment(vm.kit.time);
           var difference = today.diff(lastTime, 'days');
           var result = difference * 3;
 
           return lastTime.subtract(result, 'days').valueOf();
         }
 
-        if(kitData){
-          if(timeUtils.isWithin(7, 'days', kitData.time) || !kitData.time) {
+        if(vm.kit){
+          if(timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
             //set from-picker to seven days ago
             from_picker.set('select', getSevenDaysAgo());
           } else {
@@ -535,7 +578,35 @@
           .clickOutsideToClose(false);
 
           $mdDialog.show(errorAlert);
-        })
+        });
       }
-    }
+
+      function getMainSensors(kitData, sensorTypes) {
+        if(!kitData) {
+          return undefined;
+        }
+        return kitData.getSensors(sensorTypes, {type: 'main'});
+      }
+      function getCompareSensors(kitData,sensorTypes) {
+        if(!vm.kit) {
+          return undefined;
+        }
+        return kitData.getSensors(sensorTypes, {type: 'compare'});
+      }
+      function getOwnerKits(kitData) {
+        if(!kitData) {
+          return undefined;
+        }
+        var kitIDs = kitData.owner.kits;
+
+        return $q.all(
+          kitIDs.map(function(id) {
+            return device.getDevice(id)
+              .then(function(data) {
+                return new PreviewKit(data);
+              });
+          })
+        );
+      }
+    }  
 })();

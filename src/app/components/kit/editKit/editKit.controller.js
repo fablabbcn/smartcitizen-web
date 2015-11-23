@@ -4,10 +4,11 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', '$location', 'animation', 'device', 
-    'kitData', 'tag', 'alert', 'step', '$timeout', '$state'];
-    function EditKitController($scope, $location, animation, device, kitData, 
-      tag, alert, step, $timeout, $state) {
+    EditKitController.$inject = ['$scope', '$location', 'animation', 
+    'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    function EditKitController($scope, $location, animation,
+     device, tag, alert, step, $stateParams, FullKit) {
+
       var vm = this;
 
       vm.step = step;
@@ -22,17 +23,7 @@
       ];
 
       // FORM INFO
-      vm.kitForm = {
-        name: kitData.name,
-        exposure: (kitData.labels.indexOf('indoor') >= 0 || kitData.labels.indexOf('outdoor') >= 0 ) && ( findExposure(kitData.labels.indexOf('indoor') ? 'indoor' : 'outdoor') ),
-        location: {
-          lat: kitData.latitude,
-          lng: kitData.longitude,
-          zoom: 16
-        },
-        tags: kitData.userTags,
-        description: kitData.description
-      };
+      vm.kitForm = {};
 
       vm.backToProfile = backToProfile;
 
@@ -62,13 +53,7 @@
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
-      vm.markers = {
-        main: {
-          lat: kitData.latitude,
-          lng: kitData.longitude,
-          draggable: true
-        }
-      };
+      vm.markers = {};
       vm.tiles = {
         url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
       };
@@ -81,8 +66,39 @@
       /////////////////
 
       function initialize() {
+        var kitID = $stateParams.id;
+
         animation.viewLoaded();
         getTags();
+
+        if (!kitID || kitID === ''){
+          return;
+        }
+        device.getDevice(kitID)
+          .then(function(deviceData) {
+            var kitData = new FullKit(deviceData);
+            vm.kitForm = {
+              name: kitData.name,
+              exposure: (kitData.labels.indexOf('indoor') >= 0 || 
+                kitData.labels.indexOf('outdoor') >= 0 ) && 
+              ( findExposure(kitData.labels.indexOf('indoor') ? 
+                'indoor' : 'outdoor') ),
+              location: {
+                lat: kitData.latitude,
+                lng: kitData.longitude,
+                zoom: 16
+              },
+              tags: kitData.userTags,
+              description: kitData.description
+            };
+            vm.markers = {
+              main: {
+                lat: kitData.latitude,
+                lng: kitData.longitude,
+                draggable: true
+              }
+            };
+          });
       }
 
       function getLocation() {
