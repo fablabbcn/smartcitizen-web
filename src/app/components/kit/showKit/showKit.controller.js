@@ -360,11 +360,11 @@
           //set both from and to pickers to prev range
           valueTo = picker.getValuePickerFrom();
           valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
-          picker.setValuePickers([valueFrom, valueTo]);
+          picker.setValuePickers([valueFrom, getSecondsFromDate(valueTo)]);
         } else if(direction === 'right') {
           var today = timeUtils.getToday();
           var currentValueTo = picker.getValuePickerTo();
-          if( timeUtils.isSameDay(today, currentValueTo) ) {
+          if( timeUtils.isSameDay(today, getSecondsFromDate(currentValueTo)) ) {
             return;
           }
 
@@ -373,6 +373,7 @@
           valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
           picker.setValuePickers([valueFrom, valueTo]);
         }
+        resetTimeOpts();
       }
 
       //hide everything but the functions to interact with the pickers
