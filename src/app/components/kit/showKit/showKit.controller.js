@@ -348,19 +348,32 @@
       }
 
       function getCurrentRange() {
-        return getSecondsFromDate( picker.getValuePickerTo() ) - getSecondsFromDate( picker.getValuePickerFrom() );
+        var to = moment(picker.getValuePickerTo());
+        var from = moment(picker.getValuePickerFrom());
+        return to.diff(from)/1000;
       }
 
       function moveChart(direction) {
+
         var valueTo, valueFrom;
         //grab current date range
         var currentRange = getCurrentRange();
 
+        /*jshint camelcase: false*/
+        var from_picker = angular.element('#picker_from').pickadate('picker');
+        var to_picker = angular.element('#picker_to').pickadate('picker');
+
         if(direction === 'left') {
           //set both from and to pickers to prev range
-          valueTo = picker.getValuePickerFrom();
-          valueFrom = getSecondsFromDate( picker.getValuePickerFrom() ) - currentRange;
-          picker.setValuePickers([valueFrom, getSecondsFromDate(valueTo)]);
+          valueTo = moment(picker.getValuePickerFrom());
+          valueFrom = moment(picker.getValuePickerFrom()).subtract(currentRange, 'seconds');
+          from_picker.hours = valueFrom.hours();
+          from_picker.minutes = valueFrom.minutes();
+          to_picker.hours = valueTo.hours();
+          to_picker.minutes = valueTo.minutes();
+
+          picker.setValuePickers([valueFrom.toDate(), valueTo.toDate()]);
+
         } else if(direction === 'right') {
           var today = timeUtils.getToday();
           var currentValueTo = picker.getValuePickerTo();
@@ -368,10 +381,16 @@
             return;
           }
 
-          //set both from and to pickers  to next range
-          valueFrom = picker.getValuePickerTo();
-          valueTo = getSecondsFromDate( picker.getValuePickerTo() ) + currentRange;
-          picker.setValuePickers([valueFrom, valueTo]);
+          valueFrom = moment(picker.getValuePickerTo());
+          valueTo = moment(picker.getValuePickerTo()).add(currentRange, 'seconds');
+
+          from_picker.hours = valueFrom.hours();
+          from_picker.minutes = valueFrom.minutes();
+          to_picker.hours = valueTo.hours();
+          to_picker.minutes = valueTo.minutes();
+
+          picker.setValuePickers([valueFrom.toDate(), valueTo.toDate()]);
+
         }
         resetTimeOpts();
       }
@@ -425,13 +444,15 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+
+              var from, to;
               if (from_picker.hours){
-              var from = moment(from_picker.get('select').obj)
+                from = moment(from_picker.get('select').obj)
                 .hour(from_picker.hours)
                 .minutes(from_picker.minutes);
               }
               if (to_picker.hours){
-              var to = moment(to_picker.get('select').obj)
+                to = moment(to_picker.get('select').obj)
                 .hour(to_picker.hours)
                 .minutes(to_picker.minutes);
               }  
@@ -453,13 +474,15 @@
               sensors = sensors.filter(function(sensor) {
                 return sensor;
               });
+
+              var from, to;
               if (from_picker.hours){
-              var from = moment(from_picker.get('select').obj)
+                from = moment(from_picker.get('select').obj)
                 .hour(from_picker.hours)
                 .minutes(from_picker.minutes);
               }
               if (to_picker.hours){
-              var to = moment(to_picker.get('select').obj)
+                to = moment(to_picker.get('select').obj)
                 .hour(to_picker.hours)
                 .minutes(to_picker.minutes);
               }  
@@ -541,6 +564,11 @@
           setValuePickers: function(newValues) {
             var from = newValues[0];
             var to = newValues[1];
+
+            from_picker.hours = from.getHours();
+            from_picker.minutes = from.getMinutes();
+            to_picker.hours = to.getHours();
+            to_picker.minutes = to.getMinutes();
 
             updateType = 'pair';
             from_picker.set('select', from);
@@ -657,8 +685,8 @@
       function setFromLast(what){
         var now = moment();
         var before = moment().subtract(1, what);
-        picker.setValuePickerFrom(before.toDate());
-        picker.setValuePickerTo(now.toDate());
+
+        picker.setValuePickers([before.toDate(), now.toDate()]);
       }
       function timeOptSelected(){
         if (vm.dropDownSelection){
