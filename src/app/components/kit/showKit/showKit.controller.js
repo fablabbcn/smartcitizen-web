@@ -154,24 +154,6 @@
               animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
                 id: parseInt($stateParams.id) });
 
-              var sensorTypes;
-              sensor.callAPI()
-                .then(function(sensorTypesRes) {
-                  sensorTypes = sensorTypesRes.plain();
-                  return $q.all([getMainSensors(vm.kit, sensorTypes),
-                    getCompareSensors(vm.kit, sensorTypes)]);
-                }).then(function(sensorsRes){
-
-                  var mainSensors = sensorsRes[0];
-                  var compareSensors = sensorsRes[1];
-
-                  vm.battery = mainSensors[1];
-                  vm.sensors = mainSensors[0];
-                  vm.sensorsToCompare = compareSensors;
-
-                  vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
-                });
-
               getOwnerKits(vm.kit)
                 .then(function(oKits){
                   vm.ownerKits = oKits;
@@ -192,6 +174,25 @@
                 alert.info.longTime();
               }
             }
+
+            return sensor.callAPI();
+          })
+          .then(function(sensorTypesRes) {
+            var sensorTypes;
+            sensorTypes = sensorTypesRes.plain();
+            return $q.all([getMainSensors(vm.kit, sensorTypes),
+              getCompareSensors(vm.kit, sensorTypes)]);
+          })
+          .then(function(sensorsRes){
+
+            var mainSensors = sensorsRes[0];
+            var compareSensors = sensorsRes[1];
+
+            vm.battery = mainSensors[1];
+            vm.sensors = mainSensors[0];
+            vm.sensorsToCompare = compareSensors;
+
+            vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
           });
       }
     }
