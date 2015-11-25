@@ -22,7 +22,7 @@
       function Sensor(sensorData, sensorTypes) {
         this.name = sensorUtils.getSensorName(sensorData);
         this.id = sensorData.id;
-        this.unit = sensorUtils.getSensorUnit(this.name);
+        this.unit = sensorData.unit;
         this.value = sensorUtils.getSensorValue(sensorData);
         this.prevValue = sensorUtils.getSensorPrevValue(sensorData);
         this.icon = sensorUtils.getSensorIcon(this.name);
