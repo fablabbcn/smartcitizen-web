@@ -981,12 +981,12 @@ section .kit_menu {
   h3, h4, p{
     line-height: 0.4em;
   }
-  
+
   .kit_timeOpts{
     margin-top:0;
     font-size: 1.5em;
   }
-  
+
   .kit_chart {
     height: 340px;
     background-color: $background_blue_dark_chart;
@@ -1702,14 +1702,14 @@ section .stickMenu {
 
   .img_claim {
     overflow: hidden;
-    height: 270px;
+    height: 288px;
     background-image: url('../assets/images/beta_claim.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center 260px;
 
     img{
-      top: -35%;
+      top: -25%;
       position: relative;
     }
   }
@@ -2995,7 +2995,7 @@ p.no-margin {
 
 #doorbell-button {
  background-color: #4FC9E8 !important;
-} 
+}
 
 // Styleguide
 
