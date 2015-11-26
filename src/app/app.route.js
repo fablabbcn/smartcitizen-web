@@ -32,6 +32,12 @@
           controller: 'LayoutController',
           controllerAs: 'vm'
         })
+        .state('layout.styleguide',{
+          url: '/styleguide',
+          templateUrl: 'app/components/static/styleguide.html',
+          controller: 'StaticController',
+          controllerAs: 'vm',
+        })
         /*
         -- Static page template --
         Template for creating other static pages.
@@ -76,14 +82,6 @@
                 $location.path('/');
               }
             },
-            kitData: function($stateParams, device, FullKit) {
-              var kitID = $stateParams.id;
-
-              return device.getDevice(kitID)
-                .then(function(deviceData) {
-                  return new FullKit(deviceData);
-                });
-            },
             step: function($stateParams){
               return parseInt($stateParams.step) || 1;
             }
@@ -123,26 +121,6 @@
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
-            },
-            markers: function($state, device, utils, Kit, Marker) {
-              // It could be refactor to use HTTP caching instead of holding them in localstorage
-              var worldMarkers = device.getWorldMarkers();
-              if(worldMarkers && worldMarkers.length) {
-                return worldMarkers;
-              }
-              return device.getAllDevices().then(function(data) {
-                return _.chain(data)
-                  .map(function(device) {
-                    return new Marker(device);
-                  })
-                  .filter(function(marker) {
-                    return !!marker.lng && !!marker.lat;
-                  })
-                  .tap(function(data) {
-                    device.setWorldMarkers(data);
-                  })
-                  .value();
-              });
             }
           }
         })
@@ -162,55 +140,6 @@
           },
 
           resolve: {
-            kitData: function($stateParams, $state, $timeout, device, FullKit,
-              alert) {
-                
-              var kitID = $stateParams.id;
-
-              if(!kitID) {
-                return undefined;
-              }
-
-              return device.getDevice(kitID)
-                .then(function(deviceData) {
-                  return new FullKit(deviceData);
-                })
-                .catch(function(){
-                  $state.go('layout.home.kit');
-
-                  $timeout(function(){
-                    alert.error('Kit not found.');
-                  }, 1000);
-                  return;
-                });
-            },
-            mainSensors: function(kitData, sensorTypes) {
-              if(!kitData) {
-                return undefined;
-              }
-              return kitData.getSensors(sensorTypes, {type: 'main'});
-            },
-            compareSensors: function(kitData, sensorTypes) {
-              if(!kitData) {
-                return undefined;
-              }
-              return kitData.getSensors(sensorTypes, {type: 'compare'});
-            },
-            ownerKits: function(kitData, PreviewKit, $q, device) {
-              if(!kitData) {
-                return undefined;
-              }
-              var kitIDs = kitData.owner.kits;
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
-            },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
               if(!auth.isAuth() || !$stateParams.id) {
                 return false;
@@ -246,29 +175,6 @@
                 $location.path('/profile');
               }
             },
-            userData: function($stateParams, $state, NonAuthUser, user) {
-              var id = $stateParams.id;
-
-              return user.getUser(id)
-                .then(function(user) {
-                  return new NonAuthUser(user);
-                });
-            },
-            kitsData: function($q, device, PreviewKit, userData) {
-              var kitIDs = _.pluck(userData.kits, 'id');
-              if(!kitIDs.length) {
-                return [];
-              }
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
-            },
             isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
               var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
               if(userRole === 'admin') {
@@ -297,21 +203,6 @@
                 return;
               }
               return userData;
-            },
-            kitsData: function($q, device, PreviewKit, userData) {
-              var kitIDs = _.pluck(userData.kits, 'id');
-              if(!kitIDs.length) {
-                return [];
-              }
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
             }
           }
         })
@@ -358,21 +249,6 @@
                 .then(function(user) {
                   return new AuthUser(user);
                 });
-            },
-            kitsData: function($q, device, PreviewKit, userData) {
-              var kitIDs = _.pluck(userData.kits, 'id');
-              if(!kitIDs.length) {
-                return [];
-              }
-
-              return $q.all(
-                kitIDs.map(function(id) {
-                  return device.getDevice(id)
-                    .then(function(data) {
-                      return new PreviewKit(data);
-                    });
-                })
-              );
             }
           }
         })

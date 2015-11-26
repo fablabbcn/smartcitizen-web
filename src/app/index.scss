@@ -981,7 +981,12 @@ section .kit_menu {
   h3, h4, p{
     line-height: 0.4em;
   }
-
+  
+  .kit_timeOpts{
+    margin-top:0;
+    font-size: 1.5em;
+  }
+  
   .kit_chart {
     height: 340px;
     background-color: $background_blue_dark_chart;
@@ -2990,6 +2995,152 @@ p.no-margin {
 
 #doorbell-button {
  background-color: #4FC9E8 !important;
+} 
+
+// Styleguide
+
+.styleguide {
+  .sg-title-section {
+    background-color: #043846;
+    margin: 64px 0px 50px 0px;
+  }
+
+  .info-text {
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  .info-text-dark {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  h1.sg-pageTitle {
+    font-size: 36px;
+    color: #fff;
+    padding:70px 47px;
+  }
+
+  h2.sg-titles {
+    font-size: 16px;
+    color: #23444C;
+    margin-top: 0;
+  }
+
+  .dark-theme-divider {
+    border-top-color: rgba(255,255,255,0.12);
+  }
+
+  p.sg-paragraph2 {
+    color: #4F8390;
+    font-weight: 300;
+  }
+
+  small {
+    margin-top: 20px;
+  }
+
+  .sg-text-box {
+    background-color: #f7f7f7;
+    margin: -1px 0px 70px 0px;
+    border: 1px solid rgba(0,0,0,0.12);
+  }
+
+  pre {
+    word-break: normal;
+    margin-bottom: 0;
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: #a7a7a7;
+  }
+
+  .dark-text-section {
+    background-color: #032933;
+
+    h1 {
+      font-size: 1.8em;
+      color: #fff;
+    }
+
+    h2 {
+      color: #fff;
+    }
+
+    h2.sg-titles {
+      font-size: 16px;
+      color: #a1a1a1;
+    }
+
+    h4 {
+      color: #82A7B0;
+    }
+
+    h6 {
+      color: #87CCDD;
+    }
+
+    p{
+      color: #C8E6ED;
+      font-weight: 300;
+    }
+
+    small {
+      color: #4F8390;
+    }
+  }
+
+  .sg-button-margin {
+    margin-top: 30px;
+  }
+
+  .section-padding {
+    padding: 60px;
+  }
+
+  .last-section {
+    margin-bottom: 100px;
+  }
+
+  .colors-section {
+    p {
+      padding-left: 20px;
+    }
+
+    .secondary-color {
+      background-color: #065063;
+      p {
+        color: #fff;
+      }
+    }
+
+    .terciary_color {
+      background-color: #38CEF3;
+      p {
+        color: #fff;
+      }
+    }
+
+    .secondary_color_light {
+      background-color: #8DB2BA;
+      p {
+        color: #fff;
+      }
+    }
+
+    .secondary-color-pastel {
+      background-color: #C8E6ED;
+      p {
+        color: #8DB2BA;
+      }
+    }
+
+    .white {
+      background-color: #fff;
+      border:1px solid #C8E6ED;
+      p {
+        color: #8DB2BA;
+      }
+    }
+  }
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
