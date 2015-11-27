@@ -4,9 +4,9 @@
   angular.module('app.components')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$state', '$timeout', 'device', 
+    MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 'Marker'];
-    function MapController($scope, $state, $timeout, device, 
+    function MapController($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker) {
     	var vm = this;
       var updateType;
@@ -16,6 +16,7 @@
       var focusedMarkerID;
 
       vm.markers = [];
+      vm.initialMarkers = [];
 
       var retinaSuffix = isRetina() ? '@2x' : '';
 
@@ -182,6 +183,7 @@
 
       function initialize() {
         vm.markers = device.getWorldMarkers();
+        vm.initialMarkers = vm.markers;
         device.getAllDevices()
           .then(function(data){
             if (!vm.markers || vm.markers.length === 0){
@@ -220,11 +222,7 @@
         var allFiltersSelected = _.every(vm.filterData, function(filterValue) {
           return filterValue;
         });
-        if(allFiltersSelected) {
-          vm.allFiltersSelected = true;
-        } else {
-          vm.allFiltersSelected = false;
-        }
+        vm.allFiltersSelected = allFiltersSelected;
       }
 
       function openFilterPopup() {
@@ -264,7 +262,7 @@
       }
 
       function filterMarkers(filterData) {
-        return markers.filter(function(marker) {
+        return vm.markers.filter(function(marker) {
           var labels = marker.myData.labels;
           return _.every(labels, function(label) {
             return filterData[label];
@@ -273,9 +271,9 @@
       }
 
       function updateMarkers(filterData) {
-        vm.markers = [];
         $timeout(function() {
           $scope.$apply(function() {
+            vm.markers = vm.initialMarkers;
             vm.markers = filterMarkers(filterData);
           });
         });
@@ -301,7 +299,7 @@
                       if(closestMarker) {
                         zoomOutWhileNoMarker(layers, closestMarker);
                       } else {
-                        alert.info('No markers found with those filters', 5000);
+                        alert.error('No markers found with those filters', 5000);
                       }
                     });
                 }
