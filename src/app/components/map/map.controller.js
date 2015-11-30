@@ -89,7 +89,7 @@
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
 
         updateType = 'map';
-        var id = data.leafletEvent.target.options.myData.id;
+        id = data.leafletEvent.target.options.myData.id;
 
         var availability = data.leafletEvent.target.options.myData.labels[0];
         ga('send', 'event', 'Kit Marker', 'click', availability);

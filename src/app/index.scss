@@ -765,11 +765,10 @@ section.map {
       margin: 0.5em;
     }
     .hint{
-      margin-top: 65px;
       color:#82A7B0;
 
       .md-button{
-        margin-top:20px;
+        margin-top:10px;
       }
     }
   }
@@ -953,6 +952,30 @@ section .kit_menu {
       right: 5px;
     }
   }
+}
+
+section.overlay.kit_noKit{
+    width: 80vw;
+    height: 10vh;
+    min-height: 140px;
+    max-height: 180px;
+    background-color: white;
+    position: absolute;
+    bottom: 5%;
+    left: 10vw;
+    border-radius:5px;
+    box-shadow: 2px 2px 10px #145384;
+}
+
+.kit_textContainer {
+    position: relative;
+    height: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color: black;
 }
 
 /**
