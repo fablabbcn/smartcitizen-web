@@ -4,8 +4,8 @@
 	angular.module('app.components')
 	  .factory('device', device);
 
-    device.$inject = ['Restangular', '$window', 'timeUtils','$http'];
-	  function device(Restangular, $window, timeUtils, $http) {
+    device.$inject = ['Restangular', '$window', 'timeUtils','$timeout'];
+	  function device(Restangular, $window, timeUtils, $timeout) {
       var genericKitData, worldMarkers;
 
       initialize();
@@ -24,7 +24,9 @@
         getGenericKitData: getGenericKitData,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
-        mailReadings: mailReadings
+        mailReadings: mailReadings,
+        noCache: false,
+        setNoCacheTimer: setNoCacheTimer
 	  	};
 
 	  	return service;
@@ -44,7 +46,12 @@
       }
 
       function getAllDevices() {
-        return Restangular.all('devices/world_map').getList();
+        if (service.noCache){
+          /*jshint camelcase: false */
+          return Restangular.all('devices/world_map').getList({cache_buster: Date.now()});
+        } else {
+          return Restangular.all('devices/world_map').getList();
+        }
       }
 
       function getDevice(id) {
@@ -100,6 +107,13 @@
       return Restangular
           .one('devices', kit.id)
           .customGET('readings/csv_archive');
+      }
+
+      function setNoCacheTimer(time){
+        service.noCache = true;
+        $timeout(function(){
+          service.noCache = false;
+        }, time);
       }
 	  }
 })();

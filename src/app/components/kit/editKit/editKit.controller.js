@@ -144,6 +144,7 @@
           .then(
             function() {
               alert.success('Your kit was successfully updated');
+              device.setNoCacheTimer(30000);
               ga('send', 'event', 'Kit', 'update');
             })
           .catch(function() {
