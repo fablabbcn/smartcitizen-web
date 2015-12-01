@@ -42,14 +42,16 @@
       function getDevices(location) {
       	var parameter = '';
       	parameter += location.lat + ',' + location.lng;
-      	return Restangular.all('devices').getList({near: parameter, 'per_page': '100'});
+      	return Restangular.all('devices').getList({near: parameter, 
+          'per_page': '100'});
       }
 
       function getAllDevices() {
         if (service.noCache){
           var timeStamp = parseInt(new Date().getTime() / 1000);
           /*jshint camelcase: false */
-          var results = Restangular.all('devices/world_map').getList({cachebuster: timeStamp});
+          var results = Restangular.all('devices/world_map')
+            .getList({cachebuster: timeStamp});
           service.noCache = false;
           return results;
         } else {
@@ -78,7 +80,11 @@
       }
 
       function getWorldMarkers() {
-        return worldMarkers || ($window.localStorage.getItem('smartcitizen.markers') && JSON.parse($window.localStorage.getItem('smartcitizen.markers') ).data);
+        return worldMarkers || 
+          ($window.localStorage
+            .getItem('smartcitizen.markers') && 
+            JSON.parse($window.localStorage
+              .getItem('smartcitizen.markers')).data);
       }
 
       function setWorldMarkers(data) {
@@ -87,7 +93,8 @@
           data: data
         };
 
-        $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
+        $window.localStorage
+          .setItem('smartcitizen.markers', JSON.stringify(obj) );
         worldMarkers = obj.data;
       }
 
