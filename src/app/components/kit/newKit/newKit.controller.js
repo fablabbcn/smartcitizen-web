@@ -4,8 +4,10 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth'];
-    function NewKitController($scope, $state, animation, device, tag, alert, auth) {
+    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 
+    'tag', 'alert', 'auth'];
+    function NewKitController($scope, $state, animation, device, tag, 
+      alert, auth) {
       var vm = this;
 
       vm.step = 1;
@@ -33,7 +35,7 @@
 
       // TAGS SELECT
       vm.tags = [];
-      $scope.$watch('vm.tag', function(newVal, oldVal) {
+      $scope.$watch('vm.tag', function(newVal) {
         if(!newVal) {
           return;
         }

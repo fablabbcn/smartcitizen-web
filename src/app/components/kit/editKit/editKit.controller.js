@@ -5,9 +5,10 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$location', 'animation', 
-    'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 
+    '$timeout', '$state'];
     function EditKitController($scope, $location, animation,
-     device, tag, alert, step, $stateParams, FullKit) {
+     device, tag, alert, step, $stateParams, FullKit, $timeout, $state) {
 
       var vm = this;
 
@@ -15,6 +16,8 @@
 
       vm.submitForm = submitForm;
       vm.openKitSetup = openKitSetup;
+
+      vm.kitData = undefined;
 
       // EXPOSURE SELECT
       vm.exposure = [
@@ -77,6 +80,7 @@
         device.getDevice(kitID)
           .then(function(deviceData) {
             var kitData = new FullKit(deviceData);
+            vm.kitData = kitData;
             vm.kitForm = {
               name: kitData.name,
               exposure: (kitData.labels.indexOf('indoor') >= 0 || 
@@ -136,10 +140,11 @@
           data.mac_address = vm.macAddress;
         }
 
-        device.updateDevice(kitData.id, data)
+        device.updateDevice(vm.kitData.id, data)
           .then(
             function() {
               alert.success('Your kit was successfully updated');
+              device.setNoCacheTimer(30000);
               ga('send', 'event', 'Kit', 'update');
             })
           .catch(function() {
