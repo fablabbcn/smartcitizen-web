@@ -173,7 +173,8 @@
       -- User Profile state --
       Nested inside layout state
       Public profile of a given user
-      Redirects to My Profile/My Profile Admin if the user is the one authenticated or if the authenticated user is an admin
+      Redirects to My Profile/My Profile Admin if the user is the one 
+      authenticated or if the authenticated user is an admin
       */
       .state('layout.userProfile', {
         url: '/users/:id',
@@ -280,7 +281,8 @@
       })
       /*
       -- Login --
-      It redirects to a certain kit state and opens the login dialog automatically
+      It redirects to a certain kit state and opens the login dialog 
+      automatically
       */
       .state('layout.login', {
         url: '/login',
@@ -297,7 +299,8 @@
       })
       /*
       -- Signup --
-      It redirects to a certain kit state and opens the signup dialog automatically
+      It redirects to a certain kit state and opens the signup dialog 
+      automatically
       */
       .state('layout.signup', {
         url: '/signup',
@@ -314,7 +317,8 @@
       })
       /*
       -- Logout --
-      It removes all the user data from localstorage and redirects to landing state
+      It removes all the user data from localstorage and redirects 
+      to landing state
       */
       .state('logout', {
         url: '/logout',
@@ -329,7 +333,8 @@
       })
       /*
       -- Password Recovery --
-      Form to input your email address to receive an email to reset your password
+      Form to input your email address to receive an email to reset
+       your password
       */
       .state('passwordRecovery', {
         url: '/password_reset',
@@ -340,7 +345,8 @@
       })
       /*
       -- Password Reset --
-      This link will be given by the email you received after giving your email in the previous state
+      This link will be given by the email you received after giving your 
+      email in the previous state
       Here, you can input your new password
       */
       .state('passwordReset', {
@@ -376,7 +382,6 @@
 
     return {
       // optional method
-     
 
       // optional method
       'response': function(response) {
@@ -392,13 +397,13 @@
         }
 
         if (response.config.method === 'GET' && response.status === 200) {
-           if (cache.get(response.config.url)) {
+          if (cache.get(response.config.url)) {
             var now = moment();
             var cachedObj = cache.get(response.config.url);
-            if (now.diff(cachedObj.timestamp, 'seconds') < 30){
+            if (now.diff(cachedObj.timestamp, 'seconds') < 30) {
               response.data = cachedObj.data;
             }
-           }
+          }
         }
 
         return response;
