@@ -4,9 +4,9 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', '$location', 'animation', 
-    'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
-    function EditKitController($scope, $location, animation,
+    EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
+    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    function EditKitController($scope, $location, $timeout, $state, animation,
      device, tag, alert, step, $stateParams, FullKit) {
 
       var vm = this;
@@ -15,6 +15,8 @@
 
       vm.submitForm = submitForm;
       vm.openKitSetup = openKitSetup;
+
+      vm.kitData = undefined;
 
       // EXPOSURE SELECT
       vm.exposure = [
@@ -76,25 +78,25 @@
         }
         device.getDevice(kitID)
           .then(function(deviceData) {
-            var kitData = new FullKit(deviceData);
+            vm.kitData = new FullKit(deviceData);
             vm.kitForm = {
-              name: kitData.name,
-              exposure: (kitData.labels.indexOf('indoor') >= 0 || 
-                kitData.labels.indexOf('outdoor') >= 0 ) && 
-              ( findExposure(kitData.labels.indexOf('indoor') ? 
+              name: vm.kitData.name,
+              exposure: (vm.kitData.labels.indexOf('indoor') >= 0 ||
+                vm.kitData.labels.indexOf('outdoor') >= 0 ) &&
+              ( findExposure(vm.kitData.labels.indexOf('indoor') ?
                 'indoor' : 'outdoor') ),
               location: {
-                lat: kitData.latitude,
-                lng: kitData.longitude,
+                lat: vm.kitData.latitude,
+                lng: vm.kitData.longitude,
                 zoom: 16
               },
-              tags: kitData.userTags,
-              description: kitData.description
+              tags: vm.kitData.userTags,
+              description: vm.kitData.description
             };
             vm.markers = {
               main: {
-                lat: kitData.latitude,
-                lng: kitData.longitude,
+                lat: vm.kitData.latitude,
+                lng: vm.kitData.longitude,
                 draggable: true
               }
             };
@@ -136,7 +138,7 @@
           data.mac_address = vm.macAddress;
         }
 
-        device.updateDevice(kitData.id, data)
+        device.updateDevice(vm.kitData.id, data)
           .then(
             function() {
               alert.success('Your kit was successfully updated');
