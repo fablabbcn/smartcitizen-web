@@ -51,6 +51,12 @@
         });
         vm.kitForm.tags.push(tag.name);
       });
+
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.kitForm.location.lat = args.model.lat;
+        vm.kitForm.location.lng = args.model.lng;
+      });
+
       vm.removeTag = removeTag;
 
 

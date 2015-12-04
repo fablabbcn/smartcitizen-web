@@ -184,19 +184,18 @@
         vm.markers = device.getWorldMarkers();
         device.getAllDevices()
           .then(function(data){
-            if (!vm.markers || vm.markers.length === 0){
-              vm.markers = _.chain(data)
-                  .map(function(device) {
-                    return new Marker(device);
-                  })
-                  .filter(function(marker) {
-                    return !!marker.lng && !!marker.lat;
-                  })
-                  .tap(function(data) {
-                    device.setWorldMarkers(data);
-                  })
-                  .value();
-            }
+
+            vm.markers = _.chain(data)
+                .map(function(device) {
+                  return new Marker(device);
+                })
+                .filter(function(marker) {
+                  return !!marker.lng && !!marker.lat;
+                })
+                .tap(function(data) {
+                  device.setWorldMarkers(data);
+                })
+                .value();
 
             var markersByIndex = _.indexBy(vm.markers, function(marker) {
               return marker.myData.id;

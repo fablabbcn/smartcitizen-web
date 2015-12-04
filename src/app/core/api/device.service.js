@@ -48,10 +48,10 @@
 
       function getAllDevices() {
         if (service.noCache){
-          var timeStamp = parseInt(new Date().getTime() / 1000);
+          //var timeStamp = parseInt(new Date().getTime() / 1000);
           /*jshint camelcase: false */
-          var results = Restangular.all('devices/world_map')
-            .getList({cachebuster: timeStamp});
+          var results = Restangular.all('devices/fresh_world_map').getList();
+          //  .getList({cachebuster: timeStamp});
           service.noCache = false;
           return results;
         } else {
