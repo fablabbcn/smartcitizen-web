@@ -4,9 +4,9 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 
+    NewKitController.$inject = ['$scope', '$state', 'animation', 'device',
     'tag', 'alert', 'auth'];
-    function NewKitController($scope, $state, animation, device, tag, 
+    function NewKitController($scope, $state, animation, device, tag,
       alert, auth) {
       var vm = this;
 
@@ -117,6 +117,7 @@
           .then(
             function(response) {
               alert.success('Your kit was created but has not been configured yet');
+              device.setNoCacheTimer(30000);
               auth.setCurrentUser('appLoad').then(function(){
                 var kitID = response.id;
                 $state.go('layout.kitEdit', {id:kitID, step:2});
