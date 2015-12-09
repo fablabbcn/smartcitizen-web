@@ -1,40 +1,20 @@
 <md-dialog>
-  <md-dialog-content class="modal modal_mapFilter">
+  <md-dialog-content class="modal modal_tagFilter">
     <md-button class="close_icon">
-      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="cancel()" class="" >
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="filterDialog.cancel()" class="" >
       </md-icon>
     </md-button>
     <div class="modal_content_container_filter">
       <h2>FILTERS</h2>
-      <p>You can apply some filters to get more accurate results on the map.</p>
-      <div class="input_filter">
-        <h3>Location filter</h3>
-        <small>now showing <span ng-show="form.indoor">Indoor</span><span ng-show="form.indoor && form.outdoor">, </span><span ng-show="form.outdoor">Outdoor</span></small>
-        <div class="modal_mapFilter_input">
-          <md-checkbox ng-change="applyFilterRules()" ng-model="form.indoor" aria-label></md-checkbox>
-          <span>Indoor</span>
-        </div>
-        <div class="modal_mapFilter_input">
-          <md-checkbox ng-change="applyFilterRules()" ng-model="form.outdoor" aria-label></md-checkbox>
-          <span>Outdoor</span>
-        </div>
-      </div>
+      <p>Only show kits containing ALL these parameters.</p>
       <md-divider></md-divider>
-      <div class="input_filter">
-        <h3>Status filter</h3>
-        <small>now showing <span ng-show="form.online">Online</span><span ng-show="form.online && form.offline">, </span><span ng-show="form.offline">Offline</span></small>
-        <div class="modal_mapFilter_input">
-          <md-checkbox ng-change="applyFilterRules()" ng-model="form.online" aria-label></md-checkbox>
-          <span>Online</span>
-        </div>
-        <div class="modal_mapFilter_input">
-          <md-checkbox ng-change="applyFilterRules()" ng-model="form.offline" aria-label></md-checkbox>
-          <span>Offline</span>
-        </div>
+
+      <div class="modalTag_tagContainer" ng-repeat = "filter in filterDialog.filters">
+       <md-checkbox class = "blue" ng-model = "filterDialog.checks[filter]"> <small class="filter">{{filter.toUpperCase()}} </small></md-checkbox>
       </div>
-      <md-divider></md-divider>
+      
     </div>
-    <md-button class="md-flat button_clear" ng-click="answer()">CLEAR FILTERS</md-button>
-    <md-button class="md-flat md-primary main" ng-click="answer(form)">APPLY</md-button>
+    <md-button class="md-warn button_clear" ng-click="filterDialog.clear()">CLEAR FILTERS</md-button>
+    <md-button class="md-flat md-primary main" ng-click="filterDialog.answer()">APPLY</md-button>
   </md-dialog-content>
 </md-dialog>

@@ -167,18 +167,16 @@
         status: null
       };
 
-      vm.filterData = {
-        indoor: true,
-        outdoor: true,
-        online: true,
-        offline: true
-      };
+      vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
 
       vm.openFilterPopup = openFilterPopup;
       vm.openTagPopup = openTagPopup;
       vm.removeFilter = removeFilter;
       vm.removeTag = removeTag;
       vm.selectedTags = [];
+      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
+
+      vm.checkAllFiltersSelected = checkAllFiltersSelected;
 
       initialize();
 
@@ -218,33 +216,31 @@
             }
           });
 
-        checkFiltersSelected();
+        checkAllFiltersSelected();
       }
 
-      function checkFiltersSelected() {
-        var allFiltersSelected = _.every(vm.filterData, function(filterValue) {
-          return filterValue;
+      function checkAllFiltersSelected() {
+        var allFiltersSelected = _.every(vm.filters, function(filterValue) {
+          return _.include(vm.selectedFilters, filterValue);
         });
-        vm.allFiltersSelected = allFiltersSelected;
+        return allFiltersSelected;
       }
 
       function openFilterPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapFilterDialogController',
+          controller: 'MapFilterDialogController as filterDialog',
           templateUrl: 'app/components/map/mapFilterPopup.html',
           //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {
-            filterData: vm.filterData,
-            defaultFiltersFromController: defaultFilters
+            selectedFilters: vm.selectedFilters
           }
         })
-        .then(function(obj) {
-          _.extend(vm.filterData, obj.data);
-          _.extend(defaultFilters, obj.defaultFilters);
-          updateMarkers(obj.data, vm.selectedTags);
-          checkFiltersSelected();
+        .then(function(selectedFilters) {
+          vm.selectedFilters = selectedFilters;
+          updateMarkers(vm.selectedFilters, vm.selectedTags);
+          checkAllFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
           });
@@ -265,7 +261,7 @@
         .then(function(selectedTags) {
           vm.selectedTags = _.pluck(selectedTags, 'name');
           updateMarkers(vm.filterData, selectedTags);
-          checkFiltersSelected();
+          checkAllFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
           });
@@ -273,23 +269,20 @@
       }
 
       function removeFilter(filterName) {
-        if(!mapUtils.canFilterBeRemoved(vm.filterData, filterName)) {
-          return;
-        }
-        vm.filterData[filterName] = false;
-        _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
-        updateMarkers(vm.filterData); 
-        checkFiltersSelected();
-        $timeout(function() {
-          checkMarkersLeftOnMap();
+        vm.selectedFilters = _.filter(vm.selectedFilters, function(el){
+          return el !== filterName;
         });
+        updateMarkers();
       }
 
-      function filterMarkersByLabel(filterData, tmpMarkers) {
+      function filterMarkersByLabel(tmpMarkers) {
         return tmpMarkers.filter(function(marker) {
           var labels = marker.myData.labels;
+          if (labels.length === 0 && vm.selectedFilters.length !== 0){
+            return false;
+          }
           return _.every(labels, function(label) {
-            return filterData[label];
+            return _.include(vm.selectedFilters, label);
           });
         });
       }
@@ -307,13 +300,11 @@
         });
       }
 
-      function updateMarkers(filterData) {
+      function updateMarkers() {
         $timeout(function() {
           $scope.$apply(function() { 
             var tmpMarkers = vm.initialMarkers;
-            if (filterData){
-              tmpMarkers = filterMarkersByLabel(filterData, tmpMarkers);
-            }
+            tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = filterMarkersByTag(tmpMarkers);
           });
         });
@@ -380,7 +371,9 @@
 
       function getZoomLevel(data) {
         var LAYER_ZOOMS = [{name:'venue', zoom:18}, {name:'address', zoom:18}, {name:'neighbourhood', zoom:13}, {name:'locality', zoom:13}, {name:'localadmin', zoom:10}, {name:'county', zoom:10}, {name:'region', zoom:8}, {name:'country', zoom:7}, {name:'coarse', zoom:7}];
-        if (!data.layer) return 5;
+        if (!data.layer) {
+          return 5;
+        }
         return _.find(LAYER_ZOOMS, function(layer) {
           return layer.name === data.layer;
         }).zoom;

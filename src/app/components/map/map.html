@@ -22,13 +22,13 @@
           <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
         </button>
       </div>
-      <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="chip map_filter" ng-if="isFilterSelected && !vm.allFiltersSelected" layout="row" layout-align="center center">
-        <span class="chip_name">{{ filterName }}</span>
-        <button ng-click="vm.removeFilter(filterName)" class="chip_icon" arial-label>
+      <div ng-repeat="filter in vm.selectedFilters" class="chip map_filter" ng-if="!vm.checkAllFiltersSelected()" layout="row" layout-align="center center">
+        <span class="chip_name">{{ filter }}</span>
+        <button ng-click="vm.removeFilter(filter)" class="chip_icon" arial-label>
           <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
         </button>
       </div>
-      <div ng-if="vm.allFiltersSelected" class="map_filter" layout="row" layout-align="center center">
+      <div ng-if="vm.checkAllFiltersSelected()" class="map_filter" layout="row" layout-align="center center">
         <div class="chip map_filter">
           <span class="chip_name">ALL FILTERS</span>          
         </div>
