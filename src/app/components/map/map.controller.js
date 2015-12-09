@@ -177,6 +177,7 @@
       vm.openFilterPopup = openFilterPopup;
       vm.openTagPopup = openTagPopup;
       vm.removeFilter = removeFilter;
+      vm.removeTag = removeTag;
       vm.selectedTags = [];
 
       initialize();
@@ -409,6 +410,12 @@
         vm.center.lat = data.lat;
         vm.center.lng = data.lng;
         vm.center.zoom = getZoomLevel(data);
+      }
+
+      function removeTag(tag){
+        vm.selectedTags = _.filter(vm.selectedTags, function(el){
+          return el !== tag;
+        });
       }
     }
 
