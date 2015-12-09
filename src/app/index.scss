@@ -1675,10 +1675,13 @@ section .stickMenu {
 }
 
 .modalTag_tagContainer{
-  .md-checkbox .md-label{
-    border: none;
+  .md-default-theme{
+    .md-label{
+      border: none;
+    }
   }
 }
+  
 
 /*
   MODAL RECOVERY PASSWORD
