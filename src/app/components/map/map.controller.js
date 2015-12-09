@@ -416,6 +416,7 @@
         vm.selectedTags = _.filter(vm.selectedTags, function(el){
           return el !== tag;
         });
+        updateMarkers();
       }
     }
 
