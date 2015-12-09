@@ -1599,7 +1599,7 @@ section .stickMenu {
   MODAL FOR MAP FILTER
 */
 
-.modal_mapFilter {
+.modal_mapFilter, .modal_tagFilter {
   width: 300px;
 
   .modal_content_container_filter {
@@ -1637,6 +1637,15 @@ section .stickMenu {
     margin: 8px 0;
   }
 }
+
+/*
+  MODAL TAG FILTER
+*/
+
+.modal_tagFilter {
+  width:650px;
+}
+
 
 /*
   MODAL RECOVERY PASSWORD
