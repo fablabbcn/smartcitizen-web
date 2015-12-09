@@ -40,7 +40,8 @@
         this.focus = false;
         this.myData = {
           id: markerUtils.parseId(deviceData),
-          labels: markerUtils.parseLabels(deviceData)
+          labels: markerUtils.parseLabels(deviceData),
+          tags: markerUtils.parseUserTags(deviceData)
         };
       }
       return Marker;

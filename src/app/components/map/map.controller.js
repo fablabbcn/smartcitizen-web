@@ -175,7 +175,9 @@
       };
 
       vm.openFilterPopup = openFilterPopup;
+      vm.openTagPopup = openTagPopup;
       vm.removeFilter = removeFilter;
+      vm.selectedTags = [];
 
       initialize();
 
@@ -240,7 +242,28 @@
         .then(function(obj) {
           _.extend(vm.filterData, obj.data);
           _.extend(defaultFilters, obj.defaultFilters);
-          updateMarkers(obj.data);
+          updateMarkers(obj.data, vm.selectedTags);
+          checkFiltersSelected();
+          $timeout(function() {
+            checkMarkersLeftOnMap();
+          });
+        });
+      }
+
+      function openTagPopup() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'MapTagDialogController as tagDialog',
+          templateUrl: 'app/components/map/mapTagPopup.html',
+          //targetEvent: ev,
+          clickOutsideToClose: true,
+          locals: {
+            selectedTags: vm.selectedTags
+          }
+        })
+        .then(function(selectedTags) {
+          vm.selectedTags = _.pluck(selectedTags, 'name');
+          updateMarkers(vm.filterData, selectedTags);
           checkFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
@@ -254,14 +277,14 @@
         }
         vm.filterData[filterName] = false;
         _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
-        updateMarkers(vm.filterData);
+        updateMarkers(vm.filterData); 
         checkFiltersSelected();
         $timeout(function() {
           checkMarkersLeftOnMap();
         });
       }
 
-      function filterMarkers(filterData) {
+      function filterMarkersByLabel(filterData) {
         return vm.markers.filter(function(marker) {
           var labels = marker.myData.labels;
           return _.every(labels, function(label) {
@@ -270,11 +293,27 @@
         });
       }
 
+      function filterMarkersByTag(tmpMarkers) {
+
+        return tmpMarkers.filter(function(marker) {
+          var tags = marker.myData.tags;
+          if (tags.length === 0 && vm.selectedTags.length !== 0){
+            return false;
+          }
+          return _.every(tags, function(tag) {
+            return _.include(vm.selectedTags, tag);
+          });
+        });
+      }
+
       function updateMarkers(filterData) {
         $timeout(function() {
-          $scope.$apply(function() {
-            vm.markers = vm.initialMarkers;
-            vm.markers = filterMarkers(filterData);
+          $scope.$apply(function() { 
+            var tmpMarkers = vm.initialMarkers;
+            if (filterData){
+              tmpMarkers = filterMarkersByLabel(filterData);
+            }
+            vm.markers = filterMarkersByTag(tmpMarkers);
           });
         });
       }

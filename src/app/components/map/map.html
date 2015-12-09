@@ -4,6 +4,9 @@
     <md-button ng-click="vm.openFilterPopup()" class="map_filter_button" layout="row" layout-align="center center" aria-label>
       <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
     </md-button>
+    <md-button ng-click="vm.openTagPopup()" class="map_filter_button" layout="row" layout-align="center center" aria-label>
+      <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
+    </md-button>
     <div class="chips">
       <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="chip map_filter" ng-if="isFilterSelected && !vm.allFiltersSelected" layout="row" layout-align="center center">
         <span class="chip_name">{{ filterName }}</span>
