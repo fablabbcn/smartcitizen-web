@@ -284,8 +284,8 @@
         });
       }
 
-      function filterMarkersByLabel(filterData) {
-        return vm.markers.filter(function(marker) {
+      function filterMarkersByLabel(filterData, tmpMarkers) {
+        return tmpMarkers.filter(function(marker) {
           var labels = marker.myData.labels;
           return _.every(labels, function(label) {
             return filterData[label];
@@ -311,7 +311,7 @@
           $scope.$apply(function() { 
             var tmpMarkers = vm.initialMarkers;
             if (filterData){
-              tmpMarkers = filterMarkersByLabel(filterData);
+              tmpMarkers = filterMarkersByLabel(filterData, tmpMarkers);
             }
             vm.markers = filterMarkersByTag(tmpMarkers);
           });

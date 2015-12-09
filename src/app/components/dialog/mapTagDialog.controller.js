@@ -41,7 +41,7 @@
     }
 
     function hide() {
-      $mdDialog.hide();
+      answer();
     }
 
     function clear() {
@@ -49,7 +49,7 @@
     }
 
     function cancel() {
-      $mdDialog.hide();
+      answer();
     }
 
     function isTagSelected(tag) {
