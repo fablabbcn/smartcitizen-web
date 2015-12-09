@@ -711,9 +711,36 @@ section.map {
   MAP FILTERS
 */
 .map_legend {
+
   position: absolute;
   bottom: 12px;
   margin-left: 24px;
+  display: flex;
+
+  .chips{
+    align-self: flex-end;
+    padding-bottom: 5px;
+    padding-left: 5px;
+  }
+
+  .map_legend__filtersContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 124px;
+    height: 81px;
+    .map_legend__filtersRow{
+      display: flex;
+      height: 49%;
+      align-items: center;
+      padding-left: 5px;
+      background-color: #fff;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 1);
+      .map_filter_button{
+        box-shadow:none;
+      }
+    }
+  }
 }
 .map_filter_button {
   background-color: white;
@@ -1646,6 +1673,11 @@ section .stickMenu {
   width:650px;
 }
 
+.modalTag_tagContainer{
+  .md-checkbox .md-label{
+    border: none;
+  }
+}
 
 /*
   MODAL RECOVERY PASSWORD
