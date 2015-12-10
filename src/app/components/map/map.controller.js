@@ -5,9 +5,10 @@
     .controller('MapController', MapController);
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 'Marker'];
+    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 
+    'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
     	var vm = this;
       var updateType;
       var mapMoved = false;
@@ -173,12 +174,20 @@
       vm.openTagPopup = openTagPopup;
       vm.removeFilter = removeFilter;
       vm.removeTag = removeTag;
-      vm.selectedTags = [];
+      vm.selectedTags = tag.getSelectedTags();
       vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
 
       vm.checkAllFiltersSelected = checkAllFiltersSelected;
 
       initialize();
+
+      $scope.$watch('vm.selectedTags', function(newVal) {
+        if (newVal.length > 0){
+          tag.setSelectedTags(newVal);
+          updateMarkers();
+          $state.go('layout.home.tags');
+        }
+      });
 
       /////////////////////
 
@@ -239,7 +248,7 @@
         })
         .then(function(selectedFilters) {
           vm.selectedFilters = selectedFilters;
-          updateMarkers(vm.selectedFilters, vm.selectedTags);
+          updateMarkers();
           checkAllFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
@@ -259,8 +268,8 @@
           }
         })
         .then(function(selectedTags) {
-          vm.selectedTags = _.pluck(selectedTags, 'name');
-          updateMarkers(vm.filterData, selectedTags);
+          tag.setSelectedTags(_.pluck(selectedTags, 'name'));
+          vm.selectedTags = tag.getSelectedTags();
           checkAllFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
@@ -287,25 +296,12 @@
         });
       }
 
-      function filterMarkersByTag(tmpMarkers) {
-
-        return tmpMarkers.filter(function(marker) {
-          var tags = marker.myData.tags;
-          if (tags.length === 0 && vm.selectedTags.length !== 0){
-            return false;
-          }
-          return _.every(tags, function(tag) {
-            return _.include(vm.selectedTags, tag);
-          });
-        });
-      }
-
       function updateMarkers() {
         $timeout(function() {
           $scope.$apply(function() { 
-            var tmpMarkers = vm.initialMarkers;
+            var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
-            vm.markers = filterMarkersByTag(tmpMarkers);
+            vm.markers = tag.filterMarkersByTag(tmpMarkers);
           });
         });
       }
@@ -405,10 +401,11 @@
         vm.center.zoom = getZoomLevel(data);
       }
 
-      function removeTag(tag){
-        vm.selectedTags = _.filter(vm.selectedTags, function(el){
-          return el !== tag;
-        });
+      function removeTag(tagName){
+        tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
+          return el !== tagName;
+        }));
+        vm.selectedTags = tag.getSelectedTags();
         updateMarkers();
       }
     }

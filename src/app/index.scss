@@ -739,6 +739,9 @@ section.map {
       box-shadow: 0 1px 5px rgba(0, 0, 0, 1);
       .map_filter_button{
         box-shadow:none;
+        p{
+          margin: 0;
+        }
       }
     }
   }
@@ -1363,6 +1366,35 @@ section .kit_menu {
       right: 5%;
       margin-top: 32px;
       color: #35C2E5;
+    }
+  }
+}
+
+/*
+=========================================
+KIT TAGS MODULE
+=========================================
+*/
+
+.kitTags__section{
+  margin-top: 376px;
+  overflow: hidden;
+
+  .kitTags__container{
+    background-color:#fff;
+    border-top-style: inset;
+    border-top-width: 3px;
+    padding-bottom: 20px;
+    .kitTags__textContainer{
+      display: flex;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-right: 20px;
+      .kitTags__textElement{
+        flex-basis:40%;
+        flex-grow:0;
+        min-width: 300px;
+      }
     }
   }
 }
