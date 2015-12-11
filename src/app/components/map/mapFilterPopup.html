@@ -11,8 +11,10 @@
 
       <div class="modalTag_tagContainer" ng-repeat = "filter in filterDialog.filters">
        <md-checkbox class = "blue" ng-model = "filterDialog.checks[filter]"> <small class="filter">{{filter.toUpperCase()}} </small></md-checkbox>
+       <md-divider/>
       </div>
-      
+
+
     </div>
     <md-button class="md-warn button_clear" ng-click="filterDialog.clear()">CLEAR FILTERS</md-button>
     <md-button class="md-flat md-primary main" ng-click="filterDialog.answer()">APPLY</md-button>

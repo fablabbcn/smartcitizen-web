@@ -730,13 +730,26 @@ section.map {
     justify-content: space-between;
     width: 124px;
     height: 81px;
+
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+
+
+
     .map_legend__filtersRow{
+      cursor: pointer;
+
+      &:not(:last-child){
+        border-bottom: 1px solid gray;
+      }
+
       display: flex;
-      height: 49%;
+
       align-items: center;
       padding-left: 5px;
       background-color: #fff;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, 1);
+
       .map_filter_button{
         box-shadow:none;
         p{
@@ -1713,7 +1726,7 @@ section .stickMenu {
     }
   }
 }
-  
+
 
 /*
   MODAL RECOVERY PASSWORD

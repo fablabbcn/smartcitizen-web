@@ -12,8 +12,9 @@
 
       <div class="modalTag_tagContainer" ng-repeat = "tag in tagDialog.tags">
        <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]"> <span class="tag">{{tag.name}} </span></md-checkbox>
+       <md-divider/>
       </div>
-      
+
     </div>
     <md-button class="md-warn button_clear" ng-click="tagDialog.clear()">CLEAR SELECTION</md-button>
     <md-button class="md-flat md-primary main" ng-click="tagDialog.answer()">APPLY</md-button>

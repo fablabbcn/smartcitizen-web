@@ -5,7 +5,7 @@
     .controller('MapController', MapController);
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 
+    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
     'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
@@ -22,10 +22,10 @@
       var retinaSuffix = isRetina() ? '@2x' : '';
 
       vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'
-          + retinaSuffix +'.png'
-          + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
-          + 'loQdtLNQ8GJkJl2LUzzxVg'
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+
+          retinaSuffix +'.png' +
+          '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
+          'loQdtLNQ8GJkJl2LUzzxVg'
       };
       //previous tile -->'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
 
@@ -34,10 +34,10 @@
           osm: {
             name: 'OpenStreetMap',
             type: 'xyz',
-            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/'
-              + '{x}/{y}' + retinaSuffix + '.png'
-              + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
-              + 'loQdtLNQ8GJkJl2LUzzxVg'
+            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/' +
+              '{x}/{y}' + retinaSuffix + '.png' +
+              '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
+              'loQdtLNQ8GJkJl2LUzzxVg'
           }
         },
         overlays: {
@@ -69,7 +69,8 @@
 
     	vm.events = {
     	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
+    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
+          'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
     	  	logic: 'broadcast'
     	  }
     	};
@@ -91,7 +92,6 @@
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
 
         updateType = 'map';
-        var id = data.leafletEvent.target.options.myData.id;
 
         var availability = data.leafletEvent.target.options.myData.labels[0];
         ga('send', 'event', 'Kit Marker', 'click', availability);
@@ -99,7 +99,7 @@
         $state.go('layout.home.kit', {id: id});
       });
 
-      $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
+      $scope.$on('leafletDirectiveMarker.popupclose', function() {
         if(focusedMarkerID) {
           var marker = vm.markers[focusedMarkerID];
           if(marker) {
@@ -127,19 +127,20 @@
               leafletData.getLayers()
                 .then(function(layers) {
                   if(currentMarker){
-                    layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
-                      var selectedMarker = currentMarker;
+                    layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                      function() {
+                        var selectedMarker = currentMarker;
 
-                      if(selectedMarker) {
-                        selectedMarker.focus = true;
-                      }
-                      if(!$scope.$$phase) {
-                        $scope.$digest();
-                      }
+                        if(selectedMarker) {
+                          selectedMarker.focus = true;
+                        }
+                        if(!$scope.$$phase) {
+                          $scope.$digest();
+                        }
 
-                      kitLoaded = true;
-                      
-                    });
+                        kitLoaded = true;
+
+                      });
                   }
                 });
             });
@@ -162,11 +163,6 @@
       $scope.$on('leafletDirectiveMap.mousedown', function(){
         mapClicked = true;
       });
-
-      var defaultFilters = {
-        exposure: null,
-        status: null
-      };
 
       vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
 
@@ -281,6 +277,9 @@
         vm.selectedFilters = _.filter(vm.selectedFilters, function(el){
           return el !== filterName;
         });
+        if(vm.selectedFilters.length === 0){
+          vm.selectedFilters = vm.filters;
+        }
         updateMarkers();
       }
 
@@ -298,7 +297,7 @@
 
       function updateMarkers() {
         $timeout(function() {
-          $scope.$apply(function() { 
+          $scope.$apply(function() {
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
@@ -315,7 +314,7 @@
 
                 if(!isThereMarkers) {
                   leafletData.getMap()
-                    .then(function(map) {
+                    .then(function() {
                       var center = L.latLng(vm.center.lat, vm.center.lng);
                       var closestMarker = _.reduce(markers, function(closestMarkerSoFar, marker) {
                         var distanceToMarker = center.distanceTo(marker.getLatLng());
