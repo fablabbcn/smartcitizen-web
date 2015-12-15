@@ -243,6 +243,7 @@
           }
         })
         .then(function(selectedFilters) {
+          updateType = 'map';
           vm.selectedFilters = selectedFilters;
           updateMarkers();
           checkAllFiltersSelected();
@@ -264,6 +265,7 @@
           }
         })
         .then(function(selectedTags) {
+          updateType = 'map';
           tag.setSelectedTags(_.pluck(selectedTags, 'name'));
           vm.selectedTags = tag.getSelectedTags();
           checkAllFiltersSelected();
