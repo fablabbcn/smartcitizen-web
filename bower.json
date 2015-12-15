@@ -2,7 +2,7 @@
   "name": "smartcitizen",
   "version": "0.0.0",
   "dependencies": {
-    "airbrake-js-client": "~0.5.3",
+    "airbrake-js-client": "^0.5.8",
     "angular": "~1.3.4",
     "angular-clipboard": "~1.1.1",
     "angular-dropdowns": "~1.1.0",
