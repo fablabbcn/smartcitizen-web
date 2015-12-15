@@ -303,6 +303,11 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
+
+            var boundaries = getBoundaries(vm.markers);
+            leafletData.getMap().then(function(map){
+              map.fitBounds(boundaries);
+            });
           });
         });
       }
@@ -408,6 +413,25 @@
         }));
         vm.selectedTags = tag.getSelectedTags();
         updateMarkers();
+      }
+
+      function getBoundaries(markers){
+        var minLat = markers[0].lat;
+        var minLong = markers[0].lng;
+        var maxLat = minLat;
+        var maxLong = maxLong;
+
+        _.forEach(markers, function(marker){
+          minLat = _.min([minLat, marker.lat]);
+          maxLat = _.max([maxLat, marker.lat]);
+          minLong = _.min([minLong, marker.lng]);
+          maxLong = _.max([maxLong, marker.lng]);
+        });
+
+        return L.latLngBounds(
+          L.latLng(minLat, minLong),
+          L.latLng(maxLat, maxLong)
+        );
       }
     }
 
