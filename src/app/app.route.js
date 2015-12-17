@@ -123,7 +123,10 @@
                 });
             },
             selectedTags: function($stateParams, tag){
-              tag.setSelectedTags($stateParams.tags);
+              if(typeof($stateParams.tags) === 'string'){
+                $stateParams.tags = [$stateParams.tags];
+              }
+              tag.setSelectedTags(_.uniq($stateParams.tags));
             }
           }
         })
