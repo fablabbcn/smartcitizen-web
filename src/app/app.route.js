@@ -102,7 +102,7 @@
         Abstract state, it only activates when there's a child state activated
         */
         .state('layout.home', {
-          url: '/kits',
+          url: '/kits?tags',
           abstract: true,
           views: {
             '': {
@@ -121,6 +121,9 @@
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
+            },
+            selectedTags: function($stateParams, tag){
+              tag.setSelectedTags($stateParams.tags);
             }
           }
         })
@@ -146,7 +149,7 @@
               return isAdmin || belongsToUser;
             }
           }
-        }) 
+        })
         /*
         -- Show Kit state --
         Nested inside layout and home state

@@ -4,7 +4,7 @@
     /**
      * TODO: This directives can be split up each one in a different file
      */
-    
+
     angular.module('app.components')
       .directive('moveDown', moveDown)
       .directive('stick', stick)
@@ -16,11 +16,11 @@
 
     /**
      * It moves down kit section to ease the transition after the kit menu is sticked to the top
-     * 
+     *
      */
     moveDown.$inject = [];
     function moveDown() {
-      
+
       function link(scope, element) {
         scope.$watch('moveDown', function(isTrue) {
           if(isTrue) {
@@ -40,25 +40,25 @@
 
     /**
      * It sticks kit menu when kit menu touchs navbar on scrolling
-     * 
+     *
      */
     stick.$inject = ['$window', '$timeout'];
     function stick($window, $timeout) {
       function link(scope, element) {
         var elementPosition = element[0].offsetTop;
         //var elementHeight = element[0].offsetHeight;
-        var navbarHeight = angular.element('.stickNav').height();  
+        var navbarHeight = angular.element('.stickNav').height();
 
         $timeout(function() {
           elementPosition = element[0].offsetTop;
           //var elementHeight = element[0].offsetHeight;
-          navbarHeight = angular.element('.stickNav').height();          
-        }, 1000);  
-          
+          navbarHeight = angular.element('.stickNav').height();
+        }, 1000);
+
 
         angular.element($window).on('scroll', function() {
-          var windowPosition = document.body.scrollTop; 
-          
+          var windowPosition = document.body.scrollTop;
+
           //sticking menu and moving up/down
           if(windowPosition + navbarHeight >= elementPosition) {
             element.addClass('stickMenu');
@@ -83,11 +83,11 @@
 
     /**
      * Unused directive. Double-check is not being used before removing it
-     * 
+     *
      */
-    
+
     function blur() {
-      
+
       function link(scope, element) {
 
         scope.$on('blur', function() {
@@ -107,8 +107,8 @@
     }
 
     /**
-     * Used to remove nav and unable scrolling when searching 
-     * 
+     * Used to remove nav and unable scrolling when searching
+     *
      */
     focus.$inject = ['animation'];
     function focus(animation) {
@@ -139,7 +139,7 @@
 
     /**
      * Changes map section based on screen size
-     * 
+     *
      */
     changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
     function changeMapHeight($document, layout, $timeout) {
@@ -147,23 +147,23 @@
 
         var screenHeight = $document[0].body.clientHeight;
         var navbarHeight = angular.element('.stickNav').height();
-        
-        // var overviewHeight = angular.element('.kit_overview').height(); 
+
+        // var overviewHeight = angular.element('.kit_overview').height();
         // var menuHeight = angular.element('.kit_menu').height();
         // var chartHeight = angular.element('.kit_chart').height();
 
         $timeout(function() {
-          var overviewHeight = angular.element('.kit_overview').height(); 
-          var menuHeight = angular.element('.kit_menu').height();
-          var chartHeight = angular.element('.kit_chart').height();
-          
-          var mapHeight = screenHeight - navbarHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          var overviewHeight = angular.element('.over_map').height();
+
+          var mapHeight = screenHeight - navbarHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
           element.css('height', mapHeight + 'px');
-          
+
+          var aboveTheFoldHeight = screenHeight - overviewHeight;
+          angular.element('section[change-content-margin]').css('margin-top', aboveTheFoldHeight + 'px');
           //layout.setKit(position);
           //var position = mapHeight + navbarHeight // map height + navbar height;
         });
-        
+
       }
 
       return {
@@ -176,33 +176,18 @@
     /**
      * Changes margin on kit section based on above-the-fold space left after map section is resize
      */
-    
+
     changeContentMargin.$inject = ['layout', '$timeout', '$document'];
     function changeContentMargin(layout, $timeout, $document) {
       function link(scope, element) {
-/*        $timeout(function() {
-          var mapHeight = angular.element('.angular-leaflet-map').height();
-          var navbarHeight = angular.element('.stickNav').height();
-          var chartHeight = angular.element('.kit_chart').height();
-
-          element.css('margin-top', mapHeight + navbarHeight + 'px');
-        });
-*/        
           var screenHeight = $document[0].body.clientHeight;
-          // var navbarHeight = angular.element('.stickNav').height();
-          
-          var overviewHeight = angular.element('.kit_overview').height(); 
-          var menuHeight = angular.element('.kit_menu').height();
-          var chartHeight = angular.element('.kit_chart').height();
 
-            // var overviewHeight = angular.element('.kit_overview').height(); 
-            // var menuHeight = angular.element('.kit_menu').height();
-            // var chartHeight = angular.element('.kit_chart').height();
-            
-            var aboveTheFoldHeight = screenHeight - menuHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
-            element.css('margin-top', aboveTheFoldHeight + 'px');  
-      }     
- 
+          var overviewHeight = angular.element('.over_map').height();
+
+          var aboveTheFoldHeight = screenHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          element.css('margin-top', aboveTheFoldHeight + 'px');
+      }
+
       return {
         link: link
       };
@@ -213,7 +198,7 @@
      *
      */
     focusInput.$inject = ['$timeout'];
-    function focusInput($timeout) { 
+    function focusInput($timeout) {
       function link(scope, elem) {
         $timeout(function() {
           elem.focus();

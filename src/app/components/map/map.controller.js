@@ -178,10 +178,10 @@
       initialize();
 
       $scope.$watch('vm.selectedTags', function(newVal) {
-        if (newVal.length > 0){
+        if (newVal && newVal.length > 0){
           tag.setSelectedTags(newVal);
           updateMarkers();
-          $state.go('layout.home.tags');
+          $state.go('layout.home.tags', {tags: newVal});
         }
       });
 

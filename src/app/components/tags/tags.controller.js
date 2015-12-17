@@ -5,10 +5,11 @@
     .controller('tagsController', tagsController);
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
-    'PreviewKit'
+    'PreviewKit', 'animation'
   ];
 
-  function tagsController(tag, $scope, device, $state, $q, PreviewKit) {
+  function tagsController(tag, $scope, device, $state, $q, PreviewKit,
+    animation) {
 
     var vm = this;
 
@@ -33,6 +34,8 @@
     /////////////////////////////////////////////////////////
 
     function initialize() {
+      animation.viewLoaded();
+
     	if (vm.selectedTags.length === 0){
     		return;
     	}

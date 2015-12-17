@@ -6,21 +6,28 @@
 
     tag.$inject = ['Restangular'];
     function tag(Restangular) {
+      var tags = [];
+      var selectedTags = [];
+
       var service = {
         getTags: getTags,
         getSelectedTags: getSelectedTags,
         setSelectedTags: setSelectedTags,
+        tagWithName: tagWithName,
         filterMarkersByTag: filterMarkersByTag
       };
-
-      var selectedTags = [];
 
       return service;
 
       /////////////////
-      
+
       function getTags() {
-        return Restangular.all('tags').getList();
+        return Restangular.all('tags')
+          .getList()
+          .then(function(fetchedTags){
+            tags = fetchedTags.plain();
+            return tags;
+          });
       }
 
       function getSelectedTags(){
@@ -28,6 +35,15 @@
       }
       function setSelectedTags(tags){
         selectedTags = tags;
+      }
+
+      function tagWithName(name){
+        var result = _.where(tags, {name: name});
+        if (result && result.length > 0){
+          return result[0];
+        }else{
+          return;
+        }
       }
 
       function filterMarkersByTag(tmpMarkers) {
