@@ -16,12 +16,10 @@
       </div>
     </div>
     <div class="chips">
-      <div ng-repeat="tag in vm.selectedTags" class="chip map_filter">
-        <span class="chip_name">{{ tag }}</span>
-        <button ng-click="vm.removeTag(tag)" class="chip_icon" arial-label>
-          <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-        </button>
-      </div>
+      <span class="chip_name label" ng-repeat="tag in vm.selectedTags">
+        {{ tag }}
+        <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+      </span>
       <div ng-repeat="filter in vm.selectedFilters" class="chip map_filter" ng-if="!vm.checkAllFiltersSelected()" layout="row" layout-align="center center">
         <span class="chip_name">{{ filter }}</span>
         <button ng-click="vm.removeFilter(filter)" class="chip_icon" arial-label>

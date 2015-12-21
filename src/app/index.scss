@@ -124,6 +124,18 @@ span.label, span.tag, span.state{
   border-radius:20px;
   padding:3px 8px;
   margin-right: 8px;
+
+  md-icon{
+    svg path{
+      fill: $terciary_color_light;
+    }
+
+    margin-left:4px;
+    height:11px;
+    width:11px;
+    margin-top:-3px;
+    cursor:pointer;
+  }
 }
 span.label{
   background-color: $secondary_color_light;
