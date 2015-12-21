@@ -178,11 +178,11 @@
       initialize();
 
       $scope.$watch('vm.selectedTags', function(newVal) {
-        if (newVal && newVal.length > 0){
-          tag.setSelectedTags(newVal);
-          updateMarkers();
-          $state.go('layout.home.tags', {tags: newVal});
-        }
+        // if (newVal && newVal.length > 0){
+        //   tag.setSelectedTags(newVal);
+        //   updateMarkers();
+        //   $state.go('layout.home.tags', {tags: newVal});
+        // }
       });
 
       /////////////////////
@@ -221,7 +221,14 @@
             }
           });
 
+        checkTags();
         checkAllFiltersSelected();
+      }
+
+      function checkTags(){
+        if(vm.selectedTags.length > 0){
+          updateMarkers();
+        }
       }
 
       function checkAllFiltersSelected() {
@@ -412,7 +419,8 @@
           return el !== tagName;
         }));
         vm.selectedTags = tag.getSelectedTags();
-        updateMarkers();
+
+        $state.transitionTo('layout.home.kit', {tags: vm.selectedTags}, {inherit:false});
       }
 
       function getBoundaries(markers){
