@@ -645,7 +645,6 @@ section.map {
   text-align: center;
   width: 100%;
   height: 100%;
-  border: 1px solid grey;
   color: black;
   z-index: 1;//$small_priority;
   position: fixed;
@@ -786,7 +785,6 @@ section.map {
 
 .kit_data {
   margin-top: 376px;
-  overflow: hidden;
 
   section.overlay{
     width:100%;
@@ -816,6 +814,17 @@ section.map {
         margin-top:20px;
       }
     }
+  }
+}
+
+.kit_data, .kitTags__section{
+  .shadow{
+    top: 0px;
+    height: 1px;
+    background-color: rgba(0,0,0,0.1);
+    position: relative;
+    box-shadow: 0px -1px 6px 0 rgba(0,0,0,0.65);
+    z-index: 2;
   }
 }
 
@@ -1391,15 +1400,14 @@ KIT TAGS MODULE
 
 .kitTags__section{
   margin-top: 376px;
-  overflow: hidden;
 
   .kitTags__listContainer{
-    background-color: white;
+    background-color: #F5F5F5;
     padding: 20px;
   }
 
   .kitTags__container{
-    background-color:white;
+    background-color: #F5F5F5;
     padding-bottom: 20px;
 
     .kitTags__textContainer{
