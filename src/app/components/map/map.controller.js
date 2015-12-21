@@ -177,14 +177,6 @@
 
       initialize();
 
-      $scope.$watch('vm.selectedTags', function(newVal) {
-        // if (newVal && newVal.length > 0){
-        //   tag.setSelectedTags(newVal);
-        //   updateMarkers();
-        //   $state.go('layout.home.tags', {tags: newVal});
-        // }
-      });
-
       /////////////////////
 
       function initialize() {
@@ -279,6 +271,7 @@
           $timeout(function() {
             checkMarkersLeftOnMap();
           });
+          reloadWithTags();
         });
       }
 
@@ -420,7 +413,19 @@
         }));
         vm.selectedTags = tag.getSelectedTags();
 
-        $state.transitionTo('layout.home.kit', {tags: vm.selectedTags}, {inherit:false});
+        if(vm.selectedTags.length === 0){
+          $state.transitionTo('layout.home.kit',
+            {tags: vm.selectedTags},
+            {
+              inherit:false
+            });
+        }else{
+          reloadWithTags();
+        }
+      }
+
+      function reloadWithTags(){
+        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags});
       }
 
       function getBoundaries(markers){
