@@ -32,7 +32,7 @@
           markerUtils.parseLocation(deviceData) +
           '</p><div class="popup_labels">' +
           createTagsTemplate(markerUtils.parseLabels(deviceData), 'label') +
-          createTagsTemplate(markerUtils.parseUserTags(deviceData), 'tag') +
+          createTagsTemplate(markerUtils.parseUserTags(deviceData), 'tag', true) +
           '</div></div></div>';
 
         this.icon = markerUtils.getIcon(markerUtils.parseLabels(deviceData));
@@ -47,13 +47,27 @@
       return Marker;
 
 
-      function createTagsTemplate(tagsArr, tagType) {
+      function createTagsTemplate(tagsArr, tagType, clickable) {
+        if(typeof(clickable) === 'undefined'){
+          clickable = false;
+        }
+        var clickablTag = '';
+        if(clickable){
+          clickablTag = 'clickable';
+        }
+
         if(!tagType){
           tagType = 'tag';
         }
 
         return _.reduce(tagsArr, function(acc, label) {
-          return acc.concat('<span class="'+tagType+'">' + label + '</span>');
+          var element ='';
+          if(tagType === 'tag'){
+            element = '<tag ng-attr-tag-name="\''+ label +'\'" '+ clickablTag +'></tag>';
+          }else{
+            element = '<span class="'+tagType+'">'+label+'</span>';
+          }
+          return acc.concat(element);
         }, '');
       }
 

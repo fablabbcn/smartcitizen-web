@@ -196,7 +196,7 @@
                 </p>
                 <p class="kit_details_labels">
                   <span class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
-                  <span class="tag" ng-repeat='tag in vm.kit.userTags'>{{ tag }}</span>
+                  <tag ng-repeat='tag in vm.kit.userTags' ng-attr-tag-name="tag" clickable></tag>
                 </p>
               </div>
             </div>

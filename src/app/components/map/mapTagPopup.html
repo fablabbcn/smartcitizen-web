@@ -11,8 +11,10 @@
       <md-divider></md-divider>
 
       <div class="modalTag_tagContainer" ng-repeat = "tag in tagDialog.tags">
-       <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]"> <span class="tag">{{tag.name}} </span></md-checkbox>
-       <md-divider/>
+        <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]">
+          <tag ng-attr-tag-name="tag" clickable></tag>
+        </md-checkbox>
+        <md-divider/>
       </div>
 
     </div>

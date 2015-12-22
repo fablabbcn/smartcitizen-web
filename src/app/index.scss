@@ -118,7 +118,7 @@ small{
   color: $secondary_color_light;
 }
 
-span.label, span.tag, span.state{
+.label, .tag, .state{
   text-transform: uppercase;
   font-size: 0.7em;
   border-radius:20px;
@@ -136,18 +136,21 @@ span.label, span.tag, span.state{
     margin-top:-3px;
     cursor:pointer;
   }
+  &[clickable]{
+    cursor:pointer;
+  }
 }
-span.label{
+.label{
   background-color: $secondary_color_light;
   color:white;
 }
-span.tag{
+.tag{
   background-color: $terciary_color_light;
   color: $secondary_color_light;
 }
 
-.leaflet-container span.tag, .leaflet-container span.label,
-.leaflet-container span.state{
+.leaflet-container .tag, .leaflet-container .label,
+.leaflet-container .state{
   font-size:1em;
 }
 
