@@ -21,7 +21,7 @@
                 </div>
                 <div class="row" style="margin-top: 130px;">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-pad">
-                        <a href="/pages/store" class="button-register preorder-landing-1" style="float:left;">Go to platform</a>
+                        <a href="/kits" class="button-register preorder-landing-1" style="float:left;">Go to platform</a>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                         <div class="resume-block">
                             <div class="icon-thumb ico-8"></div>
                             <h3>Researchers</h3>
-                            <p>Use it as a tool for data capture and analysis in technology deployments, or for social experiments. Understand the relationship between people, environment and technology by doing real-world deployments. Smart Citizen is being used in major universities around the world to build experiments around architecture, design, computer science, technology, among other disciplines. <a href="http://www.aaschool.ac.uk/" target="_blank">Architectural Association,</a> <a href="http://www.ucl.ac.uk/" target="">University College of London,</a> <a href="http://www.gla.ac.uk/" target="_blank">University of Glasgow</a></p>
+                            <p>Use it as a tool for data capture and analysis in technology deployments, or for social experiments. Understand the relationship between people, environment and technology by doing real-world deployments. Smart Citizen is being used in major universities around the world to build experiments around architecture, design, computer science, technology, among other disciplines. <a href="http://www.aaschool.ac.uk/" target="_blank">Architectural Association,</a> <a href="http://www.ucl.ac.uk/" target="_blank">University College of London,</a> <a href="http://www.gla.ac.uk/" target="_blank">University of Glasgow</a></p>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -108,7 +108,7 @@
                         <div class="resume-block">
                             <div class="icon-thumb ico-7"></div>
                             <h3>Citizen Science</h3>
-                            <p>Reduce the gaps to get data captured and streamed by sensors. No more cables, shields and libraries in order to get valuable data from the environment. Analyse the data online, or download it to put it in your preferred tool.Some applications being used as a tool for citizen science:<a href="https://www.facebook.com/CitSciKS" target="_blank"> CitSciKS,</a><a href="http://waag.org/en/project/smart-citizen-kit"> Waag Society (noise intensity evaluation)</a> </p>
+                            <p>Reduce the gaps to get data captured and streamed by sensors. No more cables, shields and libraries in order to get valuable data from the environment. Analyse the data online, or download it to put it in your preferred tool.Some applications being used as a tool for citizen science:<a href="https://www.facebook.com/CitSciKS" target="_blank"> CitSciKS,</a><a target="_blank" href="http://waag.org/en/project/smart-citizen-kit"> Waag Society (noise intensity evaluation)</a> </p>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@
                         <div class="resume-block">
                             <div class="icon-thumb ico-9"></div>
                             <h3>Developers</h3>
-                            <p>You can build on top of our <a href="http://developer.smartcitizen.me">platform</a> and <a href="https://github.com/fablabbcn/Smart-Citizen-Kit">hardware</a>. Smart Citizen is totally open source, so feel free to download our frameworks and designs, and build new ones on top of them. <a href="https://www.facebook.com/smartcitizenBCN" target="_blank">Share your contribution</a> with all the community, build your own solutions and be part of the development team.</p>
+                            <p>You can build on top of our <a target="_blank" href="http://developer.smartcitizen.me">platform</a> and <a target="_blank" href="https://github.com/fablabbcn/Smart-Citizen-Kit">hardware</a>. Smart Citizen is totally open source, so feel free to download our frameworks and designs, and build new ones on top of them. <a href="https://www.facebook.com/smartcitizenBCN" target="_blank">Share your contribution</a> with all the community, build your own solutions and be part of the development team.</p>
                         </div>
                     </div>
                 </div>
@@ -163,8 +163,8 @@
                 </div>
                 <div class="row" style="margin-top: 130px;">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-pad">
-                        <a href="/pages/store" class="button-register preorder-landing-1" style="float:left;">
-                    Pre-order Smart Citizen kit <!-- <span>start at 155</span> --></a>
+                        <a ng-click="vm.showStore($event)" class="button-register preorder-landing-1" style="float:left;">
+                    Get your Smart Citizen Kit</a>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-pad" style="margin-top:19px; text-align:right;">
                         <div class="logo-arduino-atheart"><img src="/assets/images/landing/arduino-atheart.png"></div>
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                     <div class="col-xs-4 col-sm-4col-md-4 col-lg-4 col-pad" style="text-align:right">
-                        <a href="/pages/sck" class="btn btn-lg read-more-lg" style="margin-top:29px;">Read more</a>
+                        <a href="/about#hardware" class="btn btn-lg read-more-lg" style="margin-top:29px;">Read more</a>
                     </div>
                 </div>
                 <div class="row">
@@ -264,8 +264,8 @@
                         </div>
                     </div>
                     <div class="col-xs-6 col-sm-4 col-md-6 col-lg-6 col-pad" style="text-align:right">
-                        <a href="/pages/store" class="button-register preorder-landing-2">
-                            Order Smart Citizen kit <!-- <span>start at 155</span> --></a>
+                        <a ng-click="vm.showStore($event)" class="button-register preorder-landing-2">
+                            Get your Smart Citizen Kit <!-- <span>start at 155</span> --></a>
                     </div>
                 </div>
                 <div class="row">
@@ -343,8 +343,8 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div style="text-align:center; margin:50px 0 80px 0;">
-                            <a href="/users/login" class="btn btn-primary btn-lg sign-in-lg light" role="button">Sign In</a>
-                            <a href="/users/add" class="btn btn-primary btn-lg register-lg light" role="button">Register</a>
+                            <a href="/kits/?login=true" class="btn btn-primary btn-lg sign-in-lg light" role="button">Sign In</a>
+                            <a href="/kits/?signup=true" class="btn btn-primary btn-lg register-lg light" role="button">Register</a>
                         </div>
                     </div>
                 </div>
@@ -467,7 +467,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <h1></h1>
-                            <a href="/pages/press"><img src="/assets/images/landing/logosPress.jpg" style="width:100%; margin-bottom:40px;"></a>
+                            <img src="/assets/images/landing/logosPress.jpg" style="width:100%; margin-bottom:40px;">
                         </div>
                     </div>
                 </div>
