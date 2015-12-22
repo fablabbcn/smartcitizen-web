@@ -126,10 +126,6 @@ small{
   margin-right: 8px;
 
   md-icon{
-    svg path{
-      fill: $terciary_color_light;
-    }
-
     margin-left:4px;
     height:11px;
     width:11px;
@@ -143,10 +139,16 @@ small{
 .label{
   background-color: $secondary_color_light;
   color:white;
+  md-icon svg path{
+    fill: $terciary_color_light;
+  }
 }
 .tag{
   background-color: $terciary_color_light;
   color: $secondary_color_light;
+  md-icon svg path{
+    fill: $secondary_color;
+  }
 }
 
 .leaflet-container .tag, .leaflet-container .label,
@@ -689,16 +691,25 @@ section.map {
  */
 .chips {
   display: inline-block;
+
+  div.chips_row{
+    height:40.5px;
+  }
+
+  .label, .tag{
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  }
 }
 .chip {
-  display: inline-block;
-  padding: 1px 6px 3px 6px;
-  margin: 0 5px;
+  // display: inline-block;
+  padding: 2px 6px 2px 12px;
+  margin: auto 5px;
   border-radius: 20px;
+  height:22px;
+  text-transform: uppercase;
+  font-size: 12px;
 
   .chip_name {
-    font-size: 12px;
-    text-transform: capitalize;
     margin-left: 3px;
     margin-right: 7px;
   }

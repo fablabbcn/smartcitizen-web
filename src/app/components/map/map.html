@@ -15,16 +15,20 @@
         <p class="filter_description">Tags</p>
       </div>
     </div>
-    <div class="chips">
-      <span class="chip_name label" ng-repeat="tag in vm.selectedTags">
-        {{ tag }}
-        <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-      </span>
-      <div ng-repeat="filter in vm.selectedFilters" class="chip map_filter" ng-if="!vm.checkAllFiltersSelected()" layout="row" layout-align="center center">
-        <span class="chip_name">{{ filter }}</span>
-        <button ng-click="vm.removeFilter(filter)" class="chip_icon" arial-label>
-          <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-        </button>
+    <div class="chips" layout="column">
+      <div layout="row" class="chips_row">
+        <span ng-repeat="filter in vm.selectedFilters"
+          ng-if="!vm.checkAllFiltersSelected()"
+          class="chip label">
+          {{ filter }}
+          <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+        </span>
+      </div>
+      <div layout="row" class="chips_row">
+        <span class="chip tag" ng-repeat="tag in vm.selectedTags">
+          {{ tag }}
+          <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+        </span>
       </div>
     </div>
   </div>
