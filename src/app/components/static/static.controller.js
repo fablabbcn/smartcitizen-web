@@ -4,12 +4,14 @@
   angular.module('app.components')
     .controller('StaticController', StaticController);
 
-  StaticController.$inject = ['$timeout', 'animation', '$mdDialog'];
+  StaticController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
 
-  function StaticController($timeout, animation, $mdDialog) {
+  function StaticController($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;
+    
+    $anchorScroll.yOffset = 80;
 
     ///////////////////////
 
@@ -20,6 +22,7 @@
     function initialize() {
       $timeout(function() {
         animation.viewLoaded();
+        if($location.hash()) $anchorScroll(); 
       }, 500);
     }
 
