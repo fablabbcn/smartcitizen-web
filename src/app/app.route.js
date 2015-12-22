@@ -17,9 +17,9 @@
         */
         .state('landing', {
           url: '/',
-          controller: function($state){
-            $state.go('layout.home.kit');
-          }
+          templateUrl: 'app/components/landing/landing.html',
+          controller: 'LandingController',
+          controllerAs: 'vm'
         })
         /*
         -- Layout state --
