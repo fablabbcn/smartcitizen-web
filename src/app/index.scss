@@ -3153,27 +3153,6 @@ p.no-margin {
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 
- //  html {
- //    font-family: sans-serif;
- //    -webkit-text-size-adjust: 100%;
- //    -ms-text-size-adjust: 100%;
- //    font-size: 10px;
- //    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
- //  }
-
- // * {
- //    -webkit-box-sizing: border-box;
- //    -moz-box-sizing: border-box;
- //    box-sizing: border-box;
- //  }
-
- //  *:before,
- //  *:after {
- //    -webkit-box-sizing: border-box;
- //    -moz-box-sizing: border-box;
- //    box-sizing: border-box;
- //  }
-
 .landing-page {
 
   margin: 0;
@@ -3443,96 +3422,6 @@ p.no-margin {
     color: #777;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-  }
-
-  .btn:focus,
-  .btn:active:focus {
-    outline: thin dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-  }
-
-  .btn:hover,
-  .btn:focus {
-    color: #333;
-    text-decoration: none;
-  }
-
-  .btn:active {
-    background-image: none;
-    outline: 0;
-    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-  }
-
-  .btn-default {
-    color: #333;
-    background-color: #fff;
-    border-color: #ccc;
-  }
-
-  .btn-default:hover,
-  .btn-default:focus,
-  .btn-default:active {
-    color: #333;
-    background-color: #e6e6e6;
-    border-color: #adadad;
-  }
-
-  .btn-default:active {
-    background-image: none;
-  }
-
-  .btn-primary {
-    color: #fff;
-    background-color: #428bca;
-    border-color: #357ebd;
-  }
-
-  .btn-primary:hover,
-  .btn-primary:focus,
-  .btn-primary:active {
-    color: #fff;
-    background-color: #3071a9;
-    border-color: #285e8e;
-  }
-
-  .btn-primary:active {
-    background-image: none;
-  }
-
-  .btn-lg {
-    padding: 10px 16px;
-    font-size: 18px;
-    line-height: 1.33;
-    border-radius: 6px;
-  }
-
-  .btn-sm {
-    padding: 5px 10px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
-  }
-
   .container:before,
   .container:after,
   .row:before,
@@ -3650,57 +3539,42 @@ p.no-margin {
     font-size: .8em;
   }
 
-  .button-register {
-    float: none;
-    clear: none;
-    display: inline-block;
-    width: 160px;
-    height: 40px;
-    margin: 0px 0;
-    padding: 0px 20px;
-    background: #06c2f0;
-    cursor: pointer;
-    font-weight: 300;
-    font-size: 14px;
-    color: #FFF;
-    line-height: 40px;
+
+  .md-button.md-default-theme:hover,  .md-button.md-default-theme:active{
     text-decoration: none !important;
-    text-transform: uppercase;
-    text-align: center;
-    letter-spacing: 1px;
-    border: none;
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    -ms-transition: all 0.5s ease-out;
-    -o-transition: all 0.5s ease-out;
-    transition: all 0.5s ease-out;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    -o-border-radius: 4px;
-    border-radius: 4px;
   }
 
-  .button-register:hover {
-    color: #069dbc;
-    background: #FFF;
+  .md-button.md-default-theme.landing_highlight_button {
+    border: 2px solid #00FFA8;
+    color: #00FFA8;
+    border-radius: 50px;
+    padding: 9px 11px;
+    margin: 20px 20px 20px 0;
+    &.white {
+      border: 2px solid #fff;
+      color: #fff; 
+    }
+    &.blue {
+      border: 2px solid $terciary_color;
+      color: $terciary_color; 
+    }
   }
 
-  .button-register:disabled {
-    background: #8AD8EB;
-    border: none;
+  .md-button.md-default-theme.landing_extra {
+    padding: 9px 11px;
+    background-color: rgba(158,158,158,0.2);
+    color: #333;
+    margin: 15px 5px;
+    display: block;
+    &:hover {
+      color: #fff;
+      background-color: #333;
+    }
+    &.small {
+      font-size: 16px;
+      padding: 5px 6px;
+    } 
   }
-
-  .button-register {
-    float: right;
-    background: #00d79c;
-  }
-
-  .button-register:hover {
-    background: #666;
-    color: #FFF;
-  }
-
 
 
    p {
@@ -3858,6 +3732,7 @@ p.no-margin {
 
    .block .resume-block {
     padding: 20px;
+    text-align: center;
   }
 
    .block .resume-block .icon-thumb {
@@ -3910,7 +3785,7 @@ p.no-margin {
     background-position: 0px -370px;
   }
 
-   .block .resume-block h3 {
+   .block .resume-block h3{
     text-align: center;
     font-weight: 700;
     font-size: 18px;
@@ -4010,6 +3885,7 @@ p.no-margin {
     -ms-border-radius: 50px;
     -o-border-radius: 50px;
     border-radius: 50px;
+    // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     width: 50px;
     height: 50px;
     position: relative;
@@ -4040,49 +3916,7 @@ p.no-margin {
     background-position: 0 -101px;
   }
 
-   .btn {
-    outline: none;
-  }
-
-   .btn.btn-lg {
-    font-size: 15px;
-    padding-left: 60px;
-    padding-right: 60px;
-    border: none;
-    margin: 0 10px;
-  }
-
-   .btn.sign-in-lg {
-    text-transform: uppercase;
-    background: #163B52;
-    color: #00131f;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-   .btn.sign-in-lg.light {
-    background: #DFDFDF;
-    color: #999;
-  }
-
-   .btn.register-lg {
-    text-transform: uppercase;
-    background: #00d79c;
-    color: #00131f;
-    font-weight: 700;
-  }
-
-   .btn.register-lg.light {
-    color: #FFF;
-  }
-
-   .btn.read-more-lg {
-    text-transform: uppercase;
-    background: #00131f;
-    color: #FFF;
-  }
-
-   .col-pad {
+  .col-pad {
     padding: 40px 40px;
   }
 
@@ -4092,24 +3926,6 @@ p.no-margin {
 
    .row-pad-main {
     padding: 30px 20px 45px 20px;
-  }
-
-  .button-register.preorder-landing-1 {
-    margin-top: 20px;
-    width: auto;
-    padding: 0 40px;
-    background: #FFF;
-    color: #00131f;
-    font-weight: 700;
-  }
-
-  .button-register.preorder-landing-2 {
-    margin-top: 20px;
-    width: auto;
-    padding: 0 40px;
-    background: #329ab4;
-    color: #FFF;
-    font-weight: 700;
   }
 
   .container {
@@ -4133,25 +3949,6 @@ p.no-margin {
     background: #e6e6e6;
   }
 
-  .btn.btn-blocks {
-    display: block;
-    margin-top: 25px;
-    border: none;
-    background: #333;
-    text-transform: uppercase;
-    font-size: 13px;
-    color: #FFF;
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    -ms-transition: all 0.5s ease-out;
-    -o-transition: all 0.5s ease-out;
-    transition: all 0.5s ease-out;
-  }
-
-  .btn.btn-blocks:hover {
-    background: #00d79c;
-  }
-
   @media (max-width: 800px) {
      .container {
       width: 100%;
@@ -4164,34 +3961,6 @@ p.no-margin {
     }
   }
 
-  .nav-search-box input:-moz-placeholder {
-    color: #66d5f0;
-    opacity: 1;
-  }
-
-  .nav-search-box input::-moz-placeholder {
-    color: #66d5f0;
-    opacity: 1;
-  }
-
-  .nav-search-box input:-ms-input-placeholder {
-    color: #66d5f0;
-  }
-
-  .nav-search-box input:focus:-moz-placeholder {
-    color: #FFF;
-    opacity: 1;
-  }
-
-  .nav-search-box input:focus::-moz-placeholder {
-    color: #FFF;
-    opacity: 1;
-  }
-
-  .nav-search-box input:focus:-ms-input-placeholder {
-    color: #FFF;
-  }
-
   a:active,
   a:focus,
   button::-moz-focus-inner,
@@ -4202,12 +3971,6 @@ p.no-margin {
     border: none;
   }
 
-  .btn:focus,
-  .btn:active:focus {
-    outline: 0;
-    outline: 0px auto -webkit-focus-ring-color;
-    outline-offset: none;
-  }
 }
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
