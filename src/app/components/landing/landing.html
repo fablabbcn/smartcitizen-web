@@ -10,46 +10,23 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-pad" style="vertical-align:middle; ">
                         <div class="lead-13" style="margin-top: 85px;">
-                            <span>Smart Citizen</span>
+                            <span>Smart Citizen <sup style="font-size: 18px;">v2 BETA</sup></span>
                         </div>
                         <div class="lead-14" style="margin-top: 20px;">
                             Open source technology for citizens<br> political participation in smarter cities
                         </div>
-                        <md-button ng-href="/kits/" class="landing_highlight_button white" style="float:left;">Go to platform</md-button>
-
+                        <div style="margin-top: 30px;">
+                        <md-button ng-href="/kits/" class="landing_highlight_button normal">Go to the platform</md-button>
+                        <md-button ng-click="vm.goToHash('sck')" class="landing_highlight_button white">Discover the Smart Citizen Kit</md-button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="bullet-landing plus grey"></div>
         </div>
 
-        <!-- SET THE LAYOUT TO LANDING -->
-
-        <!-- BLOCK MESSAGE PROJECT -->
-
-        <!-- END BLOCK MESSAGE PROJECT -->
-
-
-        <!-- BLOCK LATEST NEWS CAROUSEL -->
-<!--         <div class="block news-widget ">
-            <div class="container row-pad-main">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <h2>Latest News</h2>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- END LATEST NEWS CAROUSEL -->
-
-
         <!-- BLOCK SC PROJECT -->
-        <div class="block block-platform">
+        <div id="platform" class="block block-platform">
             <div class="container">
                 <div class="row">
                     <div  style="margin-top: 30px;" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-pad">
@@ -61,7 +38,7 @@
 
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-pad-2">
-                            <img style="width: 100%; max-width: 485px;"src="/assets/images/landing/platform-diagram-2.png">
+                            <img style="width: 100%; max-width: 485px;"src="/assets/images/landing/platform-diagram-3.png">
                         </div>
                     </div>
                 </div>
@@ -70,7 +47,7 @@
         <!-- END BLOCK SC PROJECT -->
 
         <!-- BLOCK MESSAGE RESERACHES, SCHOOLS.... -->
-        <div class="block message leading-1" style="background:#e0f7fc; padding:40px 40px;">
+        <div id="community" class="block message leading-1 light-grey" style="padding:40px 40px;">
             <div class="container">
                 <div class="row ">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -82,7 +59,7 @@
         <!-- END BLOCK MESSAGE PROJECT -->
 
         <!-- BLOCK RESERACHES, SCHOOLS.... -->
-        <div class="block" style="background:#f2f2f2;">
+        <div class="block">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -139,17 +116,17 @@
 
 
         <!-- BLOCK FOTO SMART CITIZEN KIT -->
-        <div class="block photo kit-7" data-stellar-background-ratio="0.01">
+        <div id="sck" class="block photo kit-7" data-stellar-background-ratio="0.01">
             <div class="container" style="height:inherit">
                 <div class="row">
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-pad" style="vertical-align:middle; ">
                         <div class="lead-3" style="margin-top: 85px;">
                             <span>Smart Citizen Kit</span>
-                            <br> Urban Monitoring
+                            <br> Urban monitoring
                         </div>
                         <div class="lead-4">
-                            Ambiental monitoring
+                            Environmental Data
                         </div>
 
                     </div>
@@ -169,7 +146,7 @@
         <!-- END BLOCK SMAR CITIZEN KIT -->
 
         <!-- BLOCK SCK FEATURES -->
-        <div class="block" style="background:#f2f2f2; ">
+        <div class="block">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-pad">
@@ -247,14 +224,17 @@
         </div>
         <!-- END BLOCK PHOTO -->
         <!-- BLOCK URBAN BOARD -->
-        <div class="block" style="background:#e0f7fc; ">
+        <div class="block light-blue">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-pad">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-pad">
                         <div class="lead-3" style="color:#329ab4;">Urban board</div>
                         <div class="lead-4" style="color:#329ab4;">
                             Ambient sensor board
                         </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4col-md-4 col-lg-4 col-pad" style="text-align:right">
+                        <md-button class="landing_extra" href="/about#hardware" style="margin-top:29px;">Read more</md-button >
                     </div>
                 </div>
                 <div class="row">
@@ -324,7 +304,7 @@
         <!-- END URBAN BOARD -->
 
         <!-- BLOCK MESSAGE REALTIME DATA, MONITORING, ANALYSIS  -->
-        <div class="block photo datavis">
+        <div class="block photo autoheight datavis">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-pad" style="text-align:center; vertical-align:middle; margin-top:95px; ">
@@ -351,7 +331,7 @@
 
 
         <!-- BLOCK  -->
-        <!-- <div class="block"  style="background:#F2f2f2;" >
+        <!-- <div class="block">
           <div class="container">
               <div class="row" >
                   <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -381,7 +361,7 @@
         <!-- END BLOCK  -->
 
         <!-- BLOCK  -->
-        <div class="block" style="background:#F2f2f2;">
+        <div id="participate" class="block">
             <div class="container">
                 <div class="row" style="padding-bottom:43px;">
 
@@ -420,7 +400,7 @@
         <!-- END BLOCK PHOTO -->
 
         <!-- BLOCK  -->
-        <div class="block" style="background:#F2f2f2;">
+        <div id="social"  class="block">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="padding: 40px 40px 16px 40px;">
@@ -467,7 +447,7 @@
             <!-- END BLOCK PHOTO -->
 
             <!-- BLOCK  -->
-            <div class="block" style="background:#F2f2f2;">
+            <div id="press" class="block light-grey">
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-8 col-sm-12 col-md-12 col-lg-12" style="padding: 40px 40px 0 40px;">
