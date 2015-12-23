@@ -23,6 +23,10 @@
     /////////////////////////////////////////////////////////
 
     function initialize() {
+      if(vm.selectedTags.length === 0){
+        $state.go('layout.home.kit');
+      }
+
       animation.viewLoaded();
 
     	if (vm.selectedTags.length === 0){
