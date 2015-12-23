@@ -19,7 +19,12 @@
           url: '/',
           templateUrl: 'app/components/landing/landing.html',
           controller: 'LandingController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          // resolve: {
+          //   isLogged: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
+          //      if(auth.isAuth()) $location.path('/kits');
+          //   }
+          // }
         })
         /*
         -- Layout state --
@@ -36,7 +41,7 @@
           url: '/styleguide',
           templateUrl: 'app/components/static/styleguide.html',
           controller: 'StaticController',
-          controllerAs: 'vm',
+          controllerAs: 'vm'
         })
         /*
         -- Static page template --
