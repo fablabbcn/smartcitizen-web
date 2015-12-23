@@ -4,12 +4,13 @@
   angular.module('app.components')
     .controller('LandingController', LandingController);
 
-  LandingController.$inject = ['$timeout', 'animation', '$mdDialog'];
+  LandingController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
 
-  function LandingController($timeout, animation, $mdDialog) {
+  function LandingController($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;
+    vm.goToHash = goToHash;
 
     ///////////////////////
 
@@ -20,7 +21,13 @@
     function initialize() {
       $timeout(function() {
         animation.viewLoaded();
+        if($location.hash()) $anchorScroll(); 
       }, 500);
+    }
+
+    function goToHash(hash){
+      $location.hash(hash);
+      $anchorScroll();
     }
 
     function showStore() {
