@@ -20,11 +20,14 @@
           templateUrl: 'app/components/landing/landing.html',
           controller: 'LandingController',
           controllerAs: 'vm',
-          // resolve: {
-          //   isLogged: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
-          //      if(auth.isAuth()) $location.path('/kits');
-          //   }
-          // }
+          resolve: {
+            isLogged: function(auth, $location) {
+               if(auth.isAuth()) {
+                $location.path('/kits/');
+                return;
+               }
+            }
+          }
         })
         /*
         -- Layout state --
@@ -74,7 +77,7 @@
           resolve: {
             belongsToUser: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
               if(!auth.isAuth()) {
-                $location.path('/');
+                $location.path('/kits/');
                 return;
               }
               var kitID = parseInt($stateParams.id);
@@ -84,7 +87,7 @@
 
               if(!isAdmin && !belongsToUser) {
                 console.error('This kit does not belong to user');
-                $location.path('/');
+                $location.path('/kits/');
               }
             },
             step: function($stateParams){
@@ -243,7 +246,7 @@
             isAdmin: function($window, auth, $location, AuthUser) {
               var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role );
               if(userRole !== 'admin') {
-                $location.path('/');
+                $location.path('/kits/');
               } else {
                 return true;
               }
@@ -267,9 +270,9 @@
           resolve: {
             buttonToClick: function($location, auth) {
               if(auth.isAuth()) {
-                return $location.path('/');
+                return $location.path('/kits');
               }
-              $location.path('/kits/667');
+              $location.path('/kits/');
               $location.search('login', 'true');
             }
           }
@@ -284,9 +287,9 @@
           resolve: {
             buttonToClick: function($location, auth) {
               if(auth.isAuth()) {
-                return $location.path('/');
+                return $location.path('/kits/');
               }
-              $location.path('/kits/667');
+              $location.path('/kits/');
               $location.search('signup', 'true');
             }
           }
@@ -301,7 +304,7 @@
           resolve: {
             logout: function($location, $state, auth, $rootScope) {
               auth.logout();
-              $location.path('/');
+              $location.path('/kits/');
               $rootScope.$broadcast('loggedOut');
             }
           }
@@ -331,7 +334,7 @@
         });
 
       /* Default state */
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/kits');
 
       $locationProvider.html5Mode({
         enabled: true,
