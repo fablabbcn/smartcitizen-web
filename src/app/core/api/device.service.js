@@ -25,7 +25,8 @@
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
-        callGenericKitData: callGenericKitData
+        callGenericKitData: callGenericKitData,
+				removeDevice: removeDevice
 	  	};
 
 	  	return service;
@@ -98,9 +99,15 @@
       }
 
       function mailReadings(kit) {
-      return Restangular
+      	return Restangular
           .one('devices', kit.id)
           .customGET('readings/csv_archive');
       }
+
+			function removeDevice(deviceID){
+				return Restangular
+          .one('devices', deviceID)
+					.remove();
+			}
 	  }
 })();
