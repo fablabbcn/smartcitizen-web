@@ -3430,7 +3430,7 @@ p.no-margin {
         font-family: inherit;
         font-weight: 500;
         line-height: 1.1;
-        color: inherit;
+        color: #333;
     }
 
     .container {
@@ -3637,10 +3637,9 @@ p.no-margin {
     overflow: auto;
     font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: #666666;
+    color: #333;
     line-height: 25px;
     text-align: left;
-    background: #e6e6e6;
     position: relative;
     font-size: 17px;
     line-height: 23px;
@@ -3706,13 +3705,13 @@ p.no-margin {
     }
 
     p {
-        color: #666666;
+        color: #333333;
         text-align: left;
         margin: 10px 0;
         // line-height: 1.5;
         // font-size: 18px;
         font-size: 16px;
-        line-height: 1.4;
+        line-height: 1.5;
         // font-size: 17px;
         // line-height: 23px;
         &.reinforce {
@@ -3746,7 +3745,7 @@ p.no-margin {
             border: 2px solid #00FFA8;
             color: #00FFA8;
             border-radius: 50px;
-            padding: 9px 11px;
+            padding: 9px 14px;
             margin: 20px 20px 20px 0;
           
             &.white {
@@ -3762,6 +3761,19 @@ p.no-margin {
             &.big {
               font-size: 18px;
               padding: 10px 12px;
+            }
+
+            &.normal {
+                border: none;
+                color: #fff;
+                background-color: $terciary_color;
+                border-radius: 50px;
+                padding: 11px 16px;
+                margin: 20px 20px 20px 0;
+            }
+
+            &:hover {
+                background-color: rgba(158, 158, 158, 0.3);
             }
 
         }
@@ -3791,6 +3803,15 @@ p.no-margin {
 
     .block {
         position: relative;
+        background-color: #f9f9f9 !important;
+
+        &.light-blue {
+            background-color: #e0f7fc !important;
+        }
+
+        &.light-grey {
+            background-color: #f5f5f5 !important;
+        }
 
         &.message.main {
             background: #00131f;
@@ -3827,7 +3848,6 @@ p.no-margin {
             text-align: center;
             text-transform: none;
             line-height: 38px;
-            color: #333;
         }
 
         &.message.leading-1 h1 span {
@@ -3872,6 +3892,7 @@ p.no-margin {
         &.datavis {
             background-image: url("../assets/images/landing/datavis.png");
             background-color: #f3fcfe;
+            height: 700px;
         }
 
         &.bcn-1 {
@@ -4063,7 +4084,7 @@ p.no-margin {
             .title-features {
                 text-align: center;
                 font-size: 20px;
-                color: #666;
+                color: #333;
                 width: 108px;
                 margin: 0 auto;
 
@@ -4107,7 +4128,7 @@ p.no-margin {
         }
 
         &.grey {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
             background-position: 0 -101px;
         }
     }
