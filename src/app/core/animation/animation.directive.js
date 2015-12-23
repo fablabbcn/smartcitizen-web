@@ -155,13 +155,14 @@
         $timeout(function() {
           var overviewHeight = angular.element('.over_map').height();
 
-          var mapHeight = screenHeight - navbarHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          var mapHeight = screenHeight - navbarHeight - overviewHeight;
           element.css('height', mapHeight + 'px');
 
           var aboveTheFoldHeight = screenHeight - overviewHeight;
-          angular.element('section[change-content-margin]').css('margin-top', aboveTheFoldHeight + 'px');
-          //layout.setKit(position);
-          //var position = mapHeight + navbarHeight // map height + navbar height;
+          angular
+            .element('section[change-content-margin]')
+            .css('margin-top', aboveTheFoldHeight + 'px');
+
         });
 
       }
@@ -184,7 +185,7 @@
 
           var overviewHeight = angular.element('.over_map').height();
 
-          var aboveTheFoldHeight = screenHeight - overviewHeight; // screen height - navbar height - menu height - overview height - charts height
+          var aboveTheFoldHeight = screenHeight - overviewHeight;
           element.css('margin-top', aboveTheFoldHeight + 'px');
       }
 
