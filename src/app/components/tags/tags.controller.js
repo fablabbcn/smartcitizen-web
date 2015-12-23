@@ -18,17 +18,6 @@
     vm.kits = [];
     vm.percActive = 0;
 
-    $scope.$watch(tag.getSelectedTags, function(newVal) {
-      // if (newVal) {
-      //   if (newVal.length === 0) {
-      //     $state.go('layout.home.kit');
-      //     return;
-      //   }
-      //   vm.selectedTags = newVal;
-      //   initialize();
-      // }
-    });
-
     initialize();
 
     /////////////////////////////////////////////////////////

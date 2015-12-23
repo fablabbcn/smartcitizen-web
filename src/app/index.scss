@@ -832,13 +832,23 @@ section.map {
       color: $terciary_color_light;
       margin: 0.5em;
     }
-    .hint{
-      margin-top: 65px;
-      color:#82A7B0;
+  }
 
-      .md-button{
-        margin-top:20px;
-      }
+  .hint{
+    background-color:#032933;
+    text-align:center;
+    color:#82A7B0;
+
+    margin-top:0px;
+    padding-top:18px;
+
+    z-index: 10;
+    position:absolute;
+    height:100%;
+    width:100%;
+
+    .md-button{
+      margin-top:20px;
     }
   }
 }

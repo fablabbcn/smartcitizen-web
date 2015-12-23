@@ -32,7 +32,8 @@
           markerUtils.parseLocation(deviceData) +
           '</p><div class="popup_labels">' +
           createTagsTemplate(markerUtils.parseLabels(deviceData), 'label') +
-          createTagsTemplate(markerUtils.parseUserTags(deviceData), 'tag', true) +
+          createTagsTemplate(markerUtils.parseUserTags(deviceData),
+            'tag', true) +
           '</div></div></div>';
 
         this.icon = markerUtils.getIcon(markerUtils.parseLabels(deviceData));
@@ -63,7 +64,8 @@
         return _.reduce(tagsArr, function(acc, label) {
           var element ='';
           if(tagType === 'tag'){
-            element = '<tag ng-attr-tag-name="\''+ label +'\'" '+ clickablTag +'></tag>';
+            element = '<tag ng-attr-tag-name="\''+ label +'\'" ' + 
+              clickablTag +'></tag>';
           }else{
             element = '<span class="'+tagType+'">'+label+'</span>';
           }

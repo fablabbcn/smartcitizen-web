@@ -61,12 +61,6 @@
         <p>
           Browse the map and tap on any kit to see its data.
         </p>
-        <div class="hint">
-          <p>
-            We can also take you to your nearest online kit by letting us know your location.
-          </p>
-          <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
-        </div>
       </section>
       <div no-data-backdrop></div>
       <section class="kit_overview">
@@ -99,7 +93,13 @@
     </section>
   </div>
   <section class="kit_fixed">
-    <section class="kit_detailed" >
+    <div class="hint" ng-if="!vm.kit">
+      <p>
+        We can also take you to your nearest online kit by letting us know your location.
+      </p>
+      <md-button class="call-to-action" ng-click="vm.geolocate()">Locate me</md-button>
+    </div>
+    <section class="kit_detailed">
       <section class="kit_chart">
         <div class="container" layout="row">
           <div class="kit_chart_left">
