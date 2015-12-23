@@ -118,24 +118,41 @@ small{
   color: $secondary_color_light;
 }
 
-span.label, span.tag, span.state{
+.label, .tag, .state{
   text-transform: uppercase;
   font-size: 0.7em;
   border-radius:20px;
   padding:3px 8px;
   margin-right: 8px;
+
+  md-icon{
+    margin-left:4px;
+    height:11px;
+    width:11px;
+    margin-top:-3px;
+    cursor:pointer;
+  }
+  &[clickable]{
+    cursor:pointer;
+  }
 }
-span.label{
+.label{
   background-color: $secondary_color_light;
   color:white;
+  md-icon svg path{
+    fill: $terciary_color_light;
+  }
 }
-span.tag{
+.tag{
   background-color: $terciary_color_light;
   color: $secondary_color_light;
+  md-icon svg path{
+    fill: $secondary_color;
+  }
 }
 
-.leaflet-container span.tag, .leaflet-container span.label,
-.leaflet-container span.state{
+.leaflet-container .tag, .leaflet-container .label,
+.leaflet-container .state{
   font-size:1em;
 }
 
@@ -645,7 +662,6 @@ section.map {
   text-align: center;
   width: 100%;
   height: 100%;
-  border: 1px solid grey;
   color: black;
   z-index: 1;//$small_priority;
   position: fixed;
@@ -675,16 +691,25 @@ section.map {
  */
 .chips {
   display: inline-block;
+
+  div.chips_row{
+    height:40.5px;
+  }
+
+  .label, .tag{
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  }
 }
 .chip {
-  display: inline-block;
-  padding: 1px 6px 3px 6px;
-  margin: 0 5px;
+  // display: inline-block;
+  padding: 2px 6px 2px 12px;
+  margin: auto 5px;
   border-radius: 20px;
+  height:22px;
+  text-transform: uppercase;
+  font-size: 12px;
 
   .chip_name {
-    font-size: 12px;
-    text-transform: capitalize;
     margin-left: 3px;
     margin-right: 7px;
   }
@@ -711,9 +736,53 @@ section.map {
   MAP FILTERS
 */
 .map_legend {
+
   position: absolute;
   bottom: 12px;
   margin-left: 24px;
+  display: flex;
+
+  .chips{
+    align-self: flex-end;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    display: flex;
+  }
+
+  .map_legend__filtersContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 124px;
+    height: 81px;
+
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+
+
+
+    .map_legend__filtersRow{
+      cursor: pointer;
+
+      &:not(:last-child){
+        border-bottom: 1px solid gray;
+      }
+
+      display: flex;
+
+      align-items: center;
+      padding-left: 5px;
+      background-color: #fff;
+
+      .map_filter_button{
+        box-shadow:none;
+        p{
+          margin: 0;
+        }
+      }
+    }
+  }
 }
 .map_filter_button {
   background-color: white;
@@ -742,7 +811,6 @@ section.map {
 
 .kit_data {
   margin-top: 376px;
-  overflow: hidden;
 
   section.overlay{
     width:100%;
@@ -764,14 +832,35 @@ section.map {
       color: $terciary_color_light;
       margin: 0.5em;
     }
-    .hint{
-      margin-top: 65px;
-      color:#82A7B0;
+  }
 
-      .md-button{
-        margin-top:20px;
-      }
+  .hint{
+    background-color:#032933;
+    text-align:center;
+    color:#82A7B0;
+
+    margin-top:0px;
+    padding-top:18px;
+
+    z-index: 10;
+    position:absolute;
+    height:100%;
+    width:100%;
+
+    .md-button{
+      margin-top:20px;
     }
+  }
+}
+
+.kit_data, .kitTags__section{
+  .shadow{
+    top: 0px;
+    height: 1px;
+    background-color: rgba(0,0,0,0.1);
+    position: relative;
+    box-shadow: 0px -1px 6px 0 rgba(0,0,0,0.65);
+    z-index: 2;
   }
 }
 
@@ -991,6 +1080,11 @@ section .kit_menu {
     height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
+    position:relative;
+
+    .hint{
+      background-color: #010E12;
+    }
 
     md-select.md-default-theme:not([disabled]):focus .md-select-label {
       color: $font_color_white;
@@ -1341,6 +1435,38 @@ section .kit_menu {
 
 /*
 =========================================
+KIT TAGS MODULE
+=========================================
+*/
+
+.kitTags__section{
+  margin-top: 376px;
+
+  .kitTags__listContainer{
+    background-color: #F5F5F5;
+    padding: 20px;
+  }
+
+  .kitTags__container{
+    background-color: #F5F5F5;
+    padding-bottom: 20px;
+
+    .kitTags__textContainer{
+      display: flex;
+      justify-content: space-between;
+      margin-left: 20px;
+      margin-right: 20px;
+      .kitTags__textElement{
+        flex-basis:40%;
+        flex-grow:0;
+        min-width: 300px;
+      }
+    }
+  }
+}
+
+/*
+=========================================
 KIT COMMENTS MODULE
 =========================================
 */
@@ -1599,7 +1725,7 @@ section .stickMenu {
   MODAL FOR MAP FILTER
 */
 
-.modal_mapFilter {
+.modal_mapFilter, .modal_tagFilter {
   width: 300px;
 
   .modal_content_container_filter {
@@ -1637,6 +1763,23 @@ section .stickMenu {
     margin: 8px 0;
   }
 }
+
+/*
+  MODAL TAG FILTER
+*/
+
+.modal_tagFilter {
+  width:650px;
+}
+
+.modalTag_tagContainer{
+  .md-default-theme{
+    .md-label{
+      border: none;
+    }
+  }
+}
+
 
 /*
   MODAL RECOVERY PASSWORD

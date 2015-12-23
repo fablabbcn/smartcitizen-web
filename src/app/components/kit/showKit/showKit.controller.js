@@ -57,6 +57,8 @@
     vm.timeOptSelected = timeOptSelected;
     vm.resetTimeOpts = resetTimeOpts;
 
+    vm.kitWithoutData = false;
+
     var focused = true;
 
     // event listener on change of value of main sensor selector
@@ -162,6 +164,7 @@
 
               if(vm.kit.state.name === 'never published' ||
                 vm.kit.state.name === 'not configured') {
+                vm.kitWithoutData = true;
                 if(vm.kitBelongsToUser) {
                   alert.info.noData.owner($stateParams.id);
                 } else {
@@ -216,12 +219,15 @@
     function slide(direction) {
       var slideContainer = angular.element('.sensors_container');
       var scrollPosition = slideContainer.scrollLeft();
-      var slideStep = 20;
+      var width = slideContainer.width();
+      var slideStep = width/2;
 
       if(direction === 'left') {
-        slideContainer.scrollLeft(scrollPosition + slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition + slideStep},
+          {duration: 250, queue:false});
       } else if(direction === 'right') {
-        slideContainer.scrollLeft(scrollPosition - slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition - slideStep},
+          {duration: 250, queue:false});
       }
     }
 

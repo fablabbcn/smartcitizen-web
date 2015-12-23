@@ -24,7 +24,8 @@
         getGenericKitData: getGenericKitData,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
-        mailReadings: mailReadings
+        mailReadings: mailReadings,
+        callGenericKitData: callGenericKitData
 	  	};
 
 	  	return service;
