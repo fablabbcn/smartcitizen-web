@@ -21,10 +21,9 @@
           controller: 'LandingController',
           controllerAs: 'vm',
           resolve: {
-            isLogged: function(auth, $location) {
+            isLogged: function(auth, $state) {
                if(auth.isAuth()) {
-                $location.path('/kits/');
-                return;
+                return $state.go('layout.home.kit');
                }
             }
           }
