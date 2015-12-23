@@ -31,9 +31,9 @@
 
 
         <!-- BLOCK LATEST NEWS CAROUSEL -->
-        <div class="block news-widget ">
+<!--         <div class="block news-widget ">
             <div class="container row-pad-main">
-                <div class="row ">
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <h2>Latest News</h2>
                     </div>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- END LATEST NEWS CAROUSEL -->
 
 
@@ -65,7 +65,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="bullet-landing plus blue-2"></div> -->
         </div>
         <!-- END BLOCK SC PROJECT -->
 
@@ -96,14 +95,14 @@
                         <div class="resume-block">
                             <div class="icon-thumb ico-10"></div>
                             <h3>Schools</h3>
-                            <p>Data could be a very powerful education tool. Use Smart Citizen hardware and software tools to teach computer science and environmentalism in your classroom. Open discussions about the environment quality at schools, the usage of sensors and data in the education sector.</p>
+                            <p>Data could be a very powerful education tool. Use Smart Citizen hardware and software tools to teach computer science and environmentalism in your classroom. Open discussions about the environment quality at schools, the usage of sensors and data in the education sector. Some applications: <a href="http://futureeverything.org/news/smartschools-workshop-ten-centre/">SmartSchools Workshop at TEN Centre</a></p>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="">
                         <div class="resume-block">
                             <div class="icon-thumb ico-7"></div>
                             <h3>Citizen Science</h3>
-                            <p>Reduce the gaps to get data captured and streamed by sensors. No more cables, shields and libraries in order to get valuable data from the environment. Analyse the data online, or download it to put it in your preferred tool.Some applications being used as a tool for citizen science:<a href="https://www.facebook.com/CitSciKS" target="_blank"> CitSciKS,</a><a target="_blank" href="http://waag.org/en/project/smart-citizen-kit"> Waag Society (noise intensity evaluation)</a> </p>
+                            <p>Reduce the gaps to get data captured and streamed by sensors. No more cables, shields and libraries in order to get valuable data from the environment. Analyse the data online, or download it to put it in your preferred tool. Some applications being used as a tool for citizen science:<a href="https://www.facebook.com/CitSciKS" target="_blank"> CitSciKS</a>, <a target="_blank" href="http://waag.org/en/project/smart-citizen-kit"> Waag Society (noise levels evaluation)</a> </p>
                         </div>
                     </div>
 
@@ -113,14 +112,14 @@
                         <div class="resume-block">
                             <div class="icon-thumb ico-1"></div>
                             <h3>Communities</h3>
-                            <p>Launch a crowd sensing initiative in your neighbourhood. Use our sensors and platform to create local maps of air quality or sound problems; use them to report to your city council or to raise awareness of issues that matter for your community. Some applications: <a href="http://ugmap.me/" target="_blank"> University of Glasgow</a> and <a href="http://www.internetartizans.co.uk/kosovo_science_for_change" target="_blank">Kosovo science for change</a></p>
+                            <p>Launch a crowd sensing initiative in your neighbourhood. Use our sensors and platform to create local maps of air quality or sound problems; use them to report to your city council or to raise awareness of issues that matter for your community. Some applications:  <a href="http://ugmap.me/" target="_blank">University of Glasgow</a> and <a href="http://www.internetartizans.co.uk/kosovo_science_for_change" target="_blank">Kosovo science for change</a></p>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         <div class="resume-block">
                             <div class="icon-thumb ico-11"></div>
                             <h3>Cities</h3>
-                            <p>Smart Cities should be build together with Smart Citizens. The construction of new infrastructure is not only possible thanks to a massive investment on new technologies, but could be done through the better optimisation of the existing resources. Co-create with your citizens, include participation in the political life in the everyday city. Cities participants: <a href="http://amsterdamsmartcity.com/projects/detail/id/69/slug/smart-citizen-kit" target="_blank">Amsterdam</a>, <a href="http://futureeverything.org/projects/smart-citizen/" target="_blank">Manchester</a>, <a href="http://us2.campaign-archive1.com/?u=d67ba8deb34a23a222ec4eb8a&id=439df431b6&e=06fb8b7939" target="_blank">Barcelona</a></p>
+                            <p>Smart Cities should be build together with Smart Citizens. The construction of new infrastructure is not only possible thanks to a massive investment on new technologies, but could be done through the better optimisation of the existing resources. Co-create with your citizens, include participation in the political life in the everyday city. Cities participants: <a href="http://amsterdamsmartcity.com/projects/detail/id/69/slug/smart-citizen-kit" target="_blank">Amsterdam</a>, <a href="http://futureeverything.org/projects/smart-citizen/" target="_blank">Manchester</a> and <a href="http://us2.campaign-archive1.com/?u=d67ba8deb34a23a222ec4eb8a&id=439df431b6&e=06fb8b7939" target="_blank">Barcelona</a></p>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="">
@@ -426,15 +425,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+<!--                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " style="padding: 0 40px 40px 40px;">
                         <div id="socialTimeline" style="width:100%;"></div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0 40px 60px 40px; overflow:hidden;">
-                        <div class="fb-like-box" data-href="https://www.facebook.com/smartcitizenBCN" data-width="900" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+                    <div id="fb-root"></div>
+                        <script>(function(d, s, id) {
+                              var js, fjs = d.getElementsByTagName(s)[0];
+                              if (d.getElementById(id)) return;
+                              js = d.createElement(s); js.id = id;
+                              js.src = "//connect.facebook.net/ca_ES/sdk.js#xfbml=1&version=v2.5&appId=383330128525478";
+                              fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+                        </script>  
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+                        </script>                        
+                        <div style="float: left; margin-right: 10px; width: 300px;" class="fb-page" data-href="https://www.facebook.com/smartcitizenBCN" data-tabs="timeline" data-width="300" data-height="300" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/smartcitizenBCN"><a href="https://www.facebook.com/smartcitizenBCN">Smart Citizen</a></blockquote></div></div>
+                        <a class="twitter-timeline" href="https://twitter.com/SmartCitizenKit" data-widget-id="679469723596263424">Tuits de @SmartCitizenKit</a>
                     </div>
                 </div>
             </div>
