@@ -1,6 +1,6 @@
 server 'lin2.server.smartcitizen.me', user: 'deployer', roles: %w{app db web}
 
-set :deploy_to, '/home/deployer/apps/smartcitizen-web-staging/'
+set :deploy_to, '/home/deployer/apps/smartcitizen-web-landing/'
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
