@@ -216,12 +216,15 @@
     function slide(direction) {
       var slideContainer = angular.element('.sensors_container');
       var scrollPosition = slideContainer.scrollLeft();
-      var slideStep = 20;
+      var width = slideContainer.width();
+      var slideStep = width/2;
 
       if(direction === 'left') {
-        slideContainer.scrollLeft(scrollPosition + slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition + slideStep},
+          {duration: 250, queue:false});
       } else if(direction === 'right') {
-        slideContainer.scrollLeft(scrollPosition - slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition - slideStep},
+          {duration: 250, queue:false});
       }
     }
 
