@@ -3702,7 +3702,7 @@ p.no-margin {
     &.footer {
       width: 100%;
       height: 64px;
-      background-color: #e0f7fc;
+      // background-color: #e0f7fc;
     }
 
     p {
@@ -3727,11 +3727,6 @@ p.no-margin {
             color: #42cef0;
           }
         }
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
     }
 
     img {
