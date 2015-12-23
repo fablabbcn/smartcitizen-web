@@ -57,6 +57,8 @@
     vm.timeOptSelected = timeOptSelected;
     vm.resetTimeOpts = resetTimeOpts;
 
+    vm.kitWithoutData = false;
+
     var focused = true;
 
     // event listener on change of value of main sensor selector
@@ -162,6 +164,7 @@
 
               if(vm.kit.state.name === 'never published' ||
                 vm.kit.state.name === 'not configured') {
+                vm.kitWithoutData = true;
                 if(vm.kitBelongsToUser) {
                   alert.info.noData.owner($stateParams.id);
                 } else {

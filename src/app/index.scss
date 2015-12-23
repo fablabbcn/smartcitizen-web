@@ -1080,6 +1080,11 @@ section .kit_menu {
     height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
+    position:relative;
+
+    .hint{
+      background-color: #010E12;
+    }
 
     md-select.md-default-theme:not([disabled]):focus .md-select-label {
       color: $font_color_white;
