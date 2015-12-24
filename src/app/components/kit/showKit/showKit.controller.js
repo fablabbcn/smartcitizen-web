@@ -59,6 +59,8 @@
 
     vm.kitWithoutData = false;
 
+    vm.showStore = showStore;
+
     var focused = true;
 
     // event listener on change of value of main sensor selector
@@ -709,5 +711,15 @@
     function resetTimeOpts(){
       vm.dropDownSelection = undefined;
     }
+
+    function showStore() {
+      $mdDialog.show({
+        hasBackdrop: true,
+        controller: 'StoreDialogController',
+        templateUrl: 'app/components/store/storeModal.html',
+        clickOutsideToClose: true
+      });
+    }
+
   }
 })();
