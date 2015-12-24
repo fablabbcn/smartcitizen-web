@@ -419,23 +419,23 @@
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 social-media">
                         <script>
-                            setTimeout(function() {
+                            FB = null;
                             (function(d, s, id) {
                               var js, fjs = d.getElementsByTagName(s)[0];
-                              if (d.getElementById(id)) return;
+                              // if (d.getElementById(id)) return;
                               js = d.createElement(s); js.id = id;
                               js.src = "//connect.facebook.net/ca_ES/sdk.js#xfbml=1&version=v2.5&appId=383330128525478";
                               fjs.parentNode.insertBefore(js, fjs);
                             }(document, 'script', 'facebook-jssdk'));
-                            }, 500);
-                        </script>  
-                        <script>
-                            setTimeout(function() {
-                            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-                            }, 500);  
-                        </script>                        
-                        <div style="float: left; margin-right: 10px; width: 300px;" class="fb-page" data-href="https://www.facebook.com/smartcitizenBCN" data-tabs="timeline" data-width="300" data-height="300" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/smartcitizenBCN"><a href="https://www.facebook.com/smartcitizenBCN">Smart Citizen</a></blockquote></div></div>
-                        <a class="twitter-timeline" href="https://twitter.com/SmartCitizenKit" data-widget-id="679469723596263424">Tuits de @SmartCitizenKit</a>
+                        </script>                         
+                        <div style="float: left; margin-right: 10px; width: 300px;" class="fb-page" data-href="https://www.facebook.com/smartcitizenBCN" data-tabs="timeline" data-width="300" data-height="300" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/smartcitizenBCN"><a href="https://www.facebook.com/smartcitizenBCN">Facebook page from SmartCitizen</a></blockquote></div></div>
+                        <twitter-timeline>
+                            <a class="twitter-timeline"
+                               href="https://twitter.com/IAmAru/lists/SmartCitizenKit"
+                               data-widget-id="679469723596263424">
+                               Tweets from SmartCitizen
+                            </a>
+                        </twitter-timeline>
                     </div>
                 </div>
             </div>
