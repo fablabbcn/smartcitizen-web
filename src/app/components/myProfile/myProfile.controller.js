@@ -4,16 +4,16 @@
   angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
-    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval', 
-    'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert', 
-    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation', 
-    'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils', 
-    'userUtils', '$filter','$state'];
-    function MyProfileController($scope, $location, $q, $interval, 
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
+    'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
+    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
+    'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
+    'userUtils', '$filter','$state', 'Restangular'];
+    function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, utils, alert,
-      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation, 
+      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
-      userUtils, $filter, $state) {
+      userUtils, $filter, $state, Restangular) {
 
       var vm = this;
 
@@ -77,6 +77,7 @@
         var kitIDs = _.pluck(vm.user.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
+          animation.viewLoaded();
         } else {
           $q.all(
             kitIDs.map(function(id) {
@@ -144,21 +145,35 @@
       }
 
       function removeUser() {
-        var alert = $mdDialog.alert()
+        var confirm = $mdDialog.confirm()
           .title('Delete your account?')
-          .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+          .content('Are you sure you want to delete your account?')
           .ariaLabel('')
-          .ok('OK!')
+          .ok('delete')
+          .cancel('cancel')
           .theme('primary')
           .clickOutsideToClose(true);
 
-        $mdDialog.show(alert);
+        $mdDialog.show(confirm)
+          .then(function(){
+            return Restangular.all('').customDELETE('me')
+              .then(function(){
+                alert.success('Account removed successfully. Redirecting you…');
+                $timeout(function(){
+                  auth.logout();
+                  $state.transitionTo('landing');
+                }, 2000);
+              })
+              .catch(function(){
+                alert.error('Error occurred trying to delete your account.');
+              });
+          });
       }
 
       function selectThisTab(iconIndex, uistate){
-        
-        var thisState = uistate || 
-          $state.current.name || 
+
+        var thisState = uistate ||
+          $state.current.name ||
           'layout.myProfile.kits';
 
         highlightIcon(iconIndex);

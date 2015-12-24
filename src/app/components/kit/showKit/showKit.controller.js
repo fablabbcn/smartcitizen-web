@@ -25,7 +25,7 @@
     vm.ownerKits = [];
     vm.sampleKits = [];
     vm.kitBelongsToUser = belongsToUser;
-    vm.removeUser = removeUser;
+    vm.removeKit = removeKit;
 
     vm.battery = {};
     vm.sensors = [];
@@ -202,16 +202,32 @@
       }
     }
 
-    function removeUser() {
-      var alert = $mdDialog.alert()
-        .title('Delete your account?')
-        .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+    function removeKit() {
+      var confirm = $mdDialog.confirm()
+        .title('Delete this kit?')
+        .content('Are you sure you want to delete this kit?')
         .ariaLabel('')
-        .ok('OK!')
+        .ok('DELETE')
+        .cancel('Cancel')
         .theme('primary')
         .clickOutsideToClose(true);
 
-      $mdDialog.show(alert);
+      $mdDialog
+        .show(confirm)
+        .then(function(){
+          device
+            .removeDevice(vm.kit.id)
+            .then(function(){
+              alert.success('Your kit was deleted successfully');
+              $timeout(function(){
+                $state.transitionTo('layout.home.kit',{},
+                  {reload:true, inherit:false});
+              }, 2000);
+            })
+            .catch(function(){
+              alert.error('Error trying to delete your kit.');
+            });
+        });
     }
 
     function showSensorOnChart(sensorID) {
