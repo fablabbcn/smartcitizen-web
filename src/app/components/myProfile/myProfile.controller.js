@@ -77,6 +77,7 @@
         var kitIDs = _.pluck(vm.user.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
+          animation.viewLoaded();
         } else {
           $q.all(
             kitIDs.map(function(id) {
