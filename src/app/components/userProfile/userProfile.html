@@ -13,8 +13,7 @@
         </div>
         <div class="profile_header_url">
           <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-          <a class="h4" ng-if="vm.user.url != undefined" ng-href="{{ vm.user.url }}">vm.user.url</a>
-          <span class="h4" ng-if="vm.user.url == undefined">No website defined</span>
+          <a class="h4" ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No website' }}</a>
         </div>
       </div>
     </div>
