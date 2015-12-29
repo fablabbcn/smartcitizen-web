@@ -1725,9 +1725,10 @@ section .stickMenu {
   MODAL FOR MAP FILTER
 */
 
-md-dialog.tags{
+md-dialog.tags, md-dialog.filters{
   height: 90%;
   max-height:600px;
+  min-height:357px;
 
   .close_icon{
     float:none;
