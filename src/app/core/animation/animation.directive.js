@@ -170,7 +170,7 @@
 
         scope.element = element;
 
-        scope.$on('resizeMapHeight',function(e){
+        scope.$on('resizeMapHeight',function(){
           resizeMap();
         });
 
