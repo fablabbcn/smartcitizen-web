@@ -97,6 +97,8 @@
         ga('send', 'event', 'Kit Marker', 'click', availability);
 
         $state.go('layout.home.kit', {id: id});
+
+        angular.element('section.map').scope().$broadcast('resizeMapHeight');
       });
 
       $scope.$on('leafletDirectiveMarker.popupclose', function() {
