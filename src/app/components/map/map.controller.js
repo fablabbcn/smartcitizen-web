@@ -443,9 +443,11 @@
           maxLong = _.max([maxLong, marker.lng]);
         });
 
+        var margin = 0.0001;
+        console.log(minLat + '-' + minLat*margin);
         return L.latLngBounds(
-          L.latLng(minLat, minLong),
-          L.latLng(maxLat, maxLong)
+          L.latLng(minLat-(minLat*margin), minLong-(minLong*margin)),
+          L.latLng(maxLat+(maxLat*margin), maxLong+(maxLong*margin))
         );
       }
     }
