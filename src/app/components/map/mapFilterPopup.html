@@ -1,18 +1,20 @@
-<md-dialog>
-  <md-dialog-content class="modal modal_tagFilter">
+<md-dialog class="filters">
+  <md-dialog-content class="modal modal_tagFilter" layout="column">
     <md-button class="close_icon">
       <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="filterDialog.cancel()" class="" >
       </md-icon>
     </md-button>
-    <div class="modal_content_container_filter">
+    <div class="modal_content_container_filter" flex layout="column">
       <h2>FILTERS</h2>
       <p>Only show kits containing ALL these parameters.</p>
       <md-divider></md-divider>
 
-      <div class="modalTag_tagContainer" ng-repeat = "filter in filterDialog.filters">
-       <md-checkbox class = "blue" ng-model = "filterDialog.checks[filter]"> <small class="filter">{{filter.toUpperCase()}} </small></md-checkbox>
-       <md-divider/>
-      </div>
+      <md-content flex>
+        <div class="modalTag_tagContainer" ng-repeat = "filter in filterDialog.filters">
+         <md-checkbox class = "blue" ng-model = "filterDialog.checks[filter]"> <small class="filter">{{filter.toUpperCase()}} </small></md-checkbox>
+         <md-divider/>
+        </div>
+      </md-content>
 
 
     </div>

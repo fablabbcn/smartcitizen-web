@@ -1,21 +1,23 @@
-<md-dialog>
-  <md-dialog-content class="modal modal_tagFilter">
+<md-dialog class="tags">
+  <md-dialog-content class="modal modal_tagFilter" layout="column">
     <md-button class="close_icon">
       <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="tagDialog.cancel()" class="" >
       </md-icon>
     </md-button>
-    <div class="modal_content_container_filter">
+    <div class="modal_content_container_filter" flex layout="column">
       <h2>TAGS</h2>
       <p>Kits sharing a #tag show their average data.</p>
       <p>Browse and select from the list to show the kits containing ALL these tags.</p>
       <md-divider></md-divider>
 
-      <div class="modalTag_tagContainer" ng-repeat = "tag in tagDialog.tags">
-        <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]">
-          <span class="tag">{{tag.name}} </span>
-        </md-checkbox>
-        <md-divider/>
-      </div>
+      <md-content flex>
+        <div class="modalTag_tagContainer" ng-repeat = "tag in tagDialog.tags">
+          <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]">
+            <span class="tag">{{tag.name}} </span>
+          </md-checkbox>
+          <md-divider/>
+        </div>
+      </md-content>
 
     </div>
     <md-button class="md-warn button_clear" ng-click="tagDialog.clear()">CLEAR SELECTION</md-button>
