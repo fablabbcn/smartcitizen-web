@@ -1725,7 +1725,27 @@ section .stickMenu {
   MODAL FOR MAP FILTER
 */
 
+md-dialog.tags{
+  height: 90%;
+  max-height:600px;
+
+  .close_icon{
+    float:none;
+    position:absolute;
+    right:0
+  }
+
+  md-content{
+    padding: 0;
+  }
+
+  md-button.main{
+
+  }
+}
+
 .modal_mapFilter, .modal_tagFilter {
+  height:100%;
   width: 300px;
 
   .modal_content_container_filter {
