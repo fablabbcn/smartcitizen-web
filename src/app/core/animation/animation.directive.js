@@ -152,17 +152,26 @@
         // var menuHeight = angular.element('.kit_menu').height();
         // var chartHeight = angular.element('.kit_chart').height();
 
-        $timeout(function() {
-          var overviewHeight = angular.element('.over_map').height();
+        function resizeMap(){
+          $timeout(function() {
+            var overviewHeight = angular.element('.over_map').height();
 
-          var mapHeight = screenHeight - navbarHeight - overviewHeight;
-          element.css('height', mapHeight + 'px');
+            var mapHeight = screenHeight - navbarHeight - overviewHeight;
+            element.css('height', mapHeight + 'px');
 
-          var aboveTheFoldHeight = screenHeight - overviewHeight;
-          angular
-            .element('section[change-content-margin]')
-            .css('margin-top', aboveTheFoldHeight + 'px');
+            var aboveTheFoldHeight = screenHeight - overviewHeight;
+            angular
+              .element('section[change-content-margin]')
+              .css('margin-top', aboveTheFoldHeight + 'px');
+          });
+        }
 
+        resizeMap();
+
+        scope.element = element;
+
+        scope.$on('resizeMapHeight',function(e){
+          resizeMap();
         });
 
       }
