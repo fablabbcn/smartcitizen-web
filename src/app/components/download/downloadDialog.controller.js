@@ -11,6 +11,7 @@
 
 		vm.kit = thisKit;
 		vm.download = download;
+		vm.hide = hide;
 
 		////////////////////////////
 
@@ -21,6 +22,10 @@
 				}).catch(function(err){
 					$mdDialog.cancel(err);
 				});
+		}
+
+		function hide(){
+			$mdDialog.cancel();
 		}
 	}
 
