@@ -2,16 +2,15 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('StaticController', StaticController);
+    .controller('LandingController', LandingController);
 
-  StaticController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
+  LandingController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
 
-  function StaticController($timeout, animation, $mdDialog, $location, $anchorScroll) {
+  function LandingController($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;
-    
-    $anchorScroll.yOffset = 80;
+    vm.goToHash = goToHash;
 
     ///////////////////////
 
@@ -24,6 +23,11 @@
         animation.viewLoaded();
         if($location.hash()) $anchorScroll(); 
       }, 500);
+    }
+
+    function goToHash(hash){
+      $location.hash(hash);
+      $anchorScroll();
     }
 
     function showStore() {
