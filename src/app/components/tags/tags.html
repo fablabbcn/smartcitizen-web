@@ -1,0 +1,42 @@
+<section class="kitTags__section" ng-if="tagsCtl.selectedTags.length > 0" change-content-margin>
+  <div class="shadow"></div>
+  <div class="over_map">
+    <div class="kit_fixed kitTags__container">
+      <div class="kitTags__textContainer">
+        <div class="kitTags__textElement">
+          <h1>
+          <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}} </span>
+          </h1>
+          <h2>
+          {{tagsCtl.markers.length}} kit{{tagsCtl.markers.length > 1 ? 's are' : ' is'}} on
+          <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span> and
+          {{tagsCtl.percActive}}% are active today.
+          </h2>
+        </div>
+        <div class="kitTags__textElement">
+          <h4>About #Tags</h4>
+          <p class="sg-paragraph2">
+          Smart Citizen is a platform to generate partecipatory processes of the people
+          in the cities. Connecting data, people and knowledge, the objective of the platform
+          is to serve as a node for building productive open indicators and distributed tools,
+          and thereafter the collective construction of the cityfor its own inhbitants.
+          </p>
+          <md-button>SUGGEST NEW TAGS</md-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="kitTags__listContainer kit_fixed">
+    <section class="kit_owner_kits inside_list" ng-if="tagsCtl.kits.length > 0">
+      <kit-list kits="tagsCtl.kits"></kit-list>
+    </section>
+  </div>
+</section>
+<section class="kitTags__section kit_fixed" ng-if="tagsCtl.selectedTags.length === 0">
+  <section>
+    <div class="kitTags__container">
+      <div class="kiTags__noTag">
+        No Tag selected yet.
+      </div>
+    </div>
+  </section>

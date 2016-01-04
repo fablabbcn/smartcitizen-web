@@ -20,10 +20,13 @@
   "validthis": true,
   "globals": {
     "angular": false,
-    // Angular Mocks
+    "d3": false,
+    "_": false,
+    "ga": false,
+    "navigator": false,
+    "L":false,
     "inject": false,
     "module": false,
-    // JASMINE
     "jasmine": false,
     "describe": false,
     "it": false,
@@ -35,10 +38,6 @@
     "console": false,
     "document": false,
     "spyOn": false,
-    "moment": false,
-    "d3": false,
-    "_": false,
-    "ga": false,
-    "navigator": false
+    "moment": false
   }
 }

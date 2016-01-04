@@ -22,7 +22,7 @@
           controllerAs: 'vm',
           resolve: {
             isLogged: function(auth, $location) {
-               if(auth.isAuth()) {
+              if(auth.isAuth()) {
                 $location.path('/kits/');
                 return;
                }
@@ -110,7 +110,7 @@
         Abstract state, it only activates when there's a child state activated
         */
         .state('layout.home', {
-          url: '/kits',
+          url: '/kits?tags',
           abstract: true,
           views: {
             '': {
@@ -129,6 +129,35 @@
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
+            },
+            selectedTags: function($stateParams, tag){
+              if(typeof($stateParams.tags) === 'string'){
+                $stateParams.tags = [$stateParams.tags];
+              }
+              tag.setSelectedTags(_.uniq($stateParams.tags));
+            }
+          }
+        })
+        .state('layout.home.tags', {
+          url: '/tags',
+          views: {
+            'container@layout.home': {
+              templateUrl: 'app/components/tags/tags.html',
+              controller: 'tagsController',
+              controllerAs: 'tagsCtl'
+            }
+          },
+          resolve: {
+            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+              if(!auth.isAuth() || !$stateParams.id) {
+                return false;
+              }
+              var kitID = parseInt($stateParams.id);
+              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+              var isAdmin = userUtils.isAdmin(userData);
+
+              return isAdmin || belongsToUser;
             }
           }
         })

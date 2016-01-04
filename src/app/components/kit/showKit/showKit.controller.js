@@ -25,7 +25,7 @@
     vm.ownerKits = [];
     vm.sampleKits = [];
     vm.kitBelongsToUser = belongsToUser;
-    vm.removeUser = removeUser;
+    vm.removeKit = removeKit;
 
     vm.battery = {};
     vm.sensors = [];
@@ -56,6 +56,10 @@
     vm.timeOpt = ['hour', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
     vm.resetTimeOpts = resetTimeOpts;
+
+    vm.kitWithoutData = false;
+
+    vm.showStore = showStore;
 
     var focused = true;
 
@@ -162,6 +166,7 @@
 
               if(vm.kit.state.name === 'never published' ||
                 vm.kit.state.name === 'not configured') {
+                vm.kitWithoutData = true;
                 if(vm.kitBelongsToUser) {
                   alert.info.noData.owner($stateParams.id);
                 } else {
@@ -197,16 +202,32 @@
       }
     }
 
-    function removeUser() {
-      var alert = $mdDialog.alert()
-        .title('Delete your account?')
-        .content('If you wish to remove you account completely, please contact our support team at support@smartcitizen.me')
+    function removeKit() {
+      var confirm = $mdDialog.confirm()
+        .title('Delete this kit?')
+        .content('Are you sure you want to delete this kit?')
         .ariaLabel('')
-        .ok('OK!')
+        .ok('DELETE')
+        .cancel('Cancel')
         .theme('primary')
         .clickOutsideToClose(true);
 
-      $mdDialog.show(alert);
+      $mdDialog
+        .show(confirm)
+        .then(function(){
+          device
+            .removeDevice(vm.kit.id)
+            .then(function(){
+              alert.success('Your kit was deleted successfully');
+              $timeout(function(){
+                $state.transitionTo('layout.home.kit',{},
+                  {reload:true, inherit:false});
+              }, 2000);
+            })
+            .catch(function(){
+              alert.error('Error trying to delete your kit.');
+            });
+        });
     }
 
     function showSensorOnChart(sensorID) {
@@ -216,12 +237,15 @@
     function slide(direction) {
       var slideContainer = angular.element('.sensors_container');
       var scrollPosition = slideContainer.scrollLeft();
-      var slideStep = 20;
+      var width = slideContainer.width();
+      var slideStep = width/2;
 
       if(direction === 'left') {
-        slideContainer.scrollLeft(scrollPosition + slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition + slideStep},
+          {duration: 250, queue:false});
       } else if(direction === 'right') {
-        slideContainer.scrollLeft(scrollPosition - slideStep);
+        slideContainer.animate({'scrollLeft': scrollPosition - slideStep},
+          {duration: 250, queue:false});
       }
     }
 
@@ -703,5 +727,15 @@
     function resetTimeOpts(){
       vm.dropDownSelection = undefined;
     }
+
+    function showStore() {
+      $mdDialog.show({
+        hasBackdrop: true,
+        controller: 'StoreDialogController',
+        templateUrl: 'app/components/store/storeModal.html',
+        clickOutsideToClose: true
+      });
+    }
+
   }
 })();

@@ -32,7 +32,7 @@
       </div>
       <div class="kitList_tags" layout="row" layout-align="start center">
         <span class="label" ng-repeat="label in kit.labels">{{ label }}</span>
-        <span class="tag" ng-repeat="tag in kit.userTags">{{ tag }}</span>
+        <tag ng-repeat='tag in kit.userTags' ng-attr-tag-name="tag" clickable></tag>
       </div>
     </div>
   </md-button>
