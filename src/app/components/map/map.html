@@ -1,20 +1,34 @@
 <section class="map" change-map-height>
   <leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet> <!-- tiles="vm.tiles" -->
   <div class="map_legend" layout="row" layout-align="start center" move-filters>
-    <md-button ng-click="vm.openFilterPopup()" class="map_filter_button" layout="row" layout-align="center center" aria-label>
-      <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
-    </md-button>
-    <div class="chips">
-      <div ng-repeat="(filterName, isFilterSelected) in vm.filterData" class="chip map_filter" ng-if="isFilterSelected && !vm.allFiltersSelected" layout="row" layout-align="center center">
-        <span class="chip_name">{{ filterName }}</span>
-        <button ng-click="vm.removeFilter(filterName)" class="chip_icon" arial-label>
-          <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>        
-        </button>
+    <div class="map_legend__filtersContainer" layout="column">
+      <div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50">
+        <md-button class="map_filter_button" layout="row" layout-align="center center" aria-label>
+          <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
+        </md-button>
+        <p class="filter_description">Filters</p>
       </div>
-      <div ng-if="vm.allFiltersSelected" class="map_filter" layout="row" layout-align="center center">
-        <div class="chip map_filter">
-          <span class="chip_name">ALL FILTERS</span>          
+      <div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50">
+        <div class="map_filter_button">
+          <p>#</p>
         </div>
+        <p class="filter_description">Tags</p>
+      </div>
+    </div>
+    <div class="chips" layout="column">
+      <div layout="row" class="chips_row">
+        <span ng-repeat="filter in vm.selectedFilters"
+          ng-if="!vm.checkAllFiltersSelected()"
+          class="chip label">
+          {{ filter }}
+          <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+        </span>
+      </div>
+      <div layout="row" class="chips_row">
+        <span class="chip tag" ng-repeat="tag in vm.selectedTags">
+          {{ tag }}
+          <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+        </span>
       </div>
     </div>
   </div>

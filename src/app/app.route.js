@@ -17,8 +17,16 @@
         */
         .state('landing', {
           url: '/',
-          controller: function($state){
-            $state.go('layout.home.kit');
+          templateUrl: 'app/components/landing/landing.html',
+          controller: 'LandingController',
+          controllerAs: 'vm',
+          resolve: {
+            isLogged: function(auth, $location) {
+              if(auth.isAuth()) {
+                $location.path('/kits/');
+                return;
+               }
+            }
           }
         })
         /*
@@ -36,7 +44,7 @@
           url: '/styleguide',
           templateUrl: 'app/components/static/styleguide.html',
           controller: 'StaticController',
-          controllerAs: 'vm',
+          controllerAs: 'vm'
         })
         /*
         -- Static page template --
@@ -69,7 +77,7 @@
           resolve: {
             belongsToUser: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
               if(!auth.isAuth()) {
-                $location.path('/');
+                $location.path('/kits/');
                 return;
               }
               var kitID = parseInt($stateParams.id);
@@ -79,7 +87,7 @@
 
               if(!isAdmin && !belongsToUser) {
                 console.error('This kit does not belong to user');
-                $location.path('/');
+                $location.path('/kits/');
               }
             },
             step: function($stateParams){
@@ -102,7 +110,7 @@
         Abstract state, it only activates when there's a child state activated
         */
         .state('layout.home', {
-          url: '/kits',
+          url: '/kits?tags',
           abstract: true,
           views: {
             '': {
@@ -121,6 +129,35 @@
                 .then(function(sensorTypes) {
                   return sensorTypes.plain();
                 });
+            },
+            selectedTags: function($stateParams, tag){
+              if(typeof($stateParams.tags) === 'string'){
+                $stateParams.tags = [$stateParams.tags];
+              }
+              tag.setSelectedTags(_.uniq($stateParams.tags));
+            }
+          }
+        })
+        .state('layout.home.tags', {
+          url: '/tags',
+          views: {
+            'container@layout.home': {
+              templateUrl: 'app/components/tags/tags.html',
+              controller: 'tagsController',
+              controllerAs: 'tagsCtl'
+            }
+          },
+          resolve: {
+            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+              if(!auth.isAuth() || !$stateParams.id) {
+                return false;
+              }
+              var kitID = parseInt($stateParams.id);
+              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+              var isAdmin = userUtils.isAdmin(userData);
+
+              return isAdmin || belongsToUser;
             }
           }
         })
@@ -238,7 +275,7 @@
             isAdmin: function($window, auth, $location, AuthUser) {
               var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role );
               if(userRole !== 'admin') {
-                $location.path('/');
+                $location.path('/kits/');
               } else {
                 return true;
               }
@@ -262,9 +299,9 @@
           resolve: {
             buttonToClick: function($location, auth) {
               if(auth.isAuth()) {
-                return $location.path('/');
+                return $location.path('/kits');
               }
-              $location.path('/kits/667');
+              $location.path('/kits/');
               $location.search('login', 'true');
             }
           }
@@ -279,9 +316,9 @@
           resolve: {
             buttonToClick: function($location, auth) {
               if(auth.isAuth()) {
-                return $location.path('/');
+                return $location.path('/kits/');
               }
-              $location.path('/kits/667');
+              $location.path('/kits/');
               $location.search('signup', 'true');
             }
           }
@@ -296,7 +333,7 @@
           resolve: {
             logout: function($location, $state, auth, $rootScope) {
               auth.logout();
-              $location.path('/');
+              $location.path('/kits/');
               $rootScope.$broadcast('loggedOut');
             }
           }
@@ -326,7 +363,7 @@
         });
 
       /* Default state */
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise('/kits');
 
       $locationProvider.html5Mode({
         enabled: true,

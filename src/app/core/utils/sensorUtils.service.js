@@ -35,26 +35,32 @@
         return rollup;
       }
 
-      function getSensorName(sensor) {
-        var name = sensor.name;
-        var description = sensor.description;
+      function getSensorName(name) {
+
         var sensorName;
 
-        if( new RegExp('custom circuit', 'i').test(description) ) {
+        if( new RegExp('custom circuit', 'i').test(name) ) {
           sensorName = name;
         } else {
-          if(new RegExp('noise', 'i').test(description) ) {
+          if(new RegExp('noise', 'i').test(name) ) {
             sensorName = 'SOUND';
-          } else if(new RegExp('light', 'i').test(description) ) {
+          } else if(new RegExp('light', 'i').test(name) ) {
             sensorName = 'LIGHT';
-          } else if(new RegExp('wifi', 'i').test(description) ) {  
+          } else if((new RegExp('nets', 'i').test(name) ) || 
+              (new RegExp('wifi', 'i').test(name))) {  
             sensorName = 'NETWORKS';
-          } else if(new RegExp('co', 'i').test(description) ) {
+          } else if(new RegExp('co', 'i').test(name) ) {
             sensorName = 'CO';
-          } else if(new RegExp('no2', 'i').test(description) ) {
+          } else if(new RegExp('no2', 'i').test(name) ) {
             sensorName = 'NO2';
+          } else if(new RegExp('humidity', 'i').test(name) ) {
+            sensorName = 'HUMIDITY';
+          } else if(new RegExp('temperature', 'i').test(name) ) {
+            sensorName = 'TEMPERATURE';
+          } else if(new RegExp('panel', 'i').test(name) ) {
+            sensorName = 'SOLAR PANEL';
           } else {
-            sensorName = description;
+            sensorName = name;
           }          
         }
         return sensorName.toUpperCase();
@@ -117,7 +123,9 @@
 
       function getSensorIcon(sensorName) {
 
-        switch(sensorName) {
+        var thisName = getSensorName(sensorName);
+
+        switch(thisName) {
           case 'TEMPERATURE':
             return './assets/images/temperature_icon.svg';            
             
@@ -164,7 +172,7 @@
       }
 
       function getSensorColor(sensorName) {
-        switch(sensorName) {
+        switch(getSensorName(sensorName)) {
           case 'TEMPERATURE':
             return '#ffc107';            
             

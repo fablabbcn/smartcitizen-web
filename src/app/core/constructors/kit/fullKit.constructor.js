@@ -61,7 +61,7 @@
           .value();
           
           return sensors.reduce(function(acc, sensor, index, arr) {
-            if(sensor.name === 'BATTERY') {
+            if(sensor.name === 'battery') {
               arr.splice(index, 1);
               
               if(options.type === 'main') {

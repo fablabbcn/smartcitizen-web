@@ -5,9 +5,10 @@
     .controller('MapController', MapController);
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert', 'Marker'];
+    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
+    'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
     	var vm = this;
       var updateType;
       var mapMoved = false;
@@ -21,10 +22,10 @@
       var retinaSuffix = isRetina() ? '@2x' : '';
 
       vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'
-          + retinaSuffix +'.png'
-          + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
-          + 'loQdtLNQ8GJkJl2LUzzxVg'
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+
+          retinaSuffix +'.png' +
+          '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
+          'loQdtLNQ8GJkJl2LUzzxVg'
       };
       //previous tile -->'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
 
@@ -33,10 +34,10 @@
           osm: {
             name: 'OpenStreetMap',
             type: 'xyz',
-            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/'
-              + '{x}/{y}' + retinaSuffix + '.png'
-              + '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.'
-              + 'loQdtLNQ8GJkJl2LUzzxVg'
+            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/' +
+              '{x}/{y}' + retinaSuffix + '.png' +
+              '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
+              'loQdtLNQ8GJkJl2LUzzxVg'
           }
         },
         overlays: {
@@ -68,7 +69,8 @@
 
     	vm.events = {
     	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose', 'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
+    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
+          'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
     	  	logic: 'broadcast'
     	  }
     	};
@@ -90,15 +92,16 @@
         focusedMarkerID = data.leafletEvent.target.options.myData.id;
 
         updateType = 'map';
-        var id = data.leafletEvent.target.options.myData.id;
 
         var availability = data.leafletEvent.target.options.myData.labels[0];
         ga('send', 'event', 'Kit Marker', 'click', availability);
 
         $state.go('layout.home.kit', {id: id});
+
+        angular.element('section.map').scope().$broadcast('resizeMapHeight');
       });
 
-      $scope.$on('leafletDirectiveMarker.popupclose', function(event, data) {
+      $scope.$on('leafletDirectiveMarker.popupclose', function() {
         if(focusedMarkerID) {
           var marker = vm.markers[focusedMarkerID];
           if(marker) {
@@ -126,19 +129,20 @@
               leafletData.getLayers()
                 .then(function(layers) {
                   if(currentMarker){
-                    layers.overlays.realworld.zoomToShowLayer(currentMarker, function() {
-                      var selectedMarker = currentMarker;
+                    layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                      function() {
+                        var selectedMarker = currentMarker;
 
-                      if(selectedMarker) {
-                        selectedMarker.focus = true;
-                      }
-                      if(!$scope.$$phase) {
-                        $scope.$digest();
-                      }
+                        if(selectedMarker) {
+                          selectedMarker.focus = true;
+                        }
+                        if(!$scope.$$phase) {
+                          $scope.$digest();
+                        }
 
-                      kitLoaded = true;
-                      
-                    });
+                        kitLoaded = true;
+
+                      });
                   }
                 });
             });
@@ -162,20 +166,16 @@
         mapClicked = true;
       });
 
-      var defaultFilters = {
-        exposure: null,
-        status: null
-      };
-
-      vm.filterData = {
-        indoor: true,
-        outdoor: true,
-        online: true,
-        offline: true
-      };
+      vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
 
       vm.openFilterPopup = openFilterPopup;
+      vm.openTagPopup = openTagPopup;
       vm.removeFilter = removeFilter;
+      vm.removeTag = removeTag;
+      vm.selectedTags = tag.getSelectedTags();
+      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
+
+      vm.checkAllFiltersSelected = checkAllFiltersSelected;
 
       initialize();
 
@@ -215,66 +215,101 @@
             }
           });
 
-        checkFiltersSelected();
+        checkTags();
+        checkAllFiltersSelected();
       }
 
-      function checkFiltersSelected() {
-        var allFiltersSelected = _.every(vm.filterData, function(filterValue) {
-          return filterValue;
+      function checkTags(){
+        if(vm.selectedTags.length > 0){
+          updateMarkers();
+        }
+      }
+
+      function checkAllFiltersSelected() {
+        var allFiltersSelected = _.every(vm.filters, function(filterValue) {
+          return _.include(vm.selectedFilters, filterValue);
         });
-        vm.allFiltersSelected = allFiltersSelected;
+        return allFiltersSelected;
       }
 
       function openFilterPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapFilterDialogController',
+          controller: 'MapFilterDialogController as filterDialog',
           templateUrl: 'app/components/map/mapFilterPopup.html',
           //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {
-            filterData: vm.filterData,
-            defaultFiltersFromController: defaultFilters
+            selectedFilters: vm.selectedFilters
           }
         })
-        .then(function(obj) {
-          _.extend(vm.filterData, obj.data);
-          _.extend(defaultFilters, obj.defaultFilters);
-          updateMarkers(obj.data);
-          checkFiltersSelected();
+        .then(function(selectedFilters) {
+          updateType = 'map';
+          vm.selectedFilters = selectedFilters;
+          updateMarkers();
+          checkAllFiltersSelected();
           $timeout(function() {
             checkMarkersLeftOnMap();
           });
         });
       }
 
-      function removeFilter(filterName) {
-        if(!mapUtils.canFilterBeRemoved(vm.filterData, filterName)) {
-          return;
-        }
-        vm.filterData[filterName] = false;
-        _.extend(defaultFilters, mapUtils.setDefaultFilters(vm.filterData, defaultFilters));
-        updateMarkers(vm.filterData);
-        checkFiltersSelected();
-        $timeout(function() {
-          checkMarkersLeftOnMap();
+      function openTagPopup() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'MapTagDialogController as tagDialog',
+          templateUrl: 'app/components/map/mapTagPopup.html',
+          //targetEvent: ev,
+          clickOutsideToClose: true,
+          locals: {
+            selectedTags: vm.selectedTags
+          }
+        })
+        .then(function(selectedTags) {
+          updateType = 'map';
+          tag.setSelectedTags(_.pluck(selectedTags, 'name'));
+          vm.selectedTags = tag.getSelectedTags();
+          checkAllFiltersSelected();
+          $timeout(function() {
+            checkMarkersLeftOnMap();
+          });
+          reloadWithTags();
         });
       }
 
-      function filterMarkers(filterData) {
-        return vm.markers.filter(function(marker) {
+      function removeFilter(filterName) {
+        vm.selectedFilters = _.filter(vm.selectedFilters, function(el){
+          return el !== filterName;
+        });
+        if(vm.selectedFilters.length === 0){
+          vm.selectedFilters = vm.filters;
+        }
+        updateMarkers();
+      }
+
+      function filterMarkersByLabel(tmpMarkers) {
+        return tmpMarkers.filter(function(marker) {
           var labels = marker.myData.labels;
+          if (labels.length === 0 && vm.selectedFilters.length !== 0){
+            return false;
+          }
           return _.every(labels, function(label) {
-            return filterData[label];
+            return _.include(vm.selectedFilters, label);
           });
         });
       }
 
-      function updateMarkers(filterData) {
+      function updateMarkers() {
         $timeout(function() {
           $scope.$apply(function() {
-            vm.markers = vm.initialMarkers;
-            vm.markers = filterMarkers(filterData);
+            var tmpMarkers = device.getWorldMarkers();
+            tmpMarkers = filterMarkersByLabel(tmpMarkers);
+            vm.markers = tag.filterMarkersByTag(tmpMarkers);
+
+            var boundaries = getBoundaries(vm.markers);
+            leafletData.getMap().then(function(map){
+              map.fitBounds(boundaries);
+            });
           });
         });
       }
@@ -288,7 +323,7 @@
 
                 if(!isThereMarkers) {
                   leafletData.getMap()
-                    .then(function(map) {
+                    .then(function() {
                       var center = L.latLng(vm.center.lat, vm.center.lng);
                       var closestMarker = _.reduce(markers, function(closestMarkerSoFar, marker) {
                         var distanceToMarker = center.distanceTo(marker.getLatLng());
@@ -340,7 +375,9 @@
 
       function getZoomLevel(data) {
         var LAYER_ZOOMS = [{name:'venue', zoom:18}, {name:'address', zoom:18}, {name:'neighbourhood', zoom:13}, {name:'locality', zoom:13}, {name:'localadmin', zoom:10}, {name:'county', zoom:10}, {name:'region', zoom:8}, {name:'country', zoom:7}, {name:'coarse', zoom:7}];
-        if (!data.layer) return 5;
+        if (!data.layer) {
+          return 5;
+        }
         return _.find(LAYER_ZOOMS, function(layer) {
           return layer.name === data.layer;
         }).zoom;
@@ -370,6 +407,47 @@
         vm.center.lat = data.lat;
         vm.center.lng = data.lng;
         vm.center.zoom = getZoomLevel(data);
+      }
+
+      function removeTag(tagName){
+        tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
+          return el !== tagName;
+        }));
+        vm.selectedTags = tag.getSelectedTags();
+
+        if(vm.selectedTags.length === 0){
+          $state.transitionTo('layout.home.kit',
+            {tags: vm.selectedTags},
+            {
+              inherit:false
+            });
+        }else{
+          reloadWithTags();
+        }
+      }
+
+      function reloadWithTags(){
+        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags});
+      }
+
+      function getBoundaries(markers){
+        var minLat = markers[0].lat;
+        var minLong = markers[0].lng;
+        var maxLat = minLat;
+        var maxLong = maxLong;
+
+        _.forEach(markers, function(marker){
+          minLat = _.min([minLat, marker.lat]);
+          maxLat = _.max([maxLat, marker.lat]);
+          minLong = _.min([minLong, marker.lng]);
+          maxLong = _.max([maxLong, marker.lng]);
+        });
+
+        var margin = 0.0001;
+        return L.latLngBounds(
+          L.latLng(minLat-(minLat*margin), minLong-(minLong*margin)),
+          L.latLng(maxLat+(maxLat*margin), maxLong+(maxLong*margin))
+        );
       }
     }
 

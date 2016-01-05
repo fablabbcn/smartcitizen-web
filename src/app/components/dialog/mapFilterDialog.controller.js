@@ -4,45 +4,55 @@
   angular.module('app.components')
     .controller('MapFilterDialogController', MapFilterDialogController);
 
-    MapFilterDialogController.$inject = ['$scope', '$mdDialog', 'filterData', 'defaultFiltersFromController', 'mapUtils'];
-    function MapFilterDialogController($scope, $mdDialog, filterData, defaultFiltersFromController, mapUtils) {
-      var defaultFilters = {
-        exposure: null,
-        status: null
-      };
+  MapFilterDialogController.$inject = ['$mdDialog','selectedFilters'];
 
-      $scope.form = {
-        indoor: false,
-        outdoor: false,
-        online: false,
-        offline: false
-      };
+  function MapFilterDialogController($mdDialog, selectedFilters) {
 
-      _.extend($scope.form, filterData);
-      _.extend(defaultFilters, defaultFiltersFromController);
+    var vm = this;
 
-      $scope.answer = function(data) {
-        if(!data) {
-          data = _.each($scope.form, function(value, key, obj) {
-            obj[key] = true;
-          });
-        }
-        var obj = {
-          data: data,
-          defaultFilters: defaultFilters
-        };
-        $mdDialog.hide(obj);
-      };
-      $scope.hide = function() {
-        $mdDialog.hide();
-      };  
-      $scope.cancel = function() {
-        $mdDialog.hide();
-      };
+    vm.checks = {};
 
-      $scope.applyFilterRules = function() {
-        _.extend($scope.form, mapUtils.getDefaultFilters($scope.form, defaultFilters) );
-        _.extend(defaultFilters, mapUtils.setDefaultFilters($scope.form, defaultFilters) );
-      };
+    vm.answer = answer;
+    vm.hide = hide;
+    vm.clear = clear;
+    vm.cancel = cancel;
+    
+    vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
+
+    init();
+
+    ////////////////////////////////////////////////////////
+
+    function init() {
+      _.forEach(selectedFilters, select);
     }
+
+    function answer() {
+
+      var selectedFilters = _(vm.filters)
+        .filter(isFilterSelected)
+        .value();
+      $mdDialog.hide(selectedFilters);
+    }
+
+    function hide() {
+      answer();
+    }
+
+    function clear() {
+      $mdDialog.hide(vm.filters);
+    }
+
+    function cancel() {
+      answer();
+    }
+
+    function isFilterSelected(filter) {
+      return vm.checks[filter];
+    }
+
+    function select(filter){
+      vm.checks[filter] = true;
+    }
+  }
 })();
