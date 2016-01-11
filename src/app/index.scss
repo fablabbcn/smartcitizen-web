@@ -1641,10 +1641,6 @@ section .stickMenu {
     margin: 0 auto;
   }
 
-  [layout] {
-    padding: 2% 0;
-  }
-
   .modal_message {
     margin-bottom: 20px;
 
@@ -1699,7 +1695,6 @@ section .stickMenu {
 
 .modal_login {
   width: 400px;
-  height: 412px;
 }
 .login_spinner {
   position: absolute;
@@ -1826,12 +1821,11 @@ md-dialog.tags, md-dialog.filters{
   }
 
   .store_itemImage {
-    border-radius: 50%;
-    width: 179px;
-    height: 179px;
+    border-radius: 90px;
   }
 
   .store_itemDescription {
+    margin-left:20px;
     ul {
       padding-left: 18px;
       list-style-image: url('../assets/images/sucesses_icon.png');

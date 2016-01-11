@@ -40,7 +40,7 @@
         dateFrom = utils.convertTime(dateFrom);
         dateTo = utils.convertTime(dateTo);
         if(!dateFrom || !dateTo) {
-          return Restangular.one('devices', deviceID).customGET('pg_readings');        
+          return Restangular.one('devices', deviceID).customGET('pg_readings');
         }
 
         /*jshint camelcase: false */
