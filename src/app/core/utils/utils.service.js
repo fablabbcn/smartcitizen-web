@@ -20,18 +20,18 @@
       function parseKit(object) {
         var parsedKit = {
           kitName: object.device.name,
-          kitType: parseKitType(object),  
-          kitLastTime: moment(parseKitTime(object)).fromNow(), 
-          kitLocation: parseKitLocation(object), 
+          kitType: parseKitType(object),
+          kitLastTime: moment(parseKitTime(object)).fromNow(),
+          kitLocation: parseKitLocation(object),
           kitLabels: parseKitLabels(object),
-          kitClass: classify(parseKitType(object))      
+          kitClass: classify(parseKitType(object))
         };
         return parsedKit;
       }
 
       function parseKitLocation(object) {
         var location = '';
-        
+
         var city = object.data.location.city;
         var country = object.data.location.country;
 
@@ -53,16 +53,16 @@
       }
 
       function parseKitType(object) {
-        var kitType; 
-        
+        var kitType;
+
         var kitName = !object.kit ? 'No kit property': object.kit.name;
 
-        if((new RegExp('sck', 'i')).test(kitName)) { 
+        if((new RegExp('sck', 'i')).test(kitName)) {
           kitType = 'SmartCitizen Kit';
         } else {
           kitType = 'Unknown Kit';
         }
-        return kitType; 
+        return kitType;
       }
 
       function classify(kitType) {
