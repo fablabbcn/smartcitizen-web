@@ -1590,7 +1590,7 @@ var sckapp = {
         return obj;
     },
     pluginChromeStoreURL: "https://chrome.google.com/webstore/detail/llohmdkdoablhnefekgllopdgmmphpif",
-    firmwaresPath: "http://setup.smartcitizen.me/firmwares/json/",
+    firmwaresPath: "https://setup.smartcitizen.me/firmwares/json/",
     lineBuffer: [],
     lineString: "",
     cmdStatus: "NO",

@@ -100,6 +100,7 @@
                 draggable: true
               }
             };
+            vm.macAddress = vm.kitData.macAddress;
           });
       }
 
@@ -136,6 +137,9 @@
         if(vm.macAddress){
           /*jshint camelcase: false */
           data.mac_address = vm.macAddress;
+        } else {
+          /*jshint camelcase: false */
+          data.mac_address = null;
         }
 
         device.updateDevice(vm.kitData.id, data)
@@ -182,7 +186,8 @@
       function getTags() {
         tag.getTags()
           .then(function(tagsData) {
-            vm.tags = tagsData.plain();
+            console.log(tagsData);
+            vm.tags = tagsData;
           });
       }
 
