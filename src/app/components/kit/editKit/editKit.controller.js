@@ -186,7 +186,8 @@
       function getTags() {
         tag.getTags()
           .then(function(tagsData) {
-            vm.tags = tagsData.plain();
+            console.log(tagsData);
+            vm.tags = tagsData;
           });
       }
 
