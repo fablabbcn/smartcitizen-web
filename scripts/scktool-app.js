@@ -3,7 +3,7 @@
  * 2013-2015 SmartCitizen
  * Licensed under MIT
  */
-var debugLevel = 5; // 0 no messages, 5 all messages
+var debugLevel = 2; // 0 no messages, 5 all messages
 
 var sckapp = {
     init: function(options, elem) {
@@ -452,7 +452,14 @@ var sckapp = {
         _configUI.createSyncButton = function() {
             var syncButton = this.createButton("remove", "Sync", "submit", "", false);
             syncButton.click(function() {
+                syncButton.html('Syncing');
                 self._sync();
+            });
+            _configUI.parent.on("sync-done", function() { //temp
+                syncButton.html('Done');
+            });
+            _configUI.parent.on("sync-ready", function() { //temp
+                syncButton.html('Sync');
             });
             return syncButton;
         }
@@ -628,7 +635,7 @@ var sckapp = {
         isOk =
             self._syncNets(function() {
                 self._syncUpdates(function() {
-
+                    $('.config-block').trigger( "sync-done" ); //global scope event must change
                     self._messageWidget("Done, reset your kit in order <br> the changes will take effect.");
                     self._message("Your Smart Citizen Kit is updated. Please, reset or switch off / on your kit in order the changes to take effect!");
                 });
@@ -948,6 +955,7 @@ var sckapp = {
                 } else {
                     self._messageWidget("Failed to update the Wi-Fi! Please, try it again.");
                     self._message("Failed to update the Wi-Fi settings on the Smart Citizen Kit! Please, try it again.");
+                    $('.config-block').trigger( "sync-ready" ); //global scope event must change
                     callback(false);
                 };
             })
@@ -1497,18 +1505,20 @@ var sckapp = {
             if (status == true) {
                 pluginReady();
             } else if (status == "available") {
-                self._startmessage('<strong>Preparing the installation...</strong>');
                 self._startmessage('<strong>To configure your kit you will need to install the Smart Citizen Kit App for Chrome<button id="install-button">Add to Chrome</button></strong>You can also install it manually from the <a href="' +  self.pluginChromeStoreURL + '" target="_blank">Chrome store</a> and refresh the page.');
-                self.$elem.find('#install-button').click(function() {
+                console.warn(self.$elem.find('#install-button'));
+                $('#install-button').click(function() {
+                    self._startmessage('<strong>Preparing the installation...</strong>');
                     chrome.webstore.install(self.pluginChromeStoreURL, function() {
                         self._startmessage('<strong>Finishing the installation...</strong>');
                         setTimeout(function() {
                             self.initPlugin(validate);
                         }, 2000);
                     }, function() {
+                        self._startmessage("<strong>We are sorry, something went wrong. Install it manually from the <a style='color: #06c2f0;' href='" +  self.pluginChromeStoreURL + "' target='_blank'>Chrome store</a> and refresh the page.</strong>");
                         setTimeout(function() {
                             self.initPlugin(validate);
-                        }, 2000);
+                        }, 10000);
                     });
                 });
             } else {
@@ -1520,7 +1530,8 @@ var sckapp = {
     initPlugin: function(callback) {
         var self = this;
         $('head').append('<link rel="chrome-webstore-item" href="' + self.pluginChromeStoreURL + '">');
-        if (window.chrome && !self._isMobile()) {
+        var chrome = window.chrome || {};
+        if (chrome.app && chrome.webstore && !self._isMobile()) {
             self.sckTool = new window.SckToolChromeAppConnector();
             self.sckTool.getVersion(function(version) {
                 if (!version.hasOwnProperty("error")) {
@@ -1579,7 +1590,7 @@ var sckapp = {
         return obj;
     },
     pluginChromeStoreURL: "https://chrome.google.com/webstore/detail/llohmdkdoablhnefekgllopdgmmphpif",
-    firmwaresPath: "http://setup.smartcitizen.me/firmwares/json/",
+    firmwaresPath: "https://setup.smartcitizen.me/firmwares/json/",
     lineBuffer: [],
     lineString: "",
     cmdStatus: "NO",
