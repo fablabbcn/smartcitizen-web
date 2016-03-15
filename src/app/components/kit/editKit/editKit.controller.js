@@ -139,6 +139,7 @@
           data.mac_address = vm.macAddress;
         } else {
           /*jshint camelcase: false */
+          alert.error('The mac address you entered is not a valid address')
           data.mac_address = null;
         }
 
@@ -148,14 +149,20 @@
               alert.success('Your kit was successfully updated');
               ga('send', 'event', 'Kit', 'update');
             })
-          .catch(function() {
-              alert.error('There has been an error during kit set up');
-              ga('send', 'event', 'Kit', 'update failed');
+          .catch(function(err) {
+              if(err.data.errors.mac_address[0] === "has already been taken") {
+                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
+                ga('send', 'event', 'Kit', 'unprocessable entity');
+              }
+              else {
+                alert.error('There has been an error during kit set up');
+                ga('send', 'event', 'Kit', 'update failed');
+              }
             })
           .finally(function(){
             $timeout(function(){
               backToProfile();
-            },1000);
+            },5000);
           });
       }
 
