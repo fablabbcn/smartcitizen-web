@@ -135,8 +135,10 @@
           /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };
-
-        if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress) || (vm.macAddress === null)){
+        console.log(vm.macAddress);
+        if(vm.macAddress == ""){
+          data.mac_address = null;
+        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
           /*jshint camelcase: false */
           data.mac_address = vm.macAddress;
         } else {
@@ -168,7 +170,9 @@
               alert.error('There has been an error during kit set up');
               ga('send', 'event', 'Kit', 'update failed');
             }
-            $timeout(timewait);
+            $timeout(function() {
+              openKitSetup();
+            },timewait);
           });
       }
 
