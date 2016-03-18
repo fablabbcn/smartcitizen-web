@@ -135,14 +135,18 @@
           /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };
-
-        if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress) || (vm.macAddress === null)){
+        console.log(vm.macAddress);
+        if(vm.macAddress == ""){
+          data.mac_address = null;
+        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
           /*jshint camelcase: false */
           data.mac_address = vm.macAddress;
         } else {
           /*jshint camelcase: false */
-          alert.error('The mac address you entered is not a valid address')
+          var message = 'The mac address you entered is not a valid address'
+          alert.error(message);
           data.mac_address = null;
+          throw new Error("[Client:error] " + message);
         }
 
         device.updateDevice(vm.kitData.id, data)
@@ -151,22 +155,23 @@
               timewait=3000;
               alert.success('Your kit was successfully updated');
               ga('send', 'event', 'Kit', 'update');
+              $timeout(function(){
+                backToProfile();
+              },timewait);
             })
           .catch(function(err) {
-              if(err.data.errors.mac_address[0] === "has already been taken") {
-                timewait = 5000;
-                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
-                ga('send', 'event', 'Kit', 'unprocessable entity');
-              }
-              else {
-                timewait=4000;
-                alert.error('There has been an error during kit set up');
-                ga('send', 'event', 'Kit', 'update failed');
-              }
-            })
-          .finally(function(){
-            $timeout(function(){
-              backToProfile();
+            if(err.data.errors.mac_address[0] === "has already been taken") {
+              timewait = 5000;
+              alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
+              ga('send', 'event', 'Kit', 'unprocessable entity');
+            }
+            else {
+              timewait=4000;
+              alert.error('There has been an error during kit set up');
+              ga('send', 'event', 'Kit', 'update failed');
+            }
+            $timeout(function() {
+              openKitSetup();
             },timewait);
           });
       }
