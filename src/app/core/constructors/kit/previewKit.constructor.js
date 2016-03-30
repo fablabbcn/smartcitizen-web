@@ -4,7 +4,7 @@
   angular.module('app.components')
     .factory('PreviewKit', ['Kit', function(Kit) {
 
-      /** 
+      /**
        * Preview Kit constructor.
        * Used for kits stacked in a list, like in User Profile or Kit states
        * @extends Kit
@@ -16,7 +16,8 @@
 
         this.dropdownOptions = [
           {text: 'SET UP', value: '1', href: 'kits/edit/' + this.id + '?step=2'},
-          {text: 'EDIT', value: '2', href: 'kits/edit/' + this.id}
+          {text: 'EDIT', value: '2', href: 'kits/edit/' + this.id},
+          {text: 'DELETE', value: '3', href: 'kits/delete/' + this.id}
         ];
       }
       PreviewKit.prototype = Object.create(Kit.prototype);

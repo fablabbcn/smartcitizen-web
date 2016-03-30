@@ -48,6 +48,11 @@
       vm.dropdownSelected = undefined;
       vm.dropdownOptions = DROPDOWN_OPTIONS_KIT;
 
+      vm.removeKit = removeKit;
+      if ($state.current.name === 'layout.myProfile.kitDelete'){
+        console.log('HELLOOO')
+      }
+
       //TOOLS TAB
       vm.tools = PROFILE_TOOLS;
       vm.toolType = undefined;
@@ -282,6 +287,34 @@
         var isAdmin = userUtils.isAdmin(userData);
 
         return isAdmin || belongsToUser;
+      }
+
+      function removeKit(kitID) {
+        var confirm = $mdDialog.confirm()
+          .title('Delete this kit?')
+          .content('Are you sure you want to delete this kit?')
+          .ariaLabel('')
+          .ok('DELETE')
+          .cancel('Cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog
+          .show(confirm)
+          .then(function(){
+            device
+              .removeDevice(kitID)
+              .then(function(){
+                alert.success('Your kit was deleted successfully');
+                $timeout(function(){
+                  $state.transitionTo('layout.home.kit',{},
+                    {reload:true, inherit:false});
+                }, 2000);
+              })
+              .catch(function(){
+                alert.error('Error trying to delete your kit.');
+              });
+          });
       }
     }
 })();
