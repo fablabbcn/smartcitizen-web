@@ -249,12 +249,6 @@
           templateUrl: 'app/components/myProfile/Kits.html',
           controllerAs: 'vm',
         })
-        .state('layout.myProfile.kitDelete', {
-          url: '/kits/delete/:id',
-          authenticate: true,
-          templateUrl: 'app/components/myProfile/Kits.html',
-          controllerAs: 'vm',
-        })
         .state('layout.myProfile.user', {
           url: '/users',
           authenticate: true,

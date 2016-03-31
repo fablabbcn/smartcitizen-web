@@ -16,8 +16,7 @@
 
         this.dropdownOptions = [
           {text: 'SET UP', value: '1', href: 'kits/edit/' + this.id + '?step=2'},
-          {text: 'EDIT', value: '2', href: 'kits/edit/' + this.id},
-          {text: 'DELETE', value: '3', href: 'kits/delete/' + this.id}
+          {text: 'EDIT', value: '2', href: 'kits/edit/' + this.id}
         ];
       }
       PreviewKit.prototype = Object.create(Kit.prototype);
