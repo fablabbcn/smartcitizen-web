@@ -4,11 +4,11 @@
   angular.module('app.components')
     .controller('KitListController', KitListController);
 
-  KitListController.$inject = ['$mdDialog', '$state','$scope', '$stateParams',
-    '$timeout', '$window','alert', 'auth', 'AuthUser', 'device', 'kitUtils',
-    'userUtils'];
-  function KitListController($mdDialog, $state, $scope, $stateParams, $timeout,
-    $window, alert, auth, AuthUser, device, kitUtils, userUtils) {
+  KitListController.$inject = ['$location', '$mdDialog', '$state','$scope',
+    '$stateParams', '$timeout', '$window','alert', 'auth', 'AuthUser', 'device',
+    'kitUtils', 'userUtils'];
+  function KitListController($location, $mdDialog, $state, $scope, $stateParams,
+    $timeout, $window, alert, auth, AuthUser, device, kitUtils, userUtils) {
 
     var vm = this;
     vm.removeKit = removeKit;
@@ -31,9 +31,13 @@
             .then(function(){
               alert.success('Your kit was deleted successfully');
               $timeout(function(){
-                $state.transitionTo('layout.home.kit',{},
-                  {reload:true, inherit:false});
-              }, 2000);
+                $window.location.href = '/';
+                $state.transitionTo('layout.myProfile.kits', $stateParams,
+                  { reload: true,
+                    inherit: false,
+                    notify: true
+                  });
+              }, 1000);
             })
             .catch(function(){
               alert.error('Error trying to delete your kit.');
