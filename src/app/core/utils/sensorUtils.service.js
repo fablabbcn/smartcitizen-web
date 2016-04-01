@@ -46,8 +46,8 @@
             sensorName = 'SOUND';
           } else if(new RegExp('light', 'i').test(name) ) {
             sensorName = 'LIGHT';
-          } else if((new RegExp('nets', 'i').test(name) ) || 
-              (new RegExp('wifi', 'i').test(name))) {  
+          } else if((new RegExp('nets', 'i').test(name) ) ||
+              (new RegExp('wifi', 'i').test(name))) {
             sensorName = 'NETWORKS';
           } else if(new RegExp('co', 'i').test(name) ) {
             sensorName = 'CO';
@@ -59,16 +59,18 @@
             sensorName = 'TEMPERATURE';
           } else if(new RegExp('panel', 'i').test(name) ) {
             sensorName = 'SOLAR PANEL';
+          } else if(new RegExp('battery', 'i').test(name) ) {
+            sensorName = 'BATTERY';
           } else {
             sensorName = name;
-          }          
+          }
         }
         return sensorName.toUpperCase();
       }
 
       function getSensorUnit(sensorName) {
         var sensorUnit;
-        
+
         switch(sensorName) {
           case 'TEMPERATURE':
             sensorUnit = '°C';
@@ -83,17 +85,17 @@
           case 'BATTERY':
             sensorUnit = '%';
             break;
-          case 'CO': 
+          case 'CO':
           case 'NO2':
             sensorUnit = 'KΩ';
             break;
-          case 'NETWORKS': 
+          case 'NETWORKS':
             sensorUnit = '#';
             break;
-          case 'SOLAR PANEL': 
+          case 'SOLAR PANEL':
             sensorUnit = 'V';
             break;
-          default: 
+          default:
             sensorUnit = 'N/A';
         }
         return sensorUnit;
@@ -108,7 +110,7 @@
           value = value.toString();
           if(value.indexOf('.') !== -1) {
             value = value.slice(0, value.indexOf('.') + 3);
-          }          
+          }
         }
 
         return value;
@@ -117,7 +119,7 @@
 
       function getSensorPrevValue(sensor) {
         /*jshint camelcase: false */
-        var prevValue = sensor.prev_value; 
+        var prevValue = sensor.prev_value;
         return (prevValue && prevValue.toString() ) || 0;
       }
 
@@ -127,34 +129,34 @@
 
         switch(thisName) {
           case 'TEMPERATURE':
-            return './assets/images/temperature_icon.svg';            
-            
+            return './assets/images/temperature_icon.svg';
+
           case 'HUMIDITY':
             return './assets/images/humidity_icon.svg';
-            
+
           case 'LIGHT':
             return './assets/images/light_icon.svg';
-            
-          case 'SOUND': 
+
+          case 'SOUND':
             return './assets/images/sound_icon.svg';
-            
+
           case 'CO':
             return './assets/images/co_icon.svg';
-            
+
           case 'NO2':
             return './assets/images/no2_icon.svg';
-          
-          case 'NETWORKS': 
+
+          case 'NETWORKS':
             return './assets/images/networks_icon.svg';
 
-          case 'BATTERY': 
+          case 'BATTERY':
             return './assets/images/battery_icon.svg';
 
-          case 'SOLAR PANEL': 
+          case 'SOLAR PANEL':
             return './assets/images/solar_panel_icon.svg';
 
-          default: 
-            return './assets/images/avatar.svg';                      
+          default:
+            return './assets/images/avatar.svg';
         }
       }
 
@@ -163,42 +165,45 @@
         prevValue = parseInt(prevValue) || 0;
 
         if(currentValue > prevValue) {
-          return './assets/images/arrow_up_icon.svg';          
+          return './assets/images/arrow_up_icon.svg';
         } else if(currentValue < prevValue) {
           return './assets/images/arrow_down_icon.svg';
         } else {
-          return './assets/images/equal_icon.svg';        
+          return './assets/images/equal_icon.svg';
         }
       }
 
       function getSensorColor(sensorName) {
         switch(getSensorName(sensorName)) {
           case 'TEMPERATURE':
-            return '#ffc107';            
-            
+            return '#ffc107';
+
           case 'HUMIDITY':
             return '#4fc3f7';
-            
+
           case 'LIGHT':
             return '#ffee58';
-            
-          case 'SOUND': 
+
+          case 'SOUND':
             return '#f06292';
-            
+
           case 'CO':
             return '#4caf50';
-            
+
           case 'NO2':
             return '#8bc34a';
-          
+
           case 'NETWORKS':
             return '#9575cd';
 
-          case 'SOLAR PANEL': 
+          case 'SOLAR PANEL':
             return '#fff9c4';
 
-          default: 
-            return 'black';                      
+          case 'BATTERY':
+            return '#ffee58';
+
+          default:
+            return 'black';
         }
       }
 

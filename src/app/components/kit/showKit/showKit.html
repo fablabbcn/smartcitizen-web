@@ -84,6 +84,21 @@
             </div>
             <small>{{ sensor.name }}</small>
           </div>
+          <div ng-if="vm.battery" class="sensor_container" ng-click="vm.showSensorOnChart(vm.battery.id)">
+            <div layout="row">
+              <div>
+                <md-icon md-svg-src="{{ vm.battery.icon }}" class="sensor_icon" flex="20">
+                </md-icon>
+              </div>
+              <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
+              <div class="sensor_right">
+                <div class="sensor_unit">{{ vm.battery.unit }}</div>
+                <md-icon md-svg-src="{{ vm.battery.arrow }}" class="sensor_arrow">
+                </md-icon>
+              </div>
+            </div>
+            <small>{{ vm.battery.name }}</small>
+          </div>
         </div>
         <md-button ng-click="vm.slide('left')" class="md-flat button_scroll button_scroll_right" layout="column" layout-align="center center" aria-label="">
           <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">

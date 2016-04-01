@@ -143,7 +143,7 @@
       }, 1000);
 
       var kitID = $stateParams.id;
-      if (kitID || kitID != ''){        
+      if (kitID || kitID != ''){
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
