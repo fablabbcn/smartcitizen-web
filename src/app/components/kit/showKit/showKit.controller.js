@@ -143,11 +143,7 @@
       }, 1000);
 
       var kitID = $stateParams.id;
-      if (!kitID || kitID === ''){
-        if(geolocation.isHTML5GeolocationGranted()){
-          geolocate();
-        }
-      }else{
+      if (kitID || kitID != ''){        
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
@@ -220,8 +216,12 @@
             .then(function(){
               alert.success('Your kit was deleted successfully');
               $timeout(function(){
-                $state.transitionTo('layout.home.kit',{},
-                  {reload:true, inherit:false});
+                $window.location.href = '/';
+                $state.transitionTo('layout.myProfile.kits', $stateParams,
+                  { reload: true,
+                    inherit: false,
+                    notify: true
+                  });
               }, 2000);
             })
             .catch(function(){
