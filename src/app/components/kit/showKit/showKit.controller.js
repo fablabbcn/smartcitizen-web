@@ -190,7 +190,7 @@
             var compareSensors = sensorsRes[1];
 
             vm.battery = mainSensors[1];
-            vm.sensors = mainSensors[0];
+            vm.sensors = mainSensors[0].concat(mainSensors[1]);
             vm.sensorsToCompare = compareSensors;
 
             vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
