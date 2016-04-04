@@ -135,7 +135,6 @@
           /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };
-        console.log(vm.macAddress);
         if(vm.macAddress == ""){
           data.mac_address = null;
         } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
