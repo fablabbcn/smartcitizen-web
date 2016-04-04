@@ -64,7 +64,8 @@
         touchZoom: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
-        minZoom:2
+        minZoom:2,
+        worldCopyJump: true
     	};
 
     	vm.events = {
