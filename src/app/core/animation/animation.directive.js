@@ -156,8 +156,11 @@
           $timeout(function() {
             var overviewHeight = angular.element('.over_map').height();
 
-            var mapHeight = screenHeight - navbarHeight - overviewHeight;
-            element.css('height', mapHeight + 'px');
+            var objectsHeight = navbarHeight + overviewHeight;
+            var objectsHeightPercentage = parseInt((objectsHeight * 100) / screenHeight);
+            var mapHeightPercentage = 100 - objectsHeightPercentage;
+
+            element.css('height', mapHeightPercentage + '%');
 
             var aboveTheFoldHeight = screenHeight - overviewHeight;
             angular
