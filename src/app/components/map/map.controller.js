@@ -64,7 +64,8 @@
         touchZoom: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
-        minZoom:2
+        minZoom:2,
+        worldCopyJump: true
     	};
 
     	vm.events = {
@@ -116,15 +117,16 @@
           updateType = undefined;
           return;
         }
-
+        // This is what happens when the Kit loads!!
         goToLocation(null, data);
-
         $timeout(function() {
           leafletData.getMarkers()
             .then(function(markers) {
               var currentMarker = _.find(markers, function(marker) {
                 return data.id === marker.options.myData.id;
               });
+
+              var id = data.id;
 
               leafletData.getLayers()
                 .then(function(layers) {
@@ -134,7 +136,8 @@
                         var selectedMarker = currentMarker;
 
                         if(selectedMarker) {
-                          selectedMarker.focus = true;
+                          selectedMarker.options.focus = true;
+                          selectedMarker.openPopup();
                         }
                         if(!$scope.$$phase) {
                           $scope.$digest();
@@ -146,7 +149,7 @@
                   }
                 });
             });
-        }, 3000);
+        }, 5000);
 
       });
 

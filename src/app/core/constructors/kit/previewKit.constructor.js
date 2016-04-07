@@ -4,7 +4,7 @@
   angular.module('app.components')
     .factory('PreviewKit', ['Kit', function(Kit) {
 
-      /** 
+      /**
        * Preview Kit constructor.
        * Used for kits stacked in a list, like in User Profile or Kit states
        * @extends Kit

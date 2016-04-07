@@ -31,7 +31,7 @@
       toast('error', message);
     }
 
-    function infoNoDataVisitor() {
+    function infoNoDataVisitor(kitID) {
       info('Woah! This kit still hasn\'t published any data. Leave a ' +
         'comment to let its owner know.',
       10000,
@@ -51,7 +51,7 @@
     function infoLongTime() {
       info('😅 It looks like this kit hasn\'t posted any data in a long ' +
         'time. Why not leave a comment to let its owner know?', 10000,
-        {button: 'Leave comment'});
+        {button: 'Leave comment', href: '#disqus_thread'});
     }
 
     function info(message, delay, options) {
