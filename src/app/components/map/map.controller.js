@@ -77,7 +77,8 @@
     	};
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        var id = data.leafletEvent.target.options.myData.id;
+        // This is a bit ugly. Feels more like a hack.
+        var id = vm.markers[data.modelName].myData.id;
 
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
@@ -89,8 +90,6 @@
           }, 0);
           return;
         }
-
-        focusedMarkerID = data.leafletEvent.target.options.myData.id;
 
         updateType = 'map';
 
@@ -308,7 +307,6 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
-
             var boundaries = getBoundaries(vm.markers);
             leafletData.getMap().then(function(map){
               map.fitBounds(boundaries);

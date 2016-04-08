@@ -64,7 +64,7 @@
         return _.reduce(tagsArr, function(acc, label) {
           var element ='';
           if(tagType === 'tag'){
-            element = '<tag ng-attr-tag-name="\''+ label +'\'" ' + 
+            element = '<tag ng-attr-tag-name="\''+ label +'\'" ' +
               clickablTag +'></tag>';
           }else{
             element = '<span class="'+tagType+'">'+label+'</span>';
