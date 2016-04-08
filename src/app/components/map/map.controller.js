@@ -78,7 +78,12 @@
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
         // This is a bit ugly. Feels more like a hack.
-        var id = vm.markers[data.modelName].myData.id;
+        var id = undefined;
+        currentMarker = vm.markers[data.modelName]
+
+        if currentMarker {
+          id = currentMarker.myData.id;
+        }
 
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
