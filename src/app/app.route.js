@@ -245,6 +245,7 @@
         })
         .state('layout.myProfile.kits', {
           url: '/kits',
+          cache: false,
           authenticate: true,
           templateUrl: 'app/components/myProfile/Kits.html',
           controllerAs: 'vm',

@@ -17,14 +17,6 @@
 
       var vm = this;
 
-      vm.selectThisTab = selectThisTab;
-      if ($state.current.name === 'layout.myProfile.user'){
-        vm.startingTab = 1;
-      } else if ($state.current.name === 'layout.myProfile.tools'){
-        vm.startingTab = 2;
-      } else {
-        vm.startingTab = 0;
-      }
       vm.unhighlightIcon = unhighlightIcon;
 
       //PROFILE TAB
@@ -57,11 +49,21 @@
       vm.filterKits = filterKits;
       vm.filterTools = filterTools;
 
+      vm.selectThisTab = selectThisTab;
+      if ($state.current.name === 'layout.myProfile.user'){
+        vm.startingTab = 1;
+      } else if ($state.current.name === 'layout.myProfile.tools'){
+        vm.startingTab = 2;
+      } else {
+        vm.startingTab = 0;
+      }
+
       var updateKitsTimer;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
       });
+
 /*      $scope.$on("$destroy", function() {
         if (updateKitsTimer) {
             $interval.cancel(updateKitsTimer);

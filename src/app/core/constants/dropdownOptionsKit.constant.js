@@ -6,7 +6,7 @@
    * @constant
    * @type {Array}
    */
-  
+
   angular.module('app.components')
     .constant('DROPDOWN_OPTIONS_KIT', [
       {text: 'SET UP', value: '1', href: '/kits/new'},
