@@ -79,9 +79,9 @@
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
         // This is a bit ugly. Feels more like a hack.
         var id = undefined;
-        currentMarker = vm.markers[data.modelName]
+        var currentMarker = vm.markers[data.modelName];
 
-        if currentMarker {
+        if(currentMarker) {
           id = currentMarker.myData.id;
         }
 
@@ -105,6 +105,7 @@
 
         angular.element('section.map').scope().$broadcast('resizeMapHeight');
       });
+
 
       $scope.$on('leafletDirectiveMarker.popupclose', function() {
         if(focusedMarkerID) {
