@@ -77,7 +77,13 @@
     	};
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        var id = data.leafletEvent.target.options.myData.id;
+        // This is a bit ugly. Feels more like a hack.
+        var id = undefined;
+        var currentMarker = vm.markers[data.modelName];
+
+        if(currentMarker) {
+          id = currentMarker.myData.id;
+        }
 
         vm.kitLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
@@ -90,8 +96,6 @@
           return;
         }
 
-        focusedMarkerID = data.leafletEvent.target.options.myData.id;
-
         updateType = 'map';
 
         var availability = data.leafletEvent.target.options.myData.labels[0];
@@ -101,6 +105,7 @@
 
         angular.element('section.map').scope().$broadcast('resizeMapHeight');
       });
+
 
       $scope.$on('leafletDirectiveMarker.popupclose', function() {
         if(focusedMarkerID) {
@@ -308,7 +313,6 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
-
             var boundaries = getBoundaries(vm.markers);
             leafletData.getMap().then(function(map){
               map.fitBounds(boundaries);

@@ -135,6 +135,7 @@
           /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };
+
         if(vm.macAddress == ""){
           data.mac_address = null;
         } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
@@ -158,19 +159,19 @@
                 backToProfile();
               },timewait);
             })
-          .catch(function(err) {
-            if(err.data.errors.mac_address[0] === "has already been taken") {
-              timewait = 5000;
-              alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
-              ga('send', 'event', 'Kit', 'unprocessable entity');
-            }
-            else {
-              timewait=4000;
-              alert.error('There has been an error during kit set up');
-              ga('send', 'event', 'Kit', 'update failed');
-            }
-            $timeout(function(){ },timewait);
-          });
+            .catch(function(err) {
+              if(err.data.errors.mac_address[0] === "has already been taken") {
+                timewait = 5000;
+                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
+                ga('send', 'event', 'Kit', 'unprocessable entity');
+              }
+              else {
+                timewait=4000;
+                alert.error('There has been an error during kit set up');
+                ga('send', 'event', 'Kit', 'update failed');
+              }
+              $timeout(function(){ },timewait);
+            });
       }
 
       function openKitSetup() {
