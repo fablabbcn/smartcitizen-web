@@ -467,7 +467,7 @@
 
       from_picker.on('set', function(event) {
         if(event.select) {
-          to_picker.set('min', getFromRange()); 
+          to_picker.set('min', getFromRange());
         } else if( 'clear' in event) {
           to_picker.set('min', false);
         }
@@ -507,7 +507,7 @@
               pickerTime;
 
           pickerTime = moment(pickerTimeFrom, 'D MMMM, YYYY');
-          from = pickerTime.startOf('day'); 
+          from = pickerTime.startOf('day');
 
           return from;
       }
@@ -515,18 +515,18 @@
       function getCalculatedTo(pickerTimeTo) {
           var to,
               pickerTime;
-    
+
           pickerTime = moment(pickerTimeTo, 'D MMMM, YYYY');
 
-          to = pickerTime.endOf('day'); 
+          to = pickerTime.endOf('day');
           if (moment().diff(to) < 0) {
             var now = moment();
-            to = pickerTime.set({ 
-              'hour' : now.get('hour'), 
+            to = pickerTime.set({
+              'hour' : now.get('hour'),
               'minute'  :  now.get('minute'),
               'second' :  now.get('second')
             });
-          } 
+          }
 
           return to
       }
@@ -544,7 +544,7 @@
 
       function setFromRange(from) {
         range.from = from;
-        from_picker.set('select', getFromRange()); 
+        from_picker.set('select', getFromRange());
         updateChart();
       }
 
@@ -565,7 +565,7 @@
       function setRange(from, to) {
         range.from = from;
         range.to = to;
-        from_picker.set('select', getFromRange()); 
+        from_picker.set('select', getFromRange());
         to_picker.set('select', getToRange());
         updateChart();
       }
@@ -590,7 +590,7 @@
         setValuePickerFrom: function(newValue) {
           setFromRange(newValue);
         },
-        getValuePickerTo: function() {         
+        getValuePickerTo: function() {
           return getToRange();
         },
         setValuePickerTo: function(newValue) {
@@ -712,12 +712,12 @@
     }
 
     function setFromLast(what){
-      /* This will not show the last 60 minutes or 24 hours, 
+      /* This will not show the last 60 minutes or 24 hours,
       instead it will show the last hour or day*/
       var to = moment(vm.kit.time).endOf(what);
       var from = moment(vm.kit.time).startOf(what);
       // Check if we are in the future
-      if (moment().diff(to) < 0) to = moment(vm.kit.time);  
+      if (moment().diff(to) < 0) to = moment(vm.kit.time);
       picker.setValuePickers([from.toDate(), to.toDate()]);
     }
     function timeOptSelected(){
