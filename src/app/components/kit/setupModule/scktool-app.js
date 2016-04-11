@@ -799,7 +799,7 @@ var sckapp = {
       /*
       This function returns to callback: 1 = latest firmware version, 0 = recognized SCk with old firmware, -1 = unrecognized board
       arduino sends (| as separator):
-        |version|MAC|ssid1 ssid2,pass1 pass2,auth1 auth2,ant1 ant2|timeUpdate|numPosts|
+        |version|MAC|ssid1 ssid2,pass1 pass2,auth1 auth2,ant1 ant2|hardcodedNets|timeUpdate|numPosts|
             *board, firmware and mac
             *ssid's, passwd's, antenna configurations and auth types.
             *reading interval, and number of posts
@@ -816,7 +816,7 @@ var sckapp = {
                      var regex = /^(([a-f0-9]{2}:){5}[a-f0-9]{2},?)+$/i;
                      return regex.test(mac);
                  }
-                 if (data.response && ((data.response.match(/[|]/g) || []).length) == 6) {
+                 if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
                     var allData = data.response.split('|');
                     //board version
                     self.sck.version.board = Number(allData[1].split('-')[0].replace(/[^0-9]+/g, ''));
@@ -850,8 +850,9 @@ var sckapp = {
                         }
                     }
                     //updates
-                    self.sck.config.update.resolution = parseInt(allData[4]);
-                    self.sck.config.update.posts = parseInt(allData[5]);
+                    self.sck.config.hardcodedNets = parseInt(allData[4]);
+                    self.sck.config.update.resolution = parseInt(allData[5]);
+                    self.sck.config.update.posts = parseInt(allData[6]);
                     self._debug(self.sck);
                     callback(true);
                  } else {
@@ -1704,7 +1705,8 @@ var sckapp = {
             update: {
               resolution: "",
               posts: ""
-            }
+            },
+            hardcodedNets: ""
         },
         version: {
             firmware: "",
