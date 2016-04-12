@@ -32,6 +32,12 @@
       float: right;
       display: inline-block;
   }
+  .hardCodedNetwork{
+      display: inline-block;
+      font-size:0.77em;
+      color: #06c2f0;
+      margin-left: 4px;
+  }
   .input.checkbox{
       margin-top: 10px;
       display: inline-block;
@@ -183,7 +189,8 @@ input[type="range"]::-webkit-slider-thumb {
   .widget-block .footer {
       border-radius: 0 0 4px 4px;
       background-color: #ffffff;
-      margin: 0 50px 10px 0;
+      margin-left: 20px;
+      margin-top: 15px;
       overflow: hidden;
       width: 100%;
   }

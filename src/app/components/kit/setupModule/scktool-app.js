@@ -131,7 +131,6 @@ var sckapp = {
             if (name == "ssid" || name == "phrase") {   //max length
                 input.attr("maxlength", "19");
                 input.keypress( function(key) {
-                    self._debug(key.charCode);
                     if (key.charCode == 36) {
                         return false;
                     }
@@ -261,8 +260,15 @@ var sckapp = {
                 var left = $('<div>').addClass('left');
                 left.append(leftElements);
                 var rightElements = [];
-                rightElements.push(this.createAntenaElement(data.ext_antenna));
-                rightElements.push(this.createDeleteButton());
+                if (this.widget.list.children().length >= Number(self.sck.config.hardcodedNets)){
+                    rightElements.push(this.createAntenaElement(data.ext_antenna));
+                    rightElements.push(this.createDeleteButton());
+                } else {
+                    var hardCodedLabel = $('<div>').addClass('hardCodedNetwork');
+                    hardCodedLabel.html("Config hardcoded in firmware");
+                    rightElements.push(hardCodedLabel);
+                    rightElements.push(this.createAntenaElement(data.ext_antenna));
+                }
                 rightElements.push(this.createAuthElement(data.auth));
                 var right = $('<div>').addClass('right relative');
                 right.append(rightElements);
@@ -474,14 +480,14 @@ var sckapp = {
             var block = $('<div>').addClass('widget-block').addClass('config');
             var body = $('<div>').addClass('body'); //limit-scroll
             var footer = $('<div>').addClass('footer');
-            var msg = $('<p>').addClass('messages-widget-block');
+            // var msg = $('<p>').addClass('messages-widget-block');
             // footer.append(msg);
             body.appendTo(block);
             // footer.appendTo(block);
             if (name == "nets"){
                 block.appendTo($('.netList'));
             } else if (name == "updates") {
-                footer.append(msg);
+                // footer.append(msg);
                 footer.appendTo(block);
                 block.appendTo($('.updateList'));
                 footer.append(this.createSyncButton());
@@ -508,16 +514,28 @@ var sckapp = {
         }
 
         _configUI.createSyncButton = function() {
-            var syncButton = this.createButton("remove", "Sync", "submit", "", false);
+            var syncButton = this.createButton("remove", "Sync settings", "submit", "", false);
             syncButton.click(function() {
-                syncButton.html('Syncing');
+                syncButton.html('Syncing settings');
+                syncButton.anim = setInterval(function(){
+                    if (syncButton.html() == 'Syncing settings') {
+                        syncButton.html('Syncing settings.');
+                    } else if (syncButton.html() == 'Syncing settings.') {
+                        syncButton.html('Syncing settings..');
+                    } else if (syncButton.html() == 'Syncing settings..') {
+                        syncButton.html('Syncing settings...');
+                    } else if (syncButton.html() == 'Syncing settings...'){
+                        syncButton.html('Syncing settings');
+                    }
+                }, 500);
                 self._sync();
             });
             _configUI.parent.on("sync-done", function() { //temp
-                syncButton.html('Done');
+                clearInterval(syncButton.anim);
+                syncButton.html('Settings Saved');
             });
             _configUI.parent.on("sync-ready", function() { //temp
-                syncButton.html('Sync');
+                syncButton.html('Sync settings');
             });
             return syncButton;
         }
@@ -678,14 +696,83 @@ var sckapp = {
     },
     _sync: function() {
         var self = this;
-        self._message("Syncing with your Smart Citizen Kit...");
-        isOk =
-            self._syncNets(function() {
-                self._syncUpdates(function() {
-                    $('.config-block').trigger( "sync-done" ); //global scope event must change
-                    self._message("Your Smart Citizen Kit is updated. Please, reset or switch off / on your kit in order the changes to take effect!");
-                });
-            });
+        var netsToSave = self.netsUI.getElements().slice(self.sck.config.hardcodedNets, self.netsUI.getElements().length);
+        var localNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
+        var updatesToSave = self.updatesUI.getSensorResolutionAndPosts();
+        var savedSomething = false;
+        runSync("nets");
+        function runSync(who){
+            if (who == "nets"){
+                if (!verifyNets(netsToSave, localNets)) {
+                    self._message("Saving wi-fy network settings...")
+                    savedSomething = true;
+                    self._setSCKNets(netsToSave, function(nets){
+                            runSync("updates");
+                    })
+                } else {
+                    self._message("Wi-fy networks haven't changed!")
+                    runSync("updates");
+                }
+            } else if (who == "updates"){
+                if (!verifyUpdates(updatesToSave)) {
+                    self._message("Saving update interval settings...")
+                    savedSomething = true;
+                    self._setSCKUpdates(updatesToSave, function(updates){
+                        checkSync(netsToSave, updatesToSave);
+                    })
+                } else {
+                    self._message("Update interval haven't change!")
+                    checkSync(netsToSave, updatesToSave);
+                }
+            }
+        }
+        function verifyNets(nets, localNets){
+            if (nets.length != localNets.length) {
+                return false;
+            }
+            for (var i=0; i < nets.length; i++) {
+                if (!self._compareNets(nets[i], localNets[i])) {
+                    return false;
+                }
+            }
+            return true ;
+        }
+        function verifyUpdates(updates){
+            if (self.sck.config.update.resolution == updates.time && self.sck.config.update.posts == updates.updates) {
+                return true ;
+            } else {
+                return false ;
+            }
+        }
+        function checkSync(netsToSave, updates){
+            if (savedSomething) {
+                self._getInfo(function(ver){
+                    var newlocalNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
+                    if(verifyNets(netsToSave, newlocalNets) && verifyUpdates(updates)){
+                        self._message("Settings saved!")
+                        self._message("Please, reset your kit in order the changes to take effect!")
+                        $('.config-block').trigger( "sync-done" );
+                    } else {
+                        self._message("Sync failed... please try again")
+                    }
+                })
+            } else {
+                $('.config-block').trigger( "sync-ready" );
+            }
+        }
+    },
+    _compareNets(netA, netB){
+        if (netA.ssid != netB.ssid) {
+            return false;
+        } else if (netA.phrase != netB.phrase) {
+            return false;
+        } else if (netA.ext_antenna != netB.ext_antenna) {
+            return false ;
+        } else if (netA.auth != netB.auth) {
+            return false;
+        } else {
+            return true;
+        }
     },
     _syncUpdates: function(callback) {
         var self = this;
@@ -1098,10 +1185,10 @@ var sckapp = {
     },
     _setSCKUpdates: function(update, callback) {
         var self = this;
-        update = self.stringNumberProperties(update);
+        updateStr = self.stringNumberProperties(update);
         self._enterCmdMode(function() {
-            self._sendCMD("set time update " + update.time, function(data) {
-                self._sendCMD("set number updates " + update.updates, function(data) {
+            self._sendCMD("set time update " + updateStr.time, function(data) {
+                self._sendCMD("set number updates " + updateStr.updates, function(data) {
                     self._exitCmdMode();
                     callback(update);
                 });
@@ -1157,7 +1244,16 @@ var sckapp = {
                 });
             })
         }
-        netManager.auto(nets);
+        if(nets.length <= 0) {
+            self._enterCmdMode(function() {
+                self._sendCMD("clear nets", function(data) {
+                    self._exitCmdMode();
+                    callback(false);
+                });
+            });
+        } else {
+            netManager.auto(nets);
+        }
     },
     _getSCKNets: function(callback) {
         var self = this;
