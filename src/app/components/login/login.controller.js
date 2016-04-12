@@ -12,7 +12,7 @@
     $scope.$on('showLogin', function() {
       showLogin();
     });
-    
+
     ////////////////
 
     function showLogin() {
