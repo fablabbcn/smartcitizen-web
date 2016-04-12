@@ -216,7 +216,7 @@ var sckapp = {
             return this.createSelectElement('version', self.boards, value);
         }
         _netsUI.createAntenaElement = function(value) {
-            return this.createInput("ext_antenna", value, "checkbox", "External antena");
+            return this.createInput("ext_antenna", value, "checkbox", "External antenna");
         }
         _netsUI.createDeleteButton = function() {
             var pasThis = this;
@@ -854,7 +854,11 @@ var sckapp = {
                     self.sck.config.update.resolution = parseInt(allData[5]);
                     self.sck.config.update.posts = parseInt(allData[6]);
                     self._debug(self.sck);
-                    callback(true);
+                    if (self.sck.version.firmware >= 93) {
+                        callback(true);
+                    } else {
+                        callback(false);
+                    }
                  } else {
                     callback(false);
                  }
@@ -1749,11 +1753,11 @@ var sckapp = {
         antenaModes: {
             "false": {
                 id: 0,
-                description: "No external antena added, default."
+                description: "No external antenna added, default."
             },
             "true": {
                 id: 1,
-                description: "External antena added."
+                description: "External antenna added."
             },
         }
     },
