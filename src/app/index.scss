@@ -2561,6 +2561,15 @@ md-dialog.tags, md-dialog.filters{
   border-bottom: 1px solid #EAECF1;
 }
 
+.dropdown-item-button {
+    border-radius: 0px;
+    text-align: center;
+    width: 100%;
+}
+.dropdown-item-button:hover{
+  background-color: #F3F8F8 !important
+}
+
 /**
  *  USER PROFILE STATE
  *  most styles are re-used on my profile state
