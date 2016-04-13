@@ -752,6 +752,7 @@ var sckapp = {
                         self._message("Settings saved!")
                         self._message("Please, reset your kit in order the changes to take effect!")
                         $('.config-block').trigger( "sync-done" );
+                        _sendUpdateEvent(); //register mac device on platform
                     } else {
                         self._message("Sync failed... please try again")
                     }
