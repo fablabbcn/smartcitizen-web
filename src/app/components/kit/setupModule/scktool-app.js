@@ -912,6 +912,7 @@ var sckapp = {
                     //mac address
                     if (validateMac(allData[2])) {
                         self.sck.mac = allData[2];
+                        self._sendUpdateEvent(); //register mac device on platform
                     }
                     //networks
                     self.sck.config.nets = []
