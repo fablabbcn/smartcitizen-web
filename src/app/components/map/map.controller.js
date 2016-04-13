@@ -313,10 +313,12 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
-            var boundaries = getBoundaries(vm.markers);
-            leafletData.getMap().then(function(map){
-              map.fitBounds(boundaries);
-            });
+            if(vm.markers && vm.markers.length) {
+              var boundaries = getBoundaries(vm.markers);
+              leafletData.getMap().then(function(map){
+                map.fitBounds(boundaries);
+              });
+            }
           });
         });
       }
@@ -438,23 +440,25 @@
       }
 
       function getBoundaries(markers){
-        var minLat = markers[0].lat;
-        var minLong = markers[0].lng;
-        var maxLat = minLat;
-        var maxLong = maxLong;
+        if(markers && markers.length) {
+          var minLat = markers[0].lat;
+          var minLong = markers[0].lng;
+          var maxLat = minLat;
+          var maxLong = maxLong;
 
-        _.forEach(markers, function(marker){
-          minLat = _.min([minLat, marker.lat]);
-          maxLat = _.max([maxLat, marker.lat]);
-          minLong = _.min([minLong, marker.lng]);
-          maxLong = _.max([maxLong, marker.lng]);
-        });
+          _.forEach(markers, function(marker){
+            minLat = _.min([minLat, marker.lat]);
+            maxLat = _.max([maxLat, marker.lat]);
+            minLong = _.min([minLong, marker.lng]);
+            maxLong = _.max([maxLong, marker.lng]);
+          });
 
-        var margin = 0.0001;
-        return L.latLngBounds(
-          L.latLng(minLat-(minLat*margin), minLong-(minLong*margin)),
-          L.latLng(maxLat+(maxLat*margin), maxLong+(maxLong*margin))
-        );
+          var margin = 0.0001;
+          return L.latLngBounds(
+            L.latLng(minLat-(minLat*margin), minLong-(minLong*margin)),
+            L.latLng(maxLat+(maxLat*margin), maxLong+(maxLong*margin))
+          );
+        }
       }
     }
 

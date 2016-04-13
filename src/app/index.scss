@@ -1784,8 +1784,13 @@ md-dialog.tags, md-dialog.filters{
   MODAL TAG FILTER
 */
 
+.tags {
+  overflow-y: auto;
+}
+
 .modal_tagFilter {
   width:650px;
+  height: calc(100vh + 300px);
 }
 
 .modalTag_tagContainer{

@@ -4,11 +4,11 @@
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location', 
-      'utils', 'user', 'device', 'auth', 'userUtils', '$timeout', 'animation', 
+    UserProfileController.$inject = ['$scope', '$stateParams', '$location',
+      'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
       'NonAuthUser', '$q', 'PreviewKit'];
-    function UserProfileController($scope, $stateParams, $location, utils, 
-        user, device, auth, userUtils, $timeout, animation, 
+    function UserProfileController($scope, $stateParams, $location, utils,
+        user, device, alert, auth, userUtils, $timeout, animation,
         NonAuthUser, $q, PreviewKit) {
 
       var vm = this;
@@ -21,7 +21,7 @@
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
-        
+
         var authUser = auth.getCurrentUser().data;
         if( userUtils.isAuthUser(userID, authUser) ) {
           $location.path('/profile');
@@ -36,7 +36,7 @@
 
         user.getUser(userID)
           .then(function(user) {
-            vm.user = new NonAuthUser(user); 
+            vm.user = new NonAuthUser(user);
 
             var kitIDs = _.pluck(vm.user.kits, 'id');
             if(!kitIDs.length) {
@@ -55,6 +55,11 @@
           }).then(function(kitsData){
             if (kitsData){
               vm.kits = kitsData;
+            }
+          }, function(error) {
+            if(error.status === 404) {
+              $location.url('/');
+              alert.error('User not found');
             }
           });
 
