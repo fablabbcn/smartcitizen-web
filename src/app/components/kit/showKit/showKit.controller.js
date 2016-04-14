@@ -21,45 +21,33 @@
     var mainSensorID, compareSensorID;
     var picker;
 
-    vm.kit = undefined;
-    vm.ownerKits = [];
-    vm.sampleKits = [];
-    vm.kitBelongsToUser = belongsToUser;
-    vm.removeKit = removeKit;
-
     vm.battery = {};
-    vm.sensors = [];
-    vm.sensorsToCompare = [];
-
-    vm.slide = slide;
-
+    vm.downloadData = downloadData;
+    vm.geolocate = geolocate;
+    vm.kit = undefined;
+    vm.kitBelongsToUser = belongsToUser;
+    vm.kitWithoutData = false;
     vm.legacyApiKey = belongsToUser ?
       auth.getCurrentUser().data.key :
       undefined;
-
+    vm.loadingChart = true;
+    vm.moveChart = moveChart;
+    vm.ownerKits = [];
+    vm.removeKit = removeKit;
+    vm.resetTimeOpts = resetTimeOpts;
+    vm.sampleKits = [];
     vm.selectedSensor = {};
     vm.selectedSensorData = {};
-
     vm.selectedSensorToCompare = undefined;
     vm.selectedSensorToCompareData = {};
-
+    vm.sensors = [];
+    vm.sensorsToCompare = [];
     vm.setFromLast = setFromLast;
-
     vm.showSensorOnChart = showSensorOnChart;
-    vm.moveChart = moveChart;
-    vm.loadingChart = true;
-
-    vm.geolocate = geolocate;
-
-    vm.downloadData = downloadData;
-
+    vm.showStore = showStore;
+    vm.slide = slide;
     vm.timeOpt = ['hour', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
-    vm.resetTimeOpts = resetTimeOpts;
-
-    vm.kitWithoutData = false;
-
-    vm.showStore = showStore;
 
     var focused = true;
 
@@ -194,6 +182,10 @@
             vm.sensorsToCompare = compareSensors;
 
             vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+          }, function(error) {
+            if(error.status === 404) {
+              $location.url('/404');
+            }
           });
       }
     }
@@ -304,6 +296,7 @@
       };
       if(sensorsID[1] && sensorsID[1] !== -1) {
         var parsedDataCompare = parseSensorData(sensorsData, sensorsID[1]);
+
         compareSensor = {
           data: parsedDataCompare,
           color: vm.selectedSensorToCompareData.color,
@@ -319,16 +312,19 @@
         return [];
       }
       return data[sensorID].map(function(dataPoint) {
-        var time = dataPoint[0];
+        var time = parseTime(dataPoint[0]);
         var value = dataPoint[1];
         var count = value === null ? 0 : value;
-
         return {
           time: time,
           count: count,
           value: value
         };
       });
+    }
+
+    function parseTime(t) {
+      return moment(t).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     function setSensor(options) {
