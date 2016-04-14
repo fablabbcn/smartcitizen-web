@@ -68,7 +68,16 @@
           controller: 'StaticController',
           controllerAs: 'vm'
         })
-
+        /*
+         -- 404 state --
+         Standard error page
+        */
+        .state('layout.404', {
+          url: '/404',
+          templateUrl: 'app/components/static/404.html',
+          controller: 'StaticController',
+          controllerAs: 'vm'
+        })
         .state('layout.kitEdit', {
           url: '/kits/edit/:id?step',
           templateUrl: 'app/components/kit/editKit/editKit.html',

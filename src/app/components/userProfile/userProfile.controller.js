@@ -58,8 +58,7 @@
             }
           }, function(error) {
             if(error.status === 404) {
-              $location.url('/');
-              alert.error('User not found');
+              $location.url('/404');
             }
           });
 
