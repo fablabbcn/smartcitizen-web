@@ -1784,8 +1784,13 @@ md-dialog.tags, md-dialog.filters{
   MODAL TAG FILTER
 */
 
+.tags {
+  overflow-y: auto;
+}
+
 .modal_tagFilter {
   width:650px;
+  height: calc(100vh + 300px);
 }
 
 .modalTag_tagContainer{
@@ -2559,6 +2564,15 @@ md-dialog.tags, md-dialog.filters{
 }
 .kitList_borderBottom {
   border-bottom: 1px solid #EAECF1;
+}
+
+.dropdown-item-button {
+    border-radius: 0px;
+    text-align: center;
+    width: 100%;
+}
+.dropdown-item-button:hover{
+  background-color: #F3F8F8 !important
 }
 
 /**
