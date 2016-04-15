@@ -566,6 +566,8 @@
         } else if(value.toString().indexOf('.') !== -1) {
           var result = value.toString().split('.');
           return result[0] + '.' + result[1].slice(0, 2);
+        } else if(value > 99.99) {
+          return value.toString();
         } else {
           return value.toString().slice(0, 2);
         }
