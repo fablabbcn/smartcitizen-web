@@ -6,18 +6,22 @@
 
 
     function filterLabel() {
-      return function(input, targetLabel) { 
+      return function(kits, targetLabel) {
         if(targetLabel === undefined) {
-          return input;
+          return kits;
         }
-        if(input) {
-          return _.filter(input, function(kit) {
+        if(kits) {
+          return _.filter(kits, function(kit) {
+            console.log(kit);
+            console.log(targetLabel);
             var containsLabel = kit.labels.indexOf(targetLabel) !== -1;
+            console.log(containsLabel);
             if(containsLabel) {
               return containsLabel;
             }
-            var containsNewIfTargetIsOnline = targetLabel === 'online' && _.some(kit.labels, function(label) {return label.indexOf('new') !== -1;});
-            return containsNewIfTargetIsOnline;
+            // This should be fixed or polished in the future
+            // var containsNewIfTargetIsOnline = targetLabel === 'online' && _.some(kit.labels, function(label) {return label.indexOf('new') !== -1;});
+            // return containsNewIfTargetIsOnline;
           });
         }
       };
