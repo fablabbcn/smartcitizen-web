@@ -119,13 +119,13 @@
         width = elem.clientWidth - margin.left - margin.right;
         height = elem.clientHeight - margin.top - margin.bottom;
 
-        xScale = d3.time.scale.utc().range([0, width]);
+        xScale = d3.time.scale().range([0, width]);
         xScale.tickFormat("%Y-%m-%d %I:%M:%S");
         yScale0 = d3.scale.linear().range([height, 0]);
         yScale1 = d3.scale.linear().range([height, 0]);
         yAxisScale = d3.scale.linear().range([height, 0]);
 
-        dateFormat = d3.time.format.utc('%Y-%m-%dT%H:%M:%SZ').parse;//d3.time.format('%Y-%m-%dT%X.%LZ').parse; //'YYYY-MM-DDTHH:mm:ssZ'
+        dateFormat = d3.time.format('%Y-%m-%dT%H:%M:%S').parse;//d3.time.format('%Y-%m-%dT%X.%LZ').parse; //'YYYY-MM-DDTHH:mm:ssZ'
 
         xAxis = d3.svg.axis()
           .scale(xScale)
@@ -566,6 +566,8 @@
         } else if(value.toString().indexOf('.') !== -1) {
           var result = value.toString().split('.');
           return result[0] + '.' + result[1].slice(0, 2);
+        } else if(value > 99.99) {
+          return value.toString();
         } else {
           return value.toString().slice(0, 2);
         }

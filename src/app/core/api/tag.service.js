@@ -47,9 +47,11 @@
       }
 
       function filterMarkersByTag(tmpMarkers) {
+        var markers = filterMarkers(tmpMarkers);
+        return markers;
+      }
 
-        var service = this;
-
+      function filterMarkers(tmpMarkers) {
         return tmpMarkers.filter(function(marker) {
           var tags = marker.myData.tags;
           if (tags.length === 0 && service.getSelectedTags().length !== 0){

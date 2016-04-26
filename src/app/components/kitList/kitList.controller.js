@@ -5,11 +5,11 @@
     .controller('KitListController', KitListController);
 
   KitListController.$inject = ['$location', '$mdDialog', '$state','$scope',
-    '$stateParams', '$timeout', '$window','alert', 'auth', 'AuthUser', 'device',
-    'kitUtils', 'userUtils'];
+    '$stateParams', '$templateCache', '$timeout', '$window','alert', 'auth',
+    'AuthUser', 'device', 'kitUtils', 'userUtils'];
   function KitListController($location, $mdDialog, $state, $scope, $stateParams,
-    $timeout, $window, alert, auth, AuthUser, device, kitUtils, userUtils) {
-
+    $templateCache, $timeout, $window, alert, auth, AuthUser, device, kitUtils,
+    userUtils) {
     var vm = this;
     vm.removeKit = removeKit;
 

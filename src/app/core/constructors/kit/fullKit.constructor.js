@@ -29,7 +29,7 @@
         this.time = kitUtils.parseTime(object);
         this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
         this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
-        this.class = kitUtils.classify(kitUtils.parseType(object)); 
+        this.class = kitUtils.classify(kitUtils.parseType(object));
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);
         this.data = object.data.sensors;
@@ -47,7 +47,7 @@
         var sensors = _(this.data)
           .chain()
           .map(function(sensor) {
-            return new Sensor(sensor, sensorTypes); 
+            return new Sensor(sensor, sensorTypes);
           })
           .tap(function(sensors) {
             if(options.type === 'compare') {
@@ -59,13 +59,13 @@
             }
           })
           .value();
-          
+
           return sensors.reduce(function(acc, sensor, index, arr) {
             if(sensor.name === 'battery') {
               arr.splice(index, 1);
-              
+
               if(options.type === 'main') {
-                acc[0] = arr;              
+                acc[0] = arr;
                 acc[1] = sensor;
               } else if(options.type === 'compare') {
                 acc = arr;
