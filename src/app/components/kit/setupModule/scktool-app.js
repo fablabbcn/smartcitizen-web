@@ -752,7 +752,6 @@ var sckapp = {
                         self._message("Settings saved!")
                         self._message("Please, reset your kit in order the changes to take effect!")
                         $('.config-block').trigger( "sync-done" );
-                        _sendUpdateEvent(); //register mac device on platform
                     } else {
                         self._message("Sync failed... please try again")
                     }
@@ -808,12 +807,8 @@ var sckapp = {
         var self = this;
         isFirst = isFirst || false;
         var boardReady = function() {
-            self._registerBoard(function() {
-                self._startConfigManager(function() {
-                    self._message("Thanks for waiting! You can start configuring the kit.");
-                    self._message("Add a network, adjust the update interval and click sync....");
-                });
-            });
+            self._message("Thanks for waiting! You can start configuring the kit.");
+            self._message("Add a network, adjust the update interval and click sync....");
         }
         var boardStarter = function(whatVersion) {
             //board unknown (is there another test to check if it is an arduino?)
@@ -985,7 +980,7 @@ var sckapp = {
             getMac(function(mac) {
                 if (mac) {
                     self.sck.mac = mac;
-                    self._sendUpdateEvent();
+                    // self._sendUpdateEvent();
                     callback();
                 } else {
                     self._message("Failed to get the mac address from the kit. Try again later!");
