@@ -922,8 +922,8 @@ var sckapp = {
                         var allAuth = allProps[3].split(' ');
                         for (var i = 0; i < allSsid.length; i++) {
                             myNet = {};
-                            myNet.ssid = allSsid[i];
-                            myNet.phrase = allPhrase[i];
+                            myNet.ssid = allSsid[i].replace(/\$/g, " ");
+                            myNet.phrase = allPhrase[i].replace(/\$/g, " ");
                             myNet.ext_antenna = (allAntenna[i] == 1) ? true : false;
                             for (var prop in self.netSettings.seqModes) {
                                 if (self.netSettings.seqModes[prop].id == allAuth[i]) {
