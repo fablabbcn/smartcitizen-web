@@ -17,5 +17,6 @@ angular.module('app', [
   'ngSanitize',
   'angular-clipboard',
   'ngCookies',
-  'ngtweet'
+  'ngtweet',
+  'mailchimp'
 ]);

@@ -8,7 +8,7 @@
     <section>
       <div class="modal_content_container">
         <h2>SHOP</h2>
-        <h3 class="header store">Pre-order your Smartcitizen Kit</h3>
+        <h3 class="header store">Order your Smartcitizen Kit</h3>
         <p class="subheader store">An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web and mobile app, and a full featured Rest API.</p>
         <div class="main_content" layout="row" layout-align="space-between center" layout-padding>
           <img class="store_itemImage" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit">
@@ -23,19 +23,40 @@
             </ul>
           </div>
         </div>
-        <p>We are currently out of stock but you can <strong>pre-order</strong>  your kit.<br> A new batch is under production expected by <strong>late March 2016.</strong> <br> Please, write us on <a href="mailto:store@smartcitizen.me"><strong>store@smartcitizen.me</strong></a> for any questions.</p>
       </div>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" data-ajax="no" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="ZKWC47Y7FPPLE">
-        <input type="hidden" name="os0" value="Sensor Kit (with Ambient Sensor Board)">
-        <input type="hidden" name="currency_code" value="EUR">
-        <md-button type="submit" name="submit"
-        class="md-flat md-primary main" analytics-on="store"
-        analytics-event="Kit Purchase" analytics-action="purchase">
-          PRE-ORDER WITH PAYPAL
-        </md-button>
-        <img alt="" style="position:absolute" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+      <form name="MailchimpSubscriptionForm" ng-controller="MailchimpSubscriptionCtrl">
+          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
+            <p>We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!<p>
+          </div>
+          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
+              <input class="hidden" type="hidden" ng-model="mailchimp.username" ng-init="mailchimp.username='username'">
+              <input class="hidden" type="hidden" ng-model="mailchimp.dc" ng-init="mailchimp.dc='us2'">
+              <input class="hidden" type="hidden" ng-model="mailchimp.u" ng-init="mailchimp.u='d67ba8deb34a23a222ec4eb8a'">
+              <input class="hidden" type="hidden" ng-model="mailchimp.id" ng-init="mailchimp.id='d5a8cea29f'">
+              <md-input-container flex>
+                <label>Email</label>
+                <input type="email" name="email" ng-model="mailchimp.EMAIL" required>
+              </md-input-container>
+          </div>
+          <!-- Show error message if MailChimp unsuccessfully added the email to the list. -->
+          <div class="modal_content_container" ng-show="mailchimp.result === 'error'" ng-cloak>
+            <p ng-bind-html="mailchimp.errorMessage"></p>
+          </div>
+
+          <!-- Show success message if MailChimp returned successfully. -->
+          <div class="modal_content_container" ng-show="mailchimp.result === 'success'" ng-cloak>
+            <p ng-bind-html="mailchimp.successMessage"></p>
+          </div>
+          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
+               <p>Please, write us on <a href="mailto:store@smartcitizen.me"><strong>store@smartcitizen.me</strong></a> for any questions.</p>
+          </div>
+        <div ng-hide="mailchimp.result === 'success'">
+          <md-button ng-disabled="MailchimpSubscriptionForm.$invalid" type="submit" name="submit"
+          class="md-flat md-primary main" analytics-on="store"
+          analytics-event="Kit Purchase" ng-click="addSubscription(mailchimp)" analytics-action="purchase">
+            NOTIFY ME WHEN READY
+          </md-button>
+        </div>
       </form>
     </section>
   </md-dialog-content>
