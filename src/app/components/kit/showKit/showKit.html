@@ -193,7 +193,7 @@
                 <p class="kit_details_type">
                   <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
                   </md-icon>
-                  <span class="h4">{{ vm.kit.type }}</span>
+                  <span class="h4">{{ vm.kit.typeDescription }}</span>
                 </p>
                 <p class="kit_details_labels">
                   <span class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
@@ -209,21 +209,22 @@
               </div>
               <div class="kit_details_manage_data">
                 <div class="kit_details_macaddress data_container">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
+                  </md-icon>
+                  <span class="bold">Device ID:</span>
+                  <span>{{ vm.kit.id }}</span>
+                </div>
+                <div ng-show="vm.kit.macAddress" class="kit_details_macaddress data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
                   </md-icon>
                   <span class="bold">Mac Address:</span>
                   <span>{{ vm.kit.macAddress }}</span>
                 </div>
-                <div class="kit_details_debug data_container">
-                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
-                  </md-icon>
-                  <span class="bold">Debug mode:</span>
-                  <span>Enabled</span>
-                </div>
                 <div class="kit_details_key" layout="row" layout-align="start center">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/key_icon.svg">
                   </md-icon>
-                  <span class="bold">API Key:</span>
+                  <span class="bold">API Key </span>
+                  <!-- <i>(Limited for the <a href="http://developer.smartcitizen.me/#legacy">legacy API</a>):</i> -->
                   <div api-key="vm.legacyApiKey"></div>
                 </div>
                 <div class="clearfix"></div>

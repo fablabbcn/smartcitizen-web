@@ -1583,8 +1583,6 @@ section .stickMenu {
 
 .modal {
 
-  overflow-y: auto;
-
   h2{
     color: $terciary_color;
     margin-top:0.5em;
@@ -1822,6 +1820,9 @@ md-dialog.tags, md-dialog.filters{
 */
 .modal_store {
   width: 500px;
+
+  overflow-y: auto;
+
   // height: 480px;
 
   .subheader.store {
