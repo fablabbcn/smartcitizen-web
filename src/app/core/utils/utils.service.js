@@ -24,7 +24,7 @@
           kitLastTime: moment(parseKitTime(object)).fromNow(),
           kitLocation: parseKitLocation(object),
           kitLabels: parseKitLabels(object),
-          kitClass: classify(parseKitType(object))
+          kitClass: classify(parseTypeSlug(object))
         };
         return parsedKit;
       }
@@ -52,17 +52,15 @@
         };
       }
 
-      function parseKitType(object) {
-        var kitType;
+      function parseType(object) {
+        var kitType = !object.kit ? 'Unknown type': object.kit.name;
+        return kitType; 
+      }
 
-        var kitName = !object.kit ? 'No kit property': object.kit.name;
-
-        if((new RegExp('sck', 'i')).test(kitName)) {
-          kitType = 'SmartCitizen Kit';
-        } else {
-          kitType = 'Unknown Kit';
-        }
-        return kitType;
+      function parseTypeSlug(object) {
+        var kitType = !object.kit ? 'unknown': object.kit.slug;
+        var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
+        return kitTypeSlug;
       }
 
       function classify(kitType) {

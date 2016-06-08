@@ -20,7 +20,7 @@
         this.lat = markerUtils.parseCoordinates(deviceData).lat;
         this.lng = markerUtils.parseCoordinates(deviceData).lng;
         this.message = '<div class="popup"><div class="popup_top ' +
-          markerUtils.classify(markerUtils.parseType(deviceData)) +
+          markerUtils.classify(markerUtils.parseTypeSlug(deviceData)) +
           '"><p class="popup_name">' + markerUtils.parseName(deviceData) +
           '</p><p class="popup_type">' + markerUtils.parseType(deviceData) +
           '</p><p class="popup_time"><md-icon class="popup_icon" ' +

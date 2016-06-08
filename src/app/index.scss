@@ -2245,10 +2245,12 @@ md-dialog.tags, md-dialog.filters{
   height: 0;
 }
 
-.smartcitizen_kit {
+/* Kit type colors kitUtils.service.js :: classify()*/
+
+.sck {
   background-color: $blue_light;
 }
-.unknown_kit {
+.unknown {
   background-color: grey;
 }
 

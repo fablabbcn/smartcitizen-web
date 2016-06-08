@@ -16,7 +16,8 @@
         getIcon: getIcon,
         parseName: parseName,
         parseTime: parseTime,
-        getMarkerIcon: getMarkerIcon
+        getMarkerIcon: getMarkerIcon,
+        parseTypeSlug: parseTypeSlug
       };
       _.defaults(service, kitUtils);
       return service;
@@ -30,27 +31,49 @@
         var genericKitData = device.getGenericKitData();
 
         if(!genericKitData){
-            kitType = 'SmartCitizen Kit';
+            kitType = 'Unknown kit';
             return kitType;
         }
         //////////////////////////////////////////////////////////////////
 
         /*jshint camelcase: false */
         if(!object.kit_id){
-          kitType = 'SmartCitizen Kit';
+          kitType = 'Unknown kit';
           return;
         }
 
         /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
-        var kitName = !kit ? 'No name': kit.name;
 
-        if((new RegExp('sck', 'i')).test(kitName)) {
-          kitType = 'SmartCitizen Kit';
-        } else {
-          kitType = 'Unknown Kit';
+        var kitType = !kit ? 'Unknown type': kit.name;
+
+        return kitType; 
+      }
+
+      function parseTypeSlug(object) {
+        var kitType;
+
+        // We must wait here if the genericKitData is not already defined.
+        var genericKitData = device.getGenericKitData();
+
+        if(!genericKitData){
+            kitType = 'unknown';
+            return kitType;
         }
-        return kitType;
+        //////////////////////////////////////////////////////////////////
+
+        /*jshint camelcase: false */
+        if(!object.kit_id){
+          kitType = 'unknown';
+          return;
+        }
+
+        /*jshint camelcase: false */
+        var kit = genericKitData[object.kit_id];
+
+        var kitTypeSlug = !kit ? 'unknown': kit.slug;
+
+        return kitTypeSlug.substr(0,kitTypeSlug.indexOf(':')).toLowerCase();
       }
 
       function parseLocation(object) {
