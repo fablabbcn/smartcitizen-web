@@ -29,7 +29,7 @@
         this.time = kitUtils.parseTime(object);
         this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
         this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
-        this.class = kitUtils.classify(kitUtils.parseType(object));
+        this.class = kitUtils.classify(kitUtils.parseTypeSlug(object));
         this.description = object.description;
         this.owner = kitUtils.parseOwner(object);
         this.data = object.data.sensors;
@@ -38,6 +38,7 @@
         /*jshint camelcase: false */
         this.macAddress = object.mac_address;
         this.elevation = object.data.location.elevation;
+        this.typeDescription = kitUtils.parseTypeDescription(object);
       }
 
       FullKit.prototype = Object.create(Kit.prototype);
