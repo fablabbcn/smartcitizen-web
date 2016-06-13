@@ -173,10 +173,11 @@
               getCompareSensors(vm.kit, sensorTypes)]);
           })
           .then(function(sensorsRes){
-
             var mainSensors = sensorsRes[0];
             var compareSensors = sensorsRes[1];
 
+            if(!mainSensors[0]) return;
+            
             vm.battery = mainSensors[1];
             vm.sensors = mainSensors[0].concat(mainSensors[1]);
             vm.sensorsToCompare = compareSensors;
