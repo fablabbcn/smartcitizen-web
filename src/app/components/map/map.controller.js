@@ -219,11 +219,6 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
-            }else{
-              if($state.params.id){
-                alert.error('This kit cannot be located in the map ' +
-                  'because its location has not been set up.');
-              }
             }
           });
 
