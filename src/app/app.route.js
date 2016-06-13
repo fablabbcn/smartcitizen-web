@@ -244,7 +244,7 @@
           controllerAs: 'vm',
           resolve: {
             userData: function($location, $window, user, auth, AuthUser) {
-              var userData = (auth.getCurrentUser().data) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var userData = auth.getCurrentUser().data;
               if(!userData) {
                 return;
               }

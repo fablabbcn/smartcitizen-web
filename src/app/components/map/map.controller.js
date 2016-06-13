@@ -116,6 +116,10 @@
         }
       });
 
+      $scope.$on('devicesContextUpdated', function(){
+        initialize();
+      });
+
       $scope.$on('kitLoaded', function(event, data) {
         vm.kitLoading = false;
         if(updateType === 'map') {

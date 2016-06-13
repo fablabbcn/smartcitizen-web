@@ -5,10 +5,10 @@
     .controller('KitListController', KitListController);
 
   KitListController.$inject = ['$location', '$mdDialog', '$state','$scope',
-    '$stateParams', '$templateCache', '$timeout', '$window','alert', 'auth',
+    '$stateParams', '$templateCache', '$timeout', '$window','alert',
     'AuthUser', 'device', 'kitUtils', 'userUtils'];
   function KitListController($location, $mdDialog, $state, $scope, $stateParams,
-    $templateCache, $timeout, $window, alert, auth, AuthUser, device, kitUtils,
+    $templateCache, $timeout, $window, alert, AuthUser, device, kitUtils,
     userUtils) {
     var vm = this;
     vm.removeKit = removeKit;
@@ -30,14 +30,10 @@
             .removeDevice(kitID)
             .then(function(){
               alert.success('Your kit was deleted successfully');
-              $timeout(function(){
-                $window.location.href = '/';
-                $state.transitionTo('layout.myProfile.kits', $stateParams,
-                  { reload: true,
-                    inherit: false,
-                    notify: true
-                  });
-              }, 1000);
+              ga('send', 'event', 'Kit', 'delete');
+              device.updateContext().then(function(){
+                $state.reload();
+              });
             })
             .catch(function(){
               alert.error('Error trying to delete your kit.');

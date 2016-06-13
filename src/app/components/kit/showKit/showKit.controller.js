@@ -207,14 +207,14 @@
             .removeDevice(vm.kit.id)
             .then(function(){
               alert.success('Your kit was deleted successfully');
-              $timeout(function(){
-                $window.location.href = '/';
+              ga('send', 'event', 'Kit', 'delete');
+              device.updateContext().then(function(){
                 $state.transitionTo('layout.myProfile.kits', $stateParams,
                   { reload: true,
                     inherit: false,
                     notify: true
                   });
-              }, 2000);
+              });
             })
             .catch(function(){
               alert.error('Error trying to delete your kit.');

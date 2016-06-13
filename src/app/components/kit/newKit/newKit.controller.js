@@ -115,11 +115,12 @@
           .then(
             function(response) {
               alert.success('Your kit was created but has not been configured yet');
-              auth.setCurrentUser('appLoad').then(function(){
+              device.updateContext().then(function(){
+                auth.setCurrentUser('appLoad').then(function(){
                 var kitID = response.id;
                 $state.go('layout.kitEdit', {id:kitID, step:2});
+                });
               });
-
             },
             function(err) {
               vm.errors = err.data.errors;

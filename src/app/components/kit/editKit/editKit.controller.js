@@ -152,12 +152,11 @@
         device.updateDevice(vm.kitData.id, data)
           .then(
             function() {
-              timewait=3000;
               alert.success('Your kit was successfully updated');
               ga('send', 'event', 'Kit', 'update');
-              $timeout(function(){
+              device.updateContext().then(function(){
                 backToProfile();
-              },timewait);
+              });
             })
             .catch(function(err) {
               if(err.data.errors.mac_address[0] === "has already been taken") {
@@ -201,13 +200,16 @@
       function getTags() {
         tag.getTags()
           .then(function(tagsData) {
-            console.log(tagsData);
             vm.tags = tagsData;
           });
       }
 
       function backToProfile(){
-        $state.go('layout.myProfile');
+        $state.transitionTo('layout.myProfile.kits', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
       }
     }
 })();
