@@ -2790,10 +2790,16 @@ md-dialog.tags, md-dialog.filters{
   font-size: 12px;
   line-height: 1;
 }
-.myProfile_apiKey {
+.myProfile_apiKey_block {
   margin-top: 63px;
   margin-bottom: 65px;
 }
+
+.myProfile_apiKey {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .md-button.md-default-theme.myProfile_addKitButton,
 .md-button.md-default-theme.call-to-action {
   color: white;
