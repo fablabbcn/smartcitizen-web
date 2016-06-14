@@ -119,9 +119,9 @@
         });
       }
 
-      function removeTag(tagID) {
+      function removeTag(tagName) {
         vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag.id !== tagID;
+          return tag !== tagName;
         });
       }
 

@@ -245,6 +245,7 @@
         .state('layout.myProfile', {
           url: '/profile',
           authenticate: true,
+          abstract: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
@@ -380,6 +381,9 @@
 
       /* Default state */
       $urlRouterProvider.otherwise('/kits');
+      
+      /* Default profile state */
+      $urlRouterProvider.when('/profile', '/profile/kits');
 
       $locationProvider.html5Mode({
         enabled: true,
