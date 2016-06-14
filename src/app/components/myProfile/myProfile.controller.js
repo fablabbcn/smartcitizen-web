@@ -100,8 +100,6 @@
             }
           });
         }
-
-        // updateKitsTimer = $interval(updateKits, 4000);
       }
 
       function filterKits(status) {
