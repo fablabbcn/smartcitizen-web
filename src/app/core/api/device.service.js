@@ -126,7 +126,6 @@
 
       function updateContext (){
         return auth.updateUser().then(function(){
-          console.log("Hello");
           removeMarkers();
           $rootScope.$broadcast('devicesContextUpdated');
         });

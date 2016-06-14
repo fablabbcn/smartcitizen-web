@@ -7,9 +7,9 @@
     return{
       restrict:'E',
       scope:{
-        kits:'=kits'
+        kits:'=kits',
+        actions: '=actions'
       },
-      controller:'KitListController',
       controllerAs:'vm',
       templateUrl:'app/components/kitList/kitList.html'
     };

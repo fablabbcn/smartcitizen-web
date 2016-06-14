@@ -34,6 +34,7 @@
       //KITS TAB
       vm.kits = [];
       vm.kitStatus = undefined;
+      vm.removeKit = removeKit;
 
       vm.filteredKits = [];
 
@@ -64,11 +65,9 @@
         $location.path('/');
       });
 
-/*      $scope.$on("$destroy", function() {
-        if (updateKitsTimer) {
-            $interval.cancel(updateKitsTimer);
-        }
-    });*/
+      $scope.$on('devicesContextUpdated', function(){
+        initialize();
+      });
 
       initialize();
 
@@ -285,5 +284,38 @@
 
         return isAdmin || belongsToUser;
       }
+
+      function removeKit(kitID) {
+        console.log("s");
+        var confirm = $mdDialog.confirm()
+          .title('Delete this kit?')
+          .content('Are you sure you want to delete this kit?')
+          .ariaLabel('')
+          .ok('DELETE')
+          .cancel('Cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog
+          .show(confirm)
+          .then(function(){
+            device
+              .removeDevice(kitID)
+              .then(function(){
+                alert.success('Your kit was deleted successfully');
+                ga('send', 'event', 'Kit', 'delete');
+                device.updateContext().then(function(){
+                  var userData = auth.getCurrentUser().data;
+                  if(userData) vm.user = userData;
+                  //updateKits();
+                  initialize();
+                });
+              })
+              .catch(function(){
+                alert.error('Error trying to delete your kit.');
+              });
+          });
+      }
+
     }
 })();

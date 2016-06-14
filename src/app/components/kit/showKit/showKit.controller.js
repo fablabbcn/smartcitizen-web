@@ -211,7 +211,7 @@
               ga('send', 'event', 'Kit', 'delete');
               device.updateContext().then(function(){
                 $state.transitionTo('layout.myProfile.kits', $stateParams,
-                  { reload: true,
+                  { reload: false,
                     inherit: false,
                     notify: true
                   });
