@@ -7,9 +7,9 @@
         layout="row" layout-align="center center">
           1
         </div>
-        <div class="timeline_stepName">
+         <md-button ng-click="vm.step = 1" class="timeline_stepName">
           Kit data
-        </div>
+        </md-button>
         <div class="timeline_line timeline_line_small"></div>
         <div layout="row" layout-align="start center">
           <div class="timeline_stepCircle"
@@ -18,9 +18,9 @@
           ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
             2
           </div>
-          <div class="timeline_stepName">
+          <md-button ng-click="vm.step = 2" class="timeline_stepName">
             Set up
-          </div>
+          </md-button>
         </div>
       </div>
       <md-button class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToProfile()">Back to Profile</md-button>
