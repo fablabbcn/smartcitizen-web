@@ -40,17 +40,19 @@
         // remove selected tag from select element
         vm.tag = undefined;
 
-        var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
+        var selectedTag = _.find(vm.tags, function(tag) {
           return tag.id === newVal;
         });
+
+        var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
+          return tag === selectedTag.name;
+        });
+
         if(alreadyPushed) {
           return;
         }
 
-        var tag = _.find(vm.tags, function(tag) {
-          return tag.id === newVal;
-        });
-        vm.kitForm.tags.push(tag.name);
+        vm.kitForm.tags.push(selectedTag.name);
       });
       vm.removeTag = removeTag;
 
