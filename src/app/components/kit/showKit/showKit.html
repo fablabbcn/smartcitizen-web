@@ -211,7 +211,7 @@
                 <div class="kit_details_macaddress data_container">
                   <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
                   </md-icon>
-                  <span class="bold">Device ID:</span>
+                  <span class="bold">Device:</span>
                   <span>{{ vm.kit.id }}</span>
                 </div>
                 <div ng-show="vm.kit.macAddress" class="kit_details_macaddress data_container">
@@ -219,6 +219,12 @@
                   </md-icon>
                   <span class="bold">Mac Address:</span>
                   <span>{{ vm.kit.macAddress }}</span>
+                </div>
+                <div class="data_container">
+                  <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
+                  </md-icon>
+                  <span class="bold">Status:</span>
+                  <span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span>
                 </div>
                 <div class="clearfix"></div>
                 <md-button class="kit_details_download data_container"
