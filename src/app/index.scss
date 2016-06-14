@@ -1073,6 +1073,13 @@ section .kit_menu {
     line-height: 0.4em;
   }
 
+  p.description {
+    line-height: inherit;
+    color: $info_secondary;
+    font-weight: lighter;
+    width: 75%;
+  }
+
   .kit_timeOpts{
     margin-top:0;
     font-size: 1.3em;

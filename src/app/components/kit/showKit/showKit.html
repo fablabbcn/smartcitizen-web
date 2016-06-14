@@ -195,6 +195,7 @@
                   </md-icon>
                   <span class="h4">{{ vm.kit.typeDescription }}</span>
                 </p>
+                <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
                 <p class="kit_details_labels">
                   <span class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
                   <tag ng-repeat='tag in vm.kit.userTags' ng-attr-tag-name="tag" clickable></tag>
