@@ -2248,6 +2248,11 @@ md-dialog.tags, md-dialog.filters{
       margin-right: 10px;
       padding: 3px 8px;
     }
+
+    tag, span {
+      margin-bottom: 8px;
+      float: left;
+    }
   }
 }
 .popup_icon svg:nth-child(2) {
