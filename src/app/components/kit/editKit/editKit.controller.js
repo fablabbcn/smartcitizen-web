@@ -155,7 +155,7 @@
               alert.success('Your kit was successfully updated');
               ga('send', 'event', 'Kit', 'update');
               device.updateContext().then(function(){
-                backToProfile();
+                backToKit();
               });
             })
             .catch(function(err) {
@@ -211,5 +211,14 @@
           notify: true
         });
       }
+
+      function backToKit(){
+        $state.transitionTo('layout.home.kit', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
+      }
+
     }
 })();
