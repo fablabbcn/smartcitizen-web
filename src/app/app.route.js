@@ -186,6 +186,12 @@
           },
 
           resolve: {
+            sensorTypes: function(sensor) {
+              return sensor.callAPI()
+                .then(function(sensorTypes) {
+                  return sensorTypes.plain();
+                });
+            },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
               if(!auth.isAuth() || !$stateParams.id) {
                 return false;

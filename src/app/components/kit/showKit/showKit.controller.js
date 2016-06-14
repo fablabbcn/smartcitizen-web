@@ -8,12 +8,12 @@
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
     'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
     '$timeout', 'alert', '$q', 'device',
-    'HasSensorKit', 'geolocation', 'PreviewKit'];
+    'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
   function KitController($state, $scope, $stateParams, $filter,
     utils, sensor, FullKit, $mdDialog, belongsToUser,
     timeUtils, animation, $location, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,
-    HasSensorKit, geolocation, PreviewKit) {
+    HasSensorKit, geolocation, PreviewKit, sensorTypes) {
 
     var vm = this;
     var sensorsData = [];
@@ -157,20 +157,16 @@
                   alert.info.noData.visitor();
                 }
                 $timeout(function() {
-                  animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
+                  animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
                 }, 1000);
               } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
                 alert.info.longTime();
               }
             }
 
-            return sensor.callAPI();
-          })
-          .then(function(sensorTypesRes) {
-            var sensorTypes;
-            sensorTypes = sensorTypesRes.plain();
             return $q.all([getMainSensors(vm.kit, sensorTypes),
               getCompareSensors(vm.kit, sensorTypes)]);
+
           })
           .then(function(sensorsRes){
             var mainSensors = sensorsRes[0];
