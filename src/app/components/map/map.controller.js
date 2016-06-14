@@ -121,7 +121,7 @@
       });
 
       $scope.$on('kitLoaded', function(event, data) {
-        vm.kitLoading = false;
+        vm.kitLoading = true;
         if(updateType === 'map') {
           updateType = undefined;
           return;
@@ -129,6 +129,7 @@
         // This is what happens when the Kit loads!!
         goToLocation(null, data);
         $timeout(function() {
+          vm.kitLoading = false;
           leafletData.getMarkers()
             .then(function(markers) {
               var currentMarker = _.find(markers, function(marker) {

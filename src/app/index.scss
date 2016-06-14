@@ -730,6 +730,8 @@ section.map {
   }
   &.kit_tag {
     background-color: #C8E6ED;
+    float: left;
+    margin: 5px;
   }
 }
 /*
@@ -2550,8 +2552,11 @@ md-dialog.tags, md-dialog.filters{
   margin-right: 15px;
   text-transform: uppercase;
 }
+.kitList_state_has_published {
+  background-color: $alert_green;
+}
 .kitList_state_never_published {
-  background-color: #F3C039;
+  background-color: $alert_red;
 }
 .kitList_state_not_configured {
   background-color: #E26061;
