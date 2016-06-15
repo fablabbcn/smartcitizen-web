@@ -120,48 +120,25 @@
         initialize();
       });
 
-      $scope.$on('kitLoaded', function(event, data) {
-        vm.kitLoading = true;
-        if(updateType === 'map') {
-          updateType = undefined;
-          return;
-        }
-        // This is what happens when the Kit loads!!
-        goToLocation(null, data);
-        $timeout(function() {
-          vm.kitLoading = false;
-          leafletData.getMarkers()
-            .then(function(markers) {
-              var currentMarker = _.find(markers, function(marker) {
-                return data.id === marker.options.myData.id;
-              });
+      vm.readyForKit = {
+        kit: false,
+        map: false 
+      } 
 
-              var id = data.id;
 
-              leafletData.getLayers()
-                .then(function(layers) {
-                  if(currentMarker){
-                    layers.overlays.realworld.zoomToShowLayer(currentMarker,
-                      function() {
-                        var selectedMarker = currentMarker;
-
-                        if(selectedMarker) {
-                          selectedMarker.options.focus = true;
-                          selectedMarker.openPopup();
-                        }
-                        if(!$scope.$$phase) {
-                          $scope.$digest();
-                        }
-
-                        kitLoaded = true;
-
-                      });
-                  }
-                });
-            });
-        }, 5000);
-
+      $scope.$watch('vm.markers', function() {
+        vm.readyForKit.map = true;
       });
+
+      $scope.$on('kitLoaded', function(event, data) {
+        vm.readyForKit.kit = data;
+      });
+
+      $scope.$watch('vm.readyForKit', function() {
+        if (vm.readyForKit.kit && vm.readyForKit.map) {
+          zoomKitAndPopUp(vm.readyForKit.kit);
+        }
+      }, true);
 
       $scope.$on('goToLocation', function(event, data) {
         goToLocation(event, data);
@@ -225,6 +202,57 @@
 
         checkTags();
         checkAllFiltersSelected();
+      }
+
+      function zoomKitAndPopUp(data){ 
+        console.log("zoomKitAndPopUp");
+
+        if(updateType === 'map') {
+          console.log('map');
+          updateType = undefined;
+          return;
+        }
+
+
+        leafletData.getMarkers()
+          .then(function(markers) { 
+            console.log(markers);
+            var currentMarker = _.find(markers, function(marker) {
+              return data.id === marker.options.myData.id;
+            });
+
+            var id = data.id;
+            
+            leafletData.getLayers()
+              .then(function(layers) {
+                vm.kitLoading = false;
+                if(currentMarker){
+                  layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                    function() {
+
+                      var selectedMarker = currentMarker;
+                      console.log(selectedMarker);
+
+                      if(selectedMarker) {
+
+                          goToLocation(null, data);
+                          selectedMarker.options.focus = true;
+                          selectedMarker.openPopup();      
+
+                      }
+
+                      if(!$scope.$$phase) {
+                        $scope.$digest();
+                      }
+
+                      kitLoaded = true;
+
+                    });
+                }
+              
+            }); 
+         }); 
+       
       }
 
       function checkTags(){
