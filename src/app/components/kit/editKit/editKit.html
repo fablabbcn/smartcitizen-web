@@ -7,7 +7,7 @@
         layout="row" layout-align="center center">
           1
         </div>
-         <md-button ng-click="vm.step = 1" class="timeline_stepName">
+         <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
           Kit data
         </md-button>
         <div class="timeline_line timeline_line_small"></div>
@@ -18,7 +18,7 @@
           ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
             2
           </div>
-          <md-button ng-click="vm.step = 2" class="timeline_stepName">
+          <md-button ng-click="vm.goToStep(2)" class="timeline_stepName">
             Set up
           </md-button>
         </div>

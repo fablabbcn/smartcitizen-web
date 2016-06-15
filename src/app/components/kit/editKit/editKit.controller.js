@@ -25,6 +25,7 @@
       vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
       vm.submitForm = submitForm;
+      vm.goToStep = goToStep;
 
       vm.kitData = undefined;
 
@@ -248,15 +249,16 @@
         });
       }
 
-      // This is for navigating cross steps while keeping form data
-      $scope.$watch('vm.step', function(currentStep) {
-        $state.transitionTo('layout.kitEdit', {id:$stateParams.id, step: currentStep},
+      function goToStep(step) {
+        vm.step = step;
+        $state.transitionTo('layout.kitEdit', { id:$stateParams.id, step: step} ,
         { 
           reload: false,
           inherit: false,
           notify: false
         });
-      });
+      }
+
  
     }
 })();
