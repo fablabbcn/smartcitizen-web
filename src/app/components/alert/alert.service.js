@@ -68,7 +68,7 @@
 
 
     function info(message, delay, options) {
-      if(options.button) {
+      if(options && options.button) {
         toast('infoButton', message, options, undefined, delay);
       } else {
         toast('info', message, options, undefined, delay);
