@@ -246,6 +246,16 @@
           notify: true
         });
       }
+
+      // This is for navigating cross steps while keeping form data
+      $scope.$watch('vm.step', function(newVal, oldVal) {
+        $state.transitionTo('layout.kitEdit', {id:$stateParams.id, step: newVal},
+        { 
+          reload: false,
+          inherit: false,
+          notify: false
+        });
+      });
  
     }
 })();
