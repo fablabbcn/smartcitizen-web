@@ -10,13 +10,20 @@
      device, tag, alert, step, $stateParams, FullKit) {
 
       var vm = this;
-      // This will need to be claned up at a certain point
-      var timewait = 3000;
+
+      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change) 
+      var timewait = {
+          long: 5000,
+          normal: 2000,
+          short: 1000
+      };
 
       vm.step = step;
 
-      vm.submitForm = submitForm;
-      vm.openKitSetup = openKitSetup;
+      // KEY USER ACTIONS
+      vm.submitFormAndKit = submitFormAndKit;
+      vm.submitFormAndNext = submitFormAndNext;
+      vm.backToProfile = backToProfile;
 
       vm.kitData = undefined;
 
@@ -28,8 +35,6 @@
 
       // FORM INFO
       vm.kitForm = {};
-
-      vm.backToProfile = backToProfile;
 
       // TAGS SELECT
       vm.tags = [];
@@ -127,7 +132,15 @@
         });
       }
 
-      function submitForm() {
+      function submitFormAndKit(){
+        submitForm(backToKit, timewait.normal);
+      }
+
+      function submitFormAndNext(){
+        submitForm(openKitSetup, timewait.short);
+      }
+
+      function submitForm(next, delayTransition) {
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
@@ -139,6 +152,7 @@
         };
 
         if(!vm.macAddress || vm.macAddress == ""){
+          /*jshint camelcase: false */
           data.mac_address = null;
         } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
           /*jshint camelcase: false */
@@ -154,29 +168,27 @@
         device.updateDevice(vm.kitData.id, data)
           .then(
             function() {
-              alert.success('Your kit was successfully updated');
+              if (!vm.macAddress && $stateParams.step == 2) { 
+                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
+              } else {
+                alert.success('Your kit was successfully updated');
+              }
               ga('send', 'event', 'Kit', 'update');
               device.updateContext().then(function(){
-                backToKit();
+                  $timeout(next, delayTransition);
               });
             })
             .catch(function(err) {
               if(err.data.errors.mac_address[0] === "has already been taken") {
-                timewait = 5000;
                 alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
                 ga('send', 'event', 'Kit', 'unprocessable entity');
               }
               else {
-                timewait=4000;
                 alert.error('There has been an error during kit set up');
                 ga('send', 'event', 'Kit', 'update failed');
               }
-              $timeout(function(){ },timewait);
+              $timeout(function(){ },timewait.long);
             });
-      }
-
-      function openKitSetup() {
-        $location.path($location.path()).search({'step':2});
       }
 
       function findExposure(nameOrValue) {
@@ -207,11 +219,24 @@
       }
 
       function backToProfile(){
+        if (!vm.macAddress && $stateParams.step == 2) { 
+          alert.info.generic('Remember you will need to register the Mac Address later 🔧');
+          $timeout(toProfile, timewait.normal);
+        } else {
+          toProfile();
+        }
+      }
+
+      function toProfile(){
         $state.transitionTo('layout.myProfile.kits', $stateParams,
         { reload: false,
           inherit: false,
           notify: true
         });
+      }
+
+      function openKitSetup() {
+        $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
       }
 
       function backToKit(){
@@ -221,6 +246,6 @@
           notify: true
         });
       }
-
+ 
     }
 })();
