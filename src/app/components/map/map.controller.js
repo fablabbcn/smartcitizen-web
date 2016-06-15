@@ -125,11 +125,6 @@
         map: false 
       } 
 
-
-      $scope.$watch('vm.markers', function() {
-        vm.readyForKit.map = true;
-      });
-
       $scope.$on('kitLoaded', function(event, data) {
         vm.readyForKit.kit = data;
       });
@@ -172,8 +167,7 @@
       /////////////////////
 
       function initialize() {
-        vm.markers = device.getWorldMarkers();
-        vm.initialMarkers = vm.markers;
+        vm.initialMarkers = device.getWorldMarkers();;
         device.getAllDevices()
           .then(function(data){
             if (!vm.markers || vm.markers.length === 0){
@@ -198,6 +192,9 @@
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
             }
+
+            vm.readyForKit.map = true;
+
           });
 
         checkTags();
@@ -205,18 +202,15 @@
       }
 
       function zoomKitAndPopUp(data){ 
-        console.log("zoomKitAndPopUp");
+        vm.kitLoading = false;
 
         if(updateType === 'map') {
-          console.log('map');
           updateType = undefined;
           return;
         }
-
-
+        
         leafletData.getMarkers()
           .then(function(markers) { 
-            console.log(markers);
             var currentMarker = _.find(markers, function(marker) {
               return data.id === marker.options.myData.id;
             });
@@ -225,20 +219,16 @@
             
             leafletData.getLayers()
               .then(function(layers) {
-                vm.kitLoading = false;
                 if(currentMarker){
                   layers.overlays.realworld.zoomToShowLayer(currentMarker,
                     function() {
 
                       var selectedMarker = currentMarker;
-                      console.log(selectedMarker);
 
                       if(selectedMarker) {
-
-                          goToLocation(null, data);
+                          // goToLocation(null, data);
                           selectedMarker.options.focus = true;
                           selectedMarker.openPopup();      
-
                       }
 
                       if(!$scope.$$phase) {
@@ -341,6 +331,7 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
+            vm.kitLoading = false;
             if(vm.markers && vm.markers.length) {
               var boundaries = getBoundaries(vm.markers);
               leafletData.getMap().then(function(map){
