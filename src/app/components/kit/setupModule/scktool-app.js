@@ -58,10 +58,14 @@ var sckapp = {
       msgBlock.empty();
       msgBlock.append(message);
     },
-    _message: function(message) {
+    _message: function(message, red = false) {
         var msgBlock = $('.messages-block');
         if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
-        var msg = $("<span>").html("&#x2713; " + message + "<br>");
+        if (red) {
+            var msg = $("<span style='color:red'>").html("&#x2713; " + message + "</span><br>");
+        } else {
+            var msg = $("<span>").html("&#x2713; " + message + "</span><br>");
+        }
         msgBlock.append(msg);
         msgBlock.scrollTop(msgBlock.prop("scrollHeight"));
     },
@@ -532,10 +536,19 @@ var sckapp = {
             });
             _configUI.parent.on("sync-done", function() { //temp
                 clearInterval(syncButton.anim);
-                syncButton.html('Settings Saved');
+                syncButton.html('Settings Synced');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
             });
             _configUI.parent.on("sync-ready", function() { //temp
                 syncButton.html('Sync settings');
+            });
+            _configUI.parent.on("already-synced", function() {
+                syncButton.html('Nothing To Sync');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
             });
             return syncButton;
         }
@@ -749,15 +762,16 @@ var sckapp = {
                 self._getInfo(function(ver){
                     var newlocalNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
                     if(verifyNets(netsToSave, newlocalNets) && verifyUpdates(updates)){
-                        self._message("Settings saved!")
+                        self._message("Settings synced!")
                         self._message("Please, reset your kit in order the changes to take effect!")
                         $('.config-block').trigger( "sync-done" );
                     } else {
-                        self._message("Sync failed... please try again")
+                        self._message("Sync failed... please try again", true)
                     }
                 })
             } else {
-                $('.config-block').trigger( "sync-ready" );
+                $('.config-block').trigger( "already-synced" );
+                self._message("Nothing to sync!!", true)
             }
         }
     },
@@ -983,7 +997,7 @@ var sckapp = {
                     // self._sendUpdateEvent();
                     callback();
                 } else {
-                    self._message("Failed to get the mac address from the kit. Try again later!");
+                    self._message("Failed to get the mac address from the kit. Try again later!", true);
                     callback();
                 }
             });
@@ -1051,7 +1065,7 @@ var sckapp = {
             }
         }
         var failedUpdate = function(status) {
-            self._message("<b>Firmware update failed!</b>");
+            self._message("<b>Firmware update failed!</b>", true);
             if (self.errors.flashing[status]) {
               self._message(self.errors.flashing[status]);
             } else {
@@ -1122,7 +1136,7 @@ var sckapp = {
                     retries++;
                     process();
                 } else {
-                    self._message("Failed to update the Wi-Fi settings on the Smart Citizen Kit! Please, try it again.");
+                    self._message("Failed to update the Wi-Fi settings on the Smart Citizen Kit! Please, try it again.", true);
                     $('.config-block').trigger( "sync-ready" ); //global scope event must change
                     callback(false);
                 };
@@ -1159,7 +1173,7 @@ var sckapp = {
                     retries++;
                     process();
                 } else {
-                    self._message("Failed to update the update interval settings on the Smart Citizen Kit! Please, try it again.");
+                    self._message("Failed to update the update interval settings on the Smart Citizen Kit! Please, try it again.", true);
                     callback(false);
                 };
             })
@@ -1403,7 +1417,7 @@ var sckapp = {
         // self._debug(self.sckTool.readingInfo);
         if (self.sckTool.readingInfo == null && (msg.indexOf("\r") > -1 || msg.indexOf("\n") > -1)) {
 	        self._message(self.errors.serial["open"]);
-            self._debug("connection error...");
+            self._debug("connection error...", true);
             self._checkPermissions();
 		}
     },
