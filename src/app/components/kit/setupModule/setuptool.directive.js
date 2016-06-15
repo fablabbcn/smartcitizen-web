@@ -19,6 +19,7 @@
         $(element).on("sck_info", function(event, data){
           scope.vm.macAddress = data.mac;
           scope.$apply();
+          scope.vm.submitForm();
         });
       });
     }

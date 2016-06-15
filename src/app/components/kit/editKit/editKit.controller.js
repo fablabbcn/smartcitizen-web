@@ -24,6 +24,7 @@
       vm.submitFormAndKit = submitFormAndKit;
       vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
+      vm.submitForm = submitForm;
 
       vm.kitData = undefined;
 
@@ -175,7 +176,7 @@
               }
               ga('send', 'event', 'Kit', 'update');
               device.updateContext().then(function(){
-                  $timeout(next, delayTransition);
+                  if (next) $timeout(next, delayTransition);
               });
             })
             .catch(function(err) {
@@ -248,8 +249,8 @@
       }
 
       // This is for navigating cross steps while keeping form data
-      $scope.$watch('vm.step', function(newVal, oldVal) {
-        $state.transitionTo('layout.kitEdit', {id:$stateParams.id, step: newVal},
+      $scope.$watch('vm.step', function(currentStep) {
+        $state.transitionTo('layout.kitEdit', {id:$stateParams.id, step: currentStep},
         { 
           reload: false,
           inherit: false,
