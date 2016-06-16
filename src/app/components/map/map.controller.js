@@ -202,9 +202,8 @@
       }
 
       function zoomKitAndPopUp(data){ 
-        vm.kitLoading = false;
-
         if(updateType === 'map') {
+          vm.kitLoading = false;
           updateType = undefined;
           return;
         }
@@ -235,6 +234,7 @@
                         $scope.$digest();
                       }
 
+                      vm.kitLoading = false;
                       kitLoaded = true;
 
                     });
