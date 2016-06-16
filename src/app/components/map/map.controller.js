@@ -9,7 +9,7 @@
     'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
-    	var vm = this;
+      var vm = this;
       var updateType;
       var mapMoved = false;
       var kitLoaded = false;
@@ -17,7 +17,6 @@
       var focusedMarkerID;
 
       vm.markers = [];
-      vm.initialMarkers = [];
 
       var retinaSuffix = isRetina() ? '@2x' : '';
 
@@ -59,22 +58,22 @@
       };
 
 
-    	vm.defaults = {
+      vm.defaults = {
         dragging: true,
         touchZoom: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
         minZoom:2,
         worldCopyJump: true
-    	};
+      };
 
-    	vm.events = {
-    	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
+      vm.events = {
+        map: {
+          enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
           'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
-    	  	logic: 'broadcast'
-    	  }
-    	};
+          logic: 'broadcast'
+        }
+      };
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
         // This is a bit ugly. Feels more like a hack.
@@ -167,10 +166,15 @@
       /////////////////////
 
       function initialize() {
-        vm.initialMarkers = device.getWorldMarkers();;
+        vm.readyForKit.map = false;
+
+        vm.markers = device.getWorldMarkers();
+
         device.getAllDevices()
           .then(function(data){
+            
             if (!vm.markers || vm.markers.length === 0){
+
               vm.markers = _.chain(data)
                   .map(function(device) {
                     return new Marker(device);
@@ -202,6 +206,7 @@
       }
 
       function zoomKitAndPopUp(data){ 
+
         if(updateType === 'map') {
           vm.kitLoading = false;
           updateType = undefined;
@@ -228,7 +233,7 @@
                           // goToLocation(null, data);
                           selectedMarker.options.focus = true;
                           selectedMarker.openPopup();      
-                      }
+                      } 
 
                       if(!$scope.$$phase) {
                         $scope.$digest();
@@ -238,8 +243,12 @@
                       kitLoaded = true;
 
                     });
+
+                } else {
+                  leafletData.getMap().then(function(map){
+                    map.closePopup();
+                  });
                 }
-              
             }); 
          }); 
        

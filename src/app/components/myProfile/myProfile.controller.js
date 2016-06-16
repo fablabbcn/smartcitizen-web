@@ -284,7 +284,6 @@
       }
 
       function removeKit(kitID) {
-        console.log("s");
         var confirm = $mdDialog.confirm()
           .title('Delete this kit?')
           .content('Are you sure you want to delete this kit?')

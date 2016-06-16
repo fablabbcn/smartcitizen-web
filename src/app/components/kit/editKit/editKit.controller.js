@@ -135,7 +135,7 @@
       }
 
       function submitFormAndKit(){
-        submitForm(backToKit, timewait.normal);
+        submitForm(toProfile, timewait.normal);
       }
 
       function submitFormAndNext(){

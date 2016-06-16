@@ -160,7 +160,9 @@
                   animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
                 }, 1000);
               } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-                alert.info.longTime();
+                $timeout(function() {
+                  alert.info.longTime();
+                }, 1000);
               }
             }
 
