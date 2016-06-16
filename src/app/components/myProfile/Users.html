@@ -4,11 +4,11 @@
         <p class="profile_sidebar_description">
         A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
         </p>
-        <md-button ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
+        <md-button ng-href="mailto:support@smartcitizen.me" class="profile_sidebar_button myProfile_sidebar_button">
         <md-icon md-svg-src="./assets/images/support_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
         <span>Support</span>
         </md-button>
-        <md-button ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
+        <md-button ng-href="http://forum.smartcitizen.me" ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
         <md-icon md-svg-src="./assets/images/community_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
         <span>Community</span>
         </md-button>
@@ -96,14 +96,14 @@
                 <md-button type="submit" class="myProfile_form_updateButton" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
             </form>
             <div class="clearfix"></div>
+            <div class="myProfile_apiKey_block">
             <div class="myProfile_apiKey" layout="row" layout-align="start center">
                 <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
                 <span class="myProfile_apiKey_text">API Key:</span>
                 <div api-key="vm.user.key"></div>
-                <!-- <div class="myProfile_apiKey_number">{{ vm.user.key }}</div>
-                                                <md-button class="myProfile_apiKey_refreshButton md-flat" type="button" aria-label>
-                                                    <md-icon md-svg-src="./assets/images/refresh_icon_white.svg" class="profile_sidebar_avatar"></md-icon>
-                </md-button> -->
+            </div>
+            <div class="clearfix"></div>
+            <small>This API Key is limited to the <a target="_blank" href="http://developer.smartcitizen.me/#legacy">legacy API</a>. The new API uses oAuth but doesn't require any Keys for basic queries. Check the <a target="_blank" href="http://developer.smartcitizen.me/">documentation and have fun!.</a></small>
             </div>
             <div class="clearfix"></div>
             <md-button ng-click="vm.removeUser()" class="warn" type="button">DELETE ACCOUNT</md-button><br>

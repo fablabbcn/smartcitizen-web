@@ -24,6 +24,7 @@
         $scope.$on('kitWithoutData', function(ev, data) {
 
           $timeout(function() {
+            vm.kit = data.kit;
             vm.kitWithoutData = true;
 
             if (data.belongsToUser) {

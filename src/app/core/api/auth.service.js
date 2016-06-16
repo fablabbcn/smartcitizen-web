@@ -9,13 +9,7 @@
     function auth($location, $window, $state, Restangular, $rootScope, AuthUser,
        $timeout, alert) {
 
-    	var user = {
-        token: $window.localStorage.getItem('smartcitizen.token') &&
-        JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
-        data: $window.localStorage.getItem('smartcitizen.data') &&
-        new AuthUser(JSON.parse(
-          $window.localStorage.getItem('smartcitizen.data') ))
-      };
+    	var user = {};
 
       //wait until http interceptor is added to Restangular
       $timeout(function() {
@@ -90,6 +84,8 @@
       }
 
       function getCurrentUser() {
+        user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
+        user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
         return user;
       }
 

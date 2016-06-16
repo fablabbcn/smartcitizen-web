@@ -16,22 +16,16 @@
       href: 'http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit'
     }, {
       type: 'documentation',
-      title: 'Download the latest SCK Firmware',
-      description: 'The latest Arduino firmware for yout kit',
+      title: 'Download the latest Smart Citizen Kit Firmware',
+      description: 'The latest Arduino firmware for your kit',
       avatar: '',
       href: 'https://github.com/fablabbcn/Smart-Citizen-Kit/releases/latest'
     }, {
       type: 'documentation',
-      title: 'RESTful API Documentation',
+      title: 'API Documentation',
       description: 'Documentation for the new API',
       avatar: '',
-      href: 'http://new-apidocs.smartcitizen.me/'
-    }, {
-      type: 'documentation',
-      title: 'Style Guide',
-      description: 'Guidelines of the Smart Citizen UI',
-      avatar: '',
-      href: '/styleguide'
+      href: 'http://developer.smartcitizen.me/'
     }, {
       type: 'community',
       title: 'Smart Citizen Forum',
@@ -40,9 +34,15 @@
       href:'http://forum.smartcitizen.me/'
     }, {
       type: 'documentation',
-      title: 'SCK Repository Documentation',
-      description: 'Fork the project',
-      avatar: ''
+      title: 'Smart Citizen Kit hardware details',
+      description: 'Visit the docs',
+      avatar: 'https://docs.smartcitizen.me/#/start/hardware'
+    }, {
+      type: 'documentation',
+      title: 'Style Guide',
+      description: 'Guidelines of the Smart Citizen UI',
+      avatar: '',
+      href: '/styleguide'
     }, {
       type: 'social',
       title: 'Like us on Facebook',

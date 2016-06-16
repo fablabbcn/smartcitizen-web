@@ -4,8 +4,8 @@
 	angular.module('app.components')
 	  .factory('device', device);
 
-    device.$inject = ['Restangular', '$window', 'timeUtils','$http'];
-	  function device(Restangular, $window, timeUtils, $http) {
+    device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
+	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
       var genericKitData, worldMarkers;
 
       initialize();
@@ -26,7 +26,8 @@
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
         callGenericKitData: callGenericKitData,
-				removeDevice: removeDevice
+				removeDevice: removeDevice,
+        updateContext: updateContext
 	  	};
 
 	  	return service;
@@ -46,8 +47,20 @@
       }
 
       function getAllDevices() {
+        if (auth.isAuth()) {
+          return getAllDevicesNoCached();
+        } else {
+          return getAllDevicesCached();
+        }
+      }
+
+      function getAllDevicesCached() {
         return Restangular.all('devices/world_map').getList();
       }
+
+      function getAllDevicesNoCached() {
+        return Restangular.all('devices/fresh_world_map').getList();
+      }     
 
       function getDevice(id) {
         return Restangular.one('devices', id).get();
@@ -91,10 +104,11 @@
 
       function areMarkersOld() {
         var markersDate = getTimeStamp();
-        return !timeUtils.isWithin15min(markersDate);
+        return !timeUtils.isWithin(1, 'minutes', markersDate)
       }
 
       function removeMarkers() {
+        worldMarkers = null;
         $window.localStorage.removeItem('smartcitizen.markers');
       }
 
@@ -109,5 +123,13 @@
           .one('devices', deviceID)
 					.remove();
 			}
+
+      function updateContext (){
+        return auth.updateUser().then(function(){
+          removeMarkers();
+          $rootScope.$broadcast('devicesContextUpdated');
+        });
+      }
+
 	  }
 })();

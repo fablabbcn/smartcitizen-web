@@ -9,7 +9,7 @@
     'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
-    	var vm = this;
+      var vm = this;
       var updateType;
       var mapMoved = false;
       var kitLoaded = false;
@@ -17,7 +17,6 @@
       var focusedMarkerID;
 
       vm.markers = [];
-      vm.initialMarkers = [];
 
       var retinaSuffix = isRetina() ? '@2x' : '';
 
@@ -59,22 +58,22 @@
       };
 
 
-    	vm.defaults = {
+      vm.defaults = {
         dragging: true,
         touchZoom: true,
         scrollWheelZoom: true,
         doubleClickZoom: true,
         minZoom:2,
         worldCopyJump: true
-    	};
+      };
 
-    	vm.events = {
-    	  map: {
-    	  	enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
+      vm.events = {
+        map: {
+          enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
           'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
-    	  	logic: 'broadcast'
-    	  }
-    	};
+          logic: 'broadcast'
+        }
+      };
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
         // This is a bit ugly. Feels more like a hack.
@@ -116,47 +115,24 @@
         }
       });
 
-      $scope.$on('kitLoaded', function(event, data) {
-        vm.kitLoading = false;
-        if(updateType === 'map') {
-          updateType = undefined;
-          return;
-        }
-        // This is what happens when the Kit loads!!
-        goToLocation(null, data);
-        $timeout(function() {
-          leafletData.getMarkers()
-            .then(function(markers) {
-              var currentMarker = _.find(markers, function(marker) {
-                return data.id === marker.options.myData.id;
-              });
-
-              var id = data.id;
-
-              leafletData.getLayers()
-                .then(function(layers) {
-                  if(currentMarker){
-                    layers.overlays.realworld.zoomToShowLayer(currentMarker,
-                      function() {
-                        var selectedMarker = currentMarker;
-
-                        if(selectedMarker) {
-                          selectedMarker.options.focus = true;
-                          selectedMarker.openPopup();
-                        }
-                        if(!$scope.$$phase) {
-                          $scope.$digest();
-                        }
-
-                        kitLoaded = true;
-
-                      });
-                  }
-                });
-            });
-        }, 5000);
-
+      $scope.$on('devicesContextUpdated', function(){
+        initialize();
       });
+
+      vm.readyForKit = {
+        kit: false,
+        map: false 
+      } 
+
+      $scope.$on('kitLoaded', function(event, data) {
+        vm.readyForKit.kit = data;
+      });
+
+      $scope.$watch('vm.readyForKit', function() {
+        if (vm.readyForKit.kit && vm.readyForKit.map) {
+          zoomKitAndPopUp(vm.readyForKit.kit);
+        }
+      }, true);
 
       $scope.$on('goToLocation', function(event, data) {
         goToLocation(event, data);
@@ -190,11 +166,15 @@
       /////////////////////
 
       function initialize() {
+        vm.readyForKit.map = false;
+
         vm.markers = device.getWorldMarkers();
-        vm.initialMarkers = vm.markers;
+
         device.getAllDevices()
           .then(function(data){
+            
             if (!vm.markers || vm.markers.length === 0){
+
               vm.markers = _.chain(data)
                   .map(function(device) {
                     return new Marker(device);
@@ -215,16 +195,63 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
-            }else{
-              if($state.params.id){
-                alert.error('This kit cannot be located in the map ' +
-                  'because its location has not been set up.');
-              }
             }
+
+            vm.readyForKit.map = true;
+
           });
 
         checkTags();
         checkAllFiltersSelected();
+      }
+
+      function zoomKitAndPopUp(data){ 
+
+        if(updateType === 'map') {
+          vm.kitLoading = false;
+          updateType = undefined;
+          return;
+        }
+        
+        leafletData.getMarkers()
+          .then(function(markers) { 
+            var currentMarker = _.find(markers, function(marker) {
+              return data.id === marker.options.myData.id;
+            });
+
+            var id = data.id;
+            
+            leafletData.getLayers()
+              .then(function(layers) {
+                if(currentMarker){
+                  layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                    function() {
+
+                      var selectedMarker = currentMarker;
+
+                      if(selectedMarker) {
+                          // goToLocation(null, data);
+                          selectedMarker.options.focus = true;
+                          selectedMarker.openPopup();      
+                      } 
+
+                      if(!$scope.$$phase) {
+                        $scope.$digest();
+                      }
+
+                      vm.kitLoading = false;
+                      kitLoaded = true;
+
+                    });
+
+                } else {
+                  leafletData.getMap().then(function(map){
+                    map.closePopup();
+                  });
+                }
+            }); 
+         }); 
+       
       }
 
       function checkTags(){
@@ -313,6 +340,7 @@
             var tmpMarkers = device.getWorldMarkers();
             tmpMarkers = filterMarkersByLabel(tmpMarkers);
             vm.markers = tag.filterMarkersByTag(tmpMarkers);
+            vm.kitLoading = false;
             if(vm.markers && vm.markers.length) {
               var boundaries = getBoundaries(vm.markers);
               leafletData.getMap().then(function(map){

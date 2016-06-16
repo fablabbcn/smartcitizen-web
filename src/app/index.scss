@@ -730,6 +730,8 @@ section.map {
   }
   &.kit_tag {
     background-color: #C8E6ED;
+    float: left;
+    margin: 5px;
   }
 }
 /*
@@ -1069,6 +1071,13 @@ section .kit_menu {
 
   h3, h4, p{
     line-height: 0.4em;
+  }
+
+  p.description {
+    line-height: inherit;
+    color: $info_secondary;
+    font-weight: lighter;
+    width: 75%;
   }
 
   .kit_timeOpts{
@@ -2239,6 +2248,11 @@ md-dialog.tags, md-dialog.filters{
       margin-right: 10px;
       padding: 3px 8px;
     }
+
+    tag, span {
+      margin-bottom: 8px;
+      float: left;
+    }
   }
 }
 .popup_icon svg:nth-child(2) {
@@ -2550,8 +2564,11 @@ md-dialog.tags, md-dialog.filters{
   margin-right: 15px;
   text-transform: uppercase;
 }
+.kitList_state_has_published {
+  background-color: $alert_green;
+}
 .kitList_state_never_published {
-  background-color: #F3C039;
+  background-color: $alert_red;
 }
 .kitList_state_not_configured {
   background-color: #E26061;
@@ -2790,10 +2807,16 @@ md-dialog.tags, md-dialog.filters{
   font-size: 12px;
   line-height: 1;
 }
-.myProfile_apiKey {
+.myProfile_apiKey_block {
   margin-top: 63px;
   margin-bottom: 65px;
 }
+
+.myProfile_apiKey {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .md-button.md-default-theme.myProfile_addKitButton,
 .md-button.md-default-theme.call-to-action {
   color: white;

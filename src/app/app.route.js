@@ -186,6 +186,12 @@
           },
 
           resolve: {
+            sensorTypes: function(sensor) {
+              return sensor.callAPI()
+                .then(function(sensorTypes) {
+                  return sensorTypes.plain();
+                });
+            },
             belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
               if(!auth.isAuth() || !$stateParams.id) {
                 return false;
@@ -239,12 +245,13 @@
         .state('layout.myProfile', {
           url: '/profile',
           authenticate: true,
+          abstract: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
           resolve: {
             userData: function($location, $window, user, auth, AuthUser) {
-              var userData = (auth.getCurrentUser().data) || ( $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+              var userData = auth.getCurrentUser().data;
               if(!userData) {
                 return;
               }
@@ -374,6 +381,9 @@
 
       /* Default state */
       $urlRouterProvider.otherwise('/kits');
+      
+      /* Default profile state */
+      $urlRouterProvider.when('/profile', '/profile/kits');
 
       $locationProvider.html5Mode({
         enabled: true,

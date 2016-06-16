@@ -4,8 +4,8 @@
   angular.module('app')
     .run(run);
 
-    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation'];
-    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation) {
+    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation', '$timeout'];
+    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation, $timeout) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -53,14 +53,17 @@
           }
         }
 
-        // on state change close all alerts opened
-        animation.hideAlert();
-
         // move window up on state change
         $window.scrollTo(0, 0);
 
         return;
       });
+
+      $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
+        // on state change close all alerts opened
+        $timeout(animation.hideAlert, 750);
+      });
+
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
         if (auth.isAuth()) {

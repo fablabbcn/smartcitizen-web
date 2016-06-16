@@ -12,8 +12,6 @@
         }
         if(kits) {
           return _.filter(kits, function(kit) {
-            console.log(kit);
-            console.log(targetLabel);
             var containsLabel = kit.labels.indexOf(targetLabel) !== -1;
             console.log(containsLabel);
             if(containsLabel) {

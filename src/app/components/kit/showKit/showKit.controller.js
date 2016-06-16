@@ -8,12 +8,12 @@
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
     'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
     '$timeout', 'alert', '$q', 'device',
-    'HasSensorKit', 'geolocation', 'PreviewKit'];
+    'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
   function KitController($state, $scope, $stateParams, $filter,
     utils, sensor, FullKit, $mdDialog, belongsToUser,
     timeUtils, animation, $location, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,
-    HasSensorKit, geolocation, PreviewKit) {
+    HasSensorKit, geolocation, PreviewKit, sensorTypes) {
 
     var vm = this;
     var sensorsData = [];
@@ -157,26 +157,25 @@
                   alert.info.noData.visitor();
                 }
                 $timeout(function() {
-                  animation.kitWithoutData({belongsToUser:vm.kitBelongsToUser});
+                  animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
                 }, 1000);
               } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-                alert.info.longTime();
+                $timeout(function() {
+                  alert.info.longTime();
+                }, 1000);
               }
             }
 
-            return sensor.callAPI();
-          })
-          .then(function(sensorTypesRes) {
-            var sensorTypes;
-            sensorTypes = sensorTypesRes.plain();
             return $q.all([getMainSensors(vm.kit, sensorTypes),
               getCompareSensors(vm.kit, sensorTypes)]);
+
           })
           .then(function(sensorsRes){
-
             var mainSensors = sensorsRes[0];
             var compareSensors = sensorsRes[1];
 
+            if(!mainSensors[0]) return;
+            
             vm.battery = mainSensors[1];
             vm.sensors = mainSensors[0].concat(mainSensors[1]);
             vm.sensorsToCompare = compareSensors;
@@ -207,14 +206,14 @@
             .removeDevice(vm.kit.id)
             .then(function(){
               alert.success('Your kit was deleted successfully');
-              $timeout(function(){
-                $window.location.href = '/';
+              ga('send', 'event', 'Kit', 'delete');
+              device.updateContext().then(function(){
                 $state.transitionTo('layout.myProfile.kits', $stateParams,
-                  { reload: true,
+                  { reload: false,
                     inherit: false,
                     notify: true
                   });
-              }, 2000);
+              });
             })
             .catch(function(){
               alert.error('Error trying to delete your kit.');

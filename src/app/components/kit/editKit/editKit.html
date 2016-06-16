@@ -7,9 +7,9 @@
         layout="row" layout-align="center center">
           1
         </div>
-        <div class="timeline_stepName">
+         <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
           Kit data
-        </div>
+        </md-button>
         <div class="timeline_line timeline_line_small"></div>
         <div layout="row" layout-align="start center">
           <div class="timeline_stepCircle"
@@ -18,13 +18,13 @@
           ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
             2
           </div>
-          <div class="timeline_stepName">
+          <md-button ng-click="vm.goToStep(2)" class="timeline_stepName">
             Set up
-          </div>
+          </md-button>
         </div>
       </div>
       <md-button class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToProfile()">Back to Profile</md-button>
-      <md-button class="md-flat md-primary timeline_buttonSave" ng-click="vm.submitForm()">Save</md-button>
+      <md-button class="md-flat md-primary timeline_buttonSave" ng-click="vm.submitFormAndKit()">Save</md-button>
     </div>
   </section>
   <section class="timeline_content" flex="1">
@@ -101,7 +101,7 @@
                   <div class="chips" layout="row" layout-align="start center">
                     <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
                       <span class="chip_name">{{ tag }}</span>
-                      <button class="chip_icon" ng-click="vm.removeTag(tag.id)" class="map_filter_icon" arial-label>
+                      <button class="chip_icon" ng-click="vm.removeTag(tag)" class="map_filter_icon" arial-label>
                         <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
                       </button>
                     </div>
@@ -132,7 +132,7 @@
           </div>
         </section>
       </form>
-      <md-button class="md-primary timeline_button timeline_buttonOpen" ng-click="vm.openKitSetup()">Open kit set up</md-button>
+      <md-button class="md-primary timeline_button timeline_buttonOpen" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
     </section>
     <section ng-show="vm.step === 2">
       <form>
@@ -175,7 +175,7 @@
           </div>
         </section>
       </form>
-      <md-button class="md-primary timeline_button timeline_buttonOpen inverted" ng-click="vm.submitForm()">Save</md-button>
+      <md-button class="md-primary timeline_button timeline_buttonOpen inverted" ng-click="vm.submitFormAndKit()">Save</md-button>
     </section>
   </section>
 </section>
