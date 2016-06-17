@@ -136,7 +136,7 @@
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
             if(vm.kit){
-
+              
               picker = initializePicker();
 
               animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
@@ -176,8 +176,14 @@
 
             if(!mainSensors[0]) return;
             
-            vm.battery = mainSensors[1];
-            vm.sensors = mainSensors[0].concat(mainSensors[1]);
+            console.log(mainSensors[1].name);
+            if (mainSensors[1].name === "battery") {
+              vm.battery = mainSensors[1];
+              vm.sensors = mainSensors[0].concat(mainSensors[1]);
+            } else {
+              vm.sensors = mainSensors[0].concat(mainSensors[1]);
+            }
+
             vm.sensorsToCompare = compareSensors;
 
             vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
