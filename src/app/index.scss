@@ -199,7 +199,6 @@ button.warn{
 div[api-key]{
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   color: $secondary_color_light;
 
   .api_key_number {
@@ -209,6 +208,10 @@ div[api-key]{
     padding: 2px 10px;
     display: inline-block;
     height: inherit;
+    word-wrap: break-word;
+    flex-wrap: wrap;
+    width: 420px;
+
   }
   .api_key_refresh_button {
     height: inherit;
@@ -2765,11 +2768,11 @@ md-dialog.tags, md-dialog.filters{
 }
 .myProfile_apiKey {
   float: left;
-  height: 26px;
 }
 .myProfile_apiKey_text {
   color: #82A7B0;
   margin-right: 5px;
+  width: 120px;
 }
 .myProfile_apiKey_number {
   color: #9D9D9E;
