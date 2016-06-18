@@ -176,7 +176,6 @@
 
             if(!mainSensors[0]) return;
             
-            console.log(mainSensors[1].name);
             if (mainSensors[1].name === "battery") {
               vm.battery = mainSensors[1];
               vm.sensors = mainSensors[0].concat(mainSensors[1]);
