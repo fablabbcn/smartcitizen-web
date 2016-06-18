@@ -3350,7 +3350,56 @@ p.no-margin {
         color: #8DB2BA;
       }
     }
+    
+    .sensors > div {
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      float: left;
+      margin: 10px;
+    }
+
+    .sensors div:nth-child(1) {
+     background: #ffc107;
+    }
+
+    .sensors div:nth-child(2) {
+     background: #4fc3f7;
+    }
+
+    .sensors div:nth-child(3) {
+     background: #ffee58;
+    }
+
+    .sensors div:nth-child(4) {
+     background: #f06292;
+    }
+
+    .sensors div:nth-child(5) {
+     background: #4caf50;
+    }
+
+    .sensors div:nth-child(6) {
+     background: #8bc34a;
+    }
+
+    .sensors div:nth-child(7) {
+     background: #9575cd;
+    }
+
+    .sensors div:nth-child(8) {
+     background: #fff9c4;
+    }
+
+    .sensors div:nth-child(9) {
+     background: #ffee58;
+    } 
+
+    .sensors div:nth-child(10) {
+     background: #ff5722;
+    } 
   }
+
 }
 
 /* Landin Page specifics */
