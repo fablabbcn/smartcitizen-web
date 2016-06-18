@@ -156,7 +156,7 @@
             return './assets/images/solar_panel_icon.svg';
 
           default:
-            return './assets/images/avatar.svg';
+            return './assets/images/unknownsensor_icon.svg';
         }
       }
 
@@ -203,7 +203,7 @@
             return '#ffee58';
 
           default:
-            return 'black';
+            return '#ff5722';
         }
       }
 
