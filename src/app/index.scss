@@ -199,7 +199,6 @@ button.warn{
 div[api-key]{
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
   color: $secondary_color_light;
 
   .api_key_number {
@@ -209,6 +208,10 @@ div[api-key]{
     padding: 2px 10px;
     display: inline-block;
     height: inherit;
+    word-wrap: break-word;
+    flex-wrap: wrap;
+    width: 420px;
+
   }
   .api_key_refresh_button {
     height: inherit;
@@ -2268,7 +2271,13 @@ md-dialog.tags, md-dialog.filters{
 .unknown {
   background-color: grey;
 }
-
+.ms {
+  // background-color: $alert_green;
+  // background-image: url("https://making-sense.eu/wp-content/uploads/2016/04/background-2.gif"); 
+  // background-size: 1200px;
+  // background-repeat: no-repeat;
+  // background-color: #efefef;
+}
 /**
  * OVERRIDE LEAFLET
  */
@@ -2765,11 +2774,11 @@ md-dialog.tags, md-dialog.filters{
 }
 .myProfile_apiKey {
   float: left;
-  height: 26px;
 }
 .myProfile_apiKey_text {
   color: #82A7B0;
   margin-right: 5px;
+  width: 120px;
 }
 .myProfile_apiKey_number {
   color: #9D9D9E;
@@ -3341,7 +3350,56 @@ p.no-margin {
         color: #8DB2BA;
       }
     }
+    
+    .sensors > div {
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      float: left;
+      margin: 10px;
+    }
+
+    .sensors div:nth-child(1) {
+     background: #ffc107;
+    }
+
+    .sensors div:nth-child(2) {
+     background: #4fc3f7;
+    }
+
+    .sensors div:nth-child(3) {
+     background: #ffee58;
+    }
+
+    .sensors div:nth-child(4) {
+     background: #f06292;
+    }
+
+    .sensors div:nth-child(5) {
+     background: #4caf50;
+    }
+
+    .sensors div:nth-child(6) {
+     background: #8bc34a;
+    }
+
+    .sensors div:nth-child(7) {
+     background: #9575cd;
+    }
+
+    .sensors div:nth-child(8) {
+     background: #fff9c4;
+    }
+
+    .sensors div:nth-child(9) {
+     background: #ffee58;
+    } 
+
+    .sensors div:nth-child(10) {
+     background: #ff5722;
+    } 
   }
+
 }
 
 /* Landin Page specifics */

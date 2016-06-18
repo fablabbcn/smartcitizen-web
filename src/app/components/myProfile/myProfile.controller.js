@@ -31,6 +31,11 @@
       vm.removeUser = removeUser;
       vm.uploadAvatar = uploadAvatar;
 
+      //THIS IS TEMPORARY. 
+      // Will grow on to a dynamic API KEY management 
+      // with the new /accounts oAuth mgmt methods
+      vm.user.token = auth.getCurrentUser().token;
+
       //KITS TAB
       vm.kits = [];
       vm.kitStatus = undefined;
