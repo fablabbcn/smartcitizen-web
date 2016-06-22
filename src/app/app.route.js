@@ -390,7 +390,7 @@
         requireBase: false
       }).hashPrefix('!');
 
-      RestangularProvider.setBaseUrl('https://new-api.smartcitizen.me/v0');
+      RestangularProvider.setBaseUrl('https://api.smartcitizen.me/v0');
 
       /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
