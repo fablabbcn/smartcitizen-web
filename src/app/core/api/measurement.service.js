@@ -19,7 +19,7 @@
 
 
     function getTypes() {
-      return Restangular.all('measurements').getList();
+      return Restangular.all('measurements').getList({'per_page': 100});
     }
 
     function getMeasurement(mesID) {
