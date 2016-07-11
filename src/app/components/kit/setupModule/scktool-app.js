@@ -34,16 +34,6 @@ var sckapp = {
             self._disconnect();
         };
     },
-    // _setBoardListAvailable: function() {
-    //     var self = this;
-    //     if (self.isAdvanced) {
-    //         //self.boards = self.boards_dev;
-    //         //self._message("You are in Advanced Mode!");
-    //         self.boards = self.boards_stable;
-    //     } else {
-    //         self.boards = self.boards_stable;
-    //     }
-    // },
     _startmessage: function(message) {
         message = message || "";
         var msgBlock = $('.start-message');
@@ -69,16 +59,6 @@ var sckapp = {
         msgBlock.append(msg);
         msgBlock.scrollTop(msgBlock.prop("scrollHeight"));
     },
-    // _messageWidget: function(message) {
-    //     var msgBlock = $('.messages-widget-block');
-    //     msgBlock.empty();
-    //     msgBlock.html(message);
-    // },
-    // _messageUpload: function(message) {
-    //     var msgBlock = $('.messages-upload-block');
-    //     msgBlock.empty();
-    //     msgBlock.html(message);
-    // },
     _debug: function(message, messageLevel) {
         messageLevel = messageLevel || 1;
         if (messageLevel <= this.debugLevel) console.log(message); //This is temporary. Will be implemented as log.proto
@@ -373,16 +353,6 @@ var sckapp = {
             _updatesUI.updateSensorUpdate = function(sensorUpdate) {
                 var posts = sensorUpdate.posts || this.getSensorPosts() || 1;
                 var resolution = sensorUpdate.resolution || this.getSensorResolution() || 60;
-                // var pub = posts * resolution;
-                // pub = this.timeUI(pub);
-                // resolutionText = this.timeUI(resolution);
-                // var explanation = "Your Smart Citizen Sensors will take a reading every " + "<span>" + resolutionText + "</span><br>" + " and will publish online every " + "<span>" + pub + "</span>" + ".";
-                // if (!this.explain) {
-                //     this.createUpdatesExplanation();
-                // }
-                // this.explain.html(explanation);
-                // return this.explain;
-
                 var postUnit = posts + ((posts > 1) ? " posts" : " post")
                 var updatedText = "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>  Sensor reading every " + this.timeUI(resolution) + ", publishing " + postUnit + " every " + this.timeUI(posts*resolution) + "</desc>";
                 self._updateBlock('.updateTitle', updatedText);
@@ -419,17 +389,6 @@ var sckapp = {
             this.widget.append(this.createSensorResolution(updates.resolution));
             this.widget.append(this.createSensorPosts(updates.posts));
 
-            // var leftElements = [];
-            // leftElements.push(this.createSensorResolution(updates.resolution));
-            // leftElements.push(this.createSensorPosts(updates.posts));
-            // var left = $('<div>').addClass('left');
-            // left.append(leftElements);
-            // var rightElements = [];
-            // rightElements.push(this.updateSensorUpdate(updates));
-            // var right = $('<div>').addClass('right large');
-            // right.append(rightElements);
-            // left.appendTo(this.widget);
-            // right.appendTo(this.widget);
             $('input[type="range"]').rangeslider(); //tmp
         }
         _updatesUI.setSensorResolution = function(value) {
