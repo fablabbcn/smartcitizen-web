@@ -904,8 +904,8 @@ var sckapp = {
                         //firmware version
                         self.sck.version.firmware = Number(allData[1].split('-')[1].replace(/[^0-9]+/g, ''));
                     } else {
-                        self.sck.version.board = -1
-                        self.sck.version.firmware
+                        self.sck.version.board = 11;
+                        self.sck.version.firmware = -1;
                     }
 
                     //mac address
