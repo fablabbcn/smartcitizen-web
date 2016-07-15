@@ -724,13 +724,36 @@ var sckapp = {
                         self._message("Settings synced!")
                         self._message("Please, reset your kit in order the changes to take effect!")
                         $('.config-block').trigger( "sync-done" );
+                        postData();
                     } else {
                         self._message("Sync failed... please try again", true)
+                        postData();
                     }
                 })
             } else {
                 $('.config-block').trigger( "already-synced" );
                 self._message("Nothing to sync!!", true)
+                postData();
+            }
+        }
+        var postData = function() {
+            self._enterCmdMode(function() {
+                self._message("Asking your kit to post data...")
+                self._sendCMD("post data", function(data) {
+                    self._debug(data, 2);
+                    self._exitCmdMode();
+                    window.setTimeout(function() {
+                        self._message("Waiting for your kit to connect...")
+                        self._monitorMode(true);
+                        self.connectTimeout = window.setTimeout(function(){
+                            self._message("This is taking too long!!", true);
+                            self._message("Please check your wifi settings and try resetting your kit", true);
+                        }, 60000)
+                    }, 1000);
+                }, false, 500);
+            });
+        }
+    },
             }
         }
     },
@@ -787,9 +810,9 @@ var sckapp = {
             //board unknown (is there another test to check if it is an arduino?)
             if (whatVersion == -1) {
                 self._message("<b>Unrecognized board!</b> Make sure you have selected the right port");
-                self._message("If you are sure, select your board version manually, and click Upload Firmware");
+                self._message("If you are sure, click Install Firmware");
                 self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>');
-                self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, select your board to upload the firmware</desc>")
+                self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>")
             } else {
                 //Board description update
                 var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
