@@ -897,10 +897,17 @@ var sckapp = {
                  }
                  if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
                     var allData = data.response.split('|');
-                    //board version
-                    self.sck.version.board = Number(allData[1].split('-')[0].replace(/[^0-9]+/g, ''));
-                    //firmware version
-                    self.sck.version.firmware = Number(allData[1].split('-')[1].replace(/[^0-9]+/g, ''));
+
+                    if (allData[1].indexOf('-') != -1) {
+                        //board version
+                        self.sck.version.board = Number(allData[1].split('-')[0].replace(/[^0-9]+/g, ''));
+                        //firmware version
+                        self.sck.version.firmware = Number(allData[1].split('-')[1].replace(/[^0-9]+/g, ''));
+                    } else {
+                        self.sck.version.board = -1
+                        self.sck.version.firmware
+                    }
+
                     //mac address
                     if (validateMac(allData[2])) {
                         self.sck.mac = allData[2];
