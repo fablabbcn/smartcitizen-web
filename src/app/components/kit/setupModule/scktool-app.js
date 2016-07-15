@@ -808,53 +808,55 @@ var sckapp = {
         }
         var boardStarter = function(whatVersion) {
             //board unknown (is there another test to check if it is an arduino?)
-            if (whatVersion == -1) {
-                self._message("<b>Unrecognized board!</b> Make sure you have selected the right port");
-                self._message("If you are sure, click Install Firmware");
-                self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>');
-                self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>")
-            } else {
-                //Board description update
-                var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
-                self._updateBlock('.board-description', msg);
-                self._message("Your kit is a " + self._getBoardDescription());
+            if (whatVersion != -2) {    //if we have access to serial port
+                if (whatVersion == -1) {
+                    self._message("<b>Unrecognized board!</b> Make sure you have selected the right port");
+                    self._message("If you are sure, click Install Firmware");
+                    self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>');
+                    self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>");
+                } else if (whatVersion == 1 || whatVersion == 0) {
+                    //Board description update
+                    var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
+                    self._updateBlock('.board-description', msg);
+                    self._message("Your kit is a " + self._getBoardDescription());
 
-                if (self.sck.version.firmware < self.latestFirmwareVersion) {
-                    self._message("Your kit is running " + self._getFirmwareDescription() + ". This is not the latest version.");
-                    self._message("We recommend you update the firmware!");
-                    var firmMsg = "<font color = 'red'>version " + self._getFirmwareDescription() +  " (update recommended)</font>";
-                } else {
-                    self._message("Your kit is running " + self._getFirmwareDescription() + ". This is the latest version.");
-                    self._message("You can skip the firmware update!");
-                    var firmMsg = "<font color='green'>" + self._getFirmwareDescription() +  " (latest)</font>";
-                }
-                self._updateBlock('.firmware', "<desc>Firmware version " + firmMsg + "</desc>");
-
-                //only for suported firmware (version >= 93)
-                if (whatVersion == 1){
-
-                    //mac address
-                    self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
-
-                    //nets
-                    // if (Object.keys(self.sck.config.nets).length > 0) {
-                    if (self.sck.config.nets.length > 0) {
-                        var netMsg = " (found " + self.sck.config.nets.length + " configured on your kit)";
+                    if (self.sck.version.firmware < self.latestFirmwareVersion) {
+                        self._message("Your kit is running " + self._getFirmwareDescription() + ". This is not the latest version.");
+                        self._message("We recommend you update the firmware!");
+                        var firmMsg = "<font color = 'red'>version " + self._getFirmwareDescription() +  " (update recommended)</font>";
                     } else {
-                        var netMsg = " (none configured yet)";
+                        self._message("Your kit is running " + self._getFirmwareDescription() + ". This is the latest version.");
+                        self._message("You can skip the firmware update!");
+                        var firmMsg = "<font color='green'>" + self._getFirmwareDescription() +  " (latest)</font>";
                     }
-                    self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong> " + netMsg + "</desc>");
-                    self.netsUI.createNetsWidget(self.sck.config.nets);
+                    self._updateBlock('.firmware', "<desc>Firmware version " + firmMsg + "</desc>");
 
-                    //updates
-                    self.updatesUI.updateSensorUpdate(self.sck.config.update);
-                    self.updatesUI.createUpdatesWidget(self.sck.config.update);
+                    //only for suported firmware (version >= 93)
+                    if (whatVersion == 1){
+
+                        //mac address
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
+
+                        //nets
+                        // if (Object.keys(self.sck.config.nets).length > 0) {
+                        if (self.sck.config.nets.length > 0) {
+                            var netMsg = " (found " + self.sck.config.nets.length + " configured on your kit)";
+                        } else {
+                            var netMsg = " (none configured yet)";
+                        }
+                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong> " + netMsg + "</desc>");
+                        self.netsUI.createNetsWidget(self.sck.config.nets);
+
+                        //updates
+                        self.updatesUI.updateSensorUpdate(self.sck.config.update);
+                        self.updatesUI.createUpdatesWidget(self.sck.config.update);
+                    }
                 }
+                self._updateFirmware(function(state) {
+                    if (state) boardReady();
+                }, whatVersion);
+                self._monitorMode(true);
             }
-
-            self._updateFirmware(function(state) {
-                 if (state) boardReady();
-            }, whatVersion);
         }
         if (isFirst) {
             self._userStart(function() {
@@ -958,7 +960,11 @@ var sckapp = {
       var askBoard = function(callback) {
         getAll(function(isLatestVersion) {
           if (isLatestVersion == 1) {
+            //latest version
             callback(1);
+          } else if (isLatestVersion == -1) {
+            //null response form serial port (error message should be already printed)
+            callback(-2);
           } else if (isLatestVersion == 0) {
             self._message("Still working, looking for older firmware...");
             //fallbackMode
@@ -966,8 +972,10 @@ var sckapp = {
                 if (sckVersion.hardwareVersion) {
                     self.sck.version.firmware = sckVersion.firmwareVersion;
                     self.sck.version.board = sckVersion.hardwareVersion;
+                    //older version
                     callback(0);
                 } else {
+                    //unrecognized board
                     callback(-1);
                 }
             });
