@@ -596,7 +596,6 @@ var sckapp = {
         }
 
         return _configUI;
-
     },
     initStartUI: function() {
         var self = this;
@@ -620,6 +619,7 @@ var sckapp = {
             startButton.children().click(function() {
                 self.sckPort = parent.getPortSelect(); //temp
                 if (self.sckPort) {
+                    self.errors["printed"] = false;
 					startButton.children().text("Restart process");
 					trigger();
                 } else {
@@ -895,7 +895,9 @@ var sckapp = {
                      var regex = /^(([a-f0-9]{2}:){5}[a-f0-9]{2},?)+$/i;
                      return regex.test(mac);
                  }
-                 if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
+                 if (data.response == null){
+                    callback(-1);
+                 } else if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
                     var allData = data.response.split('|');
 
                     if (allData[1].indexOf('-') != -1) {
@@ -942,12 +944,12 @@ var sckapp = {
                     self.sck.config.update.posts = parseInt(allData[6]);
                     self._debug(self.sck);
                     if (self.sck.version.firmware >= 93) {
-                        callback(true);
+                        callback(1);
                     } else {
-                        callback(false);
+                        callback(0);
                     }
                  } else {
-                    callback(false);
+                    callback(0);
                  }
             }, true, 2000);
         });
@@ -955,9 +957,9 @@ var sckapp = {
 
       var askBoard = function(callback) {
         getAll(function(isLatestVersion) {
-          if (isLatestVersion) {
+          if (isLatestVersion == 1) {
             callback(1);
-          } else {
+          } else if (isLatestVersion == 0) {
             self._message("Still working, looking for older firmware...");
             //fallbackMode
             self._getSCKVersion(function(sckVersion) {
@@ -1404,10 +1406,12 @@ var sckapp = {
         self._debugMessage(msg, "send");
         self.sckTool.serialWrite(msg);
         // self._debug(self.sckTool.readingInfo);
-        if (self.sckTool.readingInfo == null && (msg.indexOf("\r") > -1 || msg.indexOf("\n") > -1)) {
+        if (self.sckTool.readingInfo == null && (msg.indexOf("\r") > -1 || msg.indexOf("\n") > -1) && !self.errors["printed"]) {
 	        self._message(self.errors.serial["open"]);
             self._debug("connection error...", true);
             self._checkPermissions();
+            self._message(self.errors.serial["reset"]);
+            self.errors["printed"] = true;
 		}
     },
     _serialWriteLn: function(msg) {
@@ -1689,7 +1693,7 @@ var sckapp = {
     _checkPermissions: function() {
         var self = this;
         if ((navigator.appVersion.indexOf("X11") != -1) || (navigator.appVersion.indexOf("Linux") != -1)) {
-            var message = 'If you have issues connecting with your kit on Linux ensure you have the appropiate permissions to access the serial port. You can quickly solve this by installing the latest Arduino IDE <i>(sudo apt-get install arduino arduino-core)</i> or manually following this <a target=\"_blank\" href=\"http://codebender.uservoice.com/knowledgebase/articles/95620-my-arduino-is-not-recognized-by-codebender-what-s"\">guide</a>.';
+            var message = 'If you are on Linux, check your serial port permissions. Here is a <a target=\"_blank\" href=\"http://codebender.uservoice.com/knowledgebase/articles/95620-my-arduino-is-not-recognized-by-codebender-what-s"\">guide</a>.';
             self._message(message);
         }
     },
@@ -1819,7 +1823,9 @@ var sckapp = {
           20001: "Timeout comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>."
         },
         serial: {
-          open: "<b>We can't open the serial port!!!</b>\nPlease make sure no application is using the serial port (ej. Arduino IDE), reload this page and reset your kit.",
+          open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ej. Arduino IDE)",
+          reset: "Please try <b>reloading</b> this page and <b>resetting</b> your kit.",
+          printed: false,
           found: "No serial port found!!! Make sure cable is fully inserted."
         }
     },
