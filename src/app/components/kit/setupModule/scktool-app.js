@@ -12,6 +12,7 @@ var sckapp = {
         this.$elem = $(elem);
         this.debugLevel = debugLevel;
         this._build();
+        this.monitorMode = false;
         return this;
     },
     options: {},
@@ -52,7 +53,7 @@ var sckapp = {
         var msgBlock = $('.messages-block');
         if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
         if (red) {
-            var msg = $("<span style='color:red'>").html("&#x2713; " + message + "</span><br>");
+            var msg = $("<span style='color:#BC6060'>").html("&#x2713; " + message + "</span><br>");
         } else {
             var msg = $("<span>").html("&#x2713; " + message + "</span><br>");
         }
@@ -624,7 +625,7 @@ var sckapp = {
 					trigger();
                 } else {
 					self._message(self.errors.serial["found"]);
-                    self._startmessage();
+                    self.startUI.createupdatePortSelect();
 				}
             });
             return startButton;
@@ -672,7 +673,10 @@ var sckapp = {
         var localNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
         var updatesToSave = self.updatesUI.getSensorResolutionAndPosts();
         var savedSomething = false;
-        runSync("nets");
+        self._monitorMode(false);
+        window.setTimeout(function(){
+            runSync("nets");
+        }, 1200);
         function runSync(who){
             if (who == "nets"){
                 if (!verifyNets(netsToSave, localNets)) {
@@ -722,7 +726,6 @@ var sckapp = {
                     var newlocalNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
                     if(verifyNets(netsToSave, newlocalNets) && verifyUpdates(updates)){
                         self._message("Settings synced!")
-                        self._message("Please, reset your kit in order the changes to take effect!")
                         $('.config-block').trigger( "sync-done" );
                         postData();
                     } else {
@@ -754,6 +757,27 @@ var sckapp = {
             });
         }
     },
+    _monitorMode(on){
+        var self = this;
+        if(on) {
+            if (!self.monitorMode) {
+                self.monitorMode = true
+                self._debug("Turning ON monitor mode (listening serial port)");
+                self.monitorModePID = window.setInterval(function(){
+                    self._disconnect();
+                    self._serialRead();
+                }, 1000);
+            } else {
+                self._debug("Monitor mode is already ON");
+            }
+        } else {
+            self._debug("Turning OFF monitor mode");
+            if (self.monitorMode) {
+                window.clearInterval(self.monitorModePID);
+                self.monitorMode = false
+                window.setTimeout(function(){
+                    self._disconnect();
+                }, 1000);
             }
         }
     },
@@ -874,6 +898,32 @@ var sckapp = {
             self._getInfo(function(whatVersion) {
                 boardStarter(whatVersion);
             });
+        }
+    },
+    _SCKoutput: function(message){
+        var self = this;
+        var msgBlock = $('.messages-block');
+        if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
+
+
+        if (message.indexOf("SCK Connected!!") > -1) {
+            self._debug("Your kit is connected!!!");
+            window.clearInterval(self.connectTimeout);
+        }
+
+        //Here we redirect to map page
+        if (message.indexOf("Posted to Server!") > -1) {
+            self._debug("Your has posted!!!");
+        }
+
+        if (self.monitorMode) {
+            message = message.replace(/(\r\n|\n|\r)/gm, "<br/>&#x2713; SCK >> ");
+            if (message.substr(message.length - 7) == 'SCK >> ') {
+                message = message.substr(0, message.length - 16);
+            }
+            var msg = $("<span style='color:#17A3D9'>").html("&#x2713; SCK >> " + message + "</span>");
+            msgBlock.append(msg);
+            msgBlock.scrollTop(msgBlock.prop("scrollHeight"));
         }
     },
     _getInfo: function(callback) {
@@ -1050,10 +1100,10 @@ var sckapp = {
             max: 2,
         };
         var checkResult = function(status) {
+            self.isFlashing = false;
             if (status != 20000 && status != 20001) {
                 self._getInfo( function(whatVersion) {
                     if(whatVersion == 1) {
-                        self._message("<b>Firmware uploaded!</b>");
                         self._run(false);
                     } else {
                         failedUpdate(status);
@@ -1073,9 +1123,19 @@ var sckapp = {
             callback(false);
         }
         var process = function() {
-            self._message("Updating your kit to the latest firmware...");
-            self.sck.version.board = self.sck.version.board || self.uploadUI.getVersionSelect();
-            self._flash(self.sck.version.board, checkResult);
+            if (!self.isFlashing) {
+                self._monitorMode(false);
+                self._message("Starting flashing process, waiting for kit response...");
+                self.doubleTap = window.setTimeout(function(){
+                    self._message("This is taking to long!!!<br/>&#x2713; If you haven't yet, <b>try double tapping your kit reset button.</b>");
+                }, 12000)
+                window.setTimeout(function(){
+                    self.sck.version.board = self.sck.version.board || self.uploadUI.getVersionSelect();
+                    self._flash(self.sck.version.board, checkResult);
+                }, 1200)
+            } else {
+                self._message("Already flashing!!!");
+            }
         }
         self.uploadUI.createUploadElement(process, whatVersion);
     },
@@ -1451,6 +1511,7 @@ var sckapp = {
         self._debug("...reading! " + JSON.stringify(sck), 2);
         self.sckTool.serialRead(sck.port, sck.speed, function(from, line) {
             self._debug("  @@ >> " + from + " " + line);
+            self._SCKoutput(line);
             self._input(line);
         }, function(from, line) {
             self._debug("  !! >> " + from + " " + line);
@@ -1460,7 +1521,6 @@ var sckapp = {
         var self = this;
         self.isFlashing = true;
         self._disconnect();
-        self.connected = true;
         var firmURL = self.firmwaresPath + self.boards[boardID].firmware.firmwareFile;
         $.getJSON(firmURL, function(firm) {
             self._debug(firm, 3);
@@ -1477,6 +1537,7 @@ var sckapp = {
             self.sckTool.flash(flash.port, flash.binary, flash.maximum_size, flash.protocol, flash.disable_flushing, flash.speed, flash.mcu, function(from, progress) {
                 self._debug(from, 3);
                 self.isFlashing = false;
+                window.clearInterval(self.doubleTap);
                 if (progress) {
                     self._debug("FLASH PROGRESS: " + progress);
                     if (progress == 20000){
@@ -1487,7 +1548,8 @@ var sckapp = {
                     callback(progress);
                 } else {
                     self._debug("FLASH OK!!");
-                    self._message("Clearing eeprom memory...");
+                    self._message("<b>Firmware uploaded!</b>");
+                    self._message("Clearing eeprom memory, please wait a moment...");
                     self._clearMemory(function(status) {
                         callback(status);
                     });
@@ -1647,7 +1709,7 @@ var sckapp = {
     			var portsAvail = "";
     			if (!self.isFlashing) {
     				self._message(self.errors.serial["found"]);
-            self._startmessage();
+                    self.startUI.createupdatePortSelect();
     			}
     		}
         var portsDataset = {}
@@ -1668,6 +1730,9 @@ var sckapp = {
 						} else {
 							  self._message("Connected port: " + portsAvail);
 						}
+                        if (self.isAlreadyStarted) {
+                            self._monitorMode(true);
+                        }
 					}
 				}
             }
@@ -1679,6 +1744,8 @@ var sckapp = {
         var self = this;
         self.sckTool.getPorts(function(portsAvailable) {
             if (portsAvailable != self.oldPorts) {
+
+                self._monitorMode(false);
 
                 var jsonPorts = $.parseJSON(portsAvailable);
                 self.ports = [];
@@ -1828,7 +1895,8 @@ var sckapp = {
     errors: {
         flashing: {
           20000: "Comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>.",
-          20001: "Timeout comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>."
+          // 20001: "Timeout comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>."
+          20001: "Please try again, but after clicking install firmware button:<br>&#x2713;<b> Double tap your kit reset button.</b>"
         },
         serial: {
           open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ej. Arduino IDE)",
