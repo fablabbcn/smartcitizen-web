@@ -13,6 +13,7 @@ var sckapp = {
         this.debugLevel = debugLevel;
         this._build();
         this.monitorMode = false;
+        this.flashedOK = false;
         return this;
     },
     options: {},
@@ -51,7 +52,7 @@ var sckapp = {
     },
     _message: function(message, red = false) {
         var msgBlock = $('.messages-block');
-        if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
+        if (msgBlock.children().length >= 25) msgBlock.children().first().remove();
         if (red) {
             var msg = $("<span style='color:#BC6060'>").html("&#x2713; " + message + "</span><br>");
         } else {
@@ -82,6 +83,8 @@ var sckapp = {
         ]);
     },
     resetProcess: function(){
+        var msgBlock = $('.messages-block');
+        msgBlock.children().remove();
         this.$elem.find(".board-description").children().fadeOut(200, function() { $(this).remove(); });
         this.$elem.find(".firmware").children().fadeOut(200, function() { $(this).remove(); });
         this.$elem.find(".mac").children().fadeOut(200, function() { $(this).remove(); });
@@ -480,19 +483,23 @@ var sckapp = {
         _configUI.createSyncButton = function() {
             var syncButton = this.createButton("remove", "Sync settings", "submit", "", false);
             syncButton.click(function() {
-                syncButton.html('Syncing settings');
-                syncButton.anim = setInterval(function(){
-                    if (syncButton.html() == 'Syncing settings') {
-                        syncButton.html('Syncing settings.');
-                    } else if (syncButton.html() == 'Syncing settings.') {
-                        syncButton.html('Syncing settings..');
-                    } else if (syncButton.html() == 'Syncing settings..') {
-                        syncButton.html('Syncing settings...');
-                    } else if (syncButton.html() == 'Syncing settings...'){
-                        syncButton.html('Syncing settings');
-                    }
-                }, 500);
-                self._sync();
+                if (!self.isFlashing) {
+                    syncButton.html('Syncing settings');
+                    syncButton.anim = setInterval(function(){
+                        if (syncButton.html() == 'Syncing settings') {
+                            syncButton.html('Syncing settings.');
+                        } else if (syncButton.html() == 'Syncing settings.') {
+                            syncButton.html('Syncing settings..');
+                        } else if (syncButton.html() == 'Syncing settings..') {
+                            syncButton.html('Syncing settings...');
+                        } else if (syncButton.html() == 'Syncing settings...'){
+                            syncButton.html('Syncing settings');
+                        }
+                    }, 500);
+                    self._sync();
+                } else {
+                    self._message("Flashing your kit, be patient!");
+                }
             });
             _configUI.parent.on("sync-done", function() { //temp
                 clearInterval(syncButton.anim);
@@ -618,15 +625,20 @@ var sckapp = {
             var parent = this;
             var startButton = this.createButton("start", "Start process", "submit");
             startButton.children().click(function() {
-                self.sckPort = parent.getPortSelect(); //temp
-                if (self.sckPort) {
-                    self.errors["printed"] = false;
-					startButton.children().text("Restart process");
-					trigger();
+                if (!self.isFlashing){
+                    self.sckPort = parent.getPortSelect(); //temp
+                    this.flashedOK = false;
+                    if (self.sckPort) {
+                        self.errors["printed"] = false;
+                        startButton.children().text("Restart process");
+                        trigger();
+                    } else {
+                        self._message(self.errors.serial["found"]);
+                        self.startUI.createupdatePortSelect();
+                    }
                 } else {
-					self._message(self.errors.serial["found"]);
-                    self.startUI.createupdatePortSelect();
-				}
+                    self._message("Flashing your kit, be patient!");
+                }
             });
             return startButton;
         }
@@ -894,10 +906,7 @@ var sckapp = {
                 });
             })
         } else {
-            self.resetProcess();
-            self._getInfo(function(whatVersion) {
-                boardStarter(whatVersion);
-            });
+            boardStarter(1);
         }
     },
     _SCKoutput: function(message){
@@ -948,7 +957,11 @@ var sckapp = {
                      return regex.test(mac);
                  }
                  if (data.response == null){
-                    callback(-1);
+                    if (self.errors["printed"]){ //we allready print serial port error
+                        callback(-1);
+                    } else { //if we DO have access to serial port but get a null response
+                        callback(0)
+                    }
                  } else if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
                     var allData = data.response.split('|');
 
@@ -1128,13 +1141,13 @@ var sckapp = {
                 self._message("Starting flashing process, waiting for kit response...");
                 self.doubleTap = window.setTimeout(function(){
                     self._message("This is taking to long!!!<br/>&#x2713; If you haven't yet, <b>try double tapping your kit reset button.</b>");
-                }, 12000)
+                }, 15000)
                 window.setTimeout(function(){
                     self.sck.version.board = self.sck.version.board || self.uploadUI.getVersionSelect();
                     self._flash(self.sck.version.board, checkResult);
                 }, 1200)
             } else {
-                self._message("Already flashing!!!");
+                self._message("Flashing your kit, be patient!");
             }
         }
         self.uploadUI.createUploadElement(process, whatVersion);
@@ -1536,9 +1549,9 @@ var sckapp = {
             self._debug(flash, 2);
             self.sckTool.flash(flash.port, flash.binary, flash.maximum_size, flash.protocol, flash.disable_flushing, flash.speed, flash.mcu, function(from, progress) {
                 self._debug(from, 3);
-                self.isFlashing = false;
                 window.clearInterval(self.doubleTap);
                 if (progress) {
+                    self.isFlashing = false;
                     self._debug("FLASH PROGRESS: " + progress);
                     if (progress == 20000){
                       self._debug("connection ERROR!!!");
@@ -1547,10 +1560,12 @@ var sckapp = {
                     }
                     callback(progress);
                 } else {
+                    self.flashedOK = true;
                     self._debug("FLASH OK!!");
                     self._message("<b>Firmware uploaded!</b>");
                     self._message("Clearing eeprom memory, please wait a moment...");
                     self._clearMemory(function(status) {
+                        self.isFlashing = false;
                         callback(status);
                     });
                 };
