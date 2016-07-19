@@ -209,7 +209,9 @@ var sckapp = {
             var pasThis = this;
             var deleteButton = this.createButton("remove", "<span><img src='./assets/images/close_icon_blue.svg'</span>", "button", "close-net", false);
             deleteButton.click(function() {
-                pasThis.deleteGroupElement($(this).parent().parent().index());
+                if ($(".nets-list").children().length > 1) {
+                    pasThis.deleteGroupElement($(this).parent().parent().index());
+                }
             });
             return deleteButton;
         }
