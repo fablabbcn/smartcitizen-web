@@ -277,7 +277,7 @@ var sckapp = {
             } else {
                 var tempText = $(".netmessage").html();
                 if (tempText.indexOf("maximum") == -1) {
-                    self._message("You can configure a maximum of 5 wifi networks, sorry");
+                    self._message("Maximum 5 wifi networks, sorry");
                     $(".netmessage").html("<div style='margin-left:15px;'><span style='font-size:.92em; color:red'> 5 wifi networks maximum, please</span></div>");
                     setTimeout(function(){
                         $(".netmessage").html(tempText);
@@ -773,7 +773,8 @@ var sckapp = {
                         self._monitorMode(true);
                         self.connectTimeout = window.setTimeout(function(){
                             self._message("This is taking too long!!", true);
-                            self._message("Please check your wifi settings and try resetting your kit", true);
+                            self._message("Please check your wifi settings", true);
+                            self._message("And try resetting your kit", true);
                         }, 60000)
                     }, 1000);
                 }, false, 500);
@@ -833,9 +834,9 @@ var sckapp = {
     },
     _startGetAll: function() {
         var self = this;
-        self._message("Getting Wi-Fi networks saved on the kit...");
+        self._message("Getting saved Wi-Fi networks...");
         self._startNets(function() {
-            self._message("Getting time/updates settings saved on the kit...");
+            self._message("Getting saved time/updates settings...");
             self._startUpdates();
         });
     },
@@ -850,14 +851,17 @@ var sckapp = {
         var self = this;
         isFirst = isFirst || false;
         var boardReady = function() {
-            self._message("Thanks for waiting! You can start configuring the kit.");
-            self._message("Add a network, adjust the update interval and click sync....");
+            self._message("Thanks for waiting!");
+            self._message("You can start configuring the kit.");
+            self._message("Add a network, adjust the update interval,");
+            self._message("And when you are finished click sync....")
         }
         var boardStarter = function(whatVersion) {
             //board unknown (is there another test to check if it is an arduino?)
             if (whatVersion != -2) {    //if we have access to serial port
                 if (whatVersion == -1) {
-                    self._message("<b>Unrecognized board!</b> Make sure you have selected the right port");
+                    self._message("<b>Unrecognized board!</b>");
+                    self._message("Make sure you have selected the right port!");
                     self._message("If you are sure, click Install Firmware");
                     self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>');
                     self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>");
@@ -865,14 +869,17 @@ var sckapp = {
                     //Board description update
                     var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
                     self._updateBlock('.board-description', msg);
-                    self._message("Your kit is a " + self._getBoardDescription());
+                    self._message("Your kit is a:");
+                    self._message(self._getBoardDescription());
 
                     if (self.sck.version.firmware < self.latestFirmwareVersion) {
-                        self._message("Your kit is running " + self._getFirmwareDescription() + ". This is not the latest version.");
+                        self._message("Your kit is running " + self._getFirmwareDescription() + "firmware.");
+                        self._message("This is not the latest version.");
                         self._message("We recommend you update the firmware!");
                         var firmMsg = "<font color = 'red'>version " + self._getFirmwareDescription() +  " (update recommended)</font>";
                     } else {
-                        self._message("Your kit is running " + self._getFirmwareDescription() + ". This is the latest version.");
+                        self._message("Your kit is running " + self._getFirmwareDescription() + " firmware.");
+                        self._message("This is the latest version.");
                         self._message("You can skip the firmware update!");
                         var firmMsg = "<font color='green'>" + self._getFirmwareDescription() +  " (latest)</font>";
                     }
@@ -1065,7 +1072,8 @@ var sckapp = {
                     // self._sendUpdateEvent();
                     callback();
                 } else {
-                    self._message("Failed to get the mac address from the kit. Try again later!", true);
+                    self._message("Failed to get the mac address from the kit.", true);
+                    self._message("Try again later!");
                     callback();
                 }
             });
@@ -1086,8 +1094,10 @@ var sckapp = {
 
         self._windowsDriversWarning();
 
-        self._message("Please, reset your kit by pressing the reset button or switching it off / on.");
-        self._message("Once reseted, select your SmartCitizen serial port and click Start process...");
+        self._message("Please reset your kit");
+        self._message("Press the reset button or switch it off-on.");
+        self._message("Select your kit Serial Port");
+        self._message("And click Start process...");
     },
     _windowsDriversWarning: function() {
         if (navigator.platform.toLowerCase().indexOf("win") != -1) {
@@ -1137,16 +1147,18 @@ var sckapp = {
             if (self.errors.flashing[status]) {
               self._message(self.errors.flashing[status]);
             } else {
-              self._message("Unrecognized error: " + status + " please contact Smart Citizen support");
+              self._message("Unrecognized error: " + status);
+              self._message("Please contact Smart Citizen support")
             }
             callback(false);
         }
         var process = function() {
             if (!self.isFlashing) {
                 self._monitorMode(false);
-                self._message("Starting flashing process, waiting for kit response...");
+                self._message("Starting the flashing process...");
+                self._message("Waiting for the kit to respond...")
                 self.doubleTap = window.setTimeout(function(){
-                    self._message("This is taking to long!!!<br/>&#x2713; If you haven't yet, <b>try double tapping your kit reset button.</b>");
+                    self._message("This is taking to long!!!<br/>&#x2713; If you haven't yet, <br/>&#x2713;<b> Try double tapping your kit reset button.</b>");
                 }, 15000)
                 window.setTimeout(function(){
                     self.sck.version.board = self.sck.version.board || self.uploadUI.getVersionSelect();
@@ -1208,13 +1220,14 @@ var sckapp = {
         var process = function() {
             setAndgetSCKNETS(function(status) {
                 if (status) {
-                    self._message("Wi-Fi settings updated on the Smart Citizen Kit!");
+                    self._message("Wi-Fi settings updated on your kit!");
                     callback(nets);
                 } else if (retries < retriesMax) {
                     retries++;
                     process();
                 } else {
-                    self._message("Failed to update the Wi-Fi settings on the Smart Citizen Kit! Please, try it again.", true);
+                    self._message("Failed to update Wi-Fi settings on your kit!", true);
+                    self._message("Please, try it again.")
                     $('.config-block').trigger( "sync-ready" ); //global scope event must change
                     callback(false);
                 };
@@ -1245,13 +1258,14 @@ var sckapp = {
         var process = function() {
             setAndgetSCKUpdates(function(isOK) {
                 if (isOK == true) {
-                    self._message("Update interval settings updated on the Smart Citizen Kit!");
+                    self._message("Update interval settings updated on your kit!");
                     callback(true);
                 } else if (retries < retriesMax) {
                     retries++;
                     process();
                 } else {
-                    self._message("Failed to update the update interval settings on the Smart Citizen Kit! Please, try it again.", true);
+                    self._message("Failed to update the update interval settings on the Smart Citizen Kit!", true);
+                    self._message("Please, try it again.")
                     callback(false);
                 };
             })
@@ -1415,7 +1429,7 @@ var sckapp = {
                 } else {
                     self._exitCmdMode();
                     callback(false);
-                    self._message("No Wi-Fi networks saved yet on the Smart Citizen Kit.");
+                    self._message("No Wi-Fi networks saved yet on your kit.");
                 }
             }, true, 15000);
         });
@@ -1569,7 +1583,8 @@ var sckapp = {
                     self.flashedOK = true;
                     self._debug("FLASH OK!!");
                     self._message("<b>Firmware uploaded!</b>");
-                    self._message("Clearing eeprom memory, please wait a moment...");
+                    self._message("Clearing eeprom memory");
+                    self._message("Please wait a moment...")
                     self._clearMemory(function(status) {
                         self.isFlashing = false;
                         callback(status);
@@ -1915,15 +1930,15 @@ var sckapp = {
     },
     errors: {
         flashing: {
-          20000: "Comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>.",
+          20000: "<b>Comunication error.</b><br>&#x2713; Please reset your kit and reload this page<br>&#x2713; Or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>.",
           // 20001: "Timeout comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>."
-          20001: "Please try again, but after clicking install firmware button:<br>&#x2713;<b> Double tap your kit reset button.</b>"
+          20001: "<b>Timeout comunication error.</b><br/>&#x2713; Please try again<br/>&#x2713; But after clicking install firmware button<br>&#x2713;<b> Double tap your kit reset button.</b>"
         },
         serial: {
           open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ej. Arduino IDE)",
-          reset: "Please try <b>reloading</b> this page and <b>resetting</b> your kit.",
+          reset: "Please try <b>reloading</b> this page<br>&#x2713; And <b>resetting</b> your kit.",
           printed: false,
-          found: "No serial port found!!! Make sure cable is fully inserted."
+          found: "No serial port found!!!<br>&#x2713; Make sure cable is fully inserted."
         }
     },
     netSettings: {
