@@ -78,7 +78,10 @@ var sckapp = {
         this.$elem.attr("layout", "row");
 
         this.$elem.append($("<div>").addClass("consoleArea"));
-        $(".consoleArea").append($("<div>").addClass("messages-block"));
+        $(".consoleArea").append([
+            $("<div>").addClass("messages-block"),
+            $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Codebender</a>.</p>')
+        ]);
         $(".messages-block").attr("flex");
 
         this.$elem.append($("<div>").addClass("configArea"));
@@ -94,8 +97,7 @@ var sckapp = {
             $("<div>").addClass("updateTitle"),
             $("<div>").addClass("calculation"),
             $("<div>").addClass("updateList"),
-            $("<div>").addClass("config-block"),
-            $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Codebender</a>.</p>')
+            $("<div>").addClass("config-block")
         ]);
     },
     resetProcess: function(){
@@ -936,13 +938,13 @@ var sckapp = {
                     self.isAlreadyStarted = true;
                 }
                 //scroll animation
-                var duration = 500;
+                var duration = 300;
                 $('html, body').stop().animate({
                     scrollTop: $(".messages-block").offset().top - 115
-                }, duration);
+                }, duration*2);
                 $(".messages-block").animate({
                     height: '575px'
-                }, duration)
+                }, duration);
 
                 self._getInfo(function(whatVersion) {
                     boardStarter(whatVersion);
