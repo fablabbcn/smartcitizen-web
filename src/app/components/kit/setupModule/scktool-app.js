@@ -912,7 +912,10 @@ var sckapp = {
                     if (whatVersion == 1){
 
                         //mac address
-                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>", true);
+                        var _configUI = self.initUIBasics();
+                        var macInput = $('<input>').val(self.sck.mac).attr('name', "Mac-Address").addClass('Mac-Address').prop("type", "text");
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address: </strong></desc>", true);
+                        $(".mac").append(macInput);
 
                         //nets
                         self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>", true);

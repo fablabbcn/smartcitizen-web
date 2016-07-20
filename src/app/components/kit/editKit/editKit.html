@@ -153,28 +153,6 @@
       <section class="form_block">
         <div setuptool></div>
       </section>
-      <form>
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Mac address</h2>
-                  <small>The setup tool will read the Mac Address automatically from your kit. Plase wait or enter it manually.</small>
-                </div>
-              </div>
-            </div>
-            <div class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <md-input-container>
-                  <label>Mac Address</label>
-                  <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress">
-                </md-input-container>
-              </div>
-            </div>
-          </div>
-        </section>
-      </form>
       <md-button class="md-primary timeline_button timeline_buttonOpen inverted" ng-click="vm.submitFormAndKit()">Save</md-button>
     </section>
   </section>
