@@ -67,8 +67,15 @@ var sckapp = {
     },
     initBlocksUI: function() {
         this.$elem.addClass("scktool");
-        this.$elem.append([
-            $("<div>").addClass("messages-block"),
+        this.$elem.attr("layout", "row");
+
+        this.$elem.append($("<div>").addClass("consoleArea"));
+        $(".consoleArea").append($("<div>").addClass("messages-block"));
+        $(".messages-block").attr("flex");
+
+        this.$elem.append($("<div>").addClass("configArea"));
+        $(".configArea").attr("flex");
+        $(".configArea").append([
             $("<div>").addClass("start-message"),
             $("<div>").addClass("start-block"),
             $("<div>").addClass("board-description"),
@@ -77,6 +84,7 @@ var sckapp = {
             $("<div>").addClass("networks"),
             $("<div>").addClass("netList"),
             $("<div>").addClass("updateTitle"),
+            $("<div>").addClass("calculation"),
             $("<div>").addClass("updateList"),
             $("<div>").addClass("config-block"),
             $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Codebender</a>.</p>')
@@ -217,8 +225,8 @@ var sckapp = {
         }
         _netsUI.createAddButton = function() {
             var pasThis = this;
-            var addButton = this.createButton("remove", "Add +", "button", "add");
-            addButton.children().click(function() {
+            var addButton = this.createButton("remove", "Add +", "button", "", false);
+            addButton.click(function() {
                 pasThis.createGroupElement();
             });
             return addButton;
@@ -267,12 +275,12 @@ var sckapp = {
                 right.appendTo(wrapper);
                 wrapper.appendTo(this.widget.list);
             } else {
-                var tempText = $(".networks").html();
+                var tempText = $(".netmessage").html();
                 if (tempText.indexOf("maximum") == -1) {
                     self._message("You can configure a maximum of 5 wifi networks, sorry");
-                    $(".networks").html(tempText + "<div style='margin-left:15px;'><span style='font-size:.92em; color:red'> 5 wifi networks maximum, please</span></div>");
+                    $(".netmessage").html("<div style='margin-left:15px;'><span style='font-size:.92em; color:red'> 5 wifi networks maximum, please</span></div>");
                     setTimeout(function(){
-                        $(".networks").html(tempText);
+                        $(".netmessage").html(tempText);
                     }, 3000);
                 }
             }
@@ -313,7 +321,8 @@ var sckapp = {
         _netsUI.createNetsWidget = function(nets) {
             if (!this.widget) {
                 this.widget = this.createWidgetWrapper('nets', '', '');
-                this.widget.append(this.createAddButton());
+                $(".networks").append(this.createAddButton());
+                $(".networks").append($('<div>').addClass('netmessage'));
                 this.createElements(nets);
             } else {
                 this.createElements(nets);
@@ -360,8 +369,8 @@ var sckapp = {
                 var posts = sensorUpdate.posts || this.getSensorPosts() || 1;
                 var resolution = sensorUpdate.resolution || this.getSensorResolution() || 60;
                 var postUnit = posts + ((posts > 1) ? " posts" : " post")
-                var updatedText = "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>  Sensor reading every " + this.timeUI(resolution) + ", publishing " + postUnit + " every " + this.timeUI(posts*resolution) + "</desc>";
-                self._updateBlock('.updateTitle', updatedText);
+                var updatedText = "<desc>Sensor reading every " + this.timeUI(resolution) + "<br/>Publishing " + postUnit + " every " + this.timeUI(posts*resolution) + "</desc>";
+                self._updateBlock('.calculation', updatedText);
             }
 
         _updatesUI.createUpdatesExplanation = function() {
@@ -876,16 +885,11 @@ var sckapp = {
                         self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
 
                         //nets
-                        // if (Object.keys(self.sck.config.nets).length > 0) {
-                        if (self.sck.config.nets.length > 0) {
-                            var netMsg = " (found " + self.sck.config.nets.length + " configured on your kit)";
-                        } else {
-                            var netMsg = " (none configured yet)";
-                        }
-                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong> " + netMsg + "</desc>");
+                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>");
                         self.netsUI.createNetsWidget(self.sck.config.nets);
 
                         //updates
+                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>");
                         self.updatesUI.updateSensorUpdate(self.sck.config.update);
                         self.updatesUI.createUpdatesWidget(self.sck.config.update);
                     }

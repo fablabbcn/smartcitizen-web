@@ -4,9 +4,10 @@
    * Licensed under MIT
    */
 .scktool {
-  padding: 20px;
-  margin: 40px;
-
+  .configArea {
+      min-width: 500px;
+      margin-left: 20px;
+  }
   .configurator .credits {
       margin: 40px 0 0 0;
   }
@@ -44,9 +45,8 @@
       margin-left: 4px;
   }
   .messages-block {
-      // min-height: 250px;
-      height: 180px;
-      min-width: 600px;
+      height: 575px;
+      width: 420px;
       position:relative;
       font-family: monospace;
       padding:10px;
@@ -91,7 +91,7 @@
       margin-top: 20px;
   }
   .netList{
-      margin-left: 25px;
+      margin-left: 5px;
       margin-top: 10px;
   }
   .netList .widget-block .body .section{
@@ -102,6 +102,11 @@
   }
   .updateTitle{
       margin: 5px;
+  }
+  .calculation{
+      margin:5px;
+      margin-left: 25px;
+      line-height: 26px;
   }
   .nets-container{
       width: 400px;
