@@ -14,6 +14,7 @@ var sckapp = {
         this._build();
         this.monitorMode = false;
         this.flashedOK = false;
+        this.isSyncing = false;
         return this;
     },
     options: {},
@@ -502,7 +503,7 @@ var sckapp = {
         _configUI.createSyncButton = function() {
             var syncButton = this.createButton("remove", "Sync settings", "submit", "", false);
             syncButton.click(function() {
-                if (!self.isFlashing) {
+                if (!self.isFlashing && !self.isSyncing) {
                     syncButton.html('Syncing settings');
                     syncButton.anim = setInterval(function(){
                         if (syncButton.html() == 'Syncing settings') {
@@ -516,8 +517,10 @@ var sckapp = {
                         }
                     }, 500);
                     self._sync();
-                } else {
+                } else if (self.isFlashing) {
                     self._message("Flashing your kit, be patient!");
+                } else if (self.isSyncing) {
+                    self._message("Syncing your kit, be patient!");
                 }
             });
             _configUI.parent.on("sync-done", function() { //temp
@@ -532,6 +535,13 @@ var sckapp = {
             });
             _configUI.parent.on("already-synced", function() {
                 syncButton.html('Nothing To Sync');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
+            });
+            _configUI.parent.on("sync-fail", function() { //temp
+                clearInterval(syncButton.anim);
+                syncButton.html('Sync Failed');
                 window.setTimeout(function() {
                     $('.config-block').trigger( "sync-ready" );
                 }, 3000);
@@ -700,33 +710,41 @@ var sckapp = {
     },
     _sync: function() {
         var self = this;
+        self.isSyncing = true;
         var netsToSave = self.netsUI.getElements().slice(self.sck.config.hardcodedNets, self.netsUI.getElements().length);
         var localNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
         var updatesToSave = self.updatesUI.getSensorResolutionAndPosts();
         var savedSomething = false;
-        self._monitorMode(false);
-        window.setTimeout(function(){
-            runSync("nets");
-        }, 1200);
+        runSync("nets");
         function runSync(who){
             if (who == "nets"){
                 if (!verifyNets(netsToSave, localNets)) {
                     self._message("Saving wi-fy network settings...")
                     savedSomething = true;
-                    self._setSCKNets(netsToSave, function(nets){
+                    self._monitorMode(false);
+                    window.setTimeout(function(){
+                        self._setSCKNets(netsToSave, function(nets){
                             runSync("updates");
-                    })
+                        })
+                    }, 1200);
                 } else {
                     self._message("Wi-fy networks haven't changed!")
                     runSync("updates");
                 }
             } else if (who == "updates"){
                 if (!verifyUpdates(updatesToSave)) {
+                    var extraTime = 0;
                     self._message("Saving update interval settings...")
-                    savedSomething = true;
-                    self._setSCKUpdates(updatesToSave, function(updates){
-                        checkSync(netsToSave, updatesToSave);
-                    })
+                    if (!savedSomething) {
+                        self._monitorMode(false);
+                        extraTime = 1200;
+                        savedSomething = true;
+                    }
+                    window.setTimeout(function(){
+                        self._setSCKUpdates(updatesToSave, function(updates){
+                            checkSync(netsToSave, updatesToSave);
+                        })
+                    }, extraTime);
                 } else {
                     self._message("Update interval haven't change!")
                     checkSync(netsToSave, updatesToSave);
@@ -756,38 +774,33 @@ var sckapp = {
                 self._getInfo(function(ver){
                     var newlocalNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
                     if(verifyNets(netsToSave, newlocalNets) && verifyUpdates(updates)){
-                        self._message("Settings synced!")
+                        self._message("<b>Settings synced!</b>");
+                        self.isSyncing = false;
+                        self._monitorMode(true);
                         $('.config-block').trigger( "sync-done" );
-                        postData();
+                        self._message("<b>For your kit to work properly</b>");
+                        self._message("<b>Please click the RESET button</b>");
                     } else {
                         self._message("Sync failed... please try again", true)
-                        postData();
+                        $('.config-block').trigger( "sync-fail" );
+                        self.isSyncing = false;
                     }
                 })
             } else {
                 $('.config-block').trigger( "already-synced" );
-                self._message("Nothing to sync!!", true)
-                postData();
+                self._message("Nothing to sync!!", true);
+                self.isSyncing = false;
             }
         }
-        var postData = function() {
-            self._enterCmdMode(function() {
-                self._message("Asking your kit to post data...")
-                self._sendCMD("post data", function(data) {
-                    self._debug(data, 2);
-                    self._exitCmdMode();
-                    window.setTimeout(function() {
-                        self._message("Waiting for your kit to connect...")
-                        self._monitorMode(true);
-                        self.connectTimeout = window.setTimeout(function(){
-                            self._message("This is taking too long!!", true);
-                            self._message("Please check your wifi settings", true);
-                            self._message("And try resetting your kit", true);
-                        }, 60000)
-                    }, 1000);
-                }, false, 500);
-            });
-        }
+    },
+    _postData() {
+        self._message("Asking your kit to post data...")
+        self._enterCmdMode(function() {
+            self._sendCMD("post data", function(data) {
+                self._debug(data, 2);
+                self._exitCmdMode();
+            }, false, 500);
+        });
     },
     _monitorMode(on){
         var self = this;
@@ -945,14 +958,17 @@ var sckapp = {
         if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
 
 
-        if (message.indexOf("SCK Connected!!") > -1) {
-            self._debug("Your kit is connected!!!");
-            window.clearInterval(self.connectTimeout);
+        if (message.indexOf("SCK Connected!") > -1) {
+            self._message("Your kit is connected!")
         }
 
-        //Here we redirect to map page
+        if (message.indexOf("RTC Updated!!") > -1) {
+            self._message("Your kit has updated his clock!")
+        }
+
         if (message.indexOf("Posted to Server!") > -1) {
-            self._debug("Your has posted!!!");
+            self._message("Your kit has posted!!!")
+            self._message("<b>Congratulations!!!</b>")
         }
 
         if (self.monitorMode) {
