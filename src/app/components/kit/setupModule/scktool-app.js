@@ -44,11 +44,18 @@ var sckapp = {
         // var msg = $("<p>").html(message);
         msgBlock.append(message);
     },
-    _updateBlock: function(wichBlock, message) {
-      message = message || "";
-      var msgBlock = $(wichBlock);
-      msgBlock.empty();
-      msgBlock.append(message);
+    _updateBlock: function(wichBlock, message, animate) {
+        animate = animate || false;
+        message = message || "";
+        var msgBlock = $(wichBlock);
+        msgBlock.empty();
+        if (animate){
+            msgBlock.slideUp(1);
+            msgBlock.append(message);
+            msgBlock.slideDown(150);
+        } else {
+            msgBlock.append(message);
+        }
     },
     _message: function(message, red = false) {
         var msgBlock = $('.messages-block');
@@ -99,6 +106,7 @@ var sckapp = {
         this.$elem.find(".networks").children().fadeOut(200, function() { $(this).remove(); });
         this.$elem.find(".netList").children().fadeOut(200, function() { $(this).remove(); });
         this.$elem.find(".updateTitle").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".calculation").children().fadeOut(200, function() { $(this).remove(); });
         this.$elem.find(".updateList").children().fadeOut(200, function() { $(this).remove(); });
         this.initInternalUI();
     },
@@ -863,12 +871,12 @@ var sckapp = {
                     self._message("<b>Unrecognized board!</b>");
                     self._message("Make sure you have selected the right port!");
                     self._message("If you are sure, click Install Firmware");
-                    self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>');
-                    self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>");
+                    self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>', true);
+                    self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>", true);
                 } else if (whatVersion == 1 || whatVersion == 0) {
                     //Board description update
                     var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
-                    self._updateBlock('.board-description', msg);
+                    self._updateBlock('.board-description', msg, true);
                     self._message("Your kit is a:");
                     self._message(self._getBoardDescription());
 
@@ -883,20 +891,20 @@ var sckapp = {
                         self._message("You can skip the firmware update!");
                         var firmMsg = "<font color='green'>" + self._getFirmwareDescription() +  " (latest)</font>";
                     }
-                    self._updateBlock('.firmware', "<desc>Firmware version " + firmMsg + "</desc>");
+                    self._updateBlock('.firmware', "<desc>Firmware version " + firmMsg + "</desc>", true);
 
                     //only for suported firmware (version >= 93)
                     if (whatVersion == 1){
 
                         //mac address
-                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>", true);
 
                         //nets
-                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>");
+                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>", true);
                         self.netsUI.createNetsWidget(self.sck.config.nets);
 
                         //updates
-                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>");
+                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>", true);
                         self.updatesUI.updateSensorUpdate(self.sck.config.update);
                         self.updatesUI.createUpdatesWidget(self.sck.config.update);
                     }
@@ -914,6 +922,15 @@ var sckapp = {
                 } else {
                     self.isAlreadyStarted = true;
                 }
+                //scroll animation
+                var duration = 500;
+                $('html, body').stop().animate({
+                    scrollTop: $(".messages-block").offset().top - 115
+                }, duration);
+                $(".messages-block").animate({
+                    height: '575px'
+                }, duration)
+
                 self._getInfo(function(whatVersion) {
                     boardStarter(whatVersion);
                 });
