@@ -898,7 +898,7 @@ var sckapp = {
                     if (self.sck.version.firmware < self.latestFirmwareVersion) {
                         self._message("Your kit is running " + self._getFirmwareDescription() + "firmware.");
                         self._message("This is not the latest version.");
-                        self._message("We recommend you update the firmware!");
+                        self._message("You need to update the firmware to continue!");
                         var firmMsg = "<font color = 'red'>version " + self._getFirmwareDescription() +  " (update recommended)</font>";
                     } else {
                         self._message("Your kit is running " + self._getFirmwareDescription() + " firmware.");
@@ -951,6 +951,7 @@ var sckapp = {
                 });
             })
         } else {
+            self.resetProcess();
             boardStarter(1);
         }
     },
