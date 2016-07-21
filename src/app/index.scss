@@ -2963,13 +2963,25 @@ button#doorbell-button {
   height: 90px;
   font-size: 26px;
 
-  &.timeline_buttonOpen.md-button.md-primary {
+  &.timeline_buttonOpen.md-primary {
     color: #38CEF3;
+    text-align: center;
 
     &.inverted{
       color: white;
       background-color: #38CEF3;
     }
+
+    .main {
+      margin: 10px;
+      font-size: 32px;
+    }
+
+    .sub {
+      margin: 10px;
+      font-size: 16px;
+    }
+
   }
 
 }
