@@ -912,10 +912,7 @@ var sckapp = {
                     if (whatVersion == 1){
 
                         //mac address
-                        var _configUI = self.initUIBasics();
-                        var macInput = $('<input>').val(self.sck.mac).attr('name', "Mac-Address").addClass('Mac-Address').prop("type", "text");
-                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address: </strong></desc>", true);
-                        $(".mac").append(macInput);
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
 
                         //nets
                         self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>", true);
@@ -1947,7 +1944,7 @@ var sckapp = {
     cmdRetries: 2,
     setupCounter: 0,
     isFlashing: false,
-    latestFirmwareVersion: 93,
+    latestFirmwareVersion: 94,
     initPluginPID: null,
     isAdvanced: false,
     pluginStableVersion: "1.6.0.8",
@@ -2014,6 +2011,9 @@ var sckapp = {
         }
     },
     firmware: {
+        "94": {
+            description: "0.9.4"
+        },
         "93": {
             description: "0.9.3"
         },
@@ -2036,7 +2036,7 @@ var sckapp = {
             version: '1.0',
             description: 'SmartCitizen Ambient Kit 1.0 - "Goteo Board"',
             firmware: {
-                firmwareFile: "sck_beta_k.1.1_v.0.9.3.json",
+                firmwareFile: "sck_beta_k.1.1_v.0.9.4.json",
                 latestVersion: "0.9.3"
             },
             upload: {
@@ -2068,7 +2068,7 @@ var sckapp = {
             name: 'SCK 1.1',
             version: '1.1',
             firmware: {
-                firmwareFile: "sck_beta_k.1.1_v.0.9.3.json",
+                firmwareFile: "sck_beta_k.1.1_v.0.9.4.json",
                 latestVersion: "0.9.3"
             },
             upload: {
