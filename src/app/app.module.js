@@ -18,5 +18,6 @@ angular.module('app', [
   'angular-clipboard',
   'ngCookies',
   'ngtweet',
-  'mailchimp'
+  'mailchimp',
+  'btford.socket-io'
 ]);
