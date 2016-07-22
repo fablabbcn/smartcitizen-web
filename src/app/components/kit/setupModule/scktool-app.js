@@ -58,11 +58,13 @@ var sckapp = {
             msgBlock.append(message);
         }
     },
-    _message: function(message, red = false) {
+    _message: function(message, red = false, green = false) {
         var msgBlock = $('.messages-block');
         if (msgBlock.children().length >= 25) msgBlock.children().first().remove();
         if (red) {
             var msg = $("<span style='color:#BC6060'>").html("&#x2713; " + message + "</span><br>");
+        } else if (green){
+            var msg = $("<span style='color:#16ad55'>").html("&#x2713; " + message + "</span><br>");
         } else {
             var msg = $("<span>").html("&#x2713; " + message + "</span><br>");
         }
@@ -332,7 +334,7 @@ var sckapp = {
         _netsUI.createNetsWidget = function(nets) {
             if (!this.widget) {
                 this.widget = this.createWidgetWrapper('nets', '', '');
-                $(".networks").append(this.createAddButton());
+                // $(".networks").append(this.createAddButton());
                 $(".networks").append($('<div>').addClass('netmessage'));
                 this.createElements(nets);
             } else {
@@ -782,7 +784,7 @@ var sckapp = {
                         $('.config-block').trigger( "sync-done" );
                         self._sendDoneEvent();
                         self._message("<b>For your kit to work properly</b>");
-                        self._message("<b>Please push the RESET button or simply turn your kit ON/OFF</b>");
+                        self._message("<b>Please push the RESET button or simply turn your kit ON/OFF</b>", false, true);
                     } else {
                         self._message("Sync failed... please try again", true)
                         $('.config-block').trigger( "sync-fail" );
@@ -917,6 +919,7 @@ var sckapp = {
 
                         //nets
                         self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>", true);
+                        $(".networks").append(self.netsUI.createAddButton());
                         self.netsUI.createNetsWidget(self.sck.config.nets);
 
                         //updates
@@ -954,7 +957,6 @@ var sckapp = {
                 self._sendStartEvent();    
             })
         } else {
-            self.resetProcess();
             boardStarter(1);
         }
     },
@@ -1558,7 +1560,7 @@ var sckapp = {
 	        self._message(self.errors.serial["open"]);
             self._debug("connection error...", true);
             self._checkPermissions();
-            //self._disconnect(); //Dev. This must be checked!
+            self._disconnect(); //Dev. This must be checked!
             self._message(self.errors.serial["reset"]);
             self.errors["printed"] = true;
 		}
