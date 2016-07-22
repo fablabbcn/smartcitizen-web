@@ -961,8 +961,8 @@ var sckapp = {
         if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
 
 
-        if (message.indexOf("SCK Connected!") > -1) {
-            self._message("Your kit is connected!")
+        if (message.indexOf("SCK Connected to Wi-Fi!!") > -1) {
+            self._message("Your kit is connected to WI-Fi!")
         }
 
         if (message.indexOf("RTC Updated!!") > -1) {
