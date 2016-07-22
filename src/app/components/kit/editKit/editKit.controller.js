@@ -5,9 +5,9 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
-    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
     function EditKitController($scope, $location, $timeout, $state, animation,
-     device, tag, alert, step, $stateParams, FullKit) {
+     device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
 
@@ -61,8 +61,8 @@
 
         vm.kitForm.tags.push(selectedTag.name);
       });
-      vm.removeTag = removeTag;
 
+      vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
@@ -111,7 +111,11 @@
                 draggable: true
               }
             };
+
             vm.macAddress = vm.kitData.macAddress;
+
+            push.device(vm.kitData.id, $scope);
+
           });
       }
 
@@ -137,6 +141,10 @@
       function submitFormAndKit(){
         submitForm(toProfile, timewait.normal);
       }
+
+      function submitFormAndKit1(){
+        submitForm(backToKit, timewait.normal);
+      }      
 
       function submitFormAndNext(){
         submitForm(openKitSetup, timewait.short);

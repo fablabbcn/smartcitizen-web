@@ -780,8 +780,9 @@ var sckapp = {
                         self.isSyncing = false;
                         self._monitorMode(true);
                         $('.config-block').trigger( "sync-done" );
+                        self._sendDoneEvent();
                         self._message("<b>For your kit to work properly</b>");
-                        self._message("<b>Please click the RESET button</b>");
+                        self._message("<b>Please push the RESET button or simply turn your kit ON/OFF</b>");
                     } else {
                         self._message("Sync failed... please try again", true)
                         $('.config-block').trigger( "sync-fail" );
@@ -949,6 +950,8 @@ var sckapp = {
                 self._getInfo(function(whatVersion) {
                     boardStarter(whatVersion);
                 });
+
+                self._sendStartEvent();    
             })
         } else {
             self.resetProcess();
@@ -1120,6 +1123,14 @@ var sckapp = {
         var self = this;
         self._debug(self.sck);
         self.$elem.trigger('sck_info', [self.sck]);
+    },
+    _sendDoneEvent: function() {
+        var self = this;
+        self.$elem.trigger('sck_done', [self.sck]);
+    },
+    _sendStartEvent: function() {
+        var self = this;
+        self.$elem.trigger('sck_start', [self.sck]);
     },
     _startConfigManager: function(callback) {
         this._startGetAll();
@@ -1547,6 +1558,7 @@ var sckapp = {
 	        self._message(self.errors.serial["open"]);
             self._debug("connection error...", true);
             self._checkPermissions();
+            //self._disconnect(); //Dev. This must be checked!
             self._message(self.errors.serial["reset"]);
             self.errors["printed"] = true;
 		}
@@ -1835,7 +1847,7 @@ var sckapp = {
         var self = this;
         self._debug("disconnecting!", 2);
         self.connected = false;
-        self.sckTool.serialMonitorSetStatus();
+        self.sckTool.serialMonitorSetStatus(); // This must be checked!
     },
     _checkPermissions: function() {
         var self = this;
@@ -1852,7 +1864,6 @@ var sckapp = {
                 pluginReady();
             } else if (status == "available") {
                 self._startmessage('<strong>To configure your kit you will need to install the Smart Citizen Kit App for Chrome<button id="install-button">Add to Chrome</button></strong>You can also install it manually from the <a href="' +  self.pluginChromeStoreURL + '" target="_blank">Chrome store</a> and refresh the page.');
-                console.warn(self.$elem.find('#install-button'));
                 $('#install-button').click(function() {
                     self._startmessage('<strong>Preparing the installation...</strong>');
                     chrome.webstore.install(self.pluginChromeStoreURL, function() {
@@ -1971,7 +1982,7 @@ var sckapp = {
           20001: "<b>Timeout comunication error.</b><br/>&#x2713; Please try again<br/>&#x2713; But after clicking install firmware button<br>&#x2713;<b> Double tap your kit reset button.</b>"
         },
         serial: {
-          open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ej. Arduino IDE)",
+          open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ex. Arduino IDE)",
           reset: "Please try <b>reloading</b> this page<br>&#x2713; And <b>resetting</b> your kit.",
           printed: false,
           found: "No serial port found!!!<br>&#x2713; Make sure cable is fully inserted."
