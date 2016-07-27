@@ -142,7 +142,7 @@
               <div layout="row">
                 <div class="form_blockContent_text long">
                   <h2>Setup your kit</h2>
-                  <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connexion of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
+                  <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
                 </div>
                 <img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit">
               </div>
@@ -175,10 +175,9 @@
           </div>
         </section>
       </form>
-<!--       <section class="md-primary timeline_button timeline_buttonOpen inverted">
-        <span class="main">Save</span>
-      </section> -->
-      <md-button class="md-primary timeline_button timeline_buttonOpen inverted">{{ vm.waiting }}</md-button>
+      <md-button ng-show="vm.nextAction == 'save'" class="md-primary timeline_button timeline_buttonOpen inverted">Save</md-button>
+      <md-button ng-show="vm.nextAction == 'waiting'" class="loading-dots md-primary timeline_button timeline_buttonOpen">Waiting for your kit<small>We are waiting for your kit to connect on-line if you have any problem contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a></small></md-button>
+      <md-button ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
     </section>
   </section>
 </section>

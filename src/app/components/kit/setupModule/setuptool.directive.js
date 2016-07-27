@@ -21,21 +21,22 @@
         $(element).sckapp();
 
         $(element).on("sck_done", function(event, data){
-          console.warn("sck_done!");
           publishedPID = scope.$on('published', function(e, data) {
-            scope.vm.submitFormAndKit1(); //Dev. This must be checked. Just a test!
+            scope.vm.nextAction = 'ready';
           });
         });
 
         $(element).on("sck_start", function(event, data){
-          console.warn("sck_start!");
+          scope.vm.macAddressFieldVisible = false;
+          scope.vm.nextAction = "no";
           if(publishedPID) publishedPID();
         });
 
         $(element).on("sck_info", function(event, data){
           scope.vm.macAddressFieldVisible = false;
+          scope.vm.nextAction = "waiting";
           scope.vm.macAddress = data.mac;
-          // scope.$apply();
+          scope.$apply();
           scope.vm.submitForm();
         });
       });

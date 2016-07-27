@@ -2970,6 +2970,10 @@ button#doorbell-button {
     &.inverted{
       color: white;
       background-color: #38CEF3;
+
+      small {
+        color: white;
+      }
     }
 
     .main {
@@ -2979,6 +2983,13 @@ button#doorbell-button {
 
     .sub {
       margin: 10px;
+      font-size: 16px;
+    }
+
+    small {
+      color: rgba(0,0,0,0.54);
+      text-transform: initial;
+      display: block;
       font-size: 16px;
     }
 
@@ -4181,6 +4192,33 @@ p.no-margin {
     }
 
 }
+
+/* Custom Animations */
+
+.loading-dots span:after {
+  content: '.';
+  animation: dots 2s steps(5, end) infinite;}
+
+@keyframes dots {
+  0%, 20% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);}
+  40% {
+    color: white;
+    text-shadow:
+      .25em 0 0 rgba(0,0,0,0),
+      .5em 0 0 rgba(0,0,0,0);}
+  60% {
+    text-shadow:
+      .25em 0 0 $blue_light,
+      .5em 0 0 rgba(0,0,0,0);}
+  80%, 100% {
+    text-shadow:
+      .25em 0 0 $blue_light,
+      .5em 0 0 $blue_light;}}
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */

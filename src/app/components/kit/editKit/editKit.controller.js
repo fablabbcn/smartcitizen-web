@@ -26,8 +26,7 @@
       vm.backToProfile = backToProfile;
       vm.submitForm = submitForm;
       vm.goToStep = goToStep;
-
-      vm.kitData = undefined;
+      vm.nextAction = 'save';
 
       // EXPOSURE SELECT
       vm.exposure = [
@@ -37,6 +36,7 @@
 
       // FORM INFO
       vm.kitForm = {};
+      vm.kitData = undefined;
 
       // TAGS SELECT
       vm.tags = [];
