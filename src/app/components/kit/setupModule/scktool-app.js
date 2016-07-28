@@ -644,6 +644,7 @@ var sckapp = {
         var widget = {};
         _startUI.updateSelectElement = function(name, dataset, value) {
             var selectElement = this.widget.find("select[name=" + name + "]");
+            selectElement.append('<option value="" selected="selected"></option>');
             selectElement.empty();
             for (var data in dataset) {
                 var option = $('<option>').val(data).text(dataset[data].description);
@@ -1793,10 +1794,6 @@ var sckapp = {
     			var portsAvail = [self.ports];
     		} else {
     			var portsAvail = "";
-    			if (!self.isFlashing) {
-    				self._message(self.errors.serial["found"]);
-                    self.startUI.createupdatePortSelect();
-    			}
     		}
         var portsDataset = {}
         for (var i = 0; i < portsAvail.length; i++) {
@@ -1811,11 +1808,6 @@ var sckapp = {
                 }
                 if (i == 0) {
 					if (!self.isFlashing) {
-						if (portsAvail.length > 1) {
-							  self._message("Connected ports: " + portsAvail);
-						} else {
-							  self._message("Connected port: " + portsAvail);
-						}
                         if (self.isAlreadyStarted) {
                             self._monitorMode(true);
                         }
@@ -1831,7 +1823,9 @@ var sckapp = {
         self.sckTool.getPorts(function(portsAvailable) {
             if (portsAvailable != self.oldPorts) {
 
-                self._monitorMode(false);
+                if (self.monitorMode) {
+                    self._monitorMode(false);
+                }
 
                 var jsonPorts = $.parseJSON(portsAvailable);
                 self.ports = [];
