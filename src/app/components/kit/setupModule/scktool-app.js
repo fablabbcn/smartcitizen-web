@@ -1033,7 +1033,6 @@ var sckapp = {
                     //mac address
                     if (validateMac(allData[2])) {
                         self.sck.mac = allData[2];
-                        self._sendUpdateEvent(); //register mac device on platform
                     }
                     //networks
                     self.sck.config.nets = []
@@ -1062,6 +1061,7 @@ var sckapp = {
                     self.sck.config.hardcodedNets = parseInt(allData[4]);
                     self.sck.config.update.resolution = parseInt(allData[5]);
                     self.sck.config.update.posts = parseInt(allData[6]);
+                    self._sendUpdateEvent(); //register mac device on platform
                     self._debug(self.sck);
                     if (self.sck.version.firmware >= 93) {
                         callback(1);
