@@ -137,7 +137,7 @@ var sckapp = {
                 var input = label.append(input);
             }
 
-            if (name == "ssid" || name == "phrase") {   //max length
+            if (name == "ssid" || name == "password") {   //max length
                 input.attr("maxlength", "19");
                 input.keypress( function(key) {
                     if (key.charCode == 36) {
@@ -213,7 +213,7 @@ var sckapp = {
         }
         _netsUI.createPasswordElement = function(value) {
             value = value || "";
-            return this.createInput("phrase", value);
+            return this.createInput("password", value);
         }
         _netsUI.createAuthElement = function(value) {
             value = value || "";
@@ -248,7 +248,7 @@ var sckapp = {
             return this.getInput("ssid", id);
         }
         _netsUI.getPasswordElement = function(id) {
-            return this.getInput("phrase", id);
+            return this.getInput("password", id);
         }
         _netsUI.getAuthElement = function(id) {
             return this.getSelectElement("auth", id);;
@@ -260,14 +260,14 @@ var sckapp = {
             if (this.widget.list.children().length < 5) {
                 data = data || {
                     ssid: "",
-                    phrase: "",
+                    password: "",
                     auth: "WPA2",
                     ext_antenna: false
                 };
                 id = id || this.widget.list.length;
                 var leftElements = [];
                 leftElements.push(this.createSSIDElement(data.ssid));
-                leftElements.push(this.createPasswordElement(data.phrase));
+                leftElements.push(this.createPasswordElement(data.password));
                 var left = $('<div>').addClass('left');
                 left.append(leftElements);
                 var rightElements = [];
@@ -302,11 +302,11 @@ var sckapp = {
             this.widget.list.children().eq(id).remove();
         }
         _netsUI.getGroupElement = function(id) {
-            // temporary - will be upgraded - key order on the nets objects is important (ssid, auth, phrase, ext_antena)
+            // temporary - will be upgraded - key order on the nets objects is important (ssid, auth, password, ext_antena)
             var net = {};
             net.ssid = this.getSSIDElement(id);
             net.auth = this.getAuthElement(id);
-            net.phrase = this.getPasswordElement(id);
+            net.password = this.getPasswordElement(id);
             net.ext_antenna = this.getAntenaElement(id);
             return net;
         }
@@ -835,7 +835,7 @@ var sckapp = {
     _compareNets(netA, netB){
         if (netA.ssid != netB.ssid) {
             return false;
-        } else if (netA.phrase != netB.phrase) {
+        } else if (netA.password != netB.password) {
             return false;
         } else if (netA.ext_antenna != netB.ext_antenna) {
             return false ;
@@ -1040,7 +1040,7 @@ var sckapp = {
                     if (allData[3]) {
                         // var allNets = allData[3].split(',');
                         var allProps = allData[3].split(',');
-                        if (allProps[0] == '') allProps = ['ssid', 'phrase', '0', '4'];
+                        if (allProps[0] == '') allProps = ['ssid', 'password', '0', '4'];
                         var allSsid = allProps[0].split(' ');
                         var allPhrase = allProps[1].split(' ');
                         var allAntenna = allProps[2].split(' ');
@@ -1048,7 +1048,7 @@ var sckapp = {
                         for (var i = 0; i < allSsid.length; i++) {
                             myNet = {};
                             myNet.ssid = allSsid[i].replace(/\$/g, " ");
-                            myNet.phrase = allPhrase[i].replace(/\$/g, " ");
+                            myNet.password = allPhrase[i].replace(/\$/g, " ");
                             myNet.ext_antenna = (allAntenna[i] == 1) ? true : false;
                             for (var prop in self.netSettings.seqModes) {
                                 if (self.netSettings.seqModes[prop].id == allAuth[i]) {
@@ -1144,8 +1144,8 @@ var sckapp = {
 
         self._windowsDriversWarning();
 
-        self._message("Please reset your kit");
-        self._message("Press the reset button or switch it off-on.");
+        self._message("Please reset your kit", false, true);
+        self._message("Press the reset button or switch it off-on.", false, true);
         self._message("Select your kit Serial Port");
         self._message("And click Start process...");
     },
@@ -1365,7 +1365,7 @@ var sckapp = {
         netManager.set = function(nets, index, next) {
             self._sendCMD("set wlan ssid " + nets[index].ssid, function(data) {
                 self._sendCMD("set wlan auth " + self.netSettings.seqModes[nets[index].auth].id, function(data) {
-                    self._sendCMD("set wlan phrase " + nets[index].phrase, function(data) {
+                    self._sendCMD("set wlan phrase " + nets[index].password, function(data) {
                         self._sendCMD("set wlan ext_antenna " + self.netSettings.antenaModes[nets[index].ext_antenna].id, function(data) {
                             next(nets, index);
                         });
@@ -1445,7 +1445,7 @@ var sckapp = {
             return filterSpaceSpecialCharacter(cData);
         }
         var bakeNetsCollection = function(net) {
-            var netParams = ["ssid", "auth", "phrase", "ext_antenna"];
+            var netParams = ["ssid", "auth", "password", "ext_antenna"];
             var nets = [];
             for (var i = 0; i < net[netParams[0]].length; i++) {
                 var newNet = {};
@@ -1466,7 +1466,7 @@ var sckapp = {
                     self._sendCMD("get wlan auth", function(data) {
                         net.raw.auth = splitAndPush(data, self.netSettings.seqModes);
                         self._sendCMD("get wlan phrase", function(data) {
-                            net.raw.phrase = splitAndPush(data);
+                            net.raw.password = splitAndPush(data);
                             self._sendCMD("get wlan ext_antenna", function(data) {
                                 net.raw.ext_antenna = splitAndPush(data, self.netSettings.antenaModes);
                                 net.baked = bakeNetsCollection(net.raw);
@@ -1878,7 +1878,9 @@ var sckapp = {
                 self._startmessage("<strong>Sorry, currently we just support Google Chrome for configuring your Smart Citizen Kit. You can download it <a href='https://www.google.com/chrome/browser/desktop/index.html'>here</a></strong>");
             }
         }
-        self.initPlugin(validate);
+        setTimeout(function() {
+            self.initPlugin(validate);
+        }, 500);
     },
     initPlugin: function(callback) {
         var self = this;
