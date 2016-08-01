@@ -34,6 +34,7 @@ var sckapp = {
     _initEvents: function() {
         var self = this;
         window.onbeforeunload = function() {
+            self._monitorMode(false);
             self._disconnect();
         };
     },
@@ -815,8 +816,8 @@ var sckapp = {
                 self.monitorMode = true
                 self._debug("Turning ON monitor mode (listening serial port)");
                 self.monitorModePID = window.setInterval(function(){
-                    self._disconnect();
                     self._serialRead();
+                    self._disconnect();
                 }, 1000);
             } else {
                 self._debug("Monitor mode is already ON");
@@ -894,7 +895,7 @@ var sckapp = {
                     self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>", true);
                 } else if (whatVersion == 1 || whatVersion == 0) {
                     //Board description update
-                    var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
+                    var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal_setup.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
                     self._updateBlock('.board-description', msg, true);
                     self._message("Your kit is a:");
                     self._message(self._getBoardDescription());
@@ -916,15 +917,15 @@ var sckapp = {
                     if (whatVersion == 1){
 
                         //mac address
-                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon_setup.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
 
                         //nets
-                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon.svg>  Wi-Fi Networks</strong></desc>", true);
+                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon_setup.svg>  Wi-Fi Networks</strong></desc>", true);
                         $(".networks").append(self.netsUI.createAddButton());
                         self.netsUI.createNetsWidget(self.sck.config.nets);
 
                         //updates
-                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon.svg>  Update interval</strong>", true);
+                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon_setup.svg>  Update interval</strong>", true);
                         self.updatesUI.updateSensorUpdate(self.sck.config.update);
                         self.updatesUI.createUpdatesWidget(self.sck.config.update);
                     }
