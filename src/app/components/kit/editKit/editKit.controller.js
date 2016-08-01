@@ -5,9 +5,9 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
-    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
     function EditKitController($scope, $location, $timeout, $state, animation,
-     device, tag, alert, step, $stateParams, FullKit) {
+     device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
 
@@ -26,8 +26,7 @@
       vm.backToProfile = backToProfile;
       vm.submitForm = submitForm;
       vm.goToStep = goToStep;
-
-      vm.kitData = undefined;
+      vm.nextAction = 'save';
 
       // EXPOSURE SELECT
       vm.exposure = [
@@ -37,6 +36,7 @@
 
       // FORM INFO
       vm.kitForm = {};
+      vm.kitData = undefined;
 
       // TAGS SELECT
       vm.tags = [];
@@ -61,8 +61,8 @@
 
         vm.kitForm.tags.push(selectedTag.name);
       });
-      vm.removeTag = removeTag;
 
+      vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
@@ -92,10 +92,7 @@
             vm.kitData = new FullKit(deviceData);
             vm.kitForm = {
               name: vm.kitData.name,
-              exposure: (vm.kitData.labels.indexOf('indoor') >= 0 ||
-                vm.kitData.labels.indexOf('outdoor') >= 0 ) &&
-              ( findExposure(vm.kitData.labels.indexOf('indoor') ?
-                'indoor' : 'outdoor') ),
+              exposure: findExposureFromLabels(vm.kitData.labels),
               location: {
                 lat: vm.kitData.latitude,
                 lng: vm.kitData.longitude,
@@ -111,7 +108,11 @@
                 draggable: true
               }
             };
+
             vm.macAddress = vm.kitData.macAddress;
+
+            push.device(vm.kitData.id, $scope);
+
           });
       }
 
@@ -172,7 +173,7 @@
             function() {
               if (!vm.macAddress && $stateParams.step == 2) { 
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              } else {
+              } else if (next){
                 alert.success('Your kit was successfully updated');
               }
               ga('send', 'event', 'Kit', 'update');
@@ -193,6 +194,17 @@
             });
       }
 
+      function findExposureFromLabels(labels){
+        var label = vm.exposure.filter(function(n) {
+            return labels.indexOf(n.name) != -1;
+        })[0];
+        if(label) {
+          return findExposure(label.name);
+        } else {
+          return findExposure(vm.exposure[0].name);
+        }
+      }
+
       function findExposure(nameOrValue) {
         var findProp, resultProp;
 
@@ -210,6 +222,8 @@
         });
         if(option) {
           return option[resultProp];
+        } else {
+          return vm.exposure[0][resultProp];
         }
       }
 

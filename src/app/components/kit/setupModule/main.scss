@@ -4,9 +4,10 @@
    * Licensed under MIT
    */
 .scktool {
-  padding: 20px;
-  margin: 40px;
-
+  .configArea {
+      min-width: 500px;
+      margin-left: 20px;
+  }
   .configurator .credits {
       margin: 40px 0 0 0;
   }
@@ -44,9 +45,8 @@
       margin-left: 4px;
   }
   .messages-block {
-      // min-height: 250px;
-      height: 180px;
-      min-width: 600px;
+      height: 200px;
+      width: 420px;
       position:relative;
       font-family: monospace;
       padding:10px;
@@ -86,12 +86,19 @@
       margin-left: 5px;
       margin-top: 20px;
   }
+  .Mac-Address{
+    border-radius:1px;
+    padding: 3px;
+    color: #065063;
+    margin-left: 10px;
+    font-size: 1.1em;
+  }
   .networks{
       margin: 5px;
       margin-top: 20px;
   }
   .netList{
-      margin-left: 25px;
+      margin-left: 5px;
       margin-top: 10px;
   }
   .netList .widget-block .body .section{
@@ -102,6 +109,11 @@
   }
   .updateTitle{
       margin: 5px;
+  }
+  .calculation{
+      margin:5px;
+      margin-left: 25px;
+      line-height: 26px;
   }
   .nets-container{
       width: 400px;
@@ -402,7 +414,6 @@ input[type="range"]::-webkit-slider-thumb {
       padding: 0px 15px;
       background: white;
       cursor: pointer;
-      font-weight: bold;
       font-size: 18px;
       color: #06c2f0;
       line-height: 32px;
@@ -412,6 +423,9 @@ input[type="range"]::-webkit-slider-thumb {
       border: none;
       transition: all 0.25s ease-out;
       border-radius: 4px;
+  }
+  .button.small{
+      font-size: 14px !important;
   }
   .button:hover, button:hover
   {

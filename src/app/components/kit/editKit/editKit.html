@@ -142,7 +142,7 @@
               <div layout="row">
                 <div class="form_blockContent_text long">
                   <h2>Setup your kit</h2>
-                  <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connexion of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
+                  <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
                 </div>
                 <img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit">
               </div>
@@ -154,7 +154,7 @@
         <div setuptool></div>
       </section>
       <form>
-        <section class="form_block form_blockNormal isEven">
+        <section ng-show="vm.macAddressFieldVisible" class="form_block form_blockNormal isEven">
           <div layout="row" layout-align="start start">
             <div class="form_blockContent">
               <div layout="row">
@@ -175,7 +175,10 @@
           </div>
         </section>
       </form>
-      <md-button class="md-primary timeline_button timeline_buttonOpen inverted" ng-click="vm.submitFormAndKit()">Save</md-button>
+      <md-button  ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'" class="md-primary timeline_button timeline_buttonOpen inverted">Save</md-button>
+      <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>  
+      <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>
+      <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
     </section>
   </section>
 </section>

@@ -48,7 +48,7 @@ module.exports = function(options) {
 
     var injectModule = gulp.src([
       options.src + '/app/components/kit/setupModule/scktool-app.js',
-      options.src + '/app/components/kit/setupModule/scktool-connector.js',
+      options.src + '/app/components/kit/setupModule/scktool-connector.js'
     ]);
 
     var injectOptions = {
