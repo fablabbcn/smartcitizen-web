@@ -20,25 +20,27 @@
       scktoolService.scktool().then(function(){
         $(element).sckapp();
 
-        $(element).on("sck_done", function(event, data){
-          publishedPID = scope.$on('published', function(e, data) {
-            scope.vm.nextAction = 'ready';
-          });
-        });
-
         $(element).on("sck_start", function(event, data){
           scope.vm.macAddressFieldVisible = false;
           scope.vm.nextAction = "no";
           if(publishedPID) publishedPID();
+          scope.$apply();
         });
 
         $(element).on("sck_info", function(event, data){
-          scope.vm.macAddressFieldVisible = false;
-          scope.vm.nextAction = "waiting";
           scope.vm.macAddress = data.mac;
           scope.$apply();
           scope.vm.submitForm();
         });
+
+        $(element).on("sck_done", function(event, data){
+          scope.vm.nextAction = "waiting";
+          publishedPID = scope.$on('published', function(e, data) { // here is the error...
+            scope.vm.nextAction = 'ready';
+            scope.$apply();
+          });
+        });
+
       });
     }
   }
