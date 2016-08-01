@@ -139,10 +139,6 @@
         submitForm(toProfile, timewait.normal);
       }
 
-      function submitFormAndKit1(){
-        submitForm(backToKit, timewait.normal);
-      }      
-
       function submitFormAndNext(){
         submitForm(openKitSetup, timewait.short);
       }
@@ -177,7 +173,7 @@
             function() {
               if (!vm.macAddress && $stateParams.step == 2) { 
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              } else {
+              } else if (next){
                 alert.success('Your kit was successfully updated');
               }
               ga('send', 'event', 'Kit', 'update');

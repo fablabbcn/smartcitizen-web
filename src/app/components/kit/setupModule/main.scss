@@ -414,7 +414,6 @@ input[type="range"]::-webkit-slider-thumb {
       padding: 0px 15px;
       background: white;
       cursor: pointer;
-      font-weight: bold;
       font-size: 18px;
       color: #06c2f0;
       line-height: 32px;
@@ -424,6 +423,9 @@ input[type="range"]::-webkit-slider-thumb {
       border: none;
       transition: all 0.25s ease-out;
       border-radius: 4px;
+  }
+  .button.small{
+      font-size: 14px !important;
   }
   .button:hover, button:hover
   {
