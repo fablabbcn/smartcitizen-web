@@ -12,6 +12,9 @@ var sckapp = {
         this.$elem = $(elem);
         this.debugLevel = debugLevel;
         this._build();
+        this.monitorMode = false;
+        this.flashedOK = false;
+        this.isSyncing = false;
         return this;
     },
     options: {},
@@ -20,10 +23,10 @@ var sckapp = {
         this.isAdvanced = true;
         self.initBlocksUI();
         self.initPluginAuto(function() {
-            self._setBoardListAvailable();
-            self._startmessage();
+            // self._setBoardListAvailable();
+            // self._startmessage();
             self.initInternalUI();
-            self._run();
+            self._run(true);
             self._initEvents();
         });
         self._initEvents();
@@ -31,42 +34,43 @@ var sckapp = {
     _initEvents: function() {
         var self = this;
         window.onbeforeunload = function() {
+            self._monitorMode(false);
             self._disconnect();
         };
-    },
-    _setBoardListAvailable: function() {
-        var self = this;
-        if (self.isAdvanced) {
-            //self.boards = self.boards_dev;
-            //self._message("You are in Advanced Mode!");
-            self.boards = self.boards_stable;
-        } else {
-            self.boards = self.boards_stable;
-        }
     },
     _startmessage: function(message) {
         message = message || "";
         var msgBlock = $('.start-message');
         msgBlock.addClass('lead');
         msgBlock.empty();
-        var msg = $("<p>").html(message);
-        msgBlock.append(msg);
+        // var msg = $("<p>").html(message);
+        msgBlock.append(message);
     },
-    _message: function(message) {
+    _updateBlock: function(wichBlock, message, animate) {
+        animate = animate || false;
+        message = message || "";
+        var msgBlock = $(wichBlock);
+        msgBlock.empty();
+        if (animate){
+            msgBlock.slideUp(1);
+            msgBlock.append(message);
+            msgBlock.slideDown(150);
+        } else {
+            msgBlock.append(message);
+        }
+    },
+    _message: function(message, red = false, green = false) {
         var msgBlock = $('.messages-block');
-        if (msgBlock.children().length >= 3) msgBlock.children().first().remove();
-        var msg = $("<span>").html("&#x2713; " + message + "<br>");
+        if (msgBlock.children().length >= 25) msgBlock.children().first().remove();
+        if (red) {
+            var msg = $("<span style='color:#BC6060'>").html("&#x2713; " + message + "</span><br>");
+        } else if (green){
+            var msg = $("<span style='color:#16ad55'>").html("&#x2713; " + message + "</span><br>");
+        } else {
+            var msg = $("<span>").html("&#x2713; " + message + "</span><br>");
+        }
         msgBlock.append(msg);
-    },
-    _messageWidget: function(message) {
-        var msgBlock = $('.messages-widget-block');
-        msgBlock.empty();
-        msgBlock.html(message);
-    },
-    _messageUpload: function(message) {
-        var msgBlock = $('.messages-upload-block');
-        msgBlock.empty();
-        msgBlock.html(message);
+        msgBlock.scrollTop(msgBlock.prop("scrollHeight"));
     },
     _debug: function(message, messageLevel) {
         messageLevel = messageLevel || 1;
@@ -74,18 +78,42 @@ var sckapp = {
     },
     initBlocksUI: function() {
         this.$elem.addClass("scktool");
-        this.$elem.append([
+        this.$elem.attr("layout", "row");
+
+        this.$elem.append($("<div>").addClass("consoleArea"));
+        $(".consoleArea").append([
+            $("<div>").addClass("messages-block"),
+            $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Codebender</a>.</p>')
+        ]);
+        $(".messages-block").attr("flex");
+
+        this.$elem.append($("<div>").addClass("configArea"));
+        $(".configArea").attr("flex");
+        $(".configArea").append([
             $("<div>").addClass("start-message"),
             $("<div>").addClass("start-block"),
-            $("<div>").addClass("messages-block"),
-            $("<div>").addClass("board-block"),
-            $("<div>").addClass("config-block"),
-            $("<div>").addClass("credits-block").html('<p>Powered by <a target="_blank" href="https://github.com/fablabbcn/BabelFish"> BabelFish</a> technology by <a target="_blank" href="http://codebender.cc/">Condebender</a>.</p>')
+            $("<div>").addClass("board-description"),
+            $("<div>").addClass("firmware"),
+            $("<div>").addClass("mac"),
+            $("<div>").addClass("networks"),
+            $("<div>").addClass("netList"),
+            $("<div>").addClass("updateTitle"),
+            $("<div>").addClass("calculation"),
+            $("<div>").addClass("updateList"),
+            $("<div>").addClass("config-block")
         ]);
     },
     resetProcess: function(){
-        this.$elem.find(".board-block").children().remove();
-        this.$elem.find(".config-block").children().remove();
+        var msgBlock = $('.messages-block');
+        msgBlock.children().remove();
+        this.$elem.find(".board-description").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".firmware").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".mac").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".networks").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".netList").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".updateTitle").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".calculation").children().fadeOut(200, function() { $(this).remove(); });
+        this.$elem.find(".updateList").children().fadeOut(200, function() { $(this).remove(); });
         this.initInternalUI();
     },
     initInternalUI: function() {
@@ -108,6 +136,15 @@ var sckapp = {
             if (labelTxt) {
                 var label = $('<label>').text(labelTxt).attr('for', name);
                 var input = label.append(input);
+            }
+
+            if (name == "ssid" || name == "password") {   //max length
+                input.attr("maxlength", "19");
+                input.keypress( function(key) {
+                    if (key.charCode == 36) {
+                        return false;
+                    }
+                });
             }
 
             return this.createInputWrapper(type).append(input);
@@ -177,7 +214,7 @@ var sckapp = {
         }
         _netsUI.createPasswordElement = function(value) {
             value = value || "";
-            return this.createInput("phrase", value);
+            return this.createInput("password", value);
         }
         _netsUI.createAuthElement = function(value) {
             value = value || "";
@@ -188,21 +225,23 @@ var sckapp = {
             return this.createSelectElement('version', self.boards, value);
         }
         _netsUI.createAntenaElement = function(value) {
-            return this.createInput("ext_antenna", value, "checkbox", "External antena");
+            return this.createInput("ext_antenna", value, "checkbox", "External antenna");
         }
         _netsUI.createDeleteButton = function() {
-            var self = this;
-            var deleteButton = this.createButton("remove", "<span class='glyphicon glyphicon-trash' style='color:white; font-size:17px;'></span>", "button", "delete", false);
+            var pasThis = this;
+            var deleteButton = this.createButton("remove", "<span><img src='./assets/images/close_icon_blue.svg'</span>", "button", "close-net", false);
             deleteButton.click(function() {
-                self.deleteGroupElement($(this).parent().index());
+                if ($(".nets-list").children().length > 1) {
+                    pasThis.deleteGroupElement($(this).parent().parent().index());
+                }
             });
             return deleteButton;
         }
         _netsUI.createAddButton = function() {
-            var self = this;
-            var addButton = this.createButton("remove", "Add +", "button", "add");
+            var pasThis = this;
+            var addButton = this.createButton("remove", "Add +", "button", "", false);
             addButton.click(function() {
-                self.createGroupElement();
+                pasThis.createGroupElement();
             });
             return addButton;
         }
@@ -210,7 +249,7 @@ var sckapp = {
             return this.getInput("ssid", id);
         }
         _netsUI.getPasswordElement = function(id) {
-            return this.getInput("phrase", id);
+            return this.getInput("password", id);
         }
         _netsUI.getAuthElement = function(id) {
             return this.getSelectElement("auth", id);;
@@ -219,38 +258,56 @@ var sckapp = {
             return this.widget.list.children().eq(id).find("input[name='ext_antenna']").is(":checked");
         }
         _netsUI.createGroupElement = function(id, data) {
-            data = data || {
-                ssid: "",
-                phrase: "",
-                auth: "WPA2",
-                ext_antenna: false
-            };
-            id = id || this.widget.list.length;
-            var leftElements = [];
-            leftElements.push(this.createSSIDElement(data.ssid));
-            leftElements.push(this.createPasswordElement(data.phrase));
-            var left = $('<div>').addClass('left');
-            left.append(leftElements);
-            var rightElements = [];
-            rightElements.push(this.createAuthElement(data.auth));
-            rightElements.push(this.createAntenaElement(data.ext_antenna));
-            rightElements.push(this.createDeleteButton());
-            var right = $('<div>').addClass('right relative');
-            right.append(rightElements);
-            var wrapper = $('<div>').addClass('net-item').addClass('formContainer clear');
-            left.appendTo(wrapper);
-            right.appendTo(wrapper);
-            wrapper.appendTo(this.widget.list);
+            if (this.widget.list.children().length < 5) {
+                data = data || {
+                    ssid: "",
+                    password: "",
+                    auth: "WPA2",
+                    ext_antenna: false
+                };
+                id = id || this.widget.list.length;
+                var leftElements = [];
+                leftElements.push(this.createSSIDElement(data.ssid));
+                leftElements.push(this.createPasswordElement(data.password));
+                var left = $('<div>').addClass('left');
+                left.append(leftElements);
+                var rightElements = [];
+                if (this.widget.list.children().length >= Number(self.sck.config.hardcodedNets)){
+                    rightElements.push(this.createAntenaElement(data.ext_antenna));
+                    rightElements.push(this.createDeleteButton());
+                } else {
+                    var hardCodedLabel = $('<div>').addClass('hardCodedNetwork');
+                    hardCodedLabel.html("Config hardcoded in firmware");
+                    rightElements.push(hardCodedLabel);
+                    rightElements.push(this.createAntenaElement(data.ext_antenna));
+                }
+                rightElements.push(this.createAuthElement(data.auth));
+                var right = $('<div>').addClass('right relative');
+                right.append(rightElements);
+                var wrapper = $('<div>').addClass('net-item').addClass('formContainer clear');
+                left.appendTo(wrapper);
+                right.appendTo(wrapper);
+                wrapper.appendTo(this.widget.list);
+            } else {
+                var tempText = $(".netmessage").html();
+                if (tempText.indexOf("maximum") == -1) {
+                    self._message("Maximum 5 wifi networks, sorry");
+                    $(".netmessage").html("<div style='margin-left:15px;'><span style='font-size:.92em; color:red'> 5 wifi networks maximum, please</span></div>");
+                    setTimeout(function(){
+                        $(".netmessage").html(tempText);
+                    }, 3000);
+                }
+            }
         }
         _netsUI.deleteGroupElement = function(id) {
             this.widget.list.children().eq(id).remove();
         }
         _netsUI.getGroupElement = function(id) {
-            // temporary - will be upgraded - key order on the nets objects is important (ssid, auth, phrase, ext_antena)
+            // temporary - will be upgraded - key order on the nets objects is important (ssid, auth, password, ext_antena)
             var net = {};
             net.ssid = this.getSSIDElement(id);
             net.auth = this.getAuthElement(id);
-            net.phrase = this.getPasswordElement(id);
+            net.password = this.getPasswordElement(id);
             net.ext_antenna = this.getAntenaElement(id);
             return net;
         }
@@ -277,9 +334,10 @@ var sckapp = {
         }
         _netsUI.createNetsWidget = function(nets) {
             if (!this.widget) {
-                this.widget = this.createWidgetWrapper('nets', 'Wi-Fi Networks', 'Set your Wi-Fi credentials for every network you want your kit to connect.');
+                this.widget = this.createWidgetWrapper('nets', '', '');
+                // $(".networks").append(this.createAddButton());
+                $(".networks").append($('<div>').addClass('netmessage'));
                 this.createElements(nets);
-                this.widget.append(this.createAddButton());
             } else {
                 this.createElements(nets);
             }
@@ -295,7 +353,7 @@ var sckapp = {
             value = value || 60;
             value = value / 60;
             var range = this.createRangeElement("resolution", value, 5, 0, 60, "Reading interval");
-            range.find("input").change(function() {
+            range.find("input").on("input", function() {
                 var resolution = (this.value >= 1) ? this.value * 60 : 60;
                 self.updateSensorUpdate({
                     resolution: resolution
@@ -307,7 +365,7 @@ var sckapp = {
             var self = this;
             value = value || 1;
             var range = this.createRangeElement("posts", value, 5, 0, 20, "Number of posts");
-            range.find("input").change(function() {
+            range.find("input").on("input", function() {
                 var posts = (this.value >= 1) ? this.value : 1;
                 self.updateSensorUpdate({
                     post: posts
@@ -324,15 +382,9 @@ var sckapp = {
             _updatesUI.updateSensorUpdate = function(sensorUpdate) {
                 var posts = sensorUpdate.posts || this.getSensorPosts() || 1;
                 var resolution = sensorUpdate.resolution || this.getSensorResolution() || 60;
-                var pub = posts * resolution;
-                pub = this.timeUI(pub);
-                resolution = this.timeUI(resolution);
-                var explanation = "Your Smart Citizen Sensors will take a reading every " + "<span>" + resolution + "</span><br>" + " and will publish online every " + "<span>" + pub + "</span>" + ".";
-                if (!this.explain) {
-                    this.createUpdatesExplanation();
-                }
-                this.explain.html(explanation);
-                return this.explain;
+                var postUnit = posts + ((posts > 1) ? " posts" : " post")
+                var updatedText = "<desc>Sensor reading every " + this.timeUI(resolution) + "<br/>Publishing " + postUnit + " every " + this.timeUI(posts*resolution) + "</desc>";
+                self._updateBlock('.calculation', updatedText);
             }
 
         _updatesUI.createUpdatesExplanation = function() {
@@ -363,17 +415,9 @@ var sckapp = {
             return update;
         }
         _updatesUI.createSensorResolutionAndPosts = function(updates) {
-            var leftElements = [];
-            leftElements.push(this.createSensorResolution(updates.time));
-            leftElements.push(this.createSensorPosts(updates.updates));
-            var left = $('<div>').addClass('left');
-            left.append(leftElements);
-            var rightElements = [];
-            rightElements.push(this.updateSensorUpdate(updates));
-            var right = $('<div>').addClass('right large');
-            right.append(rightElements);
-            left.appendTo(this.widget);
-            right.appendTo(this.widget);
+            this.widget.append(this.createSensorResolution(updates.resolution));
+            this.widget.append(this.createSensorPosts(updates.posts));
+
             $('input[type="range"]').rangeslider(); //tmp
         }
         _updatesUI.setSensorResolution = function(value) {
@@ -383,8 +427,8 @@ var sckapp = {
             this.setRangeElement("posts", value)
         }
         _updatesUI.setSensorResolutionAndPosts = function(updates) {
-            this.setSensorResolution(updates.time);
-            this.setSensorPosts(updates.updates);
+            this.setSensorResolution(updates.resolution);
+            this.setSensorPosts(updates.posts);
             this.updateSensorUpdate(updates);
         }
         _updatesUI.getSensorPosts = function() {
@@ -394,11 +438,11 @@ var sckapp = {
         }
         _updatesUI.createUpdatesWidget = function(updates) {
             updates = updates || {
-                time: 60,
-                updates: 1
+                resolution: 60,
+                posts: 1
             }
             if (!this.widget) {
-                this.widget = this.createWidgetWrapper('updates', 'Update interval', 'Set your kit update interval to optimize the battery performance and sensor resolution ratio.');
+                this.widget = this.createWidgetWrapper('updates', '', '');
                 this.createSensorResolutionAndPosts(updates);
             } else {
                 this.setSensorResolutionAndPosts(updates);
@@ -423,43 +467,89 @@ var sckapp = {
             });
         }
 
-        _configUI.createWidgetsWrapper = function() {
+        _configUI.createWidgetsWrapper = function(name) {
+            name = name || false
             var block = $('<div>').addClass('widget-block').addClass('config');
             var body = $('<div>').addClass('body'); //limit-scroll
             var footer = $('<div>').addClass('footer');
-            var msg = $('<p>').addClass('messages-widget-block');
-            footer.append(this.createSyncButton());
-            footer.append(msg);
+            // var msg = $('<p>').addClass('messages-widget-block');
+            // footer.append(msg);
             body.appendTo(block);
-            footer.appendTo(block);
-            block.appendTo(this.parent);
+            // footer.appendTo(block);
+            if (name == "nets"){
+                block.appendTo($('.netList'));
+            } else if (name == "updates") {
+                // footer.append(msg);
+                footer.appendTo(block);
+                block.appendTo($('.updateList'));
+                footer.append(this.createSyncButton());
+            } else {
+                block.appendTo(this.parent);
+            }
             return body;
         }
 
         _configUI.createWidgetWrapper = function(name, title, description) {
-            if (!self.temp_block) {
-                self.temp_block = this.createWidgetsWrapper();
-            }
+            // if (!self.temp_block) {
+            //     self.temp_block = this.createWidgetsWrapper(name);
+            // }
+            self.temp_block = this.createWidgetsWrapper(name);
             var section = $('<div>').addClass('section').addClass('relative').addClass(name);
             var title = $('<h4>').text(title);
             var description = $('<p>').text(description);
-            title.appendTo(section);
-            description.appendTo(section);
+            if (name != "nets" && name != "updates") {
+                title.appendTo(section);
+                description.appendTo(section);
+            }
             section.appendTo(self.temp_block);
             return section;
         }
 
         _configUI.createSyncButton = function() {
-            var syncButton = this.createButton("remove", "Sync", "submit", "", false);
+            var syncButton = this.createButton("remove", "Sync settings", "submit", "", false);
             syncButton.click(function() {
-                syncButton.html('Syncing');
-                self._sync();
+                if (!self.isFlashing && !self.isSyncing) {
+                    syncButton.html('Syncing settings');
+                    syncButton.anim = setInterval(function(){
+                        if (syncButton.html() == 'Syncing settings') {
+                            syncButton.html('Syncing settings.');
+                        } else if (syncButton.html() == 'Syncing settings.') {
+                            syncButton.html('Syncing settings..');
+                        } else if (syncButton.html() == 'Syncing settings..') {
+                            syncButton.html('Syncing settings...');
+                        } else if (syncButton.html() == 'Syncing settings...'){
+                            syncButton.html('Syncing settings');
+                        }
+                    }, 500);
+                    self._sync();
+                } else if (self.isFlashing) {
+                    self._message("Flashing your kit, be patient!");
+                } else if (self.isSyncing) {
+                    self._message("Syncing your kit, be patient!");
+                }
             });
             _configUI.parent.on("sync-done", function() { //temp
-                syncButton.html('Done');
+                clearInterval(syncButton.anim);
+                syncButton.html('Settings Synced');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
             });
             _configUI.parent.on("sync-ready", function() { //temp
-                syncButton.html('Sync');
+                syncButton.html('Sync settings');
+            });
+            _configUI.parent.on("already-synced", function() {
+                syncButton.html('Nothing To Sync');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
+            });
+            _configUI.parent.on("sync-fail", function() { //temp
+                clearInterval(syncButton.anim);
+                syncButton.html('Sync Failed');
+                window.setTimeout(function() {
+                    $('.config-block').trigger( "sync-ready" );
+                }, 3000);
             });
             return syncButton;
         }
@@ -489,7 +579,7 @@ var sckapp = {
             return this.createSelectElement('version', self.boards, value);
         }
         _uploadUI.createBoardVersion = function() {
-            var value = (self.sck.version.board) || "11"
+            var value = (self.sck.version.board) || "11";
             var version = this.createVersionSelect(value);
             version.change(function() {
                 self.sck.version.board = this.value;
@@ -499,12 +589,20 @@ var sckapp = {
         _uploadUI.getVersionSelect = function(id) {
             return this.getSelectElement('version');;
         }
-        _uploadUI.createUploadElement = function(trigger, extraTrigger) {
-            var uploadElements = [];
-            uploadElements.push(this.createBoardVersion());
-            this.widget = this.createWidgetWrapper('upload', 'Firmware Updater', 'Select the Smart Citizen Board to update the firmware.', trigger, extraTrigger);
-            this.widget.append(uploadElements);
-
+        _uploadUI.createUploadElement = function(trigger, whatVersion) {
+            if (whatVersion == -1){
+                var uploadElements = [];
+                uploadElements.push(this.createBoardVersion());
+                this.widget = this.createWidgetWrapper('upload', '', '', trigger, 'Install Firmware');
+                this.widget.append(uploadElements);
+                this.widget.parent
+            } else {
+                if (whatVersion == 0) {
+                    this.widget = this.createWidgetWrapper('upload', '', '', trigger, 'Update Firmware');
+                } else {
+                    this.widget = this.createWidgetWrapper('upload', '', '', trigger, 'Reinstall Firmware');
+                }
+            }
         }
         return _uploadUI;
     },
@@ -514,48 +612,25 @@ var sckapp = {
         var _configUI = this.initUIBasics();
         var widget = {};
 
-        _configUI.parent = $('.board-block');
+        _configUI.parent = $('.firmware');
 
-
-
-
-        _configUI.createWidgetsWrapper = function(trigger, extraTrigger) {
+        _configUI.createWidgetsWrapper = function(trigger, label) {
             var block = $('<div>').addClass('widget-block');
             var body = $('<div>').addClass('body');
-            var footer = $('<div>').addClass('footer');
-            var msg = $('<p>').addClass('messages-upload-block');
-            footer.append(this.createUploadButton(trigger));
-            if (extraTrigger) {
-                footer.append(this.createSkipButton(extraTrigger));
-            }
-            footer.append(msg);
-            body.appendTo(block);
-            footer.appendTo(block);
+            block.append(this.createUploadButton(trigger, label));
             block.appendTo(this.parent);
             return body;
         }
 
-        _configUI.createWidgetWrapper = function(name, title, description, trigger, extraTrigger) {
-            self.temp_block_upload = this.createWidgetsWrapper(trigger, extraTrigger);
+        _configUI.createWidgetWrapper = function(name, title, description, trigger, label) {
+            self.temp_block_upload = this.createWidgetsWrapper(trigger, label);
             var section = $('<div>').addClass('section').addClass(name);
-            var title = $('<h4>').text(title);
-            var description = $('<p>').text(description);
-            title.appendTo(section);
-            description.appendTo(section);
-            section.appendTo(self.temp_block_upload);
             return section;
         }
 
-        _configUI.createUploadButton = function(trigger) {
-            var uploadButton = this.createButton("remove", "Upload firmware", "submit", "", false);
-            uploadButton.click(function() {
-                trigger();
-            });
-            return uploadButton;
-        }
-
-        _configUI.createSkipButton = function(trigger) {
-            var uploadButton = this.createButton("remove", "Skip firmware", "submit", "", false);
+        _configUI.createUploadButton = function(trigger, label) {
+            label = label || "Upload firmware"
+            var uploadButton = this.createButton("remove", label, "submit", "", false);
             uploadButton.click(function() {
                 trigger();
             });
@@ -563,7 +638,6 @@ var sckapp = {
         }
 
         return _configUI;
-
     },
     initStartUI: function() {
         var self = this;
@@ -571,6 +645,7 @@ var sckapp = {
         var widget = {};
         _startUI.updateSelectElement = function(name, dataset, value) {
             var selectElement = this.widget.find("select[name=" + name + "]");
+            selectElement.append('<option value="" selected="selected"></option>');
             selectElement.empty();
             for (var data in dataset) {
                 var option = $('<option>').val(data).text(dataset[data].description);
@@ -584,10 +659,21 @@ var sckapp = {
         _startUI.createStartButton = function(trigger) {
             var parent = this;
             var startButton = this.createButton("start", "Start process", "submit");
-            startButton.click(function() {
-                self.sckPort = parent.getPortSelect(); //temp
-                startButton.children().text("Restart process");
-                trigger();
+            startButton.children().click(function() {
+                if (!self.isFlashing){
+                    self.sckPort = parent.getPortSelect(); //temp
+                    this.flashedOK = false;
+                    if (self.sckPort) {
+                        self.errors["printed"] = false;
+                        startButton.children().text("Restart process");
+                        trigger();
+                    } else {
+                        self._message(self.errors.serial["found"]);
+                        self.startUI.createupdatePortSelect();
+                    }
+                } else {
+                    self._message("Flashing your kit, be patient!");
+                }
             });
             return startButton;
         }
@@ -605,7 +691,7 @@ var sckapp = {
             }
         }
         _startUI.getPortSelect = function(id) {
-            return this.getSelectElement('port');;
+            return this.getSelectElement('port');
         }
         _startUI.createStartElement = function(trigger) {
             var startElements = [];
@@ -630,16 +716,135 @@ var sckapp = {
     },
     _sync: function() {
         var self = this;
-        self._message("Syncing with your Smart Citizen Kit...");
-        self._messageWidget("Syncing with your Smart Citizen Kit...");
-        isOk =
-            self._syncNets(function() {
-                self._syncUpdates(function() {
-                    $('.config-block').trigger( "sync-done" ); //global scope event must change
-                    self._messageWidget("Done, reset your kit in order <br> the changes will take effect.");
-                    self._message("Your Smart Citizen Kit is updated. Please, reset or switch off / on your kit in order the changes to take effect!");
-                });
-            });
+        self.isSyncing = true;
+        var netsToSave = self.netsUI.getElements().slice(self.sck.config.hardcodedNets, self.netsUI.getElements().length);
+        var localNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
+        var updatesToSave = self.updatesUI.getSensorResolutionAndPosts();
+        var savedSomething = false;
+        runSync("nets");
+        function runSync(who){
+            if (who == "nets"){
+                if (!verifyNets(netsToSave, localNets)) {
+                    self._message("Saving wi-fy network settings...")
+                    savedSomething = true;
+                    self._monitorMode(false);
+                    window.setTimeout(function(){
+                        self._setSCKNets(netsToSave, function(nets){
+                            runSync("updates");
+                        })
+                    }, 1200);
+                } else {
+                    self._message("Wi-fy networks haven't changed!")
+                    runSync("updates");
+                }
+            } else if (who == "updates"){
+                if (!verifyUpdates(updatesToSave)) {
+                    var extraTime = 0;
+                    self._message("Saving update interval settings...")
+                    if (!savedSomething) {
+                        self._monitorMode(false);
+                        extraTime = 1200;
+                        savedSomething = true;
+                    }
+                    window.setTimeout(function(){
+                        self._setSCKUpdates(updatesToSave, function(updates){
+                            checkSync(netsToSave, updatesToSave);
+                        })
+                    }, extraTime);
+                } else {
+                    self._message("Update interval haven't change!")
+                    checkSync(netsToSave, updatesToSave);
+                }
+            }
+        }
+        function verifyNets(nets, localNets){
+            if (nets.length != localNets.length) {
+                return false;
+            }
+            for (var i=0; i < nets.length; i++) {
+                if (!self._compareNets(nets[i], localNets[i])) {
+                    return false;
+                }
+            }
+            return true ;
+        }
+        function verifyUpdates(updates){
+            if (self.sck.config.update.resolution == updates.time && self.sck.config.update.posts == updates.updates) {
+                return true ;
+            } else {
+                return false ;
+            }
+        }
+        function checkSync(netsToSave, updates){
+            if (savedSomething) {
+                self._getInfo(function(ver){
+                    var newlocalNets = self.sck.config.nets.slice(self.sck.config.hardcodedNets, self.sck.config.nets.length);
+                    if(verifyNets(netsToSave, newlocalNets) && verifyUpdates(updates)){
+                        self._message("<b>Settings synced!</b>");
+                        self.isSyncing = false;
+                        self._monitorMode(true);
+                        $('.config-block').trigger( "sync-done" );
+                        self._sendDoneEvent();
+                        self._message("<b>For your kit to work properly</b>");
+                        self._message("<b>Please push the RESET button or simply turn your kit ON/OFF</b>", false, true);
+                    } else {
+                        self._message("Sync failed... please try again", true)
+                        $('.config-block').trigger( "sync-fail" );
+                        self.isSyncing = false;
+                    }
+                })
+            } else {
+                $('.config-block').trigger( "already-synced" );
+                self._message("Nothing to sync!!", true);
+                self.isSyncing = false;
+            }
+        }
+    },
+    _postData() {
+        self._message("Asking your kit to post data...")
+        self._enterCmdMode(function() {
+            self._sendCMD("post data", function(data) {
+                self._debug(data, 2);
+                self._exitCmdMode();
+            }, false, 500);
+        });
+    },
+    _monitorMode(on){
+        var self = this;
+        if(on) {
+            if (!self.monitorMode) {
+                self.monitorMode = true
+                self._debug("Turning ON monitor mode (listening serial port)");
+                self.monitorModePID = window.setInterval(function(){
+                    self._serialRead();
+                    self._disconnect();
+                }, 1000);
+            } else {
+                self._debug("Monitor mode is already ON");
+            }
+        } else {
+            self._debug("Turning OFF monitor mode");
+            if (self.monitorMode) {
+                window.clearInterval(self.monitorModePID);
+                self.monitorMode = false
+                window.setTimeout(function(){
+                    self._disconnect();
+                }, 1000);
+            }
+        }
+    },
+    _compareNets(netA, netB){
+        if (netA.ssid != netB.ssid) {
+            return false;
+        } else if (netA.password != netB.password) {
+            return false;
+        } else if (netA.ext_antenna != netB.ext_antenna) {
+            return false ;
+        } else if (netA.auth != netB.auth) {
+            return false;
+        } else {
+            return true;
+        }
     },
     _syncUpdates: function(callback) {
         var self = this;
@@ -657,17 +862,10 @@ var sckapp = {
     },
     _startGetAll: function() {
         var self = this;
-        self._message("Getting Wi-Fi networks saved on the kit...");
+        self._message("Getting saved Wi-Fi networks...");
         self._startNets(function() {
-            self._message("Getting time/updates settings saved on the kit...");
+            self._message("Getting saved time/updates settings...");
             self._startUpdates();
-        });
-    },
-    _startNets: function(callback) {
-        var self = this;
-        self._getSCKNets(function(nets) {
-            self.netsUI.createNetsWidget(nets);
-            if (callback) callback();
         });
     },
     _startUpdates: function(callback) {
@@ -677,93 +875,248 @@ var sckapp = {
             if (callback) callback();
         });
     },
-    _checkVersion: function() {},
-    _register: function() {},
-    _run: function() {
+    _run: function(isFirst) {
         var self = this;
+        isFirst = isFirst || false;
         var boardReady = function() {
-                self.uploadUI.remove();
-                self._registerBoard(function() {
-                    self._message("Downloading previous configuration from your kit!");
-                    self._startConfigManager(function() {
-                        self._message("Thanks for waiting! You can start configuring the kit.");
-                        self._message("Add a network, adjust the update interval and click sync....");
-                    });
+            self._message("Thanks for waiting!");
+            self._message("You can start configuring the kit.");
+            self._message("Add a network, adjust the update interval,");
+            self._message("And when you are finished click sync....")
+        }
+        var boardStarter = function(whatVersion) {
+            //board unknown (is there another test to check if it is an arduino?)
+            if (whatVersion != -2) {    //if we have access to serial port
+                if (whatVersion == -1) {
+                    self._message("<b>Unrecognized board!</b>");
+                    self._message("Make sure you have selected the right port!");
+                    self._message("If you are sure, click Install Firmware");
+                    self._updateBlock('.board-description', '<desc><strong>Unrecognized board</strong>', true);
+                    self._updateBlock('.firmware', "<desc>Make sure you have selected the right port!<br/>If you are sure, click Install Firmware</desc>", true);
+                } else if (whatVersion == 1 || whatVersion == 0) {
+                    //Board description update
+                    var msg = "<desc><img style='margin-right:5px' src=./assets/images/kit_details_icon_normal_setup.svg> <strong>" + self._getBoardDescription().split(" - ")[0] + "</strong> - " + self._getBoardDescription().split(" - ")[1] + "</desc>";
+                    self._updateBlock('.board-description', msg, true);
+                    self._message("Your kit is a:");
+                    self._message(self._getBoardDescription());
+
+                    if (self.sck.version.firmware < self.latestFirmwareVersion) {
+                        self._message("Your kit is running " + self._getFirmwareDescription() + "firmware.");
+                        self._message("This is not the latest version.");
+                        self._message("You need to update the firmware to continue!");
+                        var firmMsg = "<font color = 'red'>version " + self._getFirmwareDescription() +  " (update recommended)</font>";
+                    } else {
+                        self._message("Your kit is running " + self._getFirmwareDescription() + " firmware.");
+                        self._message("This is the latest version.");
+                        self._message("You can skip the firmware update!");
+                        var firmMsg = "<font color='green'>" + self._getFirmwareDescription() +  " (latest)</font>";
+                    }
+                    self._updateBlock('.firmware', "<desc>Firmware version " + firmMsg + "</desc>", true);
+
+                    //only for suported firmware (version >= 93)
+                    if (whatVersion == 1){
+
+                        //mac address
+                        self._updateBlock('.mac', "<desc><img style='margin-right:5px' src=./assets/images/mac_address_icon_setup.svg>  <strong>Mac Address:</strong> " + self.sck.mac + "</desc>");
+
+                        //nets
+                        self._updateBlock('.networks', "<desc><strong><img style='margin-right:5px' src=./assets/images/networks_icon_setup.svg>  Wi-Fi Networks</strong></desc>", true);
+                        $(".networks").append(self.netsUI.createAddButton());
+                        self.netsUI.createNetsWidget(self.sck.config.nets);
+
+                        //updates
+                        self._updateBlock('.updateTitle', "<desc><strong><img style='margin-right:5px' src=./assets/images/update_icon_setup.svg>  Update interval</strong>", true);
+                        self.updatesUI.updateSensorUpdate(self.sck.config.update);
+                        self.updatesUI.createUpdatesWidget(self.sck.config.update);
+                    }
+                }
+                self._updateFirmware(function(state) {
+                    if (state) boardReady();
+                }, whatVersion);
+                self._monitorMode(true);
+            }
+        }
+        if (isFirst) {
+            self._userStart(function() {
+                if (self.isAlreadyStarted) {
+                    self.resetProcess();
+                } else {
+                    self.isAlreadyStarted = true;
+                }
+                //scroll animation
+                var duration = 300;
+                $('html, body').stop().animate({
+                    scrollTop: $(".messages-block").offset().top - 115
+                }, duration*2);
+                $(".messages-block").animate({
+                    height: '575px'
+                }, duration);
+
+                self._getInfo(function(whatVersion) {
+                    boardStarter(whatVersion);
                 });
-            }
-        var boardStarter = function(isBoardOK) {
-            self._message("Your kit is a " + self._getBoardDescription());
-            if (self.sck.version.firmware < self.latestFirmwareVersion) {
-                self._message("Your kit is running " + self._getFirmwareDescription() + ". This is not the latest version.")
-                self._message("We recommend you to update the firmware!");
-            } else {
-                self._message("Your kit is running " + self._getFirmwareDescription() + ". This is the latest version.")
-                self._message("You can skip the firmware update!");
-            }
-            self._updateFirmware(function(state) {
-                if (state) boardReady();
-            });
+
+                self._sendStartEvent();    
+            })
+        } else {
+            boardStarter(1);
+        }
+    },
+    _SCKoutput: function(message){
+        var self = this;
+        var msgBlock = $('.messages-block');
+        if (msgBlock.children().length >= 15) msgBlock.children().first().remove();
+
+
+        if (message.indexOf("SCK Connected to Wi-Fi!!") > -1) {
+            self._message("Your kit is connected to WI-Fi!")
         }
 
-        self._userStart(function() {
-            if(self.isAlreadyStarted){
-                self.resetProcess();
+        if (message.indexOf("RTC Updated!!") > -1) {
+            self._message("Your kit has updated his clock!")
+        }
 
-            } else {
-                self.isAlreadyStarted = true;
+        if (message.indexOf("Posted to Server!") > -1) {
+            self._message("Your kit has posted!!!")
+            self._message("<b>Congratulations!!!</b>")
+        }
+
+        if (self.monitorMode) {
+            message = message.replace(/(\r\n|\n|\r)/gm, "<br/>&#x2713; SCK >> ");
+            if (message.substr(message.length - 7) == 'SCK >> ') {
+                message = message.substr(0, message.length - 16);
             }
-            self._message("Checking your Smart Citizen Kit version. This could take a while, please wait.");
-            self._checkVersion(function(isBoardOK) {
-                boardStarter(isBoardOK);
+            var msg = $("<span style='color:#17A3D9'>").html("&#x2713; SCK >> " + message + "</span>");
+            msgBlock.append(msg);
+            msgBlock.scrollTop(msgBlock.prop("scrollHeight"));
+        }
+    },
+    _getInfo: function(callback) {
+      /*
+      This function returns to callback: 1 = latest firmware version, 0 = recognized SCk with old firmware, -1 = unrecognized board
+      arduino sends (| as separator):
+        |version|MAC|ssid1 ssid2,pass1 pass2,auth1 auth2,ant1 ant2|hardcodedNets|timeUpdate|numPosts|
+            *board, firmware and mac
+            *ssid's, passwd's, antenna configurations and auth types.
+            *reading interval, and number of posts
+      */
+      var self = this;
+
+      //get all (only for firmware >= 93)
+      var getAll = function(callback) {
+        self._enterCmdMode(function() {
+            self._sendCMD("get all", function(data) {
+                 self._debug(data, 2);
+                 self._exitCmdMode();
+                 var validateMac = function(mac) {
+                     var regex = /^(([a-f0-9]{2}:){5}[a-f0-9]{2},?)+$/i;
+                     return regex.test(mac);
+                 }
+                 if (data.response == null){
+                    if (self.errors["printed"]){ //we allready print serial port error
+                        callback(-1);
+                    } else { //if we DO have access to serial port but get a null response
+                        callback(0)
+                    }
+                 } else if (data.response && ((data.response.match(/[|]/g) || []).length) == 7) {
+                    var allData = data.response.split('|');
+
+                    if (allData[1].indexOf('-') != -1) {
+                        //board version
+                        self.sck.version.board = Number(allData[1].split('-')[0].replace(/[^0-9]+/g, ''));
+                        //firmware version
+                        self.sck.version.firmware = Number(allData[1].split('-')[1].replace(/[^0-9]+/g, ''));
+                    } else {
+                        self.sck.version.board = 11;
+                        self.sck.version.firmware = -1;
+                    }
+
+                    //mac address
+                    if (validateMac(allData[2])) {
+                        self.sck.mac = allData[2];
+                    }
+                    //networks
+                    self.sck.config.nets = []
+                    if (allData[3]) {
+                        // var allNets = allData[3].split(',');
+                        var allProps = allData[3].split(',');
+                        if (allProps[0] == '') allProps = ['ssid', 'password', '0', '4'];
+                        var allSsid = allProps[0].split(' ');
+                        var allPhrase = allProps[1].split(' ');
+                        var allAntenna = allProps[2].split(' ');
+                        var allAuth = allProps[3].split(' ');
+                        for (var i = 0; i < allSsid.length; i++) {
+                            myNet = {};
+                            myNet.ssid = allSsid[i].replace(/\$/g, " ");
+                            myNet.password = allPhrase[i].replace(/\$/g, " ");
+                            myNet.ext_antenna = (allAntenna[i] == 1) ? true : false;
+                            for (var prop in self.netSettings.seqModes) {
+                                if (self.netSettings.seqModes[prop].id == allAuth[i]) {
+                                    myNet.auth = prop
+                                }
+                            }
+                            self.sck.config.nets.push(myNet)
+                        }
+                    }
+                    //updates
+                    self.sck.config.hardcodedNets = parseInt(allData[4]);
+                    self.sck.config.update.resolution = parseInt(allData[5]);
+                    self.sck.config.update.posts = parseInt(allData[6]);
+                    self._sendUpdateEvent(); //register mac device on platform
+                    self._debug(self.sck);
+                    if (self.sck.version.firmware >= 93) {
+                        callback(1);
+                    } else {
+                        callback(0);
+                    }
+                 } else {
+                    callback(0);
+                 }
+            }, true, 2000);
+        });
+      }
+
+      var askBoard = function(callback) {
+        getAll(function(isLatestVersion) {
+          if (isLatestVersion == 1) {
+            //latest version
+            callback(1);
+          } else if (isLatestVersion == -1) {
+            //null response form serial port (error message should be already printed)
+            callback(-2);
+          } else if (isLatestVersion == 0) {
+            self._message("Still working, looking for older firmware...");
+            //fallbackMode
+            self._getSCKVersion(function(sckVersion) {
+                if (sckVersion.hardwareVersion) {
+                    self.sck.version.firmware = sckVersion.firmwareVersion;
+                    self.sck.version.board = sckVersion.hardwareVersion;
+                    //older version
+                    callback(0);
+                } else {
+                    //unrecognized board
+                    callback(-1);
+                }
             });
+          }
         })
+
+      }
+      askBoard(callback);
     },
     _registerBoard: function(callback) {
         var self = this;
-        var macStatus = {
-            counter: 1,
-            max: 2,
-        };
-        var getMac = function(callback) {
-            self._getSCKMac(function(mac) {
-                if (validateMac(mac)) {
-                    callback(mac);
-                } else if (macStatus.counter <= macStatus.max) {
-                    setTimeout(function() {
-                        macStatus.counter++;
-                        getMac(callback);
-                    }, 500);
-                } else {
-                    callback(false);
-                };
-            });
-        }
-        var validateMac = function(mac) {
-            var regex = /^(([a-f0-9]{2}:){5}[a-f0-9]{2},?)+$/i;
-            return regex.test(mac);
-        }
-        var platformResponse = function(mac, status) {
-            var device = {};
-            var t = " (mac: " + mac + ")";
-            if (status = 1) {
-                self._message("Board registered to the Platform!" + t);
-            } else if (status = 2) {
-                self._message("Board already registered to the Platform!" + t);
-            } else if (status = 0) {
-                self._message("Registered to the Platform failed, please check your internet connection!");
-            }
-        }
-
 
         var register = function() {
 
             getMac(function(mac) {
                 if (mac) {
                     self.sck.mac = mac;
-                    self._sendUpdateEvent();
+                    // self._sendUpdateEvent();
                     callback();
                 } else {
-                    self._message("Failed to get the mac address from the kit. Try again later!");
+                    self._message("Failed to get the mac address from the kit.", true);
+                    self._message("Try again later!");
                     callback();
                 }
             });
@@ -775,6 +1128,14 @@ var sckapp = {
         self._debug(self.sck);
         self.$elem.trigger('sck_info', [self.sck]);
     },
+    _sendDoneEvent: function() {
+        var self = this;
+        self.$elem.trigger('sck_done', [self.sck]);
+    },
+    _sendStartEvent: function() {
+        var self = this;
+        self.$elem.trigger('sck_start', [self.sck]);
+    },
     _startConfigManager: function(callback) {
         this._startGetAll();
     },
@@ -784,8 +1145,10 @@ var sckapp = {
 
         self._windowsDriversWarning();
 
-        self._message("Please, reset your kit by pressing the reset button or switching it off / on.");
-        self._message("Once reseted, select your SmartCitizen serial port and click Start process...");
+        self._message("Please reset your kit", false, true);
+        self._message("Press the reset button or switch it off-on.", false, true);
+        self._message("Select your kit Serial Port");
+        self._message("And click Start process...");
     },
     _windowsDriversWarning: function() {
         if (navigator.platform.toLowerCase().indexOf("win") != -1) {
@@ -795,9 +1158,6 @@ var sckapp = {
     _checkVersion: function(callback) {
         var self = this;
         var validateVersion = function(sckVersion) {
-            if (self.isAdvanced) {
-                return false;
-            }
             if (sckVersion.firmwareVersion == false || sckVersion.firmwareVersion < self.latestFirmwareVersion) {
                 return false;
             } else {
@@ -805,7 +1165,6 @@ var sckapp = {
             }
         }
         var checkVersion = function(callback) {
-            // callback(false);
             self._getSCKVersion(function(sckVersion) {
                 self.sck.version.firmware = sckVersion.firmwareVersion;
                 self.sck.version.board = sckVersion.hardwareVersion;
@@ -814,88 +1173,53 @@ var sckapp = {
         }
         checkVersion(callback);
     },
-    _updateFirmware: function(callback) {
+    _updateFirmware: function(callback, whatVersion) {
         var self = this;
         var updateStatus = {
             counter: 1,
             max: 2,
         };
-        var confirmStart = function() {
-            if (self.isAdvanced) {
-                self.uploadUI.createUploadElement(process, skip);
-            } else {
-                self.uploadUI.createUploadElement(process);
-            }
-        }
-        var skip = function() {
-            callback(true);
-        }
         var checkResult = function(status) {
-            if (status) {
-                checkVersion(function(version) {
-                    if (self.isAdvanced || version) {
-                        self._messageUpload("Firmware uploaded!");
-                        if (!self.isAdvanced) {
-                            self._message("Firmware uploaded! Your are runnign the latest firmware.");
-                        } else {
-                            self._message("Firmware uploaded!");
-                        }
-                        callback(true);
+            self.isFlashing = false;
+            if (status != 20000 && status != 20001) {
+                self._getInfo( function(whatVersion) {
+                    if(whatVersion == 1) {
+                        self._run(false);
                     } else {
                         failedUpdate(status);
                     }
-                });
+                })
             } else {
                 failedUpdate(status);
             }
         }
         var failedUpdate = function(status) {
-            if (updateStatus.counter <= updateStatus.max) {
-                self._message("Firmware update failed!" + " " + self.errors.flashing[status] + " " + "Retrying " + updateStatus.counter + " of " + updateStatus.max + ". ");
-                retry();
+            self._message("<b>Firmware update failed!</b>", true);
+            if (self.errors.flashing[status]) {
+              self._message(self.errors.flashing[status]);
             } else {
-                self._message("Firmware update failed after " + updateStatus.counter + " attempts. " + "Please, reset your kit or try to upload the firmware manually. <a href='http://smartcitizen.me/posts/view/6'>More info</a>");
-
-                self._messageUpload("Firmware update failed! Please, reset your kit.");
-
-                callback(false);
+              self._message("Unrecognized error: " + status);
+              self._message("Please contact Smart Citizen support")
             }
-        }
-        var validateVersion = function(sckVersion) {
-            // self.sck.version.firmware = sckVersion.firmwareVersion; //problem on retry...
-            // self.sck.version.board = sckVersion.hardwareVersion;
-            if (sckVersion.firmwareVersion == false || sckVersion.firmwareVersion < self.latestFirmwareVersion) {
-                //return false;
-                return true; // Validation temporary disabled! No firmware
-            } else {
-                return true;
-            }
-        }
-        var checkVersion = function(callback) {
-            setTimeout(function() {
-                self._getSCKVersion(function(sckVersion) {
-                    callback(validateVersion(sckVersion));
-                });
-            }, 4000);
-        }
-        var retry = function() {
-            setTimeout(function() {
-                self._debug("Recheking...", 2);
-                updateStatus.counter++;
-                again();
-            }, 4000);
-        }
-        var again = function() {
-            self._flash(self.sck.version.board, checkResult);
+            callback(false);
         }
         var process = function() {
-            self._message("Updating your kit to the latest firmware...");
-            self._messageUpload("Updating firmware...");
-            self.sck.version.board = self.uploadUI.getVersionSelect(); //temp
-            updateStatus.counter = 0;
-            self._flash(self.sck.version.board, checkResult);
+            if (!self.isFlashing) {
+                self._monitorMode(false);
+                self._message("Starting the flashing process...");
+                self._message("Waiting for the kit to respond...")
+                self.doubleTap = window.setTimeout(function(){
+                    self._message("This is taking to long!!!<br/>&#x2713; If you haven't yet, <br/>&#x2713;<b> Try double tapping your kit reset button.</b>");
+                }, 15000)
+                window.setTimeout(function(){
+                    self.sck.version.board = self.sck.version.board || self.uploadUI.getVersionSelect();
+                    self._flash(self.sck.version.board, checkResult);
+                }, 1200)
+            } else {
+                self._message("Flashing your kit, be patient!");
+            }
         }
-        confirmStart();
+        self.uploadUI.createUploadElement(process, whatVersion);
     },
     _getBoardDescription: function() {
         var boardDB = this.boards;
@@ -910,7 +1234,7 @@ var sckapp = {
         if (this.sck.version.firmware && firmwareDB[this.sck.version.firmware]) {
             return firmwareDB[this.sck.version.firmware].description
         } else {
-            return "an older firmware";
+            return "older or unknown";
         }
     },
     _bakeSCKNet: function(nets, callback) {
@@ -947,14 +1271,14 @@ var sckapp = {
         var process = function() {
             setAndgetSCKNETS(function(status) {
                 if (status) {
-                    self._message("Wi-Fi settings updated on the Smart Citizen Kit!");
+                    self._message("Wi-Fi settings updated on your kit!");
                     callback(nets);
                 } else if (retries < retriesMax) {
                     retries++;
                     process();
                 } else {
-                    self._messageWidget("Failed to update the Wi-Fi! Please, try it again.");
-                    self._message("Failed to update the Wi-Fi settings on the Smart Citizen Kit! Please, try it again.");
+                    self._message("Failed to update Wi-Fi settings on your kit!", true);
+                    self._message("Please, try it again.")
                     $('.config-block').trigger( "sync-ready" ); //global scope event must change
                     callback(false);
                 };
@@ -985,14 +1309,14 @@ var sckapp = {
         var process = function() {
             setAndgetSCKUpdates(function(isOK) {
                 if (isOK == true) {
-                    self._message("Update interval settings updated on the Smart Citizen Kit!");
+                    self._message("Update interval settings updated on your kit!");
                     callback(true);
                 } else if (retries < retriesMax) {
                     retries++;
                     process();
                 } else {
-                    self._messageWidget("Failed to update the update interval! Please, try it again.");
-                    self._message("Failed to update the update interval settings on the Smart Citizen Kit! Please, try it again.");
+                    self._message("Failed to update the update interval settings on the Smart Citizen Kit!", true);
+                    self._message("Please, try it again.")
                     callback(false);
                 };
             })
@@ -1015,10 +1339,10 @@ var sckapp = {
     },
     _setSCKUpdates: function(update, callback) {
         var self = this;
-        update = self.stringNumberProperties(update);
+        updateStr = self.stringNumberProperties(update);
         self._enterCmdMode(function() {
-            self._sendCMD("set time update " + update.time, function(data) {
-                self._sendCMD("set number updates " + update.updates, function(data) {
+            self._sendCMD("set time update " + updateStr.time, function(data) {
+                self._sendCMD("set number updates " + updateStr.updates, function(data) {
                     self._exitCmdMode();
                     callback(update);
                 });
@@ -1042,7 +1366,7 @@ var sckapp = {
         netManager.set = function(nets, index, next) {
             self._sendCMD("set wlan ssid " + nets[index].ssid, function(data) {
                 self._sendCMD("set wlan auth " + self.netSettings.seqModes[nets[index].auth].id, function(data) {
-                    self._sendCMD("set wlan phrase " + nets[index].phrase, function(data) {
+                    self._sendCMD("set wlan phrase " + nets[index].password, function(data) {
                         self._sendCMD("set wlan ext_antenna " + self.netSettings.antenaModes[nets[index].ext_antenna].id, function(data) {
                             next(nets, index);
                         });
@@ -1074,7 +1398,16 @@ var sckapp = {
                 });
             })
         }
-        netManager.auto(nets);
+        if(nets.length <= 0) {
+            self._enterCmdMode(function() {
+                self._sendCMD("clear nets", function(data) {
+                    self._exitCmdMode();
+                    callback(false);
+                });
+            });
+        } else {
+            netManager.auto(nets);
+        }
     },
     _getSCKNets: function(callback) {
         var self = this;
@@ -1113,7 +1446,7 @@ var sckapp = {
             return filterSpaceSpecialCharacter(cData);
         }
         var bakeNetsCollection = function(net) {
-            var netParams = ["ssid", "auth", "phrase", "ext_antenna"];
+            var netParams = ["ssid", "auth", "password", "ext_antenna"];
             var nets = [];
             for (var i = 0; i < net[netParams[0]].length; i++) {
                 var newNet = {};
@@ -1134,7 +1467,7 @@ var sckapp = {
                     self._sendCMD("get wlan auth", function(data) {
                         net.raw.auth = splitAndPush(data, self.netSettings.seqModes);
                         self._sendCMD("get wlan phrase", function(data) {
-                            net.raw.phrase = splitAndPush(data);
+                            net.raw.password = splitAndPush(data);
                             self._sendCMD("get wlan ext_antenna", function(data) {
                                 net.raw.ext_antenna = splitAndPush(data, self.netSettings.antenaModes);
                                 net.baked = bakeNetsCollection(net.raw);
@@ -1147,7 +1480,7 @@ var sckapp = {
                 } else {
                     self._exitCmdMode();
                     callback(false);
-                    self._message("No Wi-Fi networks saved yet on the Smart Citizen Kit.");
+                    self._message("No Wi-Fi networks saved yet on your kit.");
                 }
             }, true, 15000);
         });
@@ -1174,22 +1507,17 @@ var sckapp = {
                 }
                 self._exitCmdMode();
                 callback(sckVersion);
-            }, false, 25000); //must be 15000
+            }, false, 5000); //must be 15000
         });
     },
-    _getSCKMac: function(callback) {
+    _clearMemory: function(callback) {
         var self = this;
         self._enterCmdMode(function() {
-            self._sendCMD("get mac", function(data) {
-                self._debug(data, 2);
-                if (data.response) {
-                    var sckMac = data.response.trim();
-                } else {
-                    var sckMac = null;
-                }
-                self._exitCmdMode();
-                callback(sckMac);
-            }, true, 10000);
+            self._sendCMD("clear memory", function(data) {
+                 self._debug(data, 2);
+                 self._exitCmdMode();
+                 callback(true);
+            }, false, 10000); //this command takes a lot of time!! (erasing and rewritting eeprom)
         });
     },
     _getSCKData: function() {
@@ -1209,7 +1537,6 @@ var sckapp = {
     _enterCmdMode: function(next) {
         var self = this;
         window.setTimeout(function() {
-            self._checkPermissions(); // Check if here
             self._serialRead(); // Check if here
             self._serialWrite("###");
             window.setTimeout(function() {
@@ -1221,7 +1548,6 @@ var sckapp = {
     _exitCmdMode: function() {
         var self = this;
         window.setTimeout(function() {
-            self._checkPermissions(); // Check if here
             self._serialRead(true); // Check if here
             self._serialWriteCr("exit");
             self._disconnect();
@@ -1231,6 +1557,15 @@ var sckapp = {
         var self = this;
         self._debugMessage(msg, "send");
         self.sckTool.serialWrite(msg);
+        // self._debug(self.sckTool.readingInfo);
+        if (self.sckTool.readingInfo == null && (msg.indexOf("\r") > -1 || msg.indexOf("\n") > -1) && !self.errors["printed"]) {
+	        self._message(self.errors.serial["open"]);
+            self._debug("connection error...", true);
+            self._checkPermissions();
+            self._disconnect(); //Dev. This must be checked!
+            self._message(self.errors.serial["reset"]);
+            self.errors["printed"] = true;
+		}
     },
     _serialWriteLn: function(msg) {
         msg += '\r';
@@ -1261,6 +1596,7 @@ var sckapp = {
         self._debug("...reading! " + JSON.stringify(sck), 2);
         self.sckTool.serialRead(sck.port, sck.speed, function(from, line) {
             self._debug("  @@ >> " + from + " " + line);
+            self._SCKoutput(line);
             self._input(line);
         }, function(from, line) {
             self._debug("  !! >> " + from + " " + line);
@@ -1269,9 +1605,7 @@ var sckapp = {
     _flash: function(boardID, callback) {
         var self = this;
         self.isFlashing = true;
-        self._checkPermissions();
         self._disconnect();
-        self.connected = true;
         var firmURL = self.firmwaresPath + self.boards[boardID].firmware.firmwareFile;
         $.getJSON(firmURL, function(firm) {
             self._debug(firm, 3);
@@ -1287,22 +1621,27 @@ var sckapp = {
             self._debug(flash, 2);
             self.sckTool.flash(flash.port, flash.binary, flash.maximum_size, flash.protocol, flash.disable_flushing, flash.speed, flash.mcu, function(from, progress) {
                 self._debug(from, 3);
-                self._debug(progress, 3);
-                self.isFlashing = false;
+                window.clearInterval(self.doubleTap);
                 if (progress) {
-                    self._debug("FLASH PROGRESS");
-                    self._debug(progress);
-                    if (progress != 0 && (progress > -1 || progress < -23) && progress != -30 && progress != -55 && progress != -56 && progress != -57) {
-                        self.sckTool.sckTool.getFlashResult(function(result) {
-                            self._debug("FLASH RESULT");
-                            self._debug(result);
-                        });
+                    self.isFlashing = false;
+                    self._debug("FLASH PROGRESS: " + progress);
+                    if (progress == 20000){
+                      self._debug("connection ERROR!!!");
+                    } else if (progress == 20001){
+                      self._debug("flashing TIMEOUT!!!");
                     }
                     callback(progress);
                 } else {
+                    self.flashedOK = true;
                     self._debug("FLASH OK!!");
-                    callback(true);
-                }
+                    self._message("<b>Firmware uploaded!</b>");
+                    self._message("Clearing eeprom memory");
+                    self._message("Please wait a moment...")
+                    self._clearMemory(function(status) {
+                        self.isFlashing = false;
+                        callback(status);
+                    });
+                };
             });
         });
     },
@@ -1450,7 +1789,13 @@ var sckapp = {
         var self = this;
         self._debug("SCANNING...", 4);
         self._debug(self.ports);
-        var portsAvail = self.ports.split(",");
+    		if (self.ports.indexOf(",") != -1) {
+    			var portsAvail = self.ports.split(",");
+    		} else if (self.ports != "") {
+    			var portsAvail = [self.ports];
+    		} else {
+    			var portsAvail = "";
+    		}
         var portsDataset = {}
         for (var i = 0; i < portsAvail.length; i++) {
             var port = portsAvail[i];
@@ -1462,6 +1807,13 @@ var sckapp = {
                 } else {
                     portsDataset[port].description = "Port " + port;
                 }
+                if (i == 0) {
+					if (!self.isFlashing) {
+                        if (self.isAlreadyStarted) {
+                            self._monitorMode(true);
+                        }
+					}
+				}
             }
         }
         self.portsList = portsDataset;
@@ -1471,6 +1823,10 @@ var sckapp = {
         var self = this;
         self.sckTool.getPorts(function(portsAvailable) {
             if (portsAvailable != self.oldPorts) {
+
+                if (self.monitorMode) {
+                    self._monitorMode(false);
+                }
 
                 var jsonPorts = $.parseJSON(portsAvailable);
                 self.ports = [];
@@ -1488,13 +1844,12 @@ var sckapp = {
         var self = this;
         self._debug("disconnecting!", 2);
         self.connected = false;
-        self.sckTool.serialMonitorSetStatus();
-
+        self.sckTool.serialMonitorSetStatus(); // This must be checked!
     },
     _checkPermissions: function() {
         var self = this;
         if ((navigator.appVersion.indexOf("X11") != -1) || (navigator.appVersion.indexOf("Linux") != -1)) {
-            var message = 'If you have issues connecting with your kit on Linux ensure you have the appropiate permissions to access the serial port. You can quickly solve this by installing the latest Arduino IDE <i>(sudo apt-get install arduino arduino-core)</i> or manually following this <a target=\"_blank\" href=\"http://codebender.uservoice.com/knowledgebase/articles/95620-my-arduino-is-not-recognized-by-codebender-what-s"\">guide</a>.';
+            var message = 'If you are on Linux, check your serial port permissions. Here is a <a target=\"_blank\" href=\"http://codebender.uservoice.com/knowledgebase/articles/95620-my-arduino-is-not-recognized-by-codebender-what-s"\">guide</a>.';
             self._message(message);
         }
     },
@@ -1506,7 +1861,6 @@ var sckapp = {
                 pluginReady();
             } else if (status == "available") {
                 self._startmessage('<strong>To configure your kit you will need to install the Smart Citizen Kit App for Chrome<button id="install-button">Add to Chrome</button></strong>You can also install it manually from the <a href="' +  self.pluginChromeStoreURL + '" target="_blank">Chrome store</a> and refresh the page.');
-                console.warn(self.$elem.find('#install-button'));
                 $('#install-button').click(function() {
                     self._startmessage('<strong>Preparing the installation...</strong>');
                     chrome.webstore.install(self.pluginChromeStoreURL, function() {
@@ -1525,7 +1879,9 @@ var sckapp = {
                 self._startmessage("<strong>Sorry, currently we just support Google Chrome for configuring your Smart Citizen Kit. You can download it <a href='https://www.google.com/chrome/browser/desktop/index.html'>here</a></strong>");
             }
         }
-        self.initPlugin(validate);
+        setTimeout(function() {
+            self.initPlugin(validate);
+        }, 500);
     },
     initPlugin: function(callback) {
         var self = this;
@@ -1599,15 +1955,19 @@ var sckapp = {
     cmdRetries: 2,
     setupCounter: 0,
     isFlashing: false,
-    latestFirmwareVersion: 90,
+    latestFirmwareVersion: 94,
     initPluginPID: null,
     isAdvanced: false,
     pluginStableVersion: "1.6.0.8",
     sck: {
         mac: "",
         config: {
-            nets: {},
-            update: {}
+            nets: [],
+            update: {
+              resolution: "",
+              posts: ""
+            },
+            hardcodedNets: ""
         },
         version: {
             firmware: "",
@@ -1616,9 +1976,15 @@ var sckapp = {
     },
     errors: {
         flashing: {
-            1: "Could not upload sketch to your Smart Citizen Board. Try unplugging your Smart Citizen Kit and connecting it again.",
-            256: "Could not open serial port. Make sure you have selected the correct device and serial port.",
-            "-1": "Couldn’t find a Smart Citizen Kit on the selected port. Please, check that you have the correct port selected. If it is correct, try pressing the board’s reset button after initiating the upload"
+          20000: "<b>Comunication error.</b><br>&#x2713; Please reset your kit and reload this page<br>&#x2713; Or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>.",
+          // 20001: "Timeout comunication error. Please reset your kit and reload this page or try upgrading manually with this <a target=\"_blank\" href=\"http://docs.smartcitizen.me/#/start/firmware-update-problem\">guide</a>."
+          20001: "<b>Timeout comunication error.</b><br/>&#x2713; Please try again<br/>&#x2713; But after clicking install firmware button<br>&#x2713;<b> Double tap your kit reset button.</b>"
+        },
+        serial: {
+          open: "<b>We can't open the serial port!!!</b><br>&#x2713; Make sure no application is using the serial port (ex. Arduino IDE)",
+          reset: "Please try <b>reloading</b> this page<br>&#x2713; And <b>resetting</b> your kit.",
+          printed: false,
+          found: "No serial port found!!!<br>&#x2713; Make sure cable is fully inserted."
         }
     },
     netSettings: {
@@ -1647,36 +2013,42 @@ var sckapp = {
         antenaModes: {
             "false": {
                 id: 0,
-                description: "No external antena added, default."
+                description: "No external antenna added, default."
             },
             "true": {
                 id: 1,
-                description: "External antena added."
+                description: "External antenna added."
             },
         }
     },
     firmware: {
+        "94": {
+            description: "0.9.4"
+        },
+        "93": {
+            description: "0.9.3"
+        },
         "90": {
-            description: "Firmware 0.9.0"
+            description: "0.9.0"
         },
         "86": {
-            description: "Firmware 0.8.6"
+            description: "0.8.6"
         },
         "85": {
-            description: "Firmware 0.8.5"
+            description: "0.8.5"
         },
         "84": {
-            description: "Firmware 0.8.4"
+            description: "0.8.4"
         }
     },
-    boards_dev: {
+    boards: {
         "10": {
             name: 'SCK 1.0',
             version: '1.0',
             description: 'SmartCitizen Ambient Kit 1.0 - "Goteo Board"',
             firmware: {
-                firmwareFile: "sck_beta_k.1.0_v.0.8.6.json",
-                latestVersion: "0.8.6"
+                firmwareFile: "sck_beta_k.1.1_v.0.9.4.json",
+                latestVersion: "0.9.3"
             },
             upload: {
                 protocol: 'avr109',
@@ -1707,138 +2079,8 @@ var sckapp = {
             name: 'SCK 1.1',
             version: '1.1',
             firmware: {
-                firmwareFile: "sck_beta_k.1.1_v.0.8.6.json",
-                latestVersion: "0.8.6"
-            },
-            upload: {
-                protocol: 'avr109',
-                maximum_size: '28672',
-                speed: '57600',
-                disable_flushing: 'true'
-            },
-            bootloader: {
-                low_fuses: '0xff',
-                high_fuses: '0xd8',
-                extended_fuses: '0xce',
-                path: 'caterina-LilyPadUSB',
-                file: 'Caterina-LilyPadUSB.hex',
-                unlock_bits: '0x3F',
-                lock_bits: '0x2F'
-            },
-            build: {
-                mcu: 'atmega32u4',
-                f_cpu: '8000000L',
-                vid: '0x1B4F',
-                pid: '0x9208',
-                core: 'arduino',
-                variant: 'leonardo'
-            },
-        },
-        "12": {
-            name: 'SCK 1.0',
-            version: '1.0',
-            description: 'SmartCitizen Ambient Kit 1.0 - BETA 0.9 Firmware- "Goteo Board"',
-            firmware: {
-                firmwareFile: "sck_beta_k.1.0_v.0.9.0.json",
-                latestVersion: "0.9.0"
-            },
-            upload: {
-                protocol: 'avr109',
-                maximum_size: "28672",
-                speed: "57600",
-                disable_flushing: 'true'
-            },
-            bootloader: {
-                low_fuses: '0xff',
-                high_fuses: '0xd8',
-                extended_fuses: '0xcb',
-                path: 'caterina',
-                file: 'Caterina-Leonardo.hex',
-                unlock_bits: '0x3F',
-                lock_bits: '0x2F'
-            },
-            build: {
-                vid: '0x2341',
-                pid: '0x8036',
-                mcu: 'atmega32u4',
-                f_cpu: '16000000L',
-                core: 'arduino',
-                variant: 'leonardo'
-            }
-        },
-        "13": {
-            description: 'SmartCitizen Ambient Kit 1.1 - BETA 0.9 Firmware -  "Kickstarter Board"',
-            name: 'SCK 1.1',
-            version: '1.1',
-            firmware: {
-                firmwareFile: "sck_beta_k.1.1_v.0.9.0.json",
-                latestVersion: "0.9.0"
-            },
-            upload: {
-                protocol: 'avr109',
-                maximum_size: '28672',
-                speed: '57600',
-                disable_flushing: 'true'
-            },
-            bootloader: {
-                low_fuses: '0xff',
-                high_fuses: '0xd8',
-                extended_fuses: '0xce',
-                path: 'caterina-LilyPadUSB',
-                file: 'Caterina-LilyPadUSB.hex',
-                unlock_bits: '0x3F',
-                lock_bits: '0x2F'
-            },
-            build: {
-                mcu: 'atmega32u4',
-                f_cpu: '8000000L',
-                vid: '0x1B4F',
-                pid: '0x9208',
-                core: 'arduino',
-                variant: 'leonardo'
-            }
-        }
-    },
-    boards_stable: {
-        "10": {
-            name: 'SCK 1.0',
-            version: '1.0',
-            description: 'SmartCitizen Ambient Kit 1.0 - "Goteo Board"',
-            firmware: {
-                firmwareFile: "sck_beta_k.1.0_v.0.9.0.json",
-                latestVersion: "0.9.0"
-            },
-            upload: {
-                protocol: 'avr109',
-                maximum_size: "28672",
-                speed: "57600",
-                disable_flushing: 'true'
-            },
-            bootloader: {
-                low_fuses: '0xff',
-                high_fuses: '0xd8',
-                extended_fuses: '0xcb',
-                path: 'caterina',
-                file: 'Caterina-Leonardo.hex',
-                unlock_bits: '0x3F',
-                lock_bits: '0x2F'
-            },
-            build: {
-                vid: '0x2341',
-                pid: '0x8036',
-                mcu: 'atmega32u4',
-                f_cpu: '16000000L',
-                core: 'arduino',
-                variant: 'leonardo'
-            }
-        },
-        "11": {
-            description: 'SmartCitizen Ambient Kit 1.1 - "Kickstarter Board"',
-            name: 'SCK 1.1',
-            version: '1.1',
-            firmware: {
-                firmwareFile: "sck_beta_k.1.1_v.0.9.0.json",
-                latestVersion: "0.9.0"
+                firmwareFile: "sck_beta_k.1.1_v.0.9.4.json",
+                latestVersion: "0.9.3"
             },
             upload: {
                 protocol: 'avr109',
