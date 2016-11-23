@@ -205,7 +205,7 @@
             <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
               <div class="kit_details_manage_buttons">
                 <md-button ng-href="/kits/edit/{{vm.kit.id}}" class="kit_details_button_edit" aria-label="">EDIT</md-button>
-                <md-button ng-href="/kits/edit/{{vm.kit.id}}?step=2" class="kit_details_button_setup" aria-label="">SET UP</md-button>
+                <md-button ng-if="vm.kit.setupAvailable" ng-href="/kits/edit/{{vm.kit.id}}?step=2" class="kit_details_button_setup" aria-label="">SET UP</md-button>
                 <md-button ng-click="vm.removeKit()" class="warn" aria-label="">DELETE</md-button>
               </div>
               <div class="kit_details_manage_data">

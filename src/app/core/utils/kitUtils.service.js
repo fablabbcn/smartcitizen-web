@@ -85,6 +85,7 @@
           return;
         }
         return {
+          id: object.kit.id,
           hardware:  parseVersionName(object.kit.slug.split(':')[0]),
           release: parseVersionString(object.kit.slug.split(':')[1]),
           slug: object.kit.slug
