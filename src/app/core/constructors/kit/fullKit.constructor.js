@@ -60,22 +60,7 @@
             }
           })
           .value();
-
-          var hasNoBattery = (_.findWhere(sensors, {name: 'battery'})) ? false : true;
-
-          return sensors.reduce(function(acc, sensor, index, arr) {
-            if(hasNoBattery || sensor.name === 'battery') {
-              arr.splice(index, 1);
-
-              if(options.type === 'main') {
-                acc[0] = arr;
-                acc[1] = sensor;
-              } else if(options.type === 'compare') {
-                acc = arr;
-              }
-            } 
-            return acc;
-          }, []);
+          return sensors;
       };
 
       return FullKit;

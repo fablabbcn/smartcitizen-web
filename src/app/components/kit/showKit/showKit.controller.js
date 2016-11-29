@@ -172,21 +172,17 @@
 
           })
           .then(function(sensorsRes){
+
             var mainSensors = sensorsRes[0];
             var compareSensors = sensorsRes[1];
 
-            if(!mainSensors[0]) return;
-            
-            if (mainSensors[1].name === "battery") {
-              vm.battery = mainSensors[1];
-              vm.sensors = mainSensors[0].concat(mainSensors[1]);
-            } else {
-              vm.sensors = mainSensors[0].concat(mainSensors[1]);
-            }
+            vm.battery = _.findWhere(mainSensors, {name: 'battery'});
+            vm.sensors = mainSensors.reverse();
 
             vm.sensorsToCompare = compareSensors;
 
             vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+
           }, function(error) {
             if(error.status === 404) {
               $location.url('/404');
