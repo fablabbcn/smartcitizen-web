@@ -5,11 +5,11 @@
     .controller('tagsController', tagsController);
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
-    'PreviewKit', 'animation'
+    'PreviewKit', 'animation', '$timeout'
   ];
 
   function tagsController(tag, $scope, device, $state, $q, PreviewKit,
-    animation) {
+    animation, $timeout) {
 
     var vm = this;
 
@@ -18,7 +18,11 @@
     vm.kits = [];
     vm.percActive = 0;
 
-    initialize();
+    initialize(); // This is temp
+
+    $scope.$on('markersUpdated', function(){ // This is temp
+      initialize();
+    });
 
     /////////////////////////////////////////////////////////
 
@@ -55,13 +59,17 @@
       return _.include(marker.myData.labels, 'online');
     }
 
+    function descLastUpdate(o) {
+        return -new Date(o.last_reading_at).getTime();
+    }
+
     function getTaggedKits() {
 
       var deviceProm = _.map(vm.markers, getMarkerDevice);
 
       return $q.all(deviceProm)
-        .then(function(devices) {
-          return _.map(devices, toPreviewKit);
+        .then(function(devices) {  
+          return _.map(_.sortBy(devices, descLastUpdate), toPreviewKit); // This sort is temp
         });
     }
 

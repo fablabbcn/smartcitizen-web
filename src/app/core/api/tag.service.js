@@ -23,7 +23,7 @@
 
       function getTags() {
         return Restangular.all('tags')
-          .getList()
+          .getList({'per_page': 100})
           .then(function(fetchedTags){
             tags = fetchedTags.plain();
             return tags;
@@ -38,6 +38,9 @@
       }
 
       function tagWithName(name){
+        // var result = _.filter(tags, function(tag){
+        //   return tag.name.toLowerCase() == name.toLowerCase();
+        // });
         var result = _.where(tags, {name: name});
         if (result && result.length > 0){
           return result[0];
@@ -57,7 +60,7 @@
           if (tags.length === 0 && service.getSelectedTags().length !== 0){
             return false;
           }
-          return _.every(tags, function(tag) {
+          return _.some(tags, function(tag) {
             return _.include(service.getSelectedTags(), tag);
           });
         });

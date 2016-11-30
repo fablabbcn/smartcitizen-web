@@ -23,7 +23,7 @@
     </div>
     <div class="profile_content_main" flex>
         <div class="profile_content_main_top">
-            <md-button class="myProfile_addKitButton" href="/kits/new">ADD A NEW KIT</md-button>
+            <md-button class="myProfile_addKitButton" ng-click="vm.addNewKit()">ADD A NEW KIT</md-button>
             <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
         </div>
         <!-- KIT LIST -->

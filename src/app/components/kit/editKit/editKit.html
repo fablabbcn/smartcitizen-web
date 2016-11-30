@@ -10,15 +10,15 @@
          <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
           Kit data
         </md-button>
-        <div class="timeline_line timeline_line_small"></div>
-        <div layout="row" layout-align="start center">
+        <div ng-show="vm.setupAvailable" class="timeline_line timeline_line_small"></div>
+        <div ng-show="vm.setupAvailable" layout="row" layout-align="start center">
           <div class="timeline_stepCircle"
           ng-class="{'is-on':vm.step===2, 'is-off':vm.step!==2}"
           layout="row" layout-align="center center"
           ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
             2
           </div>
-          <md-button ng-click="vm.goToStep(2)" class="timeline_stepName">
+          <md-button ng-show="vm.setupAvailable" ng-click="vm.goToStep(2)" class="timeline_stepName">
             Set up
           </md-button>
         </div>
@@ -132,9 +132,9 @@
           </div>
         </section>
       </form>
-      <md-button class="md-primary timeline_button timeline_buttonOpen" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
+      <md-button ng-show="vm.setupAvailable" class="md-primary timeline_button timeline_buttonOpen" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
     </section>
-    <section ng-show="vm.step === 2">
+    <section ng-show="vm.step === 2 && vm.setupAvailable">
       <form>
         <section class="form_block form_blockNormal isEven">
           <div layout="row" layout-align="start start">

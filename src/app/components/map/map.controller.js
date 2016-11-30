@@ -6,9 +6,9 @@
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag'];
+    'Marker', 'tag', '$rootScope'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, $rootScope) {
       var vm = this;
       var updateType;
       var mapMoved = false;
@@ -196,17 +196,15 @@
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
             }
+            checkTags();
+            checkAllFiltersSelected();
 
             vm.readyForKit.map = true;
 
           });
-
-        checkTags();
-        checkAllFiltersSelected();
       }
 
       function zoomKitAndPopUp(data){ 
-
         if(updateType === 'map') {
           vm.kitLoading = false;
           updateType = undefined;
@@ -345,6 +343,7 @@
               var boundaries = getBoundaries(vm.markers);
               leafletData.getMap().then(function(map){
                 map.fitBounds(boundaries);
+                $rootScope.$broadcast('markersUpdated');
               });
             }
           });
