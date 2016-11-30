@@ -35,6 +35,8 @@
       // Will grow on to a dynamic API KEY management 
       // with the new /accounts oAuth mgmt methods
       vm.user.token = auth.getCurrentUser().token;
+      vm.addNewKit = addNewKit;
+
 
       //KITS TAB
       vm.kits = [];
@@ -318,6 +320,24 @@
               });
           });
       }
+
+      function addNewKit() {
+        var confirm = $mdDialog.confirm()
+          .title('Hey! Do you want to add a new kit?')
+          .content('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
+          .ariaLabel('')
+          .ok('Ok')
+          .cancel('Cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog
+          .show(confirm)
+          .then(function(){
+           $state.go('layout.kitAdd');
+          });
+      }
+
 
     }
 })();
