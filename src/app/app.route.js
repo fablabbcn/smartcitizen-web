@@ -377,11 +377,41 @@
           templateUrl: 'app/components/passwordReset/passwordReset.html',
           controller: 'PasswordResetController',
           controllerAs: 'vm'
+        })
+        .state('barcelonanoise', {
+          url: '/barcelonanoise',
+          templateUrl: 'app/components/landing/landing.html',
+          controller: 'LandingController',
+          controllerAs: 'vm',
+          resolve: {
+            go: function($location) {
+              $location.path('/kits/tags').search({tags: 'BarcelonaNoise'});;
+              return;
+            }
+          }
         });
+        
+        /* New for communities */
+
+        // .state('communities', {
+        //   url: '/community/:tag',
+        //   templateUrl: 'app/components/landing/landing.html',
+        //   controller: 'LandingController',
+        //   controllerAs: 'vm',
+        //   resolve: {
+        //     go: function($stateParams, $location) {
+        //       $location.path('/kits/tags').search({tags: $stateParams.tag});;
+        //       return;
+        //     }
+        //   }
+        // });
 
       /* Default state */
       $urlRouterProvider.otherwise('/kits');
       
+      /* Default state */
+      $urlRouterProvider.when('/kits', '/kits/');
+
       /* Default profile state */
       $urlRouterProvider.when('/profile', '/profile/kits');
 
