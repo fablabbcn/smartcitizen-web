@@ -164,7 +164,7 @@
                   alert.info.longTime();
                 }, 1000);
               }
-              if(!vm.kit.version || vm.kit.version.id == 2 || vm.kit.version.id == 3) vm.kit.setupAvailable = true;
+              if(!vm.kit.version || vm.kit.version.id == 2 || vm.kit.version.id == 3) vm.setupAvailable = true;
             }
 
             return $q.all([getMainSensors(vm.kit, sensorTypes),

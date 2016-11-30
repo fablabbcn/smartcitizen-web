@@ -109,6 +109,8 @@
               }
             };
 
+            if(!vm.kitData.version || vm.kitData.version.id == 2 || vm.kitData.version.id == 3) vm.setupAvailable = true;
+
             vm.macAddress = vm.kitData.macAddress;
 
             push.device(vm.kitData.id, $scope);
