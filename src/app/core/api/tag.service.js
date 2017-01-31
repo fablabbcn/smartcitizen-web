@@ -33,14 +33,12 @@
       function getSelectedTags(){
         return selectedTags;
       }
+      
       function setSelectedTags(tags){
         selectedTags = tags;
       }
 
       function tagWithName(name){
-        // var result = _.filter(tags, function(tag){
-        //   return tag.name.toLowerCase() == name.toLowerCase();
-        // });
         var result = _.where(tags, {name: name});
         if (result && result.length > 0){
           return result[0];
@@ -55,11 +53,10 @@
       }
 
       function filterMarkers(tmpMarkers) {
+        if (service.getSelectedTags().length === 0) return tmpMarkers;
         return tmpMarkers.filter(function(marker) {
           var tags = marker.myData.tags;
-          if (tags.length === 0 && service.getSelectedTags().length !== 0){
-            return false;
-          }
+          if (tags.length === 0) return false;
           return _.some(tags, function(tag) {
             return _.include(service.getSelectedTags(), tag);
           });
