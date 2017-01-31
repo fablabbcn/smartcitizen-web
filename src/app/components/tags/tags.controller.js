@@ -5,11 +5,11 @@
     .controller('tagsController', tagsController);
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
-    'PreviewKit', 'animation', '$timeout'
+    'PreviewKit', 'animation', '$timeout', '$rootScope'
   ];
 
   function tagsController(tag, $scope, device, $state, $q, PreviewKit,
-    animation, $timeout) {
+    animation, $timeout, $rootScope) {
 
     var vm = this;
 
@@ -18,17 +18,13 @@
     vm.kits = [];
     vm.percActive = 0;
 
-    initialize(); // This is temp
-
-    $scope.$on('markersUpdated', function(){ // This is temp
-      initialize();
-    });
+    initialize();
 
     /////////////////////////////////////////////////////////
 
     function initialize() {
       if(vm.selectedTags.length === 0){
-        $state.go('layout.home.kit');
+        $state.transitionTo('layout.home.kit');
       }
 
       animation.viewLoaded();
@@ -52,7 +48,7 @@
       getTaggedKits()
       	.then(function(res){
       		vm.kits = res;
-      	});
+      	});  
     }
 
     function isOnline(marker) {

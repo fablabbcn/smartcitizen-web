@@ -6,9 +6,9 @@
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', '$rootScope'];
+    'Marker', 'tag'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, $rootScope) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
       var vm = this;
       var updateType;
       var mapMoved = false;
@@ -115,10 +115,6 @@
         }
       });
 
-      $scope.$on('devicesContextUpdated', function(){
-        initialize();
-      });
-
       vm.readyForKit = {
         kit: false,
         map: false 
@@ -196,8 +192,8 @@
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
             }
-            checkTags();
-            checkAllFiltersSelected();
+
+            updateMarkers();
 
             vm.readyForKit.map = true;
 
@@ -228,7 +224,9 @@
                       var selectedMarker = currentMarker;
 
                       if(selectedMarker) {
-                          // goToLocation(null, data);
+                          $timeout(function() {
+                            goToLocation(null, data);
+                          });
                           selectedMarker.options.focus = true;
                           selectedMarker.openPopup();      
                       } 
@@ -252,12 +250,6 @@
        
       }
 
-      function checkTags(){
-        if(vm.selectedTags.length > 0){
-          updateMarkers();
-        }
-      }
-
       function checkAllFiltersSelected() {
         var allFiltersSelected = _.every(vm.filters, function(filterValue) {
           return _.include(vm.selectedFilters, filterValue);
@@ -279,11 +271,7 @@
         .then(function(selectedFilters) {
           updateType = 'map';
           vm.selectedFilters = selectedFilters;
-          updateMarkers();
-          checkAllFiltersSelected();
-          $timeout(function() {
-            checkMarkersLeftOnMap();
-          });
+          updateMapFilters();
         });
       }
 
@@ -302,12 +290,14 @@
           updateType = 'map';
           tag.setSelectedTags(_.pluck(selectedTags, 'name'));
           vm.selectedTags = tag.getSelectedTags();
-          checkAllFiltersSelected();
-          $timeout(function() {
-            checkMarkersLeftOnMap();
-          });
           reloadWithTags();
         });
+      }
+
+      function updateMapFilters(){
+          vm.selectedTags = tag.getSelectedTags();
+          checkAllFiltersSelected();
+          updateMarkers();
       }
 
       function removeFilter(filterName) {
@@ -320,7 +310,7 @@
         updateMarkers();
       }
 
-      function filterMarkersByLabel(tmpMarkers) {
+     function filterMarkersByLabel(tmpMarkers) {
         return tmpMarkers.filter(function(marker) {
           var labels = marker.myData.labels;
           if (labels.length === 0 && vm.selectedFilters.length !== 0){
@@ -335,84 +325,27 @@
       function updateMarkers() {
         $timeout(function() {
           $scope.$apply(function() {
-            var tmpMarkers = device.getWorldMarkers();
-            tmpMarkers = filterMarkersByLabel(tmpMarkers);
-            vm.markers = tag.filterMarkersByTag(tmpMarkers);
+            var allMarkers = device.getWorldMarkers();
+
+            var updatedMarkers = allMarkers;
+
+            updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
+            updatedMarkers = filterMarkersByLabel(updatedMarkers);
+
+            vm.markers = updatedMarkers;
+
             vm.kitLoading = false;
-            if(vm.markers && vm.markers.length) {
-              var boundaries = getBoundaries(vm.markers);
-              leafletData.getMap().then(function(map){
-                map.fitBounds(boundaries);
-                $rootScope.$broadcast('markersUpdated');
-              });
-            }
+
+            zoomOnMarkers();
           });
         });
-      }
-
-      function checkMarkersLeftOnMap() {
-        return leafletData.getMarkers()
-          .then(function(markers) {
-            return leafletData.getLayers()
-              .then(function(layers) {
-                var isThereMarkers = mapContainsAnyMarker(layers, markers);
-
-                if(!isThereMarkers) {
-                  leafletData.getMap()
-                    .then(function() {
-                      var center = L.latLng(vm.center.lat, vm.center.lng);
-                      var closestMarker = _.reduce(markers, function(closestMarkerSoFar, marker) {
-                        var distanceToMarker = center.distanceTo(marker.getLatLng());
-                        var distanceToClosest = center.distanceTo(closestMarkerSoFar.getLatLng());
-                        return distanceToMarker < distanceToClosest ? marker : closestMarkerSoFar;
-                      }, markers[0]);
-
-                      if(closestMarker) {
-                        zoomOutWhileNoMarker(layers, closestMarker);
-                      } else {
-                        alert.error('No markers found with those filters', 5000);
-                      }
-                    });
-                }
-              });
-          });
-      }
-      function mapContainsAnyMarker(layers, data) {
-        var bounds = layers.overlays.realworld._currentShownBounds;
-        return _.some(data, function(marker) {
-          return mapContainsMarker(bounds, marker);
-        });
-      }
-
-      function mapContainsMarker(bounds, marker) {
-        return bounds.contains(marker.getLatLng());
-      }
-
-      function zoomOutWhileNoMarker(layers, marker) {
-        var bounds = layers.overlays.realworld._currentShownBounds;
-
-        if(!mapContainsMarker(bounds, marker)) {
-          zoomOutMap();
-          leafletData.getLayers()
-            .then(function(newLayers) {
-              $timeout(function() {
-                zoomOutWhileNoMarker(newLayers, marker);
-              });
-            });
-        }
-      }
-
-      function zoomOutMap() {
-        if(vm.center.zoom === 0) {
-          return;
-        }
-        vm.center.zoom = vm.center.zoom - 3;
       }
 
       function getZoomLevel(data) {
+        console.log(data);
         var LAYER_ZOOMS = [{name:'venue', zoom:18}, {name:'address', zoom:18}, {name:'neighbourhood', zoom:13}, {name:'locality', zoom:13}, {name:'localadmin', zoom:10}, {name:'county', zoom:10}, {name:'region', zoom:8}, {name:'country', zoom:7}, {name:'coarse', zoom:7}];
         if (!data.layer) {
-          return 5;
+          return 10;
         }
         return _.find(LAYER_ZOOMS, function(layer) {
           return layer.name === data.layer;
@@ -449,44 +382,38 @@
         tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
           return el !== tagName;
         }));
+
         vm.selectedTags = tag.getSelectedTags();
 
         if(vm.selectedTags.length === 0){
-          $state.transitionTo('layout.home.kit',
-            {tags: vm.selectedTags},
-            {
-              inherit:false
-            });
-        }else{
+          reloadNoTags();
+        } else {
           reloadWithTags();
         }
+
+      }
+
+      function zoomOnMarkers(){
+        $timeout(function() {
+          if(vm.markers && vm.markers.length > 0) {
+              leafletData.getMap().then(function(map){
+                  var bounds = L.latLngBounds(vm.markers);
+                  map.fitBounds(bounds);
+              });
+          } else {
+            alert.error('No markers found with those filters', 5000);
+          }
+        });
       }
 
       function reloadWithTags(){
-        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags});
+        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags}, {reload: true});
       }
 
-      function getBoundaries(markers){
-        if(markers && markers.length) {
-          var minLat = markers[0].lat;
-          var minLong = markers[0].lng;
-          var maxLat = minLat;
-          var maxLong = maxLong;
-
-          _.forEach(markers, function(marker){
-            minLat = _.min([minLat, marker.lat]);
-            maxLat = _.max([maxLat, marker.lat]);
-            minLong = _.min([minLong, marker.lng]);
-            maxLong = _.max([maxLong, marker.lng]);
-          });
-
-          var margin = 0.0001;
-          return L.latLngBounds(
-            L.latLng(minLat-(minLat*margin), minLong-(minLong*margin)),
-            L.latLng(maxLat+(maxLat*margin), maxLong+(maxLong*margin))
-          );
-        }
+      function reloadNoTags(){
+        $state.transitionTo('layout.home.kit');
       }
+
     }
 
 })();
