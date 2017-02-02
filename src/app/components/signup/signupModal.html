@@ -1,15 +1,15 @@
 <md-dialog>
   <md-dialog-content class="modal signup">
     <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
-    <md-button class="close_icon">
-      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="cancel()" class="" >
+    <md-button class="close_icon" ng-click="cancel()">
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" class="">
       </md-icon>
     </md-button>
     <form name="form" novalidate ng-submit="vm.answer(vm.form)">
       <div class="modal_content_container">
-      	<h2>SIGN UP</h2>
-    	  <h3 class="header">People looking for a better city</h3>
-    	  <p class="subheader">You're part of them? Feel free to join us!</p>
+        <h2>SIGN UP</h2>
+        <h3 class="header">People looking for a better city</h3>
+        <p class="subheader">You're part of them? Feel free to join us!</p>
         <div layout layout-sm="column" class="field">
           <md-input-container flex>
             <label>Username</label>
