@@ -1,8 +1,8 @@
 <md-dialog>
   <md-dialog-content class="modal modal_login">
     <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
-    <md-button class="close_icon" aria-label>
-      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" ng-click="hide()" class="" >
+    <md-button class="close_icon" ng-click="hide()" aria-label>
+      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" class="">
       </md-icon>
     </md-button>
     <form name="login_form" novalidate ng-submit="answer(vm.user)">
