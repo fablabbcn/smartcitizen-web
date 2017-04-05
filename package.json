@@ -1,7 +1,9 @@
 {
   "name": "smartcitizen",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "karma": "^1.5.0"
+  },
   "scripts": {
     "postinstall": "bower install"
   },
@@ -38,7 +40,6 @@
     "gulp-util": "~3.0.2",
     "http-proxy": "~1.8.0",
     "jshint-stylish": "~1.0.0",
-    "karma": "~0.12.31",
     "karma-jasmine": "~0.3.1",
     "karma-ng-html2js-preprocessor": "~0.1.2",
     "karma-phantomjs-launcher": "~0.1.4",
