@@ -15,6 +15,11 @@
         className: 'markerSmartCitizenNormal',
         iconSize: [24, 24]
       },
+      markerExperimentalNormal: {
+        type: 'div',
+        className: 'markerExperimentalNormal',
+        iconSize: [24, 24]
+      },
       markerSmartCitizenOnline: {
         type: 'div',
         className: 'markerSmartCitizenOnline',

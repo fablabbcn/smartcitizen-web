@@ -36,7 +36,7 @@
             'tag', true) +
           '</div></div></div>';
 
-        this.icon = markerUtils.getIcon(markerUtils.parseLabels(deviceData));
+        this.icon = markerUtils.getIcon(deviceData);
         this.layer = 'realworld';
         this.focus = false;
         this.myData = {
