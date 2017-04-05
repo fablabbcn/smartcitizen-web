@@ -11,32 +11,31 @@
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
       var vm = this;
       var updateType;
-      var mapMoved = false;
-      var kitLoaded = false;
-      var mapClicked = false;
       var focusedMarkerID;
 
       vm.markers = [];
 
-      var retinaSuffix = isRetina() ? '@2x' : '';
+      var retinaSuffix = isRetina() ? '512' : '256';
+      var retinaLegacySuffix = isRetina() ? '@2x' : '';
 
-      vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+
-          retinaSuffix +'.png' +
-          '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
-          'loQdtLNQ8GJkJl2LUzzxVg'
-      };
-      //previous tile -->'https://a.tiles.mapbox.com/v4/tomasdiez.jnbhcnb2/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
+      var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
 
       vm.layers = {
         baselayers: {
           osm: {
             name: 'OpenStreetMap',
             type: 'xyz',
-            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/' +
-              '{x}/{y}' + retinaSuffix + '.png' +
-              '?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.' +
-              'loQdtLNQ8GJkJl2LUzzxVg'
+            url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken 
+          },
+          legacy: {
+            name: 'Legacy',
+            type: 'xyz',
+            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+ retinaLegacySuffix +'.png' + '?access_token=' + mapBoxToken
+          },
+          sat: {
+            name: 'Satellite',
+            type: 'xyz',
+            url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken 
           }
         },
         overlays: {
@@ -91,7 +90,7 @@
         if(id === parseInt($state.params.id)) {
           $timeout(function() {
             vm.kitLoading = false;
-          }, 0);
+          });
           return;
         }
 
@@ -102,7 +101,7 @@
 
         $state.go('layout.home.kit', {id: id});
 
-        angular.element('section.map').scope().$broadcast('resizeMapHeight');
+        // angular.element('section.map').scope().$broadcast('resizeMapHeight'); 
       });
 
 
@@ -134,16 +133,12 @@
         goToLocation(event, data);
       });
 
-      $scope.$on('leafletDirectiveMap.moveend', function(){
-        reportMapMove();
+      $scope.$on('leafletDirectiveMap.dragend', function(){
+        reportMapInteractionByUser();
       });
 
-      $scope.$on('leafletDirectiveMap.zoomend', function(){
-        reportMapMove();
-      });
-
-      $scope.$on('leafletDirectiveMap.mousedown', function(){
-        mapClicked = true;
+      $scope.$on('leafletDirectiveMap.click', function(){
+        reportMapInteractionByUser();
       });
 
       vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
@@ -201,6 +196,7 @@
       }
 
       function zoomKitAndPopUp(data){ 
+
         if(updateType === 'map') {
           vm.kitLoading = false;
           updateType = undefined;
@@ -220,26 +216,15 @@
                 if(currentMarker){
                   layers.overlays.realworld.zoomToShowLayer(currentMarker,
                     function() {
-
                       var selectedMarker = currentMarker;
-
                       if(selectedMarker) {
-                          $timeout(function() {
-                            goToLocation(null, data);
-                          });
-                          selectedMarker.options.focus = true;
-                          selectedMarker.openPopup();      
+                        goToLocation(null, data, function(){
+                            selectedMarker.options.focus = true;
+                            selectedMarker.openPopup();                              
+                        });
                       } 
-
-                      if(!$scope.$$phase) {
-                        $scope.$digest();
-                      }
-
                       vm.kitLoading = false;
-                      kitLoaded = true;
-
                     });
-
                 } else {
                   leafletData.getMap().then(function(map){
                     map.closePopup();
@@ -331,7 +316,6 @@
 
             updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
             updatedMarkers = filterMarkersByLabel(updatedMarkers);
-
             vm.markers = updatedMarkers;
 
             vm.kitLoading = false;
@@ -342,21 +326,17 @@
       }
 
       function getZoomLevel(data) {
-        console.log(data);
         var LAYER_ZOOMS = [{name:'venue', zoom:18}, {name:'address', zoom:18}, {name:'neighbourhood', zoom:13}, {name:'locality', zoom:13}, {name:'localadmin', zoom:10}, {name:'county', zoom:10}, {name:'region', zoom:8}, {name:'country', zoom:7}, {name:'coarse', zoom:7}];
         if (!data.layer) {
-          return 10;
+          return 20;
         }
         return _.find(LAYER_ZOOMS, function(layer) {
           return layer.name === data.layer;
         }).zoom;
       }
 
-      function reportMapMove(){
-        if(kitLoaded && !mapMoved && mapClicked){
-          ga('send', 'event', 'Map', 'moved');
-          mapMoved = true;
-        }
+      function reportMapInteractionByUser(){
+        ga('send', 'event', 'Map', 'moved');
       }
 
       function isRetina(){
@@ -372,11 +352,25 @@
           /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
       }
 
-      function goToLocation(event, data){
-        vm.center.lat = data.lat;
-        vm.center.lng = data.lng;
-        vm.center.zoom = getZoomLevel(data);
+      function goToLocation(event, data, callback){
+        // This isn't super nice but turns the event in to a kind off callback
+        if (callback) {
+          leafletData.getMap().then(function(map){
+            map.on('moveend', function() {
+              map.off('moveend');
+              callback();
+            });
+          });
+        }
+        // This ensures the action runs after the event is registered
+        $timeout(function() {
+          vm.center.lat = data.lat;
+          vm.center.lng = data.lng;
+          vm.center.zoom = getZoomLevel(data);
+        });
       }
+
+
 
       function removeTag(tagName){
         tag.setSelectedTags(_.filter(vm.selectedTags, function(el){

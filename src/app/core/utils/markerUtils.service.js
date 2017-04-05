@@ -114,13 +114,18 @@
         return object.id;
       }
 
-      function getIcon(labels) {
+      function getIcon(object) {
         var icon;
+
+        var labels = this.parseLabels(object);
+        var type = this.parseTypeSlug(object);
 
         if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.markerSmartCitizenOffline;
-        } else {
+        } else if (type == 'sck') {
           icon = MARKER_ICONS.markerSmartCitizenOnline;
+        } else {
+          icon = MARKER_ICONS.markerExperimentalNormal;
         }
         return icon;
       }

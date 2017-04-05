@@ -2130,16 +2130,23 @@ md-dialog.tags, md-dialog.filters{
 */
 
 .markerSmartCitizenNormal {
-  border: 1px solid #00CBE8;
+  border: 1px solid $terciary_color;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
 }
 
 .markerSmartCitizenOnline {
-  border: 2px solid #00CBE8;
+  border: 2px solid $terciary_color;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
-  background-color: #00CBE8;
+  background-color: $terciary_color;
+}
+
+.markerExperimentalNormal {
+  border: 2px solid $background_blue_midtone;
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
+  background-color: $background_blue_midtone;
 }
 
 /* @keyframes pulse {
@@ -2273,7 +2280,7 @@ md-dialog.tags, md-dialog.filters{
 /* Kit type colors kitUtils.service.js :: classify()*/
 
 .sck {
-  background-color: $blue_light;
+  background-color: $terciary_color;
 }
 .unknown {
   background-color: grey;
