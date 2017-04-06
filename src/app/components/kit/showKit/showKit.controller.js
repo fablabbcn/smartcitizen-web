@@ -127,7 +127,6 @@
         colorClock();
         // events below can probably be refactored to use $viewContentLoaded https://github.com/angular-ui/ui-router/wiki#user-content-view-load-events
         animation.viewLoaded();
-        animation.mapStateLoaded();
       }, 1000);
 
       var kitID = $stateParams.id;

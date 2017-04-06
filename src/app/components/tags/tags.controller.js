@@ -27,14 +27,20 @@
         $state.transitionTo('layout.home.kit');
       }
 
-      animation.viewLoaded();
-
-    	if (vm.selectedTags.length === 0){
-    		return;
-    	}
-      if (!device.getWorldMarkers()) {
-        return;
+      if (device.getWorldMarkers()) { 
+        // If the user has already loaded a prev page and has markers in mem or localstorage
+        updateSelectedTags();
+      } else {
+        // If the user is new we wait the map to load the markers
+        $scope.$on('mapStateLoaded', function(event, data) {
+          updateSelectedTags();
+        });
       }
+
+    }
+
+    function updateSelectedTags(){
+
       vm.markers = tag.filterMarkersByTag(device.getWorldMarkers());
 
       var onlineMarkers = _.filter(vm.markers, isOnline);
@@ -45,11 +51,14 @@
           100);
       }
 
+      animation.viewLoaded();
+
       getTaggedKits()
-      	.then(function(res){
-      		vm.kits = res;
-      	});  
+        .then(function(res){
+          vm.kits = res;
+        }); 
     }
+
 
     function isOnline(marker) {
       return _.include(marker.myData.labels, 'online');

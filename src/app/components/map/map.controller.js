@@ -6,9 +6,9 @@
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag'];
+    'Marker', 'tag', 'animation'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -317,6 +317,8 @@
             updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
             updatedMarkers = filterMarkersByLabel(updatedMarkers);
             vm.markers = updatedMarkers;
+
+            animation.mapStateLoaded();
 
             vm.kitLoading = false;
 
