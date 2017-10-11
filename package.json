@@ -1,6 +1,6 @@
 {
   "name": "smartcitizen",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "bower": "^1.8.2",
     "karma": "^1.5.0",
