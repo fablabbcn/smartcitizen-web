@@ -89,7 +89,7 @@ module.exports = function(options) {
 
     var revision = require('child_process')
     .execSync('git rev-parse HEAD')
-    .toString().trim()
+    .toString().trim().substring(0,7)
 
     gutil.log('Git hash is: ' + revision);
 
