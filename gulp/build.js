@@ -87,15 +87,9 @@ module.exports = function(options) {
     var p = require('./../package.json');
     gutil.log(' -- The version is now: ' + p.version);
 
-    var revision = require('child_process')
-    .execSync('git rev-parse HEAD')
-    .toString().trim().substring(0,7)
-
-    gutil.log('Git hash is: ' + revision);
-
     replace({
       regex: "Version.*",
-      replacement: "Version: " + p.version + '. Hash: ' + revision,
+      replacement: "Version: " + p.version,
       paths: ['./src/app/components/footer/footer.html'],
       recursive: true,
       silent: true,
