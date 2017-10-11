@@ -1,12 +1,14 @@
 <!doctype html>
 <html ng-app="app">
   <head>
-    <base href="/"> <!-- http://fablabbcn.github.io/smartcitizen-web/ -->
+    <base href="/">
     <meta charset="utf-8">
     <title>Smart Citizen</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- CSS Styles -->
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <link rel="stylesheet" href="app/vendor.css">
@@ -28,6 +30,7 @@
     <meta property="og:image" content="http://legacy.smartcitizen.me/img/alogo_sc_200x200.png">
   </head>
   <body>
+
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -38,6 +41,8 @@
       <div ui-view autoscroll="false"></div>
     </div>
 
+    <!-- GA stats -->
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -46,6 +51,8 @@
 
       ga('create', 'UA-42666356-2', 'auto');
     </script>
+
+    <!-- Doorbell feedback -->
 
     <script type="text/javascript">
         window.doorbellOptions = {
@@ -56,6 +63,8 @@
         }(document, 'script'));
     </script>
 
+    <!-- JS Dependencies -->
+
     <script src="https://cdn.socket.io/socket.io-1.4.8.js"></script>
 
     <!-- build:js(src) scripts/vendor.js -->
@@ -63,6 +72,16 @@
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
+
+    <!-- Sentry Error Tracking -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://cdn.ravenjs.com/3.17.0/angular/raven.min.js" crossorigin="anonymous"></script>
+    <script>
+      Raven.config('https://ced21d09a9434443810225d47171123f@sentry.organicity.eu/4').install();
+    </script>
+
+    <!-- The App JS -->
 
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
     <!-- inject:js -->
