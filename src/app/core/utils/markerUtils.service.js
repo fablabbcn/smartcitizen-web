@@ -45,7 +45,7 @@
         /*jshint camelcase: false */
         var kit = genericKitData[object.kit_id];
 
-        var kitType = !kit ? 'Unknown type': kit.name;
+        kitType = !kit ? 'Unknown type': kit.name;
 
         return kitType; 
       }
@@ -122,7 +122,7 @@
 
         if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.markerSmartCitizenOffline;
-        } else if (type == 'sck') {
+        } else if (type === 'sck') {
           icon = MARKER_ICONS.markerSmartCitizenOnline;
         } else {
           icon = MARKER_ICONS.markerExperimentalNormal;

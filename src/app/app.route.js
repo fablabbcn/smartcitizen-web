@@ -385,7 +385,7 @@
           controllerAs: 'vm',
           resolve: {
             go: function($location) {
-              $location.path('/kits/tags').search({tags: 'BarcelonaNoise'});;
+              $location.path('/kits/tags').search({tags: 'BarcelonaNoise'});
               return;
             }
           }

@@ -104,7 +104,7 @@
 
       function areMarkersOld() {
         var markersDate = getTimeStamp();
-        return !timeUtils.isWithin(1, 'minutes', markersDate)
+        return !timeUtils.isWithin(1, 'minutes', markersDate);
       }
 
       function removeMarkers() {

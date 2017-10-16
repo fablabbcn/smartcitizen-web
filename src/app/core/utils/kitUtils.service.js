@@ -89,16 +89,16 @@
           hardware:  parseVersionName(object.kit.slug.split(':')[0]),
           release: parseVersionString(object.kit.slug.split(':')[1]),
           slug: object.kit.slug
-        }
+        };
       }
 
       function parseVersionName (str) {
-          if (typeof(str) != 'string') { return false; }
+          if (typeof(str) !== 'string') { return false; }
           return str;
       }
 
       function parseVersionString (str) {
-          if (typeof(str) != 'string') { return false; }
+          if (typeof(str) !== 'string') { return false; }
           var x = str.split('.');
           // parse from string or default to 0 if can't parse
           var maj = parseInt(x[0]) || 0;
@@ -108,7 +108,7 @@
               major: maj,
               minor: min,
               patch: pat
-          }
+          };
       }
 
       function parseOwner(object) {

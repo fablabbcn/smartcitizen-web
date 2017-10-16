@@ -27,7 +27,7 @@ describe('Service: Device', function() {
       httpBackend.flush();
       expect(device.getGenericKitData()).toEqual({});        
     });
-  })
+  });
 
   describe('#getDevice', function() {
     it('should call for a single device', function() {
@@ -39,7 +39,7 @@ describe('Service: Device', function() {
       device.getDevice(12)
         .then(function(res) {
           expect(Object.keys(res.plain())).toEqual(['name', 'id']);
-        })
+        });
       httpBackend.flush();
     });
   });
@@ -55,7 +55,7 @@ describe('Service: Device', function() {
         .then(function(res) {
           expect(Array.isArray(res.plain())).toEqual(true);
           expect(res.plain().length).toEqual(2);
-        })
+        });
       httpBackend.flush();
     });
   });
@@ -71,7 +71,7 @@ describe('Service: Device', function() {
         .then(function(res) {
           expect(Array.isArray(res.plain())).toEqual(true);
           expect(res.plain().length).toEqual(2);
-        })
+        });
       httpBackend.flush();
     });
   });

@@ -109,7 +109,9 @@
               }
             };
 
-            if(!vm.kitData.version || vm.kitData.version.id == 2 || vm.kitData.version.id == 3) vm.setupAvailable = true;
+            if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
+              vm.setupAvailable = true;
+            }
 
             vm.macAddress = vm.kitData.macAddress;
 
@@ -156,7 +158,7 @@
           user_tags: vm.kitForm.tags.join(',')
         };
 
-        if(!vm.macAddress || vm.macAddress == ""){
+        if(!vm.macAddress || vm.macAddress === ''){
           /*jshint camelcase: false */
           data.mac_address = null;
         } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
@@ -164,27 +166,29 @@
           data.mac_address = vm.macAddress;
         } else {
           /*jshint camelcase: false */
-          var message = 'The mac address you entered is not a valid address'
+          var message = 'The mac address you entered is not a valid address';
           alert.error(message);
           data.mac_address = null;
-          throw new Error("[Client:error] " + message);
+          throw new Error('[Client:error] ' + message);
         }
 
         device.updateDevice(vm.kitData.id, data)
           .then(
             function() {
-              if (!vm.macAddress && $stateParams.step == 2) { 
+              if (!vm.macAddress && $stateParams.step === 2) {
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
               } else if (next){
                 alert.success('Your kit was successfully updated');
               }
               ga('send', 'event', 'Kit', 'update');
               device.updateContext().then(function(){
-                  if (next) $timeout(next, delayTransition);
+                if (next){
+                  $timeout(next, delayTransition);
+                }
               });
             })
             .catch(function(err) {
-              if(err.data.errors.mac_address[0] === "has already been taken") {
+              if(err.data.errors.mac_address[0] === 'has already been taken') {
                 alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
                 ga('send', 'event', 'Kit', 'unprocessable entity');
               }
@@ -198,7 +202,7 @@
 
       function findExposureFromLabels(labels){
         var label = vm.exposure.filter(function(n) {
-            return labels.indexOf(n.name) != -1;
+            return labels.indexOf(n.name) !== -1;
         })[0];
         if(label) {
           return findExposure(label.name);
@@ -237,7 +241,7 @@
       }
 
       function backToProfile(){
-        if (!vm.macAddress && $stateParams.step == 2) { 
+        if (!vm.macAddress && $stateParams.step === 2) {
           alert.info.generic('Remember you will need to register the Mac Address later 🔧');
           $timeout(toProfile, timewait.normal);
         } else {

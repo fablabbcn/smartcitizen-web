@@ -14,7 +14,7 @@
             exception.params = { angular_cause: cause };
             airbrake.notify(exception);
             $delegate(exception, cause);
-          }
+          };
         }]);
 
     });

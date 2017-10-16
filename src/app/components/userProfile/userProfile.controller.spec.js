@@ -68,6 +68,6 @@ describe('Controller: User Profile', function() {
     it('should update the page according to the loggedIn event handler', function() {
 
     });
-  })
+  });
 });
 

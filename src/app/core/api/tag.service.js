@@ -53,10 +53,14 @@
       }
 
       function filterMarkers(tmpMarkers) {
-        if (service.getSelectedTags().length === 0) return tmpMarkers;
+        if (service.getSelectedTags().length === 0){
+          return tmpMarkers;
+        }
         return tmpMarkers.filter(function(marker) {
           var tags = marker.myData.tags;
-          if (tags.length === 0) return false;
+          if (tags.length === 0){
+            return false;
+          }
           return _.some(tags, function(tag) {
             return _.include(service.getSelectedTags(), tag);
           });
