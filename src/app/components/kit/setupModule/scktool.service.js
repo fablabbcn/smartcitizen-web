@@ -1,5 +1,5 @@
 (function(){
-  'use strict'
+  'use strict';
 
   angular.module('app.components')
     .service('scktoolService', scktoolService);
@@ -15,7 +15,7 @@
 
     var service = {
       scktool: scktool
-    }
+    };
 
     initialize();
 

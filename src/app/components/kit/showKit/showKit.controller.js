@@ -130,7 +130,7 @@
       }, 1000);
 
       var kitID = $stateParams.id;
-      if (kitID || kitID != ''){
+      if (kitID || kitID !== ''){
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
@@ -163,7 +163,9 @@
                   alert.info.longTime();
                 }, 1000);
               }
-              if(!vm.kit.version || vm.kit.version.id == 2 || vm.kit.version.id == 3) vm.setupAvailable = true;
+              if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
+                vm.setupAvailable = true;
+              }
             }
 
             return $q.all([getMainSensors(vm.kit, sensorTypes),
@@ -524,7 +526,7 @@
             });
           }
 
-          return to
+          return to;
       }
 
       function updateChart() {
@@ -713,7 +715,9 @@
       var to = moment(vm.kit.time).endOf(what);
       var from = moment(vm.kit.time).startOf(what);
       // Check if we are in the future
-      if (moment().diff(to) < 0) to = moment(vm.kit.time);
+      if (moment().diff(to) < 0){
+        to = moment(vm.kit.time);
+      }
       picker.setValuePickers([from.toDate(), to.toDate()]);
     }
     function timeOptSelected(){

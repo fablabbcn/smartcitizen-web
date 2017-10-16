@@ -116,8 +116,8 @@
 
       vm.readyForKit = {
         kit: false,
-        map: false 
-      } 
+        map: false
+      };
 
       $scope.$on('kitLoaded', function(event, data) {
         vm.readyForKit.kit = data;

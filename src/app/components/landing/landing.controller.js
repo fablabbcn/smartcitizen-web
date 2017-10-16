@@ -21,7 +21,9 @@
     function initialize() {
       $timeout(function() {
         animation.viewLoaded();
-        if($location.hash()) $anchorScroll(); 
+        if($location.hash()) {
+          $anchorScroll();
+        }
       }, 500);
     }
 

@@ -52,7 +52,7 @@
         };
       }
 
-      function parseType(object) {
+      function parseKitType(object) {
         var kitType = !object.kit ? 'Unknown type': object.kit.name;
         return kitType; 
       }

@@ -43,7 +43,7 @@ describe('Service: User', function() {
           return {
             username: 'Ruben',
             city: 'Barcelona'
-          }
+          };
         });
       user.getUser(1)
         .then(function(res) {
@@ -58,7 +58,7 @@ describe('Service: User', function() {
       var path = '/me';
       $httpBackend.whenPUT(path)
         .respond(function(method, url, data, headers) {
-          return data
+          return data;
         });
       user.updateUser({
         username: 'Ruben',

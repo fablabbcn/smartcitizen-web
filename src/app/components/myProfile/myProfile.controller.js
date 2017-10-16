@@ -310,7 +310,9 @@
                 ga('send', 'event', 'Kit', 'delete');
                 device.updateContext().then(function(){
                   var userData = auth.getCurrentUser().data;
-                  if(userData) vm.user = userData;
+                  if(userData){
+                    vm.user = userData;
+                  }
                   //updateKits();
                   initialize();
                 });
