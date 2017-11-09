@@ -46,7 +46,7 @@
     vm.showSensorOnChart = showSensorOnChart;
     vm.showStore = showStore;
     vm.slide = slide;
-    vm.timeOpt = ['hour', 'day' , 'month'];
+    vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
 
     var focused = true;
@@ -712,8 +712,14 @@
     function setFromLast(what){
       /* This will not show the last 60 minutes or 24 hours,
       instead it will show the last hour or day*/
-      var to = moment(vm.kit.time).endOf(what);
-      var from = moment(vm.kit.time).startOf(what);
+      var to, from;
+      if (what == "60 minutes") {
+        to = moment(vm.kit.time);
+        from = moment(vm.kit.time).subtract(60, 'minutes');
+      } else {
+        to = moment(vm.kit.time).endOf(what);
+        from = moment(vm.kit.time).startOf(what);
+      }
       // Check if we are in the future
       if (moment().diff(to) < 0){
         to = moment(vm.kit.time);

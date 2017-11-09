@@ -26,7 +26,7 @@
 
         var rollup;
         if(rangeDays <= 1) {
-          rollup = '10m';
+          rollup = '15s';
         } else if(rangeDays <= 7) {
           rollup = '1h';//rollup = '15m';
         } else if(rangeDays > 7) {
