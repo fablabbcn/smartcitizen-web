@@ -6,4 +6,7 @@ services:
     ports:
       - "8080:8080"
       - "3001:3001"
-
+    tty: true #color output
+    stdin_open: true
+    volumes:
+      - "./:/usr/src/app"
