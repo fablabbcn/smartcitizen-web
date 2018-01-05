@@ -3507,9 +3507,16 @@ p.no-margin {
     }
 }
 
+
 /*! SmartCitizen CSS | Leonardo Arrata 2013 */
 
 .landing-page {
+    .md-button{
+        padding:2px 12px;
+        border: 2px solid;
+        border-radius:50px;
+        font-size:18px;
+    }
 
     font-weight: 300;
     height: 100%;
