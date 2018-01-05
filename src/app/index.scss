@@ -3439,16 +3439,6 @@ p.no-margin {
 
 }
 
-/* Landin Page specifics */
-
-/*!
- * Bootstrap v3.2.0 (http://getbootstrap.com)
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
-
 .landing-page {
 
     h1,
@@ -3488,144 +3478,6 @@ p.no-margin {
     .row {
         margin-right: -15px;
         margin-left: -15px;
-    }
-
-    .col-sm-3,
-    .col-md-3,
-    .col-lg-3,
-    .col-xs-4,
-    .col-sm-4,
-    .col-md-4,
-    .col-lg-4,
-    .col-xs-6,
-    .col-sm-6,
-    .col-md-6,
-    .col-lg-6,
-    .col-xs-8,
-    .col-sm-8,
-    .col-md-8,
-    .col-lg-8,
-    .col-xs-12,
-    .col-sm-12,
-    .col-md-12,
-    .col-lg-12 {
-        position: relative;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .col-xs-4,
-    .col-xs-6,
-    .col-xs-8,
-    .col-xs-12 {
-        float: left;
-    }
-
-    .col-xs-12 {
-        width: 100%;
-    }
-
-    .col-xs-8 {
-        width: 66.66666667%;
-    }
-
-    .col-xs-6 {
-        width: 50%;
-    }
-
-    .col-xs-4 {
-        width: 33.33333333%;
-    }
-
-    @media (min-width: 768px) {
-        .col-sm-3,
-        .col-sm-4,
-        .col-sm-6,
-        .col-sm-8,
-        .col-sm-12 {
-            float: left;
-        }
-
-        .col-sm-12 {
-            width: 100%;
-        }
-
-        .col-sm-8 {
-            width: 66.66666667%;
-        }
-
-        .col-sm-6 {
-            width: 50%;
-        }
-
-        .col-sm-4 {
-            width: 33.33333333%;
-        }
-
-        .col-sm-3 {
-            width: 25%;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .col-md-3,
-        .col-md-4,
-        .col-md-6,
-        .col-md-8,
-        .col-md-12 {
-            float: left;
-        }
-
-        .col-md-12 {
-            width: 100%;
-        }
-
-        .col-md-8 {
-            width: 66.66666667%;
-        }
-
-        .col-md-6 {
-            width: 50%;
-        }
-
-        .col-md-4 {
-            width: 33.33333333%;
-        }
-
-        .col-md-3 {
-            width: 25%;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .col-lg-3,
-        .col-lg-4,
-        .col-lg-6,
-        .col-lg-8,
-        .col-lg-12 {
-            float: left;
-        }
-
-        .col-lg-12 {
-            width: 100%;
-        }
-
-        .col-lg-8 {
-            width: 66.66666667%;
-        }
-
-        .col-lg-6 {
-            width: 50%;
-        }
-
-        .col-lg-4 {
-            width: 33.33333333%;
-        }
-
-        .col-lg-3 {
-            width: 25%;
-        }
     }
 
     .form-control::-moz-placeholder {
@@ -3717,12 +3569,6 @@ p.no-margin {
             width: 100%;
             height: 100%;
         }
-    }
-
-
-    .social-media {
-      padding: 0 40px 60px 40px;
-      overflow:hidden;
     }
 
     &.footer {
