@@ -352,11 +352,6 @@ search {
   md-autocomplete {
     height: 36px;
 
-    button {
-      top: 0.7em;
-      right: 0.7em;
-    }
-
     ul {
       z-index: 100;
       max-height: 422px;
@@ -397,12 +392,11 @@ search {
   }
 
   input {
-
+    padding: 0 40px !important;
     background-color: #377382;
     color: black;
     height: 36px;
     line-height: 36px;
-    padding: 0 40px;
     border-radius: 4px;
   }
 
