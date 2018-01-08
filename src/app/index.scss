@@ -849,7 +849,7 @@ section.map {
   .hint{
     background-color:#032933;
     text-align:center;
-    color:#82A7B0;
+    color:$font_color_blue_grey;
 
     margin-top:0px;
     padding-top:18px;
@@ -894,7 +894,7 @@ section .kit_menu {
   .kit_time {
     position: relative;
     left: -40px;
-    color: #82A7B0;
+    color: $font_color_blue_grey;
     letter-spacing: 0.5px;
     font-size: 14px;
     text-transform: uppercase;
@@ -1134,7 +1134,7 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          color: #DDE7EA;
+          color: $background_blue_light;
           height: 80px;
           margin-top: 0px; //30;
           position: relative;
@@ -1162,7 +1162,7 @@ section .kit_menu {
             z-index: 200;
             // border: 1px solid grey;
             background-color: rgba(255, 255, 255, 0.8);
-            color: #03252D;
+            color: $background_blue_dark_chart;
             border-radius: 2px;
             line-height: 1.5em;
             padding: 10px;
@@ -1199,7 +1199,7 @@ section .kit_menu {
           -o-transform: translate(5px, 5px);
           transform: translate(5px, 5px);
           background-color: rgba(255, 255, 255, 0.8);
-          color: #03252D;
+          color: $background_blue_dark_chart;
           border-radius: 2px;
           line-height: 1.5em;
           padding: 4px 6px;
@@ -1283,13 +1283,13 @@ section .kit_menu {
   }
   .kit_details_version {
     span {
-      color: #4F8390;
+      color: $secondary_color_light;
       font-weight: bold;
     }
   }
   .kit_details_id {
     span {
-      color: #4F8390;
+      color: $secondary_color_light;
       font-weight: bold;
     }
   }
@@ -1387,7 +1387,7 @@ section .kit_menu {
       margin: 50px 0 20px 0;
     }
     .kit_owner_location {
-      color: #065063;
+      color: $secondary_color;
       font-weight: bold;
     }
     .kit_owner_url a {
@@ -1398,7 +1398,7 @@ section .kit_menu {
       margin-bottom: 50px;
     }
     .kit_owner_kits_list {
-      color: #4F8390;
+      color: $secondary_color_light;
       border: 1px solid #EAECF1;
       height: 82px;
       background-color: white;
@@ -1503,7 +1503,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-container{
   background-color: rgba(79, 201, 232, 0.05);
 }
 md-progress-linear.md-default-theme.md-hue-3 .md-bar {
-  background-color: #4FC9E8;
+  background-color: $blue_light;
 }
 .chart_spinner {
   position: absolute;
@@ -1545,7 +1545,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
     fill: grey;
   }
   .axis.x {
-    fill: #9BE6F8;
+    fill: $font_color_blue_light;
   }
   .grid {
     .tick {
@@ -1570,7 +1570,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
     border: 1px solid grey;
   }
   .popup_value {
-    fill: #03252D;
+    fill: $background_blue_dark_chart;
     color: $background_blue_dark_chart;
     font-size: 18px;
     font-weight: bold;
@@ -1787,7 +1787,7 @@ md-dialog.tags, md-dialog.filters{
   }
   .message {
     font-size: 14px;
-    color: #4F8390;
+    color: $secondary_color_light;
     line-height: 1em;
     margin-bottom: 26px;
   }
@@ -1862,7 +1862,7 @@ md-dialog.tags, md-dialog.filters{
     }
   }
   .store_itemDescription_title {
-    color: #065063;
+    color: $secondary_color;
     font-weight: bold;
     font-size: 16px;
   }
@@ -2431,7 +2431,7 @@ md-dialog.tags, md-dialog.filters{
     font-size: 14px;
     li a {
       border-bottom: 0px;
-      color: #065063;
+      color: $secondary_color;
     }
     li.divider {
       background-color: white;
@@ -2495,7 +2495,7 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .kitList {
-  color: #4F8390;
+  color: $secondary_color_light;
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
   border-left: 1px solid #EAECF1;
@@ -2778,7 +2778,7 @@ md-dialog.tags, md-dialog.filters{
   margin-right: 7%;
 }
 .myProfile_form_avatarButton {
-  color: #82A7B0;
+  color: $font_color_blue_grey;
 }
 .myProfile_form_updateButton {
   float: right;
@@ -2788,7 +2788,7 @@ md-dialog.tags, md-dialog.filters{
   float: left;
 }
 .myProfile_apiKey_text {
-  color: #82A7B0;
+  color: $font_color_blue_grey;
   margin-right: 5px;
   width: 120px;
 }
@@ -2799,7 +2799,7 @@ md-dialog.tags, md-dialog.filters{
   padding: 5px 10px;
 }
 .myProfile_apiKey_refreshButton {
-  background-color: #82A7B0;
+  background-color: $font_color_blue_grey;
   height: 29px;
 
   md-icon {
@@ -2813,7 +2813,7 @@ md-dialog.tags, md-dialog.filters{
   border-radius: 0 4px 4px 0;
 }
 .md-button.md-default-theme.myProfile_apiKey_refreshButton:active, .md-button.md-default-theme.myProfile_apiKey_refreshButton:hover, .md-button.md-default-theme.myProfile_apiKey_refreshButton:focus {
-  background-color: #82A7B0;
+  background-color: $font_color_blue_grey;
 }
 .myProfile_form_removeButton {
   display: block;
@@ -2910,7 +2910,7 @@ md-dialog.tags, md-dialog.filters{
  *  FEEDBACK BUTTON
  */
 
-button#doorbell-button {
+button.doorbell-button {
   z-index: 1000;
   background-color: rgba(149, 206, 79, 0.8);
   margin-bottom: 10px;
@@ -2926,7 +2926,7 @@ button#doorbell-button {
 
 .timeline {
   margin-top: 64px;
-  background-color: #043846;
+  background-color: $background_blue_dark_menu;
   height: 128px;
 }
 .timeline_container {
@@ -2955,7 +2955,7 @@ button#doorbell-button {
     background-color: #70D3EC;
   }
   &.is-off {
-    background-color: #82A7B0;
+    background-color: $font_color_blue_grey;
   }
 }
 .timeline_stepName {
@@ -2976,12 +2976,12 @@ button#doorbell-button {
   font-size: 26px;
 
   &.timeline_buttonOpen.md-primary {
-    color: #38CEF3;
+    color: $terciary_color;
     text-align: center;
 
     &.inverted{
       color: white;
-      background-color: #38CEF3;
+      background-color: $terciary_color;
 
       small {
         color: white;
@@ -3067,7 +3067,7 @@ button#doorbell-button {
     height: inherit;
   }
   .form_blockInput_select label{
-    color: #38CEF3;
+    color: $terciary_color;
     margin-right: 10px;
   }
   .form_blockInput_chips {
@@ -3194,7 +3194,7 @@ button#doorbell-button {
     height: 44px;
     border-radius: 22px;
     font-size: 18px;
-    background-color: #4FC9E8;
+    background-color: $blue_light;
     color:white;
 
     &:hover, &:focus{
@@ -3207,7 +3207,7 @@ button#doorbell-button {
   }
 
   .md-button.md-default-theme.md-primary{
-    color: #4FC9E8;
+    color: $blue_light;
   }
 
 
@@ -3238,15 +3238,15 @@ p.no-margin {
 
 // Feedback
 
-#doorbell-button {
- background-color: #4FC9E8 !important;
+.doorbell-button {
+ background-color: $blue_light !important;
 }
 
 // Styleguide
 
 .styleguide {
   .sg-title-section {
-    background-color: #043846;
+    background-color: $background_blue_dark_menu;
     margin: 64px 0px 50px 0px;
   }
 
@@ -3275,7 +3275,7 @@ p.no-margin {
   }
 
   p.sg-paragraph2 {
-    color: #4F8390;
+    color: $secondary_color_light;
     font-weight: 300;
   }
 
@@ -3316,7 +3316,7 @@ p.no-margin {
     }
 
     h4 {
-      color: #82A7B0;
+      color: $font_color_blue_grey;
     }
 
     h6 {
@@ -3329,7 +3329,7 @@ p.no-margin {
     }
 
     small {
-      color: #4F8390;
+      color: $secondary_color_light;
     }
   }
 
@@ -3351,14 +3351,14 @@ p.no-margin {
     }
 
     .secondary-color {
-      background-color: #065063;
+      background-color: $secondary_color;
       p {
         color: #fff;
       }
     }
 
     .terciary_color {
-      background-color: #38CEF3;
+      background-color: $terciary_color;
       p {
         color: #fff;
       }
