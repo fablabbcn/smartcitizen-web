@@ -446,8 +446,8 @@ md-content.md-default-theme {
   position: relative;
 }
 
-md-toolbar.md-default-theme {
-  background-color: $background_blue_dark_navbar;
+md-toolbar{
+  background-color: $background_blue_dark_navbar !important;
   z-index: $large_priority;
   height: 64px;
 }
