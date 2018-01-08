@@ -488,6 +488,10 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
  * ALERT COMPONENT
  */
 
+.md-toast-content {
+  max-width: unset !important;
+}
+
 md-toast.md-top {
   position: fixed;
   top: 64px;
@@ -511,13 +515,12 @@ md-toast.md-top {
   }
 
   .alert_button {
+    padding: 0px 12px;
     margin-left: 5px;
     color: #53460B;
     background-color: #C1A212;
-    height: 26px;
     border-radius: 13px;
     font-size: 12px;
-    padding: 6px 12px;
   }
 }
 
