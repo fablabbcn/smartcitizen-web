@@ -434,13 +434,6 @@ md-select:not([disabled]):focus .md-select-label {
   border-bottom-color: #6B868D;
 }
 
-md-content {
-  overflow: unset !important;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  position: relative;
-}
-
 md-toolbar{
   background-color: $background_blue_dark_navbar !important;
   z-index: $large_priority;
@@ -1695,18 +1688,12 @@ md-dialog.tags, md-dialog.filters{
   min-height:357px;
 
   .close_icon{
+    padding-top:10px;
     float:none;
     position:absolute;
     right:0
   }
 
-  md-content{
-    padding: 0;
-  }
-
-  md-button.main{
-
-  }
 }
 
 .modal_mapFilter, .modal_tagFilter {
@@ -3389,6 +3376,7 @@ p.no-margin {
     }
 
     .container {
+      padding-bottom:20px;
         padding-right: 15px;
         padding-left: 15px;
         margin-right: auto;
