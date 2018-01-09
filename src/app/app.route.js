@@ -8,8 +8,8 @@
       Check app.config.js to know how states are protected
     */
 
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider'];
-    function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider) {
+    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
+    function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
       $stateProvider
         /*
          -- Landing state --
@@ -405,6 +405,9 @@
         //     }
         //   }
         // });
+
+      // Disable missing aria-label warnings in console
+      $mdAriaProvider.disableWarnings();
 
       /* Default state */
       $urlRouterProvider.otherwise('/kits');
