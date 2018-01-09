@@ -949,7 +949,6 @@ section .kit_menu {
     }
 
     .md-button {
-      display: inline-table;
       width: 30px;
       padding: 0 10px;
       border-radius: 0
@@ -1599,7 +1598,6 @@ section .stickMenu {
     margin-top:.5em;
   }
 
-  border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
 
@@ -1740,7 +1738,7 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .modal_tagFilter {
-  width:650px;
+  width: calc(50vw + 90px);
   height: calc(100vh + 300px);
 }
 
