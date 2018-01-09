@@ -4,7 +4,7 @@
     <section class="kit_menu" layout="row" layout-align="center center" stick>
       <section class="overlay" ng-if="!vm.kit"></section>
       <div class="container" layout="row" layout-align="space-between center">
-        <div>
+        <div hide show-gt-xs>
           <div class="kit_user" layout="row" layout-align="start center">
             <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
@@ -18,7 +18,7 @@
             <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
           </div>
         </div>
-        <div class="kit_time" layout="row" layout-align="start center">
+        <div hide show-gt-sm class="kit_time" layout="row" layout-align="start center">
           <span>Last data received: {{ vm.kit.timeParsed }}</span>
         </div>
         <div class="kit_navbar" layout="row" layout-align="start center" active-button>
