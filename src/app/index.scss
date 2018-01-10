@@ -943,20 +943,22 @@ section .kit_menu {
   }
 
   .kit_navbar {
-    float: right;
-    height: 100%;
-    line-height: 30px;
-    margin: 0 10px;
+    margin-right: 20px;
+
+    // Icons are inside md-button
+    .md-button{
+      min-width:30px;
+    }
 
     md-icon {
       width: 14px;
       height: 14px;
+      min-width: unset !important;
+      min-height: unset !important;
     }
 
     .md-button {
-      width: 30px;
-      padding: 0 10px;
-      border-radius: 0
+      margin:0;
     }
 
     a.md-button:hover, .button_active  {
