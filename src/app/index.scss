@@ -388,8 +388,10 @@ search {
     z-index: $large_priority;
 
     md-icon {
+      margin-top: 6px;
       width: 14px;
       height: 14px;
+      min-width: 14px;
     }
   }
 
