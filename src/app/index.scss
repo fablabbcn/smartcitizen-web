@@ -813,6 +813,10 @@ section.map {
   CONTAINERS USED ON SHOW KIT STATE
  */
 
+.over_map{
+  height: 120px;
+}
+
 .kit_fixed {
   z-index: $medium-priority;
   position: relative;
