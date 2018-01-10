@@ -125,6 +125,11 @@ small{
   color: $secondary_color_light;
 }
 
+// Overwrite global material design, allow icons to be smaller
+md-icon{
+  min-width: unset !important;
+}
+
 .label, .tag, .state{
   text-transform: uppercase;
   font-size: 0.7em;
@@ -303,8 +308,6 @@ md-tabs .md-header{
     margin-right: 4px;
     height: 14px !important;
     width: 14px !important;
-    // Overwrite md default
-    min-width: unset;
   }
 
   .md-button.full_height {
@@ -391,7 +394,6 @@ search {
       margin-top: 6px;
       width: 14px;
       height: 14px;
-      min-width: 14px;
     }
   }
 
@@ -956,9 +958,6 @@ section .kit_menu {
 
     md-icon {
       width: 14px;
-      height: 14px;
-      min-width: unset !important;
-      min-height: unset !important;
     }
 
     .md-button {
