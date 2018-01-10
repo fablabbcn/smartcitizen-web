@@ -186,7 +186,8 @@ a{
 }
 a.md-button, a,
 button.md-button, button{
-  color: $terciary_color;
+  // color here overwrites MAP and COMMUNITY in navbar
+  // color: $terciary_color;
 }
 
 a.md-button h4, a.md-button .h4{
@@ -299,9 +300,9 @@ md-tabs .md-header{
   }
 
   .nav_icon {
-    margin-right: 8px;
-    height: 14px;
-    width: 14px;
+    margin-right: 4px;
+    height: 14px !important;
+    width: 14px !important;
   }
 
   .md-button.full_height {
@@ -388,7 +389,7 @@ search {
 
   input {
     padding: 0 40px !important;
-    background-color: #377382;
+    background-color: #377382 !important;
     color: black;
     height: 36px;
     line-height: 36px;
