@@ -329,10 +329,14 @@ md-tabs .md-header{
     .navbar_signup_button {
 
       .md-button {
+        padding: 2px 0px;
         border: 2px solid #00FFA8;
         color: #00FFA8;
         border-radius: 50px;
         width: 79px;
+      }
+      .md-button:hover {
+        background-color: #377382;
       }
     }
   }
