@@ -1006,7 +1006,6 @@ section .kit_menu {
     margin: 30px;
     position: relative;
     color: $font_color_blue_light;
-    min-width: 50px;
     display: inline-table;
     cursor: pointer;
     text-align: center;
@@ -1042,10 +1041,11 @@ section .kit_menu {
       opacity: 0.15;
     }
     .sensor_icon {
+      max-width:unset;
       width: 16px;
       height: 16px;
       position: relative;
-      top: 14px;
+      top: 9px;
       right: 5px;
     }
   }
