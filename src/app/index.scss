@@ -303,6 +303,8 @@ md-tabs .md-header{
     margin-right: 4px;
     height: 14px !important;
     width: 14px !important;
+    // Overwrite md default
+    min-width: unset;
   }
 
   .md-button.full_height {
