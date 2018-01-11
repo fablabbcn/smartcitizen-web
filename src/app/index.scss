@@ -103,7 +103,7 @@ html h3, body h3{
   color: $secondary_color;
 }
 html h4, body h4, .h4{
-  font-size: 1.1em;
+  font-size: 1.4em;
   color:$secondary_color;
   font-weight: normal;
 }
@@ -132,9 +132,10 @@ md-icon{
 
 .label, .tag, .state{
   text-transform: uppercase;
-  font-size: 0.7em;
+  font-size: 0.9em;
+  line-height:24px;
   border-radius:20px;
-  padding:3px 8px;
+  padding:0px 8px;
   margin-right: 8px;
 
   md-icon{
@@ -193,6 +194,10 @@ a.md-button, a,
 button.md-button, button{
   // color here overwrites MAP and COMMUNITY in navbar
   // color: $terciary_color;
+}
+
+.color-blue{
+  color:$terciary_color;
 }
 
 a.md-button h4, a.md-button .h4{
@@ -2436,6 +2441,7 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .kitList {
+  margin: 0px;
   color: $secondary_color_light;
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
@@ -2477,8 +2483,9 @@ md-dialog.tags, md-dialog.filters{
     margin-left: 60px;
   }
 }
+
 .kitList_primary {
-  width: 100%;
+ // width: 100%;
 }
 .kitList_secondary {
   width: 95%;

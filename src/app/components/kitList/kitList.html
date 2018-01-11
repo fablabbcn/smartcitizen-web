@@ -1,18 +1,13 @@
 <div class="" ng-if="kits.length === 0">
   <small>No kits</small>
 </div>
-<div class="kitList_parent" layout="row" layout-align="start center" ng-repeat="kit in kits track by kit.id">
+<div class="kitList_parent" ng-repeat="kit in kits track by kit.id" layout="column">
   <md-button ng-href="./kits/{{kit.id}}" class="kitList"
     ng-class="{kitList_primary: !kit.belongProperty,
       kitList_secondary: kit.belongProperty,
-      kitList_borderBottom: $last}"
-    layout="column">
-    <div layout="column">
+      kitList_borderBottom: $last}">
       <div class="kitList_container" layout="row" layout-align="start center">
-        <div class="">
-          <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
-          </md-icon>
-        </div>
+        <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
         <div class="kitList_content">
           <h4>{{ kit.name || 'No name' }}</h4>
           <p class="kitList_data">
@@ -34,7 +29,6 @@
         <span class="label" ng-repeat="label in kit.labels">{{ label }}</span>
         <tag ng-repeat='tag in kit.userTags' ng-attr-tag-name="tag" clickable></tag>
       </div>
-    </div>
   </md-button>
   <div class="kitList_config" ng-if="kit.belongProperty" layout="row" layout-align="center center">
     <md-button class="kitList_dropdownButton" aria-label
