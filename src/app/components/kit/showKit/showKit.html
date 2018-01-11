@@ -130,7 +130,7 @@
               </div>
             </div>
             <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
-              <p>
+              <div>
                 <span>Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
@@ -142,7 +142,7 @@
                     </span>
                   </md-option>
                 </md-select>
-              </p>
+              </div>
             </div>
           </div>
           <div class="kit_chart_right" flex>
