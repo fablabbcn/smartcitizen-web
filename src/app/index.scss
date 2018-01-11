@@ -103,7 +103,7 @@ html h3, body h3{
   color: $secondary_color;
 }
 html h4, body h4, .h4{
-  font-size: 1.4em;
+  font-size: 1.1em;
   color:$secondary_color;
   font-weight: normal;
 }
@@ -254,6 +254,7 @@ md-tabs .md-header{
   h1{
     color: $secondary_color_light;
     font-size:1.1em;
+    margin: 10px 0px;
   }
 
 }
@@ -493,8 +494,18 @@ md-input-container:not(.md-input-invalid).md-input-focused {
  * ALERT COMPONENT
  */
 
+md-toast{
+  background-color: unset;
+  padding:0;
+  margin:0;
+}
+
 .md-toast-content {
+  // unset the md design
   max-width: unset !important;
+  box-shadow: unset !important;
+  background-color: unset !important;
+  color: black !important;
 }
 
 md-toast.md-top {
