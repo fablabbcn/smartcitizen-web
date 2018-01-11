@@ -1146,10 +1146,20 @@ section .kit_menu {
         }
         .sensor_select {
           .sensor_icon_selected {
-            margin-right: 8px;
+            float:left;
+            margin-right: 6px;
+            padding-top:5px;
           }
           md-select {
             margin: 0;
+            .md-select-value{
+              .md-text{
+                .select_image{
+                  display:none;
+
+                }
+              }
+            }
           }
         }
         .sensor_description {
