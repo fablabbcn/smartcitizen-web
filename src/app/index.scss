@@ -191,9 +191,18 @@ button.md-button, button{
   // color: $terciary_color;
 }
 
-// Overwrite global material design, allow icons to be smaller
+/*
+  Overwrite global material design, allow icons to be smaller
+*/
+
 md-icon{
   min-width: unset !important;
+}
+
+md-select{
+  md-select-value{
+    border-bottom-color: #ffffff75 !important;
+  }
 }
 
 // General helpers
