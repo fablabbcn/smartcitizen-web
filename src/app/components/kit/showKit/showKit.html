@@ -131,7 +131,7 @@
             </div>
             <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
               <div>
-                <span>Compare with</span>
+                <span class="float-left" style="margin-top:7px">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
                     analytics-on="click" analytics-category="Kit Chart"

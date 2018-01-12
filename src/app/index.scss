@@ -125,11 +125,6 @@ small{
   color: $secondary_color_light;
 }
 
-// Overwrite global material design, allow icons to be smaller
-md-icon{
-  min-width: unset !important;
-}
-
 .label, .tag, .state{
   text-transform: uppercase;
   font-size: 0.9em;
@@ -196,11 +191,21 @@ button.md-button, button{
   // color: $terciary_color;
 }
 
+// Overwrite global material design, allow icons to be smaller
+md-icon{
+  min-width: unset !important;
+}
+
+// General helpers
+
 .color-white{
   color: white;
 }
 .color-blue{
   color:$terciary_color;
+}
+.float-left{
+  float: left;
 }
 
 a.md-button h4, a.md-button .h4{
@@ -1237,7 +1242,7 @@ section .kit_menu {
         }
         .sensor_compare {
           font-size: .8em;
-          padding-top:20px;
+          padding-top:30px;
 
           span {
             color: $terciary_color_light;
