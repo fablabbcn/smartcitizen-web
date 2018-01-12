@@ -195,6 +195,11 @@ button.md-button, button{
   Overwrite global material design, allow icons to be smaller
 */
 
+.md-button{
+  min-width: unset !important;
+  min-height: unset !important;
+}
+
 md-icon{
   min-width: unset !important;
 }
@@ -518,8 +523,6 @@ md-toast{
 }
 
 .md-toast-content {
-  // unset the md design
-  max-width: unset !important;
   box-shadow: unset !important;
   background-color: unset !important;
   color: black !important;
@@ -989,10 +992,6 @@ section .kit_menu {
     margin-right: 20px;
 
     // Icons are inside md-button
-    .md-button{
-      min-width:30px;
-    }
-
     md-icon {
       width: 14px;
     }
@@ -1079,7 +1078,6 @@ section .kit_menu {
       opacity: 0.15;
     }
     .sensor_icon {
-      max-width:unset;
       width: 16px;
       height: 16px;
       position: relative;
@@ -1294,9 +1292,7 @@ section .kit_menu {
           .chart_move {
             .chart_move_button {
               width: 40px;
-              min-width: unset;
               height: 24px;
-              min-height: unset;
               display: inline-flex;
               border: 1px solid #6B868D;
             }
