@@ -1150,10 +1150,10 @@ section .kit_menu {
       height: 100%;
 
       .kit_chart_left {
-        display: inline-block;
-        width: 240px;
-        margin-right: 30px;
-        height: 100%;
+        //display: inline-block;
+        //width: 240px;
+        //margin-right: 30px;
+        //height: 100%;
 
         md-select .md-select-label {
           border-bottom-color: #6B868D;
@@ -1177,10 +1177,10 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          color: $background_blue_light;
-          height: 80px;
-          margin-top: 0px; //30;
-          position: relative;
+          //color: $background_blue_light;
+          //height: 80px;
+          //margin-top: 0px; //30;
+          //position: relative;
 
           h6 {
             margin: 0;
@@ -1214,7 +1214,7 @@ section .kit_menu {
         }
         .sensor_data {
           margin: 8% 0 5% 0;
-          display: inline-block;
+         // display: inline-block;
 
           .sensor_value {
             font-size: 2em;
