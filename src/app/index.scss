@@ -3501,9 +3501,9 @@ p.no-margin {
 
 .landing-page {
     .md-button{
-        padding:2px 12px;
-        border: 2px solid;
-        border-radius:50px;
+        padding:3px 12px;
+        //border: 2px solid;
+        //border-radius:50px;
         font-size:18px;
     }
 
@@ -3614,7 +3614,6 @@ p.no-margin {
             border: 2px solid #00FFA8;
             color: #00FFA8;
             border-radius: 50px;
-            padding: 9px 14px;
             margin: 20px 20px 20px 0;
 
             &.white {
@@ -3637,7 +3636,7 @@ p.no-margin {
                 color: #fff;
                 background-color: $terciary_color;
                 border-radius: 50px;
-                padding: 11px 16px;
+               //padding: 11px 16px;
                 margin: 20px 20px 20px 0;
             }
 
@@ -3648,7 +3647,7 @@ p.no-margin {
         }
 
         &.landing_extra {
-            padding: 9px 11px;
+            //padding: 9px 11px;
             background-color: rgba(158, 158, 158, 0.2);
             color: #333;
             margin: 15px 5px;
