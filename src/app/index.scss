@@ -268,10 +268,6 @@ div[api-key]{
   }
 }
 
-md-tabs .md-header{
-  background-color: $background_blue_dark_menu;
-}
-
 .inside_list{
   h1{
     color: $secondary_color_light;
@@ -2728,6 +2724,11 @@ md-dialog.tags, md-dialog.filters{
 .myProfile_header_avatar {
   margin-left: 0;
 }
+.myProfile_tabs_parent {
+  md-tabs-wrapper{
+    background-color: $secondary_color;
+  }
+}
 .myProfile_tabs {
 }
 .myProfile_tab_icon {
@@ -2833,7 +2834,16 @@ md-dialog.tags, md-dialog.filters{
   margin-bottom: 10px;
 }
 
-.md-button.myProfile_addKitButton,
+.btn-round{
+  border-radius: 20px;
+  padding:0px 35px;
+  font-size:18px;
+}
+
+.btn-cyan{
+  background-color: $terciary_color;
+  color:white;
+}
 .md-button.call-to-action {
   color: white;
   background-color: $blue_light;
