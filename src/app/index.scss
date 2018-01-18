@@ -2666,11 +2666,11 @@ md-dialog.tags, md-dialog.filters{
 
 .profile_sidebar_button {
   display: block;
-  width: 100%;
   text-align: start;
+  font-size:18px;
   padding-left: 40px;
   height: 64px;
-  color: #032933;
+  color: $terciary_color;
 }
 
 .profile_sidebar_avatar {
@@ -2750,11 +2750,11 @@ md-dialog.tags, md-dialog.filters{
   position: relative;
 }
 .countryInput_container {
-  overflow: visible;
   md-autocomplete {
     background-color: transparent;
-    border-bottom: 1px solid #A1A1A1;
-    box-shadow: none;
+  }
+  md-autocomplete-wrap {
+    box-shadow: none !important;
   }
   input {
     font-size: 100%;
