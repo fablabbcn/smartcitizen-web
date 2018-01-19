@@ -927,25 +927,28 @@ section .kit_menu {
 
   .kit_time {
     position: relative;
-    left: -40px;
+    //left: -40px;
+    text-align: center;
     color: $font_color_blue_grey;
     letter-spacing: 0.5px;
     font-size: 14px;
     text-transform: uppercase;
   }
   .kit_user {
-    float: left;
+    margin-left:20px;
+    //float: left;
     line-height: 30px;
-    margin: 0 32px 0 20px;
+    //margin: 0 32px 0 20px;
     color: $font_color_blue_grey;
     font-weight: bold;
     font-size: 13px;
 
     img {
+      float:left;
       width: 18px;
       height: 18px;
-      border-radius: 9px;
       margin-right: 8px;
+      margin-top: 5px;
     }
 
     a {
@@ -954,17 +957,20 @@ section .kit_menu {
     }
   }
   .kit_name {
-    float: left;
+    margin-left:30px;
+    //float: left;
     line-height: 30px;
     font-size: 13px;
     font-weight: bold;
     color: $blue_light;
-    margin: 0 32px 0 0;
+    //margin: 0 32px 0 0;
 
     img {
+      float:left;
       width: 14px;
       height: 14px;
       margin-right: 8px;
+      margin-top: 8px;
     }
     span {
       vertical-align: middle;
@@ -972,15 +978,16 @@ section .kit_menu {
   }
 
   .kit_battery {
-    float: left;
+    margin-left:30px;
+    //float: left;
     line-height: 30px;
     color: $font_color_blue_grey;
     font-size: 12px;
     font-weight: bold;
 
     md-icon {
-      width: 14px;
-      height: 14px;
+      margin-bottom: 2px;
+      width: 16px;
       margin-right: 8px;
     }
   }

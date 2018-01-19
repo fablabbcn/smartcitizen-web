@@ -4,7 +4,8 @@
     <section class="kit_menu" stick>
       <section ng-if="!vm.kit"></section>
       <div class="container" layout="row" layout-align="space-between center">
-        <div hide show-gt-xs>
+
+        <div flex hide show-gt-xs layout="row" layout-align="start center">
           <div class="kit_user">
             <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
@@ -18,10 +19,12 @@
             <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
           </div>
         </div>
-        <div hide show-gt-sm class="kit_time">
+
+        <div flex hide show-gt-sm class="kit_time">
           <span>Last data received: {{ vm.kit.timeParsed }}</span>
         </div>
-        <div class="kit_navbar" active-button>
+
+        <div flex class="kit_navbar" active-button layout="row" layout-align="end center">
 
           <md-button href="#" class="md-flat chart_icon" aria-label=""
             analytics-on="click" analytics-category="Kit Detail Section Button"
