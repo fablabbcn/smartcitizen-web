@@ -221,6 +221,9 @@ md-select{
 .float-left{
   float: left;
 }
+.float-right{
+  float: right;
+}
 
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
@@ -349,7 +352,6 @@ div[api-key]{
   }
 
   .nav_right {
-    margin-right:35px;
 
     .get {
     }
@@ -1693,7 +1695,7 @@ section .stickMenu {
   }
 
   button.main {
-    //width: 97%;
+    width: 100%;
     color: $font_color_white;
     background-color: $terciary_color;
     height: 64px;
@@ -2415,11 +2417,12 @@ md-content.md-default-theme, md-content {
 }
 // user avatar dropdown
 .nav_right {
+  padding-left: 40px;
 
   .wrap-dd-menu {
     width: 50px;
     display: inline-block;
-    //margin: 0 0 0 20px;
+    margin: 0 0 0 30px;
     //padding: 0;
     display: none;
   }
