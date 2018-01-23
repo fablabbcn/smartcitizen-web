@@ -744,12 +744,13 @@ section.map {
 }
 .chip {
   // display: inline-block;
-  padding: 2px 6px 2px 12px;
+  padding: 0px 10px 0px 14px;
   margin: auto 5px;
   border-radius: 20px;
-  height:22px;
+  height:30px;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 29px;
 
   .chip_name {
     margin-left: 3px;
@@ -761,8 +762,6 @@ section.map {
     md-icon {
       width: 8px;
       height: 8px;
-      float: right;
-      margin-top: 3px;
     }
   }
 
