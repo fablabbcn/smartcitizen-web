@@ -1,6 +1,6 @@
 <div class="navbar_container">
   <div beta></div>
-  <md-toolbar layout="row" layout-align="end center" class="stickNav" style="height:64px;">
+  <md-toolbar layout="row" layout-align="space-between center" class="stickNav" style="height:64px;">
     <a ui-sref="landing" class="logo_link">
       <md-icon md-svg-src="./assets/images/LogotipoSmartCitizen.svg"
                alt="Insert Drive Icon" class="logo_icon">
@@ -22,8 +22,8 @@
       </md-button>
     </section>
 
-    <search hide show-gt-xs flex></search>
-    
+    <search hide show-gt-xs flex ></search>
+
     <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
 
       <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat full_height get"></div>

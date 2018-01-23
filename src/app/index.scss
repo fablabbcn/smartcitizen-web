@@ -307,7 +307,7 @@ div[api-key]{
 
 .navbar_container {
   .md-button {
-    font-size: 14px;
+    //font-size: 14px;
   }
 
   .md-button.navbar_highlight_button {
@@ -339,10 +339,9 @@ div[api-key]{
   }
 
   .nav_left {
-    width: 204px;
-    margin: 0px 16px;
+    //width: 204px;
+    margin: 0px 18px;
     .map {
-      width: 70px;
     }
     .community {
       width: 114px;
@@ -350,6 +349,7 @@ div[api-key]{
   }
 
   .nav_right {
+    margin-right:35px;
 
     .get {
     }
@@ -471,6 +471,7 @@ md-toolbar{
 }
 
 .md-button.md-flat.md-primary {
+  margin: 0px;
   background-color: $terciary_color;
   color: white;
 }
@@ -1692,7 +1693,7 @@ section .stickMenu {
   }
 
   button.main {
-    width: 97%;
+    //width: 97%;
     color: $font_color_white;
     background-color: $terciary_color;
     height: 64px;
@@ -1767,6 +1768,9 @@ md-dialog.tags, md-dialog.filters{
 
 }
 
+md-content.md-default-theme, md-content {
+  background-color: #fff;
+}
 .modal_mapFilter, .modal_tagFilter {
   height:100%;
   width: 300px;
@@ -2415,8 +2419,8 @@ md-dialog.tags, md-dialog.filters{
   .wrap-dd-menu {
     width: 50px;
     display: inline-block;
-    margin: 0 0 0 20px;
-    padding: 0;
+    //margin: 0 0 0 20px;
+    //padding: 0;
     display: none;
   }
   .wrap-dd-menu .dropdown {
@@ -2470,6 +2474,7 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .navbar_avatar_button {
+  margin-top:16px;
   display: inline-table;
 }
 
