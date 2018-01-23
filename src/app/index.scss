@@ -2986,7 +2986,8 @@ button.doorbell-button {
 }
 .timeline_stepName {
   text-transform: uppercase;
-  color: #4495AA;
+  color: $terciary_color;
+  font-size:18px;
 
   &.vertical {
     margin-top: 10px;
