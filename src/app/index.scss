@@ -473,8 +473,10 @@ md-toolbar{
 }
 
 button.md-primary{
-  color:$terciary_color !important;
-  font-size:18px;
+  // Get new kit popup, button color
+  // Also interferes with kits/edit save button
+  // color:$terciary_color !important;
+  // font-size:18px;
 }
 .md-title{
   font-size: 1.7em;
@@ -3005,7 +3007,7 @@ button.doorbell-button {
   width: 100%;
 }
 .timeline_button {
-  width: 100%;
+  width: 99%;
   height: 90px;
   font-size: 26px;
 
