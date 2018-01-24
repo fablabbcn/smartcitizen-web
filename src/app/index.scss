@@ -2729,8 +2729,11 @@ md-content.md-default-theme, md-content {
  */
 
 //override angular-material
-
 .myProfile_state {
+  md-ink-bar{
+    // Tabs underline color cyan
+    background-color: $terciary_color;
+  }
   md-tab md-tab-label {
     overflow: visible;
   }
