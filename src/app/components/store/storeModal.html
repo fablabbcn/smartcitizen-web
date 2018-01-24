@@ -28,12 +28,12 @@
           <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
             <p>We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!<p>
           </div>
-          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
+          <div layout="row" class="modal_content_container" ng-hide="mailchimp.result === 'success'">
               <input class="hidden" type="hidden" ng-model="mailchimp.username" ng-init="mailchimp.username='username'">
               <input class="hidden" type="hidden" ng-model="mailchimp.dc" ng-init="mailchimp.dc='us2'">
               <input class="hidden" type="hidden" ng-model="mailchimp.u" ng-init="mailchimp.u='d67ba8deb34a23a222ec4eb8a'">
               <input class="hidden" type="hidden" ng-model="mailchimp.id" ng-init="mailchimp.id='d5a8cea29f'">
-              <md-input-container flex>
+              <md-input-container flex="100" flex-gt-sm="70">
                 <label>Email</label>
                 <input type="email" name="email" ng-model="mailchimp.EMAIL" required>
               </md-input-container>
