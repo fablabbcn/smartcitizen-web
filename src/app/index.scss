@@ -2276,9 +2276,10 @@ md-content.md-default-theme, md-content {
     font-size: 12px;
 
     span {
-      border-radius: 20px;
-      margin-right: 10px;
-      padding: 3px 8px;
+      // Make balloons on map smaller
+      //border-radius: 20px;
+      //margin-right: 10px;
+      //padding: 3px 8px;
     }
 
     tag, span {
