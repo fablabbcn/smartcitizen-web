@@ -472,6 +472,13 @@ md-toolbar{
   height: 64px;
 }
 
+button.md-primary{
+  color:$terciary_color !important;
+  font-size:18px;
+}
+.md-title{
+  font-size: 1.7em;
+}
 .md-button.md-flat.md-primary {
   margin: 0px;
   background-color: $terciary_color;
