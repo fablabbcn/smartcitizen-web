@@ -43,7 +43,7 @@
                   </div>
                 </md-input-container>
                 <div layout="row" layout-align="space-between start">
-                  <div class="form_blockInput_select">
+                  <div class="form_blockInput_select" layout="row" layout-align="start center">
                     <label>Exposure:</label>
                     <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
                       <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
@@ -118,8 +118,8 @@
               </div>
             </div>
             <div class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <md-input-container>
+              <div class="form_blockInput_container" layout="row">
+                <md-input-container flex="100" flex-gt-md="50">
                   <label>Description</label>
                   <textarea type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
                 </md-input-container>

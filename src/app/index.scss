@@ -482,7 +482,7 @@ button.md-primary{
 .md-button.md-flat.md-primary {
   margin: 0px;
   background-color: $terciary_color;
-  color: white;
+  color: white !important;
 }
 
 .md-button.md-primary.md-flat:not([disabled]):hover {
