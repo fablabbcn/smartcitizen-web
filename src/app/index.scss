@@ -434,7 +434,7 @@ search {
 
   input:active, input:focus {
     fill: white;
-    background-color: $background_blue_light;
+    background-color: $background_blue_light !important;
   }
 
   md-autocomplete {
