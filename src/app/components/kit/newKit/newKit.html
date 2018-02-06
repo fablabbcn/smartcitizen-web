@@ -67,7 +67,7 @@
             <div class="form_blockInput" flex>
               <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
                 <div class="form_blockInput_container" layout="row" layout-align="center center">
-                  <md-button class="md-flat md-primary" ng-click="vm.getLocation()">Get your location</md-button>
+                  <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
                 </div>
               </div>
               <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
@@ -128,7 +128,7 @@
           </div>
         </section>
       </form>
-      <md-button class="md-flat md-primary timeline_button" ng-click="vm.submitStepOne()">Next</md-button>
+      <md-button class="md-flat btn-cyan timeline_button" ng-click="vm.submitStepOne()">Next</md-button>
     </section>
   </section>
 </section>

@@ -196,8 +196,11 @@ button.md-button, button{
 */
 
 .md-button{
+  // Bug: causes profile/kits 'Cancel' 'Ok' buttons to be very small.
   min-width: unset !important;
   min-height: unset !important;
+  // If we remove, almost all clickable items will get BIG
+  //outline:1px solid red;
 }
 
 md-icon{
@@ -481,7 +484,7 @@ button.md-primary{
 .md-button.md-flat.md-primary {
   margin: 0px;
   background-color: $terciary_color;
-  color: white !important;
+  //color: white !important;
 }
 
 .md-button.md-primary.md-flat:not([disabled]):hover {
