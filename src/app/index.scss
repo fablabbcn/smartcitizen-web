@@ -866,8 +866,8 @@ section.map {
 }
 
 .kit_data {
-  position: absolute;
-  width:100%;
+  //position: absolute;
+  //width:100%;
   margin-top: 376px;
 
   section.overlay{
@@ -1108,7 +1108,8 @@ section .kit_menu {
  */
 
  .kit_details_notAuth {
-  width: 500px;
+   // Bug: this will create an extra gap on mobile devices
+  //width: 500px;
   h1 {
     margin:0;
   }
@@ -1430,7 +1431,8 @@ section .kit_menu {
     margin: 62px 37px 0px;
 
     .kit_details_content_main {
-      width: 500px;
+   // Bug: this will create an extra gap on mobile devices
+    //  width: 500px;
     }
   }
   .kit_owner {
