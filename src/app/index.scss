@@ -1145,10 +1145,10 @@ section .kit_menu {
   }
 
   .kit_chart {
-    height: 340px;
+    //height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
-    position:relative;
+   // position:relative;
 
     .hint{
       background-color: #010E12;
@@ -1281,8 +1281,8 @@ section .kit_menu {
       }
 
       .kit_chart_right {
-        display: inline-block;
-        height: 100%;
+        //display: inline-block;
+        //height: 100%;
 
         .chart_navigation {
           height: 10%;
@@ -1584,8 +1584,10 @@ md-progress-linear.md-hue-3 .md-bar {
 */
 
 .chart_container {
-  width: 100%;
-  height: 90%;
+  min-width: 340px;
+  min-height: 310px;
+  //width: 100%;
+  //height: 90%;
   position: relative;
 
   .chart_line {
