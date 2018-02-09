@@ -20,11 +20,11 @@
           </div>
         </div>
 
-        <div flex hide show-gt-sm class="kit_time">
+        <div flex class="kit_time">
           <span>Last data received: {{ vm.kit.timeParsed }}</span>
         </div>
 
-        <div flex class="kit_navbar" active-button layout="row" layout-align="end center">
+        <div flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
 
           <md-button href="#" class="md-flat chart_icon" aria-label=""
             analytics-on="click" analytics-category="Kit Detail Section Button"
@@ -66,12 +66,12 @@
         </p>
       </section>
       <div no-data-backdrop></div>
-      <section class="kit_overview">
-        <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" aria-label="">
+      <section class="kit_overview" layout="row">
+        <md-button flex="10" ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" aria-label="">
           <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
           </md-icon>
         </md-button>
-        <div class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
+        <div flex="80" class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
           <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)">
             <div layout="row">
               <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
@@ -85,7 +85,7 @@
             <small>{{ sensor.name }}</small>
           </div>
         </div>
-        <md-button ng-click="vm.slide('left')" class="md-flat button_scroll button_scroll_right" aria-label="">
+        <md-button flex="10" ng-click="vm.slide('left')" class="md-flat button_scroll button_scroll_right" aria-label="">
           <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">
           </md-icon>
         </md-button>
@@ -102,8 +102,8 @@
     <section class="kit_detailed">
       <section class="kit_chart">
         <div class="hint" ng-if="vm.kitWithoutData"></div>
-        <div class="container" layout="row">
-          <div class="kit_chart_left" flex="20">
+        <div class="container" layout="row" layout-xs="column">
+          <div class="kit_chart_left" flex="100" flex-gt-xs="20">
             <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
@@ -146,7 +146,7 @@
             </div>
           </div>
           <div class="kit_chart_right" flex>
-            <div class="chart_navigation" layout="row" layout-align="end center">
+            <div class="chart_navigation" layout="row" layout-xs="column" layout-align="end center">
               <div class="picker_container">
                 <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received"
                   ng-change="vm.timeOptSelected()">
@@ -181,7 +181,7 @@
         </div>
       </section>
       <section class="kit_details" ng-if="vm.kit">
-          <div class="kit_detailed_content_container" layout="row">
+          <div class="kit_detailed_content_container" layout="row" layout-xs="column">
             <div class="kit_details_content_main" flex>
               <div class="kit_details_content">
                 <h1 class="kit_details_name">{{ vm.kit.name }}</h1>
@@ -244,11 +244,11 @@
           </div>
       </section>
       <section class="kit_owner" ng-if="vm.kit">
-        <div class="kit_detailed_content_container" layout="row">
+        <div class="kit_detailed_content_container" layout="row" layout-xs="column">
           <div class="kit_detailed_avatar">
             <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
           </div>
-          <div class="kit_owner_content">
+          <div class="kit_owner_content" flex="100">
             <div class="kit_owner_info">
               <a href="./users/{{vm.kit.owner.id}}" class="kit_owner_usernameLink">
                 <h2 class="kit_owner_usernameText">{{ vm.kit.owner.username }}</h2>
