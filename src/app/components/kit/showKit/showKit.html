@@ -103,7 +103,7 @@
       <section class="kit_chart">
         <div class="hint" ng-if="vm.kitWithoutData"></div>
         <div class="container" layout="row" layout-xs="column">
-          <div class="kit_chart_left" flex="100" flex-gt-xs="20">
+          <div class="kit_chart_left" flex="100" flex-gt-xs="20" layout-xs="column" layout-align-xs="end start">
             <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
@@ -146,7 +146,7 @@
             </div>
           </div>
           <div class="kit_chart_right" flex>
-            <div class="chart_navigation" layout="row" layout-xs="column" layout-align="end center">
+            <div class="chart_navigation" layout="row" layout-xs="column" layout-align="end center" layout-align-xs="end end">
               <div class="picker_container">
                 <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received"
                   ng-change="vm.timeOptSelected()">
