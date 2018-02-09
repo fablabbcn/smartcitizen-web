@@ -181,7 +181,7 @@
         </div>
       </section>
       <section class="kit_details" ng-if="vm.kit">
-          <div class="kit_detailed_content_container" layout="row" layout-xs="column">
+          <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-around center">
             <div class="kit_details_content_main" flex>
               <div class="kit_details_content">
                 <h1 class="kit_details_name">{{ vm.kit.name }}</h1>
@@ -202,7 +202,7 @@
                 </p>
               </div>
             </div>
-            <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
+            <div flex class="kit_details_manage" ng-if="vm.kitBelongsToUser">
               <div class="kit_details_manage_buttons">
                 <md-button ng-href="/kits/edit/{{vm.kit.id}}" class="kit_details_button_edit" aria-label="">EDIT</md-button>
                 <md-button ng-if="vm.kit.setupAvailable" ng-href="/kits/edit/{{vm.kit.id}}?step=2" class="kit_details_button_setup" aria-label="">SET UP</md-button>
@@ -236,7 +236,7 @@
                 </md-button>
               </div>
             </div>
-            <section class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
+            <section flex class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
               <h1>People looking for a better city</h1>
               <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
               <md-button class="color-blue" ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
