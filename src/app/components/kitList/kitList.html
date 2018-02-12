@@ -2,7 +2,7 @@
   <small>No kits</small>
 </div>
 <div class="kitList_parent" ng-repeat="kit in kits track by kit.id" layout="row" layout-align="start center">
-  <md-button flex="100" ng-href="./kits/{{kit.id}}" class="kitList"
+  <md-button ng-href="./kits/{{kit.id}}" class="kitList"
     ng-class="{kitList_primary: !kit.belongProperty,
       kitList_secondary: kit.belongProperty,
       kitList_borderBottom: $last}">
