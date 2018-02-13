@@ -541,8 +541,9 @@ md-toast {
   max-width: 100%;
   opacity: 0.9;
   position: fixed;
-  top: 68px; // Start the toast at top.
+  top: 68px !important; // Start the toast at top below navbar.
   width: 100%;
+  z-index: 80;
 
   .alert_typeIcon {
     width: 16px;
@@ -567,13 +568,11 @@ md-toast {
 }
 
 md-toast.red {
-  z-index: 80;
   background-color: $alert_red;
 }
 
 md-toast.green {
   background-color: $alert_green;
-  z-index: 6;
 }
 
 md-toast.blue {
@@ -581,7 +580,6 @@ md-toast.blue {
 }
 
 md-toast.yellow {
-  z-index: 6;
   background-color: #f1c40f;
 }
 
