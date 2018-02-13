@@ -5,7 +5,7 @@
       <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
       <div class="container" layout="row" layout-align="space-between center">
 
-        <div flex hide show-gt-xs layout="row" layout-align="start center">
+        <div flex="nogrow" hide show-gt-xs layout="row" layout-align="start center">
           <div class="kit_user">
             <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
