@@ -524,27 +524,25 @@ md-input-container:not(.md-input-invalid).md-input-focused {
  * ALERT COMPONENT
  */
 
-md-toast{
-  background-color: unset;
-  padding:0;
-  margin:0;
-}
-
 .md-toast-content {
   box-shadow: unset !important;
   background-color: unset !important;
   color: black !important;
 }
 
-md-toast.md-top {
-  position: fixed;
-  top: 64px;
-  max-width: 100%;
-  width: 100%;
-  min-height: 42px;
-  opacity: 0.9;
+md-toast {
+  // TODO: when a toast is on screen, the body gets class='md-toast-open-bottom'
+  // Where does that come from?
+  // If there is a similar *open-top, we can remove the CSS bottom, top
+  bottom: unset !important; // Overwrite angular default
   color: black;
   font-size: .9em;
+  max-height:130px;
+  max-width: 100%;
+  opacity: 0.9;
+  position: fixed;
+  top: 68px; // Start the toast at top.
+  width: 100%;
 
   .alert_typeIcon {
     width: 16px;
@@ -866,6 +864,9 @@ section.map {
 }
 
 .kit_data {
+  // Bug: Tradeoff:
+  // Either break scrolling on mobile
+  // or the black Kit section will have a hole at the bottom
   //position: absolute;
   //width:100%;
   margin-top: 376px;
