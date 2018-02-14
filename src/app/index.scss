@@ -355,7 +355,7 @@ div[api-key]{
     .map {
     }
     .community {
-      width: 106px;
+      //width: 106px;
     }
   }
 
@@ -2475,7 +2475,7 @@ md-content.md-default-theme, md-content {
 // community dropdown
 .nav_left {
   .wrap-dd-menu {
-    width: 114px;
+    width: unset !important; //angular sets this at 200px
     display: inline-block;
     padding: 0;
     margin: 0;
