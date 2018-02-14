@@ -228,6 +228,10 @@ md-select{
   float: right;
 }
 
+.d-flex{
+  display:flex;
+}
+
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
@@ -340,8 +344,9 @@ div[api-key]{
     width: 14px !important;
   }
 
-  .md-button.full_height {
-    padding: 14px 10px;
+  .padding14 {
+    //outline: 1px solid red;
+    padding: 14px 8px;
   }
 
   .nav_left {

@@ -7,12 +7,12 @@
       </md-icon>
     </a>
     <section layout="row" class="nav_left" layout-align="space-around center">
-      <md-button ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat full_height map">
+      <md-button ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat padding14 map">
         <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon">
         </md-icon>
         <span>Map</span>
       </md-button>
-      <md-button ng-show="vm.isShown" href="" class="md-flat full_height community" aria-label="" 
+      <md-button ng-show="vm.isShown" href="" class="md-flat padding14 community" aria-label="" 
           dropdown-menu="vm.dropdownOptionsCommunity"
           dropdown-model="vm.dropdownSelectedCommunity"
           dropdown-item-label="text" layout="row" layout-align="center center">
@@ -26,7 +26,7 @@
 
     <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
 
-      <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat full_height get"></div>
+      <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat get"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" login class="navbar_login_button md-display-1"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button md-display-1"></div>
 
