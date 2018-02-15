@@ -164,6 +164,10 @@ small{
   font-size:1em;
 }
 
+.leaflet-top{
+   top:93px;
+}
+
 section.info{
   h1{
     color: $info_primary;
@@ -791,8 +795,8 @@ section.map {
 .map_legend {
 
   position: absolute;
-  bottom: 12px;
-  margin-left: 24px;
+  top: 10px;
+  margin-left: 10px;
   display: flex;
 
   .chips{
