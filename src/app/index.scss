@@ -225,6 +225,9 @@ md-select{
 .color-blue{
   color:$terciary_color;
 }
+.color-cyan{
+  color: $terciary_color;
+}
 .float-left{
   float: left;
 }
@@ -1387,9 +1390,6 @@ section .kit_menu {
   }
   .kit_details_manage_buttons {
     margin-bottom: 32px;
-    >a {
-      margin: 0 10px;
-    }
   }
   .kit_details_button_delete {
     color: $alert_red;
