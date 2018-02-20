@@ -188,12 +188,12 @@
                 <p class="kit_details_location">
                   <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
                   </md-icon>
-                  <span class="h4">{{ vm.kit.location || 'No location' }}</span>
+                  <span class="md-title">{{ vm.kit.location || 'No location' }}</span>
                 </p>
                 <p class="kit_details_type">
                   <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
                   </md-icon>
-                  <span class="h4">{{ vm.kit.typeDescription }}</span>
+                  <span class="md-title">{{ vm.kit.typeDescription }}</span>
                 </p>
                 <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
                 <p class="kit_details_labels">
@@ -256,7 +256,7 @@
               <p>
                 <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
                 </md-icon>
-                <span class="h4">
+                <span class="md-title">
                   <span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span>
                   <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span>
                   <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span>
@@ -266,7 +266,7 @@
               <p ng-if="vm.kit.owner.url">
                 <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
                 </md-icon>
-                <span class="h4" ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
+                <span class="md-title" ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
               </p>
             </div>
             <section class="kit_owner_kits inside_list" ng-if="vm.sampleKits.length > 0">
