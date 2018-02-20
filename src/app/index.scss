@@ -2508,7 +2508,9 @@ md-content.md-default-theme, md-content {
 }
 
 .navbar_avatar_button {
-  margin-top:16px;
+  //margin-top:16px;
+  padding: 6px;
+  height: 52px;
   display: inline-table;
 }
 
