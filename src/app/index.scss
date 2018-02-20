@@ -1711,7 +1711,9 @@ section .stickMenu {
   }
 
   .errors {
-    position: absolute;
+    // Bug: on signup form (without checking the accept box)
+    // the text will appear underneath the SIGN UP button
+    //position: absolute;
     top: 50px;
     left: 2px;
     color: red;
