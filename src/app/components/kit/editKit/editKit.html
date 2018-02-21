@@ -31,8 +31,8 @@
     <section ng-show="vm.step === 1">
       <form>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Basic information</h2>
@@ -40,7 +40,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput" >
               <div class="form_blockInput_container" layout="column">
                 <md-input-container>
                   <label>Kit Name</label>
@@ -59,8 +59,8 @@
           </div>
         </section>
         <section class="form_block form_blockMap">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit location</h2>
@@ -68,7 +68,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput">
               <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
                 <div class="form_blockInput_container" layout="row" layout-align="center center">
                   <md-button class="md-flat md-primary" ng-click="vm.getLocation()">Get your location</md-button>
@@ -81,8 +81,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit tags</h2>
@@ -90,7 +90,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput">
               <div class="form_blockInput_container">
                 <div flex="100" flex-gt-md="50">
                   <md-select ng-model="vm.tag" placeholder="Select tag">
@@ -112,8 +112,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit description</h2>
@@ -121,7 +121,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput">
               <div class="form_blockInput_container" layout="row">
                 <md-input-container flex="100" flex-gt-md="50">
                   <label>Description</label>

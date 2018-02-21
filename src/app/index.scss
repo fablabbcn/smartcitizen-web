@@ -3099,10 +3099,6 @@ button.doorbell-button {
     padding: 40px 30px;
     background-color: #FFF;
 
-    > div {
-      margin: 0 10%;
-      height: 100%;
-    }
     &.isEven {
       background-color: #F9F9FB;
     }
@@ -3115,7 +3111,7 @@ button.doorbell-button {
   }
   .form_blockInput {
     height: inherit;
-    margin-left: 150px;
+   // margin-left: 150px;
   }
   .form_blockInput_container {
     height: inherit;
@@ -3131,6 +3127,7 @@ button.doorbell-button {
   }
   .form_blockInput_map {
     height: 250px;
+    min-width: 250px;
   }
   .form_blockInput_select label{
     color: $terciary_color;
