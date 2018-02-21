@@ -356,7 +356,6 @@ div[api-key]{
   }
 
   .padding14 {
-    //outline: 1px solid red;
     padding: 14px 8px;
   }
 
@@ -396,12 +395,9 @@ div[api-key]{
  *  SEARCH COMPONENT
  */
 
-search {
-  position: relative;
-
-  md-autocomplete {
-    height: 36px;
-
+// The search results no longer belong to 'search' element, but its own rapper at the root DOM
+md-virtual-repeat-container{
+  .md-virtual-repeat-scroller{
     ul {
       z-index: 100;
       max-height: 422px;
@@ -409,10 +405,13 @@ search {
 
       li {
         .result_icon {
+          position: relative;
+          top: 9px;
           margin-right: 12px;
           width: 18px;
           height: 18px;
-          border-radius: 9px;
+          border-radius: 50%;
+          float:left;
         }
         .result_location {
           color: $blue_light;
@@ -428,6 +427,10 @@ search {
       }
     }
   }
+}
+
+search {
+  position: relative;
 
   .search_icon {
     position: absolute;
