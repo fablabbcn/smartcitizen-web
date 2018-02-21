@@ -11,7 +11,7 @@
   md-search-text="vm.searchText" 
   md-search-text-change="vm.searchTextChange(vm.searchText)"
   md-items="item in vm.querySearch(vm.searchText)" 
-  md-item-text="" 
+  md-item-text="item.name"
   placeholder="Search"
   md-delay="300"
   md-min-length="3"
