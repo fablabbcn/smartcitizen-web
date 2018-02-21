@@ -544,6 +544,7 @@ md-input-container:not(.md-input-invalid).md-input-focused {
   box-shadow: unset !important;
   background-color: unset !important;
   color: black !important;
+  width: 100%;
 }
 
 md-toast {
@@ -552,12 +553,10 @@ md-toast {
   // If there is a similar *open-top, we can remove the CSS bottom, top
   bottom: unset !important; // Overwrite angular default
   color: black;
-  font-size: .9em;
-  max-height:130px;
-  max-width: 100%;
   opacity: 0.9;
+  padding: 0;
   position: fixed;
-  top: 68px !important; // Start the toast at top below navbar.
+  top: 64px !important; // Start the toast at top below navbar.
   width: 100%;
   z-index: 8;
 
@@ -576,9 +575,9 @@ md-toast {
   .alert_button {
     padding: 0px 12px;
     margin-left: 5px;
-    color: #53460B;
+    color: black !important;
     background-color: #C1A212;
-    border-radius: 13px;
+    border-radius: 20px;
     font-size: 12px;
   }
 }
