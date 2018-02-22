@@ -1,6 +1,6 @@
 <section class="kit_dataChange">
   <section class="timeline" flex="1" layout="row" layout-align="center center">
-    <div class="timeline_container" layout="row" layout-align="center start">
+    <div class="timeline_container" layout="row" layout-align="space-between center">
       <div layout="column" layout-align="start center">
         <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 1, 'is-off': vm.step !== 1}">
           1
@@ -24,8 +24,8 @@
     <section ng-show="vm.step === 1">
       <form>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Basic information</h2>
@@ -33,7 +33,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput" flex>
               <div class="form_blockInput_container">
                 <md-input-container>
                   <label>Kit Name</label>
@@ -55,8 +55,8 @@
           </div>
         </section>
         <section class="form_block form_blockMap">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit location</h2>
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput" flex>
               <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
                 <div class="form_blockInput_container" layout="row" layout-align="center center">
                   <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
@@ -77,8 +77,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit tags</h2>
@@ -86,7 +86,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput" flex>
               <div class="form_blockInput_container">
                 <div>
                   <md-select ng-model="vm.tag" placeholder="Select tag">
@@ -108,8 +108,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit description</h2>
@@ -117,7 +117,7 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput" flex>
               <div class="form_blockInput_container" layout="row">
                 <md-input-container flex="100" flex-gt-md="50">
                   <label>Description</label>
