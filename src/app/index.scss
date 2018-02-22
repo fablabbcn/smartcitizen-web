@@ -125,6 +125,11 @@ small{
   color: $secondary_color_light;
 }
 
+
+input{
+  font-family:'Roboto Condensed';
+}
+
 .label, .tag, .state{
   text-transform: uppercase;
   font-size: 0.9em;
@@ -287,6 +292,8 @@ div[api-key]{
     height: inherit;
     background-color: #DBDBDB;
     border-radius: 0 4px 4px 0;
+    margin:0;
+    padding-right:24px;
     md-icon {
       height: 15px;
       width: 15px;
@@ -2842,14 +2849,13 @@ md-content.md-default-theme, md-content {
   margin-right: 7%;
 }
 .myProfile_form_avatarButton {
-  color: $font_color_blue_grey;
+  color: $terciary_color;
+  font-size:18px;
 }
 .myProfile_form_updateButton {
-  float: right;
+  font-size:18px;
   color: $blue_light;
-}
-.myProfile_apiKey {
-  float: left;
+  padding-left:350px;
 }
 .myProfile_apiKey_text {
   color: $font_color_blue_grey;

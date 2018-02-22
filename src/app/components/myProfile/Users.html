@@ -19,7 +19,7 @@
         <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
         <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
       </div>
-      <form ng-submit="vm.updateUser(vm.formUser)">
+      <form style="padding-bottom:40px" ng-submit="vm.updateUser(vm.formUser)">
         <div layout layout-sm="column" class="field myProfile_content_form_input">
           <md-input-container flex>
             <label>Username</label>
@@ -94,28 +94,26 @@
         </div>
         <md-button type="submit" class="myProfile_form_updateButton" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
       </form>
-      <div class="clearfix"></div>
+
       <div class="myProfile_apiKey_block">
         <div class="myProfile_apiKey" layout="row" layout-align="start center">
-          <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
-          <span class="myProfile_apiKey_text">oAuth API Key:</span>
-          <div api-key="vm.user.token"></div>
+          <md-icon flex="10" md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
+          <span flex="30" class="myProfile_apiKey_text">oAuth API Key:</span>
+          <div flex="60" api-key="vm.user.token"></div>
         </div>
-        <div class="clearfix"></div>
         <small>Keep it safe as a password, never show it or release it publicly. The new API uses oAuth but doesn't require any Keys for basic queries. Soon you will be able to manage and renew Keys per application. Check the <a target="_blank" href="http://developer.smartcitizen.me/">documentation and have fun!</a></small></small>
       </div>
-      <div class="clearfix"></div>
+
       <div class="myProfile_apiKey_block">
         <div class="myProfile_apiKey" layout="row" layout-align="start center">
-          <md-icon md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
-          <span class="myProfile_apiKey_text">Legacy API Key:</span>
-          <div api-key="vm.user.key"></div>
+          <md-icon flex="10" md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
+          <span flex="30" class="myProfile_apiKey_text">Legacy API Key:</span>
+          <div flex="60" api-key="vm.user.key"></div>
         </div>
-        <div class="clearfix"></div>
         <small>This API Key is limited to the <a target="_blank" href="http://developer.smartcitizen.me/#legacy">legacy API</a>.</small>
       </div>
-      <div class="clearfix"></div>
-      <md-button ng-click="vm.removeUser()" class="warn" type="button">DELETE ACCOUNT</md-button><br>
+
+      <md-button ng-click="vm.removeUser()" class="warn" style="font-size:18px" type="button">DELETE ACCOUNT</md-button><br>
       <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
     </div>
   </div>
