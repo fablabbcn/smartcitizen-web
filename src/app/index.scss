@@ -207,6 +207,15 @@ button.md-button, button{
   //outline:1px solid red;
 }
 
+// Style buttons inside Dialogs which have not templates like
+// 'removeKit' in myProfile.controller.js
+// This COULD potentially mess with other buttons
+md-dialog-actions {
+  .md-primary{
+    color: $terciary_color !important;
+  }
+}
+
 md-icon{
   min-width: unset !important;
 }
