@@ -197,8 +197,8 @@
               </p>
               <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
               <p class="kit_details_labels">
-              <span class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
-              <tag ng-repeat='tag in vm.kit.userTags' ng-attr-tag-name="tag" clickable></tag>
+              <span style="padding:4px 8px" class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
+              <tag  style="padding:4px 8px" ng-repeat='tag in vm.kit.userTags' ng-attr-tag-name="tag" clickable></tag>
               </p>
             </div>
           </div>
