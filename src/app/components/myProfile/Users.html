@@ -19,7 +19,7 @@
         <img ng-src="{{ vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
         <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
       </div>
-      <form style="padding-bottom:40px" ng-submit="vm.updateUser(vm.formUser)">
+      <form ng-submit="vm.updateUser(vm.formUser)">
         <div layout layout-sm="column" class="field myProfile_content_form_input">
           <md-input-container flex>
             <label>Username</label>
