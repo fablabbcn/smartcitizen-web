@@ -2352,6 +2352,14 @@ md-content.md-default-theme, md-content {
  * OVERRIDE LEAFLET
  */
 
+.leaflet-left {
+  // This is a hack. The right way is to change the leaflet API. See the docs:
+  // http://leafletjs.com/reference-0.7.7.html#control-position
+  left: unset !important;
+  right: 11px;
+  top: 15px !important;
+}
+
 .leaflet-popup-content-wrapper {
   border-radius: 4px;
   width: auto !important;
