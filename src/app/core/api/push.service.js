@@ -24,8 +24,10 @@
 
       function device(id, scope){
         devices(function(data){
-          if(id == data.device_id) scope.$emit('published', data);
-        })
+          if(id === data.device_id) {
+            scope.$emit('published', data);
+          }
+        });
       }
 
       return service;

@@ -1,6 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
+var replace = require('replace');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -81,6 +83,35 @@ module.exports = function(options) {
   });
 
 
+  gulp.task('version', function(){
+    var p = require('./../package.json');
+    var gr = require('git-rev');
+    gutil.log(' -- The version is now: ' + p.version);
+
+    gr.short(function(str){
+      if (str.length > 1){
+        gutil.log('-- Hash is:' + str);
+        replace({
+          regex: "Hash.*",
+          replacement: "Hash: " + str,
+          paths: ['./src/app/components/footer/footer.html'],
+          recursive: true,
+          silent: true,
+          });
+      }
+    });
+
+    replace({
+      regex: "Version.*",
+      replacement: "Version: " + p.version,
+      paths: ['./src/app/components/footer/footer.html'],
+      recursive: true,
+      silent: true,
+    });
+
+  });
+
+
   gulp.task('clean', function (done) {
     $.del([options.dist + '/', options.tmp + '/'], done);
   });
@@ -98,5 +129,5 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/scripts/'));
   });
 
-  gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'oldModule-js']);
+  gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'oldModule-js', 'version']);
 };

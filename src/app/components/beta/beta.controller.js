@@ -15,7 +15,7 @@
     ////////////////
 
     function showBeta() {
-      if(userAgent() != 'other'){
+      if(userAgent() !== 'other'){
         showMobile();
         return;
       }
