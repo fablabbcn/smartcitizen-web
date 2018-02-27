@@ -261,6 +261,9 @@ a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
 }
+.pl-20{
+  padding-left: 20px;
+}
 
 a.warn,
 button.warn{
@@ -3529,10 +3532,8 @@ p.no-margin {
 
     .container {
       padding-bottom:20px;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     @media (min-width: 768px) {
