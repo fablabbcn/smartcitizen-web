@@ -713,7 +713,7 @@
       /* This will not show the last 60 minutes or 24 hours,
       instead it will show the last hour or day*/
       var to, from;
-      if (what == "60 minutes") {
+      if (what === '60 minutes') {
         to = moment(vm.kit.time);
         from = moment(vm.kit.time).subtract(60, 'minutes');
       } else {

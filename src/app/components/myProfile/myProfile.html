@@ -6,46 +6,50 @@
         <h2 class="profile_header_name">{{ vm.user.username || 'No data' }}</h2>
         <div class="profile_header_location">
           <md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-          <span class="h4" ng-if="vm.user.city">{{ vm.user.city }}</span>
-          <span class="h4" ng-if="vm.user.city && vm.user.country">,</span>
-          <span class="h4" ng-if="vm.user.country">{{ vm.user.country }}</span>
-          <span class="h4" ng-if="!vm.user.city && !vm.user.country">No data</span>
+          <span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span>
+          <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span>
+          <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span>
+          <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span>
         </div>
         <div class="profile_header_url">
           <md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon>
-          <a class="h4" ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No website' }}</a>
+          <a class="md-title" ng-href="{{ vm.user.url ||  'http://example.com' }}">{{ vm.user.url ||  'No website' }}</a>
         </div>
       </div>
     </div>
   </div>
+
   <div class="myProfile_tabs_parent" flex>
-    <md-tabs class="myProfile_tabs" md-center-tabs="true" md-selected="vm.startingTab"> <!-- md-dynamic-height="false" -->
-      <md-tab label md-on-select="vm.selectThisTab(0, 'layout.myProfile.kits')" analytics-on="click"
-      analytics-event="Profile" analytics-action="kits">
+    <md-tabs md-dynamic-height="" class="myProfile_tabs" md-center-tabs="false" md-selected="vm.startingTab">
+      <md-tab label md-on-select="vm.selectThisTab(0, 'layout.myProfile.kits')" analytics-on="click" analytics-event="Profile" analytics-action="kits">
         <md-tab-label>
-        <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
-        <span>KITS</span>
+          <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon>
+          <span class="color-white">KITS</span>
         </md-tab-label>
-        <md-tab-body ui-view>
+        <md-tab-body>
+          <ui-view>
+          </ui-view>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.selectThisTab(1, 'layout.myProfile.user')" analytics-on="click"
-      analytics-event="Profile" analytics-action="profile">
+      <md-tab label md-on-select="vm.selectThisTab(1, 'layout.myProfile.user')" analytics-on="click" analytics-event="Profile" analytics-action="profile">
         <md-tab-label>
-        <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
-        <span>USER</span>
+          <md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon>
+          <span class="color-white">USER</span>
         </md-tab-label>
-      </a>
-        <md-tab-body ui-view>
+        </a>
+        <md-tab-body>
+          <ui-view>
+          </ui-view>
         </md-tab-body>
       </md-tab>
-      <md-tab label md-on-select="vm.selectThisTab(2, 'layout.myProfile.tools')" analytics-on="click"
-        analytics-event="Profile" analytics-action="tools">  <!-- md-on-deselect="vm.unhighlightIcon(2)" -->
+      <md-tab label md-on-select="vm.selectThisTab(2, 'layout.myProfile.tools')" analytics-on="click" analytics-event="Profile" analytics-action="tools">
         <md-tab-label>
-        <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
-        <span>TOOLS</span>
+          <md-icon md-svg-src="./assets/images/support_icon_white.svg" class="myProfile_tab_icon"></md-icon>
+          <span class="color-white">TOOLS</span>
         </md-tab-label>
-        <md-tab-body ui-view>
+        <md-tab-body>
+          <ui-view>
+          </ui-view>
         </md-tab-body>
       </md-tab>
     </md-tabs>

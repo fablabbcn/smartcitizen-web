@@ -7,7 +7,7 @@
         layout="row" layout-align="center center">
           1
         </div>
-         <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
+        <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
           Kit data
         </md-button>
         <div ng-show="vm.setupAvailable" class="timeline_line timeline_line_small"></div>
@@ -23,16 +23,16 @@
           </md-button>
         </div>
       </div>
-      <md-button class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToProfile()">Back to Profile</md-button>
-      <md-button class="md-flat md-primary timeline_buttonSave" ng-click="vm.submitFormAndKit()">Save</md-button>
+      <md-button style="margin-left: auto" class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToProfile()">Back to Profile</md-button>
+      <md-button style="margin-left: 20px" class="md-flat md-primary timeline_buttonSave" ng-click="vm.submitFormAndKit()">Save</md-button>
     </div>
   </section>
   <section class="timeline_content" flex="1">
     <section ng-show="vm.step === 1">
       <form>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Basic information</h2>
@@ -40,14 +40,14 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
-              <div class="form_blockInput_container">
+            <div flex="50" class="form_blockInput" >
+              <div class="form_blockInput_container" layout="column">
                 <md-input-container>
                   <label>Kit Name</label>
-                  <input type="text" ng-model="vm.kitForm.name">
+                  <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.name">
                 </md-input-container>
                 <div layout="row" layout-align="space-between start">
-                  <div class="form_blockInput_select">
+                  <div class="form_blockInput_select" layout="row" layout-align="start center">
                     <label>Exposure:</label>
                     <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
                       <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
@@ -59,8 +59,8 @@
           </div>
         </section>
         <section class="form_block form_blockMap">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit location</h2>
@@ -68,10 +68,10 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput">
               <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
                 <div class="form_blockInput_container" layout="row" layout-align="center center">
-                  <md-button class="md-flat md-primary" ng-click="vm.getLocation()">Get your location</md-button>
+                  <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
                 </div>
               </div>
               <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
@@ -81,8 +81,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit tags</h2>
@@ -90,9 +90,9 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
+            <div flex="50" class="form_blockInput">
               <div class="form_blockInput_container">
-                <div>
+                <div flex="100" flex-gt-md="50">
                   <md-select ng-model="vm.tag" placeholder="Select tag">
                     <md-option ng-value="{{ tag.id }}" ng-repeat="tag in vm.tags">{{ tag.name }}</md-option>
                   </md-select>
@@ -112,8 +112,8 @@
           </div>
         </section>
         <section class="form_block form_blockNormal">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
               <div layout="row">
                 <div class="form_blockContent_text">
                   <h2>Kit description</h2>
@@ -121,11 +121,11 @@
                 </div>
               </div>
             </div>
-            <div class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <md-input-container>
+            <div flex="50" class="form_blockInput">
+              <div class="form_blockInput_container" layout="row">
+                <md-input-container flex="100" flex-gt-md="50">
                   <label>Description</label>
-                  <textarea type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+                  <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
                 </md-input-container>
               </div>
             </div>
@@ -175,7 +175,7 @@
           </div>
         </section>
       </form>
-      <md-button  ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'" class="md-primary timeline_button timeline_buttonOpen inverted">Save</md-button>
+      <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'" class="btn-cyan timeline_button">Save</md-button>
       <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>  
       <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>
       <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
