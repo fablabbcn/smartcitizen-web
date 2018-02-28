@@ -12,7 +12,7 @@
 
       callGenericKitData()
         .then(function(data) {
-          genericKitData = _.indexBy(data, 'id');
+          genericKitData = _.keyBy(data, 'id');
         });
 
 	  	var service = {

@@ -179,7 +179,7 @@
                   .value();
             }
 
-            var markersByIndex = _.indexBy(vm.markers, function(marker) {
+            var markersByIndex = _.keyBy(vm.markers, function(marker) {
               return marker.myData.id;
             });
 
@@ -237,7 +237,7 @@
 
       function checkAllFiltersSelected() {
         var allFiltersSelected = _.every(vm.filters, function(filterValue) {
-          return _.include(vm.selectedFilters, filterValue);
+          return _.includes(vm.selectedFilters, filterValue);
         });
         return allFiltersSelected;
       }
@@ -302,7 +302,7 @@
             return false;
           }
           return _.every(labels, function(label) {
-            return _.include(vm.selectedFilters, label);
+            return _.includes(vm.selectedFilters, label);
           });
         });
       }

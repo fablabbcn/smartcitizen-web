@@ -177,7 +177,7 @@
             var mainSensors = sensorsRes[0];
             var compareSensors = sensorsRes[1];
 
-            vm.battery = _.findWhere(mainSensors, {name: 'battery'});
+            vm.battery = _.find(mainSensors, {name: 'battery'});
             vm.sensors = mainSensors.reverse();
 
             vm.sensorsToCompare = compareSensors;

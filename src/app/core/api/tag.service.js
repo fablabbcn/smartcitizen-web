@@ -62,7 +62,7 @@
             return false;
           }
           return _.some(tags, function(tag) {
-            return _.include(service.getSelectedTags(), tag);
+            return _.includes(service.getSelectedTags(), tag);
           });
         });
       }
