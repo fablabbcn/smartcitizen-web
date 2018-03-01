@@ -16,12 +16,6 @@
     margin: 5% 0 4% 0;
   }
 
-  // This fixes Firefox modal offscreen issue.
-  // But does it break something else??
-  .md-dialog-container {
-    position: fixed;
-  }
-
 /*   section.map {
     z-index: 0;
   } */
