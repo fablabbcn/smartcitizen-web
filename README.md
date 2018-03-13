@@ -21,6 +21,9 @@ git clone https://github.com/fablabbcn/smartcitizen-web.git
 cd smartcitizen-web
 ```
 
+### Docker quickstart
+`docker-compose up`
+
 ### Install dependencies
 * Install tools to manage and test the application: `npm install.`
 * No need of `bower install`, `npm install` will take care of it.
