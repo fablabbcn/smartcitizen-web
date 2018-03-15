@@ -734,7 +734,6 @@ md-backdrop.md-noDataBackdrop {
 
 @media only screen and (max-device-width: 1024px) {
   .map_state {
-    z-index: -5;
   }
 }
 
@@ -899,7 +898,7 @@ section.map {
   // Bug: Tradeoff:
   // Either break scrolling on mobile
   // or the black Kit section will have a hole at the bottom
-  //position: absolute;
+  position: absolute;
   //width:100%;
   margin-top: 376px;
 
