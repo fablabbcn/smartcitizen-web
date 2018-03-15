@@ -151,6 +151,8 @@ input{
   }
 }
 .tag{
+  // Tags modal tags
+  // Leaflet popup when clicking a dot, cyan tags - not the darker ones
   background-color: $terciary_color_light;
   color: $secondary_color_light;
   md-icon svg path{
