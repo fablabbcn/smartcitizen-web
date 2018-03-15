@@ -82,7 +82,7 @@
 
       function initialize() {
 
-        var kitIDs = _.pluck(vm.user.kits, 'id');
+        var kitIDs = _.map(vm.user.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
           animation.viewLoaded();
@@ -247,7 +247,7 @@
       }
 
       function updateKits() {
-        var kitIDs = _.pluck(vm.user.kits, 'id');
+        var kitIDs = _.map(vm.user.kits, 'id');
         if(!kitIDs.length) {
           return [];
         }

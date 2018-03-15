@@ -38,7 +38,7 @@
           .then(function(user) {
             vm.user = new NonAuthUser(user);
 
-            var kitIDs = _.pluck(vm.user.kits, 'id');
+            var kitIDs = _.map(vm.user.kits, 'id');
             if(!kitIDs.length) {
               return [];
             }
