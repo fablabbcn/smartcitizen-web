@@ -328,25 +328,45 @@
       }
 
       function getZoomLevel(data) {
-        var LAYER_ZOOMS = [{name:'point_of_interest', zoom:18}, {name:'address', zoom:18}, {name:'neighbourhood', zoom:13}, {name:'locality', zoom:13}, {name:'localadmin', zoom:10}, {name:'county', zoom:10}, {name:'region', zoom:8}, {name:'country', zoom:7}, {name:'coarse', zoom:7}];
+        // data.layer is an array of strings like ["establishment", "point_of_interest"]
+        var zoom;
 
-        var zoom = _.find(LAYER_ZOOMS, function(layer) {
-          data.layer.forEach(function(layer){
-            return layer.name === layer;
-          });
-        }).zoom;
-
-        if(zoom == undefined) {
-          zoom = 20;
+        switch(data.layer[0]) {
+          case 'point_of_interest':
+            zoom = 18;
+            break;
+          case 'address':
+            zoom = 18;
+            break;
+          case "establishment":
+            zoom = 15;
+            break;
+          case 'neighbourhood':
+            zoom = 13;
+            break;
+          case 'locality':
+            zoom = 13;
+            break;
+          case 'localadmin':
+            zoom = 9;
+            break;
+          case 'county':
+            zoom = 9;
+            break;
+          case 'region':
+            zoom = 8;
+            break;
+          case 'country':
+            zoom = 7;
+            break;
+          case 'coarse':
+            zoom = 7;
+            break;
+          default:
+            zoom = 10;
         }
 
-        console.log(zoom);
-
-        // debugger;
-
         return zoom;
-
-
       }
 
       function reportMapInteractionByUser(){
