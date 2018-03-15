@@ -47,7 +47,7 @@ describe('Controller: User Profile', function() {
       it('should expose kit instances of the user', function() {
         expect(MyProfileController.kits).toBeDefined();
         expect(Array.isArray(MyProfileController.kits)).toBe(true);
-        expect(_.pluck(MyProfileController.kits, 'id')).toEqual([1,2]);
+        expect(_.map(MyProfileController.kits, 'id')).toEqual([1,2]);
       });
       it('should expose filterKits function', function() {
         expect(MyProfileController.filterKits).toBeDefined();

@@ -273,7 +273,7 @@
         })
         .then(function(selectedTags) {
           updateType = 'map';
-          tag.setSelectedTags(_.pluck(selectedTags, 'name'));
+          tag.setSelectedTags(_.map(selectedTags, 'name'));
           vm.selectedTags = tag.getSelectedTags();
           reloadWithTags();
         });

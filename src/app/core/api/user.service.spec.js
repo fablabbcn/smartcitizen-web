@@ -29,7 +29,7 @@ describe('Service: User', function() {
         username: 'Ruben',
         password: 'secret'
       }).then(function(res) {
-        expect(_.pluck(res)).toEqual(['username', 'passwor']);
+        expect(_.map(res)).toEqual(['username', 'passwor']);
       });
       $httpBackend.flush();
     });
@@ -47,7 +47,7 @@ describe('Service: User', function() {
         });
       user.getUser(1)
         .then(function(res) {
-          expect(_.pluck(res)).toEqual(['username', 'city']);
+          expect(_.map(res)).toEqual(['username', 'city']);
         });
       $httpBackend.flush();
     });
@@ -64,7 +64,7 @@ describe('Service: User', function() {
         username: 'Ruben',
         city: 'Barcelona'
       }).then(function(res) {
-        expect(_.pluck(res)).toEqual(['username', 'city']);
+        expect(_.map(res)).toEqual(['username', 'city']);
       });
       $httpBackend.flush();
     });

@@ -7,13 +7,13 @@
     <div class="modal_content_container_filter" flex layout="column">
       <h2>TAGS</h2>
       <p>Kits sharing a #tag show their average data.</p>
-      <p>Browse and select from the list to show the kits containing ALL these tags.</p>
+      <p class="hide-xs">Browse and select from the list to show the kits containing ALL these tags.</p>
       <md-divider></md-divider>
 
       <md-content flex>
         <div class="modalTag_tagContainer" ng-repeat = "tag in tagDialog.tags">
           <md-checkbox class = "blue" ng-model = "tagDialog.checks[tag.name]">
-            <span class="tag">{{tag.name}} </span>
+            <span style="padding: 3px 8px" class="tag">{{tag.name}} </span>
           </md-checkbox>
           <md-divider/>
         </div>
