@@ -24,7 +24,7 @@
           <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
         </span>
       </div>
-      <div layout="row" class="chips_row">
+      <div layout="row" class="chips_row" layout-wrap>
         <span class="chip tag" ng-repeat="tag in vm.selectedTags">
           {{ tag }}
           <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
