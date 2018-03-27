@@ -186,6 +186,7 @@
               controllerAs: 'vm'
             }
           },
+          params: {id: ''},
 
           resolve: {
             sensorTypes: function(sensor) {
