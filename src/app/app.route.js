@@ -141,9 +141,11 @@
             },
             selectedTags: function($stateParams, tag){
               if(typeof($stateParams.tags) === 'string'){
-                $stateParams.tags = [$stateParams.tags];
+                tag.setSelectedTags([$stateParams.tags]);
+              }else{
+                // We have an array
+                tag.setSelectedTags(_.uniq($stateParams.tags));
               }
-              tag.setSelectedTags(_.uniq($stateParams.tags));
             }
           }
         })
@@ -184,6 +186,7 @@
               controllerAs: 'vm'
             }
           },
+          params: {id: ''},
 
           resolve: {
             sensorTypes: function(sensor) {
