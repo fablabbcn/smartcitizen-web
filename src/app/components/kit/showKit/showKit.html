@@ -5,12 +5,12 @@
       <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
       <div class="container" layout="row" layout-align="space-between center">
 
-        <div flex="nogrow" hide show-gt-xs layout="row" layout-align="start center">
-          <div class="kit_user">
+        <div flex="nogrow" layout="row" layout-align="start center">
+          <div hide show-gt-xs class="kit_user">
             <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
           </div>
-          <div class="kit_name">
+          <div hide show-gt-xs class="kit_name">
             <img ng-src="./assets/images/sensor_icon.svg" />
             <span>{{ vm.kit.name }}</span>
           </div>
@@ -21,10 +21,10 @@
         </div>
 
         <div flex class="kit_time">
-          <span>Last data received: {{ vm.kit.timeParsed }}</span>
+          <span hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
 
-        <div flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
+        <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
 
           <md-button href="#" class="md-flat chart_icon" aria-label=""
             analytics-on="click" analytics-category="Kit Detail Section Button"
