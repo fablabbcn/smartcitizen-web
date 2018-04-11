@@ -24,7 +24,6 @@
     "rangeslider.js": "~1.3.3",
     "restangular": "1.6",
     "ngtweet": "~0.3.0",
-    "angular-mailchimp": "~0.0.4",
     "angular-socket-io": "^0.7.0",
     "angular-aria": "^1.6.8",
     "angular-messages": "^1.6.8",
