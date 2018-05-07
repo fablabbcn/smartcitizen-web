@@ -1179,13 +1179,14 @@ section .kit_menu {
   }
 
   .kit_chart {
-    //height: 340px;
+    min-height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
-   // position:relative;
+    position: relative;
 
     .hint{
       background-color: #010E12;
+      opacity: 0.8;
     }
 
     md-select:not([disabled]):focus .md-select-label {
