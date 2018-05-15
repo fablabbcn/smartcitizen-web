@@ -39,7 +39,7 @@
           }
         },
         overlays: {
-          realworld: {
+          devices: {
             name: 'Devices',
             type: 'markercluster',
             visible: true,
@@ -75,7 +75,6 @@
       };
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        // This is a bit ugly. Feels more like a hack.
         var id = undefined;
         var currentMarker = vm.markers[data.modelName];
 
@@ -130,7 +129,7 @@
       }, true);
 
       $scope.$on('goToLocation', function(event, data) {
-        goToLocation(event, data);
+        goToLocation(data);
       });
 
       $scope.$on('leafletDirectiveMap.dragend', function(){
@@ -186,9 +185,9 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
+            } else {
+              updateMarkers();
             }
-
-            updateMarkers();
 
             vm.readyForKit.map = true;
 
@@ -214,14 +213,11 @@
             leafletData.getLayers()
               .then(function(layers) {
                 if(currentMarker){
-                  layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                  layers.overlays.devices.zoomToShowLayer(currentMarker,
                     function() {
                       var selectedMarker = currentMarker;
                       if(selectedMarker) {
-                        goToLocation(null, data, function(){
-                            selectedMarker.options.focus = true;
-                            selectedMarker.openPopup();
-                        });
+                          selectedMarker.openPopup();
                       }
                       vm.kitLoading = false;
                     });
@@ -329,7 +325,7 @@
 
       function getZoomLevel(data) {
         // data.layer is an array of strings like ["establishment", "point_of_interest"]
-        var zoom = 10;
+        var zoom = 18;
 
         if(data.layer && data.layer[0]) {
           switch(data.layer[0]) {
@@ -386,16 +382,7 @@
           /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
       }
 
-      function goToLocation(event, data, callback){
-        // This isn't super nice but turns the event in to a kind off callback
-        if (callback) {
-          leafletData.getMap().then(function(map){
-            map.on('moveend', function() {
-              map.off('moveend');
-              callback();
-            });
-          });
-        }
+      function goToLocation(data){
         // This ensures the action runs after the event is registered
         $timeout(function() {
           vm.center.lat = data.lat;
@@ -403,8 +390,6 @@
           vm.center.zoom = getZoomLevel(data);
         });
       }
-
-
 
       function removeTag(tagName){
         tag.setSelectedTags(_.filter(vm.selectedTags, function(el){

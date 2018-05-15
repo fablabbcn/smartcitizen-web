@@ -37,7 +37,7 @@
           '</div></div></div>';
 
         this.icon = markerUtils.getIcon(deviceData);
-        this.layer = 'realworld';
+        this.layer = 'devices';
         this.focus = false;
         this.myData = {
           id: markerUtils.parseId(deviceData),
