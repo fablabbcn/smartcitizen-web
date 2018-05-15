@@ -630,7 +630,7 @@
                   return !!kit.longitude && !!kit.latitude;
                 })
                 .find(function(kit) {
-                  return _.contains(kit.labels, 'online');
+                  return _.includes(kit.labels, 'online');
                 })
                 .tap(function(closestKit) {
                   if(focused){
