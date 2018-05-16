@@ -144,7 +144,7 @@
       }
 
       function parseTime(object) {
-        var time = object.data && object.data[''];
+        var time = object.last_reading_at;
         if(!time) {
           return 'No time';
         }

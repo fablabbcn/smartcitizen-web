@@ -25,7 +25,7 @@
           osm: {
             name: 'OpenStreetMap',
             type: 'xyz',
-            url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken 
+            url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
           },
           legacy: {
             name: 'Legacy',
@@ -35,11 +35,11 @@
           sat: {
             name: 'Satellite',
             type: 'xyz',
-            url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken 
+            url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
           }
         },
         overlays: {
-          realworld: {
+          devices: {
             name: 'Devices',
             type: 'markercluster',
             visible: true,
@@ -75,7 +75,6 @@
       };
 
       $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        // This is a bit ugly. Feels more like a hack.
         var id = undefined;
         var currentMarker = vm.markers[data.modelName];
 
@@ -101,7 +100,7 @@
 
         $state.go('layout.home.kit', {id: id});
 
-        // angular.element('section.map').scope().$broadcast('resizeMapHeight'); 
+        // angular.element('section.map').scope().$broadcast('resizeMapHeight');
       });
 
 
@@ -130,7 +129,7 @@
       }, true);
 
       $scope.$on('goToLocation', function(event, data) {
-        goToLocation(event, data);
+        goToLocation(data);
       });
 
       $scope.$on('leafletDirectiveMap.dragend', function(){
@@ -163,7 +162,7 @@
 
         device.getAllDevices()
           .then(function(data){
-            
+
             if (!vm.markers || vm.markers.length === 0){
 
               vm.markers = _.chain(data)
@@ -186,43 +185,40 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
+            } else {
+              updateMarkers();
             }
-
-            updateMarkers();
 
             vm.readyForKit.map = true;
 
           });
       }
 
-      function zoomKitAndPopUp(data){ 
+      function zoomKitAndPopUp(data){
 
         if(updateType === 'map') {
           vm.kitLoading = false;
           updateType = undefined;
           return;
         }
-        
+
         leafletData.getMarkers()
-          .then(function(markers) { 
+          .then(function(markers) {
             var currentMarker = _.find(markers, function(marker) {
               return data.id === marker.options.myData.id;
             });
 
             var id = data.id;
-            
+
             leafletData.getLayers()
               .then(function(layers) {
                 if(currentMarker){
-                  layers.overlays.realworld.zoomToShowLayer(currentMarker,
+                  layers.overlays.devices.zoomToShowLayer(currentMarker,
                     function() {
                       var selectedMarker = currentMarker;
                       if(selectedMarker) {
-                        goToLocation(null, data, function(){
-                            selectedMarker.options.focus = true;
-                            selectedMarker.openPopup();                              
-                        });
-                      } 
+                          selectedMarker.openPopup();
+                      }
                       vm.kitLoading = false;
                     });
                 } else {
@@ -230,9 +226,9 @@
                     map.closePopup();
                   });
                 }
-            }); 
-         }); 
-       
+            });
+         });
+
       }
 
       function checkAllFiltersSelected() {
@@ -329,41 +325,41 @@
 
       function getZoomLevel(data) {
         // data.layer is an array of strings like ["establishment", "point_of_interest"]
-        var zoom;
+        var zoom = 18;
 
-        switch(data.layer[0]) {
-          case 'point_of_interest':
-            zoom = 18;
-            break;
-          case 'address':
-            zoom = 18;
-            break;
-          case "establishment":
-            zoom = 15;
-            break;
-          case 'neighbourhood':
-            zoom = 13;
-            break;
-          case 'locality':
-            zoom = 13;
-            break;
-          case 'localadmin':
-            zoom = 9;
-            break;
-          case 'county':
-            zoom = 9;
-            break;
-          case 'region':
-            zoom = 8;
-            break;
-          case 'country':
-            zoom = 7;
-            break;
-          case 'coarse':
-            zoom = 7;
-            break;
-          default:
-            zoom = 10;
+        if(data.layer && data.layer[0]) {
+          switch(data.layer[0]) {
+            case 'point_of_interest':
+              zoom = 18;
+              break;
+            case 'address':
+              zoom = 18;
+              break;
+            case "establishment":
+              zoom = 15;
+              break;
+            case 'neighbourhood':
+              zoom = 13;
+              break;
+            case 'locality':
+              zoom = 13;
+              break;
+            case 'localadmin':
+              zoom = 9;
+              break;
+            case 'county':
+              zoom = 9;
+              break;
+            case 'region':
+              zoom = 8;
+              break;
+            case 'country':
+              zoom = 7;
+              break;
+            case 'coarse':
+              zoom = 7;
+              break;
+          }
         }
 
         return zoom;
@@ -386,16 +382,7 @@
           /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
       }
 
-      function goToLocation(event, data, callback){
-        // This isn't super nice but turns the event in to a kind off callback
-        if (callback) {
-          leafletData.getMap().then(function(map){
-            map.on('moveend', function() {
-              map.off('moveend');
-              callback();
-            });
-          });
-        }
+      function goToLocation(data){
         // This ensures the action runs after the event is registered
         $timeout(function() {
           vm.center.lat = data.lat;
@@ -403,8 +390,6 @@
           vm.center.zoom = getZoomLevel(data);
         });
       }
-
-
 
       function removeTag(tagName){
         tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
