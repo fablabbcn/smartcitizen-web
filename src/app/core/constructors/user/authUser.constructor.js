@@ -10,9 +10,9 @@
        * @param {Object} userData - Contains user data sent from API
        * @property {string} email - User email
        * @property {string} role - User role. Ex: admin
-       * @property {string} key - Personal API Key 
+       * @property {string} key - Personal API Key
        */
-      
+
       function AuthUser(userData) {
         User.call(this, userData);
 
