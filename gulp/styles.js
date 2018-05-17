@@ -29,8 +29,8 @@ module.exports = function(options) {
       addRootSlash: false
     };
 
-    var indexFilter = $.filter('index.scss');
-    var vendorFilter = $.filter('vendor.scss');
+    var indexFilter = $.filter('index.scss', {restore: true});
+    var vendorFilter = $.filter('vendor.scss', {restore: true});
 
     return gulp.src([
       options.src + '/app/index.scss',
@@ -38,10 +38,10 @@ module.exports = function(options) {
     ])
       .pipe(indexFilter)
       .pipe($.inject(injectFiles, injectOptions))
-      .pipe(indexFilter.restore())
+      .pipe(indexFilter.restore)
       .pipe(vendorFilter)
       .pipe(wiredep(options.wiredep))
-      .pipe(vendorFilter.restore())
+      .pipe(vendorFilter.restore)
       .pipe($.sourcemaps.init())
       .pipe($.sass(sassOptions)).on('error', options.errorHandler('Sass'))
       .pipe($.autoprefixer()).on('error', options.errorHandler('Autoprefixer'))
