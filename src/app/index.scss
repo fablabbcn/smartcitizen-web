@@ -634,6 +634,25 @@ md-checkbox .md-label span {
 md-progress-linear .md-bar{
   background-color: #044150;
 }
+md-progress-linear.md-hue-3 .md-container{
+  background-color: rgba(79, 201, 232, 0.05);
+}
+md-progress-linear.md-hue-3 .md-bar {
+  background-color: $blue_light;
+}
+
+.kit_spinner {
+  z-index: 200;
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+}
+
+.chart_spinner {
+  position: absolute;
+  top: 9%;
+  left: 57%;
+}
 
 /**
  *  COOKIES POLICY COMPONENT
@@ -1598,24 +1617,6 @@ KIT COMMENTS MODULE
 */
 .kit_comments {
   padding-bottom: 100px;
-}
-
-.kit_spinner {
-  z-index: 200;
-  position: absolute;
-  left: 0;
-  bottom: 4px;
-}
-md-progress-linear.md-hue-3 .md-container{
-  background-color: rgba(79, 201, 232, 0.05);
-}
-md-progress-linear.md-hue-3 .md-bar {
-  background-color: $blue_light;
-}
-.chart_spinner {
-  position: absolute;
-  top: 9%;
-  left: 57%;
 }
 
 /*
