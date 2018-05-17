@@ -40,6 +40,11 @@
     "angular-animate": "^1.6.8"
   },
   "overrides": {
+    "angular": {
+      "dependencies": {
+          "jquery": "~2.1.4"
+      }
+    },
     "leaflet.markercluster": {
       "main": [
         "dist/leaflet.markercluster.js",
