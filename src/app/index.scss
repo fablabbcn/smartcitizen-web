@@ -499,7 +499,7 @@ md-select,
 md-select-menu {
   text-transform: uppercase;
 }
-md-select:not([disabled]):focus .md-select-label {
+md-select:not([disabled]):focus .md-select-value {
   border-bottom-color: #6B868D;
 }
 
@@ -1189,13 +1189,6 @@ section .kit_menu {
       opacity: 0.8;
     }
 
-    md-select:not([disabled]):focus .md-select-label {
-      color: $font_color_white;
-    }
-    md-select .md-select-label.md-placeholder {
-      color: $font_color_white;
-    }
-
     .container {
       padding: 37px;
       height: 100%;
@@ -1206,7 +1199,14 @@ section .kit_menu {
         //margin-right: 30px;
         //height: 100%;
 
-        md-select .md-select-label {
+        md-select:not([disabled]):focus .md-select-value  {
+          color: $font_color_white;
+        }
+        md-select .md-select-value.md-placeholder {
+          color: $font_color_white;
+        }
+
+        md-select .md-select-value {
           border-bottom-color: #6B868D;
         }
         .sensor_select {
