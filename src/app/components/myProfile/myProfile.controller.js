@@ -58,13 +58,6 @@
       vm.filterTools = filterTools;
 
       vm.selectThisTab = selectThisTab;
-      if ($state.current.name === 'layout.myProfile.user'){
-        vm.startingTab = 1;
-      } else if ($state.current.name === 'layout.myProfile.tools'){
-        vm.startingTab = 2;
-      } else {
-        vm.startingTab = 0;
-      }
 
       var updateKitsTimer;
 
@@ -81,7 +74,7 @@
       //////////////////
 
       function initialize() {
-
+        startingTab();
         var kitIDs = _.map(vm.user.kits, 'id');
         if(!kitIDs.length) {
           vm.kits = [];
@@ -177,13 +170,37 @@
       }
 
       function selectThisTab(iconIndex, uistate){
-
-        var thisState = uistate ||
-          $state.current.name ||
-          'layout.myProfile.kits';
+        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
 
         highlightIcon(iconIndex);
-        $state.transitionTo(thisState);
+
+        if ($state.current.name.includes('myProfileAdmin')){
+            var transitionState = 'layout.myProfileAdmin.' + uistate;
+            $state.transitionTo(transitionState, {id: userData.id});
+        } else {
+            var transitionState = 'layout.myProfile.' + uistate;
+            $state.transitionTo(transitionState);
+        }
+
+      }
+
+      function startingTab() {
+        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
+
+        var childState = $state.current.name.split('.').pop();
+
+        switch(childState) {
+          case 'user':
+            vm.startingTab = 1;
+            break;
+          case 'tools':
+            vm.startingTab = 2;
+            break;
+          default:
+            vm.startingTab = 0;
+            break;
+        }
+
       }
 
       function highlightIcon(iconIndex) {
