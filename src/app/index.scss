@@ -1087,6 +1087,12 @@ section .kit_menu {
     overflow-y: hidden;
   }
 
+  @media (pointer: coarse) {
+    .sensors_container {
+      overflow-x: auto;
+    }
+  }
+
   .sensor_container {
     margin: 30px;
     position: relative;
