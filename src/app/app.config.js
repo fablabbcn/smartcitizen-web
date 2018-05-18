@@ -4,8 +4,8 @@
   angular.module('app')
     .run(run);
 
-    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation', '$timeout'];
-    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation, $timeout) {
+    run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation', '$timeout', '$transitions'];
+    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation, $timeout, $transitions) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -18,27 +18,14 @@
        */
 
       /*jshint unused:false*/
-      $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-        if(toState.name === 'layout.home.kit') {
-          /*
-            Code to fix Disqus error on state change
-            https://help.disqus.com/customer/portal/articles/472107-using-disqus-on-ajax-sites
-          */
-          // DISQUS.reset({
-          //   reload: true,
-          //   config: function () {
-          //     this.page.identifier = toParams.id;
-          //     this.page.url = '/kits/' + toParams.id;
-          //     this.page.title = 'Kit number ' + toParams.id;
-          //     this.language = 'en';
-          //   }
-          // });
-        }
 
-        if(toState.name === 'layout.home.kit' && fromState.name !== 'layout.home.kit') {
+      $transitions.onStart({}, function(trans) {
+
+        if(trans.to().name === 'layout.home.kit' && trans.from().name !== 'layout.home.kit') {
           animation.mapStateLoading();
         }
-        if(toState.authenticate === false) {
+
+        if(trans.to().authenticate === false) {
           if(auth.isAuth()) {
             e.preventDefault();
             $state.go('landing');
@@ -46,7 +33,7 @@
           }
         }
 
-        if(toState.authenticate) {
+        if(trans.to().authenticate) {
           if(!auth.isAuth()) {
             e.preventDefault();
             $state.go('landing');
@@ -59,11 +46,9 @@
         return;
       });
 
-      $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-        // on state change close all alerts opened
+      $transitions.onSuccess({}, function(trans) {
         $timeout(animation.hideAlert, 750);
       });
-
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
         if (auth.isAuth()) {
