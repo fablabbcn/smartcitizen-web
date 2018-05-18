@@ -71,7 +71,7 @@
           <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
           </md-icon>
         </md-button>
-        <div flex="80" class="sensors_container" layout="row" layout-align="center center" horizontal-scroll>
+        <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
           <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)">
             <div layout="row">
               <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
