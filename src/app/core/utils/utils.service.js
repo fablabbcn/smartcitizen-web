@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('utils', utils);
@@ -103,4 +102,4 @@
         return deferred.promise;
       }
     }
-})();
+

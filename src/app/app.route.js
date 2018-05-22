@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app')
     .config(config);
@@ -428,4 +427,3 @@
       /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
     }
-})();

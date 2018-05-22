@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Tools links for user profile
@@ -56,4 +55,4 @@
       avatar: '',
       href: 'https://twitter.com/SmartCitizenKit'
     }]);
-})();
+

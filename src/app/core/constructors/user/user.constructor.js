@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('User', ['COUNTRY_CODES', function(COUNTRY_CODES) {
@@ -29,4 +28,4 @@
       return User;      
     }]);
 
-})();
+

@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .controller('UserProfileController', UserProfileController);
@@ -80,4 +79,4 @@
         angular.element('.profile_content').css('min-height', height + 'px');
       }
     }
-})();
+

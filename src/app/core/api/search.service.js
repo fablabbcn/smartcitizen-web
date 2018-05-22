@@ -18,4 +18,4 @@
     	  return Restangular.all('search').getList({q: query});
       }
     }
-})();
+

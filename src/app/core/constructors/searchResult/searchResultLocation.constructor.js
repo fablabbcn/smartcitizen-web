@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('SearchResultLocation', ['SearchResult', function(SearchResult) {
@@ -21,4 +20,4 @@
       return SearchResultLocation;
     }]);
 
-})();
+

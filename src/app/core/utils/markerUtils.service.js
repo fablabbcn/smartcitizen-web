@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('markerUtils', markerUtils);
@@ -164,4 +163,4 @@
         return marker;
       }
     }
-})();
+

@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Dropdown options for kits
@@ -12,4 +11,4 @@
       {text: 'SET UP', value: '1', href: '/kits/new'},
       {text: 'EDIT', value: '2', href: '/kits/edit/'}
     ]);
-})();
+

@@ -1,5 +1,4 @@
-(function(){
-  'use strict';
+import angular from 'angular';
   angular.module('app.components')
     .directive('kitList',kitList);
 
@@ -14,4 +13,4 @@
       templateUrl:'app/components/kitList/kitList.html'
     };
   }
-})();
+

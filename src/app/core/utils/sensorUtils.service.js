@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('sensorUtils', sensorUtils);
@@ -226,4 +225,4 @@
           .measurement.description;
       }
     }
-})();
+

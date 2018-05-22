@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Country codes.
@@ -255,4 +254,4 @@
       'ZM': 'Zambia',
       'ZW': 'Zimbabwe' 
     });
-})();
+

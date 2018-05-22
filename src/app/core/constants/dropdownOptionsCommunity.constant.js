@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Dropdown options for community button
@@ -16,4 +15,4 @@
       {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'},
       {text: 'Legal', href: '/policy'}
     ]);
-})();
+

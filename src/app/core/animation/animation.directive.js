@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
     /**
      * TODO: This directives can be split up each one in a different file
@@ -221,4 +220,4 @@
         link: link
       };
     }
-})();
+

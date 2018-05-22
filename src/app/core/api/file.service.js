@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('file', file);
@@ -45,4 +44,4 @@
         return 'https://images.smartcitizen.me/' + size + '/' + filename;
       }
     }
-})();
+

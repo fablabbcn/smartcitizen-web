@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
     angular.module('app.components')
       .directive('signup', signup);
@@ -15,4 +14,4 @@
         templateUrl: 'app/components/signup/signup.html'
       };
     }
-})();
+

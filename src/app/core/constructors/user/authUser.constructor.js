@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('AuthUser', ['User', function(User) {
@@ -26,4 +25,4 @@
 
       return AuthUser;
     }]);
-})();
+

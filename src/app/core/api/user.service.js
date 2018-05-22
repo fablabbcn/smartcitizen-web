@@ -27,4 +27,4 @@
         return Restangular.all('me').customPUT(updateData);
       }
 	  }
-})();
+

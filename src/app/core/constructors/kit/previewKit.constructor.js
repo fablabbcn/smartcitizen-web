@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('PreviewKit', ['Kit', function(Kit) {
@@ -26,4 +25,4 @@
       PreviewKit.prototype.constructor = Kit;
       return PreviewKit;
     }]);
-})();
+

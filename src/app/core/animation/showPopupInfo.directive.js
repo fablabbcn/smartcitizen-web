@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .directive('showPopupInfo', showPopupInfo);
@@ -26,4 +25,4 @@
         });
       }
     }
-})();
+

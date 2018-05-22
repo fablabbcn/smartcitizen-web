@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Dropdown options for user
@@ -12,4 +11,4 @@
       {text: 'PROFILE', href: './profile'},
       {text: 'LOGOUT', href: './logout'}
     ]);
-})();
+

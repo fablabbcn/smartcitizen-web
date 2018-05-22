@@ -1,5 +1,4 @@
-(function() {
-	'use strict';
+import angular from 'angular';
 
 	angular.module('app.components')
 	  .factory('geolocation', geolocation);
@@ -25,4 +24,4 @@
 					.getItem('smartcitizen.geolocation_granted');
 			}
 	  }
-})();
+

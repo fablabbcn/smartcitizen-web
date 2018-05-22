@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('Kit', ['Sensor', 'kitUtils', function(Sensor, kitUtils) {
@@ -31,4 +30,4 @@
 
       return Kit;
     }]);
-})();
+

@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('HasSensorKit', ['Kit', function(Kit) {
@@ -27,4 +26,4 @@
 
       return HasSensorKit;
     }]);
-})();
+

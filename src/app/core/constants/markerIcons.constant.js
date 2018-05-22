@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   /**
    * Marker icons
@@ -41,4 +40,4 @@
         iconSize: [24, 24]
       }
     });
-})();
+

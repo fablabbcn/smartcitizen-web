@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('userUtils', userUtils);
@@ -20,4 +19,4 @@
         return userID === authUserData.id;
       }
     }
-})();
+

@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('SearchResult', ['searchUtils', function(searchUtils) {
@@ -25,4 +24,4 @@
       }
       return SearchResult;
     }]);
-})();
+

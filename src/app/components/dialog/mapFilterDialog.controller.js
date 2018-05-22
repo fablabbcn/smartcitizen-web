@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .controller('MapFilterDialogController', MapFilterDialogController);
@@ -55,4 +54,3 @@
       vm.checks[filter] = true;
     }
   }
-})();

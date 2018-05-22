@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
     angular.module('app.components')
       .directive('login', login);
@@ -15,4 +14,4 @@
         templateUrl: 'app/components/login/login.html'
       };
     }
-})();
+

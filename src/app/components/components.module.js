@@ -1,6 +1,3 @@
-(function() {
-	'use strict';
+import angular from 'angular';
 
-
-	angular.module('app.components', []);
-})();
+export default angular.module('app.components', []);

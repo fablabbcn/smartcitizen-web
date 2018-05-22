@@ -1,5 +1,4 @@
-(function() {
-  'use strict';
+import angular from 'angular';
 
   angular.module('app.components')
     .factory('animation', animation);
@@ -92,4 +91,4 @@
         $rootScope.$broadcast('mapStateLoaded');
       }
     }
-})();
+

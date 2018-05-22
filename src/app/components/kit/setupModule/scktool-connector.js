@@ -244,7 +244,7 @@ var extensionSet;
                 window.RPCClient = RPCClient;
             }
             module.exports.extentionAvailable = window.extentionAvailable;
-        })();
+        
     }, {
         "./../../tools/client-util": 22,
         "./../common/config": 2,
@@ -15031,7 +15031,7 @@ var extensionSet;
             } else {
                 return function(msg) {};
             }
-        })();
+        
         window.dbg = dbg;
 
     }, {}]
