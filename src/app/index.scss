@@ -895,10 +895,6 @@ section.map {
 }
 
 .kit_data {
-  // Bug: Tradeoff:
-  // Either break scrolling on mobile
-  // or the black Kit section will have a hole at the bottom
-  position: absolute;
   width:100%;
   margin-top: 376px;
 
