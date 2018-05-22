@@ -46,8 +46,9 @@
         return;
       });
 
-      $transitions.onSuccess({}, function(trans) {
-        $timeout(animation.hideAlert, 750);
+      $transitions.onCreate({}, function(trans) {
+        animation.mapStateLoaded();
+        animation.hideAlert();
       });
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
