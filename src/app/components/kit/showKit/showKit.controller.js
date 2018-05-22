@@ -177,7 +177,7 @@
             var mainSensors = sensorsRes[0];
             var compareSensors = sensorsRes[1];
 
-            vm.battery = _.findWhere(mainSensors, {name: 'battery'});
+            vm.battery = _.find(mainSensors, {name: 'battery'});
             vm.sensors = mainSensors.reverse();
 
             vm.sensorsToCompare = compareSensors;
@@ -630,7 +630,7 @@
                   return !!kit.longitude && !!kit.latitude;
                 })
                 .find(function(kit) {
-                  return _.contains(kit.labels, 'online');
+                  return _.includes(kit.labels, 'online');
                 })
                 .tap(function(closestKit) {
                   if(focused){
@@ -713,7 +713,7 @@
       /* This will not show the last 60 minutes or 24 hours,
       instead it will show the last hour or day*/
       var to, from;
-      if (what == "60 minutes") {
+      if (what === '60 minutes') {
         to = moment(vm.kit.time);
         from = moment(vm.kit.time).subtract(60, 'minutes');
       } else {

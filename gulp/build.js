@@ -1,8 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var replace = require('replace');
+var log = require('fancy-log');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -34,23 +34,23 @@ module.exports = function(options) {
       addRootSlash: false
     };
 
-    var htmlFilter = $.filter('*.html');
-    var jsFilter = $.filter('**/*.js', '!'+options.src+'/**/scktool-*.js');
-    var cssFilter = $.filter('**/*.css');
+    var htmlFilter = $.filter('*.html', {restore: true});
+    var jsFilter = $.filter(['**/*.js', '!'+options.src+'/**/scktool-*.js'], {restore: true});
+    var cssFilter = $.filter('**/*.css', {restore: true});
     var assets;
 
     return gulp.src(options.tmp + '/serve/*.html')
       .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-      .pipe(assets = $.useref.assets())
+      .pipe(assets = $.useref())
       .pipe($.rev())
       .pipe(jsFilter)
-      .pipe($.ngAnnotate())
+      .pipe($.ngAnnotatePatched())
       .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', options.errorHandler('Uglify'))
-      .pipe(jsFilter.restore())
+      .pipe(jsFilter.restore)
       .pipe(cssFilter)
       .pipe($.csso())
-      .pipe(cssFilter.restore())
-      .pipe(assets.restore())
+      .pipe(cssFilter.restore)
+      .pipe(assets)
       .pipe($.useref())
       .pipe($.revReplace())
       .pipe(htmlFilter)
@@ -60,7 +60,13 @@ module.exports = function(options) {
         quotes: true,
         conditionals: true
       }))
-      .pipe(htmlFilter.restore())
+      .pipe(htmlFilter.restore)
+      // Looks like a hack but temporary works: After '$.rev()' rename the index.html again
+      .pipe($.rename(function(path) {
+          if (path.dirname == '.' && path.extname == '.html') {
+            path.basename = 'index';
+          }
+      }))
       .pipe(gulp.dest(options.dist + '/'))
       .pipe($.size({ title: options.dist + '/', showFiles: true }));
   });
@@ -86,11 +92,11 @@ module.exports = function(options) {
   gulp.task('version', function(){
     var p = require('./../package.json');
     var gr = require('git-rev');
-    gutil.log(' -- The version is now: ' + p.version);
+    log(' -- The version is now: ' + p.version);
 
     gr.short(function(str){
       if (str.length > 1){
-        gutil.log('-- Hash is:' + str);
+        log('-- Hash is:' + str);
         replace({
           regex: "Hash.*",
           replacement: "Hash: " + str,

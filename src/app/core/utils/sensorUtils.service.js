@@ -22,8 +22,16 @@
       ///////////////
 
       function getRollup(dateFrom, dateTo) {
-        var rangeDays = timeUtils.getCurrentRange(dateFrom, dateTo, {format: 'd'});
 
+        // Calculate how many data points we can fit on a users screen
+        // Smaller screens request less data from the API
+        var durationInSec = moment(dateTo).diff(moment(dateFrom)) / 1000;
+        var chartWidth = window.innerWidth / 2;
+
+        var rollup = parseInt(durationInSec / chartWidth) + 's';
+
+        /*
+        //var rangeDays = timeUtils.getCurrentRange(dateFrom, dateTo, {format: 'd'});
         var rollup;
         if(rangeDays <= 1) {
           rollup = '15s';
@@ -32,6 +40,7 @@
         } else if(rangeDays > 7) {
           rollup = '1d';
         }
+        */
         return rollup;
       }
 

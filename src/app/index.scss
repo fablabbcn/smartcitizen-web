@@ -16,12 +16,6 @@
     margin: 5% 0 4% 0;
   }
 
-  // This fixes Firefox modal offscreen issue.
-  // But does it break something else??
-  .md-dialog-container {
-    position: fixed;
-  }
-
 /*   section.map {
     z-index: 0;
   } */
@@ -47,18 +41,18 @@
 }
 
 :focus::-webkit-input-placeholder { /* WebKit browsers */
-  color: #032933;
+  color: $background_blue_dark_background;
 }
 :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: #032933;
+  color: $background_blue_dark_background;
   opacity:  1;
 }
 :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color: #032933;
+  color: $background_blue_dark_background;
   opacity:  1;
 }
 :focus:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: #032933;
+  color: $background_blue_dark_background;
 }
 
 html {
@@ -103,7 +97,7 @@ html h3, body h3{
   color: $secondary_color;
 }
 html h4, body h4, .h4{
-  font-size: 1.1em;
+  font-size: 1.4em;
   color:$secondary_color;
   font-weight: normal;
 }
@@ -125,11 +119,17 @@ small{
   color: $secondary_color_light;
 }
 
+
+input{
+  font-family:'Roboto Condensed';
+}
+
 .label, .tag, .state{
   text-transform: uppercase;
-  font-size: 0.7em;
+  font-size: 12px;
+  line-height:24px;
   border-radius:20px;
-  padding:3px 8px;
+  padding:0px 8px;
   margin-right: 8px;
 
   md-icon{
@@ -151,6 +151,8 @@ small{
   }
 }
 .tag{
+  // Tags modal tags
+  // Leaflet popup when clicking a dot, cyan tags - not the darker ones
   background-color: $terciary_color_light;
   color: $secondary_color_light;
   md-icon svg path{
@@ -161,6 +163,10 @@ small{
 .leaflet-container .tag, .leaflet-container .label,
 .leaflet-container .state{
   font-size:1em;
+}
+
+.leaflet-top{
+   top:93px;
 }
 
 section.info{
@@ -184,14 +190,75 @@ a{
     color: $secondary_color_light;
   }
 }
-a.md-button, a.md-default-theme,
-button.md-button, button.md-default-theme{
-  color: $terciary_color;
+a.md-button, a,
+button.md-button, button{
+  // color here overwrites MAP and COMMUNITY in navbar
+  // color: $terciary_color;
 }
 
+/*
+  Overwrite global material design, allow icons to be smaller
+*/
+
+.md-button{
+  // Bug: causes profile/kits 'Cancel' 'Ok' buttons to be very small.
+  min-width: unset !important;
+  min-height: unset !important;
+  // If we remove, almost all clickable items will get BIG
+  //outline:1px solid red;
+}
+
+// Style buttons inside Dialogs which have not templates like
+// 'removeKit' in myProfile.controller.js
+// This COULD potentially mess with other buttons
+md-dialog-actions {
+  .md-primary{
+    color: $terciary_color !important;
+  }
+}
+
+md-icon{
+  min-width: unset !important;
+}
+
+md-select{
+  md-select-value{
+    border-bottom-color: #cccccc75 !important;
+  }
+}
+
+// General helpers
+
+.color-white{
+  color: white;
+}
+.color-blue{
+  color:$terciary_color;
+}
+.color-cyan{
+  color: $terciary_color;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.d-flex{
+  display:flex;
+}
+.full-width{
+  width: 100%;
+}
+.font-roboto-condensed{
+  font-family:'Roboto Condensed';
+}
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
+}
+.pl-20{
+  padding-left: 20px;
 }
 
 a.warn,
@@ -224,6 +291,8 @@ div[api-key]{
     height: inherit;
     background-color: #DBDBDB;
     border-radius: 0 4px 4px 0;
+    margin:0;
+    padding-right:24px;
     md-icon {
       height: 15px;
       width: 15px;
@@ -235,14 +304,11 @@ div[api-key]{
   }
 }
 
-md-tabs.md-default-theme .md-header{
-  background-color: $background_blue_dark_menu;
-}
-
 .inside_list{
   h1{
     color: $secondary_color_light;
     font-size:1.1em;
+    margin: 10px 0px;
   }
 
 }
@@ -277,14 +343,14 @@ md-tabs.md-default-theme .md-header{
 
 .navbar_container {
   .md-button {
-    font-size: 14px;
+    //font-size: 14px;
   }
 
-  .md-button.md-default-theme.navbar_highlight_button {
+  .md-button.navbar_highlight_button {
     border: 2px solid #00FFA8;
     color: #00FFA8;
     border-radius: 50px;
-    padding: 9px 11px;
+    //padding: 9px 11px;
     width: 108px;
   }
 
@@ -299,44 +365,42 @@ md-tabs.md-default-theme .md-header{
   }
 
   .nav_icon {
-    margin-right: 8px;
-    height: 14px;
-    width: 14px;
+    margin-right: 4px;
+    height: 14px !important;
+    width: 14px !important;
   }
 
-  .md-button.full_height {
-    padding: 24px 10px;
+  .padding14 {
+    padding: 14px 8px;
   }
 
   .nav_left {
-    width: 204px;
-    margin: 0px 16px;
+    //width: 204px;
+    margin: 0px 18px;
     .map {
-      width: 70px;
     }
     .community {
-      width: 114px;
+      //width: 106px;
     }
   }
 
   .nav_right {
-    width: 281px;
-    margin: 0px 16px;
 
     .get {
     }
     .log {
     }
     .navbar_signup_button {
-      text-align: center;
-      margin-left: 8px;
 
-      .md-button.md-default-theme {
+      .md-button {
+        padding: 2px 0px;
         border: 2px solid #00FFA8;
         color: #00FFA8;
         border-radius: 50px;
-        padding: 9px 11px;
         width: 79px;
+      }
+      .md-button:hover {
+        background-color: #377382;
       }
     }
   }
@@ -346,17 +410,9 @@ md-tabs.md-default-theme .md-header{
  *  SEARCH COMPONENT
  */
 
-search {
-  position: relative;
-
-  md-autocomplete {
-    height: 36px;
-
-    button {
-      top: 0.7em;
-      right: 0.7em;
-    }
-
+// The search results no longer belong to 'search' element, but its own rapper at the root DOM
+md-virtual-repeat-container{
+  .md-virtual-repeat-scroller{
     ul {
       z-index: 100;
       max-height: 422px;
@@ -364,10 +420,13 @@ search {
 
       li {
         .result_icon {
+          position: relative;
+          top: 9px;
           margin-right: 12px;
           width: 18px;
           height: 18px;
-          border-radius: 9px;
+          border-radius: 50%;
+          float:left;
         }
         .result_location {
           color: $blue_light;
@@ -383,6 +442,10 @@ search {
       }
     }
   }
+}
+
+search {
+  position: relative;
 
   .search_icon {
     position: absolute;
@@ -391,24 +454,24 @@ search {
     z-index: $large_priority;
 
     md-icon {
+      margin-top: 6px;
       width: 14px;
       height: 14px;
     }
   }
 
   input {
-
-    background-color: #377382;
+    padding: 0 40px !important;
+    background-color: #377382 !important;
     color: black;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 40px;
+  //height: 36px;
+  //line-height: 36px;
     border-radius: 4px;
   }
 
   input:active, input:focus {
     fill: white;
-    background-color: $background_blue_light;
+    background-color: $background_blue_light !important;
   }
 
   md-autocomplete {
@@ -436,33 +499,34 @@ md-select,
 md-select-menu {
   text-transform: uppercase;
 }
-md-select.md-default-theme:not([disabled]):focus .md-select-label {
+md-select:not([disabled]):focus .md-select-value {
   border-bottom-color: #6B868D;
 }
 
-md-content.md-default-theme {
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0);
-  position: relative;
-}
-
-md-toolbar.md-default-theme {
-  background-color: $background_blue_dark_navbar;
+md-toolbar{
+  background-color: $background_blue_dark_navbar !important;
   z-index: $large_priority;
   height: 64px;
 }
 
-.md-button.md-default-theme.md-flat.md-primary {
+button.md-primary{
+  // Get new kit popup, button color
+  // Also interferes with kits/edit save button
+  // color:$terciary_color !important;
+  // font-size:18px;
+}
+.md-button.md-flat.md-primary {
+  margin: 0px;
+  background-color: $terciary_color;
+  //color: white !important;
+}
+
+.md-button.md-primary.md-flat:not([disabled]):hover {
   background-color: $terciary_color;
   color: white;
 }
 
-.md-button.md-default-theme.md-primary.md-flat:not([disabled]):hover {
-  background-color: $terciary_color;
-  color: white;
-}
-
-.md-button.md-default-theme.md-primary.md-flat:not([disabled]):focus {
+.md-button.md-primary.md-flat:not([disabled]):focus {
   background-color: $terciary_color;
   color: white;
 }
@@ -470,7 +534,7 @@ md-toolbar.md-default-theme {
 md-dialog.md-primary-theme {
   background-color: white;
 }
-md-dialog.md-default-theme {
+md-dialog {
   background-color: rgba(255, 0, 0, 0);
   box-shadow: 0px 0px 0px 0px transparent;
   max-height: 100%;
@@ -480,7 +544,7 @@ md-dialog-content {
   background-color: white;
 }
 
-md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
+md-input-container:not(.md-input-invalid).md-input-focused {
   label {
     color: $terciary_color;
   }
@@ -494,15 +558,25 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused {
  * ALERT COMPONENT
  */
 
-md-toast.md-top {
-  position: fixed;
-  top: 64px;
-  max-width: 100%;
+.md-toast-content {
+  box-shadow: unset !important;
+  background-color: unset !important;
+  color: black !important;
   width: 100%;
-  min-height: 42px;
-  opacity: 0.9;
+}
+
+md-toast {
+  // TODO: when a toast is on screen, the body gets class='md-toast-open-bottom'
+  // Where does that come from?
+  // If there is a similar *open-top, we can remove the CSS bottom, top
+  bottom: unset !important; // Overwrite angular default
   color: black;
-  font-size: .9em;
+  opacity: 0.9;
+  padding: 0;
+  position: fixed;
+  top: 64px !important; // Start the toast at top below navbar.
+  width: 100%;
+  z-index: 8;
 
   .alert_typeIcon {
     width: 16px;
@@ -517,24 +591,21 @@ md-toast.md-top {
   }
 
   .alert_button {
+    padding: 0px 12px;
     margin-left: 5px;
-    color: #53460B;
+    color: black !important;
     background-color: #C1A212;
-    height: 26px;
-    border-radius: 13px;
+    border-radius: 20px;
     font-size: 12px;
-    padding: 6px 12px;
   }
 }
 
 md-toast.red {
-  z-index: 80;
   background-color: $alert_red;
 }
 
 md-toast.green {
   background-color: $alert_green;
-  z-index: 6;
 }
 
 md-toast.blue {
@@ -542,7 +613,6 @@ md-toast.blue {
 }
 
 md-toast.yellow {
-  z-index: 6;
   background-color: #f1c40f;
 }
 
@@ -561,8 +631,27 @@ md-checkbox .md-label span {
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
 
-md-progress-linear.md-default-theme .md-bar{
+md-progress-linear .md-bar{
   background-color: #044150;
+}
+md-progress-linear.md-hue-3 .md-container{
+  background-color: rgba(79, 201, 232, 0.05);
+}
+md-progress-linear.md-hue-3 .md-bar {
+  background-color: $blue_light;
+}
+
+.kit_spinner {
+  z-index: 200;
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+}
+
+.chart_spinner {
+  position: absolute;
+  top: 9%;
+  left: 57%;
 }
 
 /**
@@ -573,10 +662,11 @@ md-progress-linear.md-default-theme .md-bar{
     background-color: rgba(60, 60, 60, 1);
     color:$font_color_blue_light;
     position: fixed;
-    top: 96vh;
+    bottom: 0;
+    padding:5px;
     left: 0;
     width: 100%;
-    height: 4vh;
+    //height: 4vh;
     z-index: 999;
     text-align: center;
     line-height: 4vh;
@@ -592,16 +682,16 @@ md-progress-linear.md-default-theme .md-bar{
 
 // Popup backdrop
 
-md-backdrop.md-opaque.md-default-theme {
+md-content.md-opaque {
   background-color: rgba(30, 30, 30, 0.6);
 }
 
 //Loading backdrop
 
-md-backdrop.md-mainBackdrop {
+md-content.md-mainBackdrop {
   background-color: #2A4E62;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .backdrop_spinner {
@@ -616,14 +706,14 @@ md-backdrop.md-mainBackdrop {
 }
 
 // state change backdrop
-md-backdrop.md-stateChangeBackdrop {
+md-content.md-stateChangeBackdrop {
   background-color: transparent;
   width: 100%;
   height: 100%;
 }
 
 // No data backdrop
-md-backdrop.md-noDataBackdrop {
+md-content.md-noDataBackdrop {
   width: 100%;
   height: 96 + 285px;
   position: absolute;
@@ -663,7 +753,6 @@ md-backdrop.md-noDataBackdrop {
 
 @media only screen and (max-device-width: 1024px) {
   .map_state {
-    z-index: -5;
   }
 }
 
@@ -712,12 +801,13 @@ section.map {
 }
 .chip {
   // display: inline-block;
-  padding: 2px 6px 2px 12px;
+  padding: 0px 10px 0px 14px;
   margin: auto 5px;
   border-radius: 20px;
-  height:22px;
+  height:30px;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 29px;
 
   .chip_name {
     margin-left: 3px;
@@ -729,8 +819,6 @@ section.map {
     md-icon {
       width: 8px;
       height: 8px;
-      float: right;
-      margin-top: 3px;
     }
   }
 
@@ -750,8 +838,8 @@ section.map {
 .map_legend {
 
   position: absolute;
-  bottom: 12px;
-  margin-left: 24px;
+  top: 10px;
+  margin-left: 10px;
   display: flex;
 
   .chips{
@@ -808,7 +896,7 @@ section.map {
     height: 12px;
   }
 }
-.md-button.md-default-theme.map_filter_button:hover, .md-button.md-default-theme.map_filter_button:focus {
+.md-button.map_filter_button:hover, .md-button.map_filter_button:focus {
   background-color: white;
 }
 
@@ -816,19 +904,28 @@ section.map {
   CONTAINERS USED ON SHOW KIT STATE
  */
 
+.over_map{
+  min-height: 120px;
+}
+
 .kit_fixed {
   z-index: $medium-priority;
   position: relative;
 }
 
 .kit_data {
+  // Bug: Tradeoff:
+  // Either break scrolling on mobile
+  // or the black Kit section will have a hole at the bottom
+  position: absolute;
+  width:100%;
   margin-top: 376px;
 
   section.overlay{
     width:100%;
     height:100%;
     position:absolute;
-    background-color:#032933;
+    background-color:$background_blue_dark_background;
     z-index: 3;
     color: white;
     text-align:center;
@@ -847,9 +944,9 @@ section.map {
   }
 
   .hint{
-    background-color:#032933;
+    background-color:$background_blue_dark_background;
     text-align:center;
-    color:#82A7B0;
+    color:$font_color_blue_grey;
 
     margin-top:0px;
     padding-top:18px;
@@ -881,37 +978,40 @@ section.map {
  */
 section .kit_menu {
   width: 100%;
-  height: 32px;
   z-index: $more_priority;
   background-color: $background_blue_dark_menu;
   position: relative;
 
   .container {
     width: 100%;
-    height: 100%;
+    height: 33px;
   }
 
   .kit_time {
     position: relative;
-    left: -40px;
-    color: #82A7B0;
+    //left: -40px;
+    text-align: center;
+    color: $font_color_blue_grey;
     letter-spacing: 0.5px;
     font-size: 14px;
     text-transform: uppercase;
   }
   .kit_user {
-    float: left;
+    margin-left:20px;
+    //float: left;
     line-height: 30px;
-    margin: 0 32px 0 20px;
+    //margin: 0 32px 0 20px;
     color: $font_color_blue_grey;
     font-weight: bold;
     font-size: 13px;
 
     img {
+      border-radius:50%;
+      float:left;
       width: 18px;
       height: 18px;
-      border-radius: 9px;
       margin-right: 8px;
+      margin-top: 5px;
     }
 
     a {
@@ -920,17 +1020,20 @@ section .kit_menu {
     }
   }
   .kit_name {
-    float: left;
+    margin-left:30px;
+    //float: left;
     line-height: 30px;
     font-size: 13px;
     font-weight: bold;
     color: $blue_light;
-    margin: 0 32px 0 0;
+    //margin: 0 32px 0 0;
 
     img {
+      float:left;
       width: 14px;
       height: 14px;
       margin-right: 8px;
+      margin-top: 8px;
     }
     span {
       vertical-align: middle;
@@ -938,35 +1041,30 @@ section .kit_menu {
   }
 
   .kit_battery {
-    float: left;
+    margin-left:30px;
+    //float: left;
     line-height: 30px;
     color: $font_color_blue_grey;
     font-size: 12px;
     font-weight: bold;
 
     md-icon {
-      width: 14px;
-      height: 14px;
+      margin-bottom: 2px;
+      width: 16px;
       margin-right: 8px;
     }
   }
 
   .kit_navbar {
-    float: right;
-    height: 100%;
-    line-height: 30px;
-    margin: 0 10px;
+    margin-right: 20px;
 
+    // Icons are inside md-button
     md-icon {
       width: 14px;
-      height: 14px;
     }
 
-    .md-button.md-default-theme {
-      display: inline-table;
-      width: 30px;
-      padding: 0 10px;
-      border-radius: 0
+    .md-button {
+      margin:0;
     }
 
     a.md-button:hover, .button_active  {
@@ -985,6 +1083,7 @@ section .kit_menu {
   position: relative;
 
   .button_scroll {
+    margin: 0px;
     position: absolute;
     top: 0;
     width: 60px;
@@ -1007,11 +1106,16 @@ section .kit_menu {
     overflow-y: hidden;
   }
 
+  @media (pointer: coarse) {
+    .sensors_container {
+      overflow-x: auto;
+    }
+  }
+
   .sensor_container {
     margin: 30px;
     position: relative;
     color: $font_color_blue_light;
-    min-width: 50px;
     display: inline-table;
     cursor: pointer;
     text-align: center;
@@ -1047,11 +1151,11 @@ section .kit_menu {
       opacity: 0.15;
     }
     .sensor_icon {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       position: relative;
-      top: 14px;
-      right: 5px;
+      top: -3px;
+      right: 4px;
     }
   }
 }
@@ -1062,7 +1166,11 @@ section .kit_menu {
  */
 
  .kit_details_notAuth {
-  width: 500px;
+   // Bug: this will create an extra gap on mobile devices
+  //width: 500px;
+  h1 {
+    margin:0;
+  }
  }
 .kit_details_notAuth_title {
   margin: 0;
@@ -1091,25 +1199,19 @@ section .kit_menu {
   }
 
   .kit_timeOpts{
-    margin-top:0;
+    margin: 0;
     font-size: 1.3em;
   }
 
   .kit_chart {
-    height: 340px;
+    min-height: 340px;
     background-color: $background_blue_dark_chart;
     color: $font_color_white;
-    position:relative;
+    position: relative;
 
     .hint{
       background-color: #010E12;
-    }
-
-    md-select.md-default-theme:not([disabled]):focus .md-select-label {
-      color: $font_color_white;
-    }
-    md-select.md-default-theme .md-select-label.md-placeholder {
-      color: $font_color_white;
+      opacity: 0.8;
     }
 
     .container {
@@ -1117,27 +1219,44 @@ section .kit_menu {
       height: 100%;
 
       .kit_chart_left {
-        display: inline-block;
-        width: 240px;
-        margin-right: 30px;
-        height: 100%;
+        //display: inline-block;
+        //width: 240px;
+        //margin-right: 30px;
+        //height: 100%;
 
-        md-select.md-default-theme .md-select-label {
+        md-select:not([disabled]):focus .md-select-value  {
+          color: $font_color_white;
+        }
+        md-select .md-select-value.md-placeholder {
+          color: $font_color_white;
+        }
+
+        md-select .md-select-value {
           border-bottom-color: #6B868D;
         }
         .sensor_select {
           .sensor_icon_selected {
-            margin-right: 8px;
+            float:left;
+            margin-right: 6px;
+            padding-top:5px;
           }
           md-select {
             margin: 0;
+            .md-select-value{
+              .md-text{
+                .select_image{
+                  display:none;
+
+                }
+              }
+            }
           }
         }
         .sensor_description {
-          color: #DDE7EA;
-          height: 80px;
-          margin-top: 0px; //30;
-          position: relative;
+          //color: $background_blue_light;
+          //height: 80px;
+          //margin-top: 0px; //30;
+          //position: relative;
 
           h6 {
             margin: 0;
@@ -1162,7 +1281,7 @@ section .kit_menu {
             z-index: 200;
             // border: 1px solid grey;
             background-color: rgba(255, 255, 255, 0.8);
-            color: #03252D;
+            color: $background_blue_dark_chart;
             border-radius: 2px;
             line-height: 1.5em;
             padding: 10px;
@@ -1171,7 +1290,7 @@ section .kit_menu {
         }
         .sensor_data {
           margin: 8% 0 5% 0;
-          display: inline-block;
+         // display: inline-block;
 
           .sensor_value {
             font-size: 2em;
@@ -1199,7 +1318,7 @@ section .kit_menu {
           -o-transform: translate(5px, 5px);
           transform: translate(5px, 5px);
           background-color: rgba(255, 255, 255, 0.8);
-          color: #03252D;
+          color: $background_blue_dark_chart;
           border-radius: 2px;
           line-height: 1.5em;
           padding: 4px 6px;
@@ -1208,7 +1327,7 @@ section .kit_menu {
         }
         .sensor_compare {
           font-size: .8em;
-          padding-top:20px;
+          padding-top:30px;
 
           span {
             color: $terciary_color_light;
@@ -1216,16 +1335,25 @@ section .kit_menu {
           }
         }
       }
+
+      .md-select-icon {
+        color: white;
+      }
+
       .kit_chart_right {
-        display: inline-block;
-        height: 100%;
+        //display: inline-block;
+        //height: 100%;
 
         .chart_navigation {
           height: 10%;
           font-size: 11px;
 
+          .md-select-value{
+            color:white;
+          }
+
           > div {
-            margin-left: 40px;
+            margin-left: 20px;
           }
           input {
             margin-left: 10px;
@@ -1267,7 +1395,7 @@ section .kit_menu {
     color: $background_blue_dark_navbar;
   }
   .kit_details_content {
-    float: left;
+    //float: left;
 
     .kit_details_labels{
       margin-top:30px;
@@ -1283,13 +1411,13 @@ section .kit_menu {
   }
   .kit_details_version {
     span {
-      color: #4F8390;
+      color: $secondary_color_light;
       font-weight: bold;
     }
   }
   .kit_details_id {
     span {
-      color: #4F8390;
+      color: $secondary_color_light;
       font-weight: bold;
     }
   }
@@ -1308,9 +1436,6 @@ section .kit_menu {
   }
   .kit_details_manage_buttons {
     margin-bottom: 32px;
-    >a {
-      margin: 0 10px;
-    }
   }
   .kit_details_button_delete {
     color: $alert_red;
@@ -1362,7 +1487,8 @@ section .kit_menu {
     margin: 62px 37px 0px;
 
     .kit_details_content_main {
-      width: 500px;
+   // Bug: this will create an extra gap on mobile devices
+    //  width: 500px;
     }
   }
   .kit_owner {
@@ -1375,7 +1501,7 @@ section .kit_menu {
       margin: 0 auto;
     }
     .kit_owner_content {
-      width: 85%;
+//  width: 85%;
     }
     .kit_owner_info {
       margin-bottom: 65px;
@@ -1387,7 +1513,7 @@ section .kit_menu {
       margin: 50px 0 20px 0;
     }
     .kit_owner_location {
-      color: #065063;
+      color: $secondary_color;
       font-weight: bold;
     }
     .kit_owner_url a {
@@ -1398,7 +1524,7 @@ section .kit_menu {
       margin-bottom: 50px;
     }
     .kit_owner_kits_list {
-      color: #4F8390;
+      color: $secondary_color_light;
       border: 1px solid #EAECF1;
       height: 82px;
       background-color: white;
@@ -1493,31 +1619,15 @@ KIT COMMENTS MODULE
   padding-bottom: 100px;
 }
 
-.kit_spinner {
-  z-index: 200;
-  position: absolute;
-  left: 0;
-  bottom: 4px;
-}
-md-progress-linear.md-default-theme.md-hue-3 .md-container{
-  background-color: rgba(79, 201, 232, 0.05);
-}
-md-progress-linear.md-default-theme.md-hue-3 .md-bar {
-  background-color: #4FC9E8;
-}
-.chart_spinner {
-  position: absolute;
-  top: 9%;
-  left: 57%;
-}
-
 /*
   CHART COMPONENT
 */
 
 .chart_container {
-  width: 100%;
-  height: 90%;
+  min-width: 340px;
+  min-height: 310px;
+  //width: 100%;
+  //height: 90%;
   position: relative;
 
   .chart_line {
@@ -1545,7 +1655,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
     fill: grey;
   }
   .axis.x {
-    fill: #9BE6F8;
+    fill: $font_color_blue_light;
   }
   .grid {
     .tick {
@@ -1570,7 +1680,7 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
     border: 1px solid grey;
   }
   .popup_value {
-    fill: #03252D;
+    fill: $background_blue_dark_chart;
     color: $background_blue_dark_chart;
     font-size: 18px;
     font-weight: bold;
@@ -1591,9 +1701,17 @@ md-progress-linear.md-default-theme.md-hue-3 .md-bar {
   top: 0px;
 }
 
+.overlay-kitinfo{
+  background: $background_blue_dark_background;
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  z-index:999;
+}
+
 section .stickMenu {
-  position: fixed;
-  top: 64px;
+  position: absolute;
+//  top: 64px;
 }
 
 /*
@@ -1613,7 +1731,6 @@ section .stickMenu {
     margin-top:.5em;
   }
 
-  border: 0.5px solid grey;
   position: relative;
   border-radius: 0px 0px 3px 3px;
 
@@ -1622,7 +1739,9 @@ section .stickMenu {
   }
 
   .errors {
-    position: absolute;
+    // Bug: on signup form (without checking the accept box)
+    // the text will appear underneath the SIGN UP button
+    //position: absolute;
     top: 50px;
     left: 2px;
     color: red;
@@ -1632,17 +1751,7 @@ section .stickMenu {
 
   .close_icon {
     float: right;
-    width: 14px;
-    height: 14px;
     margin: 12px;
-
-    md-icon {
-      width: 14px;
-      height: 14px;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-    }
   }
 
   button.main {
@@ -1692,50 +1801,17 @@ section .stickMenu {
   }
 }
 
-.message_below {
-  text-align: center;
-  font-size: 16px;
-
-  .message_below_question {
-    color: $font_color_white;
-    margin-right: 3%;
-    font-size: 14px;
-  }
-
-  .message_below_link {
-    color: $terciary_color;
-    font-weight: bold;
-    margin-right: 15px;
-  }
-}
 
 /*
   MODAL FOR LOGIN
  */
 
-.modal_login {
-  width: 400px;
+.message_below{
+  background: white;
+  margin:0;
+  padding: 5px 15px;
+  border-bottom: 1px solid #ddd;
 }
-.login_spinner {
-  position: absolute;
-  top: 45%;
-  left: 45%;
-}
-
-/*
-  MODAL FOR SIGNUP
-*/
-
-.signup {
-  width: 400px;
-  height: 512px;
-}
-.signup_spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
 /*
   MODAL FOR MAP FILTER
 */
@@ -1746,20 +1822,17 @@ md-dialog.tags, md-dialog.filters{
   min-height:357px;
 
   .close_icon{
+    padding-top:10px;
     float:none;
     position:absolute;
     right:0
   }
 
-  md-content{
-    padding: 0;
-  }
-
-  md-button.main{
-
-  }
 }
 
+md-content.md-default-theme, md-content {
+  background-color: #fff;
+}
 .modal_mapFilter, .modal_tagFilter {
   height:100%;
   width: 300px;
@@ -1787,7 +1860,7 @@ md-dialog.tags, md-dialog.filters{
   }
   .message {
     font-size: 14px;
-    color: #4F8390;
+    color: $secondary_color_light;
     line-height: 1em;
     margin-bottom: 26px;
   }
@@ -1809,25 +1882,16 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .modal_tagFilter {
-  width:650px;
+  width: calc(50vw + 90px);
   height: calc(100vh + 300px);
 }
-
-.modalTag_tagContainer{
-  .md-default-theme{
-    .md-label{
-      border: none;
-    }
-  }
-}
-
 
 /*
   MODAL RECOVERY PASSWORD
 */
 .modal_recovery {
   width: 400px;
-  height: 376px;
+//  height: 376px;
 
   .modal_message {
     margin-bottom: 5px;
@@ -1838,9 +1902,7 @@ md-dialog.tags, md-dialog.filters{
   MODAL STORE
 */
 .modal_store {
-  width: 500px;
 
-  overflow-y: auto;
 
   // height: 480px;
 
@@ -1864,7 +1926,7 @@ md-dialog.tags, md-dialog.filters{
     }
   }
   .store_itemDescription_title {
-    color: #065063;
+    color: $secondary_color;
     font-weight: bold;
     font-size: 16px;
   }
@@ -2042,7 +2104,8 @@ md-dialog.tags, md-dialog.filters{
 .recovery_container {
   position: relative;
   margin: 0px auto;
-  height: 376px;
+  margin-bottom:100px;
+//  height: 376px;
 }
 
 .formRecovery_field {
@@ -2261,9 +2324,10 @@ md-dialog.tags, md-dialog.filters{
     font-size: 12px;
 
     span {
-      border-radius: 20px;
-      margin-right: 10px;
-      padding: 3px 8px;
+      // Make balloons on map smaller
+      //border-radius: 20px;
+      //margin-right: 10px;
+      //padding: 3px 8px;
     }
 
     tag, span {
@@ -2295,6 +2359,14 @@ md-dialog.tags, md-dialog.filters{
 /**
  * OVERRIDE LEAFLET
  */
+
+.leaflet-left {
+  // This is a hack. The right way is to change the leaflet API. See the docs:
+  // http://leafletjs.com/reference-0.7.7.html#control-position
+  left: unset !important;
+  right: 11px;
+  top: 15px !important;
+}
 
 .leaflet-popup-content-wrapper {
   border-radius: 4px;
@@ -2332,19 +2404,19 @@ md-dialog.tags, md-dialog.filters{
 .marker-cluster {
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20);
   div {
-    margin-top: -2px;
-    margin-left: -2px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    //margin-top: -2px;
+    //margin-left: -2px;
+    //width: 40px;
+    //height: 40px;
     font-family: 'Roboto Condensed';
     font-size: 14px;
-    line-height: 40px;
-    font-weight: normal;
+    //line-height: 40px;
+    //font-weight: normal;
   }
 }
 
 .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+    border-radius: 50%;
     border: 2px solid rgba(0,255,168,0.8);
     background-color: rgba(0,255,168,0.30);
   div {
@@ -2415,12 +2487,13 @@ md-dialog.tags, md-dialog.filters{
 }
 // user avatar dropdown
 .nav_right {
+  padding-left: 40px;
 
   .wrap-dd-menu {
     width: 50px;
     display: inline-block;
-    margin: 0 0 0 20px;
-    padding: 0;
+    margin: 0 0 0 30px;
+    //padding: 0;
     display: none;
   }
   .wrap-dd-menu .dropdown {
@@ -2433,7 +2506,7 @@ md-dialog.tags, md-dialog.filters{
     font-size: 14px;
     li a {
       border-bottom: 0px;
-      color: #065063;
+      color: $secondary_color;
     }
     li.divider {
       background-color: white;
@@ -2447,15 +2520,15 @@ md-dialog.tags, md-dialog.filters{
 // community dropdown
 .nav_left {
   .wrap-dd-menu {
-    width: 114px;
+    width: unset !important; //angular sets this at 200px
     display: inline-block;
     padding: 0;
     margin: 0;
   }
   .wrap-dd-menu .dropdown {
-    top: 80%;
+    top: 74%;
     line-height: 1em;
-    left: 0px;
+    left: 7px;
     right: 0px;
     border-radius: 0px;
     font-size: 14px;
@@ -2474,6 +2547,9 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .navbar_avatar_button {
+  //margin-top:16px;
+  padding: 6px;
+  height: 52px;
   display: inline-table;
 }
 
@@ -2497,7 +2573,8 @@ md-dialog.tags, md-dialog.filters{
 }
 
 .kitList {
-  color: #4F8390;
+  margin: 0px;
+  color: $secondary_color_light;
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
   border-left: 1px solid #EAECF1;
@@ -2538,8 +2615,9 @@ md-dialog.tags, md-dialog.filters{
     margin-left: 60px;
   }
 }
+
 .kitList_primary {
-  width: 100%;
+ // width: 100%;
 }
 .kitList_secondary {
   width: 95%;
@@ -2602,7 +2680,6 @@ md-dialog.tags, md-dialog.filters{
 
   img {
     position: relative;
-    top: 2px;
   }
 }
 .kitList_noKits {
@@ -2677,11 +2754,11 @@ md-dialog.tags, md-dialog.filters{
 
 .profile_sidebar_button {
   display: block;
-  width: 100%;
   text-align: start;
+  font-size:18px;
   padding-left: 40px;
   height: 64px;
-  color: #032933;
+  color: $terciary_color;
 }
 
 .profile_sidebar_avatar {
@@ -2707,18 +2784,21 @@ md-dialog.tags, md-dialog.filters{
  */
 
 //override angular-material
-
 .myProfile_state {
+  md-ink-bar{
+    // Tabs underline color cyan
+    background-color: $terciary_color;
+  }
   md-tab md-tab-label {
     overflow: visible;
   }
-  md-tabs.md-default-theme md-tab {
+  md-tabs md-tab {
     color: $font_color_blue_grey;
   }
-  md-tabs.md-default-theme md-tab.active {
+  md-tabs md-tab.active {
     color: white;
   }
-  md-tabs.md-default-theme md-tabs-ink-bar {
+  md-tabs md-tabs-ink-bar {
     color: $blue_light;
     background-color: $blue_light;
   }
@@ -2734,6 +2814,11 @@ md-dialog.tags, md-dialog.filters{
 }
 .myProfile_header_avatar {
   margin-left: 0;
+}
+.myProfile_tabs_parent {
+  md-tabs-wrapper{
+    background-color: $background_blue_dark_menu;
+  }
 }
 .myProfile_tabs {
 }
@@ -2756,11 +2841,11 @@ md-dialog.tags, md-dialog.filters{
   position: relative;
 }
 .countryInput_container {
-  overflow: visible;
   md-autocomplete {
     background-color: transparent;
-    border-bottom: 1px solid #A1A1A1;
-    box-shadow: none;
+  }
+  md-autocomplete-wrap {
+    box-shadow: none !important;
   }
   input {
     font-size: 100%;
@@ -2780,17 +2865,16 @@ md-dialog.tags, md-dialog.filters{
   margin-right: 7%;
 }
 .myProfile_form_avatarButton {
-  color: #82A7B0;
+  color: $terciary_color;
+  font-size:18px;
 }
 .myProfile_form_updateButton {
-  float: right;
+  font-size:18px;
   color: $blue_light;
-}
-.myProfile_apiKey {
-  float: left;
+  margin-left:350px;
 }
 .myProfile_apiKey_text {
-  color: #82A7B0;
+  color: $font_color_blue_grey;
   margin-right: 5px;
   width: 120px;
 }
@@ -2801,7 +2885,7 @@ md-dialog.tags, md-dialog.filters{
   padding: 5px 10px;
 }
 .myProfile_apiKey_refreshButton {
-  background-color: #82A7B0;
+  background-color: $font_color_blue_grey;
   height: 29px;
 
   md-icon {
@@ -2814,8 +2898,8 @@ md-dialog.tags, md-dialog.filters{
 .md-button.myProfile_apiKey_refreshButton {
   border-radius: 0 4px 4px 0;
 }
-.md-button.md-default-theme.myProfile_apiKey_refreshButton:active, .md-button.md-default-theme.myProfile_apiKey_refreshButton:hover, .md-button.md-default-theme.myProfile_apiKey_refreshButton:focus {
-  background-color: #82A7B0;
+.md-button.myProfile_apiKey_refreshButton:active, .md-button.myProfile_apiKey_refreshButton:hover, .md-button.myProfile_apiKey_refreshButton:focus {
+  background-color: $font_color_blue_grey;
 }
 .myProfile_form_removeButton {
   display: block;
@@ -2840,17 +2924,21 @@ md-dialog.tags, md-dialog.filters{
   margin-bottom: 10px;
 }
 
-.md-button.md-default-theme.myProfile_addKitButton,
-.md-button.md-default-theme.call-to-action {
-  color: white;
-  background-color: $blue_light;
+.btn-round{
   border-radius: 20px;
-  padding: 8px 31px;
+  padding:0px 35px;
+  font-size:18px;
 }
-.md-button.md-default-theme.myProfile_addKitButton:focus {
+
+.btn-cyan{
+  background-color: $terciary_color;
+  color:white;
+}
+
+.md-button.myProfile_addKitButton:focus {
   background-color: $blue_light;
 }
-.md-button.md-default-theme.myProfile_addKitButton:hover {
+.md-button.myProfile_addKitButton:hover {
   background-color: $blue_light;
 }
 .myProfile_content_main_title {
@@ -2882,9 +2970,11 @@ md-dialog.tags, md-dialog.filters{
 */
 
 .footer {
+  position: absolute;
+  z-index: 1;
   width: 100%;
   height: 64px;
-  background-color: #032933;
+  background-color: $background_blue_dark_background;
 }
 
 .footer_icon {
@@ -2899,7 +2989,7 @@ md-dialog.tags, md-dialog.filters{
 .recovery_header {
   width: 100%;
   height: 128px;
-  background-color: #032933;
+  background-color: $background_blue_dark_background;
 }
 
 .recovery_headerIcon {
@@ -2912,7 +3002,7 @@ md-dialog.tags, md-dialog.filters{
  *  FEEDBACK BUTTON
  */
 
-button#doorbell-button {
+button.doorbell-button {
   z-index: 1000;
   background-color: rgba(149, 206, 79, 0.8);
   margin-bottom: 10px;
@@ -2928,7 +3018,7 @@ button#doorbell-button {
 
 .timeline {
   margin-top: 64px;
-  background-color: #043846;
+  background-color: $background_blue_dark_menu;
   height: 128px;
 }
 .timeline_container {
@@ -2957,12 +3047,13 @@ button#doorbell-button {
     background-color: #70D3EC;
   }
   &.is-off {
-    background-color: #82A7B0;
+    background-color: $font_color_blue_grey;
   }
 }
 .timeline_stepName {
   text-transform: uppercase;
-  color: #4495AA;
+  color: $terciary_color;
+  font-size:18px;
 
   &.vertical {
     margin-top: 10px;
@@ -2973,17 +3064,17 @@ button#doorbell-button {
   width: 100%;
 }
 .timeline_button {
-  width: 100%;
+  width: 99%;
   height: 90px;
   font-size: 26px;
 
   &.timeline_buttonOpen.md-primary {
-    color: #38CEF3;
+    color: $terciary_color;
     text-align: center;
 
     &.inverted{
       color: white;
-      background-color: #38CEF3;
+      background-color: $terciary_color;
 
       small {
         color: white;
@@ -3011,6 +3102,7 @@ button#doorbell-button {
 
 }
 .md-button.timeline_buttonSave {
+  color: white !important;
   width: 130px;
   height: 44px;
   border-radius: 22px;
@@ -3018,6 +3110,7 @@ button#doorbell-button {
 }
 
 .md-button.timeline_buttonBack{
+  color: white !important;
   flex-shrink: 1;
   flex-basis: 200px;
   height: 44px;
@@ -3034,24 +3127,21 @@ button#doorbell-button {
 .kit_dataChange {
   .form_block {
     padding: 40px 30px;
+    background-color: #FFF;
 
-    > div {
-      margin: 0 10%;
-      height: 100%;
-    }
     &.isEven {
       background-color: #F9F9FB;
     }
     &.form_blockNormal {
-      min-height: 250px;
+     // min-height: 250px;
     }
     &.form_blockMap {
-      height: 290px;
+      //height: 290px;
     }
   }
   .form_blockInput {
     height: inherit;
-    margin-left: 150px;
+   // margin-left: 150px;
   }
   .form_blockInput_container {
     height: inherit;
@@ -3066,10 +3156,11 @@ button#doorbell-button {
     }
   }
   .form_blockInput_map {
-    height: inherit;
+    height: 250px;
+    min-width: 250px;
   }
   .form_blockInput_select label{
-    color: #38CEF3;
+    color: $terciary_color;
     margin-right: 10px;
   }
   .form_blockInput_chips {
@@ -3164,13 +3255,6 @@ button#doorbell-button {
       }
   }
 
-  .md-button {
-      color: white;
-      background-color: $blue_light;
-      border-radius: 20px;
-      padding: 8px 31px;
-  }
-
   .center {
       text-align: center;
       margin-top: 30px;
@@ -3191,12 +3275,12 @@ button#doorbell-button {
     margin-bottom: 0.2em;
   }
 
-  .md-button.md-default-theme.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab{
+  .md-button.md-primary.md-raised, .md-button.md-primary.md-fab{
     padding: 6px 20px;
     height: 44px;
     border-radius: 22px;
     font-size: 18px;
-    background-color: #4FC9E8;
+    background-color: $blue_light;
     color:white;
 
     &:hover, &:focus{
@@ -3208,8 +3292,8 @@ button#doorbell-button {
     }
   }
 
-  .md-button.md-default-theme.md-primary{
-    color: #4FC9E8;
+  .md-button.md-primary{
+    color: $blue_light;
   }
 
 
@@ -3240,15 +3324,15 @@ p.no-margin {
 
 // Feedback
 
-#doorbell-button {
- background-color: #4FC9E8 !important;
+.doorbell-button {
+ background-color: $blue_light !important;
 }
 
 // Styleguide
 
 .styleguide {
   .sg-title-section {
-    background-color: #043846;
+    background-color: $background_blue_dark_menu;
     margin: 64px 0px 50px 0px;
   }
 
@@ -3277,7 +3361,7 @@ p.no-margin {
   }
 
   p.sg-paragraph2 {
-    color: #4F8390;
+    color: $secondary_color_light;
     font-weight: 300;
   }
 
@@ -3301,7 +3385,7 @@ p.no-margin {
   }
 
   .dark-text-section {
-    background-color: #032933;
+    background-color: $background_blue_dark_background;
 
     h1 {
       font-size: 1.8em;
@@ -3318,7 +3402,7 @@ p.no-margin {
     }
 
     h4 {
-      color: #82A7B0;
+      color: $font_color_blue_grey;
     }
 
     h6 {
@@ -3331,7 +3415,7 @@ p.no-margin {
     }
 
     small {
-      color: #4F8390;
+      color: $secondary_color_light;
     }
   }
 
@@ -3353,14 +3437,14 @@ p.no-margin {
     }
 
     .secondary-color {
-      background-color: #065063;
+      background-color: $secondary_color;
       p {
         color: #fff;
       }
     }
 
     .terciary_color {
-      background-color: #38CEF3;
+      background-color: $terciary_color;
       p {
         color: #fff;
       }
@@ -3439,16 +3523,6 @@ p.no-margin {
 
 }
 
-/* Landin Page specifics */
-
-/*!
- * Bootstrap v3.2.0 (http://getbootstrap.com)
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
-
 .landing-page {
 
     h1,
@@ -3461,10 +3535,9 @@ p.no-margin {
     }
 
     .container {
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
+      padding-bottom:20px;
+      margin-right: auto;
+      margin-left: auto;
     }
 
     @media (min-width: 768px) {
@@ -3482,149 +3555,6 @@ p.no-margin {
     @media (min-width: 1200px) {
         .container {
             width: 1170px;
-        }
-    }
-
-    .row {
-        margin-right: -15px;
-        margin-left: -15px;
-    }
-
-    .col-sm-3,
-    .col-md-3,
-    .col-lg-3,
-    .col-xs-4,
-    .col-sm-4,
-    .col-md-4,
-    .col-lg-4,
-    .col-xs-6,
-    .col-sm-6,
-    .col-md-6,
-    .col-lg-6,
-    .col-xs-8,
-    .col-sm-8,
-    .col-md-8,
-    .col-lg-8,
-    .col-xs-12,
-    .col-sm-12,
-    .col-md-12,
-    .col-lg-12 {
-        position: relative;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .col-xs-4,
-    .col-xs-6,
-    .col-xs-8,
-    .col-xs-12 {
-        float: left;
-    }
-
-    .col-xs-12 {
-        width: 100%;
-    }
-
-    .col-xs-8 {
-        width: 66.66666667%;
-    }
-
-    .col-xs-6 {
-        width: 50%;
-    }
-
-    .col-xs-4 {
-        width: 33.33333333%;
-    }
-
-    @media (min-width: 768px) {
-        .col-sm-3,
-        .col-sm-4,
-        .col-sm-6,
-        .col-sm-8,
-        .col-sm-12 {
-            float: left;
-        }
-
-        .col-sm-12 {
-            width: 100%;
-        }
-
-        .col-sm-8 {
-            width: 66.66666667%;
-        }
-
-        .col-sm-6 {
-            width: 50%;
-        }
-
-        .col-sm-4 {
-            width: 33.33333333%;
-        }
-
-        .col-sm-3 {
-            width: 25%;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .col-md-3,
-        .col-md-4,
-        .col-md-6,
-        .col-md-8,
-        .col-md-12 {
-            float: left;
-        }
-
-        .col-md-12 {
-            width: 100%;
-        }
-
-        .col-md-8 {
-            width: 66.66666667%;
-        }
-
-        .col-md-6 {
-            width: 50%;
-        }
-
-        .col-md-4 {
-            width: 33.33333333%;
-        }
-
-        .col-md-3 {
-            width: 25%;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .col-lg-3,
-        .col-lg-4,
-        .col-lg-6,
-        .col-lg-8,
-        .col-lg-12 {
-            float: left;
-        }
-
-        .col-lg-12 {
-            width: 100%;
-        }
-
-        .col-lg-8 {
-            width: 66.66666667%;
-        }
-
-        .col-lg-6 {
-            width: 50%;
-        }
-
-        .col-lg-4 {
-            width: 33.33333333%;
-        }
-
-        .col-lg-3 {
-            width: 25%;
         }
     }
 
@@ -3655,9 +3585,16 @@ p.no-margin {
     }
 }
 
+
 /*! SmartCitizen CSS | Leonardo Arrata 2013 */
 
 .landing-page {
+    .md-button{
+        padding:3px 12px;
+        //border: 2px solid;
+        //border-radius:50px;
+        font-size:18px;
+    }
 
     font-weight: 300;
     height: 100%;
@@ -3719,12 +3656,6 @@ p.no-margin {
         }
     }
 
-
-    .social-media {
-      padding: 0 40px 60px 40px;
-      overflow:hidden;
-    }
-
     &.footer {
       width: 100%;
       height: 64px;
@@ -3763,7 +3694,7 @@ p.no-margin {
         font-size: .8em;
     }
 
-    .md-button.md-default-theme {
+    .md-button {
         &:hover, &:active {
             text-decoration: none !important;
         }
@@ -3772,7 +3703,6 @@ p.no-margin {
             border: 2px solid #00FFA8;
             color: #00FFA8;
             border-radius: 50px;
-            padding: 9px 14px;
             margin: 20px 20px 20px 0;
 
             &.white {
@@ -3795,7 +3725,7 @@ p.no-margin {
                 color: #fff;
                 background-color: $terciary_color;
                 border-radius: 50px;
-                padding: 11px 16px;
+               //padding: 11px 16px;
                 margin: 20px 20px 20px 0;
             }
 
@@ -3806,7 +3736,7 @@ p.no-margin {
         }
 
         &.landing_extra {
-            padding: 9px 11px;
+            //padding: 9px 11px;
             background-color: rgba(158, 158, 158, 0.2);
             color: #333;
             margin: 15px 5px;
@@ -4133,7 +4063,8 @@ p.no-margin {
         width: 50px;
         height: 50px;
         position: relative;
-        margin: -25px auto;
+        margin: 0px auto;
+        top: 25px;
         background-image: url("../assets/images/landing/assets-land-bullets.png");
         background-repeat: no-repeat;
         z-index: 5;
@@ -4144,6 +4075,10 @@ p.no-margin {
 
         &.arrow {
             background-position: 1px 0;
+        }
+
+        &.neg-top {
+          top: -45px;
         }
 
         &.plus {
@@ -4170,11 +4105,6 @@ p.no-margin {
 
     .row-pad-main {
         padding: 30px 20px 45px 20px;
-    }
-
-    .container {
-        width: 960px;
-        position: relative;
     }
 
     .news-widget {

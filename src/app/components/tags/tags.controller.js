@@ -61,7 +61,7 @@
 
 
     function isOnline(marker) {
-      return _.include(marker.myData.labels, 'online');
+      return _.includes(marker.myData.labels, 'online');
     }
 
     function descLastUpdate(o) {

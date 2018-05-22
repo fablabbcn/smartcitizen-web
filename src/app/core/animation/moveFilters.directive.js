@@ -20,12 +20,14 @@
           chartHeight = angular.element('.kit_chart').height();          
         }, 1000);
 
+        /*
         angular.element($window).on('scroll', function() {
           var windowPosition = document.body.scrollTop;
           if(chartHeight > windowPosition) {
             elem.css('bottom', 12 + windowPosition + 'px');
           }
         });
+        */
       }
     }
 })();

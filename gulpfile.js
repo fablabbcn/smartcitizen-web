@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
-var gutil = require('gulp-util');
+var log = require('fancy-log');
 var wrench = require('wrench');
 
 var options = {
@@ -11,7 +11,7 @@ var options = {
   e2e: 'e2e',
   errorHandler: function(title) {
     return function(err) {
-      gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+      log('[' + title + ']', err.toString());
       this.emit('end');
     };
   },

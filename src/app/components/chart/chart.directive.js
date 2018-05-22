@@ -143,23 +143,27 @@
           .ticks(5);
 
         areaMain = d3.svg.area()
+          .defined(function(d) {return d.value != null })
           .interpolate('linear')
           .x(function(d) { return xScale(d.date); })
           .y0(height)
           .y1(function(d) { return yScale0(d.count); });
 
         valueLineMain = d3.svg.line()
+          .defined(function(d) {return d.value != null })
           .interpolate('linear')
           .x(function(d) { return xScale(d.date); })
           .y(function(d) { return yScale0(d.count); });
 
         areaCompare = d3.svg.area()
+          .defined(function(d) {return d.value != null })
           .interpolate('linear')
           .x(function(d) { return xScale(d.date); })
           .y0(height)
           .y1(function(d) { return yScale1(d.count); });
 
         valueLineCompare = d3.svg.line()
+          .defined(function(d) {return d.value != null })
           .interpolate('linear')
           .x(function(d) { return xScale(d.date); })
           .y(function(d) { return yScale1(d.count); });

@@ -12,7 +12,7 @@
 
       callGenericKitData()
         .then(function(data) {
-          genericKitData = _.indexBy(data, 'id');
+          genericKitData = _.keyBy(data, 'id');
         });
 
 	  	var service = {
@@ -55,12 +55,20 @@
       }
 
       function getAllDevicesCached() {
-        return Restangular.all('devices/world_map').getList();
+        return Restangular.all('devices/world_map')
+          .getList()
+          .then(function(fetchedDevices){
+            return fetchedDevices.plain();
+        });
       }
 
       function getAllDevicesNoCached() {
-        return Restangular.all('devices/fresh_world_map').getList();
-      }     
+        return Restangular.all('devices/fresh_world_map')
+          .getList()
+          .then(function(fetchedDevices){
+            return fetchedDevices.plain();
+        });
+      }
 
       function getDevice(id) {
         return Restangular.one('devices', id).get();

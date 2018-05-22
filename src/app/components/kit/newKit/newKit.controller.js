@@ -108,7 +108,7 @@
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
           /*jshint camelcase: false */
-          user_tags: _.pluck(vm.kitForm.tags, 'name').join(',')
+          user_tags: _.map(vm.kitForm.tags, 'name').join(',')
         };
 
         device.createDevice(data)

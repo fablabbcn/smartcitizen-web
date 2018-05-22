@@ -6,7 +6,8 @@ services:
     ports:
       - "8080:8080"
       - "3001:3001"
+    # This should only be used in development mode
     tty: true #color output
     stdin_open: true
-    volumes:
-      - "./:/usr/src/app"
+    #volumes:
+    #- "./:/usr/src/app"

@@ -21,6 +21,13 @@ git clone https://github.com/fablabbcn/smartcitizen-web.git
 cd smartcitizen-web
 ```
 
+### Docker quickstart
+In development mode, enable the 'volume:' in docker-compose.yml so you won't need to rebuild after every file change.
+This also means the image needs you to do `npm install` **locally** before running the container.
+It needs the `node_modules/` to exist.
+
+`docker-compose up`
+
 ### Install dependencies
 * Install tools to manage and test the application: `npm install.`
 * No need of `bower install`, `npm install` will take care of it.

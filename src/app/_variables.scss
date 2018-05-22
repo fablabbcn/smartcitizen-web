@@ -5,7 +5,7 @@ $secondary_color_light: #4F8390;
 $terciary_color_light: #C8E6ED;
 
 $info_primary: #8DB2BA;
-$info_secondary: #4F8390;
+$info_secondary: $secondary_color_light;
 
 $blue_light: #4FC9E8;
 
@@ -19,7 +19,8 @@ $font_color_blue_light: #9BE6F8;
 
 $background_blue_dark_menu: #043846;
 $background_blue_dark_overview: #042F3B;
-$background_blue_dark_navbar: #065063;
+$background_blue_dark_background: #032933;
+$background_blue_dark_navbar: $secondary_color;
 $background_blue_dark_chart: #03252D;
 $background_blue_light: #DDE7EA;
 $background_blue_midtone: #97b6bf;

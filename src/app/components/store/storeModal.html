@@ -10,7 +10,7 @@
         <h2>SHOP</h2>
         <h3 class="header store">Order your Smartcitizen Kit</h3>
         <p class="subheader store">An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web and mobile app, and a full featured Rest API.</p>
-        <div class="main_content" layout="row" layout-align="space-between center" layout-padding>
+        <div class="main_content" layout="row" layout-xs="column" layout-align="space-between center" layout-padding>
           <img class="store_itemImage" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit">
           <div class="store_itemDescription">
             <h3>This is what you get</h3>
@@ -24,40 +24,36 @@
           </div>
         </div>
       </div>
-      <form name="MailchimpSubscriptionForm" ng-controller="MailchimpSubscriptionCtrl">
-          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
-            <p>We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!<p>
-          </div>
-          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
-              <input class="hidden" type="hidden" ng-model="mailchimp.username" ng-init="mailchimp.username='username'">
-              <input class="hidden" type="hidden" ng-model="mailchimp.dc" ng-init="mailchimp.dc='us2'">
-              <input class="hidden" type="hidden" ng-model="mailchimp.u" ng-init="mailchimp.u='d67ba8deb34a23a222ec4eb8a'">
-              <input class="hidden" type="hidden" ng-model="mailchimp.id" ng-init="mailchimp.id='d5a8cea29f'">
-              <md-input-container flex>
-                <label>Email</label>
-                <input type="email" name="email" ng-model="mailchimp.EMAIL" required>
-              </md-input-container>
-          </div>
-          <!-- Show error message if MailChimp unsuccessfully added the email to the list. -->
-          <div class="modal_content_container" ng-show="mailchimp.result === 'error'" ng-cloak>
-            <p ng-bind-html="mailchimp.errorMessage"></p>
-          </div>
 
-          <!-- Show success message if MailChimp returned successfully. -->
-          <div class="modal_content_container" ng-show="mailchimp.result === 'success'" ng-cloak>
-            <p ng-bind-html="mailchimp.successMessage"></p>
-          </div>
-          <div class="modal_content_container" ng-hide="mailchimp.result === 'success'">
-               <p>Please, write us on <a href="mailto:store@smartcitizen.me"><strong>store@smartcitizen.me</strong></a> for any questions.</p>
-          </div>
-        <div ng-hide="mailchimp.result === 'success'">
-          <md-button ng-disabled="MailchimpSubscriptionForm.$invalid" type="submit" name="submit"
-          class="md-flat md-primary main" analytics-on="store"
-          analytics-event="Kit Purchase" ng-click="addSubscription(mailchimp)" analytics-action="purchase">
-            NOTIFY ME WHEN READY
-          </md-button>
+      <!-- Begin MailChimp Signup Form -->
+      <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div class="modal_content_container" layout="row" layout-wrap>
+          <p flex="100">
+            We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!
+          </p>
+          <md-input-container flex="70">
+            <label>Email</label>
+            <input type="email" name="EMAIL" required>
+          </md-input-container>
+
+          <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+          </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
         </div>
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div>
+        <md-button
+           ng-disabled="MailchimpSubscriptionForm.$invalid"
+           type="submit"
+           name="subscribe"
+           id="mc-embedded-subscribe"
+           class="md-flat md-primary main"
+           analytics-on="store"
+           analytics-event="Kit Purchase" ng-click="addSubscription(mailchimp)" analytics-action="purchase">
+          NOTIFY ME WHEN READY
+        </md-button>
       </form>
+      <!--End mc_embed_signup-->
     </section>
   </md-dialog-content>
 </md-dialog>

@@ -8,8 +8,8 @@
       Check app.config.js to know how states are protected
     */
 
-    config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$logProvider'];
-    function config($stateProvider, $urlRouterProvider, $locationProvider, RestangularProvider, $logProvider) {
+    config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
+    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
       $stateProvider
         /*
          -- Landing state --
@@ -141,9 +141,11 @@
             },
             selectedTags: function($stateParams, tag){
               if(typeof($stateParams.tags) === 'string'){
-                $stateParams.tags = [$stateParams.tags];
+                tag.setSelectedTags([$stateParams.tags]);
+              }else{
+                // We have an array
+                tag.setSelectedTags(_.uniq($stateParams.tags));
               }
-              tag.setSelectedTags(_.uniq($stateParams.tags));
             }
           }
         })
@@ -184,6 +186,7 @@
               controllerAs: 'vm'
             }
           },
+          params: {id: ''},
 
           resolve: {
             sensorTypes: function(sensor) {
@@ -285,6 +288,7 @@
         .state('layout.myProfileAdmin', {
           url: '/profile/:id',
           authenticate: true,
+          abstract: true,
           templateUrl: 'app/components/myProfile/myProfile.html',
           controller: 'MyProfileController',
           controllerAs: 'vm',
@@ -305,6 +309,25 @@
                 });
             }
           }
+        })
+        .state('layout.myProfileAdmin.kits', {
+          url: '/kits',
+          cache: false,
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Kits.html',
+          controllerAs: 'vm',
+        })
+        .state('layout.myProfileAdmin.user', {
+          url: '/users',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Users.html',
+          controllerAs: 'vm',
+        })
+        .state('layout.myProfileAdmin.tools', {
+          url: '/tools',
+          authenticate: true,
+          templateUrl: 'app/components/myProfile/Tools.html',
+          controllerAs: 'vm',
         })
         /*
         -- Login --
@@ -377,49 +400,29 @@
           templateUrl: 'app/components/passwordReset/passwordReset.html',
           controller: 'PasswordResetController',
           controllerAs: 'vm'
-        })
-        .state('barcelonanoise', {
-          url: '/barcelonanoise',
-          templateUrl: 'app/components/landing/landing.html',
-          controller: 'LandingController',
-          controllerAs: 'vm',
-          resolve: {
-            go: function($location) {
-              $location.path('/kits/tags').search({tags: 'BarcelonaNoise'});
-              return;
-            }
-          }
         });
-        
-        /* New for communities */
 
-        // .state('communities', {
-        //   url: '/community/:tag',
-        //   templateUrl: 'app/components/landing/landing.html',
-        //   controller: 'LandingController',
-        //   controllerAs: 'vm',
-        //   resolve: {
-        //     go: function($stateParams, $location) {
-        //       $location.path('/kits/tags').search({tags: $stateParams.tag});;
-        //       return;
-        //     }
-        //   }
-        // });
+      /*  Disable missing aria-label warnings in console */
+      $mdAriaProvider.disableWarnings();
 
       /* Default state */
-      $urlRouterProvider.otherwise('/kits');
-      
+      $urlServiceProvider.rules.otherwise('/kits');
+
       /* Default state */
-      $urlRouterProvider.when('/kits', '/kits/');
+      $urlServiceProvider.rules.when('/kits', '/kits/');
 
       /* Default profile state */
-      $urlRouterProvider.when('/profile', '/profile/kits');
+      $urlServiceProvider.rules.when('/profile', '/profile/kits');
+      $urlServiceProvider.rules.when('/profile/:id', '/profile/:id/kits');
 
+
+      /* Default profile state */
       $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
       }).hashPrefix('!');
 
+      /*  Sets the default Smart Citizen API base url */
       RestangularProvider.setBaseUrl('https://api.smartcitizen.me/v0');
 
       /* Remove angular leaflet logs */

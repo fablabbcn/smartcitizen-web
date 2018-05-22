@@ -11,13 +11,12 @@
   md-search-text="vm.searchText" 
   md-search-text-change="vm.searchTextChange(vm.searchText)"
   md-items="item in vm.querySearch(vm.searchText)" 
-  md-item-text="" 
+  md-item-text="item.name"
   placeholder="Search"
   md-delay="300"
   md-min-length="3"
+  >
 
-  focus>
-  
   <md-item-template layout="row" layout-align="start center">
     <img ng-show="item.iconType === 'img'" ng-src="{{ item.icon }}" class="result_icon" />
     <div ng-show="item.iconType === 'div'" class="markerSmartCitizenOnline result_icon"></div>

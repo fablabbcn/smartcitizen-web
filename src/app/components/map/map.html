@@ -3,9 +3,9 @@
   <div class="map_legend" layout="row" layout-align="start center" move-filters>
     <div class="map_legend__filtersContainer" layout="column">
       <div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50">
-        <md-button class="map_filter_button" layout="row" layout-align="center center" aria-label>
+        <div class="map_filter_button">
           <md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon>
-        </md-button>
+        </div>
         <p class="filter_description">Filters</p>
       </div>
       <div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50">
@@ -24,7 +24,7 @@
           <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
         </span>
       </div>
-      <div layout="row" class="chips_row">
+      <div layout="row" class="chips_row" layout-wrap>
         <span class="chip tag" ng-repeat="tag in vm.selectedTags">
           {{ tag }}
           <md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
@@ -33,5 +33,5 @@
     </div>
   </div>
 
-  <md-progress-linear ng-show="vm.kitLoading" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-circular>
+  <md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-circular>
 </section>
