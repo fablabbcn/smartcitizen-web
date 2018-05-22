@@ -200,6 +200,8 @@
           vm.kitLoading = false;
           updateType = undefined;
           return;
+        } else {
+          vm.kitLoading = true;
         }
 
         leafletData.getMarkers()
@@ -217,9 +219,15 @@
                     function() {
                       var selectedMarker = currentMarker;
                       if(selectedMarker) {
+                        // Ensures the marker is not just zoomed but the marker is centered to improve UX
+                        // The $timeout can be replaced by an event but tests didn't show good results
+                        $timeout(function() {
+                          vm.center.lat = selectedMarker.options.lat;
+                          vm.center.lng = selectedMarker.options.lng;
                           selectedMarker.openPopup();
+                          vm.kitLoading = false;
+                        }, 1000);
                       }
-                      vm.kitLoading = false;
                     });
                 } else {
                   leafletData.getMap().then(function(map){

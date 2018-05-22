@@ -499,7 +499,7 @@ md-select,
 md-select-menu {
   text-transform: uppercase;
 }
-md-select:not([disabled]):focus .md-select-label {
+md-select:not([disabled]):focus .md-select-value {
   border-bottom-color: #6B868D;
 }
 
@@ -633,6 +633,25 @@ md-checkbox .md-label span {
 
 md-progress-linear .md-bar{
   background-color: #044150;
+}
+md-progress-linear.md-hue-3 .md-container{
+  background-color: rgba(79, 201, 232, 0.05);
+}
+md-progress-linear.md-hue-3 .md-bar {
+  background-color: $blue_light;
+}
+
+.kit_spinner {
+  z-index: 200;
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+}
+
+.chart_spinner {
+  position: absolute;
+  top: 9%;
+  left: 57%;
 }
 
 /**
@@ -1083,6 +1102,12 @@ section .kit_menu {
     overflow-y: hidden;
   }
 
+  @media (pointer: coarse) {
+    .sensors_container {
+      overflow-x: auto;
+    }
+  }
+
   .sensor_container {
     margin: 30px;
     position: relative;
@@ -1185,13 +1210,6 @@ section .kit_menu {
       opacity: 0.8;
     }
 
-    md-select:not([disabled]):focus .md-select-label {
-      color: $font_color_white;
-    }
-    md-select .md-select-label.md-placeholder {
-      color: $font_color_white;
-    }
-
     .container {
       padding: 37px;
       height: 100%;
@@ -1202,7 +1220,14 @@ section .kit_menu {
         //margin-right: 30px;
         //height: 100%;
 
-        md-select .md-select-label {
+        md-select:not([disabled]):focus .md-select-value  {
+          color: $font_color_white;
+        }
+        md-select .md-select-value.md-placeholder {
+          color: $font_color_white;
+        }
+
+        md-select .md-select-value {
           border-bottom-color: #6B868D;
         }
         .sensor_select {
@@ -1588,24 +1613,6 @@ KIT COMMENTS MODULE
 */
 .kit_comments {
   padding-bottom: 100px;
-}
-
-.kit_spinner {
-  z-index: 200;
-  position: absolute;
-  left: 0;
-  bottom: 4px;
-}
-md-progress-linear.md-hue-3 .md-container{
-  background-color: rgba(79, 201, 232, 0.05);
-}
-md-progress-linear.md-hue-3 .md-bar {
-  background-color: $blue_light;
-}
-.chart_spinner {
-  position: absolute;
-  top: 9%;
-  left: 57%;
 }
 
 /*
