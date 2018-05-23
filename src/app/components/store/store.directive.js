@@ -1,17 +1,14 @@
-import angular from 'angular';
+import controller from './store.controller';
 
-    angular.module('app.components')
-      .directive('store', store);
 
-    function store() {
+export default function store() {
       return {
         scope: {
           isLoggedin: '=logged'
         },
         restrict: 'A',
-        controller: 'StoreController',
+        controller,
         controllerAs: 'vm',
         templateUrl: 'app/components/store/store.html'
       };
     }
-
