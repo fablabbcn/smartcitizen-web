@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+
     .factory('layout', layout);
 
 
-    function layout() {
+    export default function layout() {
 
       var kitHeight;
 
@@ -22,4 +22,3 @@ import angular from 'angular';
         return kitHeight;
       }
     }
-

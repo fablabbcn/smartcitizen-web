@@ -1,9 +1,9 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('apiKey', apiKey);
 
-  function apiKey(){
+
+
+
+  export default function apiKey(){
     return {
       scope: {
         apiKey: '=apiKey'
@@ -14,4 +14,3 @@ import angular from 'angular';
       templateUrl: 'app/components/apiKey/apiKey.html'
     };
   }
-

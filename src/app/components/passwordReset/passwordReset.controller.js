@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('PasswordResetController', PasswordResetController);
+
+  
+    
 
     PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
       'animation', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $timeout,
+    export default function $1Controller($mdDialog, $stateParams, $timeout,
       animation, $location, alert, auth) {
         
       var vm = this;

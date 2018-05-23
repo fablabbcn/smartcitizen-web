@@ -1,12 +1,12 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('UserProfileController', UserProfileController);
+
+  
+    
 
     UserProfileController.$inject = ['$scope', '$stateParams', '$location',
       'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
       'NonAuthUser', '$q', 'PreviewKit'];
-    function UserProfileController($scope, $stateParams, $location, utils,
+    export default function $1Controller($scope, $stateParams, $location, utils,
         user, device, alert, auth, userUtils, $timeout, animation,
         NonAuthUser, $q, PreviewKit) {
 

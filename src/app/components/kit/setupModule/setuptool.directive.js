@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('setuptool', setuptool);
+
+
+
 
   setuptool.$inject = ['scktoolService'];
-  function setuptool(scktoolService){
+  export default function setuptool(scktoolService){
     return {
       restrict: 'A',
       link: link,
@@ -45,5 +45,3 @@ import angular from 'angular';
       });
     }
   }
-
-

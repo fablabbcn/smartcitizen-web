@@ -2,6 +2,6 @@ import angular from 'angular';
 
 import chart from './chart.directive';
 
-export default angular.module('chart',[])
+export default angular.module('app.component.chart',[])
 .directive('chart', chart)
 .name;

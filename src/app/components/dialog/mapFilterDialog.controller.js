@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('MapFilterDialogController', MapFilterDialogController);
+
+  
+    
 
   MapFilterDialogController.$inject = ['$mdDialog','selectedFilters'];
 
-  function MapFilterDialogController($mdDialog, selectedFilters) {
+  export default function $1Controller($mdDialog, selectedFilters) {
 
     var vm = this;
 

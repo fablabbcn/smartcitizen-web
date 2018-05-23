@@ -1,16 +1,16 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+
     .factory('animation', animation);
-    
+
     /**
-     * Used to emit events from rootscope. 
+     * Used to emit events from rootscope.
      *
      * This events are then listened by $scope on controllers and directives that care about that particular event
      */
-    
+
     animation.$inject = ['$rootScope'];
-    function animation($rootScope) {
+    export default function animation($rootScope) {
 
     	var service = {
         blur: blur,
@@ -35,7 +35,7 @@ import angular from 'angular';
     	return service;
 
       //////////////
-      
+
     	function blur() {
         $rootScope.$broadcast('blur');
     	}
@@ -91,4 +91,3 @@ import angular from 'angular';
         $rootScope.$broadcast('mapStateLoaded');
       }
     }
-

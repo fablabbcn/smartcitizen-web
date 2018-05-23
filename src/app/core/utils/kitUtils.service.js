@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('kitUtils', kitUtils);
 
     kitUtils.$inject = ['COUNTRY_CODES', 'device'];

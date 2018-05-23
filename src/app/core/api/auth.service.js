@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('auth', auth);
 
     auth.$inject = ['$location', '$window', '$state', 'Restangular',

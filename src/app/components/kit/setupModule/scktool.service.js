@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .service('scktoolService', scktoolService);
+
+
+
 
   scktoolService.$inject = ['angularLoad', '$q', '$rootScope'];
   function scktoolService(angularLoad, $q, $rootScope){
@@ -48,4 +48,3 @@ import angular from 'angular';
     }
 
   }
-

@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('activeButton', activeButton);
+
+
+
 
     /**
      * Used to highlight and unhighlight buttons on kit menu
@@ -10,7 +10,7 @@ import angular from 'angular';
      */
 
     activeButton.$inject = ['$timeout', '$window'];
-    function activeButton($timeout, $window) {
+    export default function activeButton($timeout, $window) {
       return {
         link: link,
         restrict: 'A'
@@ -157,4 +157,3 @@ import angular from 'angular';
         });
       }
     }
-

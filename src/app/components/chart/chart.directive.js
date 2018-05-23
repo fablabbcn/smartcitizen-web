@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('chart', chart);
+
+
+
 
     chart.$inject = ['sensor', 'animation', '$timeout', '$window'];
-    function chart(sensor, animation, $timeout, $window) {
+    export default function chart(sensor, animation, $timeout, $window) {
       var margin, width, height, svg, xScale, yScale0, yScale1, xAxis, yAxisLeft, yAxisRight, dateFormat, areaMain, valueLineMain, areaCompare, valueLineCompare, focusCompare, focusMain, popup, dataMain, colorMain, yAxisScale, unitMain, popupContainer;
 
       return {
@@ -611,5 +611,3 @@ import angular from 'angular';
         return getContainerWidth(widestElem) + margins;
       }
     }
-
-

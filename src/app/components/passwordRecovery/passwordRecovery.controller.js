@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('PasswordRecoveryController', PasswordRecoveryController);
+
+  
+    
 
     PasswordRecoveryController.$inject = ['auth', 'alert', '$mdDialog'];
-    function PasswordRecoveryController(auth, alert, $mdDialog) {
+    export default function $1Controller(auth, alert, $mdDialog) {
       var vm = this;
 
       vm.waitingFromServer = false;

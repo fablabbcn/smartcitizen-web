@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('ApiKeyController', ApiKeyController);
+
+  
+    
 
   ApiKeyController.$inject = ['alert'];
-  function ApiKeyController(alert){
+  export default function $1Controller(alert){
     var vm = this;
 
     vm.copied = copied;

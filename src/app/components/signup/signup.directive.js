@@ -1,9 +1,9 @@
-import angular from 'angular';
 
-    angular.module('app.components')
-      .directive('signup', signup);
 
-    function signup() {
+
+
+
+    export default function signup() {
       return {
         scope: {
           show: '=',
@@ -14,4 +14,3 @@ import angular from 'angular';
         templateUrl: 'app/components/signup/signup.html'
       };
     }
-

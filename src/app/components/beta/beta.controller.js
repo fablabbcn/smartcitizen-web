@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('BetaController', BetaController);
+
+  
+    
 
   BetaController.$inject = ['$scope', '$mdDialog', '$window'];
-  function BetaController($scope, $mdDialog, $window) {
+  export default function $1Controller($scope, $mdDialog, $window) {
     $scope.showBeta = showBeta;
 
     $scope.$on('showBeta', function() {

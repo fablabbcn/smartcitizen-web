@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('picker', picker);
+
+
+
 
 
     picker.$inject = [];
-    function picker() {
+    export default function picker() {
       return {
         restrict: 'A',
         link: link,
@@ -26,9 +26,9 @@ import angular from 'angular';
         function getCurrentRange() {
           return getSecondsFromDate( picker.getValuePickerTo() ) - getSecondsFromDate( picker.getValuePickerFrom() );
         }
-        
+
         console.log('vm l', scope);
-        var updateType = 'single'; //set update type to single by default 
+        var updateType = 'single'; //set update type to single by default
 
         /*jshint camelcase: false*/
         var from_$input = angular.element('#picker_from').pickadate({
@@ -55,7 +55,7 @@ import angular from 'angular';
 
         if( from_picker.get('value') ) {
           to_picker.set('min', from_picker.get('select') );
-        } 
+        }
         if( to_picker.get('value') ) {
           from_picker.set('max', to_picker.get('select') );
         }
@@ -66,8 +66,8 @@ import angular from 'angular';
               var sensors = [mainSensorID, compareSensorID];
               sensors = sensors.filter(function(sensor) {
                 return sensor;
-              }); 
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                                          
+              });
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
             }
             to_picker.set('min', from_picker.get('select') );
           } else if( 'clear' in event) {
@@ -76,14 +76,14 @@ import angular from 'angular';
         });
 
         to_picker.on('set', function(event) {
-          if(event.select) {  
+          if(event.select) {
             if(from_picker.get('value')) {
               var sensors = [mainSensorID, compareSensorID];
               sensors = sensors.filter(function(sensor) {
                 return sensor;
-              }); 
-              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });                             
-            }          
+              });
+              changeChart(sensors, {from: from_picker.get('value'), to: to_picker.get('value') });
+            }
             from_picker.set('max', to_picker.get('select'));
           } else if( 'clear' in event) {
             from_picker.set('max', false);
@@ -125,7 +125,7 @@ import angular from 'angular';
             var from = newValues[0];
             var to = newValues[1];
 
-            updateType = 'pair'; 
+            updateType = 'pair';
             from_picker.set('select', from);
             to_picker.set('select', to);
           }
@@ -134,4 +134,3 @@ import angular from 'angular';
         _.extend($scope, api);
       }
     }
-

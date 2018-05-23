@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('PasswordRecoveryDialogController', PasswordRecoveryDialogController);
+
+  
+    
 
     PasswordRecoveryDialogController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
-    function PasswordRecoveryDialogController($scope, animation, $mdDialog, auth, alert) {
+    export default function $1Controller($scope, animation, $mdDialog, auth, alert) {
 
       $scope.hide = function() {
         $mdDialog.hide();

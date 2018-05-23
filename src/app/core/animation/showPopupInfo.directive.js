@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('showPopupInfo', showPopupInfo);
+
+  
+    
 
     /**
      * Used to show/hide explanation of sensor value at kit dashboard

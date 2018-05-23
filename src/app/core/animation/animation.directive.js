@@ -1,17 +1,17 @@
-import angular from 'angular';
+
 
     /**
      * TODO: This directives can be split up each one in a different file
      */
 
-    angular.module('app.components')
+    
       .directive('moveDown', moveDown)
       .directive('stick', stick)
       .directive('blur', blur)
       .directive('focus', focus)
       .directive('changeMapHeight', changeMapHeight)
       .directive('changeContentMargin', changeContentMargin)
-      .directive('focusInput', focusInput);
+      
 
     /**
      * It moves down kit section to ease the transition after the kit menu is sticked to the top

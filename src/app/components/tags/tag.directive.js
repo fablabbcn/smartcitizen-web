@@ -1,5 +1,5 @@
-import angular from 'angular';
-  angular.module('app.components')
+
+  
     .directive('tag',tag);
 
   function tag(){

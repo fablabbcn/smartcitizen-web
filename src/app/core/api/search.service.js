@@ -1,7 +1,7 @@
 (function() { 
   'use strict';
 
-  angular.module('app.components')
+  
     .factory('search', search);
     
     search.$inject = ['$http', 'Restangular'];

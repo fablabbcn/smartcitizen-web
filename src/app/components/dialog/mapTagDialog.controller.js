@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('MapTagDialogController', MapTagDialogController);
+
+  
+    
 
   MapTagDialogController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
 
-  function MapTagDialogController($mdDialog, tag, selectedTags) {
+  export default function $1Controller($mdDialog, tag, selectedTags) {
 
     var vm = this;
 

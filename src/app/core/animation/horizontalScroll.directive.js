@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('horizontalScroll', horizontalScroll);
+
+  
+    
 
   /**
    * Used to highlight and unhighlight buttons on the kit dashboard when scrolling horizontally

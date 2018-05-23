@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('hidePopup', hidePopup);
+
+  
+    
 
     /**
      * Used on kit dashboard to hide popup with full sensor description

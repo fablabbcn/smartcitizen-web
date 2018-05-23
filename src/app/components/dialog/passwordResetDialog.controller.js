@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('PasswordResetDialogController', PasswordResetDialogController);
+
+  
+    
 
     PasswordResetDialogController.$inject = ['$scope', '$mdDialog', '$stateParams', '$location', 'auth', 'alert'];
-    function PasswordResetDialogController($scope, $mdDialog, $stateParams, $location, auth, alert) {
+    export default function $1Controller($scope, $mdDialog, $stateParams, $location, auth, alert) {
       
       $scope.password = {
         newPassword: undefined,

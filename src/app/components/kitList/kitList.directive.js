@@ -1,8 +1,8 @@
-import angular from 'angular';
-  angular.module('app.components')
+
+
     .directive('kitList',kitList);
 
-  function kitList(){
+  export default function kitList(){
     return{
       restrict:'E',
       scope:{
@@ -13,4 +13,3 @@ import angular from 'angular';
       templateUrl:'app/components/kitList/kitList.html'
     };
   }
-

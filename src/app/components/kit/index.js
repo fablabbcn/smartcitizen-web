@@ -5,7 +5,7 @@ import setupModule from './setupModule';
 import showKit from './showKit';
 
 
-export default angular.module('kit',[
+export default angular.module('app.component.kit',[
   editKit,
   newKit,
   setupModule,

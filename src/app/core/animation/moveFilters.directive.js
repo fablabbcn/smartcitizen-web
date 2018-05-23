@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('moveFilters', moveFilters);
+
+  
+    
 
     /**
      * Moves map filters when scrolling

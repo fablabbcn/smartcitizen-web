@@ -1,15 +1,15 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('noDataBackdrop', noDataBackdrop);
+
+
+
 
   /**
    * Backdrop for chart section when kit has no data
-   * 
+   *
    */
   noDataBackdrop.$inject = [];
 
-  function noDataBackdrop() {
+  export default function noDataBackdrop() {
     return {
       restrict: 'A',
       scope: {},
@@ -43,4 +43,3 @@ import angular from 'angular';
       controllerAs: 'vm'
     };
   }
-

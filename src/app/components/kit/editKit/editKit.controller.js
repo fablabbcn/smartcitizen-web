@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('EditKitController', EditKitController);
+
+  
+    
 
     EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
     'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    function EditKitController($scope, $location, $timeout, $state, animation,
+    export default function $1Controller($scope, $location, $timeout, $state, animation,
      device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;

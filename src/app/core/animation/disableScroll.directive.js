@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('disableScroll', disableScroll);
+
+
+
 
     disableScroll.$inject = ['$timeout'];
-    function disableScroll($timeout) {
+    export default function disableScroll($timeout) {
       return {
         // link: {
           // pre: link
@@ -19,15 +19,14 @@ import angular from 'angular';
 
       function link(elem) {
         console.log('i', elem);
-        // var select = elem.find('md-select'); 
+        // var select = elem.find('md-select');
         // angular.element(select).on('click', function() {
         elem.on('click', function() {
-          console.log('e'); 
+          console.log('e');
           angular.element(document.body).css('overflow', 'hidden');
           $timeout(function() {
-            angular.element(document.body).css('overflow', 'initial'); 
+            angular.element(document.body).css('overflow', 'initial');
           });
         });
       }
     }
-

@@ -1,13 +1,13 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('tagsController', tagsController);
+
+  
+    
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
     'PreviewKit', 'animation', '$timeout', '$rootScope'
   ];
 
-  function tagsController(tag, $scope, device, $state, $q, PreviewKit,
+  export default function $1Controller(tag, $scope, device, $state, $q, PreviewKit,
     animation, $timeout, $rootScope) {
 
     var vm = this;

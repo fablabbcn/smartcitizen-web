@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('StoreDialogController', StoreDialogController);
+
+  
+    
 
     StoreDialogController.$inject = ['$scope', '$mdDialog'];
-    function StoreDialogController($scope, $mdDialog) {
+    export default function $1Controller($scope, $mdDialog) {
 
       $scope.hide = function() {
         $mdDialog.hide();

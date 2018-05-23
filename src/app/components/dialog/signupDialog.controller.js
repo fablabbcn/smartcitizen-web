@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('SignupDialogController', SignupDialogController);
+
+  
+    
 
     SignupDialogController.$inject = ['$scope', '$mdDialog', 'user',
       'alert', 'animation', '$location'];
-    function SignupDialogController($scope, $mdDialog, user,
+    export default function $1Controller($scope, $mdDialog, user,
       alert, animation, $location) {
 
       $scope.answer = function(answer) {

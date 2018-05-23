@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('StaticController', StaticController);
+
+  
+    
 
   StaticController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
 
-  function StaticController($timeout, animation, $mdDialog, $location, $anchorScroll) {
+  export default function $1Controller($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;

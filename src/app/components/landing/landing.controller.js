@@ -1,11 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('LandingController', LandingController);
+
+  
+    
 
   LandingController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
 
-  function LandingController($timeout, animation, $mdDialog, $location, $anchorScroll) {
+  export default function $1Controller($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;

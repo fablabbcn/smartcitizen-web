@@ -1,14 +1,14 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('KitController', KitController);
+
+  
+    
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
     'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
     '$timeout', 'alert', '$q', 'device',
     'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
-  function KitController($state, $scope, $stateParams, $filter,
+  export default function $1Controller($state, $scope, $stateParams, $filter,
     utils, sensor, FullKit, $mdDialog, belongsToUser,
     timeUtils, animation, $location, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,

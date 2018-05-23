@@ -1,14 +1,14 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('MyProfileController', MyProfileController);
+
+  
+    
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
     'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
     'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
     'userUtils', '$filter','$state', 'Restangular'];
-    function MyProfileController($scope, $location, $q, $interval,
+    export default function $1Controller($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,

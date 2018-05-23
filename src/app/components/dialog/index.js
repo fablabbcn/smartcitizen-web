@@ -8,7 +8,7 @@ import passwordResetDialogController from './passwordResetDialog.controller';
 import signupDialogController from './signupDialog.controller';
 import storeDialogController from './storeDialog.controller';
 
-export default angular.module('dialog',[])
+export default angular.module('app.component.dialog',[])
 .controller('loginDialogController', loginDialogController)
 .controller('mapFilterDialogController', mapFilterDialogController)
 .controller('mapTagDialogController', mapTagDialogController)

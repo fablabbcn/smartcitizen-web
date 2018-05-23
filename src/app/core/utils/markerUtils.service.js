@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('markerUtils', markerUtils);
 
     markerUtils.$inject = ['device', 'kitUtils', 'COUNTRY_CODES', 'MARKER_ICONS'];

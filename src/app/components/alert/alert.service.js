@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('alert', alert);
 
   alert.$inject = ['$mdToast'];

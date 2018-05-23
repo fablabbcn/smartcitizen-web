@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('showPopup', showPopup);
+
+  
+    
 
     /**
      * Used on kit dashboard to open full sensor description

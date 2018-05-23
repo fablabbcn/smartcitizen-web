@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('LoginController', LoginController);
+
+  
+    
 
   LoginController.$inject = ['$scope', '$mdDialog'];
-  function LoginController($scope, $mdDialog) {
+  export default function $1Controller($scope, $mdDialog) {
 
     $scope.showLogin = showLogin;
 

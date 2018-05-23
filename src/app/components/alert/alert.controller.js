@@ -1,10 +1,10 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('AlertController', AlertController);
+
+
+
 
     AlertController.$inject = ['$scope', '$mdToast', 'message', 'button', 'href'];
-    function AlertController($scope, $mdToast, message, button, href) {
+    export default function $1Controller($scope, $mdToast, message, button, href) {
     	var vm = this;
 
     	vm.close = close;
@@ -20,7 +20,6 @@ import angular from 'angular';
     	///////////////////
 
     	function close() {
-    	  $mdToast.hide();							
+    	  $mdToast.hide();
     	}
     }
-

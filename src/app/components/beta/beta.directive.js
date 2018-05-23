@@ -1,9 +1,9 @@
-import angular from 'angular';
 
-    angular.module('app.components')
-      .directive('beta', beta);
 
-    function beta() {
+
+
+
+    export default function beta() {
       return {
         scope: {
           show: '='
@@ -14,4 +14,3 @@ import angular from 'angular';
         templateUrl: 'app/components/beta/beta.html'
       };
     }
-

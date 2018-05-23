@@ -1,7 +1,7 @@
-import angular from 'angular';
 
-angular.module('app.components')
-  .directive('cookiesLaw', cookiesLaw);
+
+
+  
 
 
 cookiesLaw.$inject = ['$cookies'];

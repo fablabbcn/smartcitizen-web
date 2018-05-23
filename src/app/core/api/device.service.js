@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-	angular.module('app.components')
+
+	
 	  .factory('device', device);
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];

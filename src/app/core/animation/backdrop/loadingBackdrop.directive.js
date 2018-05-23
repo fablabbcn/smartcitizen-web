@@ -1,18 +1,18 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .directive('loadingBackdrop', loadingBackdrop);
+
+
+
 
     /**
      * Backdrop for app initialization and between states
-     * 
+     *
      */
     loadingBackdrop.$inject = [];
-    function loadingBackdrop() {
+    export default function loadingBackdrop() {
       return {
         templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
         controller: function($scope) {
-          var vm = this;  
+          var vm = this;
           vm.isViewLoading = true;
           vm.mapStateLoading = false;
 
@@ -27,7 +27,7 @@ import angular from 'angular';
             angular.element('#doorbell-button').show();
           });
 
-          // listen for map state loading event 
+          // listen for map state loading event
           $scope.$on('mapStateLoading', function() {
             if(vm.isViewLoading) {
               return;
@@ -42,4 +42,3 @@ import angular from 'angular';
         controllerAs: 'vm'
       };
     }
-

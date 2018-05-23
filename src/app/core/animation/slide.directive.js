@@ -1,12 +1,12 @@
-import angular from 'angular';
+
 
   /**
    * Unused directive. Double-check before removing.
    * 
    */
-  angular.module('app.components')
+  
     .directive('slide', slide)
-    .directive('slideMenu', slideMenu);
+    
 
     function slideMenu() {
       return {

@@ -1,12 +1,12 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .controller('MapController', MapController);
+
+  
+    
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
     'Marker', 'tag', 'animation'];
-    function MapController($scope, $state, $timeout, device,
+    export default function $1Controller($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
       var vm = this;
       var updateType;

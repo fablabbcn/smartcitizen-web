@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('sensor', sensor);
 
     sensor.$inject = ['Restangular', 'utils', 'sensorUtils'];

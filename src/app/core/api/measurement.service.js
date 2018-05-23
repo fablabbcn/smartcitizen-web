@@ -1,6 +1,6 @@
-import angular from 'angular';
 
-  angular.module('app.components')
+
+  
     .factory('measurement', measurement);
 
   measurement.$inject = ['Restangular'];
