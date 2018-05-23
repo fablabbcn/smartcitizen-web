@@ -1,4 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic|Roboto:400,700,700italic,400italic);
+@import url('https://fonts.googleapis.com/css?family=Kanit:400,900');
+
 @import '_variables';
 
 /**
@@ -235,7 +237,10 @@ md-select{
   border: 2px solid white;
 }
 .color-white{
-  color: white;
+  color: white !important;
+}
+.color-black{
+  color: $new_black;
 }
 .color-blue{
   color:$terciary_color;
@@ -257,6 +262,9 @@ md-select{
 }
 .font-roboto-condensed{
   font-family:'Roboto Condensed';
+}
+.font-kanit{
+  font-family:'Kanit';
 }
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
@@ -329,6 +337,18 @@ a.md-button h4, a.md-button .h4{
   border-radius: 20px;
   padding:11px 35px;
   font-size:14px;
+}
+
+// New landing page - just using this to override some elements
+.new-landing-page{
+  p{
+    color: $new_black;
+  }
+  h1,h2,h3,h4,h5,h6{
+    font-family: 'Kanit';
+    font-weight: 900;
+    color: $new_black;
+  }
 }
 
 a.warn,
@@ -2995,6 +3015,7 @@ md-content.md-default-theme, md-content {
 }
 
 .btn-round{
+  border: 0;
   border-radius: 20px;
   padding:0px 35px;
   font-size:18px;
