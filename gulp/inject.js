@@ -14,11 +14,7 @@ module.exports = function(options) {
     ], { read: false });
 
     var injectScripts = gulp.src([
-      options.src + '/app/**/*.js', // TODO webpack
-      '!' + options.src + '/app/components/kit/setupModule/scktool-app.js',
-      '!' + options.src + '/app/components/kit/setupModule/scktool-connector.js',
-      '!' + options.src + '/app/**/*.spec.js',
-      '!' + options.src + '/app/**/*.mock.js'
+      options.dist + '/scripts/main.js'
     ])
     .pipe($.angularFilesort()).on('error', options.errorHandler('AngularFilesort'));
 

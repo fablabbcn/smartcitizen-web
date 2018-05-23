@@ -123,7 +123,7 @@ module.exports = function(options) {
   });
 
   gulp.task('external-assets', function() {
-    return gulp.src(['bower_components/leaflet/dist/images/**'])
+    return gulp.src(['node_modules/leaflet/dist/images/**'])
       .pipe(gulp.dest(options.dist + '/styles/images'));
   });
 
