@@ -271,9 +271,13 @@ a.md-button h4, a.md-button .h4{
   margin: 0;
 }
 
+.text-center{
+  text-align: center;
+}
+
 // Tiles on landing page
 .tile{
-  padding: 30px;
+  padding: 40px;
   border-bottom: 2px solid $new_black;
   border-right: 2px solid $new_black;
 }
