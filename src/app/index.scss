@@ -229,6 +229,15 @@ md-select{
 
 // General helpers
 
+.border-black-right{
+  border-right: 2px solid $new_black;
+}
+.border-black{
+  border: 2px solid $new_black;
+}
+.border-white{
+  border: 2px solid white;
+}
 .color-white{
   color: white;
 }
@@ -257,8 +266,58 @@ a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
 }
+
+.p-20{
+  padding: 20px;
+}
+.p-30{
+  padding: 30px;
+}
+.p-50{
+  padding: 50px;
+}
 .pl-20{
   padding-left: 20px;
+}
+.mt-50{
+  margin-top: 50px;
+}
+.bg-white{
+   background: #fff;
+}
+.bg-blue{
+  background: $new_blue;
+}
+.bg-red{
+  background: $new_red;
+}
+.bg-yellow{
+  background: $new_yellow;
+}
+.btn-outline-blue{
+  border:2px solid $new_blue;
+  color: $new_blue;
+}
+.btn-outline-yellow{
+  border:2px solid $new_yellow;
+  color: $new_yellow;
+}
+.btn-yellow{
+  background: $new_yellow;
+  color: $new_black;
+}
+.btn-black{
+  border:2px solid $new_black;
+  color: $new_black;
+}
+.btn-blue{
+  background: $new_blue;
+  color: white;
+}
+.btn-round-new{
+  border-radius: 20px;
+  padding:11px 35px;
+  font-size:14px;
 }
 
 a.warn,
