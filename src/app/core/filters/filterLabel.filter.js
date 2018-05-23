@@ -1,10 +1,4 @@
-import angular from 'angular';
-
-  angular.module('app.components')
-    .filter('filterLabel', filterLabel);
-
-
-    function filterLabel() {
+    export default function filterLabel() {
       return function(kits, targetLabel) {
         if(targetLabel === undefined) {
           return kits;
@@ -23,4 +17,3 @@ import angular from 'angular';
         }
       };
     }
-

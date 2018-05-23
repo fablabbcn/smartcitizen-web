@@ -1,8 +1,3 @@
-
-
-
-    .factory('animation', animation);
-
     /**
      * Used to emit events from rootscope.
      *

@@ -1,9 +1,3 @@
-
-
-
-    .factory('layout', layout);
-
-
     export default function layout() {
 
       var kitHeight;

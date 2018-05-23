@@ -1,6 +1,5 @@
-import angular from 'angular';
-  angular.module('app.components')
-   .config(function ($provide) {
+  errorDecorator.$inject = ['$provide'];
+  export default function errorDecorator ($provide) {
 
         var airbrake = new airbrakeJs.Client();
 
@@ -16,5 +15,4 @@ import angular from 'angular';
           };
         }]);
 
-    });
-
+    };

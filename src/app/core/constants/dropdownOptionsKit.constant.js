@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 
   /**
    * Dropdown options for kits
@@ -6,9 +6,8 @@ import angular from 'angular';
    * @type {Array}
    */
 
-  angular.module('app.components')
-    .constant('DROPDOWN_OPTIONS_KIT', [
+
+    export default const DROPDOWN_OPTIONS_KIT = [
       {text: 'SET UP', value: '1', href: '/kits/new'},
       {text: 'EDIT', value: '2', href: '/kits/edit/'}
-    ]);
-
+    ];

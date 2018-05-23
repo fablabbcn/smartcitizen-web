@@ -1,10 +1,10 @@
 
 
-	
-	  .factory('device', device);
+
+
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
-	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
+	  export default function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
       var genericKitData, worldMarkers;
 
       initialize();
@@ -139,4 +139,3 @@
       }
 
 	  }
-

@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('HasSensorKit', ['Kit', function(Kit) {
+
+
+    HasSensorKit.$inject = ['Kit'];
+export default function HasSensorKit(Kit) {
 
       function HasSensorKit(object) {
         Kit.call(this, object);
@@ -25,5 +26,4 @@ import angular from 'angular';
       };
 
       return HasSensorKit;
-    }]);
-
+    }

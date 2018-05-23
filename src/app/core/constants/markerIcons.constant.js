@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 
   /**
    * Marker icons
@@ -6,8 +6,8 @@ import angular from 'angular';
    * @type {Object}
    */
 
-  angular.module('app.components')
-    .constant('MARKER_ICONS', {
+
+    export default const MARKER_ICONS = {
       defaultIcon: {},
       markerSmartCitizenNormal: {
         type: 'div',
@@ -39,5 +39,4 @@ import angular from 'angular';
         className: 'markerSmartCitizenOffline marker_blink',
         iconSize: [24, 24]
       }
-    });
-
+    };

@@ -1,10 +1,10 @@
 
 
-  
-    .factory('mapUtils', mapUtils);
+
+
 
     mapUtils.$inject = [];
-    function mapUtils() {
+    export default function mapUtils() {
       var service = {
         getDefaultFilters: getDefaultFilters,
         setDefaultFilters: setDefaultFilters,
@@ -17,11 +17,11 @@
       function getDefaultFilters(filterData, defaultFilters) {
         var obj = {};
         if(!filterData.indoor && !filterData.outdoor) {
-          obj[defaultFilters.exposure] = true;          
-        } 
+          obj[defaultFilters.exposure] = true;
+        }
         if(!filterData.online && !filterData.offline) {
-          obj[defaultFilters.status] = true;            
-        } 
+          obj[defaultFilters.status] = true;
+        }
         return obj;
       }
 
@@ -29,7 +29,7 @@
         var obj = {};
         if(!filterData.indoor || !filterData.outdoor) {
           obj.exposure = filterData.indoor ? 'indoor' : 'outdoor';
-        } 
+        }
         if(!filterData.online || !filterData.offline) {
           obj.status = filterData.online ? 'online' : 'offline';
         }
@@ -44,4 +44,3 @@
         }
       }
     }
-

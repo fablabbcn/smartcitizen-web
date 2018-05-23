@@ -1,11 +1,11 @@
 
 
-  
-    .factory('measurement', measurement);
+
+
 
   measurement.$inject = ['Restangular'];
 
-  function measurement(Restangular) {
+  export default function measurement(Restangular) {
 
     var service = {
       getTypes: getTypes,

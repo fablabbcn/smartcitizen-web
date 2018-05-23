@@ -1,14 +1,9 @@
-import angular from 'angular';
-
-  angular.module('app')
-    .config(config);
-
     /*
       Check app.config.js to know how states are protected
     */
 
     config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
-    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
+    export default function route($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
       $stateProvider
         /*
          -- Landing state --

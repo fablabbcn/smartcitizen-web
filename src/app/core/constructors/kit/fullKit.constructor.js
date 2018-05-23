@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', function(Kit, Sensor, kitUtils) {
+
+
+    FullKit.$inject = ['Kit', 'Sensor', 'kitUtils'];
+export default function FullKit(Kit, Sensor, kitUtils) {
 
       /**
        * Full Kit constructor.
@@ -72,5 +73,4 @@ import angular from 'angular';
       };
 
       return FullKit;
-    }]); 
-
+    }

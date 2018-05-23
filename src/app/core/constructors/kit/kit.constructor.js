@@ -1,10 +1,11 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('Kit', ['Sensor', 'kitUtils', function(Sensor, kitUtils) {
+
+
+    Kit.$inject = ['Sensor', 'kitUtils'];
+export default function Kit(Sensor, kitUtils) {
 
       /**
-       * Kit constructor. 
+       * Kit constructor.
        * @constructor
        * @param {Object} object - Object with all the data about the kit from the API
        * @property {number} id - ID of the kit
@@ -29,5 +30,4 @@ import angular from 'angular';
       }
 
       return Kit;
-    }]);
-
+    }

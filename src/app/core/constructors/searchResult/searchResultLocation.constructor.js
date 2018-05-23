@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('SearchResultLocation', ['SearchResult', function(SearchResult) {
+
+  
+    SearchResultLocation.$inject = ['SearchResult'];
+export default function SearchResultLocation(SearchResult) {
 
       /**
        * Search Result Location constructor
@@ -18,6 +19,6 @@ import angular from 'angular';
         this.layer = object.layer;
       }
       return SearchResultLocation;
-    }]);
+    }
 
 

@@ -1,10 +1,10 @@
 
 
-	
-	  .factory('geolocation', geolocation);
+
+
 
 	  geolocation.$inject = ['$http', '$window'];
-	  function geolocation($http, $window) {
+	  export default function geolocation($http, $window) {
 
       var service = {
 				grantHTML5Geolocation: grantHTML5Geolocation,
@@ -24,4 +24,3 @@
 					.getItem('smartcitizen.geolocation_granted');
 			}
 	  }
-

@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('PreviewKit', ['Kit', function(Kit) {
+
+  
+    PreviewKit.$inject = ['Kit'];
+export default function PreviewKit(Kit) {
 
       /**
        * Preview Kit constructor.
@@ -24,5 +25,5 @@ import angular from 'angular';
       PreviewKit.prototype = Object.create(Kit.prototype);
       PreviewKit.prototype.constructor = Kit;
       return PreviewKit;
-    }]);
+    }
 

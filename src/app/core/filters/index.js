@@ -1,4 +1,7 @@
 import angular from 'angular';
 
-export default angular.module('filters',[])
+import filterLabel from './filterLabel.filter';
+
+export default angular.module('app.core.filters',[])
+.filter('filterLabel', filterLabel)
 .name;

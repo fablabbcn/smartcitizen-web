@@ -1,14 +1,14 @@
 
 
-  
-    
+
+
 
     /**
      * Moves map filters when scrolling
-     * 
+     *
      */
     moveFilters.$inject = ['$window', '$timeout'];
-    function moveFilters($window, $timeout) {
+    export default function moveFilters($window, $timeout) {
       return {
         link: link
       };
@@ -16,7 +16,7 @@
       function link(scope, elem) {
         var chartHeight;
         $timeout(function() {
-          chartHeight = angular.element('.kit_chart').height();          
+          chartHeight = angular.element('.kit_chart').height();
         }, 1000);
 
         /*
@@ -29,4 +29,3 @@
         */
       }
     }
-

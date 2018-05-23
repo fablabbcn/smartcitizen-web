@@ -1,4 +1,4 @@
-import angular from 'angular';
+
 
   /**
    * Tools links for user profile
@@ -6,8 +6,8 @@ import angular from 'angular';
    * @type {Array}
    */
 
-  angular.module('app.components')
-    .constant('PROFILE_TOOLS', [{
+
+    export default const PROFILE_TOOLS = [{
       type: 'documentation',
       title: 'How to connect your Smart Citizen Kit tutorial',
       description: 'Adding a Smart Citizen Kit tutorial',
@@ -54,5 +54,4 @@ import angular from 'angular';
       description: 'Follow our news on Twitter',
       avatar: '',
       href: 'https://twitter.com/SmartCitizenKit'
-    }]);
-
+    }];

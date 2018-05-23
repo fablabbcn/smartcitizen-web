@@ -1,10 +1,10 @@
 
 
-  
-    .factory('file', file);
+
+
 
     file.$inject = ['Restangular', 'Upload'];
-    function file(Restangular, Upload) {
+    export default function file(Restangular, Upload) {
       var service = {
         getCredentials: getCredentials,
         uploadFile: uploadFile,
@@ -44,4 +44,3 @@
         return 'https://images.smartcitizen.me/' + size + '/' + filename;
       }
     }
-

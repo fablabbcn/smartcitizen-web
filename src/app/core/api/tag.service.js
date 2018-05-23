@@ -1,10 +1,5 @@
-
-
-  
-    .factory('tag', tag);
-
     tag.$inject = ['Restangular'];
-    function tag(Restangular) {
+    export default function tag(Restangular) {
       var tags = [];
       var selectedTags = [];
 
@@ -32,7 +27,7 @@
       function getSelectedTags(){
         return selectedTags;
       }
-      
+
       function setSelectedTags(tags){
         selectedTags = tags;
       }
@@ -66,4 +61,3 @@
         });
       }
     }
-

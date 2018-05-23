@@ -1,14 +1,9 @@
-
-
   /**
    * Unused directive. Double-check before removing.
-   * 
+   *
    */
-  
-    .directive('slide', slide)
-    
 
-    function slideMenu() {
+    export default function slideMenu() {
       return {
         controller: controller,
         link: link
@@ -49,7 +44,7 @@
     slide.$inject = [];
     function slide() {
       return {
-        link: link, 
+        link: link,
         require: '^slide-menu',
         restrict: 'A',
         scope: {
@@ -64,15 +59,14 @@
         element.on('click', function() {
 
           if(slideMenuCtrl.scrollIsValid('left') && attr.direction === 'left') {
-            slideMenuCtrl.decrementPosition();                       
+            slideMenuCtrl.decrementPosition();
             sensorsContainer.scrollLeft(slideMenuCtrl.getPosition());
-            console.log(slideMenuCtrl.getPosition());  
+            console.log(slideMenuCtrl.getPosition());
           } else if(slideMenuCtrl.scrollIsValid('right') && attr.direction === 'right') {
-            slideMenuCtrl.incrementPosition(); 
-            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition()); 
-            console.log(slideMenuCtrl.getPosition()); 
-          }          
+            slideMenuCtrl.incrementPosition();
+            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition());
+            console.log(slideMenuCtrl.getPosition());
+          }
         });
       }
     }
-

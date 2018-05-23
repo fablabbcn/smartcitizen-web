@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('AuthUser', ['User', function(User) {
+
+  
+    AuthUser.$inject = ['User'];
+export default function AuthUser(User) {
 
       /**
        * AuthUser constructor. Used for authenticated users
@@ -24,5 +25,5 @@ import angular from 'angular';
       AuthUser.prototype.constructor = User;
 
       return AuthUser;
-    }]);
+    }
 

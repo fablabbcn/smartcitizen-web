@@ -1,11 +1,11 @@
 
 
-  
-    .factory('searchUtils', searchUtils);
+
+
 
 
     searchUtils.$inject = [];
-    function searchUtils() {
+    export default function searchUtils() {
       var service = {
         parseLocation: parseLocation,
         parseName: parseName,
@@ -23,7 +23,7 @@
           location += object.city;
         }
         if(!!object.city && !!object.country) {
-          location += ', '; 
+          location += ', ';
         }
         if(!!object.country) {
           location += object.country;
@@ -58,4 +58,3 @@
         }
       }
     }
-

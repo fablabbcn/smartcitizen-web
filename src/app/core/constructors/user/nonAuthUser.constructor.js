@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('NonAuthUser', ['User', function(User) {
+
+  
+    NonAuthUser.$inject = ['User'];
+export default function NonAuthUser(User) {
 
       function NonAuthUser(userData) {
         User.call(this, userData);
@@ -10,5 +11,5 @@ import angular from 'angular';
       NonAuthUser.prototype.constructor = User;
 
       return NonAuthUser;
-    }]);
+    }
 

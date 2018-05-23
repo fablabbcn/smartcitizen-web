@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('Marker', ['device', 'markerUtils', function(device, markerUtils) {
+
+  
+    Marker.$inject = ['device', 'markerUtils'];
+export default function Marker(device, markerUtils) {
 
       /**
        * Marker constructor
@@ -72,5 +73,5 @@ import angular from 'angular';
         }, '');
       }
 
-    }]);
+    }
 

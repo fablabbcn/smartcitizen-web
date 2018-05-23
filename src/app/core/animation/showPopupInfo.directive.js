@@ -1,14 +1,14 @@
 
 
-  
-    
+
+
 
     /**
      * Used to show/hide explanation of sensor value at kit dashboard
-     * 
+     *
      */
     showPopupInfo.$inject = [];
-    function showPopupInfo() {
+    export default function showPopupInfo() {
       return {
         link: link
       };
@@ -25,4 +25,3 @@
         });
       }
     }
-

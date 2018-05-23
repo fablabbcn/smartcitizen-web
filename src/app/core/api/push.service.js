@@ -1,9 +1,9 @@
 
 
-	
-	  .factory('push', push);
 
-	  function push() {
+
+
+	  export default function push() {
       var socket;
 
       init();
@@ -31,5 +31,3 @@
 
       return service;
 	  }
-
-

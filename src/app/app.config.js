@@ -1,10 +1,5 @@
-import angular from 'angular';
-
-  angular.module('app')
-    .run(run);
-
     run.$inject = ['$rootScope', '$state', 'Restangular', 'auth', '$templateCache', '$window', 'animation', '$timeout'];
-    function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation, $timeout) {
+    export default function run($rootScope, $state, Restangular, auth, $templateCache, $window, animation, $timeout) {
       /**
        * every time the state changes, run this check for whether the state
        * requires authentication and, if needed, whether the user is
@@ -77,5 +72,3 @@ import angular from 'angular';
         };
       });
     }
-
-

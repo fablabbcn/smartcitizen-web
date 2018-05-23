@@ -1,10 +1,10 @@
 
 
-  
-    .factory('kitUtils', kitUtils);
+
+
 
     kitUtils.$inject = ['COUNTRY_CODES', 'device'];
-    function kitUtils(COUNTRY_CODES, device) {
+    export default function kitUtils(COUNTRY_CODES, device) {
       var service = {
         parseLocation: parseLocation,
         parseLabels: parseLabels,
@@ -29,7 +29,7 @@
 
       function parseLocation(object) {
         var location = '';
-        
+
         var city = object.data.location.city;
         var country = object.data.location.country;
 
@@ -54,11 +54,11 @@
 
       function parseType(object) {
         var kitType = !object.kit ? 'Unknown type': object.kit.name;
-        return kitType; 
+        return kitType;
       }
       function parseTypeDescription(object) {
         var kitTypeDescription = !object.kit ? 'Unknown type': object.kit.description;
-        return kitTypeDescription; 
+        return kitTypeDescription;
       }
 
       function parseTypeSlug(object) {
@@ -124,9 +124,9 @@
       }
 
       function parseState(status) {
-        var name = parseStateName(status); 
-        var className = classify(name); 
-        
+        var name = parseStateName(status);
+        var className = classify(name);
+
         return {
           name: name,
           className: className
@@ -152,4 +152,3 @@
         });
       }
     }
-

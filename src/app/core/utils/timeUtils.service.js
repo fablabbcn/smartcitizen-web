@@ -1,9 +1,9 @@
 
 
-  
-    .factory('timeUtils', timeUtils);
 
-  function timeUtils() {
+
+
+  export default function timeUtils() {
     var service = {
       getSecondsFromDate: getSecondsFromDate,
       getCurrentRange: getCurrentRange,
@@ -93,4 +93,3 @@
       return dateToCheck > ago;
     }
   }
-

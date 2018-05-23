@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('SearchResult', ['searchUtils', function(searchUtils) {
+
+
+    SearchResult.$inject = ['searchUtils'];
+export default function SearchResult(searchUtils) {
 
       /**
        * Search Result constructor
@@ -13,7 +14,7 @@ import angular from 'angular';
        * @property {string} icon - URL for the icon that belongs to this search result
        * @property {string} iconType - Type of icon. Can be either img or div
        */
-      
+
       function SearchResult(object) {
         this.type = object.type;
         this.id = object.id;
@@ -23,5 +24,4 @@ import angular from 'angular';
         this.iconType = searchUtils.parseIconType(this.type);
       }
       return SearchResult;
-    }]);
-
+    }

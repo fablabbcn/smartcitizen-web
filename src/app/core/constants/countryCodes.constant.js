@@ -1,13 +1,13 @@
-import angular from 'angular';
+
 
   /**
    * Country codes.
-   * @constant 
+   * @constant
    * @type {Object}
    */
+
   
-  angular.module('app.components')
-    .constant('COUNTRY_CODES', {
+    export default const COUNTRY_CODES = {
       'AF': 'Afghanistan',
       'AX': 'Aland Islands',
       'AL': 'Albania',
@@ -252,6 +252,5 @@ import angular from 'angular';
       'EH': 'Western Sahara',
       'YE': 'Yemen',
       'ZM': 'Zambia',
-      'ZW': 'Zimbabwe' 
-    });
-
+      'ZW': 'Zimbabwe'
+    };

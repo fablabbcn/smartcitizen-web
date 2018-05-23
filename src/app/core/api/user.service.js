@@ -1,11 +1,5 @@
-(function() { 
-	'use strict';
-
-	
-	  .factory('user', user);
-	  
 	  user.$inject = ['Restangular'];
-	  function user(Restangular) {
+	  export default function user(Restangular) {
       var service = {
         createUser: createUser,
         getUser: getUser,
@@ -27,4 +21,3 @@
         return Restangular.all('me').customPUT(updateData);
       }
 	  }
-

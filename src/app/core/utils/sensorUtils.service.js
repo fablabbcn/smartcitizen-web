@@ -1,10 +1,10 @@
 
 
-  
-    .factory('sensorUtils', sensorUtils);
+
+
 
     sensorUtils.$inject = ['timeUtils'];
-    function sensorUtils(timeUtils) {
+    export default function sensorUtils(timeUtils) {
       var service = {
         getRollup: getRollup,
         getSensorName: getSensorName,
@@ -225,4 +225,3 @@
           .measurement.description;
       }
     }
-

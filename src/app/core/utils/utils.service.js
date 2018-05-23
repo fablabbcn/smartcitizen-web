@@ -1,10 +1,10 @@
 
 
-  
-    .factory('utils', utils);
+
+
 
     utils.$inject = ['device', 'PreviewKit', '$q'];
-    function utils(device, PreviewKit, $q) {
+    export default function utils(device, PreviewKit, $q) {
       var service = {
         parseKit: parseKit,
         parseKitTime: parseKitTime,
@@ -53,7 +53,7 @@
 
       function parseKitType(object) {
         var kitType = !object.kit ? 'Unknown type': object.kit.name;
-        return kitType; 
+        return kitType;
       }
 
       function parseTypeSlug(object) {
@@ -102,4 +102,3 @@
         return deferred.promise;
       }
     }
-

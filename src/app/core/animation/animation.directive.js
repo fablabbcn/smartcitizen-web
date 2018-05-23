@@ -4,21 +4,12 @@
      * TODO: This directives can be split up each one in a different file
      */
 
-    
-      .directive('moveDown', moveDown)
-      .directive('stick', stick)
-      .directive('blur', blur)
-      .directive('focus', focus)
-      .directive('changeMapHeight', changeMapHeight)
-      .directive('changeContentMargin', changeContentMargin)
-      
-
     /**
      * It moves down kit section to ease the transition after the kit menu is sticked to the top
      *
      */
     moveDown.$inject = [];
-    function moveDown() {
+    export function moveDown() {
 
       function link(scope, element) {
         scope.$watch('moveDown', function(isTrue) {
@@ -42,7 +33,7 @@
      *
      */
     stick.$inject = ['$window', '$timeout'];
-    function stick($window, $timeout) {
+    export function stick($window, $timeout) {
       function link(scope, element) {
         var elementPosition = element[0].offsetTop;
         //var elementHeight = element[0].offsetHeight;
@@ -85,7 +76,7 @@
      *
      */
 
-    function blur() {
+    export function blur() {
 
       function link(scope, element) {
 
@@ -110,7 +101,7 @@
      *
      */
     focus.$inject = ['animation'];
-    function focus(animation) {
+    export function focus(animation) {
       function link(scope, element) {
         element.on('focusin', function() {
           animation.removeNav();
@@ -141,7 +132,7 @@
      *
      */
     changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
-    function changeMapHeight($document, layout, $timeout) {
+    export function changeMapHeight($document, layout, $timeout) {
       function link(scope, element) {
 
         var screenHeight = $document[0].body.clientHeight;
@@ -190,7 +181,7 @@
      */
 
     changeContentMargin.$inject = ['layout', '$timeout', '$document'];
-    function changeContentMargin(layout, $timeout, $document) {
+    export function changeContentMargin(layout, $timeout, $document) {
       function link(scope, element) {
           var screenHeight = $document[0].body.clientHeight;
 
@@ -210,7 +201,7 @@
      *
      */
     focusInput.$inject = ['$timeout'];
-    function focusInput($timeout) {
+    export function focusInput($timeout) {
       function link(scope, elem) {
         $timeout(function() {
           elem.focus();
@@ -220,4 +211,3 @@
         link: link
       };
     }
-

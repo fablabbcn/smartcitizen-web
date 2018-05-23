@@ -1,11 +1,11 @@
 
 
-  
-    .factory('auth', auth);
+
+
 
     auth.$inject = ['$location', '$window', '$state', 'Restangular',
       '$rootScope', 'AuthUser', '$timeout', 'alert'];
-    function auth($location, $window, $state, Restangular, $rootScope, AuthUser,
+    export default function auth($location, $window, $state, Restangular, $rootScope, AuthUser,
        $timeout, alert) {
 
     	var user = {};
@@ -124,4 +124,3 @@
         return userData.role === 'admin';
       }
     }
-

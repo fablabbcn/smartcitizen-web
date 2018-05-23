@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('User', ['COUNTRY_CODES', function(COUNTRY_CODES) {
+
+  
+    User.$inject = ['COUNTRY_CODES'];
+export default function User(COUNTRY_CODES) {
 
       /**
        * User constructor
@@ -26,6 +27,6 @@ import angular from 'angular';
         this.country = COUNTRY_CODES[userData.location.country_code];
       }
       return User;      
-    }]);
+    }
 
 

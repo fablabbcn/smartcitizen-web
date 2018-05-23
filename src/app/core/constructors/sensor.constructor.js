@@ -1,7 +1,8 @@
-import angular from 'angular';
 
-  angular.module('app.components')
-    .factory('Sensor', ['sensorUtils', 'measurement', function(sensorUtils,
+
+  
+    Sensor.$inject = ['sensorUtils', 'measurement'];
+export default function Sensor(sensorUtils,
       measurement) {
 
       /*jshint camelcase: false */
@@ -49,4 +50,4 @@ import angular from 'angular';
       }
 
       return Sensor;
-    }]);
+    }

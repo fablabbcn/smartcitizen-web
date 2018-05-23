@@ -1,9 +1,9 @@
 
 
-  
-    .factory('userUtils', userUtils);
 
-    function userUtils() {
+
+
+    export default function userUtils() {
       var service = {
         isAdmin: isAdmin,
         isAuthUser: isAuthUser
@@ -19,4 +19,3 @@
         return userID === authUserData.id;
       }
     }
-

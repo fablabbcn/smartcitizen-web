@@ -1,14 +1,14 @@
 
 
-  
-    
+
+
 
     /**
      * Used on kit dashboard to open full sensor description
      */
 
     showPopup.$inject = [];
-    function showPopup() {
+    export default function showPopup() {
       return {
         link: link
       };
@@ -26,4 +26,3 @@
         });
       }
     }
-

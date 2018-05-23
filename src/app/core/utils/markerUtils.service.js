@@ -1,10 +1,10 @@
 
 
-  
-    .factory('markerUtils', markerUtils);
+
+
 
     markerUtils.$inject = ['device', 'kitUtils', 'COUNTRY_CODES', 'MARKER_ICONS'];
-    function markerUtils(device, kitUtils, COUNTRY_CODES, MARKER_ICONS) {
+    export default function markerUtils(device, kitUtils, COUNTRY_CODES, MARKER_ICONS) {
       var service = {
         parseType: parseType,
         parseLocation: parseLocation,
@@ -46,7 +46,7 @@
 
         kitType = !kit ? 'Unknown type': kit.name;
 
-        return kitType; 
+        return kitType;
       }
 
       function parseTypeSlug(object) {
@@ -163,4 +163,3 @@
         return marker;
       }
     }
-

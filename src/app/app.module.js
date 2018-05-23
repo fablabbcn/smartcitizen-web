@@ -1,7 +1,16 @@
 import angular from 'angular';
+// locals modules
+import components from './components';
+import core from './core';
+// external modules
 
+// config
+import route from './app.route';
+import run from './app.config';
 
 angular.module('app', [
+  components,
+  core,
   'ngFileUpload',
 	'ngMaterial',
 	'ui.router',
@@ -19,4 +28,6 @@ angular.module('app', [
   'ngCookies',
   'ngtweet',
   'btford.socket-io'
-]);
+])
+.config(route)
+.run(run);
