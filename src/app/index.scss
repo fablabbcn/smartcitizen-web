@@ -337,6 +337,10 @@ a.md-button h4, a.md-button .h4{
   background: $new_yellow;
   color: $new_black;
 }
+.btn-yellow:hover{
+  background: #FFC719;
+  color: $new_black;
+}
 .btn-black{
   border:2px solid $new_black;
   color: $new_black;
@@ -347,6 +351,10 @@ a.md-button h4, a.md-button .h4{
 }
 .btn-blue{
   background: $new_blue;
+  color: white;
+}
+.btn-blue:hover{
+  background: #1930FF;
   color: white;
 }
 .btn-round-new{
