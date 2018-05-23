@@ -1,16 +1,16 @@
 
 
-  
-    
+
+
 
     EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
     'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    export default function $1Controller($scope, $location, $timeout, $state, animation,
+    export default function EditKitController($scope, $location, $timeout, $state, animation,
      device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
 
-      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change) 
+      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
       var timewait = {
           long: 5000,
           normal: 2000,
@@ -271,13 +271,12 @@
       function goToStep(step) {
         vm.step = step;
         $state.transitionTo('layout.kitEdit', { id:$stateParams.id, step: step} ,
-        { 
+        {
           reload: false,
           inherit: false,
           notify: false
         });
       }
 
- 
-    }
 
+    }

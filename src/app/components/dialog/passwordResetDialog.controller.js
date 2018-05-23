@@ -1,11 +1,11 @@
 
 
-  
-    
+
+
 
     PasswordResetDialogController.$inject = ['$scope', '$mdDialog', '$stateParams', '$location', 'auth', 'alert'];
-    export default function $1Controller($scope, $mdDialog, $stateParams, $location, auth, alert) {
-      
+export default function PasswordResetDialogController($scope, $mdDialog, $stateParams, $location, auth, alert) {
+
       $scope.password = {
         newPassword: undefined,
         confirmPassword: undefined
@@ -25,7 +25,7 @@
             alert.success('Your data was updated successfully');
             $location.path('/profile');
             $mdDialog.hide();
-          })  
+          })
           .catch(function() {
             alert.error('Your data wasn\'t updated');
           });
@@ -40,4 +40,3 @@
       };
 
     }
-

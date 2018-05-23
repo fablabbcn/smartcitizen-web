@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
-    export default function $1Controller($scope, $mdDialog, auth, alert, animation) {
+export default function LoginDialogController($scope, $mdDialog, auth, alert, animation) {
 
       $scope.answer = function(answer) {
         $scope.waitingFromServer = true;
@@ -47,4 +47,3 @@
         $mdDialog.hide();
       };
     }
-

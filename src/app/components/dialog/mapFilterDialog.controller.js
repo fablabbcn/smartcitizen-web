@@ -1,11 +1,10 @@
 
 
-  
-    
+
+
 
   MapFilterDialogController.$inject = ['$mdDialog','selectedFilters'];
-
-  export default function $1Controller($mdDialog, selectedFilters) {
+export default function MapFilterDialogController($mdDialog, selectedFilters) {
 
     var vm = this;
 
@@ -15,7 +14,7 @@
     vm.hide = hide;
     vm.clear = clear;
     vm.cancel = cancel;
-    
+
     vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
 
     init();

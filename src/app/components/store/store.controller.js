@@ -1,4 +1,4 @@
-export default export default function $1Controller($scope, $mdDialog) {
+export default function StoreController($scope, $mdDialog) {
   $scope.showStore = showStore;
 
   $scope.$on('showStore', function() {

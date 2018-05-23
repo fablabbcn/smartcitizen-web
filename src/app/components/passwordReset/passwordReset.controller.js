@@ -1,13 +1,13 @@
 
 
-  
-    
+
+
 
     PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
       'animation', '$location', 'alert', 'auth'];
-    export default function $1Controller($mdDialog, $stateParams, $timeout,
+    export default function PasswordResetController($mdDialog, $stateParams, $timeout,
       animation, $location, alert, auth) {
-        
+
       var vm = this;
       vm.showForm = false;
       vm.form = {};
@@ -60,4 +60,3 @@
           });
       }
     }
-

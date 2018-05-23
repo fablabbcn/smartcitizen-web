@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
-    export default function $1Controller($scope, search, SearchResult, $location, animation, SearchResultLocation) {
+export default function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
       var vm = this;
 
       vm.searchTextChange = searchTextChange;
@@ -65,4 +65,3 @@
           });
       }
     }
-

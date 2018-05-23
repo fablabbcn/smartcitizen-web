@@ -7,7 +7,7 @@
    */
 
 
-    export default const MARKER_ICONS = {
+    export const MARKER_ICONS = {
       defaultIcon: {},
       markerSmartCitizenNormal: {
         type: 'div',

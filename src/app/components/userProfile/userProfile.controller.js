@@ -1,12 +1,7 @@
-
-
-  
-    
-
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location',
+  UserProfileController.$inject = ['$scope', '$stateParams', '$location',
       'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
       'NonAuthUser', '$q', 'PreviewKit'];
-    export default function $1Controller($scope, $stateParams, $location, utils,
+    export default function UserProfileController($scope, $stateParams, $location, utils,
         user, device, alert, auth, userUtils, $timeout, animation,
         NonAuthUser, $q, PreviewKit) {
 
@@ -20,7 +15,7 @@
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
-        
+
         var authUser = auth.getCurrentUser().data;
         if( userUtils.isAuthUser(userID, authUser) ) {
           $location.path('/profile');
@@ -79,4 +74,3 @@
         angular.element('.profile_content').css('min-height', height + 'px');
       }
     }
-

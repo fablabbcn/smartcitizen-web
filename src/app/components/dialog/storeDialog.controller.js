@@ -1,13 +1,12 @@
 
 
-  
-    
+
+
 
     StoreDialogController.$inject = ['$scope', '$mdDialog'];
-    export default function $1Controller($scope, $mdDialog) {
+export default function StoreDialogController($scope, $mdDialog) {
 
       $scope.hide = function() {
         $mdDialog.hide();
       };
     }
-

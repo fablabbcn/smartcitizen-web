@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     PasswordRecoveryController.$inject = ['auth', 'alert', '$mdDialog'];
-    export default function $1Controller(auth, alert, $mdDialog) {
+export default function PasswordRecoveryController(auth, alert, $mdDialog) {
       var vm = this;
 
       vm.waitingFromServer = false;
@@ -16,7 +16,7 @@
       function recoverPassword() {
         vm.waitingFromServer = true;
         vm.errors = undefined;
-        
+
         var data = {
           username: vm.username
         };
@@ -26,15 +26,14 @@
             alert.success('You were sent an email to recover your password');
             $mdDialog.hide();
           })
-          .catch(function(err) {          
+          .catch(function(err) {
             vm.errors = err.data.errors;
             if(vm.errors) {
-              alert.error('That email/username doesn\'t exist');              
-            } 
+              alert.error('That email/username doesn\'t exist');
+            }
           })
           .finally(function() {
             vm.waitingFromServer = false;
-          }); 
+          });
       }
-    } 
-
+    }

@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
   ApiKeyController.$inject = ['alert'];
-  export default function $1Controller(alert){
+export default function ApiKeyController(alert){
     var vm = this;
 
     vm.copied = copied;
@@ -22,4 +22,3 @@
     }
 
   }
-

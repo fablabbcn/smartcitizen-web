@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     PasswordRecoveryDialogController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
-    export default function $1Controller($scope, animation, $mdDialog, auth, alert) {
+export default function PasswordRecoveryDialogController($scope, animation, $mdDialog, auth, alert) {
 
       $scope.hide = function() {
         $mdDialog.hide();
@@ -25,13 +25,13 @@
             alert.success('You were sent an email to recover your password');
             $mdDialog.hide();
           })
-          .catch(function(err) {          
+          .catch(function(err) {
             alert.error('That username doesn\'t exist');
             $scope.errors = err.data;
           })
           .finally(function() {
             $scope.waitingFromServer = false;
-          }); 
+          });
       };
 
       $scope.openSignup = function() {
@@ -39,4 +39,3 @@
         $mdDialog.hide();
       };
     }
-

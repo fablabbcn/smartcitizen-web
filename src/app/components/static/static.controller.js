@@ -1,11 +1,10 @@
 
 
-  
-    
+
+
 
   StaticController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
-
-  export default function $1Controller($timeout, animation, $mdDialog, $location, $anchorScroll) {
+export default function StaticController($timeout, animation, $mdDialog, $location, $anchorScroll) {
     var vm = this;
 
     vm.showStore = showStore;
@@ -41,4 +40,3 @@
       });
     }
   }
-

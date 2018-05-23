@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import downloadController from './download.controller';
+import DownloadDialogController from './downloadDialog.controller';
 
 export default angular.module('app.component.download',[])
-.controller('downloadController', downloadController)
+.controller('DownloadDialogController', DownloadDialogController)
 .name;

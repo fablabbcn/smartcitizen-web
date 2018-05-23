@@ -1,13 +1,13 @@
 
 
-  
-    
+
+
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
     'PreviewKit', 'animation', '$timeout', '$rootScope'
   ];
 
-  export default function $1Controller(tag, $scope, device, $state, $q, PreviewKit,
+  export default function tagsController(tag, $scope, device, $state, $q, PreviewKit,
     animation, $timeout, $rootScope) {
 
     var vm = this;
@@ -26,7 +26,7 @@
         $state.transitionTo('layout.home.kit');
       }
 
-      if (device.getWorldMarkers()) { 
+      if (device.getWorldMarkers()) {
         // If the user has already loaded a prev page and has markers in mem or localstorage
         updateSelectedTags();
       } else {
@@ -55,7 +55,7 @@
       getTaggedKits()
         .then(function(res){
           vm.kits = res;
-        }); 
+        });
     }
 
 
@@ -72,7 +72,7 @@
       var deviceProm = _.map(vm.markers, getMarkerDevice);
 
       return $q.all(deviceProm)
-        .then(function(devices) {  
+        .then(function(devices) {
           return _.map(_.sortBy(devices, descLastUpdate), toPreviewKit); // This sort is temp
         });
     }
@@ -85,5 +85,3 @@
       return device.getDevice(marker.myData.id);
     }
   }
-
-

@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     SignupController.$inject = ['$scope', '$mdDialog'];
-    export default function $1Controller($scope, $mdDialog) {
+export default function SignupController($scope, $mdDialog) {
       var vm = this;
 
       vm.showSignup = showSignup;
@@ -24,4 +24,3 @@
         });
       }
     }
-

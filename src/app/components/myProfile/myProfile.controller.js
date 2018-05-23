@@ -1,14 +1,14 @@
 
 
-  
-    
+
+
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
     'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
     'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
     'userUtils', '$filter','$state', 'Restangular'];
-    export default function $1Controller($scope, $location, $q, $interval,
+    export default function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
       DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
@@ -30,8 +30,8 @@
       vm.removeUser = removeUser;
       vm.uploadAvatar = uploadAvatar;
 
-      //THIS IS TEMPORARY. 
-      // Will grow on to a dynamic API KEY management 
+      //THIS IS TEMPORARY.
+      // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
       vm.user.token = auth.getCurrentUser().token;
       vm.addNewKit = addNewKit;
@@ -358,4 +358,3 @@
 
 
     }
-

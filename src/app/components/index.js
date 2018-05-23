@@ -5,11 +5,8 @@ import beta from './beta';
 import chart from './chart';
 import cookiesLaw from './cookiesLaw';
 import dialog from './dialog';
-import disqus from './disqus';
 import download from './download';
-import footer from './footer';
 import home from './home';
-import kit from './kit';
 import kit from './kit';
 import kitList from './kitList';
 import landing from './landing';
@@ -22,7 +19,7 @@ import passwordReset from './passwordReset';
 import picker from './picker';
 import search from './search';
 import signup from './signup';
-import static from './static';
+import staticModule from './static';
 import store from './store';
 import tags from './tags';
 import userProfile from './userProfile';
@@ -34,9 +31,7 @@ export default angular.module('app.components', [
 	chart,
 	cookiesLaw,
 	dialog,
-	disqus,
 	download,
-	footer,
 	home,
 	kit,
 	kit,
@@ -51,7 +46,7 @@ export default angular.module('app.components', [
 	picker,
 	search,
 	signup,
-	static,
+	staticModule,
 	store,
 	tags,
 	userProfile

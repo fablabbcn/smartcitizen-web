@@ -1,12 +1,5 @@
-(function (){
-	'use strict';
-
-	
-		
-
 	DownloadDialogController.$inject = ['thisKit', 'device', '$mdDialog'];
-
-	export default function $1Controller(thisKit, device, $mdDialog) {
+export default function DownloadDialogController(thisKit, device, $mdDialog) {
 		var vm = this;
 
 		vm.kit = thisKit;
@@ -28,5 +21,3 @@
 			$mdDialog.cancel();
 		}
 	}
-
-

@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
   LoginController.$inject = ['$scope', '$mdDialog'];
-  export default function $1Controller($scope, $mdDialog) {
+export default function LoginController($scope, $mdDialog) {
 
     $scope.showLogin = showLogin;
 
@@ -24,4 +24,3 @@
     }
 
   }
-

@@ -1,7 +1,3 @@
-
-
-    .directive('kitList',kitList);
-
   export default function kitList(){
     return{
       restrict:'E',

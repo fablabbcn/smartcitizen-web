@@ -7,7 +7,7 @@
    */
 
 
-    export default const DROPDOWN_OPTIONS_COMMUNITY = [
+    export const DROPDOWN_OPTIONS_COMMUNITY = [
       {text: 'About', href: '/about'},
       {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
       {text: 'Documentation', href: 'http://docs.smartcitizen.me/'},

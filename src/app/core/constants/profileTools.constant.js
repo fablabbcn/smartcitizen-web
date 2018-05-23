@@ -7,7 +7,7 @@
    */
 
 
-    export default const PROFILE_TOOLS = [{
+    export const PROFILE_TOOLS = [{
       type: 'documentation',
       title: 'How to connect your Smart Citizen Kit tutorial',
       description: 'Adding a Smart Citizen Kit tutorial',

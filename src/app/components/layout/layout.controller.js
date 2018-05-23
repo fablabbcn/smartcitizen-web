@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     LayoutController.$inject = ['$location', '$state', '$scope', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
-    export default function $1Controller($location, $state, $scope, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
+export default function LayoutController($location, $state, $scope, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
       var vm = this;
 
       vm.navRightLayout = 'space-around center';
@@ -95,4 +95,3 @@
         vm.isLoggedin = false;
       }
     }
-

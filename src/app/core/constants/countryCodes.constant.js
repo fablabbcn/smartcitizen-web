@@ -6,8 +6,8 @@
    * @type {Object}
    */
 
-  
-    export default const COUNTRY_CODES = {
+
+    export const COUNTRY_CODES = {
       'AF': 'Afghanistan',
       'AX': 'Aland Islands',
       'AL': 'Albania',

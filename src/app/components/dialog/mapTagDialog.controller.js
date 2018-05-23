@@ -1,11 +1,10 @@
 
 
-  
-    
+
+
 
   MapTagDialogController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
-
-  export default function $1Controller($mdDialog, tag, selectedTags) {
+export default function MapTagDialogController($mdDialog, tag, selectedTags) {
 
     var vm = this;
 

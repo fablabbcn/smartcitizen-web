@@ -1,14 +1,14 @@
 
 
-  
-    
+
+
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
     'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
     '$timeout', 'alert', '$q', 'device',
     'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
-  export default function $1Controller($state, $scope, $stateParams, $filter,
+  export default function KitController($state, $scope, $stateParams, $filter,
     utils, sensor, FullKit, $mdDialog, belongsToUser,
     timeUtils, animation, $location, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,
@@ -134,7 +134,7 @@
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
             if(vm.kit){
-              
+
               picker = initializePicker();
 
               animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
@@ -744,4 +744,3 @@
     }
 
   }
-

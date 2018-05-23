@@ -4,7 +4,7 @@
 
 
     AlertController.$inject = ['$scope', '$mdToast', 'message', 'button', 'href'];
-    export default function $1Controller($scope, $mdToast, message, button, href) {
+export default function AlertController($scope, $mdToast, message, button, href) {
     	var vm = this;
 
     	vm.close = close;

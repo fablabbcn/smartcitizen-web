@@ -1,11 +1,11 @@
 import angular from 'angular';
 
-import COUNTRY_CODES from './countryCodes.constant';
-import DROPDOWN_OPTIONS_COMMUNITY from './dropdownOptionsCommunity.constant';
-import DROPDOWN_OPTIONS_KIT from './dropdownOptionsKit.constant';
-import DROPDOWN_OPTIONS_USER from './dropdownOptionsUser.constant';
-import MARKER_ICONS from './markerIcons.constant';
-import PROFILE_TOOLS from './profileTools.constant';
+import { COUNTRY_CODES } from './countryCodes.constant';
+import { DROPDOWN_OPTIONS_COMMUNITY } from './dropdownOptionsCommunity.constant';
+import { DROPDOWN_OPTIONS_KIT } from './dropdownOptionsKit.constant';
+import { DROPDOWN_OPTIONS_USER } from './dropdownOptionsUser.constant';
+import { MARKER_ICONS } from './markerIcons.constant';
+import { PROFILE_TOOLS } from './profileTools.constant';
 
 
 export default angular.module('app.core.constants',[])

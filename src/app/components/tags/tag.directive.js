@@ -1,6 +1,6 @@
 
   
-    .directive('tag',tag);
+    
 
   function tag(){
     return{

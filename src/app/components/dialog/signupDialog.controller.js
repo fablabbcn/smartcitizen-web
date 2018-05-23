@@ -1,11 +1,11 @@
 
 
-  
-    
+
+
 
     SignupDialogController.$inject = ['$scope', '$mdDialog', 'user',
       'alert', 'animation', '$location'];
-    export default function $1Controller($scope, $mdDialog, user,
+    export default function SignupDialogController($scope, $mdDialog, user,
       alert, animation, $location) {
 
       $scope.answer = function(answer) {
@@ -44,4 +44,3 @@
         $mdDialog.hide();
       };
     }
-

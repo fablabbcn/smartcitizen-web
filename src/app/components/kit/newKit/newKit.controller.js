@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
     NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth', '$timeout'];
-    export default function $1Controller($scope, $state, animation, device, tag, alert, auth, $timeout) {
+export default function NewKitController($scope, $state, animation, device, tag, alert, auth, $timeout) {
       var vm = this;
 
       vm.step = 1;
@@ -157,4 +157,3 @@
         }
       }
     }
-

@@ -1,10 +1,10 @@
 
 
-  
-    
+
+
 
   BetaController.$inject = ['$scope', '$mdDialog', '$window'];
-  export default function $1Controller($scope, $mdDialog, $window) {
+export default function BetaController($scope, $mdDialog, $window) {
     $scope.showBeta = showBeta;
 
     $scope.$on('showBeta', function() {
@@ -53,4 +53,3 @@
     }
 
   }
-

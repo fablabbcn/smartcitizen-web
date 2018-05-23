@@ -1,12 +1,12 @@
 
 
-  
-    
+
+
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
     'Marker', 'tag', 'animation'];
-    export default function $1Controller($scope, $state, $timeout, device,
+    export default function MapController($scope, $state, $timeout, device,
       $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
       var vm = this;
       var updateType;
@@ -435,5 +435,3 @@
       }
 
     }
-
-
