@@ -5,7 +5,10 @@ import user from './user';
 import Marker from './marker.constructor.js';
 import Sensor from './sensor.constructor.js';
 
-export default angular.module('app.core.constructors',[])
+export default angular.module('app.core.constructors',[
+  kit,
+  user
+])
 .factory('Marker', Marker)
 .factory('Sensor', Sensor)
 .name;

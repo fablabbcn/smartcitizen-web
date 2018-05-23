@@ -7,3 +7,4 @@ import tag from './tag.directive';
 export default angular.module('app.component.tags',[])
 .directive('tag', tag)
 .controller('tagsController', tagsController)
+.name;

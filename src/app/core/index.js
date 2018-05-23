@@ -15,3 +15,4 @@ export default angular.module('app.core', [
   filters,
   utils
 ])
+.name;

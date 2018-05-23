@@ -19,7 +19,6 @@ angular.module('app', [
   'ngDropdowns',
   'oauth',
   'leaflet-directive',
-	'app.components',
   'angularLoad',
   'angulartics',
   'angulartics.google.analytics',
