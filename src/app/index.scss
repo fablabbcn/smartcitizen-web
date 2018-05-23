@@ -317,9 +317,17 @@ a.md-button h4, a.md-button .h4{
   border:2px solid $new_blue;
   color: $new_blue;
 }
+.btn-outline-blue:hover{
+  background: $new_blue;
+  color: white;
+}
 .btn-outline-yellow{
   border:2px solid $new_yellow;
   color: $new_yellow;
+}
+.btn-outline-yellow:hover{
+  background: $new_yellow;
+  color: $new_black;
 }
 .btn-yellow{
   background: $new_yellow;
@@ -328,6 +336,10 @@ a.md-button h4, a.md-button .h4{
 .btn-black{
   border:2px solid $new_black;
   color: $new_black;
+}
+.btn-black:hover{
+  background: $new_black;
+  color: white;
 }
 .btn-blue{
   background: $new_blue;
