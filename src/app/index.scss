@@ -338,7 +338,7 @@ a.md-button h4, a.md-button .h4{
   color: $new_black;
 }
 .btn-yellow:hover{
-  background: #FFC719;
+  background: #FFC536;
   color: $new_black;
 }
 .btn-black{
@@ -359,10 +359,23 @@ a.md-button h4, a.md-button .h4{
 }
 .btn-round-new{
   border-radius: 20px;
-  padding:9px 29px;
+  padding:8px 29px;
   font-size:14px;
   font-family: 'Kanit';
 }
+
+.btn-round{
+  border: 0;
+  border-radius: 20px;
+  padding:0px 35px;
+  font-size:18px;
+}
+
+.btn-cyan{
+  background-color: $terciary_color;
+  color:white;
+}
+
 
 // New landing page - just using this to override some elements
 .new-landing-page{
@@ -3037,18 +3050,6 @@ md-content.md-default-theme, md-content {
 .myProfile_apiKey {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.btn-round{
-  border: 0;
-  border-radius: 20px;
-  padding:0px 35px;
-  font-size:18px;
-}
-
-.btn-cyan{
-  background-color: $terciary_color;
-  color:white;
 }
 
 .md-button.myProfile_addKitButton:focus {
