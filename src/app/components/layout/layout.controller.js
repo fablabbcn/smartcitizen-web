@@ -10,20 +10,6 @@
 
       vm.navRightLayout = 'space-around center';
 
-      if($state.current.name === 'layout.home.kit') {
-        vm.overlayLayout = true;
-      } else {
-        vm.overlayLayout = false;
-      }
-
-      $transitions.onStart({}, function(trans) {
-        if(trans.to().name === 'layout.home.kit') {
-          vm.overlayLayout = true;
-        } else {
-          vm.overlayLayout = false;
-        }
-      });
-
       // listen for any login event so that the navbar can be updated
       $scope.$on('loggedIn', function(ev, options) {
         // if(options && options.time === 'appLoad') {

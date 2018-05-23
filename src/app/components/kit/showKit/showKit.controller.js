@@ -182,7 +182,7 @@
 
             vm.sensorsToCompare = compareSensors;
 
-            vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+            vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
 
           }, function(error) {
             if(error.status === 404) {
