@@ -228,10 +228,6 @@ md-select{
 }
 
 // General helpers
-
-.border-black-right{
-  border-right: 2px solid $new_black;
-}
 .border-black{
   border: 2px solid $new_black;
 }
@@ -266,6 +262,21 @@ a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
 }
+
+// Tiles on landing page
+.tile{
+  padding: 30px;
+  border-bottom: 2px solid $new_black;
+  border-right: 2px solid $new_black;
+}
+
+.tile-left{
+  border-left: 2px solid $new_black;
+}
+.tile-top{
+  border-top: 2px solid $new_black;
+}
+
 
 .p-20{
   padding: 20px;
