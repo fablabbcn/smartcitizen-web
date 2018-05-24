@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
 export default function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {

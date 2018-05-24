@@ -1,3 +1,5 @@
+import angular from 'angular';
+
   UserProfileController.$inject = ['$scope', '$stateParams', '$location',
       'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
       'NonAuthUser', '$q', 'PreviewKit'];

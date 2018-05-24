@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     /**
      * Moves map filters when scrolling

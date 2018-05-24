@@ -1,6 +1,4 @@
-
-
-
+import angular from 'angular';
 
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',

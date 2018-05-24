@@ -1,3 +1,5 @@
+import angular from 'angular';
+
   /**
    * Unused directive. Double-check before removing.
    *

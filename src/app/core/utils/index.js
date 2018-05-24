@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import errorDecorator from './error.decorator';
-
 import kitUtils from './kitUtils.service';
 import mapUtils from './mapUtils.service';
 import markerUtils from './markerUtils.service';
@@ -12,7 +10,6 @@ import userUtils from './userUtils.service';
 import utils from './utils.service';
 
 export default angular.module('app.core.utils',[])
-.config(errorDecorator)
 .factory('kitUtils', kitUtils)
 .factory('mapUtils', mapUtils)
 .factory('markerUtils', markerUtils)

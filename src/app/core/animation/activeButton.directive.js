@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     /**
      * Used to highlight and unhighlight buttons on kit menu

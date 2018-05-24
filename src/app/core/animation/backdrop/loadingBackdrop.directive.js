@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     /**
      * Backdrop for app initialization and between states

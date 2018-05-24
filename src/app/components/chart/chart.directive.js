@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     chart.$inject = ['sensor', 'animation', '$timeout', '$window'];
     export default function chart(sensor, animation, $timeout, $window) {

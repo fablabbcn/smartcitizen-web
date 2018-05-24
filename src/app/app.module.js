@@ -9,7 +9,7 @@ import uiRouter from 'angular-ui-router';
 import ngSanitize from 'angular-sanitize';
 import ngCookies from 'angular-cookies';
 import ngFileUpload from 'ng-file-upload';
-import ngMaterial from 'ng-file-upload';
+import ngMaterial from 'angular-material';
 import restangular from 'restangular';
 import { angularSpinner } from 'angular-spinner';
 import 'angular-dropdowns';
@@ -21,6 +21,7 @@ import angularticsGoogleAnalytics from 'angulartics-google-analytics';
 import clipboardModule from 'angular-clipboard';
 import 'ngtweet';
 import 'angular-socket-io';
+import ngStorage  from 'ngstorage';
 
 // // no-ng stuff
 // import 'pickadate';
@@ -39,6 +40,7 @@ angular.module('app', [
   angularSpinner.name,
   'ngDropdowns',
   'oauth',
+  ngStorage.name,
   'leaflet-directive',
   angularLoad,
   angulartics,

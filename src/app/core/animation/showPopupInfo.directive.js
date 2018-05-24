@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     /**
      * Used to show/hide explanation of sensor value at kit dashboard

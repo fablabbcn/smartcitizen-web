@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',

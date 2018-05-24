@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     /**
      * Used on kit dashboard to hide popup with full sensor description

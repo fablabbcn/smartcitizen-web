@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
     disableScroll.$inject = ['$timeout'];
     export default function disableScroll($timeout) {

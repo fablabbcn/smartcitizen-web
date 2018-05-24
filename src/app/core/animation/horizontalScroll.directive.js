@@ -1,7 +1,4 @@
-
-
-
-
+import angular from 'angular';
 
   /**
    * Used to highlight and unhighlight buttons on the kit dashboard when scrolling horizontally
