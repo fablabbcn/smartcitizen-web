@@ -292,7 +292,27 @@ a.md-button h4, a.md-button .h4{
   border-top: 2px solid $new_black;
 }
 
+// Images
+//background: bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
+.img-new_sck{
+  background: blue url("/assets/images/new_sck.jpg") center/cover;
+}
+.img-sck_edu{
+  background: blue url("/assets/images/sck_edu.jpg") center/cover;
+}
+.img-sck_com{
+  background: blue url("/assets/images/sck_communities.jpg") center/cover;
+}
+.img-research{
+  background: blue url("/assets/images/sck_research.jpg") center/cover;
+}
+.img-governm{
+  background: blue url("/assets/images/sck_cities.jpg") center/cover;
+}
 
+.img-platform{
+  background: blue url("/assets/images/sck_platform.jpg") center/cover;
+}
 .p-20{
   padding: 20px;
 }
@@ -317,6 +337,9 @@ a.md-button h4, a.md-button .h4{
 }
 .mb-10{
    margin-bottom: 10px;
+}
+.mb-30{
+   margin-bottom: 30px;
 }
 .mw-100{
    max-width: 100%;

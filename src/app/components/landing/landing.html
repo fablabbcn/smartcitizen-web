@@ -1,4 +1,4 @@
-<div class="new-landing-page">
+<div class="new-landing-page" style="margin: 0 auto; max-width:900px">
 <script>
 var video = document.getElementById("myVideo");
 var btn = document.getElementById("playButton");
@@ -13,8 +13,8 @@ function playPause(){
 }
 </script>
 
-  <section style="max-height:700px; min-height:300px; background:#ebebed">
-    <video style="max-width:100%" autoplay muted loop id="myVideo">
+  <section style="background:#ebebed">
+    <video style="max-width:100%; max-height:520px;" autoplay muted loop id="myVideo">
       <source src="./assets/loop_video.mp4" type="video/mp4">
     </video>
     <div style="position: absolute; top: 50px; padding-left:60px; width:60%" class="bordr-black">
@@ -35,15 +35,16 @@ function playPause(){
           <p> Realtime ambiental monitoring for data analysis.  Connecting people, data and knowledge!  </p>
           <a class="btn-outline-blue btn-round-new" href="#"> READ THE ARTICLE </a>
         </div>
-        <div flex="noshrink" hide-xs class="tile tile-left tile-image">
+        <div flex="noshrink" hide-xs class="img-sck_edu tile tile-left tile-image">
+          <!--
           <img class="mw-100" src="./assets/images/sck_edu.jpg" alt="image of boy " />
+          -->
         </div>
       </div>
 
       <div flex="50" layout="column">
-        <div flex="noshrink" hide-xs class="tile tile-top tile-image">
+        <div flex="noshrink" hide-xs class="img-new_sck tile tile-top tile-image">
           <img class="mw-100" src="./assets/images/new_sck.jpg" alt="image of kit " />
-
         </div>
         <div flex="noshrink" class="bg-white tile tile-xs">
           <h2> TECHNOLOGY FOR CITIZENS POLITICAL PARTICIPATION IN SMARTER CITIES </h2>
@@ -66,15 +67,12 @@ function playPause(){
           <h3 class="color-white">LOCAL COMMUNITIES</h3>
           <p class="color-white">Launch a crowd sensing initiative in your neighbourhood. Use our sensors and platform to create local maps of air quality or sound problems; use them to report to your city council or to raise awareness of issues that matter for your community.</p>
         </div>
-        <div flex="60" hide-xs class="tile-image tile ">
-          <img class="mw-100" src="./assets/images/sck_communities.jpg" alt="image of making sense" />
-
+        <div flex="60" hide-xs class="img-sck_com tile-image tile ">
         </div>
       </div>
 
       <div layout="row" layout-xs="column">
-        <div flex="60" hide-xs class="tile-image tile tile-left">
-          <img class="mw-100" src="./assets/images/sck_research.jpg" alt="image of oscar" />
+        <div flex="60" hide-xs class="img-research tile-image tile tile-left">
         </div>
         <div flex="40" class="bg-yellow tile tile-xs text-center">
           <img style="height:80px" src="./assets/images/research.svg" alt="Community icon" />
@@ -89,9 +87,7 @@ function playPause(){
           <h3 class="color-white">CITIES AND GOVERNMENTS</h3>
           <p class="color-white">Smart Cities should be build together with Smart Citizens. The construction of new infrastructure is not only possible thanks to a massive investment on new technologies, but could be done through the better optimisation of the existing resources.</p>
         </div>
-        <div flex="60" hide-xs class="tile tile-image">
-          <img class="mw-100" src="./assets/images/sck_cities.jpg" alt="image of charts" />
-
+        <div flex="60" hide-xs class="img-governm tile tile-image">
         </div>
       </div>
     </section>
@@ -106,9 +102,8 @@ function playPause(){
         </div>
       </div>
 
-      <div layout="column" layout-align="center center" class="tile tile-left tile-image">
-        <img class="mw-100" src="./assets/images/sck_platform.jpg" alt="image of platform " />
-        <a  style="position:relative; bottom: 60px" class="btn-blue btn-round-new" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
+      <div layout="column" layout-align="end center" style="min-height:490px" class="img-platform tile tile-left tile-image">
+        <a class="btn-blue btn-round-new mb-30" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
       </div>
     </section>
 
@@ -161,7 +156,7 @@ function playPause(){
     </section>
   </div>
 
-  <footer class="mt-50 p-50"style="background-color:#262626">
+  <footer class="p-50"style="background-color:#262626">
 
     <div layout="row" layout-xs="column" layout-wrap layout-align="space-between " style="color:white;">
 
