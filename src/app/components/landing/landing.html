@@ -19,10 +19,10 @@ function playPause(){
 </script>
 
   <section style="max-height:700px; min-height:300px; background:#ebebed">
-    <video style="max-width:100%" muted loop id="myVideo">
+    <video style="max-width:100%" autoplay muted loop id="myVideo">
       <source src="./assets/loop_video.mp4" type="video/mp4">
     </video>
-    <div style="position: fixed; top: 15%; padding-left:60px" class="borde-black">
+    <div style="position: absolute; top: 50px; padding-left:60px; width:60%" class="bordr-black">
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
       <p class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
       <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
