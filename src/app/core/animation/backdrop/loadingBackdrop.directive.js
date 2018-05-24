@@ -1,5 +1,5 @@
 import angular from 'angular';
-
+import template from './loadingBackdrop.html';
     /**
      * Backdrop for app initialization and between states
      *
@@ -7,8 +7,8 @@ import angular from 'angular';
     loadingBackdrop.$inject = [];
     export default function loadingBackdrop() {
       return {
-        templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
-        controller: function($scope) {
+        template,
+        controller: ['$scope', function($scope) {
           var vm = this;
           vm.isViewLoading = true;
           vm.mapStateLoading = false;
@@ -35,7 +35,7 @@ import angular from 'angular';
           $scope.$on('mapStateLoaded', function() {
             vm.mapStateLoading = false;
           });
-        },
+        }],
         controllerAs: 'vm'
       };
     }

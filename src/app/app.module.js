@@ -28,7 +28,7 @@ import ngStorage  from 'ngstorage';
 
 // config
 import route from './app.route';
-import run from './app.config';
+import run from './app.run';
 
 angular.module('app', [
   components,
@@ -52,4 +52,4 @@ angular.module('app', [
   'btford.socket-io'
 ])
 .config(route)
-.run(run);
+// .run(run);

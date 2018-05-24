@@ -1,7 +1,4 @@
-
-
-
-
+import template from './loadingBackdrop.html';
 
   /**
    * Backdrop for chart section when kit has no data
@@ -13,8 +10,8 @@
     return {
       restrict: 'A',
       scope: {},
-      templateUrl: 'app/core/animation/backdrop/noDataBackdrop.html',
-      controller: function($scope, $timeout) {
+      template,
+      controller: ['$scope', '$timeout', function($scope, $timeout) {
         var vm = this;
 
         vm.kitWithoutData = false;
@@ -39,7 +36,7 @@
           location.hash = '';
           location.hash = '#disqus_thread';
         }
-      },
+      }],
       controllerAs: 'vm'
     };
   }

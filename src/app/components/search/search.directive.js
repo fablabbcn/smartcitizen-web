@@ -1,10 +1,10 @@
 
 
 
-  
-    
 
-  function search() {
+
+
+  export default function search() {
     return {
       scope: true,
       restrict: 'E',
@@ -13,4 +13,3 @@
       controllerAs: 'vm'
     };
   }
-

@@ -1,12 +1,12 @@
 
 
 
-  
+
 
 
 cookiesLaw.$inject = ['$cookies'];
 
-function cookiesLaw($cookies) {
+export default function cookiesLaw($cookies) {
   return {
     template:
       '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
@@ -27,7 +27,7 @@ function cookiesLaw($cookies) {
 
       $scope.isCookieValid = function() {
         // Use a boolean for the ng-hide, because using a function with ng-hide
-        // is considered bad practice. The digest cycle will call it multiple 
+        // is considered bad practice. The digest cycle will call it multiple
         // times, in our case around 240 times.
         $scope.isCookieValidBool = ($cookies.get('consent') === 'true') && ($scope.isCookieAlive())
       }
@@ -51,6 +51,3 @@ function cookiesLaw($cookies) {
     }
   };
 }
-
-
-

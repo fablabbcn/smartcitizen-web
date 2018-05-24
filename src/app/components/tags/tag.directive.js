@@ -1,8 +1,8 @@
 
-  
-    
 
-  function tag(){
+
+
+  export default function tag(){
     return{
       restrict: 'E',
       scope:{
@@ -24,4 +24,3 @@
       }
     };
   }
-

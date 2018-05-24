@@ -1,9 +1,9 @@
 
 
-    
-      
 
-    function login() {
+
+
+    export default function login() {
       return {
         scope: {
           show: '='
@@ -14,4 +14,3 @@
         templateUrl: 'app/components/login/login.html'
       };
     }
-

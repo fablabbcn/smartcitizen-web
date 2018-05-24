@@ -1,8 +1,3 @@
-
-
-
-
-
   export default function timeUtils() {
     var service = {
       getSecondsFromDate: getSecondsFromDate,

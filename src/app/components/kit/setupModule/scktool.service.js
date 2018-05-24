@@ -4,7 +4,7 @@
 
 
   scktoolService.$inject = ['angularLoad', '$q', '$rootScope'];
-  function scktoolService(angularLoad, $q, $rootScope){
+  export default function scktoolService(angularLoad, $q, $rootScope){
     var d = $q.defer();
     var scripts = [
       'scripts/scktool-app.js',

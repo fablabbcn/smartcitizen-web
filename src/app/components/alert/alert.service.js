@@ -1,5 +1,5 @@
   alert.$inject = ['$mdToast'];
-  function alert($mdToast) {
+  export default function alert($mdToast) {
     var service = {
       success: success,
       error: error,
