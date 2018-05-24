@@ -1,11 +1,31 @@
 <div class="new-landing-page">
+<script>
+// Get the video
+var video = document.getElementById("myVideo");
 
+// Get the button
+var btn = document.getElementById("playButton");
 
-  <section>
-    <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/145620646?autoplay=1&loop=1&color=ff9933&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-    <div class="bg-blue p-50">
+// Pause and play the video, and change the button text
+function playPause(){
+    if (video.paused) {
+        video.play();
+        btn.innerHTML = "Pause";
+    } else {
+        video.pause();
+        btn.innerHTML = "Play";
+    }
+}
+</script>
+
+  <section style="max-height:700px; min-height:300px; background:#ebebed">
+    <video style="max-width:100%" muted loop id="myVideo">
+      <source src="./assets/loop_video.mp4" type="video/mp4">
+    </video>
+    <div style="position: fixed; top: 15%; padding-left:60px" class="borde-black">
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
       <p class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
+      <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
       <a href="https://vimeo.com/145620646" class="btn-yellow btn-round-new">WATCH IT NOW</a>
     </div>
   </section>

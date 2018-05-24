@@ -358,6 +358,7 @@ a.md-button h4, a.md-button .h4{
   color: white;
 }
 .btn-round-new{
+  border: 0;
   border-radius: 20px;
   padding:8px 29px;
   font-size:14px;
@@ -375,7 +376,6 @@ a.md-button h4, a.md-button .h4{
   background-color: $terciary_color;
   color:white;
 }
-
 
 // New landing page - just using this to override some elements
 .new-landing-page{
