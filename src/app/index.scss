@@ -415,8 +415,24 @@ a.md-button h4, a.md-button .h4{
   color:white;
 }
 
+.heading-over-video{
+  position: absolute;
+  top:50px;
+  padding-left:60px;
+  width:60%
+}
+
 // New landing page - just using this to override some elements
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
+  h1{
+    font-size:27px !important;
+  }
+  .heading-over-video{
+    position: absolute;
+    top:0px;
+    padding-left:10px;
+    width:80%
+  }
   .p-60{
     padding: 10px !important;
   }
