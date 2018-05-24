@@ -281,6 +281,9 @@ a.md-button h4, a.md-button .h4{
   border-bottom: 2px solid $new_black;
   border-right: 2px solid $new_black;
 }
+.tile-image{
+   padding:0 !important;
+}
 
 .tile-left{
   border-left: 2px solid $new_black;
@@ -314,6 +317,9 @@ a.md-button h4, a.md-button .h4{
 }
 .mb-10{
    margin-bottom: 10px;
+}
+.mw-100{
+   max-width: 100%;
 }
 .bg-white{
    background: #fff;
