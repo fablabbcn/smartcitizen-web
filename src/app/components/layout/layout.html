@@ -41,4 +41,4 @@
 
 <div ui-view></div>
 
-<footer class="footer" ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>
+<footer class="footer" ng-if="!vm.overlayLayout" ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>

@@ -182,7 +182,7 @@
 
             vm.sensorsToCompare = compareSensors;
 
-            vm.selectedSensor = vm.sensors ? vm.sensors[0].id : undefined;
+            vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
 
           }, function(error) {
             if(error.status === 404) {
@@ -486,6 +486,11 @@
         return getMillisFromDate(new Date());
       }
 
+      function getHourAgo() {
+        var now = moment();
+        return now.subtract(1, 'hour').valueOf();
+      }
+
       function getSevenDaysAgo() {
         var now = moment();
         return now.subtract(7, 'days').valueOf();
@@ -570,7 +575,9 @@
 
 
       if(vm.kit){
-        if (timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
+        if(vm.kit.labels.includes('new')){
+          setRange(getHourAgo(), getLatestUpdated());
+        } else if (timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
           //set from-picker to seven days ago and set to-picker to today
           setRange(getSevenDaysAgo(), getToday());
         } else {
