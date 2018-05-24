@@ -1,12 +1,7 @@
 <div class="new-landing-page">
 <script>
-// Get the video
 var video = document.getElementById("myVideo");
-
-// Get the button
 var btn = document.getElementById("playButton");
-
-// Pause and play the video, and change the button text
 function playPause(){
     if (video.paused) {
         video.play();
@@ -24,15 +19,15 @@ function playPause(){
     </video>
     <div style="position: absolute; top: 50px; padding-left:60px; width:60%" class="bordr-black">
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
-      <p class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
-      <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
+      <p hide-xs class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
       <a href="https://vimeo.com/145620646" class="btn-yellow btn-round-new">WATCH IT NOW</a>
+      <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
     </div>
   </section>
 
-  <div class="grey-waves color-black" style="background:#ebebed; padding:60px;">
+  <div class="p-60 grey-waves color-black" style="background:#ebebed;">
 
-    <section layout="row">
+    <section layout="row" layout-xs="column">
 
       <div flex="50" layout="column" style="" class="">
         <div flex="noshrink" class="bg-white tile tile-left tile-top">
@@ -40,12 +35,12 @@ function playPause(){
           <p> Realtime ambiental monitoring for data analysis.  Connecting people, data and knowledge!  </p>
           <a class="btn-outline-blue btn-round-new" href="#"> READ THE ARTICLE </a>
         </div>
-        <div flex="noshrink" class="tile tile-left"> image of boy </div>
+        <div flex="noshrink" hide-xs class="tile tile-left"> image of boy </div>
       </div>
 
       <div flex="50" layout="column">
-        <div flex="noshrink" class="tile tile-top"> image of kit </div>
-        <div flex="noshrink" class="bg-white tile ">
+        <div flex="noshrink" hide-xs class="tile tile-top"> image of kit </div>
+        <div flex="noshrink" class="bg-white tile tile-xs">
           <h2> TECHNOLOGY FOR CITIZENS POLITICAL PARTICIPATION IN SMARTER CITIES </h2>
           <p> We are a team of passionate people creating open tools for citizens to be better informed about the world around them.  </p>
           <a class="btn-outline-yellow btn-round-new" href="#">VISIT THE FORUM </a>
@@ -60,35 +55,35 @@ function playPause(){
         <h2> A KIT FOR EVERY COMMUNITY </h2>
       </div>
 
-      <div layout="row border-black">
+      <div layout="row" layout-xs="column">
         <div flex="40" class="bg-blue tile tile-left text-center">
           <img style="height:80px" src="./assets/images/communities.svg" alt="Community icon" />
           <h3 class="color-white">LOCAL COMMUNITIES</h3>
           <p class="color-white">Launch a crowd sensing initiative in your neighbourhood. Use our sensors and platform to create local maps of air quality or sound problems; use them to report to your city council or to raise awareness of issues that matter for your community.</p>
         </div>
-        <div flex="60" class="tile-image tile ">
+        <div flex="60" hide-xs class="tile-image tile ">
           image of making sense
         </div>
       </div>
 
-      <div layout="row">
-        <div flex="60" class="tile-image tile tile-left">
+      <div layout="row" layout-xs="column">
+        <div flex="60" hide-xs class="tile-image tile tile-left">
           image of oscar
         </div>
-        <div flex="40" class="bg-yellow tile text-center">
+        <div flex="40" class="bg-yellow tile tile-xs text-center">
           <img style="height:80px" src="./assets/images/research.svg" alt="Community icon" />
           <h3>RESEARCHERS</h3>
           <p>Use it as a tool for data capture and analysis in technology deployments, or for social experiments.  Understand the relationship between people, environment and technology by doing real-world deployments.</p>
         </div>
       </div>
 
-      <div layout="row">
+      <div layout="row" layout-xs="column">
         <div flex="40" class="bg-red tile tile-left color-white text-center">
           <img style="height:80px" src="./assets/images/cities.svg" alt="Community icon" />
           <h3 class="color-white">CITIES AND GOVERNMENTS</h3>
           <p class="color-white">Smart Cities should be build together with Smart Citizens. The construction of new infrastructure is not only possible thanks to a massive investment on new technologies, but could be done through the better optimisation of the existing resources.</p>
         </div>
-        <div flex="60" class="tile tile-image">
+        <div flex="60" hide-xs class="tile tile-image">
           image of charts
         </div>
       </div>
@@ -119,7 +114,7 @@ function playPause(){
           <!-- Begin MailChimp Signup Form -->
           <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 
-            <input style="padding: 5px; border:none; margin-right:20px" type="email" name="EMAIL" placeholder="Your email address" required>
+            <input style="padding: 5px; border:none; margin-right:20px; margin-bottom:5px;" type="email" name="EMAIL" placeholder="Your email address" required>
             <input style="border:none; width:150px" class="btn-yellow btn-round-new" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
 
             <div id="mce-responses" class="clear">
@@ -136,20 +131,20 @@ function playPause(){
     </section>
 
     <section class="mt-50 text-center">
-      <div layout="row">
-        <div flex="33" layout="column" layout-align="space-between center" class="bg-white border-black p-20">
+      <div layout="row" layout-xs="column" layout-align="space-between">
+        <div flex="30" layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10">
           <img style="height:80px" src="./assets/images/api.svg" alt="API icon" />
           <h3>API DOCUMENTATION</h3>
           <p>The powerful API will allow you to connect to your data and with other users.</p>
           <a href="https://smartcitizen.me/kits/" class="btn-black btn-round-new">USE THE API</a>
         </div>
-        <div flex="33"  layout="column" layout-align="space-between center" class="bg-white border-black p-20" style="margin:0px 20px">
+        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10" >
           <img style="height:80px" src="./assets/images/github.svg" alt="Github icon" />
           <h3>GITHUB REPOSITORY</h3>
           <p>You can download all the Open Source Software in the public repository.</p>
           <a href="https://github.com/fablabbcn?utf8=✓&q=smartcitizen&type=&language=" class="btn-black btn-round-new">VISIT REPOSITORY</a>
         </div>
-        <div flex="33"  layout="column" layout-align="space-between center" class="bg-white border-black p-20">
+        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10">
           <img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon" />
           <h3>FORUM</h3>
           <p>A place to share, suggest ideas or only to leave a ticket for some amends in the services.</p>
@@ -160,15 +155,15 @@ function playPause(){
   </div>
 
   <footer class="mt-50 p-50"style="background-color:#262626">
-    <div layout="row" layout-align="space-between " style="color:white;">
+    <div layout="row" layout-xs="column" layout-align="space-between " style="color:white;">
 
       <div>
         <img style="height:80px" src="./assets/images/smartcitizen_logo2.svg" alt="logos" />
       </div>
 
-      <div layout="row" layout-align="space-between center" class="border-white p-20">
-        <div style="margin-right:20px">Follow us</div>
-        <a href="https://twitter.com/smartcitizenkit">
+      <div layout="row" layout-align="space-between center" class="border-white p-20 mb-10">
+        <div class="mr-10">Follow us</div>
+        <a class="mr-10" href="https://twitter.com/smartcitizenkit">
           <img style="height:30px" src="./assets/images/tw.svg" alt="twitter" />
         </a>
         <a href="https://www.facebook.com/smartcitizenBCN/">
@@ -176,9 +171,9 @@ function playPause(){
         </a>
       </div>
 
-      <div layout="row" layout-align="space-between center" class="border-white p-20">
-        <div style="margin-right:20px">A project by</div>
-        <a href="https://fablabbcn.org">
+      <div layout="row" layout-align="space-between center" class="border-white p-20 mb-10">
+        <div class="mr-10">A project by</div>
+        <a class="mr-10" href="https://fablabbcn.org">
           <img style="height:18px; padding-right: 5px" src="./assets/images/logo_fablab_bcn_small.png" alt="fablab" />
         </a>
 
