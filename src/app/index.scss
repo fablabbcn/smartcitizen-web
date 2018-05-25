@@ -6,7 +6,7 @@
 /**
  *  MOZILLA-SPECIFIC CSS
  */
- @-moz-document url-prefix() {
+@-moz-document url-prefix() {
   .kit_detailed .kit_chart .container .kit_chart_left .sensor_select .sensor_icon_selected {
     transform: translateY(-8px);
   }
@@ -274,50 +274,6 @@ a.md-button h4, a.md-button .h4{
 .text-center{
   text-align: center;
 }
-
-// Tiles on landing page
-.tile{
-  padding: 40px;
-  border-bottom: 2px solid $new_black;
-  border-right: 2px solid $new_black;
-}
-.tile-image{
-   padding:0 !important;
-}
-
-.tile-left{
-  border-left: 2px solid $new_black;
-}
-.tile-top{
-  border-top: 2px solid $new_black;
-}
-
-// Images
-//background: bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
-.grey-waves{
-  background: grey url("/assets/images/sck_bg.png") ;
-  background-repeat: repeat;
-  background-size: 65px;
-}
-.img-new_sck{
-  background: blue url("/assets/images/new_sck.jpg") center/cover;
-}
-.img-sck_edu{
-  background: blue url("/assets/images/sck_edu.jpg") center/cover;
-}
-.img-sck_com{
-  background: blue url("/assets/images/sck_communities.jpg") center/cover;
-}
-.img-research{
-  background: blue url("/assets/images/sck_research.jpg") center/cover;
-}
-.img-governm{
-  background: blue url("/assets/images/sck_cities.jpg") center/cover;
-}
-
-.img-platform{
-  background: blue url("/assets/images/sck_platform.jpg") center/cover;
-}
 .p-20{
   padding: 20px;
 }
@@ -341,16 +297,16 @@ a.md-button h4, a.md-button .h4{
   margin-top: 50px;
 }
 .mb-10{
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 .mb-30{
-   margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 .mw-100{
-   max-width: 100%;
+  max-width: 100%;
 }
 .bg-white{
-   background: #fff;
+  background: #fff;
 }
 .bg-blue{
   background: $new_blue;
@@ -403,46 +359,31 @@ a.md-button h4, a.md-button .h4{
 }
 .btn-round-new{
   border-radius: 24px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.0325em;
   padding:10px 29px;
 }
-
 .btn-round{
   border: 0;
   border-radius: 20px;
   padding:0px 35px;
   font-size:18px;
 }
-
 .btn-cyan{
   background-color: $terciary_color;
   color:white;
 }
 
-.heading-over-video{
-  position: absolute;
-  top:50px;
-  padding-left:60px;
-  width:35%
-}
 
 // New landing page - just using this to override some elements
-@media only screen and (max-width: 750px) {
-  h1{
-    font-size:27px !important;
-  }
-  .heading-over-video{
-    position: absolute;
-    top:0px;
-    padding-left:10px;
-    width:80%
-  }
-  .p-60{
-    padding: 10px !important;
-  }
-  .tile-xs{
-     border-left: 2px solid $new_black;
-  }
+.grey-waves{
+  background: grey url("/assets/images/sck_bg.png") ;
+  background-repeat: repeat;
+  background-size: 65px;
 }
+
 .new-landing-page{
   p{
     color: $new_black;
@@ -470,11 +411,67 @@ a.md-button h4, a.md-button .h4{
     font-size: 20px;
     line-height: 30px;
   }
-  .btn{
-    font-size: 16px;
-    font-family: 'Roboto Condensed';
-    font-weight: 700;
-    letter-spacing: 0.0325em;
+  // Images on landing page
+  .img-new_sck{
+    background: blue url("/assets/images/new_sck.jpg") center/cover;
+  }
+  .img-sck_edu{
+    background: blue url("/assets/images/sck_edu.jpg") center/cover;
+  }
+  .img-sck_com{
+    background: blue url("/assets/images/sck_communities.jpg") center/cover;
+  }
+  .img-research{
+    background: blue url("/assets/images/sck_research.jpg") center/cover;
+  }
+  .img-governm{
+    background: blue url("/assets/images/sck_cities.jpg") center/cover;
+  }
+  .img-platform{
+    background: blue url("/assets/images/sck_platform.jpg") center/cover;
+  }
+
+  // Tiles on landing page
+  .tile{
+    padding: 40px;
+    border-bottom: 2px solid $new_black;
+    border-right: 2px solid $new_black;
+  }
+  .tile-image{
+    padding:0 !important;
+  }
+
+  .tile-left{
+    border-left: 2px solid $new_black;
+  }
+  .tile-top{
+    border-top: 2px solid $new_black;
+  }
+
+  .heading-over-video{
+    position: absolute;
+    top:50px;
+    padding-left:60px;
+    width:35%
+  }
+
+  // Less then 750px
+  @media only screen and (max-width: 750px) {
+    h1{
+      font-size:27px !important;
+    }
+    .heading-over-video{
+      position: absolute;
+      top:0px;
+      padding-left:10px;
+      width:80%
+    }
+    .p-60{
+      padding: 10px !important;
+    }
+    .tile-xs{
+      border-left: 2px solid $new_black;
+    }
   }
 
 }
