@@ -231,10 +231,10 @@ md-select{
 
 // General helpers
 .border-black{
-  border: 2px solid $new_black;
+  border: 3px solid $new_black;
 }
 .border-white{
-  border: 2px solid white;
+  border: 3px solid white;
 }
 .color-white{
   color: white !important;
@@ -280,7 +280,9 @@ a.md-button h4, a.md-button .h4{
 .p-30{
   padding: 30px;
 }
-
+.p-40{
+  padding: 40px;
+}
 .p-60{
   padding: 60px;
 }
@@ -397,14 +399,17 @@ a.md-button h4, a.md-button .h4{
   h1{
     font-size: 65px;
     line-height: 65px;
+    margin:0px 0px;
   }
   h2{
     font-size: 52px;
     line-height: 52px;
+    margin:0px 0px;
   }
   h3{
-    font-size: 35px;
-    line-height: 35px;
+    font-size: 30px;
+    line-height: 30px;
+    margin-bottom:10px;
   }
   p{
     font-family: 'Roboto Condensed';
@@ -434,18 +439,18 @@ a.md-button h4, a.md-button .h4{
   // Tiles on landing page
   .tile{
     padding: 40px;
-    border-bottom: 2px solid $new_black;
-    border-right: 2px solid $new_black;
+    border-bottom: 3px solid $new_black;
+    border-right: 3px solid $new_black;
   }
   .tile-image{
     padding:0 !important;
   }
 
   .tile-left{
-    border-left: 2px solid $new_black;
+    border-left: 3px solid $new_black;
   }
   .tile-top{
-    border-top: 2px solid $new_black;
+    border-top: 3px solid $new_black;
   }
 
   .heading-over-video{

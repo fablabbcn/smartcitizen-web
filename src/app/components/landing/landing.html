@@ -15,18 +15,20 @@ function playPause(){
 </script>
 
 <!--
-  video is always full width
+  video:
+  make it full width on all devices
   always show the grey at the bottom, to know you can scroll down
-
-  Input: not showing placeholder
+  center heading-over-video vertically. 
 
   Video on mobile: make 90% fullscreen
 
+  Subscribe:
+  input should be grey #ebebed
+  first item should be alone, the second two should stay together on big screen
+  font size: 18
   Subscribe on mobile: add spacing between input + go btn
-  
-  Footer full width
+
   Subscribe: space-between
-  First 3 items, same space between them. Copyright takes the rest.
 
   Buttons in tile, need spacing from the paragraph
 -->
@@ -38,8 +40,8 @@ function playPause(){
       <img src="/assets/images/smartcitizen_logo.svg" alt="logo" style="height:40px"/>
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
       <p hide-xs class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
-      <a href="https://vimeo.com/145620646" class="btn btn-yellow btn-round-new">WATCH IT NOW</a>
-      <button class="btn btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
+      <a href="https://vimeo.com/145620646" class="btn-yellow btn-round-new">WATCH IT NOW</a>
+      <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
     </div>
   </section>
 
@@ -50,8 +52,8 @@ function playPause(){
       <div flex="50" layout="column" style="" class="">
         <div flex="noshrink" class="bg-white tile tile-left tile-top">
           <h2> DISCOVER THE 2.0 VERSION OF THE KIT WITH NEW SENSORS </h2>
-          <p> Realtime ambiental monitoring for data analysis.  Connecting people, data and knowledge!  </p>
-          <a class="btn btn-outline-blue btn-round-new" href="#"> READ THE ARTICLE </a>
+          <p style="margin-bottom:33px"> Realtime ambiental monitoring for data analysis.  Connecting people, data and knowledge!  </p>
+          <a class="btn-outline-blue btn-round-new" href="#"> READ THE ARTICLE </a>
         </div>
         <div flex="noshrink" hide-xs class="img-sck_edu tile tile-left tile-image">
           <!--
@@ -66,8 +68,8 @@ function playPause(){
         </div>
         <div flex="noshrink" class="bg-white tile tile-xs">
           <h2> TECHNOLOGY FOR CITIZENS POLITICAL PARTICIPATION IN SMARTER CITIES </h2>
-          <p> We are a team of passionate people creating open tools for citizens to be better informed about the world around them.  </p>
-          <a class="btn btn-outline-yellow btn-round-new" href="#">VISIT THE FORUM </a>
+          <p style="margin-bottom:33px"> We are a team of passionate people creating open tools for citizens to be better informed about the world around them.  </p>
+          <a class="btn-outline-yellow btn-round-new" href="#">VISIT THE FORUM </a>
         </div>
       </div>
 
@@ -112,7 +114,7 @@ function playPause(){
     </section>
 
     <section class="mt-50">
-      <div layout="row" layout-xs="column" class="p-30 border-black bg-white">
+      <div layout="row" layout-xs="column" layout-align="center center" class="p-30 border-black bg-white">
         <div flex="50">
           <h2>CIVIC PARTICIPATION ACROSS THE GLOBE</h2>
         </div>
@@ -122,20 +124,20 @@ function playPause(){
       </div>
 
       <div layout="column" layout-align="end center" style="min-height:490px" class="img-platform tile tile-left tile-image">
-        <a class="btn btn-blue btn-round-new mb-30" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
+        <a class="btn-blue btn-round-new mb-30" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
       </div>
     </section>
 
     <section class="mt-50 ">
       <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
         <div layout="row" layout-xs="column" layout-align="space-between center" class="border-black bg-blue" style="padding:30px 50px ">
-          <h4 class="color-white text-center mb-10" style="margin:0;">SUBSCRIBE TO GET THE LATEST</h4>
+          <h3 class="color-white text-center mb-10" style="margin:0;">SUBSCRIBE TO GET THE LATEST</h3>
           <!-- Begin MailChimp Signup Form -->
 
-          <input class="mb-10" style="padding: 5px; border:none; margin: 0px 20px;" type="email" name="EMAIL" placeholder="Your email address" required>
+          <input class="mb-10" style="background: #262626; padding: 5px; border:none; margin: 0px 20px;" type="email" name="EMAIL" placeholder="Your email address" required>
 
           <div class="">
-            <input style="border:none; width:150px" class="btn btn-yellow btn-round-new" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
+            <input style="border:none; width:150px" class="btn-yellow btn-round-new" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
             <div id="mce-responses" class="clear">
               <div class="response" id="mce-error-response" style="display:none"></div>
               <div class="response" id="mce-success-response" style="display:none"></div>
@@ -151,23 +153,23 @@ function playPause(){
 
     <section class="mt-50 text-center">
       <div layout="row" layout-xs="column" layout-align="space-between">
-        <div flex="30" layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10">
+        <div flex="30" layout="column" layout-align="space-between center" class="bg-white border-black p-40 mb-10">
           <img style="height:80px" src="./assets/images/api.svg" alt="API icon" />
           <h3>API DOCUMENTATION</h3>
           <p>The powerful API will allow you to connect to your data and with other users.</p>
-          <a href="https://smartcitizen.me/kits/" class="btn btn-black btn-round-new">USE THE API</a>
+          <a href="https://smartcitizen.me/kits/" class="btn-black btn-round-new">USE THE API</a>
         </div>
-        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10" >
+        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-40 mb-10" >
           <img style="height:80px" src="./assets/images/github.svg" alt="Github icon" />
           <h3>GITHUB REPOSITORY</h3>
           <p>You can download all the Open Source Software in the public repository.</p>
-          <a href="https://github.com/fablabbcn?utf8=✓&q=smartcitizen&type=&language=" class="btn btn-black btn-round-new">VISIT REPOSITORY</a>
+          <a href="https://github.com/fablabbcn?utf8=✓&q=smartcitizen&type=&language=" class="btn-black btn-round-new">VISIT REPOSITORY</a>
         </div>
-        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-20 mb-10">
+        <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black p-40 mb-10">
           <img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon" />
-          <h3>FORUM</h3>
+          <h3>JOIN THE FORUM</h3>
           <p>A place to share, suggest ideas or only to leave a ticket for some amends in the services.</p>
-          <a href="https://forum.smartcitizen.me" class="btn btn-black btn-round-new">GET INVOLVED</a>
+          <a href="https://forum.smartcitizen.me" class="btn-black btn-round-new">GET INVOLVED</a>
         </div>
       </div>
     </section>
