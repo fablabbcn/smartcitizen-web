@@ -294,6 +294,11 @@ a.md-button h4, a.md-button .h4{
 
 // Images
 //background: bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
+.grey-waves{
+  background: grey url("/assets/images/sck_bg.png") ;
+  background-repeat: repeat;
+  background-size: 65px;
+}
 .img-new_sck{
   background: blue url("/assets/images/new_sck.jpg") center/cover;
 }
