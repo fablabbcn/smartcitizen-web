@@ -1,4 +1,7 @@
-<div class="new-landing-page" style="margin: 0 auto; max-width:900px">
+<div class="grey-waves">
+
+<div class="new-landing-page" style="margin: 0 auto; max-width:1600px">
+
 <script>
 var video = document.getElementById("myVideo");
 var btn = document.getElementById("playButton");
@@ -13,8 +16,16 @@ function playPause(){
 }
 </script>
 
+<!--
+  video is always full width
+  always show the grey at the bottom, to know you can scroll down
+  
+  Footer full width
+  Subscribe: space-between
+  First 3 items, same space between them. Copyright takes the rest.
+-->
   <section style="background:#ebebed">
-    <video style="max-width:100%; max-height:520px;" autoplay muted loop id="myVideo">
+    <video style="max-width:100%; max-height:85%vh;" autoplay muted loop id="myVideo">
       <source src="./assets/loop_video.mp4" type="video/mp4">
     </video>
     <div class="heading-over-video">
@@ -25,7 +36,7 @@ function playPause(){
     </div>
   </section>
 
-  <div class="p-60 grey-waves color-black" style="">
+  <div class="p-60 color-black" style="">
 
     <section layout="row" layout-xs="column">
 
@@ -194,4 +205,5 @@ function playPause(){
 
   </footer>
 
+</div>
 </div>
