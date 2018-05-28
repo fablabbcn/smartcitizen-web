@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic|Roboto:400,700,700italic,400italic);
+@import url('https://fonts.googleapis.com/css?family=Kanit:400,900');
+
 @import '_variables';
+@import 'helpers';
+@import 'components/landing/landing';
 @import 'components/layout/layout';
 @import 'components/search/search';
 @import 'components/kit/kit';
@@ -9,7 +13,7 @@
 /**
  *  MOZILLA-SPECIFIC CSS
  */
- @-moz-document url-prefix() {
+@-moz-document url-prefix() {
   .kit_detailed .kit_chart .container .kit_chart_left .sensor_select .sensor_icon_selected {
     transform: translateY(-8px);
   }
@@ -226,37 +230,10 @@ md-select{
   }
 }
 
-// General helpers
-
-.color-white{
-  color: white;
-}
-.color-cyan{
-  color: $terciary_color;
-}
-.float-left{
-  float: left;
-}
-.float-right{
-  float: right;
-}
-.d-flex{
-  display:flex;
-}
-.full-width{
-  width: 100%;
-}
-.font-roboto-condensed{
-  font-family:'Roboto Condensed';
-}
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
 }
-.pl-20{
-  padding-left: 20px;
-}
-
 a.warn,
 button.warn{
   color: $alert_red;
@@ -1997,17 +1974,6 @@ md-content.md-default-theme, md-content {
 .myProfile_apiKey {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.btn-round{
-  border-radius: 20px;
-  padding:0px 35px;
-  font-size:18px;
-}
-
-.btn-cyan{
-  background-color: $terciary_color;
-  color:white;
 }
 
 .md-button.myProfile_addKitButton:focus {
