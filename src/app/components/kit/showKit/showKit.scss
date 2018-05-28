@@ -28,7 +28,7 @@ KIT COMMENTS MODULE
 
   .axis path,.axis line {
     fill: none;
-    stroke: grey;
+    stroke: $grey_darker;
     stroke-width: 1;
     shape-rendering: crispEdges;
     display: none;
@@ -65,7 +65,7 @@ KIT COMMENTS MODULE
     stroke-width: 2px;
   }
   .text_hover_container {
-    border: 1px solid grey;
+    border: 1px solid $grey_darker;
   }
   .popup_value {
     fill: $background_blue_dark_chart;
@@ -74,12 +74,12 @@ KIT COMMENTS MODULE
     font-weight: bold;
   }
   .popup_date {
-    fill: #4E666B;
+    fill: $grey_darker;
     font-size: 10px;
     font-weight: bold;
   }
   .popup_unit {
-    fill: #B2BCBE;
+    fill: $grey;
     margin-left: 10px;
   }
 }
@@ -153,12 +153,13 @@ section .kit_menu {
     color: $grey_darker;
     //margin: 0 32px 0 0;
 
-    img {
+    md-icon {
       float:left;
       width: 14px;
       height: 14px;
       margin-right: 8px;
-      margin-top: 8px;
+      margin-top: 4px;
+      svg { fill: $blue_light; }
     }
     span {
       vertical-align: middle;
@@ -246,7 +247,7 @@ section .kit_menu {
   .sensor_container {
     margin: 30px;
     position: relative;
-    color: $font_color_blue_light;
+    color: $grey;
     display: inline-table;
     cursor: pointer;
     text-align: center;
@@ -279,7 +280,6 @@ section .kit_menu {
     .sensor_value {
       font-size: 34px;
       font-weight: bold;
-      color: white;
     }
     .sensor_value_null {
       opacity: 0.15;
@@ -290,6 +290,21 @@ section .kit_menu {
       position: relative;
       top: -3px;
       right: 4px;
+      svg {
+        fill: $grey;
+      }
+    }
+    &:hover {
+      color: $grey_darker;
+      .sensor_icon svg {
+        fill: $grey_darker;
+      }
+    }
+    &.selected {
+      color: $off_black;
+      .sensor_icon svg {
+        fill: $off_black;
+      }
     }
   }
 }
@@ -305,12 +320,15 @@ section .kit_menu {
   h1 {
     margin:0;
   }
+  button {
+    color: $yellow;
+  }
  }
 .kit_details_notAuth_title {
   margin: 0;
  }
 .kit_details_notAuth_subheader {
-  color: #00637C;
+  color: $grey_darker;
 }
 .kit_details_notAuth_button {
   float: right;
@@ -340,11 +358,10 @@ section .kit_menu {
   .kit_chart {
     min-height: 340px;
     background-color: white;
-    color: $font_color_white;
     position: relative;
 
     .hint{
-      background-color: #010E12;
+      background-color: $off_black;
       opacity: 0.8;
     }
 
@@ -358,16 +375,6 @@ section .kit_menu {
         //margin-right: 30px;
         //height: 100%;
 
-        md-select:not([disabled]):focus .md-select-value  {
-          color: $font_color_white;
-        }
-        md-select .md-select-value.md-placeholder {
-          color: $font_color_white;
-        }
-
-        md-select .md-select-value {
-          border-bottom-color: #6B868D;
-        }
         .sensor_select {
           .sensor_icon_selected {
             float:left;
@@ -397,7 +404,6 @@ section .kit_menu {
 
           h6 {
             margin: 0;
-            color: $font_color_blue_light;
           }
           small{
             line-height: 1em;
@@ -406,7 +412,7 @@ section .kit_menu {
           a {
             margin-left: 10px;
             text-decoration: none;
-            color: #678085;
+            color: $grey_darker;
           }
 
           .sensor_description_full {
@@ -435,7 +441,6 @@ section .kit_menu {
           }
           .sensor_unit {
             font-size: .8em;
-            color: $font_color_blue_light;
             position: relative;
             top: -8px;
           }
@@ -467,14 +472,9 @@ section .kit_menu {
           padding-top:30px;
 
           span {
-            color: $terciary_color_light;
             margin-right: 10px;
           }
         }
-      }
-
-      .md-select-icon {
-        color: white;
       }
 
       .kit_chart_right {
@@ -484,11 +484,6 @@ section .kit_menu {
         .chart_navigation {
           height: 10%;
           font-size: 11px;
-
-          .md-select-value{
-            color:white;
-          }
-
           > div {
             margin-left: 20px;
           }
@@ -555,6 +550,12 @@ section .kit_menu {
     > span {
       margin-right: 15px;
     }
+    svg {
+      fill: $secondary_color;
+    }
+  }
+  .kit_details_type_location svg {
+    fill: $secondary_color;
   }
   .kit_details_version {
     span {
@@ -671,7 +672,6 @@ section .kit_menu {
       margin-bottom: 50px;
     }
     .kit_owner_kits_list {
-      color: $secondary_color_light;
       border: 1px solid #EAECF1;
       height: 82px;
       background-color: white;
@@ -695,7 +695,6 @@ section .kit_menu {
     }
     .kit_owner_kits_list_state {
       display: inline;
-      color: white;
       font-size: 12px;
       border-radius: 20px;
       padding: 6px 11px;

@@ -67,6 +67,7 @@ html {
 
 body {
   background-color: rgba(0, 0, 0, 0);
+  color: $grey_darkest;
 }
 
 a.about{
@@ -89,7 +90,7 @@ a.about{
 
 html h1, body h1{
   font-size: 2.2em;
-  color: $terciary_color;
+  color: $grey_darker;
   font-weight: normal;
 }
 html h2, body h2{
@@ -120,11 +121,6 @@ td{
   padding:5px;
 }
 
-small{
-  color: $secondary_color_light;
-}
-
-
 input{
   font-family:'Roboto Condensed';
 }
@@ -149,7 +145,7 @@ input{
   }
 }
 .label{
-  background-color: $secondary_color_light;
+  background-color: $secondary_color;
   color:white;
   md-icon svg path{
     fill: $terciary_color_light;
@@ -176,12 +172,10 @@ input{
 
 section.info{
   h1{
-    color: $info_primary;
     font-size:1.3em;
   }
   p{
     line-height: inherit;
-    color: $info_secondary;
     font-weight: lighter;
   }
 }
@@ -192,7 +186,7 @@ a{
 
   &:hover, &:active{
     text-decoration: none;
-    color: $secondary_color_light;
+    color: $grey;
   }
 }
 a.md-button, a,
@@ -236,9 +230,6 @@ md-select{
 
 .color-white{
   color: white;
-}
-.color-blue{
-  color:$terciary_color;
 }
 .color-cyan{
   color: $terciary_color;

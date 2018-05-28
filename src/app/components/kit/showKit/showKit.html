@@ -11,7 +11,7 @@
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
           </div>
           <div hide show-gt-xs class="kit_name">
-            <img ng-src="./assets/images/sensor_icon.svg" />
+            <md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon>
             <span>{{ vm.kit.name }}</span>
           </div>
           <div class="kit_battery">
@@ -72,7 +72,8 @@
           </md-icon>
         </md-button>
         <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
-          <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)">
+          <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
+          ng-class="{selected: vm.selectedSensor === sensor.id}">
             <div layout="row">
               <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
               <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
@@ -239,7 +240,7 @@
           <section flex class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
             <h1>People looking for a better city</h1>
             <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
-            <md-button class="color-blue" ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
+            <md-button ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
           </section>
         </div>
       </section>
