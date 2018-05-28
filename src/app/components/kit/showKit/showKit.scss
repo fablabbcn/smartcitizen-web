@@ -247,7 +247,7 @@ section .kit_menu {
   .sensor_container {
     margin: 30px;
     position: relative;
-    color: $grey;
+    color: $grey_darker;
     display: inline-table;
     cursor: pointer;
     text-align: center;
@@ -291,14 +291,11 @@ section .kit_menu {
       top: -3px;
       right: 4px;
       svg {
-        fill: $grey;
+        fill: $grey_darker;
       }
     }
     &:hover {
-      color: $grey_darker;
-      .sensor_icon svg {
-        fill: $grey_darker;
-      }
+      opacity: 0.8;
     }
     &.selected {
       color: $off_black;
@@ -345,7 +342,6 @@ section .kit_menu {
 
   p.description {
     line-height: inherit;
-    color: $info_secondary;
     font-weight: lighter;
     width: 75%;
   }
