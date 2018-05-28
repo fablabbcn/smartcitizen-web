@@ -274,6 +274,9 @@ a.md-button h4, a.md-button .h4{
 .text-center{
   text-align: center;
 }
+.text-left{
+  text-align: left;
+}
 
 
 // Background helpers
@@ -469,12 +472,11 @@ a.md-button h4, a.md-button .h4{
   .heading-over-video{
     position: absolute;
     top:50px;
-    padding-left:60px;
+    left: 10%;
     width:35%
   }
   .video-section{
     min-height: 30vh;
-    background: opaque;
   }
 
   @media only screen and (max-width: 950px) {
@@ -490,7 +492,7 @@ a.md-button h4, a.md-button .h4{
     .heading-over-video{
       position: absolute;
       top:10px;
-      padding-left:10px;
+      left:5%;
       width:85%
     }
   }
