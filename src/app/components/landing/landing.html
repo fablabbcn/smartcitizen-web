@@ -1,19 +1,5 @@
 <div class="new-landing-page grey-waves">
 
-<script>
-var video = document.getElementById("myVideo");
-var btn = document.getElementById("playButton");
-function playPause(){
-    if (video.paused) {
-        video.play();
-        btn.innerHTML = "Pause";
-    } else {
-        video.pause();
-        btn.innerHTML = "Play";
-    }
-}
-</script>
-
 <!--
   video:
   make it full width on all devices
@@ -35,11 +21,10 @@ function playPause(){
       <source src="./assets/loop_video.mp4" type="video/mp4">
     </video>
     <div class="heading-over-video">
-      <img src="/assets/images/smartcitizen_logo.svg" alt="logo" style="height:40px"/>
+      <img  hide-xs src="/assets/images/smartcitizen_logo.svg" alt="logo" style="height:40px"/>
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
       <p hide-xs class="color-white">The documentary that explores how open source hardware and software, digital maker practices and design can be used by local communities to appropriate their own sensing tools.</p>
       <a href="https://vimeo.com/145620646" class="btn-yellow btn-round-new">WATCH IT NOW</a>
-      <button class="btn-yellow btn-round-new" id="playButton" onclick="playPause()">Pause</button>
     </div>
   </section>
 
@@ -128,22 +113,22 @@ function playPause(){
 
     <section class="mt-50 ">
       <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-        <div layout="row" layout-xs="column" layout-align="space-between center" class="border-black bg-blue" style="padding:30px 50px ">
+        <div layout="row" layout-xs="column" layout-sm="column"layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px ">
+
           <h3 class="color-white text-center mb-10" style="margin:0;">SUBSCRIBE TO GET THE LATEST</h3>
+
           <!-- Begin MailChimp Signup Form -->
+          <div class="layout-margin" layout="row" layout-xs="column" layout-align="center center">
+            <input class="mb-10" style="background: #262626; padding: 9px; border:none; margin: 0px 20px;" type="email" name="EMAIL" placeholder="Your email address" required>
 
-          <input class="mb-10" style="background: #262626; padding: 9px; border:none; margin: 0px 20px;" type="email" name="EMAIL" placeholder="Your email address" required>
-
-          <div class="">
-            <input style="border:none; width:150px" class="btn-yellow btn-round-new" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
+            <input style="border:none; padding:10px 50px" class="btn-yellow btn-round-new" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
             <div id="mce-responses" class="clear">
               <div class="response" id="mce-error-response" style="display:none"></div>
               <div class="response" id="mce-success-response" style="display:none"></div>
             </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
             <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div>
+            <!--End mc_embed_signup-->
           </div>
-
-          <!--End mc_embed_signup-->
 
         </div>
       </form>

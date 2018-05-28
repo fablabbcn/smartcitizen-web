@@ -399,7 +399,7 @@ a.md-button h4, a.md-button .h4{
   h1{
     font-size: 65px;
     line-height: 65px;
-    margin:0px 0px;
+    margin:0px 0px 10px;
   }
   h2{
     font-size: 45px;
@@ -460,14 +460,25 @@ a.md-button h4, a.md-button .h4{
     width:35%
   }
 
+  @media only screen and (max-width: 950px) {
+    h1{
+      font-size:38px ;
+    }
+    .heading-over-video{
+      width:70%
+    }
+  }
   // Less then 750px
   @media only screen and (max-width: 750px) {
     h1{
-      font-size:27px !important;
+      font-size:30px;
+    }
+    p{
+      font-size:16px;
     }
     .heading-over-video{
       position: absolute;
-      top:0px;
+      top:10px;
       padding-left:10px;
       width:80%
     }
