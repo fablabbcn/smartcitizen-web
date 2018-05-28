@@ -1,0 +1,164 @@
+// General helpers
+.border-black{
+  border: 3px solid $new_black;
+}
+.border-white{
+  border: 3px solid white;
+}
+.color-white{
+  color: white !important;
+}
+.color-black{
+  color: $new_black;
+}
+.color-blue{
+  color:$terciary_color;
+}
+.color-cyan{
+  color: $terciary_color;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.d-flex{
+  display:flex;
+}
+.full-width{
+  width: 100%;
+}
+
+// Font & text
+.font-roboto-condensed{
+  font-family:'Roboto Condensed';
+}
+.font-kanit{
+  font-family:'Kanit';
+}
+
+.text-center{
+  text-align: center;
+}
+.text-left{
+  text-align: left;
+}
+
+
+// Background helpers
+.bg-white{
+  background: #fff;
+}
+.bg-blue{
+  background: $new_blue;
+}
+.bg-red{
+  background: $new_red;
+}
+.bg-yellow{
+  background: $new_yellow;
+}
+
+// Button helpers
+.btn-outline-blue{
+  border:2px solid $new_blue;
+  color: $new_blue;
+}
+.btn-outline-blue:hover{
+  background: $new_blue;
+  color: white;
+}
+.btn-outline-yellow{
+  border:2px solid $new_yellow;
+  color: $new_yellow;
+}
+.btn-outline-yellow:hover{
+  background: $new_yellow;
+  color: $new_black;
+}
+.btn-yellow{
+  background: $new_yellow;
+  color: $new_black;
+}
+.btn-yellow:hover{
+  background: #FFC536;
+  color: $new_black;
+}
+.btn-black{
+  border:2px solid $new_black;
+  color: $new_black;
+}
+.btn-black:hover{
+  background: $new_black;
+  color: white;
+}
+.btn-blue{
+  background: $new_blue;
+  color: white;
+}
+.btn-blue:hover{
+  background: #1930FF;
+  color: white;
+}
+.btn-round-new{
+  border-radius: 24px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.0325em;
+  padding:10px 29px;
+}
+.btn-round{
+  border: 0;
+  border-radius: 20px;
+  padding:0px 35px;
+  font-size:18px;
+}
+.btn-cyan{
+  background-color: $terciary_color;
+  color:white;
+}
+// Margin - padding helpers
+.mr-10{
+  margin-right: 10px;
+}
+.mt-50{
+  margin-top: 50px;
+}
+.mb-10{
+  margin-bottom: 10px;
+}
+.mb-30{
+  margin-bottom: 30px;
+}
+.mw-100{
+  max-width: 100%;
+}
+.p-20{
+  padding: 20px;
+}
+.p-30{
+  padding: 30px;
+}
+.p-40{
+  padding: 40px;
+}
+.p-60{
+  padding: 60px;
+}
+.p-50{
+  padding: 50px;
+}
+.pl-20{
+  padding-left: 20px;
+}
+.py-40{
+  padding-top:40px;
+  padding-bottom:40px;
+}
+.px-10{
+  padding-left:10px;
+  padding-right:10px;
+}
+
