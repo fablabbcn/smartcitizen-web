@@ -472,6 +472,10 @@ a.md-button h4, a.md-button .h4{
     padding-left:60px;
     width:35%
   }
+  .video-section{
+    min-height: 30vh;
+    background: opaque;
+  }
 
   @media only screen and (max-width: 950px) {
     h1{
@@ -496,6 +500,9 @@ a.md-button h4, a.md-button .h4{
     h1{
       font-size:30px;
     }
+    h2{
+      font-size:25px;
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -508,7 +515,8 @@ a.md-button h4, a.md-button .h4{
     p{
       font-size:19px;
     }
-    .heading-over-video{
+    .video-section{
+      min-height:40vh;
     }
     .p-60{
       padding: 10px !important;
