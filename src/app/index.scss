@@ -158,8 +158,8 @@ input{
 .tag{
   // Tags modal tags
   // Leaflet popup when clicking a dot, cyan tags - not the darker ones
-  background-color: $terciary_color_light;
-  color: $secondary_color_light;
+  background-color: $grey;
+  color: $grey_darker;
   md-icon svg path{
     fill: $secondary_color;
   }
@@ -567,7 +567,7 @@ md-content.md-noDataBackdrop {
     font-weight: 300;
   }
   a {
-    color: #35C2E5;
+    color: $blue_light;
     text-decoration: none;
   }
 }
@@ -905,7 +905,7 @@ md-content.md-default-theme, md-content {
     margin: 15px 0px 15px 0;
   }
   md-checkbox.md-checked .md-icon {
-    background-color: #35C2E5;
+    background-color: $blue_light;
   }
   h3 {
     margin-bottom: 2px;
@@ -1562,7 +1562,7 @@ md-content.md-default-theme, md-content {
     }
     li.divider {
       background-color: white;
-      color: #35C2E5;
+      color: $blue_light;
       font-weight: bold;
       margin-left: 8px;
       margin-right: 38px;

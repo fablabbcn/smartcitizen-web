@@ -178,7 +178,7 @@
                   .value();
             }
 
-            var markersByIndex = _.indexBy(vm.markers, function(marker) {
+            var markersByIndex = _.keyBy(vm.markers, function(marker) {
               return marker.myData.id;
             });
 
