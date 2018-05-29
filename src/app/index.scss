@@ -64,6 +64,13 @@
   color: $background_blue_dark_background;
 }
 
+
+// HACK: Override materlize css for the footer
+html, body {
+  height: auto;
+}
+
+
 html {
   font-family: 'Roboto Condensed';
   font-size: 18px;
