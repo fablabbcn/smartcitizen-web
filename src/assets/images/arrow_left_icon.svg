@@ -4,8 +4,8 @@
     <title>left_icon_inactive</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g class="stroke_container" id="Map-elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g class="fill_container" sketch:type="MSArtboardGroup" transform="translate(-26.000000, -450.000000)" id="Preview" fill="#FFFFFF">
+    <g class="stroke_container" id="Map-elements" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g class="fill_container" sketch:type="MSArtboardGroup" transform="translate(-26.000000, -450.000000)" id="Preview">
             <g sketch:type="MSLayerGroup" transform="translate(0.000000, 408.000000)">
                 <g id="chevron-left" sketch:type="MSShapeGroup">
                     <path d="M33.4,43.4 L32,42 L26,48 L32,54 L33.4,52.6 L28.8,48 L33.4,43.4 Z" id="left_icon"></path>

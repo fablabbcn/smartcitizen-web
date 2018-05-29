@@ -1,6 +1,6 @@
 // General helpers
 .border-black{
-  border: 3px solid $new_black;
+  border: 3px solid $off_black;
 }
 .border-white{
   border: 3px solid white;
@@ -9,7 +9,7 @@
   color: white !important;
 }
 .color-black{
-  color: $new_black;
+  color: $off_black;
 }
 .color-blue{
   color:$terciary_color;
@@ -51,50 +51,50 @@
   background: #fff;
 }
 .bg-blue{
-  background: $new_blue;
+  background: $blue;
 }
 .bg-red{
-  background: $new_red;
+  background: $red;
 }
 .bg-yellow{
-  background: $new_yellow;
+  background: $yellow;
 }
 
 // Button helpers
 .btn-outline-blue{
-  border:2px solid $new_blue;
-  color: $new_blue;
+  border:2px solid $blue;
+  color: $blue;
 }
 .btn-outline-blue:hover{
-  background: $new_blue;
+  background: $blue;
   color: white;
 }
 .btn-outline-yellow{
-  border:2px solid $new_yellow;
-  color: $new_yellow;
+  border:2px solid $yellow;
+  color: $yellow;
 }
 .btn-outline-yellow:hover{
-  background: $new_yellow;
-  color: $new_black;
+  background: $yellow;
+  color: $off_black;
 }
 .btn-yellow{
-  background: $new_yellow;
-  color: $new_black;
+  background: $yellow;
+  color: $off_black;
 }
 .btn-yellow:hover{
   background: #FFC536;
-  color: $new_black;
+  color: $off_black;
 }
 .btn-black{
-  border:2px solid $new_black;
-  color: $new_black;
+  border:2px solid $off_black;
+  color: $off_black;
 }
 .btn-black:hover{
-  background: $new_black;
+  background: $off_black;
   color: white;
 }
 .btn-blue{
-  background: $new_blue;
+  background: $blue;
   color: white;
 }
 .btn-blue:hover{

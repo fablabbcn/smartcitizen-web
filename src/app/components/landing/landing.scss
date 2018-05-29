@@ -8,13 +8,13 @@
 
 .new-landing-page{
   p{
-    color: $new_black;
+    color: $off_black;
   }
   h1,h2,h3,h4,h5,h6{
     letter-spacing: 0.0325em;
     font-family: 'Kanit';
     font-weight: 900;
-    color: $new_black;
+    color: $off_black;
   }
   h1{
     font-size: 65px;
@@ -59,18 +59,18 @@
   // Tiles on landing page
   .tile{
     padding: 40px;
-    border-bottom: 3px solid $new_black;
-    border-right: 3px solid $new_black;
+    border-bottom: 3px solid $off_black;
+    border-right: 3px solid $off_black;
   }
   .tile-image{
     padding:0 !important;
   }
 
   .tile-left{
-    border-left: 3px solid $new_black;
+    border-left: 3px solid $off_black;
   }
   .tile-top{
-    border-top: 3px solid $new_black;
+    border-top: 3px solid $off_black;
   }
 
   .heading-over-video{
@@ -128,7 +128,7 @@
       padding: 10px !important;
     }
     .tile-xs{
-      border-left: 3px solid $new_black;
+      border-left: 3px solid $off_black;
     }
   }
 
