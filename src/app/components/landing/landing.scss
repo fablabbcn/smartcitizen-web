@@ -108,9 +108,9 @@
     }
     .heading-over-video{
       position: absolute;
-      top:10px;
+      top:40px;
       left:5%;
-      width:85%;
+      width:87%;
       height: 80%;
       img{
         padding-bottom:00px;
@@ -125,9 +125,6 @@
     }
     h2{
       font-size:25px;
-    }
-    .sc-logo{
-      top: 10px;
     }
   }
 
@@ -150,8 +147,13 @@
     .tile-xs{
       border-left: 3px solid $off_black;
     }
+    .sc-logo{
+      top: 10px;
+    }
+    .heading-over-video{
+      top: 30px;
+    }
   }
-
 }
 
 
