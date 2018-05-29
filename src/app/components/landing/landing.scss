@@ -74,12 +74,18 @@
   }
 
   .heading-over-video{
+    z-index: 1;
     position: absolute;
-    top:50px;
+    top:0px;
+    height:100%;
     left: 10%;
-    width:42%
+    width:42%;
+    img{
+      padding-bottom:40px;
+    }
   }
   .video-section{
+    position: relative;
     min-height: 30vh;
   }
 
@@ -97,7 +103,11 @@
       position: absolute;
       top:10px;
       left:5%;
-      width:85%
+      width:85%;
+      height: 80%;
+      img{
+        padding-bottom:00px;
+      }
     }
   }
 
