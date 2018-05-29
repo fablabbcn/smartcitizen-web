@@ -7,9 +7,6 @@
 }
 
 .new-landing-page{
-  p{
-    color: $off_black;
-  }
   h1,h2,h3,h4,h5,h6{
     letter-spacing: 0.0325em;
     font-family: 'Kanit';
@@ -32,9 +29,16 @@
     margin-bottom: 10px;
   }
   p{
+    color: $off_black;
     font-family: 'Roboto Condensed';
     font-size: 20px;
     line-height: 30px;
+  }
+  .sc-logo{
+    position: fixed;
+    z-index: 2;
+    left: 10%;
+    top:25px;
   }
   // Images on landing page
   .img-new_sck{
@@ -99,6 +103,9 @@
     p{
       font-size:18px;
     }
+    .sc-logo{
+      left:5%;
+    }
     .heading-over-video{
       position: absolute;
       top:10px;
@@ -118,6 +125,9 @@
     }
     h2{
       font-size:25px;
+    }
+    .sc-logo{
+      top: 10px;
     }
   }
 
