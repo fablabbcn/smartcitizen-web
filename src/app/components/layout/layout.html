@@ -12,7 +12,7 @@
         </md-icon>
         <span>Map</span>
       </md-button>
-      <md-button ng-show="vm.isShown" href="" class="md-flat padding14 community" aria-label="" 
+      <md-button ng-show="vm.isShown" href="" class="md-flat padding14 community" aria-label=""
           dropdown-menu="vm.dropdownOptionsCommunity"
           dropdown-model="vm.dropdownSelectedCommunity"
           dropdown-item-label="text" layout="row" layout-align="center center">
@@ -41,4 +41,4 @@
 
 <div ui-view></div>
 
-<footer class="footer" ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>
+<footer class="footer" ng-if="!vm.overlayLayout" ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>

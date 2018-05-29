@@ -173,11 +173,11 @@
         prevValue = parseInt(prevValue) || 0;
 
         if(currentValue > prevValue) {
-          return './assets/images/arrow_up_icon.svg';
+          return 'arrow_up';
         } else if(currentValue < prevValue) {
-          return './assets/images/arrow_down_icon.svg';
+          return 'arrow_down';
         } else {
-          return './assets/images/equal_icon.svg';
+          return 'equal';
         }
       }
 

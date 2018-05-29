@@ -1,4 +1,6 @@
 import angular from 'angular';
+var mainColor = '#FFC100';
+var secondColor = '#FF3D4C';
 
     chart.$inject = ['sensor', 'animation', '$timeout', '$window'];
     export default function chart(sensor, animation, $timeout, $window) {
@@ -191,13 +193,13 @@ import angular from 'angular';
         svg.append('path')
           .datum(data)
           .attr('class', 'chart_area')
-          .attr('fill', options.color)
+          .attr('fill', mainColor)
           .attr('d', areaMain);
 
         // Add the valueline path.
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', options.color)
+          .attr('stroke', mainColor)
           .attr('d', valueLineMain(data));
 
         // Add the X Axis
@@ -209,7 +211,6 @@ import angular from 'angular';
         // Add the Y Axis
         svg.append('g')
           .attr('class', 'axis y_left')
-          .style('fill', options.color)
           .call(yAxisLeft);
 
         // Draw the x Grid lines
@@ -234,7 +235,7 @@ import angular from 'angular';
           .style('display', 'none');
 
         focusMain.append('circle')
-          .style('stroke', options.color)
+          .style('stroke', mainColor)
           .attr('r', 4.5);
 
         var popupWidth = 84;
@@ -341,24 +342,24 @@ import angular from 'angular';
         svg.append('path')
           .datum(data[0])
           .attr('class', 'chart_area')
-          .attr('fill', options.color[0])
+          .attr('fill', mainColor)
           .attr('d', areaMain);
 
         svg.append('path')
           .datum(data[1])
           .attr('class', 'chart_area')
-          .attr('fill', options.color[1])
+          .attr('fill', secondColor)
           .attr('d', areaCompare);
 
         // Add both valueline paths.
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', options.color[0])
+          .attr('stroke', mainColor)
           .attr('d', valueLineMain(data[0]));
 
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', options.color[1])
+          .attr('stroke', secondColor)
           .attr('d', valueLineCompare(data[1]));
 
         // Add the X Axis
@@ -370,12 +371,10 @@ import angular from 'angular';
         // Add both Y Axis
         svg.append('g')
           .attr('class', 'axis y_left')
-          .style('fill', options.color[0])
           .call(yAxisLeft);
 
         svg.append('g')
           .attr('class', 'axis y_right')
-          .style('fill', options.color[1])
           .attr('transform', 'translate(' + width + ' ,0)')
           .call(yAxisRight);
 
@@ -405,11 +404,11 @@ import angular from 'angular';
           .style('display', 'none');
 
         focusCompare.append('circle')
-          .style('stroke', options.color[1])
+          .style('stroke', secondColor)
           .attr('r', 4.5);
 
         focusMain.append('circle')
-          .style('stroke', options.color[0])
+          .style('stroke', mainColor)
           .attr('r', 4.5);
 
         var popupWidth = 84;
@@ -438,7 +437,7 @@ import angular from 'angular';
           .attr('transform', function() {
             return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 20)';
           })
-          .style('fill', options.color[0]);
+          .style('fill', mainColor);
 
         popup.append('rect')
           .attr('width', 8)
@@ -446,7 +445,7 @@ import angular from 'angular';
           .attr('transform', function() {
             return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 45)';
           })
-          .style('fill', options.color[1]);
+          .style('fill', secondColor);
 
         var text = popup.append('text')
           .attr('class', '');

@@ -56,6 +56,9 @@ export default function FullKit(Kit, Sensor, kitUtils) {
             /* This is a temporary hack to set always the Battery at the end*/
             if (a.id == 17) return -1;
             if (b.id == 17) return  1;
+            /* This is a temporary hack to set always the Battery at the end*/
+            if (a.id == 10) return -1;
+            if (b.id == 10) return  1;
             /* After the hacks, sort the sensors by id */
             return b.id - a.id;
           })
