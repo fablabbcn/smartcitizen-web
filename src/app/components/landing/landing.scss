@@ -35,6 +35,7 @@
     line-height: 30px;
   }
   .sc-logo{
+    height: 55px;
     position: absolute;
     z-index: 2;
     left: 10%;
@@ -131,6 +132,8 @@
   @media only screen and (max-width: 600px) {
     h1{
       font-size:30px;
+      line-height:33px;
+      padding-bottom:10px;
     }
     h2{
       font-size:28px;
@@ -148,6 +151,7 @@
       border-left: 3px solid $off_black;
     }
     .sc-logo{
+      height:35px;
       top: 10px;
     }
     .heading-over-video{
