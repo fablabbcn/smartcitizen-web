@@ -7,9 +7,6 @@
 }
 
 .new-landing-page{
-  p{
-    color: $off_black;
-  }
   h1,h2,h3,h4,h5,h6{
     letter-spacing: 0.0325em;
     font-family: 'Kanit';
@@ -19,7 +16,7 @@
   h1{
     font-size: 65px;
     line-height: 65px;
-    margin:0px 0px 10px;
+    margin:0px 0px;
   }
   h2{
     font-size: 45px;
@@ -29,12 +26,21 @@
   h3{
     font-size: 30px;
     line-height: 30px;
+    margin-top:10px;
     margin-bottom: 10px;
   }
   p{
+    color: $off_black;
     font-family: 'Roboto Condensed';
     font-size: 20px;
-    line-height: 30px;
+    line-height: 24px;
+  }
+  .sc-logo{
+    height: 55px;
+    position: absolute;
+    z-index: 2;
+    left: 10%;
+    top:25px;
   }
   // Images on landing page
   .img-new_sck{
@@ -53,6 +59,7 @@
     background: blue url("/assets/images/sck_cities.jpg") center/cover;
   }
   .img-platform{
+    min-height:630px;
     background: blue url("/assets/images/sck_platform.jpg") center/cover;
   }
 
@@ -73,31 +80,56 @@
     border-top: 3px solid $off_black;
   }
 
+  .text-funding{
+    text-align: left;
+  }
+
   .heading-over-video{
+    z-index: 1;
     position: absolute;
-    top:50px;
+    top:0px;
+    height:100%;
     left: 10%;
-    width:35%
+    width:30%;
+
+    img{
+      padding-bottom:40px;
+    }
   }
   .video-section{
+    position: relative;
     min-height: 30vh;
   }
 
-  @media only screen and (max-width: 950px) {
+  @media only screen and (max-width: 1010px) {
     h1{
       font-size:42px;
+      line-height:42px;
     }
     h2{
       font-size:28px;
+      line-height:28px;
+    }
+    h3{
+       font-size: 26px;
+       line-height: 26px;
     }
     p{
       font-size:18px;
+      line-height:22px;
+    }
+    .sc-logo{
+      left:5%;
     }
     .heading-over-video{
       position: absolute;
-      top:10px;
+      top:40px;
       left:5%;
-      width:85%
+      width:70%;
+      height: 80%;
+      img{
+        padding-bottom:00px;
+      }
     }
   }
 
@@ -109,11 +141,19 @@
     h2{
       font-size:25px;
     }
+    .heading-over-video{
+      width:90%;
+    }
+    .text-funding{
+       text-align: center;
+    }
   }
 
   @media only screen and (max-width: 600px) {
     h1{
-      font-size:30px;
+      font-size:28px;
+      line-height:33px;
+      padding-bottom:10px;
     }
     h2{
       font-size:28px;
@@ -130,8 +170,17 @@
     .tile-xs{
       border-left: 3px solid $off_black;
     }
+    .sc-logo{
+      height:35px;
+      top: 10px;
+    }
+    .img-platform{
+      min-height:356px;
+    }
+    .heading-over-video{
+      top: 30px;
+    }
   }
-
 }
 
 

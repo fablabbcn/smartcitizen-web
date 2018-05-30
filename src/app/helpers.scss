@@ -64,6 +64,7 @@
 .btn-outline-blue{
   border:2px solid $blue;
   color: $blue;
+  padding:10px 29px;
 }
 .btn-outline-blue:hover{
   background: $blue;
@@ -72,6 +73,7 @@
 .btn-outline-yellow{
   border:2px solid $yellow;
   color: $yellow;
+  padding:10px 29px;
 }
 .btn-outline-yellow:hover{
   background: $yellow;
@@ -80,22 +82,25 @@
 .btn-yellow{
   background: $yellow;
   color: $off_black;
+  padding:12px 29px;
 }
 .btn-yellow:hover{
   background: #FFC536;
   color: $off_black;
 }
-.btn-black{
+.btn-black-outline{
   border:2px solid $off_black;
   color: $off_black;
+  padding:10px 29px;
 }
-.btn-black:hover{
+.btn-black-outline:hover{
   background: $off_black;
   color: white;
 }
 .btn-blue{
   background: $blue;
   color: white;
+  padding:12px 29px;
 }
 .btn-blue:hover{
   background: #1930FF;
@@ -107,7 +112,6 @@
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.0325em;
-  padding:10px 29px;
 }
 .btn-round{
   border: 0;
@@ -123,11 +127,17 @@
 .mr-10{
   margin-right: 10px;
 }
+.mr-30{
+  margin-right: 30px;
+}
 .mt-50{
   margin-top: 50px;
 }
 .mb-10{
   margin-bottom: 10px;
+}
+.mb-20{
+  margin-bottom: 20px;
 }
 .mb-30{
   margin-bottom: 30px;
@@ -157,8 +167,14 @@
   padding-top:40px;
   padding-bottom:40px;
 }
-.px-10{
-  padding-left:10px;
-  padding-right:10px;
+.px-20{
+  padding-left:20px;
+  padding-right:20px;
 }
 
+footer{
+  p{
+    font-size:12px !important;
+    line-height:12px !important;
+  }
+}
