@@ -46,13 +46,13 @@
             <md-icon md-svg-src="./assets/images/user_details_icon.svg">
             </md-icon>
           </md-button>
-
-          <md-button href="#" class="md-flat discussion_icon" aria-label=""
+          <!-- HACK: disable because of lodash  -->
+          <!-- <md-button href="#" class="md-flat discussion_icon" aria-label=""
             analytics-on="click" analytics-category="Kit Detail Section Button"
             analytics-event="click" analytics-label="Comments">
             <md-icon md-svg-src="./assets/images/discussion_icon.svg">
             </md-icon>
-          </md-button>
+          </md-button> -->
         </div>
       </div>
     </section>
@@ -279,11 +279,12 @@
         </div>
         <div class="clearfix"></div>
       </section>
-      <section class="kit_comments" ng-if="vm.kit">
+      <!-- HACK: conflit zith lodash -->
+      <!-- <section class="kit_comments" ng-if="vm.kit">
         <div class="kit_detailed_content_container">
           <div class="kit_detailed_content_container" ng-include="'app/components/disqus/disqus.html'"></div>
         </div>
-      </section>
+      </section> -->
     </section>
   </section>
 </section>
