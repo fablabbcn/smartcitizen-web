@@ -1,5 +1,28 @@
 <div class="new-landing-page grey-waves">
 
+  <!--
+    1. Make video 90% high on MOBILE, also on full screen 1920x1080 screen
+    It should zoom in to the center
+
+    2. First images after header: Both images same height (proportions).
+
+
+    3. Footer: Copyright text: should be aligned from left, on big screens
+
+    4. EU flag: more space between flag and text
+
+    5. Subscribe Input: wider
+
+    6. 3 columns (API, Github) - the text p is almost touching the border. Add more space. Apply the same rule to ALL content in the box (also the h3)
+
+    7: Subscribe to get the lates - make it left aligned on from 950px to 1163 px
+
+    8. EU flag text: on mobile: center the text
+
+    9. Subscribe on mobile: add more space vertically between all items (input button heading)
+
+  -->
+
   <img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo" />
 
   <section class="video-section">
@@ -91,14 +114,14 @@
         </div>
       </div>
 
-      <div layout="column" layout-align="end center" style="min-height:630px" class="img-platform tile tile-left tile-image">
+      <div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image">
         <a class="btn-blue btn-round-new mb-30" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
       </div>
     </section>
 
     <section class="mt-50 ">
       <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-        <div layout="row" layout-xs="column" layout-sm="column"layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px ">
+        <div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px ">
 
           <h3 class="color-white text-center mb-10" style="margin:0;">SUBSCRIBE TO GET THE LATEST</h3>
 
@@ -173,14 +196,16 @@
       </div>
 
 
-      <div flex="25" layout="row" layout-xs="column" layout-sm="column" layout-align="start center">
+      <div flex="25" layout="row" layout-xs="column" layout-sm="column"  layout-align="start center">
         <img style="height:48px; padding-right: 5px" src="./assets/images/eu_flag.png" alt="fablab" />
         <p class="color-white"> SmartCitizen has received funding from the European Community’s H2020 Programme under Grant Agreement No. 689954. </p>
       </div>
 
     </div>
 
-    <p class="color-white"> Copyright &copy; 2018 Smart Citizen </p>
+    <div style="max-width:1200px" class="p-50">
+      <p class="color-white"> Copyright &copy; 2018 Smart Citizen </p>
+    </div>
 
 
   </footer>
