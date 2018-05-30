@@ -37,7 +37,7 @@ module.exports = function(options) {
       .pipe($.angularFilesort())
       .pipe(concat(function(files) {
         callback(bowerDeps.js
-          .concat(_.pluck(files, 'path'))
+          .concat(files.map(file => file.path))
           .concat(htmlFiles)
           .concat(specFiles));
       }));
