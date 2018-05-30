@@ -1,10 +1,6 @@
 (function() {
   'use strict';
 
-  // HACK: could be only in scss
-  var mainColor = '#FFC100';
-  var secondColor = '#FF3D4C';
-
   angular.module('app.components')
     .directive('chart', chart);
 
@@ -199,13 +195,13 @@
         svg.append('path')
           .datum(data)
           .attr('class', 'chart_area')
-          .attr('fill', mainColor)
+          .attr('fill', options.color)
           .attr('d', areaMain);
 
         // Add the valueline path.
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', mainColor)
+          .attr('stroke', options.color)
           .attr('d', valueLineMain(data));
 
         // Add the X Axis
@@ -241,7 +237,7 @@
           .style('display', 'none');
 
         focusMain.append('circle')
-          .style('stroke', mainColor)
+          .style('stroke', options.color)
           .attr('r', 4.5);
 
         var popupWidth = 84;
@@ -348,24 +344,24 @@
         svg.append('path')
           .datum(data[0])
           .attr('class', 'chart_area')
-          .attr('fill', mainColor)
+          .attr('fill', options.color[0])
           .attr('d', areaMain);
 
         svg.append('path')
           .datum(data[1])
           .attr('class', 'chart_area')
-          .attr('fill', secondColor)
+          .attr('fill', options.color[1])
           .attr('d', areaCompare);
 
         // Add both valueline paths.
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', mainColor)
+          .attr('stroke', options.color[0])
           .attr('d', valueLineMain(data[0]));
 
         svg.append('path')
           .attr('class', 'chart_line')
-          .attr('stroke', secondColor)
+          .attr('stroke', options.color[1])
           .attr('d', valueLineCompare(data[1]));
 
         // Add the X Axis
@@ -410,11 +406,11 @@
           .style('display', 'none');
 
         focusCompare.append('circle')
-          .style('stroke', secondColor)
+          .style('stroke', options.color[1])
           .attr('r', 4.5);
 
         focusMain.append('circle')
-          .style('stroke', mainColor)
+          .style('stroke', options.color[0])
           .attr('r', 4.5);
 
         var popupWidth = 84;
@@ -443,7 +439,7 @@
           .attr('transform', function() {
             return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 20)';
           })
-          .style('fill', mainColor);
+          .style('fill', options.color[0]);
 
         popup.append('rect')
           .attr('width', 8)
@@ -451,7 +447,7 @@
           .attr('transform', function() {
             return 'translate(' + (-popupWidth / 2 + 4).toString() + ', 45)';
           })
-          .style('fill', secondColor);
+          .style('fill', options.color[1]);
 
         var text = popup.append('text')
           .attr('class', '');
