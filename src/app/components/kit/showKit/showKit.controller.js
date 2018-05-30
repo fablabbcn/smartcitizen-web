@@ -1,4 +1,5 @@
 import angular from 'angular';
+import moment from 'moment';
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',

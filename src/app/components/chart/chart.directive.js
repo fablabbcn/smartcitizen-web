@@ -1,4 +1,6 @@
 import angular from 'angular';
+import moment from 'moment';
+import d3 from 'd3';
 var mainColor = '#FFC100';
 var secondColor = '#FF3D4C';
 

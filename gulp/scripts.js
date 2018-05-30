@@ -2,14 +2,16 @@
 
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
-
+var webpack = require('webpack-stream');
 var $ = require('gulp-load-plugins')();
 
 module.exports = function(options) {
   gulp.task('scripts', function () {
-    return gulp.src([options.src + '/app/**/*.js', '!'+options.src+'/**/scktool-*.js'])
-      .pipe($.jshint())
-      .pipe($.jshint.reporter('jshint-stylish'))
+    return gulp.src(options.src + '/app.module.js')
+      .pipe(webpack( require('../webpack.config.js') ))
+      // .pipe($.jshint())
+      // .pipe($.jshint.reporter('jshint-stylish'))
+      .pipe(gulp.dest(options.tmp + '/serve/scripts'))
       .pipe(browserSync.reload({ stream: true }))
       .pipe($.size());
   });

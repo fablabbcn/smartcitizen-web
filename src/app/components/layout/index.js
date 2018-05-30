@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import layoutController from './layout.controller';
+import LayoutController from './layout.controller';
 
 export default angular.module('app.component.layout',[])
-.controller('layoutController', layoutController)
+.controller('LayoutController', LayoutController)
 .name;

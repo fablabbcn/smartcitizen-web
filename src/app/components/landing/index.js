@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import landingController from './landing.controller';
+import LandingController from './landing.controller';
 
 export default angular.module('app.component.landing',[])
-.controller('landingController', landingController)
+.controller('LandingController', LandingController)
 .name;
