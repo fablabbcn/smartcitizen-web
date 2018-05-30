@@ -80,6 +80,10 @@
     border-top: 3px solid $off_black;
   }
 
+  .text-funding{
+    text-align: left;
+  }
+
   .heading-over-video{
     z-index: 1;
     position: absolute;
@@ -139,6 +143,9 @@
     }
     .heading-over-video{
       width:90%;
+    }
+    .text-funding{
+       text-align: center;
     }
   }
 
