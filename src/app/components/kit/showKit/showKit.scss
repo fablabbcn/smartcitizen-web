@@ -159,7 +159,7 @@ section .kit_menu {
       height: 14px;
       margin-right: 8px;
       margin-top: 4px;
-      svg { fill: $blue_light; }
+      svg { fill: $blue; }
     }
     span {
       vertical-align: middle;
@@ -274,7 +274,7 @@ section .kit_menu {
         height: 7px;
         &.arrow_up svg { fill: $green; }
         &.arrow_down svg { fill: $red; }
-        &.equal svg { fill: $blue_light; }
+        &.equal svg { fill: $blue; }
       }
     }
     .sensor_value {
@@ -715,7 +715,7 @@ section .kit_menu {
       float: right;
       right: 5%;
       margin-top: 32px;
-      color: $blue_light;
+      color: $blue;
     }
   }
 }
