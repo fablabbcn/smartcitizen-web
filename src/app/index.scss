@@ -84,7 +84,7 @@ body {
 a.about{
   cursor: pointer;
   text-decoration: none;
-  color: $blue_light;
+  color: $blue;
 }
 
 .icon_label{
@@ -93,6 +93,9 @@ a.about{
   margin-right: 4px;
   position: relative;
   top: -2px;
+  svg {
+    fill: $grey_darker;
+  }
 }
 
 /**
@@ -286,7 +289,7 @@ div[api-key]{
 
 .inside_list{
   h1{
-    color: $secondary_color_light;
+    color: $grey_darker;
     font-size:1.1em;
     margin: 10px 0px;
   }
@@ -418,7 +421,7 @@ md-toast {
     padding: 0px 12px;
     margin-left: 5px;
     color: black !important;
-    background-color: #C1A212;
+    background-color: $yellow;
     border-radius: 20px;
     font-size: 12px;
   }
@@ -433,7 +436,7 @@ md-toast.green {
 }
 
 md-toast.blue {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 
 md-toast.yellow {
@@ -456,13 +459,13 @@ md-checkbox .md-label span {
  */
 
 md-progress-linear .md-bar{
-  background-color: #044150;
+  background-color: $blue;
 }
 md-progress-linear.md-hue-3 .md-container{
-  background-color: rgba(79, 201, 232, 0.05);
+  background-color: rgba($blue, 0.05);
 }
 md-progress-linear.md-hue-3 .md-bar {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 
 .kit_spinner {
@@ -513,7 +516,7 @@ md-content.md-opaque {
 //Loading backdrop
 
 md-content.md-mainBackdrop {
-  background-color: #2A4E62;
+  background-color: $grey_lighter;
   width: 100vw;
   height: 100vh;
 
@@ -574,7 +577,7 @@ md-content.md-noDataBackdrop {
     font-weight: 300;
   }
   a {
-    color: $blue_light;
+    color: $blue;
     text-decoration: none;
   }
 }
@@ -664,7 +667,7 @@ section.map {
     box-shadow: 0 1px 5px rgba(0,0,0,0.65);
   }
   &.kit_tag {
-    background-color: #C8E6ED;
+    background-color: $grey;
     float: left;
     margin: 5px;
   }
@@ -749,12 +752,12 @@ KIT TAGS MODULE
   margin-top: 376px;
 
   .kitTags__listContainer{
-    background-color: #F5F5F5;
+    background-color: $grey_lighter;
     padding: 20px;
   }
 
   .kitTags__container{
-    background-color: #F5F5F5;
+    background-color: $grey_lighter;
     padding-bottom: 20px;
 
     .kitTags__textContainer{
@@ -912,7 +915,7 @@ md-content.md-default-theme, md-content {
     margin: 15px 0px 15px 0;
   }
   md-checkbox.md-checked .md-icon {
-    background-color: $blue_light;
+    background-color: $blue;
   }
   h3 {
     margin-bottom: 2px;
@@ -1333,7 +1336,7 @@ md-content.md-default-theme, md-content {
 .popup {
   width: 101%;;
   height: 135px;
-  color: $font_color_blue_dark;
+  color: $grey_darker;
   font-family: 'Roboto Condensed'
 }
 
@@ -1403,7 +1406,7 @@ md-content.md-default-theme, md-content {
 /* Kit type colors kitUtils.service.js :: classify()*/
 
 .sck {
-  background-color: $terciary_color;
+  background-color: $yellow;
 }
 .unknown {
   background-color: grey;
@@ -1495,8 +1498,8 @@ md-content.md-default-theme, md-content {
 .date_picker {
   height: 24px;
   border-radius: 2px;
-  border: 1px solid #6B868D;
-  color: #A4B0B3;
+  border: 1px solid $grey_darker;
+  color: $grey;
   background-color: transparent;
 }
 
@@ -1569,7 +1572,7 @@ md-content.md-default-theme, md-content {
     }
     li.divider {
       background-color: white;
-      color: $blue_light;
+      color: $blue;
       font-weight: bold;
       margin-left: 8px;
       margin-right: 38px;
@@ -1633,7 +1636,7 @@ md-content.md-default-theme, md-content {
 
 .kitList {
   margin: 0px;
-  color: $secondary_color_light;
+  color: $grey;
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
   border-left: 1px solid #EAECF1;
@@ -1694,7 +1697,7 @@ md-content.md-default-theme, md-content {
 .kitList_name {
   margin-bottom: 5px;
   font-size: 18px;
-  color: $blue_light;
+  color: $blue;
 }
 .kitList_data {
   span {
@@ -1858,8 +1861,8 @@ md-content.md-default-theme, md-content {
     color: white;
   }
   md-tabs md-tabs-ink-bar {
-    color: $blue_light;
-    background-color: $blue_light;
+    color: $blue;
+    background-color: $blue;
   }
 }
 
@@ -1929,7 +1932,7 @@ md-content.md-default-theme, md-content {
 }
 .myProfile_form_updateButton {
   font-size:18px;
-  color: $blue_light;
+  color: $blue;
   margin-left:350px;
 }
 .myProfile_apiKey_text {
@@ -1984,10 +1987,10 @@ md-content.md-default-theme, md-content {
 }
 
 .md-button.myProfile_addKitButton:focus {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 .md-button.myProfile_addKitButton:hover {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 .myProfile_content_main_title {
   float: right;
@@ -2327,7 +2330,7 @@ button.doorbell-button {
     height: 44px;
     border-radius: 22px;
     font-size: 18px;
-    background-color: $blue_light;
+    background-color: $blue;
     color:white;
 
     &:hover, &:focus{
@@ -2340,7 +2343,7 @@ button.doorbell-button {
   }
 
   .md-button.md-primary{
-    color: $blue_light;
+    color: $blue;
   }
 
 
@@ -3202,7 +3205,7 @@ p.no-margin {
   80%, 100% {
     text-shadow:
       .25em 0 0 $blue_light,
-      .5em 0 0 $blue_light;}}
+      .5em 0 0 $blue;}}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
