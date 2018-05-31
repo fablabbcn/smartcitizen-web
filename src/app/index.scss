@@ -1112,6 +1112,10 @@ section .kit_menu {
     overflow-x: auto;
     overflow-y: hidden;
 
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+
     // resetting default properties
     max-width: initial;
     max-height: initial;
