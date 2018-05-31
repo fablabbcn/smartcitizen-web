@@ -602,6 +602,9 @@ section .kit_menu {
     margin-right: 4px;
     position: relative;
     top: -1px;
+    svg {
+      fill: $grey_darker;
+    }
   }
   .kit_detailed_avatar {
     float: left;
