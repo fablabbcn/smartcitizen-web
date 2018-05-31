@@ -1,4 +1,7 @@
-# SmartCitizen
+# SmartCitizen Web
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/test_coverage)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/test_coverage)
 
 The new SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
 
