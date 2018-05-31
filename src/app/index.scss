@@ -2013,8 +2013,8 @@ md-content.md-default-theme, md-content {
   FOOTER COMPONENT
 */
 
-.footer {
-  position: absolute;
+footer {
+//  position: absolute;
   z-index: 1;
   width: 100%;
   background-color: $background_blue_dark_background;
