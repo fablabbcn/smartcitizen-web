@@ -1172,10 +1172,18 @@ section .kit_menu {
         height: 7px;
       }
     }
+
     .sensor_value {
-      font-size: 34px;
-      font-weight: bold;
       color: white;
+      font-size: 25px;
+      font-weight: bold;
+
+      -ms-flex-item-align: center;
+      align-self: center;
+
+      @media screen and (min-width: 720px) {
+        font-size: 35px;
+      }
     }
     .sensor_value_null {
       opacity: 0.15;
@@ -1185,7 +1193,6 @@ section .kit_menu {
       width: 14px;
       height: 14px;
       position: relative;
-      top: -3px;
       right: 4px;
     }
   }
