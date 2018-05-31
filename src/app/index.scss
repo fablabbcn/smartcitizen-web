@@ -918,12 +918,17 @@ section.map {
  */
 
 .over_map{
-  min-height: 120px;
+  min-height: 130px;
+  background-color: $background_blue_dark_menu;
 }
 
 .kit_fixed {
   z-index: $medium-priority;
   position: relative;
+
+  &.move_down {
+    top: 34px;
+  }
 }
 
 .kit_data {
@@ -992,7 +997,7 @@ section .kit_menu {
 
   .container {
     width: 100%;
-    height: 33px;
+    height: 34px;
   }
 
   .kit_time {
@@ -1091,27 +1096,29 @@ section .kit_menu {
   position: relative;
 
   .button_scroll {
-    margin: 0px;
-    position: absolute;
-    top: 0;
-    width: 60px;
-    height: 96px;
-  }
+    margin: 0;
+    flex: 0 0 auto;
+    width: 40px;
+    background-color: $background_blue_dark_overview;
 
-  .button_scroll_left {
-    left: 0;
-  }
-
-  .button_scroll_right {
-    right: 0;
+    @media screen and (min-width: 720px) {
+      width: 60px;
+    }
   }
 
   .sensors_container {
-    width: 90%;
-    height: 96px;
-    margin: 0 auto;
-    overflow-x: hidden;
+    // total width - width of scroll buttons
+    width: calc(100% - 80px);
+    overflow-x: auto;
     overflow-y: hidden;
+
+    // resetting default properties
+    max-width: initial;
+    max-height: initial;
+
+    @media screen and (min-width: 720px) {
+      width: calc(100% - 120px);
+    }
   }
 
   @media (pointer: coarse) {
@@ -1121,12 +1128,26 @@ section .kit_menu {
   }
 
   .sensor_container {
-    margin: 30px;
     position: relative;
     color: $font_color_blue_light;
-    display: inline-table;
     cursor: pointer;
     text-align: center;
+
+    .sensor_item {
+      margin: 0 20px;
+
+      @media screen and (min-width: 720px) {
+        margin: 0 30px;
+      }
+    }
+
+    &:first-child > .sensor_item {
+      margin-left: 0;
+    }
+
+    &:last-child > .sensor_item {
+      margin-right: 0;
+    }
 
     small{
       font-size: 0.8em;
@@ -1158,6 +1179,7 @@ section .kit_menu {
     .sensor_value_null {
       opacity: 0.15;
     }
+
     .sensor_icon {
       width: 14px;
       height: 14px;
@@ -2188,12 +2210,14 @@ md-content.md-default-theme, md-content {
  * MOVE DOWN EFFECT ON SCROLL
  */
 
-.move_down {
+.move_down:not(.kit_fixed) {
   -ms-transform: translateY(32px);
   -webkit-transform: translateY(32px);
   -moz-transform: translateY(32px);
   -o-transform: translateY(32px);
   transform: translateY(32px);
+
+
 }
 
 /*
@@ -2359,7 +2383,7 @@ md-content.md-default-theme, md-content {
 }
 .ms {
   // background-color: $alert_green;
-  // background-image: url("https://making-sense.eu/wp-content/uploads/2016/04/background-2.gif"); 
+  // background-image: url("https://making-sense.eu/wp-content/uploads/2016/04/background-2.gif");
   // background-size: 1200px;
   // background-repeat: no-repeat;
   // background-color: #efefef;
@@ -3478,7 +3502,7 @@ p.no-margin {
         color: #8DB2BA;
       }
     }
-    
+
     .sensors > div {
       width: 60px;
       height: 60px;
@@ -3521,11 +3545,11 @@ p.no-margin {
 
     .sensors div:nth-child(9) {
      background: #ffee58;
-    } 
+    }
 
     .sensors div:nth-child(10) {
      background: #ff5722;
-    } 
+    }
   }
 
 }
