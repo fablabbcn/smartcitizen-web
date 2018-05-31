@@ -30,6 +30,22 @@
   width: 100%;
 }
 
+// .f-grow {
+//   flex-grow: 1 !important;
+// }
+//
+// .f-no-grow {
+//   flex-grow: 0 !important;
+// }
+//
+// .f-shrink {
+//   flex-shrink: 1 !important;
+// }
+//
+// .f-no-shrink {
+//   flex-shrink: 0 !important;
+// }
+
 // Font & text
 .font-roboto-condensed{
   font-family:'Roboto Condensed';
@@ -44,6 +60,7 @@
 .text-left{
   text-align: left;
 }
+
 
 
 // Background helpers
@@ -66,6 +83,15 @@
   color: $blue;
   padding:10px 29px;
 }
+.btn-outline-white:hover{
+  background: white;
+  color: $yellow;
+}
+.btn-outline-white{
+  border:2px solid white;
+  color: white;
+  padding:10px 29px;
+}
 .btn-outline-blue:hover{
   background: $blue;
   color: white;
@@ -85,7 +111,7 @@
   padding:12px 29px;
 }
 .btn-yellow:hover{
-  background: #FFC536;
+  background: rgba($yellow, 0.8);
   color: $off_black;
 }
 .btn-black-outline{
@@ -103,7 +129,7 @@
   padding:12px 29px;
 }
 .btn-blue:hover{
-  background: #1930FF;
+  background: rgba($blue, 0.8);
   color: white;
 }
 .btn-round-new{

@@ -36,17 +36,26 @@
     line-height: 24px;
   }
   .sc-logo{
-    height: 55px;
+    height: 43px;
     position: absolute;
     z-index: 2;
     left: 10%;
     top:25px;
   }
+  .sc-off-cta-platform {
+    position: absolute;
+    z-index: 2;
+    right: 10%;
+    top:25px;
+
+  }
   // Images on landing page
   .img-new_sck{
+    min-height: 30vw;
     background: blue url("/assets/images/new_sck.jpg") center/cover;
   }
   .img-sck_edu{
+    min-height: 30vw;
     background: blue url("/assets/images/sck_edu.jpg") center/cover;
   }
   .img-sck_com{
@@ -108,12 +117,13 @@
     }
   }
   .heading-over-video{
-    z-index: 1;
     position: absolute;
-    top:0px;
-    height:100%;
-    left: 10%;
-    width:30%;
+    z-index: 1;
+    top: 0px;
+    height: 100%;
+    padding-left: 10%;
+    padding-right: 60%;
+    background-color: rgba(0, 0, 0, 0.3);
 
     img{
       padding-bottom:40px;
@@ -141,11 +151,11 @@
       left:5%;
     }
     .heading-over-video{
+      padding-top: 40px;
       position: absolute;
-      top:40px;
-      left:5%;
-      width:70%;
-      height: calc(80vh - 40px);
+      padding-left: 5%;
+      padding-right:25%;
+      height: 100%;
       img{
         padding-bottom:00px;
       }
@@ -186,15 +196,11 @@
     .tile-xs{
       border-left: 3px solid $off_black;
     }
-    .sc-logo{
-      height:35px;
-      top: 10px;
-    }
     .img-platform{
       min-height:356px;
     }
     .heading-over-video{
-      top: 30px;
+      padding-top: 30px;
     }
   }
 }
