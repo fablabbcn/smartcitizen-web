@@ -1142,11 +1142,12 @@ section .kit_menu {
     }
 
     &:first-child > .sensor_item {
-      margin-left: 0;
+      // to prevent sensor being cut-off from button
+      margin-left: 5px;
     }
 
     &:last-child > .sensor_item {
-      margin-right: 0;
+      margin-right: 5px;
     }
 
     small{
