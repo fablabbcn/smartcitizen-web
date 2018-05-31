@@ -1162,8 +1162,9 @@ section .kit_menu {
       position: relative;
       left: 5px;
       .sensor_unit {
-        margin-top:8px;
+        margin-top: 8px;
         font-size: 14px;
+        white-space: nowrap;
       }
       .sensor_arrow {
         margin-top:-15px;
