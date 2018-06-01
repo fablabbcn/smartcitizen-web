@@ -1,5 +1,8 @@
 $yellow: #FFC100;
-$blue: #0019FF;
+$blue_new: #00B3F9;
+$blue_quite_pure: #2140ff;
+$blue_pure: #0019FF;
+$blue: $blue_new;
 $blue_light: #65E3F4;
 
 $red: #FF3D4C;
@@ -11,6 +14,8 @@ $grey_lighter: #ECECEE;
 $grey: #D2D3D5;
 $grey_darker: #6E6E6E;
 $grey_darkest: #7E7E7E;
+$grey_ultradark: #2E2E2E;
+$off_black: $grey_ultradark;
 
 $secondary_color: $grey_darker;
 $terciary_color: $blue;

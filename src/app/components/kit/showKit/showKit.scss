@@ -251,6 +251,7 @@ section .kit_menu {
     display: inline-table;
     cursor: pointer;
     text-align: center;
+    outline:none;
 
     small{
       font-size: 0.8em;
@@ -279,23 +280,24 @@ section .kit_menu {
     }
     .sensor_value {
       font-size: 34px;
-      font-weight: bold;
+      font-weight: 800;
+      font-family:'Kanit';
     }
     .sensor_value_null {
       opacity: 0.15;
     }
     .sensor_icon {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       position: relative;
-      top: -3px;
-      right: 4px;
+      top: 0px;
+      right: 10px;
       svg {
         fill: $grey_darker;
       }
     }
     &:hover {
-      opacity: 0.8;
+      opacity: 0.6;
     }
     &.selected {
       color: $off_black;
@@ -382,6 +384,7 @@ section .kit_menu {
           }
           md-select {
             margin: 0;
+            color: $off_black;
             .md-select-value{
               .md-text{
                 .select_image{
@@ -430,8 +433,11 @@ section .kit_menu {
         .sensor_data {
           margin: 8% 0 5% 0;
          // display: inline-block;
+          color: $grey_ultradark;
 
           .sensor_value {
+            font-weight: 800;
+            font-family:'Kanit';
             font-size: 2em;
             font-weight: bold;
           }
@@ -502,20 +508,32 @@ section .kit_menu {
               height: 28px;
               display: inline-flex;
               border: 1px solid $grey_darker;
+              background-color: $grey_lightest;
             }
+
             .chart_move_right {
               // margin-left: 4px;
               border-top-left-radius: 0px;
               border-bottom-left-radius: 0px;
-              background-color: $grey_lightest;
               svg {
                 fill: $grey_darker;
               }
+              &:hover {
+                background-color: $grey_darker;
+                svg {
+                  fill: $grey_lightest;
+                }
+              }
             }
             .chart_move_left {
-              background-color: $grey;
               svg {
                 fill: $grey_darker;
+              }
+              &:hover {
+                background-color: $grey_darker;
+                svg {
+                  fill: $grey_lightest;
+                }
               }
             }
             md-icon {

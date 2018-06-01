@@ -22,10 +22,12 @@
           controllerAs: 'vm',
           resolve: {
             isLogged: function(auth, $location) {
+              /*
               if(auth.isAuth()) {
                 $location.path('/kits/');
                 return;
                }
+              */
             }
           }
         })
