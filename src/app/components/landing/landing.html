@@ -1,22 +1,19 @@
 <div class="new-landing-page grey-waves">
 
   <!--
-    1. Make video 90% high on MOBILE, also on full screen 1920x1080 screen
-    It should zoom in to the center
-
     2. First images after header: Both images same height (proportions).
-
   -->
 
   <img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo" />
+  <a href="/kits/" class="btn-outline-white btn-round-new sc-off-cta-platform">GO TO THE PLATFORM</a>
 
   <section class="video-section">
-    <video style="z-index:0; max-width:100%;" autoplay muted loop id="myVideo">
+    <video style="z-index:0;" autoplay muted loop id="myVideo">
       <source src="./assets/loop_video.mp4" type="video/mp4">
     </video>
-    <div class="heading-over-video" layout="column" layout-align="center start" style="z-index:2">
+    <div class="heading-over-video" layout="column" layout-align="center start">
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
-      <p hide-xs class="color-white">Watch the documentary about our work on the Making Sense project. We’ve explored how open source design and technology can be used by local communities to create change.</p>
+      <p class="color-white">Watch the documentary that features our work on the Making Sense project. It explores how open source design and technology can be used by local communities to create change.</p>
       <a href="https://www.youtube.com/watch?v=lpRKx7i9kwc" class="btn-yellow btn-round-new">WATCH IT NOW</a>
     </div>
   </section>
@@ -25,21 +22,17 @@
 
     <section layout="row" layout-xs="column">
 
-      <div flex="50" layout="column" style="" class="">
+      <div flex="50" layout="column" class="">
         <div flex="noshrink" class="bg-white tile tile-left tile-top">
           <h2>WE EMPOWER COMMUNITIES TO BETTER UNDERSTAND THEIR ENVIRONMENT</h2>
           <p style="margin-bottom:33px">We're a team of passionate people who believe data is critical to inform political participation at all levels. We develop tools for citizen action in environmental monitoring and methodologies for community engagement and co-creation.</p>
         </div>
-        <div flex="noshrink" hide-xs class="img-new_sck tile tile-left tile-image">
-          <img class="mw-100" src="./assets/images/new_sck.jpg" alt="image of boy " />
+        <div hide-xs class="img-new_sck tile tile-left tile-image">
         </div>
       </div>
 
       <div flex="50" layout="column">
-        <div flex="noshrink" hide-xs class="img-sck_edu tile tile-top tile-image">
-           <!--
-            <img class="mw-100" src="./assets/images/sck_edu.jpg" alt="image of kit " />
-           -->
+        <div hide-xs class="img-sck_edu tile tile-top tile-image">
         </div>
         <div flex="noshrink" class="bg-white tile tile-xs">
           <h2>INTRODUCING A NEW AND IMPROVED KIT</h2>
@@ -98,7 +91,7 @@
       </div>
 
       <div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image">
-        <a class="btn-blue btn-round-new mb-30" href="https://smartcitizen.me/kits/">GO TO THE PLATFORM</a>
+        <a class="btn-blue btn-round-new mb-30" href="/kits/">GO TO THE PLATFORM</a>
       </div>
     </section>
 
@@ -129,7 +122,7 @@
       <div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between">
         <div flex="30" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10">
           <img style="height:80px" src="./assets/images/api.svg" alt="API icon" />
-          <h3>DEVELOPERS<br> READY</h3>
+          <h3>DEVELOPER<br> READY</h3>
           <p>Use our powerful API to build amazing things using data.</p>
           <a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new">USE THE API</a>
         </div>
@@ -149,49 +142,6 @@
     </section>
 
   </div>
-
-  <footer class="p-60" style="background-color:#262626; padding-bottom: 10px">
-
-    <div layout="row" layout-xs="column" layout-sm="column" layout-wrap layout-align="space-between center" layout-align-xs="space-between stretch " style="color:white; margin:0 auto; max-width:1200px">
-
-      <div>
-        <img style="height:80px" src="./assets/images/smartcitizen_logo2.svg" alt="logos" />
-      </div>
-
-      <div layout="row" layout-align="space-between center" class="border-white p-20 mb-10">
-        <div class="mr-10">Follow us</div>
-        <a class="mr-10" href="https://twitter.com/smartcitizenkit">
-          <img style="height:30px" src="./assets/images/tw.svg" alt="twitter" />
-        </a>
-        <a href="https://www.facebook.com/smartcitizenBCN/">
-          <img style="height:30px" src="./assets/images/fb.svg" alt="fb" />
-        </a>
-      </div>
-
-      <div layout="row" layout-align="space-between center" class="border-white p-20 mb-10">
-        <div class="mr-10">A project by</div>
-        <a class="mr-10" href="https://fablabbcn.org">
-          <img style="height:18px; padding-right: 5px" src="./assets/images/logo_fablab_bcn_small.png" alt="fablab" />
-        </a>
-        <a href="https://iaac.net">
-          <img style="height:15px" src="./assets/images/iaac.png" alt="fablab" />
-        </a>
-      </div>
-
-
-      <div flex="25" layout="row" layout-xs="column" layout-sm="column"  layout-align="start center">
-        <img style="height:48px; padding-right: 15px" src="./assets/images/eu_flag.png" alt="fablab" />
-        <p class="color-white text-funding"> SmartCitizen has received funding from the European Community’s H2020 Programme under Grant Agreement No. 689954. </p>
-      </div>
-
-      <div flex="100" layout="row" layout-align="center center">
-        <p class="color-white" style="text-align: center;">Except where otherwise noted, content on this site by Smart Citizen is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <a rel="policy" href="policy">Terms of use and privacy policy</a> </p>
-      </div>
-
-    </div>
-
-
-
-  </footer>
-
 </div>
+
+<footer ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>

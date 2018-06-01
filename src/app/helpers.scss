@@ -46,6 +46,7 @@
 }
 
 
+
 // Background helpers
 .bg-white{
   background: #fff;
@@ -64,6 +65,15 @@
 .btn-outline-blue{
   border:2px solid $blue;
   color: $blue;
+  padding:10px 29px;
+}
+.btn-outline-white:hover{
+  background: white;
+  color: $yellow;
+}
+.btn-outline-white{
+  border:2px solid white;
+  color: white;
   padding:10px 29px;
 }
 .btn-outline-blue:hover{
@@ -85,7 +95,7 @@
   padding:12px 29px;
 }
 .btn-yellow:hover{
-  background: #FFC536;
+  background: rgba($yellow, 0.8);
   color: $off_black;
 }
 .btn-black-outline{
@@ -103,7 +113,7 @@
   padding:12px 29px;
 }
 .btn-blue:hover{
-  background: #1930FF;
+  background: rgba($blue, 0.8);
   color: white;
 }
 .btn-round-new{
