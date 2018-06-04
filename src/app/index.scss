@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic|Roboto:400,700,700italic,400italic);
-@import url('https://fonts.googleapis.com/css?family=Kanit:400,900');
+@import url('https://fonts.googleapis.com/css?family=Kanit:400,500,600,700,900');
 
 @import '_variables';
 @import 'helpers';
@@ -121,11 +121,9 @@ html h4, body h4, .h4{
 
 html p, body p{
   line-height: 1.5;
-  color: $secondary_color;
 }
 
 td{
-  color: $secondary_color;
   padding:5px;
 }
 
@@ -1201,16 +1199,16 @@ md-content.md-default-theme, md-content {
 */
 
 .markerSmartCitizenNormal {
-  border: 1px solid $terciary_color;
+  border: 1px solid $yellow;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
 }
 
 .markerSmartCitizenOnline {
-  border: 2px solid $terciary_color;
+  border: 2px solid $yellow;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
-  background-color: $terciary_color;
+  background-color: rgba($yellow, 0.5);
 }
 
 .markerExperimentalNormal {
@@ -1282,7 +1280,7 @@ md-content.md-default-theme, md-content {
 .popup {
   width: 101%;;
   height: 135px;
-  color: $grey_darker;
+  color: $off_black;
   font-family: 'Roboto Condensed'
 }
 
@@ -1703,7 +1701,7 @@ md-content.md-default-theme, md-content {
     width: 100%;
 }
 .dropdown-item-button:hover{
-  background-color: #F3F8F8 !important
+  background-color: $blue_light !important
 }
 
 /**
@@ -1729,6 +1727,9 @@ md-content.md-default-theme, md-content {
   >div {
     margin: 5px 0;
   }
+  svg {
+    fill: $grey_lighter;
+  }
 }
 .profile_header_content_avatar {
   width: 12px;
@@ -1752,7 +1753,7 @@ md-content.md-default-theme, md-content {
 }
 .profile_sidebar_title {
   margin: 0 0 42px 20px;
-  color: #23444C;
+  color: $off_black;
   font-weight: bold;
 }
 .profile_sidebar_description {
@@ -1767,6 +1768,9 @@ md-content.md-default-theme, md-content {
   padding-left: 40px;
   height: 64px;
   color: $terciary_color;
+  svg {
+    fill: $blue;
+  }
 }
 
 .profile_sidebar_avatar {
@@ -1836,6 +1840,9 @@ md-content.md-default-theme, md-content {
   margin-right: 8px;
   position: relative;
   top: -1px;
+  svg {
+    fill: white;
+  }
 }
 .myProfile_sidebar_button {
   padding-left: 28px;

@@ -159,7 +159,7 @@ section .kit_menu {
       height: 14px;
       margin-right: 8px;
       margin-top: 4px;
-      svg { fill: $blue; }
+      svg { fill: $blue_light; }
     }
     span {
       vertical-align: middle;
@@ -250,10 +250,11 @@ section .kit_menu {
     display: inline-table;
     cursor: pointer;
     text-align: center;
-
+    outline:none;
+    
     p{
       margin: 0px;
-      bottom: 10px;
+      padding-bottom: 15px;
       font-size: 0.8em;
       font-weight: normal;
     }
@@ -265,7 +266,7 @@ section .kit_menu {
     .sensor_right {
       position: absolute;
       right: 15px;
-      bottom: 24px;
+      bottom: 38px;
       max-width: 30px;
       .sensor_unit {
         margin-top:8px;
@@ -277,12 +278,10 @@ section .kit_menu {
         height: 7px;
         &.arrow_up svg { fill: $green; }
         &.arrow_down svg { fill: $red; }
-        &.equal svg { fill: $blue; }
+        &.equal svg { fill: $blue_light; }
       }
     }
     .sensor_value {
-      font-size: 34px;
-      font-weight: bold;
       margin-top: 10px;
       padding-left: 50px;
       padding-right: 50px;
@@ -294,7 +293,7 @@ section .kit_menu {
       width: 14px;
       height: 14px;
       position: absolute;
-      bottom: 28px;
+      bottom: 45px;
       left: 25px;
       svg {
         fill: $grey_darker;
@@ -727,4 +726,10 @@ section .kit_menu {
       color: $blue;
     }
   }
+}
+
+.sensor_value {
+  font-size: 34px;
+  font-family: Kanit;
+  font-weight: 700;
 }
