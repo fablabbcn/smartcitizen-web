@@ -185,34 +185,34 @@
       function getSensorColor(sensorName) {
         switch(getSensorName(sensorName)) {
           case 'TEMPERATURE':
-            return '#ffc107';
+            return '#FF3D4C';
 
           case 'HUMIDITY':
-            return '#4fc3f7';
+            return '#55C4F5';
 
           case 'LIGHT':
-            return '#ffee58';
+            return '#ffc107';
 
           case 'SOUND':
-            return '#f06292';
+            return '#0019FF';
 
           case 'CO':
-            return '#4caf50';
+            return '#00A102';
 
           case 'NO2':
-            return '#8bc34a';
+            return '#8bc34a';  // still old color
 
           case 'NETWORKS':
-            return '#9575cd';
+            return '#681DBD';
 
           case 'SOLAR PANEL':
-            return '#fff9c4';
+            return '#FF8600';
 
           case 'BATTERY':
-            return '#ffee58';
+            return '#ffee58';  // still old color
 
           default:
-            return '#ff5722';
+            return '#ff5722';  // still old color
         }
       }
 
