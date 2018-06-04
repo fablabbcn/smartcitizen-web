@@ -79,6 +79,7 @@
     border-right: 3px solid $off_black;
   }
   .tile-image{
+    min-height:300px;
     padding:0 !important;
   }
 
@@ -140,8 +141,8 @@
       line-height:28px;
     }
     h3{
-       font-size: 26px;
-       line-height: 26px;
+      font-size: 26px;
+      line-height: 26px;
     }
     p{
       font-size:18px;
@@ -171,7 +172,7 @@
       font-size:25px;
     }
     .text-funding{
-       text-align: center;
+      text-align: center;
     }
   }
 
@@ -190,8 +191,17 @@
     .p-60{
       padding: 10px !important;
     }
-    .tile-xs{
+    .border-xs-top{
+      border-top: 3px solid $off_black;
       border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom: 3px solid $off_black;
+    }
+    .border-xs-bottom{
+      border-top: unset;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom:3px solid $off_black;
     }
     .img-platform{
       min-height:356px;
