@@ -245,14 +245,15 @@ section .kit_menu {
   }
 
   .sensor_container {
-    margin: 30px;
     position: relative;
     color: $grey_darker;
     display: inline-table;
     cursor: pointer;
     text-align: center;
 
-    small{
+    p{
+      margin: 0px;
+      bottom: 10px;
       font-size: 0.8em;
       font-weight: normal;
     }
@@ -262,8 +263,10 @@ section .kit_menu {
     }
 
     .sensor_right {
-      position: relative;
-      left: 5px;
+      position: absolute;
+      right: 15px;
+      bottom: 24px;
+      max-width: 30px;
       .sensor_unit {
         margin-top:8px;
         font-size: 14px;
@@ -280,6 +283,9 @@ section .kit_menu {
     .sensor_value {
       font-size: 34px;
       font-weight: bold;
+      margin-top: 10px;
+      padding-left: 50px;
+      padding-right: 50px;
     }
     .sensor_value_null {
       opacity: 0.15;
@@ -287,9 +293,9 @@ section .kit_menu {
     .sensor_icon {
       width: 14px;
       height: 14px;
-      position: relative;
-      top: -3px;
-      right: 4px;
+      position: absolute;
+      bottom: 28px;
+      left: 25px;
       svg {
         fill: $grey_darker;
       }
