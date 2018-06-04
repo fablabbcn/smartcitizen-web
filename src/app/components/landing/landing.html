@@ -9,7 +9,6 @@
      class="btn-outline-white btn-round-new sc-off-cta-platform"
      analytics-on="click"
      analytics-category="Landing"
-     analytics-action="go to platform top-btn"
      >GO TO THE PLATFORM</a>
 
   <section class="video-section">
@@ -23,7 +22,6 @@
          class="btn-yellow btn-round-new"
          analytics-on="click"
          analytics-category="Landing"
-         analytics-action="watch documentary"
          >WATCH IT NOW</a>
     </div>
   </section>
@@ -105,7 +103,6 @@
           class="btn-blue btn-round-new mb-30"
           analytics-on="click"
           analytics-category="Landing"
-          analytics-action="go to platform"
           >GO TO THE PLATFORM</a>
       </div>
     </section>
@@ -120,7 +117,16 @@
           <div layout="row" layout-xs="column" layout-align="space-between center">
             <input class="mb-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required>
 
-            <input style="border:none; padding:12px 50px" class="btn-yellow btn-round-new mb-20" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
+            <input style="border:none; padding:12px 50px"
+                   class="btn-yellow btn-round-new mb-20"
+                   type="submit"
+                   name="subscribe"
+                   id="mc-embedded-subscribe"
+                   value="GO!"
+                   analytics-on="click"
+                   analytics-category="Landing"
+                   analytics-event="Subscribe to newsletter"
+                   />
             <div id="mce-responses" class="clear">
               <div class="response" id="mce-error-response" style="display:none"></div>
               <div class="response" id="mce-success-response" style="display:none"></div>
@@ -143,7 +149,6 @@
              class="btn-black-outline btn-round-new"
              analytics-on="click"
              analytics-category="Landing"
-             analytics-action="go to api"
              >USE THE API</a>
         </div>
         <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10" >
@@ -154,7 +159,6 @@
              class="btn-black-outline btn-round-new"
              analytics-on="click"
              analytics-category="Landing"
-             analytics-action="go to github"
              >VISIT REPOSITORY</a>
         </div>
         <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10">
@@ -165,7 +169,6 @@
              class="btn-black-outline btn-round-new"
              analytics-on="click"
              analytics-category="Landing"
-             analytics-action="go to forum"
              >GET INVOLVED</a>
         </div>
       </div>
