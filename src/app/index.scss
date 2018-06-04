@@ -8,6 +8,7 @@
 @import 'components/search/search';
 @import 'components/kit/kit';
 @import 'components/kit/showKit/showKit';
+@import 'core/animation/backdrop/loadingBackdrop';
 @import 'core/animation/animation.directive';
 
 /**
@@ -496,54 +497,6 @@ md-progress-linear.md-hue-3 .md-bar {
     }
  }
 
-/**
- *  BACKDROP COMPONENT
- */
-
-// Popup backdrop
-
-md-content.md-opaque {
-  background-color: rgba(30, 30, 30, 0.6);
-}
-
-//Loading backdrop
-
-md-content.md-mainBackdrop {
-  background-color: $grey_lighter;
-  width: 100vw;
-  height: 100vh;
-
-  .backdrop_spinner {
-    margin-top: -20px;
-    margin-left: -20px;
-    top: 50%;
-    left: 50%;
-  }
-
-  .backdrop_icon {
-    margin-left: 15px;
-    margin-top: 15px;
-    height: 32px;
-    width: 32px;
-  }
-
-}
-
-// state change backdrop
-md-content.md-stateChangeBackdrop {
-  z-index: 999;
-  position: absolute;
-  background-color: transparent;
-  width: 100vw;
-  height: 100vh;
-
-  .backdrop_spinner {
-    top: 50%;
-    left: 50%;
-    margin-top: -20px;
-    margin-left: -20px;
-  }
-}
 
 // No data backdrop
 md-content.md-noDataBackdrop {

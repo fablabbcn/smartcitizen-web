@@ -1,0 +1,51 @@
+/**
+ *  BACKDROP COMPONENT
+ */
+
+// Popup backdrop
+
+md-content.md-opaque {
+  background-color: rgba(30, 30, 30, 0.6);
+}
+
+//Loading backdrop
+
+md-content.md-mainBackdrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  .backdrop_icon {
+    width: 101px;
+    height: 101px;
+  }
+}
+
+// state change backdrop
+md-content.md-stateChangeBackdrop {
+  z-index: 999;
+  position: absolute;
+  background-color: transparent;
+  width: 100vw;
+  height: 100vh;
+}
+
+.backdrop_icon {
+  svg {
+    overflow: visible;
+    fill: rgba($yellow, 0.5);
+  }
+  .sc-circle-arrow {
+    -webkit-transform-origin: 50% 53.8%;
+    -moz-transform-origin: 50% 53.8%;
+    -o-transform-origin: 50% 53.8%;
+    transform-origin: 50% 53.8%;
+    -webkit-animation:spin 3s linear infinite;
+    -moz-animation:spin 3s linear infinite;
+    animation:spin 3s linear infinite;
+  }
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

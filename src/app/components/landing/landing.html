@@ -5,7 +5,11 @@
   -->
 
   <img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo" />
-  <a href="/kits/" class="btn-outline-white btn-round-new sc-off-cta-platform">GO TO THE PLATFORM</a>
+  <a href="/kits/"
+     class="btn-outline-white btn-round-new sc-off-cta-platform"
+     analytics-on="click"
+     analytics-category="Landing"
+     >GO TO THE PLATFORM</a>
 
   <section class="video-section">
     <video style="z-index:0;" autoplay muted loop id="myVideo">
@@ -14,7 +18,11 @@
     <div class="heading-over-video" layout="column" layout-align="center start">
       <h1 class="color-white font-kanit">CITIZEN SCIENCE REVOLUTION</h1>
       <p class="color-white">Watch the documentary that features our work on the Making Sense project. It explores how open source design and technology can be used by local communities to create change.</p>
-      <a href="https://www.youtube.com/watch?v=lpRKx7i9kwc" class="btn-yellow btn-round-new">WATCH IT NOW</a>
+      <a href="https://www.youtube.com/watch?v=lpRKx7i9kwc"
+         class="btn-yellow btn-round-new"
+         analytics-on="click"
+         analytics-category="Landing"
+         >WATCH IT NOW</a>
     </div>
   </section>
 
@@ -23,18 +31,18 @@
     <section layout="row" layout-xs="column">
 
       <div flex="50" layout="column" class="">
-        <div flex="noshrink" class="bg-white tile tile-left tile-top">
+        <div flex="noshrink" flex-order-xs="2"  class="bg-white tile tile-left border-xs-bottom tile-top">
           <h2>WE EMPOWER COMMUNITIES TO BETTER UNDERSTAND THEIR ENVIRONMENT</h2>
           <p style="margin-bottom:33px">We're a team of passionate people who believe data is critical to inform political participation at all levels. We develop tools for citizen action in environmental monitoring and methodologies for community engagement and co-creation.</p>
         </div>
-        <div hide-xs class="img-new_sck tile tile-left tile-image">
+        <div flex-order-xs="1" class="img-new_sck tile tile-left tile-image border-xs-top">
         </div>
       </div>
 
       <div flex="50" layout="column">
-        <div hide-xs class="img-sck_edu tile tile-top tile-image">
+        <div class="img-sck_edu tile tile-top tile-image border-xs-bottom">
         </div>
-        <div flex="noshrink" class="bg-white tile tile-xs">
+        <div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom">
           <h2>INTRODUCING A NEW AND IMPROVED KIT</h2>
           <p style="margin-bottom:33px">For the past three years, we have been working on an updated version of the Kit. The new sensors collect urban data more accurately and are easier to use. The Smart Citizen 2.0 Kit will be available to order soon!</p>
         </div>
@@ -44,24 +52,24 @@
 
 
     <section class="mt-50">
-      <div class="bg-white p-30 border-black"  layout="row" layout-align="center center">
+      <div class="bg-white p-30 border-black" layout="row" layout-align="center center">
         <h2>TOOLS FOR EVERY COMMUNITY</h2>
       </div>
 
       <div layout="row" layout-xs="column">
-        <div flex="40" class="bg-blue tile tile-left text-center">
+        <div flex="40" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center">
           <img style="height:85px" src="./assets/images/communities.svg" alt="Community icon" />
           <h3 class="color-white">LOCAL COMMUNITIES</h3>
           <p class="color-white">Launch a crowd sensing initiative in your neighborhood. Use Smart Citizen to create local maps of noise and air quality; use it to raise awareness and find solutions for issues that matter to your community.</p>
         </div>
-        <div flex="60" hide-xs class="img-sck_com tile-image tile ">
+        <div flex="60" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom">
         </div>
       </div>
 
       <div layout="row" layout-xs="column">
-        <div flex="60" hide-xs class="img-research tile-image tile tile-left">
+        <div flex="60" class="img-research tile-image tile tile-left border-xs-bottom">
         </div>
-        <div flex="40" class="bg-yellow tile tile-xs text-center">
+        <div flex="40" class="bg-yellow tile tile-xs text-center border-xs-bottom">
           <img style="height:85px" src="./assets/images/research.svg" alt="Community icon" />
 
           <h3>RESEARCHERS</h3>
@@ -70,12 +78,12 @@
       </div>
 
       <div layout="row" layout-xs="column">
-        <div flex="40" class="bg-red tile tile-left color-white text-center">
+        <div flex="40" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center">
           <img style="height:110px" src="./assets/images/cities.svg" alt="Community icon" />
           <h3 class="color-white">CITIES AND GOVERNMENTS</h3>
           <p class="color-white">Smart Cities should be built together with Smart Citizens. We provide the tools and knowledge to foster citizen engagement through participatory data collection, analysis and action.</p>
         </div>
-        <div flex="60" hide-xs class="img-governm tile tile-image">
+        <div flex="60" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom">
         </div>
       </div>
     </section>
@@ -91,7 +99,11 @@
       </div>
 
       <div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image">
-        <a class="btn-blue btn-round-new mb-30" href="/kits/">GO TO THE PLATFORM</a>
+        <a href="/kits/"
+          class="btn-blue btn-round-new mb-30"
+          analytics-on="click"
+          analytics-category="Landing"
+          >GO TO THE PLATFORM</a>
       </div>
     </section>
 
@@ -105,7 +117,16 @@
           <div layout="row" layout-xs="column" layout-align="space-between center">
             <input class="mb-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required>
 
-            <input style="border:none; padding:12px 50px" class="btn-yellow btn-round-new mb-20" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" />
+            <input style="border:none; padding:12px 50px"
+                   class="btn-yellow btn-round-new mb-20"
+                   type="submit"
+                   name="subscribe"
+                   id="mc-embedded-subscribe"
+                   value="GO!"
+                   analytics-on="click"
+                   analytics-category="Landing"
+                   analytics-event="Subscribe to newsletter"
+                   />
             <div id="mce-responses" class="clear">
               <div class="response" id="mce-error-response" style="display:none"></div>
               <div class="response" id="mce-success-response" style="display:none"></div>
@@ -124,19 +145,31 @@
           <img style="height:80px" src="./assets/images/api.svg" alt="API icon" />
           <h3>DEVELOPER<br> READY</h3>
           <p>Use our powerful API to build amazing things using data.</p>
-          <a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new">USE THE API</a>
+          <a href="https://developer.smartcitizen.me/"
+             class="btn-black-outline btn-round-new"
+             analytics-on="click"
+             analytics-category="Landing"
+             >USE THE API</a>
         </div>
         <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10" >
           <img style="height:80px" src="./assets/images/github.svg" alt="Github icon" />
           <h3>WE’RE<br>OPEN SOURCE</h3>
           <p>Fork and contribute to the project in Github.</p>
-          <a href="https://github.com/fablabbcn?utf8=✓&q=smartcitizen" class="btn-black-outline btn-round-new">VISIT REPOSITORY</a>
+          <a href="https://github.com/fablabbcn?utf8=✓&q=smartcitizen"
+             class="btn-black-outline btn-round-new"
+             analytics-on="click"
+             analytics-category="Landing"
+             >VISIT REPOSITORY</a>
         </div>
         <div flex="30"  layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10">
           <img style="height:80px;" src="./assets/images/forum.svg" alt="Forum icon" />
           <h3>JOIN THE<br>FORUM</h3>
           <p>A place to share ideas with the community or find support.<p>
-          <a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new">GET INVOLVED</a>
+          <a href="https://forum.smartcitizen.me"
+             class="btn-black-outline btn-round-new"
+             analytics-on="click"
+             analytics-category="Landing"
+             >GET INVOLVED</a>
         </div>
       </div>
     </section>
