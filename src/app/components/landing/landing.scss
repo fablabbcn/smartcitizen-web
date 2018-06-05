@@ -68,7 +68,7 @@
     background: blue url("/assets/images/sck_cities.jpg") center/cover;
   }
   .img-platform{
-    min-height:630px;
+    min-height:630px !important;
     background: blue url("/assets/images/sck_platform.jpg") center/cover;
   }
 
@@ -204,13 +204,17 @@
       border-bottom:3px solid $off_black;
     }
     .img-platform{
-      min-height:356px;
+      min-height:356px !important;
     }
     .heading-over-video{
       padding-right: 5%;
     }
     .sc-off-cta-platform {
       padding: 10px 10px;
+    }
+    .my-20{
+      margin-top: 10px !important;
+      margin-bottom: 10px !important;
     }
   }
 }
