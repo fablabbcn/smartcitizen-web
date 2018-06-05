@@ -4,8 +4,8 @@
     <title>map icon</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Map-elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g sketch:type="MSArtboardGroup" transform="translate(-79.000000, -26.000000)" id="map" fill="#35C2E5">
+    <g id="Map-elements" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g sketch:type="MSArtboardGroup" transform="translate(-79.000000, -26.000000)" id="map">
             <g sketch:type="MSLayerGroup">
                 <g id="Menu" transform="translate(70.196078, 0.000000)" sketch:type="MSShapeGroup">
                     <g id="Map" transform="translate(0.803922, 0.000000)">

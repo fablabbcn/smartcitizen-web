@@ -31,8 +31,8 @@
       vm.removeUser = removeUser;
       vm.uploadAvatar = uploadAvatar;
 
-      //THIS IS TEMPORARY. 
-      // Will grow on to a dynamic API KEY management 
+      //THIS IS TEMPORARY.
+      // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
       vm.user.token = auth.getCurrentUser().token;
       vm.addNewKit = addNewKit;
@@ -221,7 +221,7 @@
         icon = angular.element(icon);
 
         icon.find('.stroke_container').css({'stroke': 'none'});
-        icon.find('.fill_container').css('fill', '#82A7B0');
+        icon.find('.fill_container').css('fill', '#FF8600');
       }
 
       function setSidebarMinHeight() {

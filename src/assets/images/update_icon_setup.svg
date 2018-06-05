@@ -9,7 +9,7 @@
 <g id="Preview-_x2B_-popup" sketch:type="MSPage">
 	<g id="Subnavbar-_x2B_-preview-_x2B_-popup-OK" transform="translate(-397.000000, -125.000000)" sketch:type="MSArtboardGroup">
 		<g id="Popup-Copy" transform="translate(388.500000, 72.000000)" sketch:type="MSLayerGroup">
-			<path id="Update_icon" sketch:type="MSShapeGroup" fill="#4F8390" d="M14,51c-3.85,0-7,3.15-7,7c0,3.85,3.15,7,7,7
+			<path id="Update_icon" sketch:type="MSShapeGroup" d="M14,51c-3.85,0-7,3.15-7,7c0,3.85,3.15,7,7,7
 				c3.85,0,7-3.15,7-7C21,54.15,17.85,51,14,51L14,51L14,51z M14,63.601c-3.08,0-5.6-2.521-5.6-5.601c0-3.081,2.521-5.6,5.6-5.6
 				c3.079,0,5.601,2.52,5.601,5.6C19.601,61.08,17.079,63.601,14,63.601L14,63.601z M14.35,54.5H13.3v4.2l3.64,2.239L17.5,60.03
 				l-3.15-1.89V54.5L14.35,54.5z"/>

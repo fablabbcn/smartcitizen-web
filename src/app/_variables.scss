@@ -1,29 +1,41 @@
-$secondary_color: #065063;
-$terciary_color: #38CEF3;
+$yellow: #FFC100;
+$blue: #0019FF;
+$blue_light: #55C4F5;
 
-$secondary_color_light: #4F8390;
-$terciary_color_light: #C8E6ED;
+$red: #FF3D4C;
+$green: #00E597;
+$off_black: #2E2E2E;
 
-$info_primary: #8DB2BA;
+$grey_lightest: #F9F9FB;
+$grey_lighter: #ECECEE;
+$grey: #D2D3D5;
+$grey_darker: #6E6E6E;
+$grey_darkest: #7E7E7E;
+
+$secondary_color: $grey_darker;
+$terciary_color: $blue;
+
+$secondary_color_light: $grey_darker;
+$terciary_color_light: $grey;
+
+$info_primary: $grey;
 $info_secondary: $secondary_color_light;
 
-$blue_light: #4FC9E8;
-
-$alert_red: #E74C3C;
-$alert_green: #35E67E;
+$alert_red: $red;
+$alert_green: $green;
 
 $font_color_white: white;
-$font_color_blue_grey: #82A7B0;
-$font_color_blue_dark: #124B50;
-$font_color_blue_light: #9BE6F8;
+$font_color_blue_grey: $grey;
+$font_color_blue_dark: $grey_darker;
+$font_color_blue_light: $blue;
 
-$background_blue_dark_menu: #043846;
-$background_blue_dark_overview: #042F3B;
-$background_blue_dark_background: #032933;
-$background_blue_dark_navbar: $secondary_color;
-$background_blue_dark_chart: #03252D;
-$background_blue_light: #DDE7EA;
-$background_blue_midtone: #97b6bf;
+$background_blue_dark_menu: $off_black;
+$background_blue_dark_overview: $off_black;
+$background_blue_dark_background: $off_black;
+$background_blue_dark_navbar: $off_black;
+$background_blue_dark_chart: $off_black;
+$background_blue_light: $grey_lighter;
+$background_blue_midtone: $grey;
 
 $large_priority: 10;
 $more_priority: 5;

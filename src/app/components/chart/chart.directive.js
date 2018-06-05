@@ -213,7 +213,6 @@
         // Add the Y Axis
         svg.append('g')
           .attr('class', 'axis y_left')
-          .style('fill', options.color)
           .call(yAxisLeft);
 
         // Draw the x Grid lines
@@ -374,12 +373,10 @@
         // Add both Y Axis
         svg.append('g')
           .attr('class', 'axis y_left')
-          .style('fill', options.color[0])
           .call(yAxisLeft);
 
         svg.append('g')
           .attr('class', 'axis y_right')
-          .style('fill', options.color[1])
           .attr('transform', 'translate(' + width + ' ,0)')
           .call(yAxisRight);
 
