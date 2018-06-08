@@ -77,7 +77,6 @@
       vm.sensorsToCompare = getSensorsToCompare();
 
       $timeout(function() {
-        colorSensorMainIcon();
         colorSensorCompareName();
 
         setSensor({type: 'main', value: newVal});
@@ -122,9 +121,6 @@
 
     function initialize() {
       $timeout(function() {
-        colorSensorMainIcon();
-        colorArrows();
-        colorClock();
         // events below can probably be refactored to use $viewContentLoaded https://github.com/angular-ui/ui-router/wiki#user-content-view-load-events
         animation.viewLoaded();
       }, 1000);
@@ -135,7 +131,7 @@
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
             if(vm.kit){
-              
+
               picker = initializePicker();
 
               animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
@@ -341,33 +337,11 @@
       }
     }
 
-    function colorSensorMainIcon() {
-      var svgContainer = angular.element('.sensor_icon_selected');
-      var parent = svgContainer.find('.container_parent');
-      parent.css('fill', vm.selectedSensorData.color);
-    }
-
     function colorSensorCompareName() {
       var name = angular.element('.sensor_compare').find('md-select-label').find('span');
       name.css('color', vm.selectedSensorToCompareData.color || 'white');
       var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
       icon.css('color', 'white');
-    }
-
-    function colorArrows() {
-      var svgContainer;
-
-      svgContainer = angular.element('.chart_move_left').find('svg');
-      svgContainer.find('.fill_container').css('fill', '#03252D');
-
-      svgContainer = angular.element('.chart_move_right').find('svg');
-      svgContainer.find('.fill_container').css('fill', '#4E656B');
-    }
-
-    function colorClock() {
-      var svgContainer = angular.element('.kit_time_icon');
-      svgContainer.find('.stroke_container').css({'stroke-width': '0.5px', 'stroke':'#A4B0B3'});
-      svgContainer.find('.fill_container').css('fill', '#A4B0B3');
     }
 
     function getMillisFromDate(date) {

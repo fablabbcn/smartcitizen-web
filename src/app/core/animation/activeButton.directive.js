@@ -90,7 +90,7 @@
             strokeContainer.css('stroke-width', '1');
 
             var fillContainer = strokeContainer.find('.fill_container');
-            fillContainer.css('fill', '#82A7B0');
+            fillContainer.css('fill', '#FF8600');
           }
         }
 

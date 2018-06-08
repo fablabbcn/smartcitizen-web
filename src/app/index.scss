@@ -1,10 +1,20 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic|Roboto:400,700,700italic,400italic);
+@import url('https://fonts.googleapis.com/css?family=Kanit:400,500,600,700,900');
+
 @import '_variables';
+@import 'helpers';
+@import 'components/landing/landing';
+@import 'components/layout/layout';
+@import 'components/search/search';
+@import 'components/kit/kit';
+@import 'components/kit/showKit/showKit';
+@import 'core/animation/backdrop/loadingBackdrop';
+@import 'core/animation/animation.directive';
 
 /**
  *  MOZILLA-SPECIFIC CSS
  */
- @-moz-document url-prefix() {
+@-moz-document url-prefix() {
   .kit_detailed .kit_chart .container .kit_chart_left .sensor_select .sensor_icon_selected {
     transform: translateY(-8px);
   }
@@ -62,12 +72,13 @@ html {
 
 body {
   background-color: rgba(0, 0, 0, 0);
+  color: $grey_darkest;
 }
 
 a.about{
   cursor: pointer;
   text-decoration: none;
-  color: $blue_light;
+  color: $blue;
 }
 
 .icon_label{
@@ -76,6 +87,9 @@ a.about{
   margin-right: 4px;
   position: relative;
   top: -2px;
+  svg {
+    fill: $grey_darker;
+  }
 }
 
 /**
@@ -84,7 +98,7 @@ a.about{
 
 html h1, body h1{
   font-size: 2.2em;
-  color: $terciary_color;
+  color: $grey_darker;
   font-weight: normal;
 }
 html h2, body h2{
@@ -107,18 +121,11 @@ html h4, body h4, .h4{
 
 html p, body p{
   line-height: 1.5;
-  color: $secondary_color;
 }
 
 td{
-  color: $secondary_color;
   padding:5px;
 }
-
-small{
-  color: $secondary_color_light;
-}
-
 
 input{
   font-family:'Roboto Condensed';
@@ -144,7 +151,7 @@ input{
   }
 }
 .label{
-  background-color: $secondary_color_light;
+  background-color: $secondary_color;
   color:white;
   md-icon svg path{
     fill: $terciary_color_light;
@@ -153,8 +160,8 @@ input{
 .tag{
   // Tags modal tags
   // Leaflet popup when clicking a dot, cyan tags - not the darker ones
-  background-color: $terciary_color_light;
-  color: $secondary_color_light;
+  background-color: $grey;
+  color: $grey_darker;
   md-icon svg path{
     fill: $secondary_color;
   }
@@ -171,12 +178,10 @@ input{
 
 section.info{
   h1{
-    color: $info_primary;
     font-size:1.3em;
   }
   p{
     line-height: inherit;
-    color: $info_secondary;
     font-weight: lighter;
   }
 }
@@ -187,7 +192,7 @@ a{
 
   &:hover, &:active{
     text-decoration: none;
-    color: $secondary_color_light;
+    color: $grey;
   }
 }
 a.md-button, a,
@@ -227,40 +232,10 @@ md-select{
   }
 }
 
-// General helpers
-
-.color-white{
-  color: white;
-}
-.color-blue{
-  color:$terciary_color;
-}
-.color-cyan{
-  color: $terciary_color;
-}
-.float-left{
-  float: left;
-}
-.float-right{
-  float: right;
-}
-.d-flex{
-  display:flex;
-}
-.full-width{
-  width: 100%;
-}
-.font-roboto-condensed{
-  font-family:'Roboto Condensed';
-}
 a.md-button h4, a.md-button .h4{
   color: $terciary_color;
   margin: 0;
 }
-.pl-20{
-  padding-left: 20px;
-}
-
 a.warn,
 button.warn{
   color: $alert_red;
@@ -306,7 +281,7 @@ div[api-key]{
 
 .inside_list{
   h1{
-    color: $secondary_color_light;
+    color: $grey_darker;
     font-size:1.1em;
     margin: 10px 0px;
   }
@@ -338,156 +313,6 @@ div[api-key]{
 }
 
 /**
- *  NAVBAR
- */
-
-.navbar_container {
-  .md-button {
-    //font-size: 14px;
-  }
-
-  .md-button.navbar_highlight_button {
-    border: 2px solid #00FFA8;
-    color: #00FFA8;
-    border-radius: 50px;
-    //padding: 9px 11px;
-    width: 108px;
-  }
-
-  .logo_link {
-    text-align: center;
-
-    .logo_icon {
-      margin-left: 15px;
-      height: 32px;
-      width: 32px;
-    }
-  }
-
-  .nav_icon {
-    margin-right: 4px;
-    height: 14px !important;
-    width: 14px !important;
-  }
-
-  .padding14 {
-    padding: 14px 8px;
-  }
-
-  .nav_left {
-    //width: 204px;
-    margin: 0px 18px;
-    .map {
-    }
-    .community {
-      //width: 106px;
-    }
-  }
-
-  .nav_right {
-
-    .get {
-    }
-    .log {
-    }
-    .navbar_signup_button {
-
-      .md-button {
-        padding: 2px 0px;
-        border: 2px solid #00FFA8;
-        color: #00FFA8;
-        border-radius: 50px;
-        width: 79px;
-      }
-      .md-button:hover {
-        background-color: #377382;
-      }
-    }
-  }
-}
-
-/**
- *  SEARCH COMPONENT
- */
-
-// The search results no longer belong to 'search' element, but its own rapper at the root DOM
-md-virtual-repeat-container{
-  .md-virtual-repeat-scroller{
-    ul {
-      z-index: 100;
-      max-height: 422px;
-      top: 93%;
-
-      li {
-        .result_icon {
-          position: relative;
-          top: 9px;
-          margin-right: 12px;
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          float:left;
-        }
-        .result_location {
-          color: $blue_light;
-        }
-        .result_name {
-          margin-right: 10px;
-        }
-
-        border: 0px;
-        z-index: 100;
-        height: 40px;
-        line-height: 40px;
-      }
-    }
-  }
-}
-
-search {
-  position: relative;
-
-  .search_icon {
-    position: absolute;
-    top: 3.2px;
-    left: 14px;
-    z-index: $large_priority;
-
-    md-icon {
-      margin-top: 6px;
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  input {
-    padding: 0 40px !important;
-    background-color: #377382 !important;
-    color: black;
-  //height: 36px;
-  //line-height: 36px;
-    border-radius: 4px;
-  }
-
-  input:active, input:focus {
-    fill: white;
-    background-color: $background_blue_light !important;
-  }
-
-  md-autocomplete {
-    border-radius: 4px;
-    box-shadow: 0 0px 0px white;
-    background-color: transparent;
-  }
-
-  md-autocomplete-wrap {
-    height: 39px;
-    background-color: transparent;
-    border-radius: 4px;
-  }
-}
-
-/**
  * ANGULAR MATERIAL OVERRIDING
  */
 
@@ -501,12 +326,6 @@ md-select-menu {
 }
 md-select:not([disabled]):focus .md-select-value {
   border-bottom-color: #6B868D;
-}
-
-md-toolbar{
-  background-color: $background_blue_dark_navbar !important;
-  z-index: $large_priority;
-  height: 64px;
 }
 
 button.md-primary{
@@ -594,7 +413,7 @@ md-toast {
     padding: 0px 12px;
     margin-left: 5px;
     color: black !important;
-    background-color: #C1A212;
+    background-color: $yellow;
     border-radius: 20px;
     font-size: 12px;
   }
@@ -609,7 +428,7 @@ md-toast.green {
 }
 
 md-toast.blue {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 
 md-toast.yellow {
@@ -632,13 +451,13 @@ md-checkbox .md-label span {
  */
 
 md-progress-linear .md-bar{
-  background-color: #044150;
+  background-color: $blue;
 }
 md-progress-linear.md-hue-3 .md-container{
-  background-color: rgba(79, 201, 232, 0.05);
+  background-color: rgba($blue, 0.05);
 }
 md-progress-linear.md-hue-3 .md-bar {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 
 .kit_spinner {
@@ -660,7 +479,7 @@ md-progress-linear.md-hue-3 .md-bar {
 
  .cookies-policy_container{
     background-color: rgba(60, 60, 60, 1);
-    color:$font_color_blue_light;
+    color: $yellow;
     position: fixed;
     bottom: 0;
     padding:5px;
@@ -672,58 +491,10 @@ md-progress-linear.md-hue-3 .md-bar {
     line-height: 4vh;
 
     a{
-      color:$secondary_color_light;
+      color: rgba($yellow, 0.6);
     }
  }
 
-/**
- *  BACKDROP COMPONENT
- */
-
-// Popup backdrop
-
-md-content.md-opaque {
-  background-color: rgba(30, 30, 30, 0.6);
-}
-
-//Loading backdrop
-
-md-content.md-mainBackdrop {
-  background-color: #2A4E62;
-  width: 100vw;
-  height: 100vh;
-
-  .backdrop_spinner {
-    margin-top: -20px;
-    margin-left: -20px;
-    top: 50%;
-    left: 50%;
-  }
-
-  .backdrop_icon {
-    margin-left: 15px;
-    margin-top: 15px;
-    height: 32px;
-    width: 32px;
-  }
-
-}
-
-// state change backdrop
-md-content.md-stateChangeBackdrop {
-  z-index: 999;
-  position: absolute;
-  background-color: transparent;
-  width: 100vw;
-  height: 100vh;
-
-  .backdrop_spinner {
-    top: 50%;
-    left: 50%;
-    margin-top: -20px;
-    margin-left: -20px;
-  }
-}
 
 // No data backdrop
 md-content.md-noDataBackdrop {
@@ -750,7 +521,7 @@ md-content.md-noDataBackdrop {
     font-weight: 300;
   }
   a {
-    color: #35C2E5;
+    color: $blue;
     text-decoration: none;
   }
 }
@@ -840,7 +611,7 @@ section.map {
     box-shadow: 0 1px 5px rgba(0,0,0,0.65);
   }
   &.kit_tag {
-    background-color: #C8E6ED;
+    background-color: $grey;
     float: left;
     margin: 5px;
   }
@@ -1631,12 +1402,12 @@ KIT TAGS MODULE
   margin-top: 376px;
 
   .kitTags__listContainer{
-    background-color: #F5F5F5;
+    background-color: $grey_lighter;
     padding: 20px;
   }
 
   .kitTags__container{
-    background-color: #F5F5F5;
+    background-color: $grey_lighter;
     padding-bottom: 20px;
 
     .kitTags__textContainer{
@@ -1653,109 +1424,7 @@ KIT TAGS MODULE
   }
 }
 
-/*
-=========================================
-KIT COMMENTS MODULE
-=========================================
-*/
-.kit_comments {
-  padding-bottom: 100px;
-}
 
-/*
-  CHART COMPONENT
-*/
-
-.chart_container {
-  min-width: 340px;
-  min-height: 310px;
-  //width: 100%;
-  //height: 90%;
-  position: relative;
-
-  .chart_line {
-    fill: none;
-    stroke-width: 2px;
-  }
-  .chart_area {
-    opacity: 0.1;
-  }
-
-  .axis path,.axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-    display: none;
-  }
-  .axis {
-    font-size: 10px;
-  }
-  .axis.y_left {
-    fill: orange;
-  }
-  .axis.y_right {
-    fill: grey;
-  }
-  .axis.x {
-    fill: $font_color_blue_light;
-  }
-  .grid {
-    .tick {
-      stroke: lightgrey;
-      stroke-opacity: 0.1;
-      shape-rendering: crispEdges;
-    }
-    path {
-      stroke-width: 0;
-    }
-  }
-  .overlay {
-    fill: none;
-    pointer-events: all;
-  }
-
-  .focus circle {
-    fill: rgb(3, 37, 45);
-    stroke-width: 2px;
-  }
-  .text_hover_container {
-    border: 1px solid grey;
-  }
-  .popup_value {
-    fill: $background_blue_dark_chart;
-    color: $background_blue_dark_chart;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .popup_date {
-    fill: #4E666B;
-    font-size: 10px;
-    font-weight: bold;
-  }
-  .popup_unit {
-    fill: #B2BCBE;
-    margin-left: 10px;
-  }
-}
-
-.stickNav {
-  position: fixed;
-  top: 0px;
-}
-
-.overlay-kitinfo{
-  background: $background_blue_dark_background;
-  height: 100%;
-  width: 100%;
-  position:absolute;
-  z-index:999;
-}
-
-section .stickMenu {
-  position: absolute;
-//  top: 64px;
-}
 
 /*
   SHARED MODAL FOR LOGIN, SIGNUP, STORE,..
@@ -1896,7 +1565,7 @@ md-content.md-default-theme, md-content {
     margin: 15px 0px 15px 0;
   }
   md-checkbox.md-checked .md-icon {
-    background-color: #35C2E5;
+    background-color: $blue;
   }
   h3 {
     margin-bottom: 2px;
@@ -2238,16 +1907,16 @@ md-content.md-default-theme, md-content {
 */
 
 .markerSmartCitizenNormal {
-  border: 1px solid $terciary_color;
+  border: 1px solid $yellow;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
 }
 
 .markerSmartCitizenOnline {
-  border: 2px solid $terciary_color;
+  border: 2px solid $yellow;
   border-radius: 20px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.30);
-  background-color: $terciary_color;
+  background-color: rgba($yellow, 0.5);
 }
 
 .markerExperimentalNormal {
@@ -2319,7 +1988,7 @@ md-content.md-default-theme, md-content {
 .popup {
   width: 101%;;
   height: 135px;
-  color: $font_color_blue_dark;
+  color: $off_black;
   font-family: 'Roboto Condensed'
 }
 
@@ -2389,7 +2058,7 @@ md-content.md-default-theme, md-content {
 /* Kit type colors kitUtils.service.js :: classify()*/
 
 .sck {
-  background-color: $terciary_color;
+  background-color: $yellow;
 }
 .unknown {
   background-color: grey;
@@ -2462,8 +2131,8 @@ md-content.md-default-theme, md-content {
 
 .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
     border-radius: 50%;
-    border: 2px solid rgba(0,255,168,0.8);
-    background-color: rgba(0,255,168,0.30);
+    border: 2px solid rgba($yellow, 0.8);
+    background-color: rgba($yellow, 0.3);
   div {
     background-color: rgba(0,255,168,0);
   }
@@ -2481,8 +2150,8 @@ md-content.md-default-theme, md-content {
 .date_picker {
   height: 24px;
   border-radius: 2px;
-  border: 1px solid #6B868D;
-  color: #A4B0B3;
+  border: 1px solid $grey_darker;
+  color: $grey_darker;
   background-color: transparent;
 }
 
@@ -2555,7 +2224,7 @@ md-content.md-default-theme, md-content {
     }
     li.divider {
       background-color: white;
-      color: #35C2E5;
+      color: $blue;
       font-weight: bold;
       margin-left: 8px;
       margin-right: 38px;
@@ -2619,7 +2288,7 @@ md-content.md-default-theme, md-content {
 
 .kitList {
   margin: 0px;
-  color: $secondary_color_light;
+  color: $grey;
   border-top: 1px solid #EAECF1;
   border-right: 1px solid #EAECF1;
   border-left: 1px solid #EAECF1;
@@ -2680,7 +2349,7 @@ md-content.md-default-theme, md-content {
 .kitList_name {
   margin-bottom: 5px;
   font-size: 18px;
-  color: $blue_light;
+  color: $blue;
 }
 .kitList_data {
   span {
@@ -2740,7 +2409,7 @@ md-content.md-default-theme, md-content {
     width: 100%;
 }
 .dropdown-item-button:hover{
-  background-color: #F3F8F8 !important
+  background-color: $blue_light !important
 }
 
 /**
@@ -2766,6 +2435,9 @@ md-content.md-default-theme, md-content {
   >div {
     margin: 5px 0;
   }
+  svg {
+    fill: $grey_lighter;
+  }
 }
 .profile_header_content_avatar {
   width: 12px;
@@ -2789,7 +2461,7 @@ md-content.md-default-theme, md-content {
 }
 .profile_sidebar_title {
   margin: 0 0 42px 20px;
-  color: #23444C;
+  color: $off_black;
   font-weight: bold;
 }
 .profile_sidebar_description {
@@ -2804,6 +2476,9 @@ md-content.md-default-theme, md-content {
   padding-left: 40px;
   height: 64px;
   color: $terciary_color;
+  svg {
+    fill: $blue;
+  }
 }
 
 .profile_sidebar_avatar {
@@ -2844,8 +2519,8 @@ md-content.md-default-theme, md-content {
     color: white;
   }
   md-tabs md-tabs-ink-bar {
-    color: $blue_light;
-    background-color: $blue_light;
+    color: $blue;
+    background-color: $blue;
   }
 }
 
@@ -2873,6 +2548,9 @@ md-content.md-default-theme, md-content {
   margin-right: 8px;
   position: relative;
   top: -1px;
+  svg {
+    fill: white;
+  }
 }
 .myProfile_sidebar_button {
   padding-left: 28px;
@@ -2915,7 +2593,7 @@ md-content.md-default-theme, md-content {
 }
 .myProfile_form_updateButton {
   font-size:18px;
-  color: $blue_light;
+  color: $blue;
   margin-left:350px;
 }
 .myProfile_apiKey_text {
@@ -2969,22 +2647,11 @@ md-content.md-default-theme, md-content {
   margin-bottom: 10px;
 }
 
-.btn-round{
-  border-radius: 20px;
-  padding:0px 35px;
-  font-size:18px;
-}
-
-.btn-cyan{
-  background-color: $terciary_color;
-  color:white;
-}
-
 .md-button.myProfile_addKitButton:focus {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 .md-button.myProfile_addKitButton:hover {
-  background-color: $blue_light;
+  background-color: $blue;
 }
 .myProfile_content_main_title {
   float: right;
@@ -3014,8 +2681,8 @@ md-content.md-default-theme, md-content {
   FOOTER COMPONENT
 */
 
-.footer {
-  position: absolute;
+footer {
+//  position: absolute;
   z-index: 1;
   width: 100%;
   background-color: $background_blue_dark_background;
@@ -3324,7 +2991,7 @@ button.doorbell-button {
     height: 44px;
     border-radius: 22px;
     font-size: 18px;
-    background-color: $blue_light;
+    background-color: $blue;
     color:white;
 
     &:hover, &:focus{
@@ -3337,7 +3004,7 @@ button.doorbell-button {
   }
 
   .md-button.md-primary{
-    color: $blue_light;
+    color: $blue;
   }
 
 
@@ -4199,7 +3866,7 @@ p.no-margin {
   80%, 100% {
     text-shadow:
       .25em 0 0 $blue_light,
-      .5em 0 0 $blue_light;}}
+      .5em 0 0 $blue;}}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

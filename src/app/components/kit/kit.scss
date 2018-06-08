@@ -1,0 +1,67 @@
+/*
+  CONTAINERS USED ON SHOW KIT STATE
+ */
+
+.over_map{
+  min-height: 120px;
+}
+
+.kit_fixed {
+  z-index: $medium-priority;
+  position: relative;
+}
+
+.kit_data {
+  width:100%;
+  margin-top: 376px;
+
+  section.overlay{
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color: white;
+    z-index: 3;
+    color: $off_black;
+    text-align:center;
+    font-size:20px;
+    font-weight: lighter;
+
+    h1{
+      color: $off_black;
+      font-size: 1.8em;
+      margin:0;
+    }
+    p{
+      color: $terciary_color_light;
+      margin: 0.5em;
+    }
+  }
+
+  .hint{
+    background-color: white;
+    text-align:center;
+    color:$font_color_blue_grey;
+
+    margin-top:0px;
+
+    z-index: 10;
+    position:absolute;
+    height:100%;
+    width:100%;
+
+    .md-button{
+      margin-top:20px;
+    }
+  }
+}
+
+.kit_data, .kitTags__section{
+  .shadow{
+    top: 0px;
+    height: 1px;
+    background-color: rgba(0,0,0,0.1);
+    position: relative;
+    box-shadow: 0px -1px 6px 0 rgba(0,0,0,0.65);
+    z-index: 2;
+  }
+}
