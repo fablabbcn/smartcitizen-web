@@ -72,14 +72,17 @@
           </md-icon>
         </md-button>
         <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
-          <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
-          ng-class="{selected: vm.selectedSensor === sensor.id}">
-            <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
-            <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
-            <div class="sensor_right">
-              <div class="sensor_unit">{{ sensor.unit }}</div>
-              <md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}">
-              </md-icon>
+          <div ng-repeat="sensor in vm.sensors" ng-class="{selected: vm.selectedSensor === sensor.id}" ng-click="vm.showSensorOnChart(sensor.id)">
+            <div class='sensor_item'>
+              <div layout="row">
+                <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
+                <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
+                <div class="sensor_right">
+                  <div class="sensor_unit">{{ sensor.unit }}</div>
+                  <md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}">
+                  </md-icon>
+                </div>
+              </div>
             </div>
             <p>{{ sensor.name }}</p>
           </div>
