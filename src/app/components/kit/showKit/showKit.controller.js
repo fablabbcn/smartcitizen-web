@@ -460,8 +460,8 @@
         return getMillisFromDate(new Date());
       }
 
-      function getHourAgo() {
-        var now = moment();
+      function getHourAgo(date) {
+        var now = moment(date);
         return now.subtract(1, 'hour').valueOf();
       }
 
@@ -550,7 +550,8 @@
 
       if(vm.kit){
         if(vm.kit.labels.includes('new')){
-          setRange(getHourAgo(), getLatestUpdated());
+          var lastUpdate = getLatestUpdated();
+          setRange(getHourAgo(lastUpdate), lastUpdate);
         } else if (timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
           //set from-picker to seven days ago and set to-picker to today
           setRange(getSevenDaysAgo(), getToday());
