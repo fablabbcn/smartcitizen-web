@@ -10,4 +10,5 @@ before_script:
 
 script:
   - gulp build
-  - xvfb-run gulp protractor
+  - which xvfb-run
+  - gulp protractor
