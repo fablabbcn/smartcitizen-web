@@ -8,6 +8,13 @@ addons:
 before_script:
   - npm install -g gulp-cli
 
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - webdriver-manager update
+  - gulp > /dev/null & # start server
+  - sleep 10 # give server time to start
+
+
 script:
   - gulp build
   - which xvfb-run
