@@ -34,36 +34,36 @@
 /**
  *  INPUT CSS
  */
-
-::-webkit-input-placeholder { /* WebKit browsers */
-  color: $font_color_white;
-}
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: $font_color_white;
-  opacity:  1;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:  $font_color_white;
-  opacity:  1;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: $font_color_white;
-}
-
-:focus::-webkit-input-placeholder { /* WebKit browsers */
-  color: $background_blue_dark_background;
-}
-:focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color: $background_blue_dark_background;
-  opacity:  1;
-}
-:focus::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color: $background_blue_dark_background;
-  opacity:  1;
-}
-:focus:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color: $background_blue_dark_background;
-}
+// 
+// ::-webkit-input-placeholder { /* WebKit browsers */
+//   color: $font_color_white;
+// }
+// :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+//   color: $font_color_white;
+//   opacity:  1;
+// }
+// ::-moz-placeholder { /* Mozilla Firefox 19+ */
+//   color:  $font_color_white;
+//   opacity:  1;
+// }
+// :-ms-input-placeholder { /* Internet Explorer 10+ */
+//   color: $font_color_white;
+// }
+//
+// :focus::-webkit-input-placeholder { /* WebKit browsers */
+//   color: $background_blue_dark_background;
+// }
+// :focus:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+//   color: $background_blue_dark_background;
+//   opacity:  1;
+// }
+// :focus::-moz-placeholder { /* Mozilla Firefox 19+ */
+//   color: $background_blue_dark_background;
+//   opacity:  1;
+// }
+// :focus:-ms-input-placeholder { /* Internet Explorer 10+ */
+//   color: $background_blue_dark_background;
+// }
 
 html {
   font-family: 'Roboto Condensed';
