@@ -133,6 +133,16 @@
   background-color: $terciary_color;
   color:white;
 }
+
+// display helpers
+.btn-full {
+  display: block;
+  width: 100%;
+  border-radius: 0px;
+  margin: 0px;
+}
+
+
 // Margin - padding helpers
 .mr-10{
   margin-right: 10px;
@@ -188,6 +198,8 @@
   padding-left:20px;
   padding-right:20px;
 }
+
+
 
 footer{
   p{
