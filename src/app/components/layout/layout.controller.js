@@ -82,11 +82,6 @@
             animation.showLogin();
           } else if(hash.passwordRecovery) {
             animation.showPasswordRecovery();
-          } else {
-            // setTimeout(function() {
-            //   if(!vm.isLoggedin) $scope.$broadcast('showBeta');
-            // }, 500);
-            // waits for the loggedIn event to set vm.isLoggedin. this is temp.
           }
         }, 1000);
       }
