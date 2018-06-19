@@ -8,28 +8,25 @@
       'alert', 'animation', '$location'];
     function SignupDialogController($scope, $mdDialog, user,
       alert, animation, $location) {
+      var vm = this;
+      vm.answer = function(signupForm) {
 
-      $scope.answer = function(answer) {
-
-        if (!$scope.form.$valid){
-          $scope.errors = {conditions: ['You have to accept our Terms and ' +
-            'Conditions first']};
+        if (!signupForm.$valid){
           return;
         }
 
         $scope.waitingFromServer = true;
-        user.createUser(answer)
+        user.createUser(vm.user)
           .then(function(data) {
             alert.success('Signup was successful');
             $mdDialog.hide();
             ga('send', 'event', 'Signup', 'signed up');
-          })
-          .catch(function(err) {
+          }).catch(function(err) {
             alert.error('Signup failed');
-            $scope.errors = err.data.errors;
+            $scope.errors = err.errors;
             ga('send', 'event', 'Signup', 'failed');
           })
-          .finally(function() {
+          .finally(function(data) {
             $scope.waitingFromServer = false;
           });
       };

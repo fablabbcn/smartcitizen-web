@@ -20,6 +20,7 @@
         $mdDialog.show({
           hasBackdrop: true,
           controller: 'SignupDialogController',
+          controllerAs: 'vm',
           templateUrl: 'app/components/signup/signupModal.html',
           clickOutsideToClose: true
         });
