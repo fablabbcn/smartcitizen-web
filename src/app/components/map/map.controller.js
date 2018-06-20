@@ -251,7 +251,7 @@
           hasBackdrop: true,
           controller: 'MapFilterModalController',
           controllerAs: 'vm',
-          templateUrl: 'app/components/map/mapFilterPopup.html',
+          templateUrl: 'app/components/map/mapFilterModal.html',
           clickOutsideToClose: true,
           locals: {
             selectedFilters: vm.selectedFilters
@@ -269,7 +269,7 @@
           hasBackdrop: true,
           controller: 'MapTagModalController',
           controllerAs: 'vm',
-          templateUrl: 'app/components/map/mapTagPopup.html',
+          templateUrl: 'app/components/map/mapTagModal.html',
           //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {

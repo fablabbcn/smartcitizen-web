@@ -1,0 +1,24 @@
+<md-dialog class="filters">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Filters</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="vm.cancel()">
+        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content max-width-500px">
+      <p>Only show kits containing ALL these parameters.</p>
+      <md-content layout-padding>
+        <div ng-repeat="filter in vm.filters">
+          <md-checkbox ng-model="vm.checks[filter]">
+            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span></md-checkbox>
+        </div>
+      </md-content>
+    </div>
+    <md-button class="md-warn btn-full" ng-click="vm.clear()">Clear filters</md-button>
+    <md-button class="btn-blue btn-full" ng-click="vm.answer()">Apply</md-button>
+  </md-dialog-content>
+</md-dialog>
