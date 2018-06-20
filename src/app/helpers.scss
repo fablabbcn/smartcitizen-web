@@ -29,8 +29,11 @@
 .full-width{
   width: 100%;
 }
-.max-width-500 {
+.max-width-500px {
   max-width: 500px;
+}
+.min-height-80 {
+  min-height: 80%;
 }
 
 // Font & text
@@ -202,7 +205,11 @@
   padding-right:20px;
 }
 
+// img helpers
 
+.img-circle {
+  border-radius: 50%;
+}
 
 footer{
   p{

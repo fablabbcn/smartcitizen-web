@@ -8,6 +8,7 @@
 @import 'components/search/search';
 @import 'components/kit/kit';
 @import 'components/kit/showKit/showKit';
+@import 'components/store/storeModal';
 @import 'core/animation/backdrop/loadingBackdrop';
 @import 'core/animation/animation.directive';
 
@@ -855,85 +856,7 @@ md-content.md-default-theme, md-content {
 }
 
 
-/*
-  MODAL STORE
-*/
-.modal_store {
 
-
-  // height: 480px;
-
-  .subheader.store {
-    line-height: 1.5;
-  }
-
-  .store_itemImage {
-    border-radius: 90px;
-  }
-
-  .store_itemDescription {
-    margin-left:20px;
-    ul {
-      padding-left: 18px;
-      list-style-image: url('../assets/images/sucesses_icon.png');
-      list-style-position: inherit;
-      font-size: .8em;
-      line-height: 1.8em;
-      color: $info_secondary;
-    }
-  }
-  .store_itemDescription_title {
-    color: $secondary_color;
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .paypal_button {
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    bottom: -48px;
-  }
-}
-
-/*
-  MODAL STORE
-*/
-.modal_beta, .modal_mobile{
-
-  .subheader.beta {
-    line-height: 1.5;
-  }
-
-  .img_claim {
-    overflow: hidden;
-    height: 288px;
-    background-image: url('../assets/images/beta_claim.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center 260px;
-
-    img{
-      top: -25%;
-      position: relative;
-    }
-  }
-}
-.modal_beta {
-  width: 500px;
-  height: 490px;
-
-  .header.beta {
-    margin-top: 40px;
-  }
-
-}
-.modal_mobile{
-  .img_claim img{
-    top: -30%;
-    left: -30%;
-  }
-}
 
 /*
  CORE FORM COMPONENT
