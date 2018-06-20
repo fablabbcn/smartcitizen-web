@@ -249,9 +249,9 @@
       function openFilterPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapFilterDialogController as filterDialog',
+          controller: 'MapFilterModalController',
+          controllerAs: 'vm',
           templateUrl: 'app/components/map/mapFilterPopup.html',
-          //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {
             selectedFilters: vm.selectedFilters
@@ -267,7 +267,8 @@
       function openTagPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapTagDialogController as tagDialog',
+          controller: 'MapTagModalController',
+          controllerAs: 'vm',
           templateUrl: 'app/components/map/mapTagPopup.html',
           //targetEvent: ev,
           clickOutsideToClose: true,

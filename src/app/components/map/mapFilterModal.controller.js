@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('MapFilterDialogController', MapFilterDialogController);
+    .controller('MapFilterModalController', MapFilterModalController);
 
-  MapFilterDialogController.$inject = ['$mdDialog','selectedFilters'];
+  MapFilterModalController.$inject = ['$mdDialog','selectedFilters'];
 
-  function MapFilterDialogController($mdDialog, selectedFilters) {
+  function MapFilterModalController($mdDialog, selectedFilters) {
 
     var vm = this;
 
@@ -16,7 +16,7 @@
     vm.hide = hide;
     vm.clear = clear;
     vm.cancel = cancel;
-    
+
     vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
 
     init();

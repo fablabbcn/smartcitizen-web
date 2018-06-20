@@ -632,9 +632,9 @@
     function downloadData(kit){
       $mdDialog.show({
         hasBackdrop: true,
-        controller: 'DownloadDialogController',
-        controllerAs: 'downloadDialog',
-        templateUrl: 'app/components/download/downloadDialog.html',
+        controller: 'DownloadModalController',
+        controllerAs: 'vm',
+        templateUrl: 'app/components/download/downloadModal.html',
         clickOutsideToClose: true,
         locals: {thisKit:kit}
       }).then(function(){
@@ -720,7 +720,7 @@
     function showStore() {
       $mdDialog.show({
         hasBackdrop: true,
-        controller: 'StoreDialogController',
+        controller: 'StoreModalController',
         templateUrl: 'app/components/store/storeModal.html',
         clickOutsideToClose: true
       });

@@ -2,16 +2,16 @@
 	'use strict';
 
 	angular.module('app.components')
-		.controller('DownloadDialogController', DownloadDialogController);
+		.controller('DownloadModalController', DownloadModalController);
 
-	DownloadDialogController.$inject = ['thisKit', 'device', '$mdDialog'];
+	DownloadModalController.$inject = ['thisKit', 'device', '$mdDialog'];
 
-	function DownloadDialogController(thisKit, device, $mdDialog) {
+	function DownloadModalController(thisKit, device, $mdDialog) {
 		var vm = this;
 
 		vm.kit = thisKit;
 		vm.download = download;
-		vm.hide = hide;
+		vm.cancel = cancel;
 
 		////////////////////////////
 
@@ -24,7 +24,7 @@
 				});
 		}
 
-		function hide(){
+		function cancel(){
 			$mdDialog.cancel();
 		}
 	}

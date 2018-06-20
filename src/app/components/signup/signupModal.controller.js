@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('SignupDialogController', SignupDialogController);
+    .controller('SignupModalController', SignupModalController);
 
-    SignupDialogController.$inject = ['$scope', '$mdDialog', 'user',
+    SignupModalController.$inject = ['$scope', '$mdDialog', 'user',
       'alert', 'animation', '$location'];
-    function SignupDialogController($scope, $mdDialog, user,
+    function SignupModalController($scope, $mdDialog, user,
       alert, animation, $location) {
       var vm = this;
       vm.answer = function(signupForm) {
