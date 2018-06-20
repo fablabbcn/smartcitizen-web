@@ -781,80 +781,80 @@ KIT TAGS MODULE
 // }
 //
 
-/*
-  MODAL FOR MAP FILTER
-*/
+// /*
+//   MODAL FOR MAP FILTER
+// */
+//
+// md-dialog.tags, md-dialog.filters{
+//   height: 90%;
+//   max-height:600px;
+//   min-height:357px;
+//
+//   .close_icon{
+//     padding-top:10px;
+//     float:none;
+//     position:absolute;
+//     right:0
+//   }
+//
+// }
 
-md-dialog.tags, md-dialog.filters{
-  height: 90%;
-  max-height:600px;
-  min-height:357px;
+// md-content.md-default-theme, md-content {
+//   background-color: #fff;
+// }
+// .modal_mapFilter, .modal_tagFilter {
+//   height:100%;
+//   width: 300px;
+//
+//   .modal_content_container_filter {
+//     width: 85%;
+//     margin: 0 auto;
+//   }
+//   small {
+//     display: block;
+//   }
+//   .modal_mapFilter_input {
+//     margin-right: 24px;
+//     display: inline-block;
+//   }
+//   md-checkbox {
+//     display: inline-block;
+//     margin: 15px 0px 15px 0;
+//   }
+//   md-checkbox.md-checked .md-icon {
+//     background-color: $blue;
+//   }
+//   h3 {
+//     margin-bottom: 2px;
+//   }
+//   .message {
+//     font-size: 14px;
+//     color: $secondary_color_light;
+//     line-height: 1em;
+//     margin-bottom: 26px;
+//   }
+//   .button_clear {
+//     display: block;
+//     margin: 20px auto;
+//   }
+//   .input_filter {
+//     margin: 8px 0;
+//   }
+// }
 
-  .close_icon{
-    padding-top:10px;
-    float:none;
-    position:absolute;
-    right:0
-  }
-
-}
-
-md-content.md-default-theme, md-content {
-  background-color: #fff;
-}
-.modal_mapFilter, .modal_tagFilter {
-  height:100%;
-  width: 300px;
-
-  .modal_content_container_filter {
-    width: 85%;
-    margin: 0 auto;
-  }
-  small {
-    display: block;
-  }
-  .modal_mapFilter_input {
-    margin-right: 24px;
-    display: inline-block;
-  }
-  md-checkbox {
-    display: inline-block;
-    margin: 15px 0px 15px 0;
-  }
-  md-checkbox.md-checked .md-icon {
-    background-color: $blue;
-  }
-  h3 {
-    margin-bottom: 2px;
-  }
-  .message {
-    font-size: 14px;
-    color: $secondary_color_light;
-    line-height: 1em;
-    margin-bottom: 26px;
-  }
-  .button_clear {
-    display: block;
-    margin: 20px auto;
-  }
-  .input_filter {
-    margin: 8px 0;
-  }
-}
-
-/*
-  MODAL TAG FILTER
-*/
-
-.tags {
-  overflow-y: auto;
-}
-
-.modal_tagFilter {
-  width: calc(50vw + 90px);
-  height: calc(100vh + 300px);
-}
-
+// /*
+//   MODAL TAG FILTER
+// */
+//
+// .tags {
+//   overflow-y: auto;
+// }
+//
+// .modal_tagFilter {
+//   width: calc(50vw + 90px);
+//   height: calc(100vh + 300px);
+// }
+//
 
 
 

@@ -45,7 +45,7 @@
     }
 
     function clear() {
-      $mdDialog.hide();
+      $mdDialog.hide(null);
     }
 
     function cancel() {

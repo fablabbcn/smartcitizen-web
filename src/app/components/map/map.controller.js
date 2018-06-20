@@ -277,10 +277,14 @@
           }
         })
         .then(function(selectedTags) {
-          updateType = 'map';
-          tag.setSelectedTags(_.map(selectedTags, 'name'));
-          vm.selectedTags = tag.getSelectedTags();
-          reloadWithTags();
+          if (selectedTags && selectedTags.length > 0) {
+            updateType = 'map';
+            tag.setSelectedTags(_.map(selectedTags, 'name'));
+            vm.selectedTags = tag.getSelectedTags();
+            reloadWithTags();
+          } else if (selectedTags === null) {
+            reloadNoTags();
+          }
         });
       }
 
