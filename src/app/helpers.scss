@@ -29,6 +29,12 @@
 .full-width{
   width: 100%;
 }
+.max-width-500px {
+  max-width: 500px;
+}
+.min-height-80 {
+  min-height: 80%;
+}
 
 // Font & text
 .font-roboto-condensed{
@@ -133,6 +139,16 @@
   background-color: $terciary_color;
   color:white;
 }
+
+// display helpers
+.btn-full {
+  display: block;
+  width: 100%;
+  border-radius: 0px;
+  margin: 0px;
+}
+
+
 // Margin - padding helpers
 .mr-10{
   margin-right: 10px;
@@ -187,6 +203,12 @@
 .px-20{
   padding-left:20px;
   padding-right:20px;
+}
+
+// img helpers
+
+.img-circle {
+  border-radius: 50%;
 }
 
 footer{

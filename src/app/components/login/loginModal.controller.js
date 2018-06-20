@@ -2,10 +2,10 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('LoginDialogController', LoginDialogController);
+    .controller('LoginModalController', LoginModalController);
 
-    LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
-    function LoginDialogController($scope, $mdDialog, auth, alert, animation) {
+    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
+    function LoginModalController($scope, $mdDialog, auth, alert, animation) {
 
       $scope.answer = function(answer) {
         $scope.waitingFromServer = true;
@@ -40,7 +40,7 @@
       $scope.openPasswordRecovery = function() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'PasswordRecoveryDialogController',
+          controller: 'PasswordRecoveryModalController',
           templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
           clickOutsideToClose: true
         });

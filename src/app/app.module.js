@@ -17,6 +17,7 @@ angular.module('app', [
   'ngSanitize',
   'angular-clipboard',
   'ngCookies',
+  'ngMessages',
   'ngtweet',
   'btford.socket-io'
 ]);

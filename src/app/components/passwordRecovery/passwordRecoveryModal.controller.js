@@ -2,10 +2,10 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('PasswordRecoveryDialogController', PasswordRecoveryDialogController);
+    .controller('PasswordRecoveryModalController', PasswordRecoveryModalController);
 
-    PasswordRecoveryDialogController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
-    function PasswordRecoveryDialogController($scope, animation, $mdDialog, auth, alert) {
+    PasswordRecoveryModalController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
+    function PasswordRecoveryModalController($scope, animation, $mdDialog, auth, alert) {
 
       $scope.hide = function() {
         $mdDialog.hide();

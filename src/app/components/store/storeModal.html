@@ -1,17 +1,21 @@
 <md-dialog>
-  <md-dialog-content class="modal modal_store">
-    <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
-    <md-button class="close_icon" ng-click="hide()" aria-label>
-      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" class="">
-      </md-icon>
-    </md-button>
-    <section>
-      <div class="modal_content_container">
-        <h2>SHOP</h2>
-        <h3 class="header store">Order your Smartcitizen Kit</h3>
-        <p class="subheader store">An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web and mobile app, and a full featured Rest API.</p>
-        <div class="main_content" layout="row" layout-xs="column" layout-align="space-between center" layout-padding>
-          <img class="store_itemImage" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Store</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear>
+    <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" validate>
+      <div class="md-dialog-content max-width-500px min-height-80">
+        <h2>Order your Smartcitizen Kit</h2>
+        <p>An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web and mobile app, and a full featured Rest API.</p>
+        <div layout="row" layout-xs="column" layout-align="space-around center">
+          <img class="img-circle" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit">
           <div class="store_itemDescription">
             <h3>This is what you get</h3>
             <ul>
@@ -23,15 +27,13 @@
             </ul>
           </div>
         </div>
-      </div>
 
       <!-- Begin MailChimp Signup Form -->
-      <form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-        <div class="modal_content_container" layout="row" layout-wrap>
-          <p flex="100">
+
+          <p>
             We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!
           </p>
-          <md-input-container flex="70">
+          <md-input-container>
             <label>Email</label>
             <input type="email" name="EMAIL" required>
           </md-input-container>
@@ -39,21 +41,18 @@
           <div id="mce-responses" class="clear">
             <div class="response" id="mce-error-response" style="display:none"></div>
             <div class="response" id="mce-success-response" style="display:none"></div>
-          </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          </div>
         </div>
-        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div>
         <md-button
            ng-disabled="MailchimpSubscriptionForm.$invalid"
            type="submit"
            name="subscribe"
            id="mc-embedded-subscribe"
-           class="md-flat md-primary main"
+           class="btn-blue btn-full"
            analytics-on="store"
            analytics-event="Kit Purchase" ng-click="addSubscription(mailchimp)" analytics-action="purchase">
-          NOTIFY ME WHEN READY
+          Notify me when ready
         </md-button>
       </form>
-      <!--End mc_embed_signup-->
-    </section>
   </md-dialog-content>
 </md-dialog>

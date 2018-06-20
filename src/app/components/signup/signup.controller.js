@@ -19,7 +19,8 @@
       function showSignup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'SignupDialogController',
+          controller: 'SignupModalController',
+          controllerAs: 'vm',
           templateUrl: 'app/components/signup/signupModal.html',
           clickOutsideToClose: true
         });
