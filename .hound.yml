@@ -1,4 +1,0 @@
-scss:
-  enabled: false
-javascript:
-  config_file: .jshintrc
