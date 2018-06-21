@@ -1,0 +1,746 @@
+/*
+=========================================
+KIT COMMENTS MODULE
+=========================================
+*/
+.kit_comments {
+  padding-bottom: 100px;
+}
+
+/*
+  CHART COMPONENT
+*/
+
+.chart_container {
+  min-width: 340px;
+  min-height: 310px;
+  //width: 100%;
+  //height: 90%;
+  position: relative;
+
+  .chart_line {
+    fill: none;
+    stroke-width: 2px;
+  }
+  .chart_area {
+    opacity: 0.1;
+  }
+
+  .axis path,.axis line {
+    fill: none;
+    stroke: $grey_darker;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+    display: none;
+  }
+  .axis {
+    font-size: 10px;
+  }
+  .axis.y_left {
+    fill: $grey;
+  }
+  .axis.y_right {
+    fill: $grey;
+  }
+  .axis.x {
+    fill: $grey;
+  }
+  .grid {
+    .tick {
+      stroke: $grey;
+      stroke-opacity: 0.6;
+      shape-rendering: crispEdges;
+    }
+    path {
+      stroke-width: 0;
+    }
+  }
+  .overlay {
+    fill: none;
+    pointer-events: all;
+  }
+
+  .focus circle {
+    fill: rgb(3, 37, 45);
+    stroke-width: 2px;
+  }
+  .text_hover_container {
+    border: 1px solid $grey_darker;
+  }
+  .popup_value {
+    fill: $background_blue_dark_chart;
+    color: $background_blue_dark_chart;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .popup_date {
+    fill: $grey_darker;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  .popup_unit {
+    fill: $grey;
+    margin-left: 10px;
+  }
+}
+
+.stickNav {
+  position: fixed;
+  top: 0px;
+}
+
+.overlay-kitinfo{
+  background: white;
+  height: 100%;
+  width: 100%;
+  position:absolute;
+  z-index:999;
+}
+
+
+/*
+  KIT MENU MODULE
+ */
+section .kit_menu {
+  width: 100%;
+  z-index: $more_priority;
+  background-color: $grey_lighter;
+  position: relative;
+
+  .container {
+    width: 100%;
+    height: 33px;
+  }
+
+  .kit_time {
+    position: relative;
+    //left: -40px;
+    text-align: center;
+    color: $grey_darker;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+  .kit_user {
+    margin-left:20px;
+    //float: left;
+    line-height: 30px;
+    //margin: 0 32px 0 20px;
+    color: $grey_darker;
+    font-weight: bold;
+    font-size: 13px;
+
+    img {
+      border-radius:50%;
+      float:left;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      margin-top: 5px;
+    }
+
+    a {
+      color: $grey_darker;
+      text-decoration: none;
+    }
+  }
+  .kit_name {
+    margin-left:30px;
+    //float: left;
+    line-height: 30px;
+    font-size: 13px;
+    font-weight: bold;
+    color: $grey_darker;
+    //margin: 0 32px 0 0;
+
+    md-icon {
+      float:left;
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+      margin-top: 4px;
+      svg { fill: $blue_light; }
+    }
+    span {
+      vertical-align: middle;
+    }
+  }
+
+  .kit_battery {
+    margin-left:30px;
+    //float: left;
+    line-height: 30px;
+    color: $grey_darker;
+    font-size: 12px;
+    font-weight: bold;
+
+    md-icon {
+      margin-bottom: 2px;
+      width: 16px;
+      margin-right: 8px;
+      svg {
+        fill: $grey_darker;
+      }
+    }
+  }
+
+  .kit_navbar {
+    margin-right: 20px;
+
+    // Icons are inside md-button
+    md-icon {
+      width: 14px;
+      svg {
+        fill: $grey_darker;
+      }
+    }
+
+    .md-button {
+      margin:0;
+    }
+
+    a.md-button:hover, .button_active  {
+      border-bottom: 2px solid $off_black;
+    }
+
+  }
+
+}
+
+.kit_overview {
+  width: 100%;
+  height: 96px;
+  z-index: $medium_priority;
+  background-color: $grey_lightest;
+  position: relative;
+
+  .button_scroll {
+    margin: 0px;
+    position: absolute;
+    top: 0;
+    width: 60px;
+    height: 96px;
+  }
+
+  .button_scroll_left {
+    left: 0;
+  }
+
+  .button_scroll_right {
+    right: 0;
+  }
+
+  .sensors_container {
+    width: 90%;
+    height: 96px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  @media (pointer: coarse) {
+    .sensors_container {
+      overflow-x: auto;
+    }
+  }
+
+  .sensor_container {
+    position: relative;
+    color: $grey_darker;
+    display: inline-table;
+    cursor: pointer;
+    text-align: center;
+    outline:none;
+    
+    p{
+      margin: 0px;
+      padding-bottom: 15px;
+      font-size: 0.8em;
+      font-weight: normal;
+    }
+
+    .clear {
+      clear: both;
+    }
+
+    .sensor_right {
+      position: absolute;
+      right: 15px;
+      bottom: 38px;
+      max-width: 30px;
+      .sensor_unit {
+        margin-top:8px;
+        font-size: 14px;
+      }
+      .sensor_arrow {
+        margin-top:-15px;
+        width: 14px;
+        height: 7px;
+        &.arrow_up svg { fill: $green; }
+        &.arrow_down svg { fill: $red; }
+        &.equal svg { fill: $blue_light; }
+      }
+    }
+    .sensor_value {
+      margin-top: 10px;
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+    .sensor_value_null {
+      opacity: 0.15;
+    }
+    .sensor_icon {
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      bottom: 45px;
+      left: 25px;
+      svg {
+        fill: $grey_darker;
+      }
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+    &.selected {
+      color: $off_black;
+      .sensor_icon svg {
+        fill: $off_black;
+      }
+    }
+  }
+}
+
+/**
+ *  KIT DETAILS
+ *
+ */
+
+ .kit_details_notAuth {
+   // Bug: this will create an extra gap on mobile devices
+  //width: 500px;
+  h1 {
+    margin:0;
+  }
+  button {
+    color: $yellow;
+  }
+ }
+.kit_details_notAuth_title {
+  margin: 0;
+ }
+.kit_details_notAuth_subheader {
+  color: $grey_darker;
+}
+.kit_details_notAuth_button {
+  float: right;
+}
+.kit_detailed {
+  // height: 1000px;
+  z-index: $medium_priority;
+  background-color: white;
+  position: relative;
+
+  h3, h4, p{
+    line-height: 0.4em;
+  }
+
+  p.description {
+    line-height: inherit;
+    font-weight: lighter;
+    width: 75%;
+  }
+
+  .kit_timeOpts{
+    margin: 0;
+    font-size: 1.3em;
+  }
+
+  .kit_chart {
+    min-height: 340px;
+    background-color: white;
+    position: relative;
+
+    .hint{
+      background-color: $off_black;
+      opacity: 0.8;
+    }
+
+    .container {
+      padding: 37px;
+      height: 100%;
+
+      .kit_chart_left {
+        //display: inline-block;
+        //width: 240px;
+        //margin-right: 30px;
+        //height: 100%;
+
+        .sensor_select {
+          .sensor_icon_selected {
+            float:left;
+            margin-right: 6px;
+            padding-top:5px;
+            svg {
+              fill: $off_black;
+            }
+          }
+          md-select {
+            margin: 0;
+            .md-select-value{
+              .md-text{
+                .select_image{
+                  display:none;
+
+                }
+              }
+            }
+          }
+        }
+        .sensor_description {
+          //color: $background_blue_light;
+          //height: 80px;
+          //margin-top: 0px; //30;
+          //position: relative;
+
+          h6 {
+            margin: 0;
+          }
+          small{
+            line-height: 1em;
+          }
+
+          a {
+            margin-left: 10px;
+            text-decoration: none;
+            color: $grey_darker;
+          }
+
+          .sensor_description_full {
+            position: absolute;
+            top: -50px;
+            margin-top: 10px;
+            display: none;
+            overflow: visible;
+            z-index: 200;
+            // border: 1px solid grey;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: $background_blue_dark_chart;
+            border-radius: 2px;
+            line-height: 1.5em;
+            padding: 10px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+          }
+        }
+        .sensor_data {
+          margin: 8% 0 5% 0;
+         // display: inline-block;
+
+          .sensor_value {
+            font-size: 2em;
+            font-weight: bold;
+          }
+          .sensor_unit {
+            font-size: .8em;
+            position: relative;
+            top: -8px;
+          }
+          .sensor_data_icon {
+            width: 14px;
+            height: 14px;
+            margin-left: 8px;
+          }
+        }
+        .sensor_data_description {
+          font-size: 12px;
+          display: none;
+          position: absolute;
+          -webkit-transform: translate(5px, 5px);
+          -moz-transform: translate(5px, 5px);
+          -ms-transform: translate(5px, 5px);
+          -o-transform: translate(5px, 5px);
+          transform: translate(5px, 5px);
+          background-color: rgba(255, 255, 255, 0.8);
+          color: $background_blue_dark_chart;
+          border-radius: 2px;
+          line-height: 1.5em;
+          padding: 4px 6px;
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+          max-width: 175px;
+        }
+        .sensor_compare {
+          font-size: .8em;
+          padding-top:30px;
+
+          span {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .kit_chart_right {
+        //display: inline-block;
+        //height: 100%;
+
+        .chart_navigation {
+          height: 10%;
+          font-size: 11px;
+          > div {
+            margin-left: 20px;
+          }
+          input {
+            margin-left: 10px;
+            padding-left: 10px;
+            font-size: 12px;
+          }
+          .kit_time {
+            md-icon {
+              width: 11px;
+              height: 11px;
+              margin-right: 8px;
+            }
+          }
+          .chart_move {
+            .chart_move_button {
+              margin: -2px;
+              width: 40px;
+              height: 28px;
+              display: inline-flex;
+              border: 1px solid $grey_darker;
+              background-color: $grey_lightest;
+            }
+            .chart_move_right {
+              // margin-left: 4px;
+              border-top-left-radius: 0px;
+              border-bottom-left-radius: 0px;
+              svg {
+                fill: $grey_darker;
+              }
+              &:hover {
+                background-color: $grey_darker;
+                svg {
+                  fill: $grey_lightest;
+                }
+              }
+            }
+            .chart_move_left {
+              svg {
+                fill: $grey_darker;
+              }
+              &:hover {
+                background-color: $grey_darker;
+                svg {
+                  fill: $grey_lightest;
+                }
+              }
+            }
+            md-icon {
+              width: 5.5px;
+              height: 9px;
+              position: relative;
+              top: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .kit_details {
+    color: $background_blue_dark_navbar;
+  }
+  .kit_details_content {
+    //float: left;
+
+    .kit_details_labels{
+      margin-top:30px;
+    }
+  }
+  .kit_details_name {
+    margin: 5px 0 20px 0;
+  }
+  .kit_details_type {
+    > span {
+      margin-right: 15px;
+    }
+    svg {
+      fill: $secondary_color;
+    }
+  }
+  .kit_details_type_location svg {
+    fill: $secondary_color;
+  }
+  .kit_details_version {
+    span {
+      color: $secondary_color_light;
+      font-weight: bold;
+    }
+  }
+  .kit_details_id {
+    span {
+      color: $secondary_color_light;
+      font-weight: bold;
+    }
+  }
+
+  .kit_details_description {
+    padding-top: 4px;
+  }
+  .kit_details_description_title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  .kit_details_description_content {
+    font-size: 12px;
+  }
+  .kit_details_manage {
+  }
+  .kit_details_manage_buttons {
+    margin-bottom: 32px;
+  }
+  .kit_details_button_delete {
+    color: $red;
+  }
+  .kit_details_manage_data {
+    .data_container {
+      margin: 9px 0;
+    }
+  }
+  .kit_details_key {
+    float: left;
+    height: 26px;
+  }
+  .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
+    background-color: #DBDBDB;
+  }
+  .kit_detailed_icon_content {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    position: relative;
+    top: -1px;
+    svg {
+      fill: $grey_darker;
+    }
+  }
+  .kit_detailed_avatar {
+    float: left;
+    margin-right: 26px;
+    md-icon, img {
+      width: 100px;
+      height : 100px;
+      border-radius: 50px;
+      margin-top: 55px;
+    }
+  }
+  .kit_detailed_icon_title {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    position: relative;
+    top: -2px;
+  }
+  .kit_detailed_title_container {
+    padding: 20px 0;
+  }
+  .kit_detailed_title {
+    font-size: 16px;
+    display: inline;
+  }
+  .kit_detailed_content_container {
+    margin: 62px 37px 0px;
+
+    .kit_details_content_main {
+   // Bug: this will create an extra gap on mobile devices
+    //  width: 500px;
+    }
+  }
+  .kit_owner {
+    color: $background_blue_dark_navbar;
+    background-color: #F5F5F5;
+    padding-bottom:40px;
+
+    .container {
+      width: 95%;
+      margin: 0 auto;
+    }
+    .kit_owner_content {
+//  width: 85%;
+    }
+    .kit_owner_info {
+      margin-bottom: 65px;
+    }
+    .kit_owner_usernameLink {
+      text-decoration: none;
+    }
+    .kit_owner_usernameText {
+      margin: 50px 0 20px 0;
+    }
+    .kit_owner_location {
+      color: $secondary_color;
+      font-weight: bold;
+    }
+    .kit_owner_url a {
+      text-decoration: none;
+      color: $background_blue_dark_navbar;
+    }
+    .kit_owner_kits_title {
+      margin-bottom: 50px;
+    }
+    .kit_owner_kits_list {
+      border: 1px solid #EAECF1;
+      height: 82px;
+      background-color: white;
+    }
+    .kit_owner_kits_list_avatar {
+      float: left;
+      width: 44px;
+      height: 44px;
+      margin-right: 3%;
+      margin-top: 9px;
+    }
+    .kit_owner_kits_list_content {
+      float: left;
+      margin-top: 5px;
+    }
+    .kit_owner_kits_list_data {
+      font-size: 16px;
+      span {
+        margin-right: 15px;
+      }
+    }
+    .kit_owner_kits_list_state {
+      display: inline;
+      font-size: 12px;
+      border-radius: 20px;
+      padding: 6px 11px;
+      margin: 15px;
+    }
+    .kit_owner_kits_list_never_published {
+      background-color: $yellow;
+    }
+    .kit_owner_kits_list_not_configured {
+      background-color: $red;
+    }
+    .kit_owner_kits_list_config {
+      float: right;
+      margin-top: 13px;
+    }
+    .kit_owner_kits_list_config_icon {
+      width: 22px;
+      height: 22px;
+    }
+    .kit_owner_kits_more_button {
+      font-size: 16px;
+      float: right;
+      right: 5%;
+      margin-top: 32px;
+      color: $blue;
+    }
+  }
+}
+
+.sensor_value {
+  font-size: 34px;
+  font-family: Kanit;
+  font-weight: 700;
+}

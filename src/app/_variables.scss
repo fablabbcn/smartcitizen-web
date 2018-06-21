@@ -1,0 +1,43 @@
+$yellow: #FFC100;
+$blue: #0019FF;
+$blue_light: #55C4F5;
+
+$red: #FF3D4C;
+$green: #00E597;
+$off_black: #2E2E2E;
+
+$grey_lightest: #F9F9FB;
+$grey_lighter: #ECECEE;
+$grey: #D2D3D5;
+$grey_darker: #6E6E6E;
+$grey_darkest: #7E7E7E;
+
+$secondary_color: $grey_darker;
+$terciary_color: $blue;
+
+$secondary_color_light: $grey_darker;
+$terciary_color_light: $grey;
+
+$info_primary: $grey;
+$info_secondary: $secondary_color_light;
+
+$alert_red: $red;
+$alert_green: $green;
+
+$font_color_white: white;
+$font_color_blue_grey: $grey;
+$font_color_blue_dark: $grey_darker;
+$font_color_blue_light: $blue;
+
+$background_blue_dark_menu: $off_black;
+$background_blue_dark_overview: $off_black;
+$background_blue_dark_background: $off_black;
+$background_blue_dark_navbar: $off_black;
+$background_blue_dark_chart: $off_black;
+$background_blue_light: $grey_lighter;
+$background_blue_midtone: $grey;
+
+$large_priority: 10;
+$more_priority: 5;
+$medium_priority: 2;
+$small_priority: -1;

@@ -1,0 +1,54 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Log in</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <md-progress-linear class="md-hue-3" ng-show="waitingFromServer" md-mode="indeterminate"></md-progress-linear>
+    <form novalidate ng-submit="answer(vm.user)" name="loginForm">
+      <div class="md-dialog-content">
+        <div layout="column" >
+          <h2>People looking for a better city</h2>
+          <p>You're part of them? Feel free to join us!</p>
+        </div>
+        <div layout="row" layout-sm="column">
+          <md-input-container class="md-block">
+            <label>Username</label>
+            <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input ng-required="loginForm.$submitted"/>
+            <div ng-messages="loginForm.username.$touched && loginForm.username.$error" role="alert">
+              <div ng-message="required">Username is required</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-block">
+            <label>Password</label>
+            <input type="password" name="password" ng-model="vm.user.password" ng-required="loginForm.$submitted"/>
+            <div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert">
+              <div ng-message="required">Password is required</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <md-button class="message_below_link" ng-click="openSignup()"
+          angular-on="click" angular-event="Login" angular-action="signup">
+          New here?, Sign up
+        </md-button>
+        <md-button class="message_below_link" ng-click="openPasswordRecovery()"
+          angular-on="click" angular-event="Login"
+          angular-action="password recover">
+          Forgot your password?
+        </md-button>
+
+      </div>
+      <div>
+        <md-button class="btn-blue btn-full" type="submit">LOG IN</md-button>
+
+      </div>
+    </form>
+  </md-dialog-content>
+</md-dialog>

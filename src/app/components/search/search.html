@@ -1,0 +1,22 @@
+<md-autocomplete
+  id="search"
+  md-selected-item="vm.selectedItem"
+  md-selected-item-change="vm.selectedItemChange(item)"
+  md-search-text="vm.searchText"
+  md-search-text-change="vm.searchTextChange(vm.searchText)"
+  md-items="item in vm.querySearch(vm.searchText)"
+  md-item-text="item.name"
+  placeholder="Search"
+  md-delay="300"
+  md-min-length="3"
+  >
+
+  <md-item-template layout="row" layout-align="start center">
+    <div class="search_results">
+      <img ng-if="item.iconType === 'img'" ng-src="{{ item.icon }}" class="result_icon" />
+      <div ng-if="item.iconType === 'div'" class="markerSmartCitizenOnline result_icon"></div>
+      <span ng-class="{'result_name': item.name.length > 0}">{{ item.name }}</span>
+      <span class="result_location">{{ item.location }}</span>
+    </div>
+  </md-item-template>
+</md-autocomplete>

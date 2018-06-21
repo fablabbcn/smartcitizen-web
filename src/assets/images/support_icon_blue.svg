@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>info_icon copy 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="My-Profile-/-Kits-/-Tools" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g id="MY-PROFILE" sketch:type="MSArtboardGroup" transform="translate(-20.000000, -569.000000)">
+            <g id="EDIT-PROFILE" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+                <g id="SIDEBAR" transform="translate(0.000000, 236.000000)" sketch:type="MSShapeGroup">
+                    <g id="Support" transform="translate(0.000000, 244.000000)">
+                        <g id="Support-Icon" transform="translate(20.000000, 25.000000)">
+                            <path d="M7.2,12 L8.8,12 L8.8,7.2 L7.2,7.2 L7.2,12 L7.2,12 Z M8,0 C3.6,0 0,3.6 0,8 C0,12.4 3.6,16 8,16 C12.4,16 16,12.4 16,8 C16,3.6 12.4,0 8,0 L8,0 L8,0 Z M8,14.4 C4.48,14.4 1.6,11.52 1.6,8 C1.6,4.48 4.48,1.6 8,1.6 C11.52,1.6 14.4,4.48 14.4,8 C14.4,11.52 11.52,14.4 8,14.4 L8,14.4 L8,14.4 Z M7.2,5.6 L8.8,5.6 L8.8,4 L7.2,4 L7.2,5.6 L7.2,5.6 Z" id="info_icon-copy-3"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

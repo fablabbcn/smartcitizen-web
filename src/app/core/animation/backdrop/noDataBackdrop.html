@@ -1,0 +1,21 @@
+<md-backdrop ng-if="vm.kitWithoutData" class="md-noDataBackdrop">
+  <div class="block info_overlay" layout="column" layout-align="center center">
+    <div ng-if="vm.user === 'visitor'">
+      <h2 class="title">
+        This kit hasn’t still said a word 👶
+      </h2>
+      <p class="message">
+        <a analytics-on="click" analytics-event="click"
+          analytics-category="Offline Kit Comment Link"
+          ng-click="vm.scrollToComments()">Leave a commment</a>
+        below to let its owner know
+      </p>
+    </div>
+    <div ng-if="vm.user === 'owner'" class="static_page">
+      <h2 class="title">
+        This kit has still not posted any data 🔧🔩🔨
+      </h2>
+      <p class="message">Please, if your kit hasen't published after 5 minutes check the <a href="/kits/edit/{{vm.kit.id}}">kit settings</a> or reach the <a href="mailto:support@smartcitizen.me">support team.</a></p>
+    </div>
+  </div>
+</md-backdrop>

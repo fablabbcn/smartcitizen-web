@@ -1,0 +1,288 @@
+<section class="kit_data" change-content-margin>
+  <div class="shadow"></div>
+  <div class="over_map">
+    <section class="kit_menu" stick>
+      <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
+      <div class="container" layout="row" layout-align="space-between center">
+
+        <div flex="nogrow" layout="row" layout-align="start center">
+          <div hide show-gt-xs class="kit_user">
+            <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
+            <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
+          </div>
+          <div hide show-gt-xs class="kit_name">
+            <md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon>
+            <span>{{ vm.kit.name }}</span>
+          </div>
+          <div class="kit_battery">
+            <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
+            <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
+          </div>
+        </div>
+
+        <div flex class="kit_time">
+          <span hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
+        </div>
+
+        <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
+
+          <md-button href="#" class="md-flat chart_icon" aria-label=""
+            analytics-on="click" analytics-category="Kit Detail Section Button"
+            analytics-event="click" analytics-label="Chart">
+            <md-icon md-svg-src="./assets/images/chart_icon.svg">
+            </md-icon>
+          </md-button>
+
+          <md-button href="#" class="md-flat kit_details_icon" aria-label=""
+            analytics-on="click" analytics-category="Kit Detail Section Button"
+            analytics-event="click" analytics-label="Kit">
+            <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
+            </md-icon>
+          </md-button>
+
+          <md-button href="#" class="md-flat user_details" aria-label=""
+            analytics-on="click" analytics-category="Kit Detail Section Button"
+            analytics-event="click" analytics-label="User">
+            <md-icon md-svg-src="./assets/images/user_details_icon.svg">
+            </md-icon>
+          </md-button>
+          <!-- HACK: disable because of lodash  -->
+          <!-- <md-button href="#" class="md-flat discussion_icon" aria-label=""
+            analytics-on="click" analytics-category="Kit Detail Section Button"
+            analytics-event="click" analytics-label="Comments">
+            <md-icon md-svg-src="./assets/images/discussion_icon.svg">
+            </md-icon>
+          </md-button> -->
+        </div>
+      </div>
+    </section>
+    <section class="kit_fixed" move-down>
+      <section class="overlay" ng-if="!vm.kit">
+        <h2 class="title">
+          No kit selected <span class="emoji">👆</span>
+        </h2>
+        <p>
+          Browse the map and tap on any kit to see its data.
+        </p>
+      </section>
+      <div no-data-backdrop></div>
+      <section class="kit_overview" layout="row">
+        <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left" aria-label="">
+          <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
+          </md-icon>
+        </md-button>
+        <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
+          <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
+          ng-class="{selected: vm.selectedSensor === sensor.id}">
+            <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
+            <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
+            <div class="sensor_right">
+              <div class="sensor_unit">{{ sensor.unit }}</div>
+              <md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}">
+              </md-icon>
+            </div>
+            <p>{{ sensor.name }}</p>
+          </div>
+        </div>
+        <md-button  ng-click="vm.slide('left')" class="md-flat button_scroll button_scroll_right" aria-label="">
+          <md-icon md-svg-src="./assets/images/arrow_right_icon.svg">
+          </md-icon>
+        </md-button>
+      </section>
+    </section>
+  </div>
+  <section class="kit_fixed">
+    <div class="hint" ng-if="!vm.kit">
+      <p>
+        We can also take you to your nearest online kit by letting us know your location.
+      </p>
+      <md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button>
+    </div>
+    <section class="kit_detailed">
+      <section class="kit_chart">
+        <div class="hint" ng-if="vm.kitWithoutData"></div>
+        <div class="container" layout="row" layout-xs="column">
+          <div class="kit_chart_left" flex="100" flex-gt-xs="20" layout-xs="column" layout-align-xs="end start">
+            <div class="sensor_select">
+              <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
+              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
+                analytics-on="click" analytics-category="Kit Chart"
+                analytics-event="click" analytics-label="Metric">
+                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
+                  <img class="select_image" ng-src="{{ sensor.icon }}">
+                  <span>
+                    {{ sensor.name }}
+                  </span>
+                </md-option>
+              </md-select>
+            </div>
+            <div class="sensor_data" show-popup-info>
+              <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
+              <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
+            </div>
+            <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
+            <div class="sensor_description" >
+              <h6>{{ vm.selectedSensorData.name }}</h6>
+              <div class="sensor_description_content" >
+                <small class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<a href="#" ng-show="vm.selectedSensorData.previewDescription.length > 140" show-popup>More info</a></small>
+                <p class="sensor_description_full" hide-popup>{{ vm.selectedSensorData.fullDescription }}</p>
+              </div>
+            </div>
+            <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
+              <div>
+                <span class="float-left" style="margin-top:7px">Compare with</span>
+                <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
+                    analytics-on="click" analytics-category="Kit Chart"
+                    analytics-event="click" analytics-label="Compare">
+                    <img class="select_image" ng-src="{{ sensor.icon }}">
+                    <span class="sensor_name">
+                      {{ sensor.name }}
+                    </span>
+                  </md-option>
+                </md-select>
+              </div>
+            </div>
+          </div>
+          <div class="kit_chart_right" flex>
+            <div class="chart_navigation" layout="row" layout-xs="column" layout-align="end center" layout-align-xs="end end">
+              <div class="picker_container">
+                <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received"
+                  ng-change="vm.timeOptSelected()">
+                  <md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option>
+                </md-select>
+              </div>
+              <div class="picker_container">
+                <label for="picker_from">From: </label>
+                <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></input>
+              </div>
+              <div class="picker_container">
+                <label for="picker_to">To: </label>
+                <input type="text" id="picker_to" class="date_picker" placeholder="TO"></input>
+              </div>
+              <div class="chart_move">
+                <md-button href="#" ng-click="vm.moveChart('left')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center">
+                  <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
+                  </md-icon>
+                </md-button>
+                <md-button href="#" ng-click="vm.moveChart('right')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center">
+                  <md-icon md-svg-src="./assets/images/arrow_right_icon.svg"> <!-- ng-disabled="vm.toPickerDisabled" -->
+                  </md-icon>
+                </md-button>
+              </div>
+            </div>
+            <!-- <div style="clear: both"></div> -->
+
+            <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
+            <div chart class="chart_container" chart-data="vm.chartDataMain">
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="kit_details" ng-if="vm.kit">
+        <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-around end">
+          <div class="kit_details_content_main" flex>
+            <div class="kit_details_content">
+              <h1 class="kit_details_name">{{ vm.kit.name }}</h1>
+              <p class="kit_details_location">
+              <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
+              </md-icon>
+              <span class="md-title">{{ vm.kit.location || 'No location' }}</span>
+              </p>
+              <p class="kit_details_type">
+              <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
+              </md-icon>
+              <span class="md-title">{{ vm.kit.typeDescription }}</span>
+              </p>
+              <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
+              <p class="kit_details_labels">
+              <span style="padding:4px 8px" class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
+              <tag  style="padding:4px 8px" ng-repeat='tag in vm.kit.userTags' ng-attr-tag-name="tag" clickable></tag>
+              </p>
+            </div>
+          </div>
+          <div flex="30" class="kit_details_manage" ng-if="vm.kitBelongsToUser">
+            <div class="kit_details_manage_buttons">
+              <md-button style="font-size:18px" ng-href="/kits/edit/{{vm.kit.id}}" class="color-cyan" aria-label="">EDIT</md-button>
+              <md-button style="font-size:18px" ng-if="vm.kit.setupAvailable" ng-href="/kits/edit/{{vm.kit.id}}?step=2" class="" aria-label="">SET UP</md-button>
+              <md-button style="font-size:18px" ng-click="vm.removeKit()" class="warn md-subhead" aria-label="">DELETE</md-button>
+            </div>
+            <div class="kit_details_manage_data">
+              <div class="kit_details_macaddress data_container">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
+                </md-icon>
+                <span class="bold">Device:</span>
+                <span>{{ vm.kit.id }}</span>
+              </div>
+              <div ng-show="vm.kit.macAddress" class="kit_details_macaddress data_container">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
+                </md-icon>
+                <span class="bold">Mac Address:</span>
+                <span>{{ vm.kit.macAddress }}</span>
+              </div>
+              <div class="data_container">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
+                </md-icon>
+                <span class="bold">Status:</span>
+                <span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span>
+              </div>
+              <div class="clearfix"></div>
+              <md-button class="kit_details_download data_container color-cyan"
+                         ng-click="vm.downloadData(vm.kit)">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)">
+                </md-icon>
+                <span class="bold md-subhead">Download Data</span>
+              </md-button>
+            </div>
+          </div>
+          <section flex class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
+            <h1>People looking for a better city</h1>
+            <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
+            <md-button ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
+          </section>
+        </div>
+      </section>
+      <section class="kit_owner" ng-if="vm.kit">
+        <div class="kit_detailed_content_container" layout="row" layout-xs="column">
+          <div class="kit_detailed_avatar">
+            <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
+          </div>
+          <div class="kit_owner_content" flex="100">
+            <div class="kit_owner_info">
+              <a href="./users/{{vm.kit.owner.id}}" class="kit_owner_usernameLink">
+                <h2 class="kit_owner_usernameText">{{ vm.kit.owner.username }}</h2>
+              </a>
+              <p>
+              <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
+              </md-icon>
+              <span class="md-title">
+                <span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span>
+                <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span>
+                <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span>
+                <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span>
+              </span>
+              </p>
+              <p ng-if="vm.kit.owner.url">
+              <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
+              </md-icon>
+              <span class="md-title" ng-bind-html="vm.kit.owner.url | linky:'_blank'">{{ vm.kit.owner.url || 'No URL'}}</span>
+              </p>
+            </div>
+            <section class="kit_owner_kits inside_list" ng-if="vm.sampleKits.length > 0">
+              <h1>Other kits owned by {{ vm.kit.owner.username }}</h1>
+              <kit-list kits="vm.sampleKits"></kit-list>
+              <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.ownerKits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
+            </section>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </section>
+      <!-- HACK: conflit zith lodash -->
+      <!-- <section class="kit_comments" ng-if="vm.kit">
+        <div class="kit_detailed_content_container">
+          <div class="kit_detailed_content_container" ng-include="'app/components/disqus/disqus.html'"></div>
+        </div>
+      </section> -->
+    </section>
+  </section>
+</section>

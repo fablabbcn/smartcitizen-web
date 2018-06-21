@@ -1,0 +1,43 @@
+<div class="navbar_container">
+  <md-toolbar layout="row" layout-align="space-between center" class="stickNav" style="height:64px;">
+    <a ui-sref="landing" class="logo_link">
+      <md-icon md-svg-src="./assets/images/LogotipoSmartCitizen.svg"
+               alt="Insert Drive Icon" class="logo_icon">
+      </md-icon>
+    </a>
+    <section layout="row" class="nav_left" layout-align="space-around center">
+      <md-button ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat padding14 map">
+        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon">
+        </md-icon>
+        <span>Map</span>
+      </md-button>
+      <md-button ng-show="vm.isShown" href="" class="md-flat padding14 community" aria-label=""
+          dropdown-menu="vm.dropdownOptionsCommunity"
+          dropdown-model="vm.dropdownSelectedCommunity"
+          dropdown-item-label="text" layout="row" layout-align="center center">
+        <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon">
+        </md-icon>
+        <span>Community</span>
+      </md-button>
+    </section>
+
+    <search hide show-gt-xs flex ></search>
+
+    <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
+
+      <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat get"></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" login class="navbar_login_button md-display-1"></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button md-display-1"></div>
+
+      <md-button ng-show="vm.isShown && vm.isLoggedin" class="md-flat navbar_avatar_button float-right" aria-label="" dropdown-menu="vm.dropdownOptions"
+          dropdown-model="vm.dropdownSelected"
+          dropdown-item-label="text">
+        <img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.avatar || './assets/images/avatar.svg' }}" />
+      </md-button>
+    </section>
+  </md-toolbar>
+</div>
+
+<div ui-view></div>
+
+<footer class="footer" ng-if="!vm.overlayLayout" ng-include="'app/components/footer/footer.html'" layout="row" layout-align="center center"></footer>

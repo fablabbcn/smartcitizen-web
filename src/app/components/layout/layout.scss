@@ -1,0 +1,78 @@
+/**
+ *  NAVBAR
+ */
+
+.navbar_container {
+  .md-button {
+    //font-size: 14px;
+  }
+
+  .md-button.navbar_highlight_button {
+    border: 2px solid $yellow;
+    color: $yellow;
+    border-radius: 50px;
+    //padding: 9px 11px;
+    width: 108px;
+  }
+
+  .logo_link {
+    text-align: center;
+
+    .logo_icon {
+      margin-left: 15px;
+      height: 32px;
+      width: 32px;
+    }
+  }
+
+  .nav_icon {
+    margin-right: 4px;
+    height: 14px !important;
+    width: 14px !important;
+    svg {
+      fill: $yellow;
+    }
+  }
+
+  .padding14 {
+    padding: 14px 8px;
+  }
+
+  .nav_left {
+    //width: 204px;
+    margin: 0px 18px;
+    .map {
+    }
+    .community {
+      //width: 106px;
+    }
+  }
+
+  .nav_right {
+
+    .get {
+    }
+    .log {
+    }
+    .navbar_signup_button {
+
+      .md-button {
+        padding: 2px 0px;
+        border: 2px solid $yellow;
+        color: $yellow;
+        border-radius: 50px;
+        width: 79px;
+      }
+      .md-button:hover {
+        background-color: $yellow;
+        color: $off_black;
+      }
+    }
+  }
+}
+
+md-toolbar{
+  background-color: $background_blue_dark_navbar !important;
+  z-index: $large_priority;
+  height: 64px;
+}
