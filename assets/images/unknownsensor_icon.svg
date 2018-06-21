@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="16px"
+	 viewBox="0 0 20 16" enable-background="new 0 0 20 16" xml:space="preserve">
+<title>co_icon</title>
+<desc>Created with Sketch.</desc>
+<g>
+	<path stroke-width="1.5734" stroke-linecap="round" stroke-miterlimit="10" d="M10.894,1.147
+		c2.385,1.37,3.989,3.94,3.989,6.887c0,2.896-1.548,5.432-3.868,6.817"/>
+	<path stroke-width="1.5734" stroke-linecap="round" stroke-miterlimit="10" d="M9.202,3.615
+		c1.605,0.822,2.702,2.493,2.702,4.419c0,1.792-0.949,3.361-2.373,4.233"/>
+	<circle stroke-width="1.4941" stroke-miterlimit="10" cx="6.942" cy="8.034" r="1.865"/>
+</g>
+</svg>
