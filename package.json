@@ -1,7 +1,9 @@
 {
   "name": "smartcitizen",
   "version": "2.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gh-pages": "^1.2.0"
+  },
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install",
     "dev": "gulp serve"
