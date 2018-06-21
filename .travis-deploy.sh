@@ -8,5 +8,5 @@ chmod 600 ed25519
 ssh-add ed25519
 
 # commit the assets in build/ to the gh-pages branch and push to GitHub using SSH
-./node_modules/.bin/gh-pages -d build/ -b gh-pages -r git@github.com:${TRAVIS_REPO_SLUG}.git
+./node_modules/.bin/gh-pages -d dist/ -b gh-pages -r git@github.com:${TRAVIS_REPO_SLUG}.git
 
