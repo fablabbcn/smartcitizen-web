@@ -71,6 +71,7 @@
       }
 
       function getDevice(id) {
+				console.log("get",id);
         return Restangular.one('devices', id).get();
       }
 
@@ -125,6 +126,12 @@
           .one('devices', kit.id)
           .customGET('readings/csv_archive');
       }
+
+			function postReadings(kit, readings) {
+				return Restangular
+          .one('devices', kit.id)
+          .post('readings', readings);
+			}
 
 			function removeDevice(deviceID){
 				return Restangular

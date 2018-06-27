@@ -11,7 +11,7 @@
 
       var vm = this;
 
-      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change) 
+      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
       var timewait = {
           long: 5000,
           normal: 2000,
@@ -272,13 +272,13 @@
       function goToStep(step) {
         vm.step = step;
         $state.transitionTo('layout.kitEdit', { id:$stateParams.id, step: step} ,
-        { 
+        {
           reload: false,
           inherit: false,
           notify: false
         });
       }
 
- 
+
     }
 })();

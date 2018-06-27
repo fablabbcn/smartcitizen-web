@@ -8,6 +8,27 @@
       Check app.config.js to know how states are protected
     */
 
+    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'kitUtils', 'userUtils']
+    function belongsToUser($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+      if(!auth.isAuth() || !$stateParams.id) {
+        return false;
+      }
+      var kitID = parseInt($stateParams.id);
+      var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+      var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+      var isAdmin = userUtils.isAdmin(userData);
+      return isAdmin || belongsToUser;
+    }
+
+    redirectNotOwner.$inject = ['belongsToUser', '$location'];
+    function redirectNotOwner(belongsToUser, $location) {
+      if(!belongsToUser) {
+        console.error('This kit does not belong to user');
+        $location.path('/kits/');
+      }
+    }
+
+
     config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
     function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
       $stateProvider
@@ -71,30 +92,27 @@
           controllerAs: 'vm'
         })
         .state('layout.kitEdit', {
-          url: '/kits/edit/:id?step',
+          url: '/kits/:id/edit?step',
           templateUrl: 'app/components/kit/editKit/editKit.html',
           controller: 'EditKitController',
           controllerAs: 'vm',
           resolve: {
-            belongsToUser: function(auth, $location, $stateParams, userUtils, kitUtils, $window, AuthUser) {
-              if(!auth.isAuth()) {
-                $location.path('/kits/');
-                return;
-              }
-              var kitID = parseInt($stateParams.id);
-              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
-              var isAdmin = userUtils.isAdmin(userData);
-
-              if(!isAdmin && !belongsToUser) {
-                console.error('This kit does not belong to user');
-                $location.path('/kits/');
-              }
-            },
-            step: function($stateParams){
+            belongsToUser: belongsToUser,
+            redirectNotOwner: redirectNotOwner,
+            step: function($stateParams) {
               return parseInt($stateParams.step) || 1;
             }
           }
+        })
+        .state('layout.kitUpload', {
+          url: '/kits/:id/upload',
+          templateUrl: 'app/components/upload/upload.html',
+          controller: 'UploadController',
+          controllerAs: 'vm',
+          resolve: {
+            belongsToUser: belongsToUser,
+            // redirectNotOwner: redirectNotOwner TODO redo
+         }
         })
 
         .state('layout.kitAdd', {
@@ -151,18 +169,8 @@
             }
           },
           resolve: {
-            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
-              if(!auth.isAuth() || !$stateParams.id) {
-                return false;
-              }
-              var kitID = parseInt($stateParams.id);
-              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
-              var isAdmin = userUtils.isAdmin(userData);
-
-              return isAdmin || belongsToUser;
-            }
-          }
+            belongsToUser:  belongsToUser
+         }
         })
         /*
         -- Show Kit state --
@@ -187,17 +195,7 @@
                   return sensorTypes.plain();
                 });
             },
-            belongsToUser: function($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
-              if(!auth.isAuth() || !$stateParams.id) {
-                return false;
-              }
-              var kitID = parseInt($stateParams.id);
-              var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-              var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
-              var isAdmin = userUtils.isAdmin(userData);
-
-              return isAdmin || belongsToUser;
-            }
+            belongsToUser: belongsToUser
           }
         })
         /*

@@ -1,8 +1,0 @@
-<button class="md-flat md-button" type="file" ngf-select ng-model="vm.csvFiles">Load CSV</button>
-
-<div ng-if="vm.csvFiles && vm.csvFiles.length > 0">
-  <md-grid-list md-cols="5" md-gutter="1em" md-row-height="4:3">
-    <md-grid-tile ng-repeat="csvFile in vm.csvFiles">{{csvFile.name}}</md-grid-tile>
-  </md-grid-list>
-  <md-button ng-click="vm.uploadData()">Upload data</md-button>
-</div>

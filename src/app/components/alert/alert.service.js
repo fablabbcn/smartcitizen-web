@@ -45,11 +45,11 @@
 
     function infoNoDataOwner(kitID) {
       info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data. Please, check ' +
-        'its settings.', 
+        'its settings.',
         10000,
         {
-          button: 'Kit settings', 
-          href: '/kits/edit/' + kitID
+          button: 'Kit settings',
+          href: '/kits/' + kitID + '/edit'
         });
     }
 
@@ -57,7 +57,7 @@
     function infoLongTime() {
       info('😅 It looks like this kit hasn\'t posted any data in a long ' +
         'time. Why not leave a comment to let its owner know?', 10000,
-        { 
+        {
           button: 'Leave comment',
           buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
           'analytics-category="Long time No published Kit Comment Link"',

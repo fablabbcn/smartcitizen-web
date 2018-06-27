@@ -7,12 +7,12 @@
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
     'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
-    'DROPDOWN_OPTIONS_KIT', '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
+    '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
     'userUtils', '$filter','$state', 'Restangular'];
     function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
-      DROPDOWN_OPTIONS_KIT, $mdDialog, PreviewKit, device, kitUtils,
+      $mdDialog, PreviewKit, device, kitUtils,
       userUtils, $filter, $state, Restangular) {
 
       var vm = this;
@@ -46,7 +46,6 @@
       vm.filteredKits = [];
 
       vm.dropdownSelected = undefined;
-      vm.dropdownOptions = DROPDOWN_OPTIONS_KIT;
 
       //TOOLS TAB
       vm.tools = PROFILE_TOOLS;

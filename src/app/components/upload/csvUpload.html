@@ -1,0 +1,13 @@
+<!-- TODO add validation -->
+<button class="md-flat md-button" type="file" ngf-select ng-model="vm.csvFiles">Load CSV</button>
+<md-button ng-click="vm.analyzeData()">Analyze data</md-button>
+<md-button ng-click="vm.csvFiles = null">Remove all files</md-button>
+<md-button ng-click="vm.uploadData()">Upload</md-button>
+
+<md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0">
+  <md-list-item ng-repeat="csvFile in vm.csvFiles">
+    <md-checkbox ng-model="csvFile.checked"></md-checkbox>
+    <span>{{csvFile.name}}</span>
+    <md-chip ng-if="csvFile.isNew">new data</md-chip>
+  </md-list-item>
+</md-list>
