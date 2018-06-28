@@ -25,6 +25,7 @@
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
+        postReadings: postReadings,
         callGenericKitData: callGenericKitData,
 				removeDevice: removeDevice,
         updateContext: updateContext
@@ -128,9 +129,7 @@
       }
 
 			function postReadings(kit, readings) {
-				return Restangular
-          .one('devices', kit.id)
-          .post('readings', readings);
+				return $http.post(Restangular.configuration.baseUrl+'/devices/'+kit.id+'/readings');
 			}
 
 			function removeDevice(deviceID){

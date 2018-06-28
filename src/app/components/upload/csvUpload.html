@@ -1,13 +1,86 @@
 <!-- TODO add validation -->
-<button class="md-flat md-button" type="file" ngf-select ng-model="vm.csvFiles">Load CSV</button>
-<md-button ng-click="vm.analyzeData()">Analyze data</md-button>
-<md-button ng-click="vm.csvFiles = null">Remove all files</md-button>
-<md-button ng-click="vm.uploadData()">Upload</md-button>
+<button
+  name=csvFiles
+  type="file"
+  class="md-button md-primary md-raised"
+  ngf-select="vm.change($files, $invalidFiles)"
+  ngf-before-model-change="vm.onSelect()"
+  ngf-multiple="true"
+  ngf-keep="true"
+  ngf-accept="'application/csv,.csv'"
+  ngf-max-files="10"
+  ngf-max-size="'10MB'"
+  ngf-pattern="'.csv'"
+  ng-model="vm.csvFiles"
+  ngf-model-invalid="vm.invalidFiles">Load CSV</button>
+<md-button class="md-primary md-raised" ng-click="vm.analyzeData()" ng-disabled="!vm.csvFiles">
+  <md-tooltip md-direction="top">Analyze the CSV before upload</md-tooltip>
+  Analyze
+  <md-icon md-svg-icon="./assets/images/alert_icon.svg">
+  </md-icon>
+</md-button>
+<md-button class="md-primary md-raised" ng-click="vm.uploadData()" ng-disabled="!vm.csvFiles">
+  <md-tooltip md-direction="top">Upload the checked files</md-tooltip>
+  Upload
+  <md-icon md-svg-icon="./assets/images/alert_icon.svg">
+  </md-icon>
+</md-button>
+<md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = null" ng-disabled="!vm.csvFiles">Remove all files</md-button>
+<md-progress-linear md-mode="{{ vm.loadingFiles ? 'indeterminate' : 'determinate'}}" ng-value="vm.totalProgress" ng-if="vm.totalProgress === 0 || vm.totalProgress || vm.loadingFiles"></md-progress-linear>
+
+
+<md-card class="bg-yellow" ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
+  <md-card-content>
+    <md-list>
+      <md-list-item ng-repeat="invalidFile in vm.invalidFiles">
+        <div ng-messages="invalidFile.$errorMessages">
+          <div ng-message="pattern">
+            {{invalidFile.name}} is not a CSV file
+          </div>
+          <div ng-message="maxSize">
+            {{invalidFile.name}} is too large ({{ invalidFile.size / 1000000 | number:1 }}MB)
+          </div>
+        </div>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button ng-click="vm.invalidFiles = null" class="md-warn" >
+      close
+    </md-button>
+  </md-card-actions>
+</md-card>
 
 <md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0">
-  <md-list-item ng-repeat="csvFile in vm.csvFiles">
-    <md-checkbox ng-model="csvFile.checked"></md-checkbox>
-    <span>{{csvFile.name}}</span>
-    <md-chip ng-if="csvFile.isNew">new data</md-chip>
+  <md-list-item ng-repeat="csvFile in vm.csvFiles" class="md-2-line">
+    <div class="md-list-item-text" layout="column">
+      <div class="csv_file_item" ng-class="{'bg-green':csvFile.success}">
+        <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
+        <span>{{csvFile.name}}</span>
+        <span ng-if="csvFile.isNew" class="label">new data</span>
+        <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="csvFile.errors && csvFile.errors.length > 0" class="md-icon-button md-warn">
+          <md-tooltip md-direction="top">Show details</md-tooltip>
+          <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
+        </md-button>
+        <md-progress-circular ng-if="csvFile.progress" md-mode="indeterminate" md-diameter="20"></md-progress-circular>
+        <span flex></span>
+        <md-button ng-click="vm.removeFile($index)" class="md-icon-button md-warn md-secondary" >
+          <md-icon md-svg-icon="./assets/images/delete_icon.svg"></md-icon>
+        </md-button>
+      </div>
+
+      <md-card class="bg-yellow" ng-if="csvFile.detailShowed">
+        <md-card-content>
+          <md-list>
+            <md-list-item ng-repeat="error in csvFile.errors">
+              {{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span>
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>
+    </div>
   </md-list-item>
 </md-list>
+<div ng-if="!vm.csvFiles || vm.csvFiles.length === 0">
+  No files uploaded yet
+</div>
