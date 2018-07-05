@@ -111,6 +111,12 @@
           controllerAs: 'vm',
           resolve: {
             belongsToUser: belongsToUser,
+            kit: function(device, FullKit, $stateParams) {
+              console.log($stateParams.id);
+              return device.getDevice($stateParams.id)
+              .then(kit => {console.log('KIT',kit); return new FullKit(kit)})
+              .catch(() => {console.log('catchhhh')});
+            }
             // redirectNotOwner: redirectNotOwner TODO redo
          }
         })
@@ -413,6 +419,7 @@
       }).hashPrefix('!');
 
       /*  Sets the default Smart Citizen API base url */
+      // RestangularProvider.setBaseUrl('http://localhost:3000/v0');
       RestangularProvider.setBaseUrl('https://api.smartcitizen.me/v0');
 
       /* Remove angular leaflet logs */

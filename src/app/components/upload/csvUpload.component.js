@@ -39,82 +39,107 @@ function parseDataForPost(csvArray) {
 controller.$inject = ['device', 'Papa', 'FullKit'];
 function controller(device, Papa, FullKit) {
   var vm = this;
+  vm.$onInit = function() {
+    console.log("crl",vm);
+    vm.kitLastUpdate = !!vm.kit.time || new Date(vm.kit.time);
+    vm.csvFiles = [];
+    vm.loading = {
+      status: false,
+      type: 'indeterminate',
+      progress: 0
+    };
+  }
   vm.onSelect = function() {
-    vm.loadingFiles = true;
+    vm.loading.status = true;
+    vm.loading.type = 'indeterminate';
   }
   vm.change = function(files, invalidFiles) {
-    vm.loadingFiles = false;
+    console.log(files, invalidFiles);
+    vm.invalidFiles = invalidFiles;
+    vm.loading.status = true;
+    vm.loading.type = 'determinate';
+    vm.loading.progress = 0;
+    Promise.all(
+      files
+      .filter((file) => vm._checkDuplicate(file))
+      .map((file, index, files) => {
+        vm.csvFiles.push(file);
+        return vm._analyzeData(file)
+        .then(() => {
+          console.log(file)
+          vm.loading.progress = (index+1)/files.length * 100;
+        })
+        .catch((err) => console('catch',err))
+      })
+    ).then(() => {
+      vm.loading.status = false;
+    });
   }
   vm.removeFile = function(index) {
     vm.csvFiles.splice(index, 1);
   }
-  vm.analyzeData = function() {
-    console.log(vm.kitId);
-    let fileCount = 0;
-    vm.totalProgress = 0;
-    device.getDevice(vm.kitId)
-    .then((deviceData) => {
-      vm.kit = new FullKit(deviceData);
-      console.log(vm.kit)
-      vm.kitLastUpdate = !!vm.kit.time || new Date(vm.kit.time);
-      vm.csvFiles.forEach((file, index) => {
-        file.progress = true;
-        Papa.parse(file, {
-          delimiter: ',',
-          worker: true,
-          skipEmptyLines: true
-        }).then((result) => {
-          vm.totalProgress = (fileCount+1)/vm.csvFiles.length * 100;
-          fileCount += 1;
-          if (fileCount === vm.csvFiles.length - 1) {
-            vm.totalProgress = null;
-          }
-          if (result.errors && result.errors.length > 0) {
-            file.errors = result.errors;
-          }
-          const lastTimestamp = new Date(result.data[result.data.length - 1][0]);
-          console.log(vm.kitLastUpdate, lastTimestamp)
-          const isNew = vm.kitLastUpdate < lastTimestamp;
-          file.isNew = isNew;
-          file.checked = isNew;
-          file.progress = null;
-          console.log(result);
-        })
-      });
+  vm._analyzeData = function(file) {
+    file.progress = true;
+    return Papa.parse(file, {
+      delimiter: ',',
+      dynamicTyping: true,
+      worker: true,
+      skipEmptyLines: true
+    }).then((result) => {
+      console.log('res', result)
+      if (result.errors && result.errors.length > 0) {
+        file.parseErrors = result.errors;
+      }
+      const lastTimestamp = new Date(result.data[result.data.length - 1][0]);
+      const isNew = vm.kitLastUpdate < lastTimestamp;
+      file.checked = isNew;
+      file.progress = null;
+      file.isNew = isNew;
+      return result;
     });
+  }
+
+  vm._checkDuplicate(file) {
+    if (vm.csvFiles.some(({name}) => file.name === name)) {
+      file.$errorMessages = {};
+      file.$errorMessages.duplicate = true;
+      vm.invalidFiles.push(file);
+      return false;
+    } else {
+      return true;
+    }
   }
 
 
 
-
   vm.uploadData = function() {
-    vm.totalProgress = 0;
-    vm.csvFiles
-    .forEach((file, index) => {
-      if (file.checked) {
+    vm.loading.status = true;
+    vm.loading.type = 'determinate';
+    vm.loading.progress = 0;
+
+    Promise.all(
+      vm.csvFiles
+      .filter((file) => file.checked && !file.success)
+      .map((file, index) => {
         file.progress = true;
-        Papa.parse(file, {
-          delimiter: ',',
-          dynamicTyping: true,
-          worker: true,
-          skipEmptyLines: true
-        })
-        .then((result) => {
-          if (index === vm.csvFiles.length - 1) {
-            vm.totalProgress = null;
-          }
+        return vm._analyzeData(file)
+        .then((result) => parseDataForPost(result.data))
+        // TODO with workers
+        .then((payload) => device.postReadings(vm.kit, payload))
+        .then(() => {
+          file.success = true;
           file.progress = null;
-          return parseDataForPost(result.data); // TODO with workers
+          vm.loading.progress = (index+1)/vm.csvFiles.length * 100;
         })
-        .then((payload) => device.postReadings(vm.kit,payload))
-        .then(() => { file.progress = null; })
         .catch((errors) =>  {
-          console.log(errors)
-          file.errors = [{message: errors}];
+          console.log(errors);
+          file.backEndErrors = errors;
           file.progress = null;
         });
-      }
-    });
+      })
+    ).then(() => {
+      vm.loading.status = false;
+    })
   }
 }
 
@@ -124,7 +149,7 @@ angular.module('app.components')
     templateUrl: 'app/components/upload/csvUpload.html',
     controller: controller,
     bindings: {
-      kitId: '<'
+      kit: '<'
     },
     controllerAs: 'vm'
   });

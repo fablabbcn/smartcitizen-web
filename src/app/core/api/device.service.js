@@ -129,7 +129,9 @@
       }
 
 			function postReadings(kit, readings) {
-				return $http.post(Restangular.configuration.baseUrl+'/devices/'+kit.id+'/readings');
+				return Restangular
+          .one('devices', kit.id)
+          .post('readings', readings);
 			}
 
 			function removeDevice(deviceID){

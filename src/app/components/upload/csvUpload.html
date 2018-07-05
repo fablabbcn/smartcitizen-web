@@ -6,27 +6,20 @@
   ngf-select="vm.change($files, $invalidFiles)"
   ngf-before-model-change="vm.onSelect()"
   ngf-multiple="true"
-  ngf-keep="true"
   ngf-accept="'application/csv,.csv'"
   ngf-max-files="10"
   ngf-max-size="'10MB'"
-  ngf-pattern="'.csv'"
-  ng-model="vm.csvFiles"
-  ngf-model-invalid="vm.invalidFiles">Load CSV</button>
-<md-button class="md-primary md-raised" ng-click="vm.analyzeData()" ng-disabled="!vm.csvFiles">
+  ngf-pattern="'.csv'">
   <md-tooltip md-direction="top">Analyze the CSV before upload</md-tooltip>
-  Analyze
-  <md-icon md-svg-icon="./assets/images/alert_icon.svg">
-  </md-icon>
-</md-button>
-<md-button class="md-primary md-raised" ng-click="vm.uploadData()" ng-disabled="!vm.csvFiles">
+  Load & Analyze CSV
+</button>
+
+<md-button class="md-primary md-raised" ng-click="vm.uploadData()" ng-disabled="!vm.csvFiles || vm.csvFiles.length === 0">
   <md-tooltip md-direction="top">Upload the checked files</md-tooltip>
   Upload
-  <md-icon md-svg-icon="./assets/images/alert_icon.svg">
-  </md-icon>
 </md-button>
 <md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = null" ng-disabled="!vm.csvFiles">Remove all files</md-button>
-<md-progress-linear md-mode="{{ vm.loadingFiles ? 'indeterminate' : 'determinate'}}" ng-value="vm.totalProgress" ng-if="vm.totalProgress === 0 || vm.totalProgress || vm.loadingFiles"></md-progress-linear>
+<md-progress-linear md-mode="{{ vm.loading.type }}" ng-value="vm.loading.progress" ng-if="vm.loading.status"></md-progress-linear>
 
 
 <md-card class="bg-yellow" ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
@@ -40,6 +33,9 @@
           <div ng-message="maxSize">
             {{invalidFile.name}} is too large ({{ invalidFile.size / 1000000 | number:1 }}MB)
           </div>
+          <div ng-message="duplicate">
+            {{invalidFile.name}} is already on the list
+          </div>
         </div>
       </md-list-item>
     </md-list>
@@ -52,13 +48,13 @@
 </md-card>
 
 <md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0">
-  <md-list-item ng-repeat="csvFile in vm.csvFiles" class="md-2-line">
+  <md-list-item ng-class="{'bg-green':csvFile.success}" ng-repeat="csvFile in vm.csvFiles" class="md-2-line">
     <div class="md-list-item-text" layout="column">
-      <div class="csv_file_item" ng-class="{'bg-green':csvFile.success}">
+      <div class="csv_file_item">
         <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
         <span>{{csvFile.name}}</span>
         <span ng-if="csvFile.isNew" class="label">new data</span>
-        <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="csvFile.errors && csvFile.errors.length > 0" class="md-icon-button md-warn">
+        <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="csvFile.parseErrors || csvFile.backEndErrors" class="md-icon-button md-warn">
           <md-tooltip md-direction="top">Show details</md-tooltip>
           <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
         </md-button>
@@ -72,8 +68,12 @@
       <md-card class="bg-yellow" ng-if="csvFile.detailShowed">
         <md-card-content>
           <md-list>
-            <md-list-item ng-repeat="error in csvFile.errors">
+            <md-list-item ng-repeat="error in csvFile.parseErrors">
               {{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span>
+            </md-list-item>
+            <md-list-item ng-if="csvFile.backEndErrors">
+              {{csvFile.backEndErrors.statusText || csvFile.backEndErrors}} {{csvFile.backEndErrors.status}}
+              <span ng-if="csvFile.backEndErrors.data"></span>: {{ csvFile.backEndErrors.data.message || csvFile.backEndErrors.data.errors }}
             </md-list-item>
           </md-list>
         </md-card-content>
