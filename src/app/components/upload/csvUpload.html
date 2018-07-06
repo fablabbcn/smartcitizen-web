@@ -18,8 +18,8 @@
   <md-tooltip md-direction="top">Upload the checked files</md-tooltip>
   Upload
 </md-button>
-<md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = null" ng-disabled="!vm.csvFiles">Remove all files</md-button>
-<md-progress-linear md-mode="{{ vm.loading.type }}" ng-value="vm.loading.progress" ng-if="vm.loading.status"></md-progress-linear>
+<md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = []" ng-if="vm.csvFiles && vm.csvFiles.length > 0">Remove all files</md-button>
+<md-progress-linear md-mode="{{ vm.loadingType }}" ng-value="vm.loadingProgress" ng-if="vm.loadingStatus"></md-progress-linear>
 
 
 <md-card class="bg-yellow" ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
@@ -53,7 +53,7 @@
       <div class="csv_file_item">
         <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
         <span>{{csvFile.name}}</span>
-        <span ng-if="csvFile.isNew" class="label">new data</span>
+        <span ng-if="csvFile.isNew && !csvFile.success" class="label">new data</span>
         <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="csvFile.parseErrors || csvFile.backEndErrors" class="md-icon-button md-warn">
           <md-tooltip md-direction="top">Show details</md-tooltip>
           <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>

@@ -28,7 +28,7 @@ function parseDataForPost(csvArray) {
             value: value
           };
         })
-        .filter(({id, value}) => value && id)   // remove empty value or id
+        .filter((sensor) => sensor.value && sensor.id)   // remove empty value or id
       };
     })
   };
@@ -36,43 +36,45 @@ function parseDataForPost(csvArray) {
 
 
 
-controller.$inject = ['device', 'Papa', 'FullKit'];
-function controller(device, Papa, FullKit) {
+controller.$inject = ['device', 'Papa'];
+function controller(device, Papa) {
   var vm = this;
+  vm.loadingStatus = false;
+  vm.loadingProgress = 0;
+  vm.loadingType = 'indeterminate';
+  vm.csvFiles = [];
   vm.$onInit = function() {
     console.log("crl",vm);
-    vm.kitLastUpdate = !!vm.kit.time || new Date(vm.kit.time);
-    vm.csvFiles = [];
-    vm.loading = {
-      status: false,
-      type: 'indeterminate',
-      progress: 0
-    };
+    vm.kitLastUpdate = Math.floor(new Date(vm.kit.time).getTime() / 1000);
+    console.log(vm.kitLastUpdate);
   }
   vm.onSelect = function() {
-    vm.loading.status = true;
-    vm.loading.type = 'indeterminate';
+    vm.loadingStatus = true;
+    vm.loadingType = 'indeterminate';
   }
   vm.change = function(files, invalidFiles) {
     console.log(files, invalidFiles);
+    let count = 0;
     vm.invalidFiles = invalidFiles;
-    vm.loading.status = true;
-    vm.loading.type = 'determinate';
-    vm.loading.progress = 0;
+    vm.loadingStatus = true;
+    vm.loadingType = 'determinate';
+    vm.loadingProgress = 0;
     Promise.all(
       files
       .filter((file) => vm._checkDuplicate(file))
-      .map((file, index, files) => {
+      .map((file, index, filteredFiles) => {
         vm.csvFiles.push(file);
         return vm._analyzeData(file)
         .then(() => {
-          console.log(file)
-          vm.loading.progress = (index+1)/files.length * 100;
-        })
-        .catch((err) => console('catch',err))
+          count += 1;
+          vm.loadingProgress = (count)/filteredFiles.length * 100;
+
+        });
       })
     ).then(() => {
-      vm.loading.status = false;
+      vm.loadingStatus = false;
+    }).catch(() => {
+      vm.loadingStatus = false;
     });
   }
   vm.removeFile = function(index) {
@@ -90,17 +92,21 @@ function controller(device, Papa, FullKit) {
       if (result.errors && result.errors.length > 0) {
         file.parseErrors = result.errors;
       }
-      const lastTimestamp = new Date(result.data[result.data.length - 1][0]);
+      const lastTimestamp = Math.floor((new Date(result.data[result.data.length - 1][0])).getTime() / 1000);
+      console.log(lastTimestamp);
       const isNew = vm.kitLastUpdate < lastTimestamp;
       file.checked = isNew;
       file.progress = null;
       file.isNew = isNew;
       return result;
+    }).catch((err) => {
+      file.progress = null;
+      console('catch',err)
     });
   }
 
-  vm._checkDuplicate(file) {
-    if (vm.csvFiles.some(({name}) => file.name === name)) {
+  vm._checkDuplicate = function(file) {
+    if (vm.csvFiles.some((csvFile) => file.name === csvFile.name)) {
       file.$errorMessages = {};
       file.$errorMessages.duplicate = true;
       vm.invalidFiles.push(file);
@@ -113,9 +119,9 @@ function controller(device, Papa, FullKit) {
 
 
   vm.uploadData = function() {
-    vm.loading.status = true;
-    vm.loading.type = 'determinate';
-    vm.loading.progress = 0;
+    vm.loadingStatus = true;
+    vm.loadingType = 'determinate';
+    vm.loadingProgress = 0;
 
     Promise.all(
       vm.csvFiles
@@ -129,7 +135,7 @@ function controller(device, Papa, FullKit) {
         .then(() => {
           file.success = true;
           file.progress = null;
-          vm.loading.progress = (index+1)/vm.csvFiles.length * 100;
+          vm.loadingProgress = (index+1)/vm.csvFiles.length * 100;
         })
         .catch((errors) =>  {
           console.log(errors);
@@ -138,8 +144,11 @@ function controller(device, Papa, FullKit) {
         });
       })
     ).then(() => {
-      vm.loading.status = false;
+      vm.loadingStatus = false;
     })
+    .catch(() => {
+      vm.loadingStatus = false;
+    });
   }
 }
 
