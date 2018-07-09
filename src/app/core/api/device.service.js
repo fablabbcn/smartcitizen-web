@@ -6,14 +6,9 @@
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
 	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
-      var genericKitData, worldMarkers;
+      var kitBlueprints, worldMarkers;
 
       initialize();
-
-      callGenericKitData()
-        .then(function(data) {
-          genericKitData = _.keyBy(data, 'id');
-        });
 
 	  	var service = {
         getDevices: getDevices,
@@ -21,11 +16,11 @@
         getDevice: getDevice,
         createDevice: createDevice,
         updateDevice: updateDevice,
-        getGenericKitData: getGenericKitData,
+        createKitBlueprints: createKitBlueprints,
+        getKitBlueprints: getKitBlueprints,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
-        callGenericKitData: callGenericKitData,
 				removeDevice: removeDevice,
         updateContext: updateContext
 	  	};
@@ -82,12 +77,16 @@
         return Restangular.one('devices', id).patch(data);
       }
 
-      function callGenericKitData() {
-        return Restangular.all('kits').getList();
+      function getKitBlueprints() {
+        return kitBlueprints;
       }
 
-      function getGenericKitData() {
-        return genericKitData;
+      function createKitBlueprints() {
+        return Restangular.all('kits').getList()
+          .then(function(fetchedKitBlueprints){
+            kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
+            return kitBlueprints;
+        });
       }
 
       function getWorldMarkers() {

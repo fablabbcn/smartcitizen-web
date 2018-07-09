@@ -130,6 +130,7 @@
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kit = new FullKit(deviceData);
+
             if(vm.kit){
 
               picker = initializePicker();
