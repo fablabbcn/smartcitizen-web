@@ -6,7 +6,7 @@
 
     LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
     function LoginModalController($scope, $mdDialog, auth, alert, animation) {
-
+      const vm = this;
       $scope.answer = function(answer) {
         $scope.waitingFromServer = true;
         auth.login(answer)
@@ -16,7 +16,8 @@
             auth.saveData(token);
             $mdDialog.hide();
           })
-          .catch(function() {
+          .catch(function(err) {
+            vm.errors = err.data.errors;
             alert.error('Username or password incorrect');
             ga('send', 'event', 'Login', 'logged in');
           })
