@@ -20,7 +20,7 @@
           </div>
         </div>
 
-        <div flex class="kit_time">
+        <div flex ng-if="vm.kit.time" class="kit_time">
           <span hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
 
