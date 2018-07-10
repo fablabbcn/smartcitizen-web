@@ -288,9 +288,10 @@
 
         this.dropdownOptions = [];
 
-        if (!object.kit || object.kit.id === 2 || object.kit.id === 3){
+        if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3){
           this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/edit/' + this.id + '?step=2'});
         }
+
         this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/edit/' + this.id});
 
       }
@@ -2438,7 +2439,7 @@
         var kitType;
 
         // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getGenericKitData();
+        var genericKitData = device.getKitBlueprints();
 
         if(!genericKitData){
             kitType = 'Unknown kit';
@@ -2464,7 +2465,7 @@
         var kitType;
 
         // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getGenericKitData();
+        var genericKitData = device.getKitBlueprints();
 
         if(!genericKitData){
             kitType = 'unknown';
@@ -2657,15 +2658,19 @@
 
       function parseLocation(object) {
         var location = '';
-        
-        var city = object.data.location.city;
-        var country = object.data.location.country;
 
-        if(!!city) {
-          location += city;
-        }
-        if(!!country) {
-          location += ', ' + country;
+        var locationData = object.hasOwnProperty('data') ? object.data : object;
+
+        if (locationData.location) {
+          var city = locationData.location.city;
+          var country = locationData.location.country;
+
+          if(!!city) {
+            location += city;
+          }
+          if(!!country) {
+            location += ', ' + country;
+          }
         }
 
         return location;
@@ -2681,16 +2686,31 @@
       }
 
       function parseType(object) {
-        var kitType = !object.kit ? 'Unknown type': object.kit.name;
-        return kitType; 
+        if (object.hasOwnProperty('kit')) {
+          return !object.kit ? 'Unknown type': object.kit.name;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].name;
+        };
+
+        return kitType;
       }
       function parseTypeDescription(object) {
-        var kitTypeDescription = !object.kit ? 'Unknown type': object.kit.description;
-        return kitTypeDescription; 
+        if (object.hasOwnProperty('kit')) {
+          return !object.kit ? 'Unknown type': object.kit.description;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].description;
+        };
       }
 
       function parseTypeSlug(object) {
-        var kitType = !object.kit ? 'unknown': object.kit.slug;
+        if (object.hasOwnProperty('kit')) {
+          var kitType = !object.kit ? 'unknown': object.kit.slug;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          var kitType = !kitBlueprints[object.kit_id] ? 'unknown': kitBlueprints[object.kit_id].slug;
+        };
         var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
         return kitTypeSlug;
       }
@@ -2752,9 +2772,9 @@
       }
 
       function parseState(status) {
-        var name = parseStateName(status); 
-        var className = classify(name); 
-        
+        var name = parseStateName(status);
+        var className = classify(name);
+
         return {
           name: name,
           className: className
@@ -3434,7 +3454,7 @@
       };
 
       function init(){
-        socket = io.connect('wss://smartcitizen.xyz');
+        socket = io.connect('wss://ws.smartcitizen');
       }
 
       function devices(then){
@@ -3570,14 +3590,9 @@
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
 	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
-      var genericKitData, worldMarkers;
+      var kitBlueprints, worldMarkers;
 
       initialize();
-
-      callGenericKitData()
-        .then(function(data) {
-          genericKitData = _.keyBy(data, 'id');
-        });
 
 	  	var service = {
         getDevices: getDevices,
@@ -3585,11 +3600,11 @@
         getDevice: getDevice,
         createDevice: createDevice,
         updateDevice: updateDevice,
-        getGenericKitData: getGenericKitData,
+        createKitBlueprints: createKitBlueprints,
+        getKitBlueprints: getKitBlueprints,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
-        callGenericKitData: callGenericKitData,
 				removeDevice: removeDevice,
         updateContext: updateContext
 	  	};
@@ -3646,12 +3661,16 @@
         return Restangular.one('devices', id).patch(data);
       }
 
-      function callGenericKitData() {
-        return Restangular.all('kits').getList();
+      function getKitBlueprints() {
+        return kitBlueprints;
       }
 
-      function getGenericKitData() {
-        return genericKitData;
+      function createKitBlueprints() {
+        return Restangular.all('kits').getList()
+          .then(function(fetchedKitBlueprints){
+            kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
+            return kitBlueprints;
+        });
       }
 
       function getWorldMarkers() {
@@ -4675,7 +4694,6 @@
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
-        
         var authUser = auth.getCurrentUser().data;
         if( userUtils.isAuthUser(userID, authUser) ) {
           $location.path('/profile');
@@ -5357,29 +5375,23 @@
 
       function initialize() {
         startingTab();
-        var kitIDs = _.map(vm.user.kits, 'id');
-        if(!kitIDs.length) {
+        if(!vm.user.kits.length) {
           vm.kits = [];
           animation.viewLoaded();
         } else {
-          $q.all(
-            kitIDs.map(function(id) {
-              return device.getDevice(id)
-                .then(function(data) {
-                  return new PreviewKit(data);
-                });
-            })
-          ).then(function(kitsData){
-            if (kitsData){
-              vm.kits = kitsData;
+          device.createKitBlueprints().then(function(){
 
-              $timeout(function() {
-                mapWithBelongstoUser(vm.kits);
-                filterKits(vm.status);
-                setSidebarMinHeight();
-                animation.viewLoaded();
-              }, 500);
-            }
+            vm.kits = vm.user.kits.map(function(data) {
+              return new PreviewKit(data);
+            })
+
+            $timeout(function() {
+              mapWithBelongstoUser(vm.kits);
+              filterKits(vm.status);
+              setSidebarMinHeight();
+              animation.viewLoaded();
+            });
+
           });
         }
       }
@@ -5546,19 +5558,16 @@
       }
 
       function updateKits() {
-        var kitIDs = _.map(vm.user.kits, 'id');
-        if(!kitIDs.length) {
+        if(!vm.user.kits.length) {
           return [];
         }
 
-        $q.all(
-          kitIDs.map(function(id) {
-            return device.getDevice(id)
-              .then(function(data) {
-                return new PreviewKit(data);
-              });
+        device.createKitBlueprints().then(function(){
+          vm.kits = vm.user.kits.map(function(data) {
+            return new PreviewKit(data);
           })
-        )
+        })
+
         .then(function(data){
           vm.kits = data;
         });
@@ -5774,9 +5783,9 @@
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', 'animation'];
+    'Marker', 'tag', 'animation', '$q'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -5928,8 +5937,10 @@
 
         vm.markers = device.getWorldMarkers();
 
-        device.getAllDevices()
+        $q.all([device.getAllDevices(), device.createKitBlueprints()])
           .then(function(data){
+
+            data = data[0];
 
             if (!vm.markers || vm.markers.length === 0){
 
