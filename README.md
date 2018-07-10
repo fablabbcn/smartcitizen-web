@@ -44,7 +44,7 @@ It needs the `node_modules/` to exist.
 * `gulp test:auto` to launch your unit tests with Karma in watch mode
 * `gulp protractor` to launch your e2e tests with Protractor
 * `gulp protractor:dist` to launch your e2e tests with Protractor on the dist files
-* `gulp deploy` to publish the project to Github pages (gh-pages branch).
+* `npm run deploy` to publish the project to Github pages (gh-pages branch).
 
 Note: in case you see something like:
 > Error: Command failed: fatal: unable to read c6a8d370f3e95d9110eca4a03b704bd8940ca40b
@@ -68,7 +68,7 @@ Ex: kit.controller.js, sensor.service.js, profileTools.constant.js
 
 ### Naming conventions for components
 Controller: <Name of controller capitalized>Controller. Ex: MapController
-Service: <Name of service camelcased>. Ex: device, kit, user 
+Service: <Name of service camelcased>. Ex: device, kit, user
 Constructor: <Name of constructor capitalized>. Ex: User, Kit. Note: Constructors are actually made using services.
 Constants: <Name of constant uppercase joined by an underscore>. Ex: PROFILE_TOOLS
 
@@ -76,5 +76,5 @@ For data that has been resolved from the router, I've normally appended 'Data' t
 
 ### Deployment
 
-* **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`. 
+* **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`.
 * **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.

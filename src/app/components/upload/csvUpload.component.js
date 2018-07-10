@@ -44,16 +44,13 @@ function controller(device, Papa) {
   vm.loadingType = 'indeterminate';
   vm.csvFiles = [];
   vm.$onInit = function() {
-    console.log("crl",vm);
     vm.kitLastUpdate = Math.floor(new Date(vm.kit.time).getTime() / 1000);
-    console.log(vm.kitLastUpdate);
   }
   vm.onSelect = function() {
     vm.loadingStatus = true;
     vm.loadingType = 'indeterminate';
   }
   vm.change = function(files, invalidFiles) {
-    console.log(files, invalidFiles);
     let count = 0;
     vm.invalidFiles = invalidFiles;
     vm.loadingStatus = true;
@@ -65,6 +62,16 @@ function controller(device, Papa) {
       .map((file, index, filteredFiles) => {
         vm.csvFiles.push(file);
         return vm._analyzeData(file)
+        .then((result) => {
+          if (result.errors && result.errors.length > 0) {
+            file.parseErrors = result.errors;
+          }
+          const lastTimestamp = Math.floor((new Date(result.data[result.data.length - 1][0])).getTime() / 1000);
+          const isNew = vm.kitLastUpdate < lastTimestamp;
+          file.checked = isNew;
+          file.progress = null;
+          file.isNew = isNew;
+        })
         .then(() => {
           count += 1;
           vm.loadingProgress = (count)/filteredFiles.length * 100;
@@ -87,18 +94,6 @@ function controller(device, Papa) {
       dynamicTyping: true,
       worker: true,
       skipEmptyLines: true
-    }).then((result) => {
-      console.log('res', result)
-      if (result.errors && result.errors.length > 0) {
-        file.parseErrors = result.errors;
-      }
-      const lastTimestamp = Math.floor((new Date(result.data[result.data.length - 1][0])).getTime() / 1000);
-      console.log(lastTimestamp);
-      const isNew = vm.kitLastUpdate < lastTimestamp;
-      file.checked = isNew;
-      file.progress = null;
-      file.isNew = isNew;
-      return result;
     }).catch((err) => {
       file.progress = null;
       console('catch',err)
@@ -122,23 +117,26 @@ function controller(device, Papa) {
     vm.loadingStatus = true;
     vm.loadingType = 'determinate';
     vm.loadingProgress = 0;
+    let count = 0;
 
     Promise.all(
       vm.csvFiles
       .filter((file) => file.checked && !file.success)
-      .map((file, index) => {
+      .map((file, index, filteredFiles) => {
         file.progress = true;
         return vm._analyzeData(file)
-        .then((result) => parseDataForPost(result.data))
+        .then((result) => parseDataForPost(result.data)) // TODO remove
         // TODO with workers
         .then((payload) => device.postReadings(vm.kit, payload))
         .then(() => {
           file.success = true;
           file.progress = null;
-          vm.loadingProgress = (index+1)/vm.csvFiles.length * 100;
+          count += 1;
+          vm.loadingProgress = (count)/filteredFiles.length * 100;
         })
         .catch((errors) =>  {
           console.log(errors);
+          file.detailShowed = true;
           file.backEndErrors = errors;
           file.progress = null;
         });

@@ -7,7 +7,7 @@
   ngf-before-model-change="vm.onSelect()"
   ngf-multiple="true"
   ngf-accept="'application/csv,.csv'"
-  ngf-max-files="10"
+  ngf-max-files="30"
   ngf-max-size="'10MB'"
   ngf-pattern="'.csv'">
   <md-tooltip md-direction="top">Analyze the CSV before upload</md-tooltip>
@@ -21,7 +21,6 @@
 <md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = []" ng-if="vm.csvFiles && vm.csvFiles.length > 0">Remove all files</md-button>
 <md-progress-linear md-mode="{{ vm.loadingType }}" ng-value="vm.loadingProgress" ng-if="vm.loadingStatus"></md-progress-linear>
 
-
 <md-card class="bg-yellow" ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
   <md-card-content>
     <md-list>
@@ -32,6 +31,9 @@
           </div>
           <div ng-message="maxSize">
             {{invalidFile.name}} is too large ({{ invalidFile.size / 1000000 | number:1 }}MB)
+          </div>
+          <div ng-message="maxFiles">
+            You can only load 30 files at a time: {{invalidFile.name}} has not been added
           </div>
           <div ng-message="duplicate">
             {{invalidFile.name}} is already on the list
@@ -54,7 +56,7 @@
         <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
         <span>{{csvFile.name}}</span>
         <span ng-if="csvFile.isNew && !csvFile.success" class="label">new data</span>
-        <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="csvFile.parseErrors || csvFile.backEndErrors" class="md-icon-button md-warn">
+        <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="(csvFile.parseErrors || csvFile.backEndErrors) && !csvFile.success" class="md-icon-button md-warn">
           <md-tooltip md-direction="top">Show details</md-tooltip>
           <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
         </md-button>
