@@ -30,15 +30,19 @@
 
       function parseLocation(object) {
         var location = '';
-        
-        var city = object.data.location.city;
-        var country = object.data.location.country;
 
-        if(!!city) {
-          location += city;
-        }
-        if(!!country) {
-          location += ', ' + country;
+        var locationData = object.hasOwnProperty('data') ? object.data : object;
+
+        if (locationData.location) {
+          var city = locationData.location.city;
+          var country = locationData.location.country;
+
+          if(!!city) {
+            location += city;
+          }
+          if(!!country) {
+            location += ', ' + country;
+          }
         }
 
         return location;
@@ -54,16 +58,31 @@
       }
 
       function parseType(object) {
-        var kitType = !object.kit ? 'Unknown type': object.kit.name;
-        return kitType; 
+        if (object.hasOwnProperty('kit')) {
+          return !object.kit ? 'Unknown type': object.kit.name;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].name;
+        };
+
+        return kitType;
       }
       function parseTypeDescription(object) {
-        var kitTypeDescription = !object.kit ? 'Unknown type': object.kit.description;
-        return kitTypeDescription; 
+        if (object.hasOwnProperty('kit')) {
+          return !object.kit ? 'Unknown type': object.kit.description;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].description;
+        };
       }
 
       function parseTypeSlug(object) {
-        var kitType = !object.kit ? 'unknown': object.kit.slug;
+        if (object.hasOwnProperty('kit')) {
+          var kitType = !object.kit ? 'unknown': object.kit.slug;
+        } else {
+          var kitBlueprints = device.getKitBlueprints();
+          var kitType = !kitBlueprints[object.kit_id] ? 'unknown': kitBlueprints[object.kit_id].slug;
+        };
         var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
         return kitTypeSlug;
       }
@@ -125,9 +144,9 @@
       }
 
       function parseState(status) {
-        var name = parseStateName(status); 
-        var className = classify(name); 
-        
+        var name = parseStateName(status);
+        var className = classify(name);
+
         return {
           name: name,
           className: className

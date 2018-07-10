@@ -6,9 +6,9 @@
 
     MapController.$inject = ['$scope', '$state', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', 'animation'];
+    'Marker', 'tag', 'animation', '$q'];
     function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -160,8 +160,10 @@
 
         vm.markers = device.getWorldMarkers();
 
-        device.getAllDevices()
+        $q.all([device.getAllDevices(), device.createKitBlueprints()])
           .then(function(data){
+
+            data = data[0];
 
             if (!vm.markers || vm.markers.length === 0){
 
