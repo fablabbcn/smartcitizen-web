@@ -20,7 +20,7 @@
 
     var mainSensorID, compareSensorID;
     var picker;
-
+    vm.kitID = $stateParams.id;
     vm.battery = {};
     vm.downloadData = downloadData;
     vm.geolocate = geolocate;
@@ -48,6 +48,7 @@
     vm.slide = slide;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
+    vm.updateInterval = 15000;
 
     var focused = true;
 
@@ -124,48 +125,55 @@
         // events below can probably be refactored to use $viewContentLoaded https://github.com/angular-ui/ui-router/wiki#user-content-view-load-events
         animation.viewLoaded();
       }, 1000);
+      updatePeriodically();
+    }
 
-      var kitID = $stateParams.id;
-      if (kitID || kitID !== ''){
-        device.getDevice(kitID)
+    function pollAndUpdate(){
+      vm.updateTimeout = $timeout(function() {
+        updatePeriodically();
+      }, vm.updateInterval);
+    }
+
+    $scope.$on('$destroy', function(){
+      $timeout.cancel(vm.updateTimeout);
+    });
+
+    function updatePeriodically(){
+      getAndUpdateKit().then(function(){
+        pollAndUpdate();
+      });
+    }
+
+    function getAndUpdateKit(){
+      if (vm.kitID || !isNaN(vm.kitID)){
+        return device.getDevice(vm.kitID)
           .then(function(deviceData) {
-            vm.kit = new FullKit(deviceData);
-            if(vm.kit){
+            var newKit = new FullKit(deviceData);
 
-              picker = initializePicker();
+            vm.prevKit = vm.kit;
 
-              animation.kitLoaded({lat: vm.kit.latitude ,lng: vm.kit.longitude,
-                id: parseInt($stateParams.id) });
-
-              getOwnerKits(vm.kit)
-                .then(function(oKits){
-                  vm.ownerKits = oKits;
-                  vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
-                });
-
-              if(vm.kit.state.name === 'never published' ||
-                vm.kit.state.name === 'not configured') {
-                vm.kitWithoutData = true;
-                if(vm.kitBelongsToUser) {
-                  alert.info.noData.owner($stateParams.id);
-                } else {
-                  alert.info.noData.visitor();
-                }
-                $timeout(function() {
-                  animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
-                }, 1000);
-              } else if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-                $timeout(function() {
-                  alert.info.longTime();
-                }, 1000);
-              }
-              if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
-                vm.setupAvailable = true;
-              }
+            if (vm.prevKit && vm.prevKit.state.name !== 'has published' && newKit.state.name === 'has published'){
+              /* The kit has just published data for the first time */
+              /* We reload to get a new mac. This needs to change. We can also have issues with /worldmap cache */
+              $state.reload();
             }
 
-            return $q.all([getMainSensors(vm.kit, sensorTypes),
+            if(vm.prevKit && new Date(vm.prevKit.time) >= new Date(newKit.time)) {
+              /*Break if there's no new data*/
+              return $q.reject();
+            }
+
+            vm.kit = newKit;
+
+            updateKitViewExtras();
+
+            if (vm.kit.state.name === 'has published') {
+              /*Load sensor if it has already published*/
+              return $q.all([getMainSensors(vm.kit, sensorTypes),
               getCompareSensors(vm.kit, sensorTypes)]);
+            } else {
+              return $q.reject();
+            }
 
           })
           .then(function(sensorsRes){
@@ -177,14 +185,62 @@
             vm.sensors = mainSensors.reverse();
 
             vm.sensorsToCompare = compareSensors;
-
             vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
 
           }, function(error) {
-            if(error.status === 404) {
+            if(error && error.status === 404) {
               $location.url('/404');
             }
+        });
+       }
+    }
+
+    function updateKitViewExtras(){
+      if(vm.kit){
+        picker = initializePicker();
+
+        animation.kitLoaded({lat: vm.kit.latitude, lng: vm.kit.longitude,
+          id: parseInt($stateParams.id)});
+
+        getOwnerKits(vm.kit)
+          .then(function(oKits){
+            vm.ownerKits = oKits;
+            vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
           });
+
+        if(vm.kit.state.name !== 'has published') {
+          /* The kit has never published data yet*/
+          vm.kitWithoutData = true;
+
+          if(vm.kitBelongsToUser) {
+            alert.info.noData.owner($stateParams.id);
+          } else {
+            alert.info.noData.visitor();
+          }
+
+          $timeout(function() {
+            animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
+          }, 1000);
+
+        } else {
+          /* The kit has not published data for the past month*/
+          if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+            $timeout(function() {
+              alert.info.longTime();
+            }, 1000);
+          }
+          /* The kit has just published data after not publishing for 15min */
+          else if(vm.prevKit && timeUtils.isDiffMoreThan15min(vm.prevKit.time, vm.kit.time)) {
+              $timeout(function() {
+                alert.success('Your Kit just published again!');
+              }, 1000);
+          }
+        }
+
+        if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
+          vm.setupAvailable = true;
+        }
+
       }
     }
 
