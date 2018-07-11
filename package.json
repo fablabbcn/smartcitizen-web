@@ -6,7 +6,8 @@
   },
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install",
-    "dev": "gulp serve"
+    "dev": "gulp serve",
+    "deploy": "gulp build && ./node_modules/bower/bin/gh-pages -d dist/ -b gh-pages"
   },
   "devDependencies": {
     "bower": "^1.8.4",
@@ -47,9 +48,9 @@
     "jshint": "^2.9.5",
     "jshint-stylish": "~2.2.1",
     "karma": "^2.0.2",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "~1.1.2",
     "karma-ng-html2js-preprocessor": "~1.0.0",
-    "karma-phantomjs-launcher": "~1.0.4",
     "lodash": "~4.17.10",
     "main-bower-files": "~2.13.1",
     "merge-stream": "~1.0.1",

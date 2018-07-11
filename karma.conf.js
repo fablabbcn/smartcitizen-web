@@ -6,16 +6,20 @@ module.exports = function(config) {
     autoWatch : false,
 
     frameworks: ['jasmine'],
-
+    files: [
+      'dist/**/*.js',
+      'src/**/*.spec.js',
+      'src/**/*.mock.js'
+    ],
     ngHtml2JsPreprocessor: {
       stripPrefix: 'src/',
       moduleName: 'gulpAngular'
     },
 
-    browsers : ['PhantomJS'],
+    browsers : ['Chrome'],
 
     plugins : [
-      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
       'karma-jasmine',
       'karma-ng-html2js-preprocessor'
     ],

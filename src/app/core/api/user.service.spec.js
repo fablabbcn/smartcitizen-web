@@ -2,13 +2,14 @@
 
 describe('Service: User', function() {
 
-  beforeEach(module('app.components'));
+  beforeEach(angular.mock.module('app.components'));
 
   var $httpBackend, user;
 
   beforeEach(inject( function($injector) {
     user = $injector.get('user');
     $httpBackend = $injector.get('$httpBackend');
+    con
   }));
 
   it('should contain an object', function() {
@@ -72,5 +73,4 @@ describe('Service: User', function() {
 
   describe('#removeUser', function() {
   });
-}); 
-
+});
