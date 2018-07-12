@@ -15,7 +15,7 @@
       };
 
       function init(){
-        socket = io.connect('wss://smartcitizen.xyz');
+        socket = io.connect('wss://ws.smartcitizen');
       }
 
       function devices(then){

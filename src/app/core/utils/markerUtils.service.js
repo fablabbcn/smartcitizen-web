@@ -28,7 +28,7 @@
         var kitType;
 
         // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getGenericKitData();
+        var genericKitData = device.getKitBlueprints();
 
         if(!genericKitData){
             kitType = 'Unknown kit';
@@ -54,7 +54,7 @@
         var kitType;
 
         // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getGenericKitData();
+        var genericKitData = device.getKitBlueprints();
 
         if(!genericKitData){
             kitType = 'unknown';
