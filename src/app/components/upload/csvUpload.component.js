@@ -53,6 +53,7 @@ function controller(device, Papa) {
   vm.change = function(files, invalidFiles) {
     let count = 0;
     vm.invalidFiles = invalidFiles;
+    if (!files) { return; }
     vm.loadingStatus = true;
     vm.loadingType = 'determinate';
     vm.loadingProgress = 0;
