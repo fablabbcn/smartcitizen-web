@@ -146,15 +146,15 @@ input{
   }
 }
 .label{
-  background-color: $secondary_color;
-  color:white;
+  background-color: $yellow_light;
+  color: $off_black;
   md-icon svg path{
     fill: $terciary_color_light;
   }
 }
 .tag {
-  background-color: $grey;
-  color: $grey_darker;
+  background-color: $yellow_lighter;
+  color: $off_black;
   md-icon svg path{
     fill: $secondary_color;
   }
@@ -1140,9 +1140,49 @@ KIT TAGS MODULE
   PICKER COMPONENT
 */
 
+.picker {
+  color: $off_black;
+}
+
+.picker__weekday {
+  color: $grey_darker;
+}
+
+.picker__nav--prev::before {
+  border-right: 0.75em solid $grey_darker;
+}
+
+.picker__nav--next::before {
+  border-left: 0.75em solid $grey_darker;
+}
+
+.picker__button--today::before {
+    border-top: 0.66em solid $blue;
+}
+
 .picker__holder.picker_container {
   background: none;
   transition: none;
+}
+
+.picker__button--clear::before {
+    border-top: 3px solid $red;
+}
+.picker__button--close {
+  color: $off_black;
+}
+.picker__button--today, .picker__button--clear {
+  color: $off_black;
+}
+.picker__day--highlighted, .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected{
+  background: $yellow;
+  background-color: $yellow;
+  border-color: $yellow;
+  color: $off_black;
+}
+.picker__day--infocus:hover, .picker__nav--prev:hover, .picker__nav--next:hover, .picker__button--today:hover, .picker__button--clear:hover, .picker__button--close:hover {
+  background: $yellow_lighter;
+  border-color: $yellow_lighter;
 }
 
 .date_picker {
