@@ -403,7 +403,7 @@ md-toast.blue {
 }
 
 md-toast.yellow {
-  background-color: #f1c40f;
+  background-color: $yellow;
 }
 
 md-checkbox .md-label {
@@ -614,7 +614,9 @@ section.map {
     border-radius:4px;
     overflow:hidden;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-
+    svg, p {
+      fill: $off_black;
+    }
 
 
     .map_legend__filtersRow{
@@ -672,7 +674,6 @@ KIT TAGS MODULE
   }
 
   .kitTags__container{
-    background-color: $grey_lighter;
     padding-bottom: 20px;
 
     .kitTags__textContainer{
@@ -1160,6 +1161,10 @@ KIT TAGS MODULE
  * DROPDOWN MENU
  * Override style for dropdown menu from angular-dropdowns dependency
  */
+ .wrap-dd-menu .dropdown li a {
+   color: $secondary_color;
+ }
+
 .kit_menu {
 
   .wrap-dd-menu {
