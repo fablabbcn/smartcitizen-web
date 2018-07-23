@@ -27,7 +27,8 @@ module.exports = function(options) {
     ];
 
     var srcFiles = [
-      options.src + '/app/**/*.js'
+      options.src + '/app/**/*.js',
+      '!'+options.src+'/**/scktool-*.js'
     ].concat(specFiles.map(function(file) {
       return '!' + file;
     }));
@@ -39,7 +40,7 @@ module.exports = function(options) {
         callback(bowerDeps.js
           .concat(files.map(({path}) => path))
           .concat(htmlFiles)
-          .concat(specFiles));
+          .concat([options.src + '/app/components/userProfile/userProfile.controller.spec.js']));
       }));
   }
 
