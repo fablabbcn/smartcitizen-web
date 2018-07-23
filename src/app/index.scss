@@ -222,7 +222,10 @@ a.md-button h4, a.md-button .h4{
 }
 a.warn,
 button.warn{
-  color: $alert_red;
+  color: $alert_red
+  svg {
+    fill: $alert_red;
+  }
 }
 
 .bold{
@@ -1372,9 +1375,6 @@ KIT TAGS MODULE
   }
 }
 
-.kitList_primary {
- // width: 100%;
-}
 .kitList_secondary {
   width: 95%;
 }
@@ -1395,6 +1395,7 @@ KIT TAGS MODULE
 }
 .kitList_data {
   span {
+    color: $grey_darker;
     margin-right: 15px;
   }
 }
@@ -1422,13 +1423,13 @@ KIT TAGS MODULE
   text-transform: uppercase;
 }
 .kitList_state_has_published {
-  background-color: $alert_green;
+  background-color: $green;
 }
 .kitList_state_never_published {
-  background-color: $alert_red;
+  background-color: $yellow;
 }
 .kitList_state_not_configured {
-  background-color: #E26061;
+  background-color: $red;
 }
 .kitList_dropdownButton {
   display: block;
@@ -1687,6 +1688,9 @@ KIT TAGS MODULE
 .myProfile_apiKey {
   margin-top: 10px;
   margin-bottom: 10px;
+  svg {
+    fill: $grey_darker;
+  }
 }
 
 .md-button.myProfile_addKitButton:focus {
@@ -1711,9 +1715,15 @@ KIT TAGS MODULE
  * TOOL LIST
  *
  */
-.toolList {
 
-}
+ a.kitList {
+   h4 {
+     color: $off_black;
+   }
+   p {
+     color: $grey_darker;
+   }
+ }
 
 .clearfix {
   clear: both;

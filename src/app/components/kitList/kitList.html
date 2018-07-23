@@ -35,12 +35,13 @@
       dropdown-menu="kit.dropdownOptions"
       dropdown-model="vm.dropdownSelected"
       dropdown-item-label="text">
-      <img style="top:5px" src="./assets/images/config_icon.svg" />
+      <md-icon md-svg-src="./assets/images/config_icon.svg">
+      </md-icon>
     </md-button>
   </div>
   <div ng-if="kit.belongProperty">
     <md-button ng-click="actions.remove(kit.id)" class="warn" aria-label="">
-      <img style="top:5px; position:inherit" src="./assets/images/delete_icon.svg" />
+      <md-icon md-svg-src="./assets/images/delete_icon.svg">
     </md-button>
   </div>
 </div>
