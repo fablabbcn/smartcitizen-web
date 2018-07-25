@@ -116,15 +116,16 @@
         if(isNaN(parseInt(value))) {
           value =  'N/A';
         } else {
-          value = value.toString();
-          if(value.indexOf('.') !== -1) {
-            value = value.slice(0, value.indexOf('.') + 3);
-          }
+          value = round(value, 1).toString();
         }
 
         return value;
       }
 
+      function round(value, precision) {
+          var multiplier = Math.pow(10, precision || 0);
+          return Math.round(value * multiplier) / multiplier;
+      }
 
       function getSensorPrevValue(sensor) {
         /*jshint camelcase: false */

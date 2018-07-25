@@ -41,8 +41,8 @@
       	return Restangular.all('devices').getList({near: parameter, 'per_page': '100'});
       }
 
-      function getAllDevices() {
-        if (auth.isAuth()) {
+      function getAllDevices(forceReload) {
+        if (forceReload || auth.isAuth()) {
           return getAllDevicesNoCached();
         } else {
           return getAllDevicesCached();

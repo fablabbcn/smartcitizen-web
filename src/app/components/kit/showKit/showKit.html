@@ -100,7 +100,9 @@
     </div>
     <section class="kit_detailed">
       <section class="kit_chart">
-        <div class="hint" ng-if="vm.kitWithoutData"></div>
+        <div class="hint" ng-if="vm.kitWithoutData">
+          <p></p>
+        </div>
         <div class="container" layout="row" layout-xs="column">
           <div class="kit_chart_left" flex="100" flex-gt-xs="20" layout-xs="column" layout-align-xs="end start">
             <div class="sensor_select">
@@ -108,7 +110,7 @@
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
                 analytics-on="click" analytics-category="Kit Chart"
                 analytics-event="click" analytics-label="Metric">
-                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
+                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
                   <img class="select_image" ng-src="{{ sensor.icon }}">
                   <span>
                     {{ sensor.name }}
@@ -173,7 +175,7 @@
             </div>
             <!-- <div style="clear: both"></div> -->
 
-            <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular ng-show="vm.loadingChart && !vm.kitWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
             <div chart class="chart_container" chart-data="vm.chartDataMain">
             </div>
           </div>
