@@ -272,7 +272,7 @@
             <section class="kit_owner_kits inside_list" ng-if="vm.sampleKits.length > 0">
               <h1>Other kits owned by {{ vm.kit.owner.username }}</h1>
               <kit-list kits="vm.sampleKits"></kit-list>
-              <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.ownerKits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
+              <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.kit.owner.kits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS BY {{ vm.kit.owner.username }}</md-button>
             </section>
           </div>
         </div>

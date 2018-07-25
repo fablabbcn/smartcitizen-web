@@ -751,11 +751,11 @@
       }
       return kitData.getSensors(sensorTypes, {type: 'compare'});
     }
-    function getOwnerKits(kitData) {
+    function getOwnerKits(kitData, sampling) {
       if(!kitData) {
         return undefined;
       }
-      var kitIDs = kitData.owner.kits;
+      var kitIDs = kitData.owner.kits.slice(sampling);
 
       return $q.all(
         kitIDs.map(function(id) {
