@@ -72,6 +72,16 @@
   border:2px solid $blue;
   color: $blue;
   padding:10px 29px;
+  svg {
+    fill: $blue
+  }
+}
+.btn-outline-blue:hover{
+  background: $blue;
+  color: white;
+  svg {
+    fill: white
+  }
 }
 .btn-outline-white:hover{
   background: white;
@@ -81,10 +91,6 @@
   border:2px solid white;
   color: white;
   padding:10px 29px;
-}
-.btn-outline-blue:hover{
-  background: $blue;
-  color: white;
 }
 .btn-outline-yellow{
   border:2px solid $yellow;
