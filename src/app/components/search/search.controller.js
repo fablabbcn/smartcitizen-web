@@ -18,6 +18,7 @@
       }
 
       function selectedItemChange(result) {
+        if (!result) { return; }
         if(result.type === 'User') {
           $location.path('/users/' + result.id);
         } else if(result.type === 'Device') {
