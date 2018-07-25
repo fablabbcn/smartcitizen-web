@@ -5116,6 +5116,7 @@
       }
 
       function selectedItemChange(result) {
+        if (!result) { return; }
         if(result.type === 'User') {
           $location.path('/users/' + result.id);
         } else if(result.type === 'Device') {
@@ -6893,7 +6894,7 @@ function cookiesLaw($cookies) {
           var i = bisectDate(data, x0, 1);
           var d0 = data[i - 1];
           var d1 = data[i];
-          var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+          var d = d1 && (x0 - d0.date > d1.date - x0) ? d1 : d0;
 
           focusMain.attr('transform', 'translate(' + xScale(d.date) + ', ' + yScale0(d.count) + ')');
           var popupText = popup.select('text');
