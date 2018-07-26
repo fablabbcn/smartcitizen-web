@@ -6,12 +6,12 @@
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
     'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
-    'timeUtils', 'animation', '$location', 'auth', 'kitUtils', 'userUtils',
+    'timeUtils', 'animation', 'auth', 'kitUtils', 'userUtils',
     '$timeout', 'alert', '$q', 'device',
     'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
   function KitController($state, $scope, $stateParams, $filter,
     utils, sensor, FullKit, $mdDialog, belongsToUser,
-    timeUtils, animation, $location, auth, kitUtils, userUtils,
+    timeUtils, animation, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,
     HasSensorKit, geolocation, PreviewKit, sensorTypes) {
 
@@ -32,15 +32,17 @@
       undefined;
     vm.loadingChart = true;
     vm.moveChart = moveChart;
+    vm.allowUpdateChart = true;
     vm.ownerKits = [];
     vm.removeKit = removeKit;
     vm.resetTimeOpts = resetTimeOpts;
     vm.sampleKits = [];
-    vm.selectedSensor = {};
+    vm.selectedSensor = undefined;
     vm.selectedSensorData = {};
     vm.selectedSensorToCompare = undefined;
     vm.selectedSensorToCompareData = {};
     vm.sensors = [];
+    vm.chartSensors = [];
     vm.sensorsToCompare = [];
     vm.setFromLast = setFromLast;
     vm.showSensorOnChart = showSensorOnChart;
@@ -48,18 +50,15 @@
     vm.slide = slide;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
-    vm.updateInterval = 15000;
+    vm.updateInterval = 5000;
 
     var focused = true;
 
     // event listener on change of value of main sensor selector
     $scope.$watch('vm.selectedSensor', function(newVal) {
 
-      // ugly but prevents undesired api calls.
-      // newVal might be empty obj so
-      // if(newVal) won't be enough here
-      if (newVal && (Object.getOwnPropertyNames(newVal).length === 0) &&
-        (typeof(newVal) !== 'number')){
+      // Prevents undisered calls if selected sensor is not yet defined
+      if (!newVal) {
         return;
       }
 
@@ -68,19 +67,15 @@
       vm.chartDataCompare = [];
       compareSensorID = undefined;
 
-      if(vm.sensors){
-        vm.sensors.forEach(function(sensor) {
-          if(sensor.id === newVal) {
-            _.extend(vm.selectedSensorData, sensor);
-          }
-        });
-      }
+      setSensorSideChart();
+
       vm.sensorsToCompare = getSensorsToCompare();
 
       $timeout(function() {
         colorSensorCompareName();
 
         setSensor({type: 'main', value: newVal});
+
         if (picker){
           changeChart([mainSensorID]);
         }
@@ -114,17 +109,15 @@
 
     $scope.$on('$destroy', function() {
       focused = false;
+      $timeout.cancel(vm.updateTimeout);
     });
 
-    initialize();
-
-    ///////////////
+    $scope.$on('$viewContentLoaded', function(event){
+      initialize();
+    });
 
     function initialize() {
-      $timeout(function() {
-        // events below can probably be refactored to use $viewContentLoaded https://github.com/angular-ui/ui-router/wiki#user-content-view-load-events
-        animation.viewLoaded();
-      }, 1000);
+      animation.viewLoaded();
       updatePeriodically();
     }
 
@@ -133,10 +126,6 @@
         updatePeriodically();
       }, vm.updateInterval);
     }
-
-    $scope.$on('$destroy', function(){
-      $timeout.cancel(vm.updateTimeout);
-    });
 
     function updatePeriodically(){
       getAndUpdateKit().then(function(){
@@ -152,95 +141,126 @@
 
             vm.prevKit = vm.kit;
 
-            if (vm.prevKit && vm.prevKit.state.name !== 'has published' && newKit.state.name === 'has published'){
-              /* The kit has just published data for the first time */
-              /* We reload to get a new mac. This needs to change. We can also have issues with /worldmap cache */
-              $state.reload();
-            }
-
-            if(vm.prevKit && new Date(vm.prevKit.time) >= new Date(newKit.time)) {
-              /*Break if there's no new data*/
-              return $q.reject();
+            if (vm.prevKit) {
+              /* Kit already loaded. We are waiting for updates */
+              if (vm.prevKit.state.name !== 'has published' && newKit.state.name === 'has published'){
+                /* The kit has just published data for the first time. Fully reload the view */
+                return $q.reject({justPublished: true});
+              } else if(new Date(vm.prevKit.time) >= new Date(newKit.time)) {
+                /* Break if there's no new data*/
+                return $q.reject();
+              }
             }
 
             vm.kit = newKit;
 
+            setOwnerSampleKits();
             updateKitViewExtras();
 
             if (vm.kit.state.name === 'has published') {
+              /* Kit has data */
+              setKitOnMap();
+              setChartTimeRange();
+              kitAnnouncements();
               /*Load sensor if it has already published*/
               return $q.all([getMainSensors(vm.kit, sensorTypes),
               getCompareSensors(vm.kit, sensorTypes)]);
             } else {
-              return $q.reject();
+              /* Kit just loaded and has no data yet */
+              return $q.reject({noSensorData: true});
             }
 
           })
-          .then(function(sensorsRes){
-
-            var mainSensors = sensorsRes[0];
-            var compareSensors = sensorsRes[1];
-
-            vm.battery = _.find(mainSensors, {name: 'battery'});
-            vm.sensors = mainSensors.reverse();
-
-            vm.sensorsToCompare = compareSensors;
-            vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
-
-          }, function(error) {
-            if(error && error.status === 404) {
-              $location.url('/404');
-            }
-        });
+          .then(setSensors, killSensorsLoading);
        }
     }
 
-    function updateKitViewExtras(){
-      if(vm.kit){
-        picker = initializePicker();
-
-        animation.kitLoaded({lat: vm.kit.latitude, lng: vm.kit.longitude,
-          id: parseInt($stateParams.id)});
-
-        getOwnerKits(vm.kit)
-          .then(function(oKits){
-            vm.ownerKits = oKits;
-            vm.sampleKits = $filter('limitTo')(vm.ownerKits, 5);
+    function killSensorsLoading(error){
+      if(error) {
+        if(error.status === 404) {
+          $state.go('layout.404');
+        }
+        else if (error.justPublished) {
+          $state.transitionTo($state.current, {reloadMap: true, id: vm.kitID}, {
+            reload: true, inherit: false, notify: true
           });
-
-        if(vm.kit.state.name !== 'has published') {
-          /* The kit has never published data yet*/
-          vm.kitWithoutData = true;
-
-          if(vm.kitBelongsToUser) {
-            alert.info.noData.owner($stateParams.id);
-          } else {
-            alert.info.noData.visitor();
-          }
-
-          $timeout(function() {
-            animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
-          }, 1000);
-
-        } else {
-          /* The kit has not published data for the past month*/
-          if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-            $timeout(function() {
-              alert.info.longTime();
-            }, 1000);
-          }
-          /* The kit has just published data after not publishing for 15min */
-          else if(vm.prevKit && timeUtils.isDiffMoreThan15min(vm.prevKit.time, vm.kit.time)) {
-              $timeout(function() {
-                alert.success('Your Kit just published again!');
-              }, 1000);
-          }
         }
-
-        if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
-          vm.setupAvailable = true;
+        else if (error.noSensorData) {
+          kitHasNoData();
         }
+      }
+    }
 
+    function kitAnnouncements(){
+      if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
+        /* TODO: Update the message */
+        alert.info.longTime();
+      }
+      /* The kit has just published data after not publishing for 15min */
+      else if(vm.prevKit && timeUtils.isDiffMoreThan15min(vm.prevKit.time, vm.kit.time)) {
+        alert.success('Your Kit just published again!');
+      }
+    }
+
+    function kitHasNoData() {
+      vm.kitWithoutData = true;
+      animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
+      if(vm.kitBelongsToUser) {
+        alert.info.noData.owner($stateParams.id);
+      } else {
+        alert.info.noData.visitor();
+      }
+    }
+
+    function setOwnerSampleKits() {
+      getOwnerKits(vm.kit, -5)
+        .then(function(ownerKits){
+          vm.sampleKits = ownerKits;
+        });
+    }
+
+    function setChartTimeRange() {
+      if(vm.allowUpdateChart) {
+        /* Init the chart range to default if doesn't exist of the user hasn't interacted */
+        picker = initializePicker();
+      }
+    }
+
+    function setKitOnMap() {
+      animation.kitLoaded({lat: vm.kit.latitude, lng: vm.kit.longitude,
+          id: vm.kit.id});
+    }
+
+    function setSensors(sensorsRes){
+
+      var mainSensors = sensorsRes[0];
+      var compareSensors = sensorsRes[1];
+
+      vm.battery = _.find(mainSensors, {name: 'battery'});
+      vm.sensors = mainSensors.reverse();
+
+      setSensorSideChart();
+
+      if (!vm.selectedSensor) {
+        vm.chartSensors = vm.sensors;
+        vm.sensorsToCompare = compareSensors;
+        vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
+      }
+    }
+
+    function updateKitViewExtras(){
+      if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
+        vm.setupAvailable = true;
+      }
+    }
+
+    function setSensorSideChart() {
+      if(vm.sensors){
+        vm.sensors.forEach(function(sensor) {
+          if(sensor.id === vm.selectedSensor) {
+            _.extend(vm.selectedSensorData, sensor);
+          }
+        });
       }
     }
 
@@ -731,11 +751,11 @@
       }
       return kitData.getSensors(sensorTypes, {type: 'compare'});
     }
-    function getOwnerKits(kitData) {
+    function getOwnerKits(kitData, sampling) {
       if(!kitData) {
         return undefined;
       }
-      var kitIDs = kitData.owner.kits;
+      var kitIDs = kitData.owner.kits.slice(sampling);
 
       return $q.all(
         kitIDs.map(function(id) {
@@ -765,11 +785,13 @@
       picker.setValuePickers([from.toDate(), to.toDate()]);
     }
     function timeOptSelected(){
+      vm.allowUpdateChart = false;
       if (vm.dropDownSelection){
         setFromLast(vm.dropDownSelection);
       }
     }
     function resetTimeOpts(){
+      vm.allowUpdateChart = false;
       vm.dropDownSelection = undefined;
     }
 

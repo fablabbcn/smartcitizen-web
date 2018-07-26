@@ -56,7 +56,7 @@
               vm.kits = kitsData;
             }
           }, function(error) {
-            if(error.status === 404) {
+            if(error && error.status === 404) {
               $location.url('/404');
             }
           });

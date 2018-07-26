@@ -14,14 +14,13 @@
             <md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon>
             <span>{{ vm.kit.name }}</span>
           </div>
-          <div class="kit_battery">
+          <div ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery">
             <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
             <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
           </div>
         </div>
-
-        <div flex ng-if="vm.kit.time" class="kit_time">
-          <span hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
+        <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
+          <span ng-if="vm.kit.time" hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
 
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
@@ -57,7 +56,7 @@
       </div>
     </section>
     <section class="kit_fixed" move-down>
-      <section class="overlay" ng-if="!vm.kit">
+      <section class="overlay" ng-if="!vm.kitID">
         <h2 class="title">
           No kit selected <span class="emoji">👆</span>
         </h2>
@@ -72,8 +71,8 @@
           </md-icon>
         </md-button>
         <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
-          <div ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
-          ng-class="{selected: vm.selectedSensor === sensor.id}">
+          <div ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
+          ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}">
             <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
             <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
             <div class="sensor_right">
@@ -100,7 +99,9 @@
     </div>
     <section class="kit_detailed">
       <section class="kit_chart">
-        <div class="hint" ng-if="vm.kitWithoutData"></div>
+        <div class="hint" ng-if="vm.kitWithoutData">
+          <p></p>
+        </div>
         <div class="container" layout="row" layout-xs="column">
           <div class="kit_chart_left" flex="100" flex-gt-xs="20" layout-xs="column" layout-align-xs="end start">
             <div class="sensor_select">
@@ -108,7 +109,7 @@
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
                 analytics-on="click" analytics-category="Kit Chart"
                 analytics-event="click" analytics-label="Metric">
-                <md-option ng-repeat="sensor in vm.sensors" ng-value="{{sensor.id}}" ng-selected="$first">
+                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
                   <img class="select_image" ng-src="{{ sensor.icon }}">
                   <span>
                     {{ sensor.name }}
@@ -173,7 +174,7 @@
             </div>
             <!-- <div style="clear: both"></div> -->
 
-            <md-progress-circular ng-show="vm.loadingChart" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
+            <md-progress-circular ng-show="vm.loadingChart && !vm.kitWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular>
             <div chart class="chart_container" chart-data="vm.chartDataMain">
             </div>
           </div>
@@ -271,7 +272,7 @@
             <section class="kit_owner_kits inside_list" ng-if="vm.sampleKits.length > 0">
               <h1>Other kits owned by {{ vm.kit.owner.username }}</h1>
               <kit-list kits="vm.sampleKits"></kit-list>
-              <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.ownerKits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS OF {{ vm.kit.owner.username }}</md-button>
+              <md-button ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.kit.owner.kits.length > 5" class="kit_owner_kits_more_button" aria-label="">VIEW ALL KITS BY {{ vm.kit.owner.username }}</md-button>
             </section>
           </div>
         </div>

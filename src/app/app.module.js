@@ -19,5 +19,6 @@ angular.module('app', [
   'ngCookies',
   'ngMessages',
   'ngtweet',
-  'btford.socket-io'
+  'btford.socket-io',
+  'ngAnimate'
 ]);

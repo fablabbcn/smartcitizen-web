@@ -737,3 +737,73 @@ section .kit_menu {
   font-family: Kanit;
   font-weight: 700;
 }
+
+/**/
+
+/* [!] Leave animation (ng-leave ) are disabled
+because they conflict with enter animations */
+
+
+.sensor_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.sensor_animation.ng-enter {
+  transform: scale(1.05);
+  // opacity: 0;
+}
+.sensor_animation.ng-enter-active {
+  transform: scale(1);
+  // opacity: 1;
+}
+
+/* .sensor_animation.ng-leave{
+  transition:1s ease all;
+}
+.sensor_animation.ng-leave{
+  opacity: 0;
+}
+.sensor_animation.ng-leave-active{
+  opacity: 1;
+} */
+
+/* Time animation currently not in use */
+
+.time_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.time_animation.ng-enter {
+  transform: scale(1.05);
+}
+.time_animation.ng-enter-active {
+  transform: scale(1);
+}
+
+/* .time_animation.ng-leave {
+  transition:1s ease all;
+}
+.time_animation.ng-leave {
+  opacity: 0;
+}
+.time_animation.ng-leave-active {
+  opacity: 1;
+} */
+
+.bat_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.bat_animation.ng-enter {
+  transform: scale(1.05);
+}
+.bat_animation.ng-enter-active {
+  transform: scale(1);
+}
+
+/* .bat_animation.ng-leave {
+  transition:2s ease all;
+}
+.bat_animation.ng-leave {
+  opacity: 0;
+}
+.bat_animation.ng-leave-active {
+  opacity: 1;
+} */
