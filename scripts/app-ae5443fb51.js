@@ -595,7 +595,7 @@
     vm.slide = slide;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
-    vm.updateInterval = 5000;
+    vm.updateInterval = 15000;
 
     var focused = true;
 
