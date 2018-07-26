@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('MapTagDialogController', MapTagDialogController);
+    .controller('MapTagModalController', MapTagModalController);
 
-  MapTagDialogController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
+  MapTagModalController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
 
-  function MapTagDialogController($mdDialog, tag, selectedTags) {
+  function MapTagModalController($mdDialog, tag, selectedTags) {
 
     var vm = this;
 
@@ -45,7 +45,7 @@
     }
 
     function clear() {
-      $mdDialog.hide();
+      $mdDialog.hide(null);
     }
 
     function cancel() {

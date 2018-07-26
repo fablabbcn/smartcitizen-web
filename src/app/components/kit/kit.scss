@@ -48,7 +48,9 @@
     position:absolute;
     height:100%;
     width:100%;
-
+    > p {
+      color: $grey_darker;
+    }
     .md-button{
       margin-top:20px;
     }

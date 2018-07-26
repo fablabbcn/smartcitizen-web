@@ -21,7 +21,6 @@
       vm.filterKits = filterKits;
 
       $scope.$on('loggedIn', function() {
-        
         var authUser = auth.getCurrentUser().data;
         if( userUtils.isAuthUser(userID, authUser) ) {
           $location.path('/profile');
@@ -57,7 +56,7 @@
               vm.kits = kitsData;
             }
           }, function(error) {
-            if(error.status === 404) {
+            if(error && error.status === 404) {
               $location.url('/404');
             }
           });

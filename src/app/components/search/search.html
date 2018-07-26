@@ -1,16 +1,10 @@
-<div class="search_icon">
-  <md-icon md-svg-src="./assets/images/search_icon_white.svg" ng-show="vm.isIconWhite">
-  </md-icon>
-  <md-icon md-svg-src="./assets/images/search_icon_black.svg" ng-show="!vm.isIconWhite">
-  </md-icon>
-</div>
-
-<md-autocomplete 
-  md-selected-item="vm.selectedItem" 
+<md-autocomplete
+  id="search"
+  md-selected-item="vm.selectedItem"
   md-selected-item-change="vm.selectedItemChange(item)"
-  md-search-text="vm.searchText" 
+  md-search-text="vm.searchText"
   md-search-text-change="vm.searchTextChange(vm.searchText)"
-  md-items="item in vm.querySearch(vm.searchText)" 
+  md-items="item in vm.querySearch(vm.searchText)"
   md-item-text="item.name"
   placeholder="Search"
   md-delay="300"
@@ -18,12 +12,11 @@
   >
 
   <md-item-template layout="row" layout-align="start center">
-    <img ng-show="item.iconType === 'img'" ng-src="{{ item.icon }}" class="result_icon" />
-    <div ng-show="item.iconType === 'div'" class="markerSmartCitizenOnline result_icon"></div>
-    <span ng-class="{'result_name': item.name.length > 0}">{{ item.name }}</span>
-    <span class="result_location">{{ item.location }}</span>
+    <div class="search_results">
+      <img ng-if="item.iconType === 'img'" ng-src="{{ item.icon }}" class="result_icon" />
+      <div ng-if="item.iconType === 'div'" class="markerSmartCitizenOnline result_icon"></div>
+      <span ng-class="{'result_name': item.name.length > 0}">{{ item.name }}</span>
+      <span class="result_location">{{ item.location }}</span>
+    </div>
   </md-item-template>
-   <!--<md-not-found>
-    No matches found. {{ vm.searchText }}
-  </md-not-found>-->
 </md-autocomplete>

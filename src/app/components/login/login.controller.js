@@ -18,7 +18,8 @@
     function showLogin() {
       $mdDialog.show({
         hasBackdrop: true,
-        controller: 'LoginDialogController',
+        controller: 'LoginModalController',
+        controllerAs: 'vm',
         templateUrl: 'app/components/login/loginModal.html',
         clickOutsideToClose: true
       });

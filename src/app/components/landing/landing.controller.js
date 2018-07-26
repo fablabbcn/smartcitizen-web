@@ -35,7 +35,7 @@
     function showStore() {
       $mdDialog.show({
         hasBackdrop: true,
-        controller: 'StoreDialogController',
+        controller: 'StoreModalController',
         templateUrl: 'app/components/store/storeModal.html',
         clickOutsideToClose: true
       });

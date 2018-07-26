@@ -159,7 +159,7 @@ section .kit_menu {
       height: 14px;
       margin-right: 8px;
       margin-top: 4px;
-      svg { fill: $blue_light; }
+      svg { fill: $yellow; }
     }
     span {
       vertical-align: middle;
@@ -251,7 +251,7 @@ section .kit_menu {
     cursor: pointer;
     text-align: center;
     outline:none;
-    
+
     p{
       margin: 0px;
       padding-bottom: 15px;
@@ -322,9 +322,6 @@ section .kit_menu {
   h1 {
     margin:0;
   }
-  button {
-    color: $yellow;
-  }
  }
 .kit_details_notAuth_title {
   margin: 0;
@@ -371,10 +368,7 @@ section .kit_menu {
       height: 100%;
 
       .kit_chart_left {
-        //display: inline-block;
-        //width: 240px;
-        //margin-right: 30px;
-        //height: 100%;
+        color: $off_black;
 
         .sensor_select {
           .sensor_icon_selected {
@@ -434,7 +428,6 @@ section .kit_menu {
         }
         .sensor_data {
           margin: 8% 0 5% 0;
-         // display: inline-block;
 
           .sensor_value {
             font-size: 2em;
@@ -549,7 +542,9 @@ section .kit_menu {
     color: $background_blue_dark_navbar;
   }
   .kit_details_content {
-    //float: left;
+    svg {
+      fill: $off_black;
+    }
 
     .kit_details_labels{
       margin-top:30px;
@@ -561,9 +556,6 @@ section .kit_menu {
   .kit_details_type {
     > span {
       margin-right: 15px;
-    }
-    svg {
-      fill: $secondary_color;
     }
   }
   .kit_details_type_location svg {
@@ -673,6 +665,7 @@ section .kit_menu {
       text-decoration: none;
     }
     .kit_owner_usernameText {
+      color: $off_black;
       margin: 50px 0 20px 0;
     }
     .kit_owner_location {
@@ -744,3 +737,73 @@ section .kit_menu {
   font-family: Kanit;
   font-weight: 700;
 }
+
+/**/
+
+/* [!] Leave animation (ng-leave ) are disabled
+because they conflict with enter animations */
+
+
+.sensor_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.sensor_animation.ng-enter {
+  transform: scale(1.05);
+  // opacity: 0;
+}
+.sensor_animation.ng-enter-active {
+  transform: scale(1);
+  // opacity: 1;
+}
+
+/* .sensor_animation.ng-leave{
+  transition:1s ease all;
+}
+.sensor_animation.ng-leave{
+  opacity: 0;
+}
+.sensor_animation.ng-leave-active{
+  opacity: 1;
+} */
+
+/* Time animation currently not in use */
+
+.time_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.time_animation.ng-enter {
+  transform: scale(1.05);
+}
+.time_animation.ng-enter-active {
+  transform: scale(1);
+}
+
+/* .time_animation.ng-leave {
+  transition:1s ease all;
+}
+.time_animation.ng-leave {
+  opacity: 0;
+}
+.time_animation.ng-leave-active {
+  opacity: 1;
+} */
+
+.bat_animation.ng-enter {
+  transition:1s ease-out all;
+}
+.bat_animation.ng-enter {
+  transform: scale(1.05);
+}
+.bat_animation.ng-enter-active {
+  transform: scale(1);
+}
+
+/* .bat_animation.ng-leave {
+  transition:2s ease all;
+}
+.bat_animation.ng-leave {
+  opacity: 0;
+}
+.bat_animation.ng-leave-active {
+  opacity: 1;
+} */

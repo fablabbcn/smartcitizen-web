@@ -15,7 +15,8 @@
       isSameDay: isSameDay,
       isWithin15min: isWithin15min,
       isWithin1Month: isWithin1Month,
-      isWithin: isWithin
+      isWithin: isWithin,
+      isDiffMoreThan15min: isDiffMoreThan15min
     };
     return service;
 
@@ -71,6 +72,11 @@
         return true;
       }
       return false;
+    }
+
+    function isDiffMoreThan15min(dateToCheckFrom, dateToCheckTo) {
+      var duration = moment.duration(moment(dateToCheckTo).diff(moment(dateToCheckFrom)));
+      return duration.as('minutes') > 15;
     }
 
     function isWithin15min(dateToCheck) {

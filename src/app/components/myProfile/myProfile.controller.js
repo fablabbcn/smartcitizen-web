@@ -75,29 +75,23 @@
 
       function initialize() {
         startingTab();
-        var kitIDs = _.map(vm.user.kits, 'id');
-        if(!kitIDs.length) {
+        if(!vm.user.kits.length) {
           vm.kits = [];
           animation.viewLoaded();
         } else {
-          $q.all(
-            kitIDs.map(function(id) {
-              return device.getDevice(id)
-                .then(function(data) {
-                  return new PreviewKit(data);
-                });
-            })
-          ).then(function(kitsData){
-            if (kitsData){
-              vm.kits = kitsData;
+          device.createKitBlueprints().then(function(){
 
-              $timeout(function() {
-                mapWithBelongstoUser(vm.kits);
-                filterKits(vm.status);
-                setSidebarMinHeight();
-                animation.viewLoaded();
-              }, 500);
-            }
+            vm.kits = vm.user.kits.map(function(data) {
+              return new PreviewKit(data);
+            })
+
+            $timeout(function() {
+              mapWithBelongstoUser(vm.kits);
+              filterKits(vm.status);
+              setSidebarMinHeight();
+              animation.viewLoaded();
+            });
+
           });
         }
       }
@@ -264,19 +258,16 @@
       }
 
       function updateKits() {
-        var kitIDs = _.map(vm.user.kits, 'id');
-        if(!kitIDs.length) {
+        if(!vm.user.kits.length) {
           return [];
         }
 
-        $q.all(
-          kitIDs.map(function(id) {
-            return device.getDevice(id)
-              .then(function(data) {
-                return new PreviewKit(data);
-              });
+        device.createKitBlueprints().then(function(){
+          vm.kits = vm.user.kits.map(function(data) {
+            return new PreviewKit(data);
           })
-        )
+        })
+
         .then(function(data){
           vm.kits = data;
         });

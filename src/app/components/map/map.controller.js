@@ -4,11 +4,11 @@
   angular.module('app.components')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$state', '$timeout', 'device',
+    MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', 'animation'];
-    function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
+    'Marker', 'tag', 'animation', '$q'];
+    function MapController($scope, $state, $stateParams, $timeout, device,
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -156,27 +156,25 @@
       /////////////////////
 
       function initialize() {
+
         vm.readyForKit.map = false;
 
-        vm.markers = device.getWorldMarkers();
-
-        device.getAllDevices()
+        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
           .then(function(data){
 
-            if (!vm.markers || vm.markers.length === 0){
+            data = data[0];
 
-              vm.markers = _.chain(data)
-                  .map(function(device) {
-                    return new Marker(device);
-                  })
-                  .filter(function(marker) {
-                    return !!marker.lng && !!marker.lat;
-                  })
-                  .tap(function(data) {
-                    device.setWorldMarkers(data);
-                  })
-                  .value();
-            }
+            vm.markers = _.chain(data)
+                .map(function(device) {
+                  return new Marker(device);
+                })
+                .filter(function(marker) {
+                  return !!marker.lng && !!marker.lat;
+                })
+                .tap(function(data) {
+                  device.setWorldMarkers(data);
+                })
+                .value();
 
             var markersByIndex = _.keyBy(vm.markers, function(marker) {
               return marker.myData.id;
@@ -249,9 +247,9 @@
       function openFilterPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapFilterDialogController as filterDialog',
-          templateUrl: 'app/components/map/mapFilterPopup.html',
-          //targetEvent: ev,
+          controller: 'MapFilterModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/map/mapFilterModal.html',
           clickOutsideToClose: true,
           locals: {
             selectedFilters: vm.selectedFilters
@@ -267,8 +265,9 @@
       function openTagPopup() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'MapTagDialogController as tagDialog',
-          templateUrl: 'app/components/map/mapTagPopup.html',
+          controller: 'MapTagModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/map/mapTagModal.html',
           //targetEvent: ev,
           clickOutsideToClose: true,
           locals: {
@@ -276,10 +275,14 @@
           }
         })
         .then(function(selectedTags) {
-          updateType = 'map';
-          tag.setSelectedTags(_.map(selectedTags, 'name'));
-          vm.selectedTags = tag.getSelectedTags();
-          reloadWithTags();
+          if (selectedTags && selectedTags.length > 0) {
+            updateType = 'map';
+            tag.setSelectedTags(_.map(selectedTags, 'name'));
+            vm.selectedTags = tag.getSelectedTags();
+            reloadWithTags();
+          } else if (selectedTags === null) {
+            reloadNoTags();
+          }
         });
       }
 

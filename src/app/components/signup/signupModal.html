@@ -1,67 +1,78 @@
 <md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Sign up</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="cancel()">
+        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear>
   <md-dialog-content class="modal signup">
-    <md-progress-circular ng-show="waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular>
-    <md-button class="close_icon" ng-click="cancel()">
-      <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" class="">
-      </md-icon>
-    </md-button>
-    <form name="form" novalidate ng-submit="vm.answer(vm.form)">
-      <div class="modal_content_container">
-        <h2>SIGN UP</h2>
-        <h3 class="header">People looking for a better city</h3>
-        <p class="subheader">You're part of them? Feel free to join us!</p>
-        <div layout layout-sm="column" class="field">
-          <md-input-container flex>
-            <label>Username</label>
-            <input type="text" ng-model="vm.user.username" focus-input>
-          </md-input-container>
-          <p class="errors" ng-show="!!errors.username.length">
-            <span ng-repeat="error in errors.username">
-              Username {{ error }}<span ng-if="!$last">,</span>
-            </span>
-          </p>
+    <form name="signupForm" novalidate ng-submit="vm.answer(signupForm)">
+      <div class="md-dialog-content">
+        <div layout="column" >
+          <h2 class="header">People looking for a better city</h2>
+          <p class="subheader">You're part of them? Feel free to join us!</p>
         </div>
-        <div layout layout-sm="column" class="field">
+        <div layout="column" >
+          <md-input-container>
+            <label>Username</label>
+            <input type="text" name="username" ng-model="vm.user.username" focus-input name="username" required>
+            <div ng-messages="signupForm.username.$error || !!errors.password.length" role="alert">
+              <div ng-message="required">Username is required</div>
+              <div ng-repeat="error in errors.username">
+               <div>Username {{ error }}<span ng-if="!$last">, </span></div>
+             </div>
+            </div>
+          </md-input-container>
           <md-input-container flex>
             <label>Password</label>
-            <input type="password" ng-model="vm.user.password">
+            <input name="password" type="password" ng-model="vm.user.password"
+            required>
+            <div ng-messages="signupForm.password.$error || !!errors.password.length" role="alert">
+              <div ng-message="required">Password is required</div>
+              <div ng-repeat="error in errors.password">
+               <div>Password {{ error }}<span ng-if="!$last">, </span></div>
+             </div>
+            </div>
           </md-input-container>
-          <p class="errors" ng-show="!!errors.password.length">
-            <span ng-repeat="error in errors.password">
-              Password {{ error }}<span ng-if="!$last">,</span>
-            </span>
-          </p>
-        </div>
-        <div layout layout-sm="column" class="field">
-          <md-input-container flex>
+
+          <md-input-container>
             <label>Email</label>
-            <input type="email" ng-model="vm.user.email">
+            <input
+            name="email"
+            type="email" ng-model="vm.user.email"
+            required>
+            <div ng-messages="signupForm.email.$error || !!errors.email.length" role="alert">
+              <div ng-message="required">Email is required</div>
+              <div ng-repeat="error in errors.email" ng-if="!!errors.email.length">
+               <div>Email {{ error }}<span ng-if="!$last">, </span></div>
+             </div>
+            </div>
           </md-input-container>
-          <p class="errors" ng-show="!!errors.email.length">
-            <span ng-repeat="error in errors.email">
-              Email {{ error }}<span ng-if="!$last">,</span>
-            </span>
-          </p>
+
+          <md-input-container>
+            <md-checkbox
+            name="conditions" ng-model="vm.user.conditions" aria-label="Terms and Conditions" required>
+              I <a ui-sref="layout.policy" ng-click="hide()">have read</a>  and accept Terms and Conditions
+            </md-checkbox>
+            <div ng-messages="signupForm.conditions.$error || !!errors.conditions.length" role="alert">
+              <div ng-message="required">You have to accept Terms and Conditions first</div>
+              <div ng-repeat="error in errors.conditions">
+               <div>{{ error }}<span ng-if="!$last">, </span></div>
+             </div>
+            </div>
+          </md-input-container>
         </div>
-        <div layout layout-sm="column" class="field">
-          <md-checkbox ng-model="vm.user.conditions" aria-label="Terms and Conditions" required>
-            I <a ui-sref="layout.policy" ng-click="hide()">have read</a>  and accept Terms and Conditions 
-          </md-checkbox>
-           <p class="errors" ng-show="!!errors.conditions.length">
-            <span ng-repeat="error in errors.conditions">
-               {{ error }}<span ng-if="!$last">,</span>
-            </span>
-          </p>
-        </div>
+
+        <md-button class="message_below_link" ng-click="openLogin()"
+          analytics-on="click" analytics-event="Signup" analytics-action="login">
+          Already have an account? Log in
+        </md-button>
       </div>
-    	<md-button class="md-flat md-primary main" ng-click="answer(vm.user)">Sign up</md-button>
+    	<md-button class="btn-blue btn-full" type="submit">Sign up</md-button>
     </form>
   </md-dialog-content>
-  <p class="message_below">
-    <span class="message_below_question">Already have an account?</span>
-    <md-button class="message_below_link" ng-click="openLogin()"
-      analytics-on="click" analytics-event="Signup" analytics-action="login">
-      LOG IN
-    </md-button>
-  </p>
 </md-dialog>

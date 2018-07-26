@@ -1,0 +1,17 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Download data</h2>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="vm.cancel()">
+        <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content class="modal modal_download">
+    <div class="md-dialog-content max-width-500px">
+          <p>We will process your sensor data and send you an email with a download link when it is ready</p>
+    </div>
+    <md-button class="btn-blue btn-full" ng-click="vm.download()">Download</md-button>
+  </md-dialog-content>
+</md-dialog>

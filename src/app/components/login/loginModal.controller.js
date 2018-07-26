@@ -2,11 +2,11 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('LoginDialogController', LoginDialogController);
+    .controller('LoginModalController', LoginModalController);
 
-    LoginDialogController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
-    function LoginDialogController($scope, $mdDialog, auth, alert, animation) {
-
+    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
+    function LoginModalController($scope, $mdDialog, auth, alert, animation) {
+      const vm = this;
       $scope.answer = function(answer) {
         $scope.waitingFromServer = true;
         auth.login(answer)
@@ -16,7 +16,8 @@
             auth.saveData(token);
             $mdDialog.hide();
           })
-          .catch(function() {
+          .catch(function(err) {
+            vm.errors = err.data.errors;
             alert.error('Username or password incorrect');
             ga('send', 'event', 'Login', 'logged in');
           })
@@ -40,7 +41,7 @@
       $scope.openPasswordRecovery = function() {
         $mdDialog.show({
           hasBackdrop: true,
-          controller: 'PasswordRecoveryDialogController',
+          controller: 'PasswordRecoveryModalController',
           templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
           clickOutsideToClose: true
         });
