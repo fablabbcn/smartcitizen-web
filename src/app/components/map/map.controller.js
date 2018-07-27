@@ -4,11 +4,11 @@
   angular.module('app.components')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$state', '$timeout', 'device',
+    MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
     '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', 'animation'];
-    function MapController($scope, $state, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation) {
+    'Marker', 'tag', 'animation', '$q'];
+    function MapController($scope, $state, $stateParams, $timeout, device,
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -156,27 +156,25 @@
       /////////////////////
 
       function initialize() {
+
         vm.readyForKit.map = false;
 
-        vm.markers = device.getWorldMarkers();
-
-        device.getAllDevices()
+        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
           .then(function(data){
 
-            if (!vm.markers || vm.markers.length === 0){
+            data = data[0];
 
-              vm.markers = _.chain(data)
-                  .map(function(device) {
-                    return new Marker(device);
-                  })
-                  .filter(function(marker) {
-                    return !!marker.lng && !!marker.lat;
-                  })
-                  .tap(function(data) {
-                    device.setWorldMarkers(data);
-                  })
-                  .value();
-            }
+            vm.markers = _.chain(data)
+                .map(function(device) {
+                  return new Marker(device);
+                })
+                .filter(function(marker) {
+                  return !!marker.lng && !!marker.lat;
+                })
+                .tap(function(data) {
+                  device.setWorldMarkers(data);
+                })
+                .value();
 
             var markersByIndex = _.keyBy(vm.markers, function(marker) {
               return marker.myData.id;

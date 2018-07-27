@@ -4,8 +4,8 @@
     <title>filter_icon</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Map-elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g sketch:type="MSArtboardGroup" transform="translate(-131.000000, -348.000000)" id="Filter" fill="#044150">
+    <g id="Map-elements" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g sketch:type="MSArtboardGroup" transform="translate(-131.000000, -348.000000)" id="Filter">
             <g sketch:type="MSLayerGroup" transform="translate(24.000000, 68.000000)">
                 <g transform="translate(103.000000, 0.000000)" sketch:type="MSShapeGroup">
                     <g id="filter-button" transform="translate(0.000000, 273.000000)">

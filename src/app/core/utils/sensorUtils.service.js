@@ -116,15 +116,16 @@
         if(isNaN(parseInt(value))) {
           value =  'N/A';
         } else {
-          value = value.toString();
-          if(value.indexOf('.') !== -1) {
-            value = value.slice(0, value.indexOf('.') + 3);
-          }
+          value = round(value, 1).toString();
         }
 
         return value;
       }
 
+      function round(value, precision) {
+          var multiplier = Math.pow(10, precision || 0);
+          return Math.round(value * multiplier) / multiplier;
+      }
 
       function getSensorPrevValue(sensor) {
         /*jshint camelcase: false */
@@ -197,22 +198,22 @@
             return '#0019FF';
 
           case 'CO':
-            return '#00A102';
+            return '#00A103';
 
           case 'NO2':
-            return '#8bc34a';  // still old color
+            return '#8cc252';
 
           case 'NETWORKS':
-            return '#681DBD';
+            return '#681EBD';
 
           case 'SOLAR PANEL':
-            return '#FF8600';
+            return '#d555ce';
 
           case 'BATTERY':
-            return '#ffee58';  // still old color
+            return '#ff8601';
 
           default:
-            return '#ff5722';  // still old color
+            return '#0019FF';
         }
       }
 

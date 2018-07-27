@@ -39,18 +39,13 @@
         button: 'Leave comment',
         buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
           'analytics-category="Offline Kit Comment Link"',
-        href: '#disqus_thread'
+        href: 'https://forum.smartcitizen.me/'
       });
     }
 
     function infoNoDataOwner(kitID) {
-      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data. Please, check ' +
-        'its settings.',
-        10000,
-        {
-          button: 'Kit settings',
-          href: '/kits/' + kitID + '/edit'
-        });
+      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data.',
+        10000);
     }
 
 
@@ -61,7 +56,7 @@
           button: 'Leave comment',
           buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
           'analytics-category="Long time No published Kit Comment Link"',
-          href: '#disqus_thread'
+          href: 'https://forum.smartcitizen.me/'
         });
     }
 

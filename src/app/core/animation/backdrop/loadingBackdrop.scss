@@ -34,7 +34,7 @@ md-content.md-stateChangeBackdrop {
 .backdrop_icon {
   svg {
     overflow: visible;
-    fill: rgba($yellow, 0.5);
+    fill: $grey_darker;
   }
   .sc-circle-arrow {
     -webkit-transform-origin: 50% 53.8%;
@@ -46,6 +46,7 @@ md-content.md-stateChangeBackdrop {
     animation:spin 3s linear infinite;
   }
 }
+
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -23,7 +23,7 @@
             ga('send', 'event', 'Signup', 'signed up');
           }).catch(function(err) {
             alert.error('Signup failed');
-            $scope.errors = err.errors;
+            $scope.errors = err.data.errors;
             ga('send', 'event', 'Signup', 'failed');
           })
           .finally(function(data) {

@@ -15,8 +15,8 @@
         Kit.call(this, object);
 
         this.dropdownOptions = [];
-        console.log(this);
-        if (!object.kit || object.kit.id === 2 || object.kit.id === 3){
+
+        if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3) {
           this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/' + this.id + '/edit?step=2'});
         }
         this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit'});
