@@ -147,14 +147,14 @@ input{
   }
 }
 .label{
-  background-color: $yellow_light;
+  background-color: $orange;
   color: $off_black;
   md-icon svg path{
     fill: $terciary_color_light;
   }
 }
 .tag {
-  background-color: $yellow_lighter;
+  background-color: $orange_lighter;
   color: $off_black;
   md-icon svg path{
     fill: $secondary_color;
@@ -410,6 +410,9 @@ md-toast.yellow {
   background-color: $yellow;
 }
 
+md-checkbox.md-checked .md-icon {
+    background-color: $blue;
+}
 md-checkbox .md-label {
     pointer-events: auto;
 }
@@ -678,6 +681,7 @@ KIT TAGS MODULE
   }
 
   .kitTags__container{
+    background-color: white;
     padding-bottom: 20px;
 
     .kitTags__textContainer{

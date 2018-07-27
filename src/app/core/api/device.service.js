@@ -67,7 +67,6 @@
       }
 
       function getDevice(id) {
-				console.log("get",id);
         return Restangular.one('devices', id).get();
       }
 

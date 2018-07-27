@@ -111,13 +111,11 @@
           controllerAs: 'vm',
           resolve: {
             belongsToUser: belongsToUser,
-            kit: function(device, FullKit, $stateParams) {
-              console.log($stateParams.id);
+            kit: ['device', 'FullKit', '$stateParams', function(device, FullKit, $stateParams) {
               return device.getDevice($stateParams.id)
-              .then(kit => {console.log('KIT',kit); return new FullKit(kit)})
-              .catch(() => {console.log('catchhhh')});
-            }
-            // redirectNotOwner: redirectNotOwner TODO redo
+              .then(kit => new FullKit(kit));
+            }],
+            redirectNotOwner: redirectNotOwner
          }
         })
 
