@@ -93,7 +93,7 @@ function controller(device, Papa) {
     return Papa.parse(file, {
       delimiter: ',',
       dynamicTyping: true,
-      worker: true,
+      worker: false,
       skipEmptyLines: true
     }).catch((err) => {
       file.progress = null;
