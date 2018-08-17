@@ -85,9 +85,48 @@ function controller(device, Papa) {
       vm.loadingStatus = false;
     });
   }
+
+  vm.haveSelectedFiles = function() {
+    return vm.csvFiles && vm.csvFiles.some((file) => file.checked);
+  };
+
+  vm.haveSelectedNoFiles = function() {
+    return vm.csvFiles && !vm.csvFiles.some((file) => file.checked);
+  };
+
+  vm.haveSelectedAllFiles = function() {
+    return vm.csvFiles && vm.csvFiles.every((file) => file.checked);
+  };
+
+  vm.doAction = function() {
+
+    switch (vm.action) {
+      case 'selectAll':
+        vm.selectAll(true);
+        break;
+      case 'deselectAll':
+        vm.selectAll(false);
+        break;
+      case 'upload':
+        vm.uploadData();
+        break;
+      case 'remove':
+        vm.csvFiles.forEach((file, index) => {
+          if (file.checked) { vm.removeFile(index); }
+        });
+        break;
+      default:
+
+    }
+  };
+
+  vm.selectAll = function(value) {
+    vm.csvFiles.forEach((file) => { file.checked = value });
+  };
+
   vm.removeFile = function(index) {
     vm.csvFiles.splice(index, 1);
-  }
+  };
   vm._analyzeData = function(file) {
     file.progress = true;
     return Papa.parse(file, {
@@ -99,7 +138,7 @@ function controller(device, Papa) {
       file.progress = null;
       console('catch',err)
     });
-  }
+  };
 
   vm._checkDuplicate = function(file) {
     if (vm.csvFiles.some((csvFile) => file.name === csvFile.name)) {
@@ -110,7 +149,7 @@ function controller(device, Papa) {
     } else {
       return true;
     }
-  }
+  };
 
 
 
@@ -149,7 +188,7 @@ function controller(device, Papa) {
       vm.loadingStatus = false;
     });
   }
-}
+};
 
 
 angular.module('app.components')

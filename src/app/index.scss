@@ -2291,6 +2291,32 @@ p.no-margin {
 
 }
 
+
+
+.container {
+  padding-bottom:20px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
 .landing-page {
 
     h1,
@@ -2302,29 +2328,6 @@ p.no-margin {
         color: #333;
     }
 
-    .container {
-      padding-bottom:20px;
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    @media (min-width: 768px) {
-        .container {
-            width: 750px;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .container {
-            width: 970px;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .container {
-            width: 1170px;
-        }
-    }
 
     .form-control::-moz-placeholder {
         color: #777;

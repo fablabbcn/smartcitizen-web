@@ -8,3 +8,18 @@
     margin-right: 20px
   }
 }
+
+.list-shadow {
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
+  md-list-item {
+    border-bottom: solid 1px $grey_lighter;
+  }
+  md-list-item:last-child {
+    border-bottom: none;
+  }
+}
+
+
+.label-grey {
+  background-color: 
+}

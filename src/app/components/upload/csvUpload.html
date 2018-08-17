@@ -2,7 +2,7 @@
 <button
   name=csvFiles
   type="file"
-  class="md-button md-primary md-raised"
+  class="md-button btn-blue md-flat"
   ngf-select="vm.change($files, $invalidFiles)"
   ngf-before-model-change="vm.onSelect()"
   ngf-multiple="true"
@@ -10,15 +10,38 @@
   ngf-max-files="30"
   ngf-max-size="'10MB'"
   ngf-pattern="'.csv'">
-  <md-tooltip md-direction="top">Analyze the CSV before upload</md-tooltip>
-  Load & Analyze CSV
+  Load CSV Files
 </button>
 
-<md-button class="md-primary md-raised" ng-click="vm.uploadData()" ng-disabled="!vm.csvFiles || vm.csvFiles.length === 0">
-  <md-tooltip md-direction="top">Upload the checked files</md-tooltip>
-  Upload
+<div class="">
+  <h3>Upload your files</h2>
+  <p>Selec the files you want and upload them into your kit!</p>
+</div>
+
+<md-input-container>
+  <label>Actions</label>
+  <md-select ng-model="vm.action">
+    <md-option ng-value="null"><em>None</em></md-option>
+    <md-option value="selectAll" ng-disabled="vm.haveSelectedAllFiles()">
+      Select all
+    </md-option>
+    <md-option value="deselectAll" ng-disabled="vm.haveSelectedNoFiles()">
+      Deselect all
+    </md-option>
+    <md-option value="upload" ng-disabled="!vm.haveSelectedFiles()">
+      Upload
+    </md-option>
+    <md-option value="remove" ng-disabled="!vm.haveSelectedFiles()">
+      Remove
+    </md-option>
+  </md-select>
+</md-input-container>
+
+
+<md-button class="md-flat" ng-class="vm.action ? 'md-primary' : 'md-default'" ng-click="vm.doAction()" ng-disabled="(!vm.csvFiles || vm.csvFiles.length === 0) && !vm.action">
+  Apply
 </md-button>
-<md-button class="md-primary md-raised md-warn" ng-click="vm.csvFiles = []" ng-if="vm.csvFiles && vm.csvFiles.length > 0">Remove all files</md-button>
+
 <md-progress-linear md-mode="{{ vm.loadingType }}" ng-value="vm.loadingProgress" ng-if="vm.loadingStatus"></md-progress-linear>
 
 <md-card class="bg-yellow" ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
@@ -49,20 +72,20 @@
   </md-card-actions>
 </md-card>
 
-<md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0">
+<md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0" class="list-shadow">
   <md-list-item ng-class="{'bg-green':csvFile.success}" ng-repeat="csvFile in vm.csvFiles" class="md-2-line">
     <div class="md-list-item-text" layout="column">
       <div class="csv_file_item">
         <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
         <span>{{csvFile.name}}</span>
-        <span ng-if="csvFile.isNew && !csvFile.success" class="label">new data</span>
         <md-button ng-click="csvFile.detailShowed = !csvFile.detailShowed" ng-if="(csvFile.parseErrors || csvFile.backEndErrors) && !csvFile.success" class="md-icon-button md-warn">
           <md-tooltip md-direction="top">Show details</md-tooltip>
           <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
         </md-button>
         <md-progress-circular ng-if="csvFile.progress" md-mode="indeterminate" md-diameter="20"></md-progress-circular>
         <span flex></span>
-        <md-button ng-click="vm.removeFile($index)" class="md-icon-button md-warn md-secondary" >
+        <span ng-if="csvFile.isNew && !csvFile.success" class="label">new data</span>
+        <md-button ng-click="vm.removeFile($index)" class="md-icon-button md-default" >
           <md-icon md-svg-icon="./assets/images/delete_icon.svg"></md-icon>
         </md-button>
       </div>
@@ -83,6 +106,11 @@
     </div>
   </md-list-item>
 </md-list>
-<div ng-if="!vm.csvFiles || vm.csvFiles.length === 0">
-  No files uploaded yet
-</div>
+
+<md-list ng-if="!vm.csvFiles || vm.csvFiles.length === 0" class="list-shadow">
+  <md-list-item>
+    <div class="md-list-item-text" layout="column">
+      There are no files in here. Let’s upload something!
+    </div>
+  </md-list-item>
+</md-list>
