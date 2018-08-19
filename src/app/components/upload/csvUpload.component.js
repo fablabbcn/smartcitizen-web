@@ -36,8 +36,8 @@ function parseDataForPost(csvArray) {
 
 
 
-controller.$inject = ['device', 'Papa'];
-function controller(device, Papa) {
+controller.$inject = ['device', 'Papa', '$mdDialog'];
+function controller(device, Papa, $mdDialog) {
   var vm = this;
   vm.loadingStatus = false;
   vm.loadingProgress = 0;
@@ -111,9 +111,7 @@ function controller(device, Papa) {
         vm.uploadData();
         break;
       case 'remove':
-        vm.csvFiles.forEach((file, index) => {
-          if (file.checked) { vm.removeFile(index); }
-        });
+        vm.csvFiles = vm.csvFiles.filter((file) => !file.checked);
         break;
       default:
 
@@ -151,6 +149,19 @@ function controller(device, Papa) {
     }
   };
 
+  vm.showErrorModal = function(csvFile) {
+    $mdDialog.show({
+      hasBackdrop: true,
+      controller: ['$mdDialog',function($mdDialog) {
+        this.parseErrors = csvFile.parseErrors;
+        this.backEndErrors = csvFile.backEndErrors;
+        this.cancel = function() { $mdDialog.hide(); };
+      }],
+      controllerAs: 'csvFile',
+      templateUrl: 'app/components/upload/errorModal.html',
+      clickOutsideToClose: true
+    });
+  }
 
 
   vm.uploadData = function() {

@@ -66,6 +66,9 @@
 .bg-red{
   background: $red;
 }
+.bg-red-light{
+  background: rgba($red,.2);
+}
 .bg-yellow{
   background: $yellow;
 }
