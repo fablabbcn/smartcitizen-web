@@ -1,7 +1,7 @@
 <md-dialog>
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Warning</h2>
+      <h2>Errors</h2>
       <span flex></span>
       <md-button class="md-icon-button" ng-click="csvFile.cancel()">
         <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
@@ -9,16 +9,18 @@
     </div>
   </md-toolbar>
   <md-dialog-content>
-    <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
-    <md-list>
-      <md-list-item ng-repeat="error in csvFile.parseErrors">
-        {{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span>
-      </md-list-item>
-      <md-list-item ng-if="csvFile.backEndErrors">
-        {{csvFile.backEndErrors.statusText || csvFile.backEndErrors}} {{csvFile.backEndErrors.status}}
-        <span ng-if="csvFile.backEndErrors.data"></span>: {{ csvFile.backEndErrors.data.message || csvFile.backEndErrors.data.errors }}
-      </md-list-item>
-    </md-list>
+    <div style="min-height: 200px" layout="column" layout-align="space-around center">
+      <md-icon class="s-48 md-warn" md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
+      <md-list>
+        <md-list-item ng-repeat="error in csvFile.parseErrors">
+          {{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span>
+        </md-list-item>
+        <md-list-item ng-if="csvFile.backEndErrors">
+          {{csvFile.backEndErrors.statusText || csvFile.backEndErrors}} {{csvFile.backEndErrors.status}}
+          <span ng-if="csvFile.backEndErrors.data"></span>: {{ csvFile.backEndErrors.data.message || csvFile.backEndErrors.data.errors }}
+        </md-list-item>
+      </md-list>
+  </div>
 
   </md-dialog-content>
 </md-dialog>

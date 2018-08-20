@@ -428,7 +428,16 @@ md-checkbox .md-label span {
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
 
-md-progress-linear .md-bar{
+md-progress-linear.md-bar.green {
+  background-color: $green;
+}
+md-progress-linear.green .md-container {
+  background-color: rgba($green, 0);
+}
+md-progress-linear.green .md-bar {
+  background-color: $green;
+}
+md-progress-linear.md-bar{
   background-color: $blue;
 }
 md-progress-linear.md-hue-3 .md-container{

@@ -99,7 +99,6 @@ function controller(device, Papa, $mdDialog) {
   };
 
   vm.doAction = function() {
-
     switch (vm.action) {
       case 'selectAll':
         vm.selectAll(true);
@@ -113,9 +112,8 @@ function controller(device, Papa, $mdDialog) {
       case 'remove':
         vm.csvFiles = vm.csvFiles.filter((file) => !file.checked);
         break;
-      default:
-
     }
+    vm.action = null;
   };
 
   vm.selectAll = function(value) {
@@ -166,7 +164,7 @@ function controller(device, Papa, $mdDialog) {
 
   vm.uploadData = function() {
     vm.loadingStatus = true;
-    vm.loadingType = 'determinate';
+    vm.loadingType = 'indeterminate';
     vm.loadingProgress = 0;
     let count = 0;
 
@@ -180,6 +178,7 @@ function controller(device, Papa, $mdDialog) {
         // TODO with workers
         .then((payload) => device.postReadings(vm.kit, payload))
         .then(() => {
+          if (vm.loadingType === 'indeterminate') { vm.loadingType = 'determinate'; };
           file.success = true;
           file.progress = null;
           count += 1;
