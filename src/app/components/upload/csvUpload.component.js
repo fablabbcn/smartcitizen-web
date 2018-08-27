@@ -36,8 +36,8 @@ function parseDataForPost(csvArray) {
 
 
 
-controller.$inject = ['device', 'Papa', '$mdDialog'];
-function controller(device, Papa, $mdDialog) {
+controller.$inject = ['device', 'Papa', '$mdDialog', '$q'];
+function controller(device, Papa, $mdDialog, $q) {
   var vm = this;
   vm.loadingStatus = false;
   vm.loadingProgress = 0;
@@ -57,7 +57,7 @@ function controller(device, Papa, $mdDialog) {
     vm.loadingStatus = true;
     vm.loadingType = 'determinate';
     vm.loadingProgress = 0;
-    Promise.all(
+    $q.all(
       files
       .filter((file) => vm._checkDuplicate(file))
       .map((file, index, filteredFiles) => {
@@ -168,7 +168,7 @@ function controller(device, Papa, $mdDialog) {
     vm.loadingProgress = 0;
     let count = 0;
 
-    Promise.all(
+    $q.all(
       vm.csvFiles
       .filter((file) => file.checked && !file.success)
       .map((file, index, filteredFiles) => {
