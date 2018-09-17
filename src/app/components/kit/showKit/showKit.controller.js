@@ -14,6 +14,7 @@
     timeUtils, animation, auth, kitUtils, userUtils,
     $timeout, alert, $q, device,
     HasSensorKit, geolocation, PreviewKit, sensorTypes) {
+
     var vm = this;
     var sensorsData = [];
 
