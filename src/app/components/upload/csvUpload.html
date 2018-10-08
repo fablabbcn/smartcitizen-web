@@ -1,0 +1,100 @@
+<!-- TODO add validation -->
+<button
+  name=csvFiles
+  type="file"
+  class="md-button btn-blue md-flat btn-round ml-0"
+  ngf-select="vm.change($files, $invalidFiles)"
+  ngf-before-model-change="vm.onSelect()"
+  ngf-multiple="true"
+  ngf-accept="'application/csv,.csv'"
+  ngf-max-files="30"
+  ngf-max-size="'10MB'"
+  ngf-pattern="'.csv'">
+  Load CSV Files
+</button>
+
+<div ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
+  <h3>Unsopported files</h2>
+  <p>We’re unable to upload the following files due to the problems mentioned below.</p>
+
+  <md-list class="list-shadow bg-red-light">
+    <md-list-item ng-repeat="invalidFile in vm.invalidFiles">
+      <span>{{invalidFile.name}}</span>
+      <span flex></span>
+      <div ng-messages="invalidFile.$errorMessages">
+        <div class="label color-white bg-red" ng-message="pattern" >
+          Invalid format
+        </div>
+        <div class="label color-white bg-red" ng-message="maxSize">
+          Too large (Max 10MB)
+        </div>
+        <div class="label color-white bg-red" ng-message="maxFiles">
+          Too many files (Max 30)
+        </div>
+        <div class="label color-white bg-red" ng-message="duplicate">
+          Already on the list
+        </div>
+      </div>
+
+      <md-icon ng-click="vm.invalidFiles.splice($index, 1);" md-svg-icon="./assets/images/close_icon_black.svg"></md-icon>
+    </md-list-item>
+  </md-list>
+</div>
+
+<div class="">
+  <h3>Upload your files</h2>
+  <p>Select the files you want and upload them into your kit!</p>
+</div>
+
+<md-input-container>
+  <label>Actions</label>
+  <md-select ng-model="vm.action">
+    <md-option ng-value="null"><em>None</em></md-option>
+    <md-option value="selectAll" ng-disabled="vm.haveSelectedAllFiles()">
+      Select all
+    </md-option>
+    <md-option value="deselectAll" ng-disabled="vm.haveSelectedNoFiles()">
+      Deselect all
+    </md-option>
+    <md-option value="upload" ng-disabled="!vm.haveSelectedFiles()">
+      Upload
+    </md-option>
+    <md-option value="remove" ng-disabled="!vm.haveSelectedFiles()">
+      Remove
+    </md-option>
+  </md-select>
+</md-input-container>
+
+
+<md-button class="md-flat" ng-class="vm.action ? 'color-blue' : ''" ng-click="vm.doAction()" ng-disabled="(!vm.csvFiles || vm.csvFiles.length === 0) && !vm.action">
+  Apply
+</md-button>
+
+<div class="relative">
+  <md-progress-linear class="green absolute" md-mode="{{ vm.loadingType }}" ng-value="vm.loadingProgress" ng-if="vm.loadingStatus"></md-progress-linear>
+</div>
+<md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0" class="list-shadow">
+  <md-list-item ng-class="{'bg-green':csvFile.success}" ng-repeat="csvFile in vm.csvFiles">
+    <md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox>
+    <span>{{csvFile.name}}</span>
+    <md-button ng-click="vm.showErrorModal(csvFile)" ng-if="(csvFile.parseErrors || csvFile.backEndErrors) && !csvFile.success" class="md-icon-button md-warn">
+      <md-tooltip md-direction="top">Show details</md-tooltip>
+      <md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon>
+    </md-button>
+    <md-icon class="color-green" style="margin-left: 14px" md-svg-icon="./assets/images/check_circle.svg" ng-if="csvFile.success"></md-icon>
+    <md-progress-circular style="margin-left: 14px;" ng-if="csvFile.progress" md-mode="indeterminate" md-diameter="20"></md-progress-circular>
+    <span flex></span>
+    <span ng-if="csvFile.isNew && !csvFile.success" class="label bg-grey">new data</span>
+    <md-button ng-click="vm.removeFile($index)" class="md-icon-button md-default" >
+      <md-icon md-svg-icon="./assets/images/delete_icon.svg"></md-icon>
+    </md-button>
+  </md-list-item>
+</md-list>
+
+<md-list ng-if="!vm.csvFiles || vm.csvFiles.length === 0" class="list-shadow">
+  <md-list-item>
+    <div class="md-list-item-text" layout="column">
+      There are no files here. Let’s upload something!
+    </div>
+  </md-list-item>
+</md-list>

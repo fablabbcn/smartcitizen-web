@@ -31,15 +31,18 @@
   </head>
   <body>
 
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+    <div id="outdated">
+      <h6>Your browser is out of date!</h6>
+      <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+      <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
 
     <div blur>
       <div cookies-law></div>
       <div loading-backdrop></div>
       <div ui-view autoscroll="false"></div>
     </div>
+
 
     <!-- GA stats -->
 
@@ -80,6 +83,36 @@
       if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
         Raven.config('https://ced21d09a9434443810225d47171123f@sentry.fab.city/4').install();
       }
+    </script>
+
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
     </script>
 
     <!-- The App JS -->

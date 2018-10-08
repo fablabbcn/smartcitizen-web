@@ -26,16 +26,17 @@
         return Upload.upload({
           url: 'https://smartcitizen.s3-eu-west-1.amazonaws.com',
           method: 'POST',
-          fields: {
+          data: {
             key: key,
             policy: policy,
             signature: signature,
             AWSAccessKeyId: 'AKIAJ753OQI6JPSDCPHA',
             acl: 'public-read',
+            "Content-Type": fileData.type || 'application/octet-stream',
             /*jshint camelcase: false */
-            success_action_status: 200
-          },
-          file: fileData
+            success_action_status: 200,
+            file: fileData
+          }
         });
       }
 

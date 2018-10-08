@@ -9,6 +9,7 @@
 @import 'components/kit/kit';
 @import 'components/kit/showKit/showKit';
 @import 'components/store/storeModal';
+@import 'components/upload/csvUpload';
 @import 'core/animation/backdrop/loadingBackdrop';
 @import 'core/animation/animation.directive';
 
@@ -222,9 +223,9 @@ a.md-button h4, a.md-button .h4{
 }
 a.warn,
 button.warn{
-  color: $alert_red
+  color: $alert_red;
   svg {
-    fill: $alert_red;
+    // fill: $alert_red;
   }
 }
 
@@ -409,6 +410,9 @@ md-toast.yellow {
   background-color: $yellow;
 }
 
+md-checkbox.md-checked .md-icon {
+    background-color: $blue;
+}
 md-checkbox .md-label {
     pointer-events: auto;
 }
@@ -424,7 +428,16 @@ md-checkbox .md-label span {
  *  SPINNER/PROGRESS BAR COMPONENTS
  */
 
-md-progress-linear .md-bar{
+md-progress-linear.md-bar.green {
+  background-color: $green;
+}
+md-progress-linear.green .md-container {
+  background-color: rgba($green, 0);
+}
+md-progress-linear.green .md-bar {
+  background-color: $green;
+}
+md-progress-linear.md-bar{
   background-color: $blue;
 }
 md-progress-linear.md-hue-3 .md-container{
@@ -1790,7 +1803,7 @@ button.doorbell-button {
 }
 .timeline_line {
   width: 500px;
-  border: 1px solid #4495AA;
+  border: 1px solid $blue;
   position: relative;
   top: 14px;
 }
@@ -1807,10 +1820,13 @@ button.doorbell-button {
   color: white;
   font-weight: bold;
   &.is-on {
-    background-color: #70D3EC;
+    border: 2px solid $blue;
+    background-color: $blue;
   }
   &.is-off {
-    background-color: $font_color_blue_grey;
+    background-color: none;
+    border: 2px solid $blue;
+    color: $blue;
   }
 }
 .timeline_stepName {
@@ -2285,6 +2301,7 @@ p.no-margin {
   }
 
 }
+
 
 .landing-page {
 
