@@ -223,9 +223,9 @@ a.md-button h4, a.md-button .h4{
 }
 a.warn,
 button.warn{
-  color: $alert_red
+  color: $alert_red;
   svg {
-    fill: $alert_red;
+    // fill: $alert_red;
   }
 }
 
@@ -1803,7 +1803,7 @@ button.doorbell-button {
 }
 .timeline_line {
   width: 500px;
-  border: 1px solid #4495AA;
+  border: 1px solid $blue;
   position: relative;
   top: 14px;
 }
@@ -1820,10 +1820,13 @@ button.doorbell-button {
   color: white;
   font-weight: bold;
   &.is-on {
-    background-color: #70D3EC;
+    border: 2px solid $blue;
+    background-color: $blue;
   }
   &.is-off {
-    background-color: $font_color_blue_grey;
+    background-color: none;
+    border: 2px solid $blue;
+    color: $blue;
   }
 }
 .timeline_stepName {

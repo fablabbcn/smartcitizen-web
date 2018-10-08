@@ -20,7 +20,7 @@
           this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/' + this.id + '/edit?step=2'});
         }
         this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit'});
-        if (true) {
+        if (object.kit_id) {
           this.dropdownOptions.push({text: 'UPLOAD CSV', value: '3', href: 'kits/' + this.id + '/upload'});
         }
       }
