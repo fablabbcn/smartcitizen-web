@@ -28,7 +28,8 @@
     "angular-aria": "^1.7.0",
     "angular-messages": "^1.7.2",
     "angular-animate": "^1.7.0",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.4"
@@ -45,6 +46,9 @@
       "dependencies": {
         "jquery": "~2.1.4"
       }
+    },
+    "socket.io-client": {
+      "main": ["./dist/socket.io.js"]
     },
     "lodash": {
       "main": "dist/lodash.js"
