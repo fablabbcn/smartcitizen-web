@@ -1369,6 +1369,101 @@
   'use strict';
 
   angular.module('app.components')
+    .directive('noDataBackdrop', noDataBackdrop);
+
+  /**
+   * Backdrop for chart section when kit has no data
+   * 
+   */
+  noDataBackdrop.$inject = [];
+
+  function noDataBackdrop() {
+    return {
+      restrict: 'A',
+      scope: {},
+      templateUrl: 'app/core/animation/backdrop/noDataBackdrop.html',
+      controller: function($scope, $timeout) {
+        var vm = this;
+
+        vm.kitWithoutData = false;
+        vm.scrollToComments = scrollToComments;
+
+        $scope.$on('kitWithoutData', function(ev, data) {
+
+          $timeout(function() {
+            vm.kit = data.kit;
+            vm.kitWithoutData = true;
+
+            if (data.belongsToUser) {
+              vm.user = 'owner';
+            } else {
+              vm.user = 'visitor';
+            }
+          }, 0);
+
+        });
+
+        function scrollToComments(){
+          location.hash = '';
+          location.hash = '#disqus_thread';
+        }
+      },
+      controllerAs: 'vm'
+    };
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('loadingBackdrop', loadingBackdrop);
+
+    /**
+     * Backdrop for app initialization and between states
+     * 
+     */
+    loadingBackdrop.$inject = [];
+    function loadingBackdrop() {
+      return {
+        templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
+        controller: function($scope) {
+          var vm = this;  
+          vm.isViewLoading = true;
+          vm.mapStateLoading = false;
+
+          // listen for app loading event
+          $scope.$on('viewLoading', function() {
+            vm.isViewLoading = true;
+            angular.element('#doorbell-button').hide();
+          });
+
+          $scope.$on('viewLoaded', function() {
+            vm.isViewLoading = false;
+            angular.element('#doorbell-button').show();
+          });
+
+          // listen for map state loading event 
+          $scope.$on('mapStateLoading', function() {
+            if(vm.isViewLoading) {
+              return;
+            }
+            vm.mapStateLoading = true;
+          });
+
+          $scope.$on('mapStateLoaded', function() {
+            vm.mapStateLoading = false;
+          });
+        },
+        controllerAs: 'vm'
+      };
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .factory('User', ['COUNTRY_CODES', function(COUNTRY_CODES) {
 
       /**
@@ -1655,6 +1750,7 @@
         if (object.kit_id) {
           this.dropdownOptions.push({text: 'UPLOAD CSV', value: '3', href: 'kits/' + this.id + '/upload'});
         }
+
       }
       PreviewKit.prototype = Object.create(Kit.prototype);
       PreviewKit.prototype.constructor = Kit;
@@ -1807,101 +1903,6 @@
 
       return FullKit;
     }]); 
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('noDataBackdrop', noDataBackdrop);
-
-  /**
-   * Backdrop for chart section when kit has no data
-   * 
-   */
-  noDataBackdrop.$inject = [];
-
-  function noDataBackdrop() {
-    return {
-      restrict: 'A',
-      scope: {},
-      templateUrl: 'app/core/animation/backdrop/noDataBackdrop.html',
-      controller: function($scope, $timeout) {
-        var vm = this;
-
-        vm.kitWithoutData = false;
-        vm.scrollToComments = scrollToComments;
-
-        $scope.$on('kitWithoutData', function(ev, data) {
-
-          $timeout(function() {
-            vm.kit = data.kit;
-            vm.kitWithoutData = true;
-
-            if (data.belongsToUser) {
-              vm.user = 'owner';
-            } else {
-              vm.user = 'visitor';
-            }
-          }, 0);
-
-        });
-
-        function scrollToComments(){
-          location.hash = '';
-          location.hash = '#disqus_thread';
-        }
-      },
-      controllerAs: 'vm'
-    };
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('loadingBackdrop', loadingBackdrop);
-
-    /**
-     * Backdrop for app initialization and between states
-     * 
-     */
-    loadingBackdrop.$inject = [];
-    function loadingBackdrop() {
-      return {
-        templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
-        controller: function($scope) {
-          var vm = this;  
-          vm.isViewLoading = true;
-          vm.mapStateLoading = false;
-
-          // listen for app loading event
-          $scope.$on('viewLoading', function() {
-            vm.isViewLoading = true;
-            angular.element('#doorbell-button').hide();
-          });
-
-          $scope.$on('viewLoaded', function() {
-            vm.isViewLoading = false;
-            angular.element('#doorbell-button').show();
-          });
-
-          // listen for map state loading event 
-          $scope.$on('mapStateLoading', function() {
-            if(vm.isViewLoading) {
-              return;
-            }
-            vm.mapStateLoading = true;
-          });
-
-          $scope.$on('mapStateLoaded', function() {
-            vm.mapStateLoading = false;
-          });
-        },
-        controllerAs: 'vm'
-      };
-    }
 })();
 
 (function() {
@@ -2466,6 +2467,71 @@ angular.module('app.components')
   'use strict';
 
   angular.module('app.components')
+    .controller('PasswordResetController', PasswordResetController);
+
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
+      'animation', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $timeout,
+      animation, $location, alert, auth) {
+        
+      var vm = this;
+      vm.showForm = false;
+      vm.form = {};
+      vm.isDifferent = false;
+      vm.answer = answer;
+
+      initialize();
+      ///////////
+
+      function initialize() {
+        $timeout(function() {
+          animation.viewLoaded();
+        }, 500);
+        getUserData();
+      }
+
+      function getUserData() {
+        auth.getResetPassword($stateParams.code)
+          .then(function() {
+            vm.showForm = true;
+          })
+          .catch(function() {
+            alert.error('Wrong url');
+            $location.path('/');
+          });
+      }
+
+      function answer(data) {
+        vm.waitingFromServer = true;
+        vm.errors = undefined;
+
+        if(data.newPassword === data.confirmPassword) {
+          vm.isDifferent = false;
+        } else {
+          vm.isDifferent = true;
+          return;
+        }
+
+        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
+          .then(function() {
+            alert.success('Your data was updated successfully');
+            $location.path('/profile');
+          })
+          .catch(function(err) {
+            alert.error('Your data wasn\'t updated');
+            vm.errors = err.data.errors;
+          })
+          .finally(function() {
+            vm.waitingFromServer = false;
+          });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .controller('SignupModalController', SignupModalController);
 
     SignupModalController.$inject = ['$scope', '$mdDialog', 'user',
@@ -2622,71 +2688,6 @@ angular.module('app.components')
                 return new SearchResult(object);
               }
             });
-          });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('PasswordResetController', PasswordResetController);
-
-    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
-      'animation', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $timeout,
-      animation, $location, alert, auth) {
-        
-      var vm = this;
-      vm.showForm = false;
-      vm.form = {};
-      vm.isDifferent = false;
-      vm.answer = answer;
-
-      initialize();
-      ///////////
-
-      function initialize() {
-        $timeout(function() {
-          animation.viewLoaded();
-        }, 500);
-        getUserData();
-      }
-
-      function getUserData() {
-        auth.getResetPassword($stateParams.code)
-          .then(function() {
-            vm.showForm = true;
-          })
-          .catch(function() {
-            alert.error('Wrong url');
-            $location.path('/');
-          });
-      }
-
-      function answer(data) {
-        vm.waitingFromServer = true;
-        vm.errors = undefined;
-
-        if(data.newPassword === data.confirmPassword) {
-          vm.isDifferent = false;
-        } else {
-          vm.isDifferent = true;
-          return;
-        }
-
-        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
-          .then(function() {
-            alert.success('Your data was updated successfully');
-            $location.path('/profile');
-          })
-          .catch(function(err) {
-            alert.error('Your data wasn\'t updated');
-            vm.errors = err.data.errors;
-          })
-          .finally(function() {
-            vm.waitingFromServer = false;
           });
       }
     }
@@ -4670,6 +4671,823 @@ function cookiesLaw($cookies) {
       }
     }
 
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Unused directive. Double-check before removing.
+   * 
+   */
+  angular.module('app.components')
+    .directive('slide', slide)
+    .directive('slideMenu', slideMenu);
+
+    function slideMenu() {
+      return {
+        controller: controller,
+        link: link
+      };
+
+      function link(scope, element) {
+        scope.element = element;
+      }
+
+      function controller($scope) {
+        $scope.slidePosition = 0;
+        $scope.slideSize = 20;
+
+        this.getTimesSlided = function() {
+          return $scope.slideSize;
+        };
+        this.getPosition = function() {
+          return $scope.slidePosition * $scope.slideSize;
+        };
+        this.decrementPosition = function() {
+          $scope.slidePosition -= 1;
+        };
+        this.incrementPosition = function() {
+          $scope.slidePosition += 1;
+        };
+        this.scrollIsValid = function(direction) {
+          var scrollPosition = $scope.element.scrollLeft();
+          console.log('scrollpos', scrollPosition);
+          if(direction === 'left') {
+            return scrollPosition > 0 && $scope.slidePosition >= 0;
+          } else if(direction === 'right') {
+            return scrollPosition < 300;
+          }
+        };
+      }
+    }
+
+    slide.$inject = [];
+    function slide() {
+      return {
+        link: link, 
+        require: '^slide-menu',
+        restrict: 'A',
+        scope: {
+          direction: '@'
+        }
+      };
+
+      function link(scope, element, attr, slideMenuCtrl) {
+        //select first sensor container
+        var sensorsContainer = angular.element('.sensors_container');
+
+        element.on('click', function() {
+
+          if(slideMenuCtrl.scrollIsValid('left') && attr.direction === 'left') {
+            slideMenuCtrl.decrementPosition();                       
+            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition());
+            console.log(slideMenuCtrl.getPosition());  
+          } else if(slideMenuCtrl.scrollIsValid('right') && attr.direction === 'right') {
+            slideMenuCtrl.incrementPosition(); 
+            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition()); 
+            console.log(slideMenuCtrl.getPosition()); 
+          }          
+        });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('showPopupInfo', showPopupInfo);
+
+    /**
+     * Used to show/hide explanation of sensor value at kit dashboard
+     * 
+     */
+    showPopupInfo.$inject = [];
+    function showPopupInfo() {
+      return {
+        link: link
+      };
+
+      //////
+
+
+      function link(scope, elem) {
+        elem.on('mouseenter', function() {
+          angular.element('.sensor_data_description').css('display', 'inline-block');
+        });
+        elem.on('mouseleave', function() {
+          angular.element('.sensor_data_description').css('display', 'none');
+        });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('showPopup', showPopup);
+
+    /**
+     * Used on kit dashboard to open full sensor description
+     */
+
+    showPopup.$inject = [];
+    function showPopup() {
+      return {
+        link: link
+      };
+
+      /////
+
+      function link(scope, element) {
+        element.on('click', function() {
+          var text = angular.element('.sensor_description_preview').text();
+          if(text.length < 140) {
+            return;
+          }
+          angular.element('.sensor_description_preview').hide();
+          angular.element('.sensor_description_full').show();
+        });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('moveFilters', moveFilters);
+
+    /**
+     * Moves map filters when scrolling
+     * 
+     */
+    moveFilters.$inject = ['$window', '$timeout'];
+    function moveFilters($window, $timeout) {
+      return {
+        link: link
+      };
+
+      function link(scope, elem) {
+        var chartHeight;
+        $timeout(function() {
+          chartHeight = angular.element('.kit_chart').height();          
+        }, 1000);
+
+        /*
+        angular.element($window).on('scroll', function() {
+          var windowPosition = document.body.scrollTop;
+          if(chartHeight > windowPosition) {
+            elem.css('bottom', 12 + windowPosition + 'px');
+          }
+        });
+        */
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .factory('layout', layout);
+
+
+    function layout() {
+
+      var kitHeight;
+
+      var service = {
+        setKit: setKit,
+        getKit: getKit
+      };
+      return service;
+
+      function setKit(height) {
+        kitHeight = height;
+      }
+
+      function getKit() {
+        return kitHeight;
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('horizontalScroll', horizontalScroll);
+
+  /**
+   * Used to highlight and unhighlight buttons on the kit dashboard when scrolling horizontally
+   * 
+   */
+  horizontalScroll.$inject = ['$window', '$timeout'];
+  function horizontalScroll($window, $timeout) {
+    return {
+      link: link,
+      restrict: 'A'
+    };
+
+    ///////////////////
+
+
+    function link(scope, element) {
+
+      element.on('scroll', function() {
+        // horizontal scroll position
+        var position = angular.element(this).scrollLeft();
+        // real width of element
+        var scrollWidth = this.scrollWidth;
+        // visible width of element
+        var width = angular.element(this).width();
+
+        // if you cannot scroll, unhighlight both
+        if(scrollWidth === width) {
+          angular.element('.button_scroll_left').css('opacity', '0.5');
+          angular.element('.button_scroll_right').css('opacity', '0.5');          
+        }
+        // if scroll is in the middle, highlight both
+        if(scrollWidth - width > 2) {
+          angular.element('.button_scroll_left').css('opacity', '1');          
+          angular.element('.button_scroll_right').css('opacity', '1');
+        }
+        // if scroll is at the far right, unhighligh right button
+        if(scrollWidth - width - position <= 2) {
+          angular.element('.button_scroll_right').css('opacity', '0.5');
+          return;
+        }
+        // if scroll is at the far left, unhighligh left button
+        if(position === 0) { 
+          angular.element('.button_scroll_left').css('opacity', '0.5');
+          return;
+        } 
+
+        //set opacity back to normal otherwise
+        angular.element('.button_scroll_left').css('opacity', '1');
+        angular.element('.button_scroll_right').css('opacity', '1');
+      });
+
+      $timeout(function() {
+        element.trigger('scroll');        
+      });
+
+      angular.element($window).on('resize', function() {
+        $timeout(function() {
+          element.trigger('scroll');
+        }, 1000);
+      });
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('hidePopup', hidePopup);
+
+    /**
+     * Used on kit dashboard to hide popup with full sensor description
+     * 
+     */
+    
+    hidePopup.$inject = [];
+    function hidePopup() {
+      return {
+        link: link
+      };
+
+      /////////////
+
+      function link(scope, elem) {
+        elem.on('mouseleave', function() {
+          angular.element('.sensor_description_preview').show();
+          angular.element('.sensor_description_full').hide();            
+        });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('disableScroll', disableScroll);
+
+    disableScroll.$inject = ['$timeout'];
+    function disableScroll($timeout) {
+      return {
+        // link: {
+          // pre: link
+        // },
+        compile: link,
+        restrict: 'A',
+        priority: 100000
+      };
+
+
+      //////////////////////
+
+      function link(elem) {
+        console.log('i', elem);
+        // var select = elem.find('md-select'); 
+        // angular.element(select).on('click', function() {
+        elem.on('click', function() {
+          console.log('e'); 
+          angular.element(document.body).css('overflow', 'hidden');
+          $timeout(function() {
+            angular.element(document.body).css('overflow', 'initial'); 
+          });
+        });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .factory('animation', animation);
+    
+    /**
+     * Used to emit events from rootscope. 
+     *
+     * This events are then listened by $scope on controllers and directives that care about that particular event
+     */
+    
+    animation.$inject = ['$rootScope'];
+    function animation($rootScope) {
+
+    	var service = {
+        blur: blur,
+        unblur: unblur,
+        removeNav: removeNav,
+        addNav: addNav,
+        showChartSpinner: showChartSpinner,
+        hideChartSpinner: hideChartSpinner,
+        kitLoaded: kitLoaded,
+        showPasswordRecovery: showPasswordRecovery,
+        showLogin: showLogin,
+        showSignup: showSignup,
+        showPasswordReset: showPasswordReset,
+        hideAlert: hideAlert,
+        viewLoading: viewLoading,
+        viewLoaded: viewLoaded,
+        kitWithoutData: kitWithoutData,
+        goToLocation: goToLocation,
+        mapStateLoading: mapStateLoading,
+        mapStateLoaded: mapStateLoaded
+    	};
+    	return service;
+
+      //////////////
+      
+    	function blur() {
+        $rootScope.$broadcast('blur');
+    	}
+    	function unblur() {
+    	  $rootScope.$broadcast('unblur');
+    	}
+      function removeNav() {
+        $rootScope.$broadcast('removeNav');
+      }
+      function addNav() {
+        $rootScope.$broadcast('addNav');
+      }
+      function showChartSpinner() {
+        $rootScope.$broadcast('showChartSpinner');
+      }
+      function hideChartSpinner() {
+        $rootScope.$broadcast('hideChartSpinner');
+      }
+      function kitLoaded(data) {
+        $rootScope.$broadcast('kitLoaded', data);
+      }
+      function showPasswordRecovery() {
+        $rootScope.$broadcast('showPasswordRecovery');
+      }
+      function showLogin() {
+        $rootScope.$broadcast('showLogin');
+      }
+      function showSignup() {
+        $rootScope.$broadcast('showSignup');
+      }
+      function showPasswordReset() {
+        $rootScope.$broadcast('showPasswordReset');
+      }
+      function hideAlert() {
+        $rootScope.$broadcast('hideAlert');
+      }
+      function viewLoading() {
+        $rootScope.$broadcast('viewLoading');
+      }
+      function viewLoaded() {
+        $rootScope.$broadcast('viewLoaded');
+      }
+      function kitWithoutData(data) {
+        $rootScope.$broadcast('kitWithoutData', data);
+      }
+      function goToLocation(data) {
+        $rootScope.$broadcast('goToLocation', data);
+      }
+      function mapStateLoading() {
+        $rootScope.$broadcast('mapStateLoading');
+      }
+      function mapStateLoaded() {
+        $rootScope.$broadcast('mapStateLoaded');
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+    /**
+     * TODO: This directives can be split up each one in a different file
+     */
+
+    angular.module('app.components')
+      .directive('moveDown', moveDown)
+      .directive('stick', stick)
+      .directive('blur', blur)
+      .directive('focus', focus)
+      .directive('changeMapHeight', changeMapHeight)
+      .directive('changeContentMargin', changeContentMargin)
+      .directive('focusInput', focusInput);
+
+    /**
+     * It moves down kit section to ease the transition after the kit menu is sticked to the top
+     *
+     */
+    moveDown.$inject = [];
+    function moveDown() {
+
+      function link(scope, element) {
+        scope.$watch('moveDown', function(isTrue) {
+          if(isTrue) {
+            element.addClass('move_down');
+          } else {
+            element.removeClass('move_down');
+          }
+        });
+      }
+
+      return {
+        link: link,
+        scope: false,
+        restrict: 'A'
+      };
+    }
+
+    /**
+     * It sticks kit menu when kit menu touchs navbar on scrolling
+     *
+     */
+    stick.$inject = ['$window', '$timeout'];
+    function stick($window, $timeout) {
+      function link(scope, element) {
+        var elementPosition = element[0].offsetTop;
+        //var elementHeight = element[0].offsetHeight;
+        var navbarHeight = angular.element('.stickNav').height();
+
+        $timeout(function() {
+          elementPosition = element[0].offsetTop;
+          //var elementHeight = element[0].offsetHeight;
+          navbarHeight = angular.element('.stickNav').height();
+        }, 1000);
+
+
+        angular.element($window).on('scroll', function() {
+          var windowPosition = document.body.scrollTop;
+
+          //sticking menu and moving up/down
+          if(windowPosition + navbarHeight >= elementPosition) {
+            element.addClass('stickMenu');
+            scope.$apply(function() {
+              scope.moveDown = true;
+            });
+          } else {
+            element.removeClass('stickMenu');
+            scope.$apply(function() {
+              scope.moveDown = false;
+            });
+          }
+        });
+      }
+
+      return {
+        link: link,
+        scope: false,
+        restrict: 'A'
+      };
+    }
+
+    /**
+     * Unused directive. Double-check is not being used before removing it
+     *
+     */
+
+    function blur() {
+
+      function link(scope, element) {
+
+        scope.$on('blur', function() {
+          element.addClass('blur');
+        });
+
+        scope.$on('unblur', function() {
+          element.removeClass('blur');
+        });
+      }
+
+      return {
+        link: link,
+        scope: false,
+        restrict: 'A'
+      };
+    }
+
+    /**
+     * Used to remove nav and unable scrolling when searching
+     *
+     */
+    focus.$inject = ['animation'];
+    function focus(animation) {
+      function link(scope, element) {
+        element.on('focusin', function() {
+          animation.removeNav();
+        });
+
+        element.on('focusout', function() {
+          animation.addNav();
+        });
+
+        var searchInput = element.find('input');
+        searchInput.on('blur', function() {
+          //enable scrolling on body when search input is not active
+          angular.element(document.body).css('overflow', 'auto');
+        });
+
+        searchInput.on('focus', function() {
+          angular.element(document.body).css('overflow', 'hidden');
+        });
+      }
+
+      return {
+        link: link
+      };
+    }
+
+    /**
+     * Changes map section based on screen size
+     *
+     */
+    changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
+    function changeMapHeight($document, layout, $timeout) {
+      function link(scope, element) {
+
+        var screenHeight = $document[0].body.clientHeight;
+        var navbarHeight = angular.element('.stickNav').height();
+
+        // var overviewHeight = angular.element('.kit_overview').height();
+        // var menuHeight = angular.element('.kit_menu').height();
+        // var chartHeight = angular.element('.kit_chart').height();
+
+        function resizeMap(){
+          $timeout(function() {
+            var overviewHeight = angular.element('.over_map').height();
+
+            var objectsHeight = navbarHeight + overviewHeight;
+            var objectsHeightPercentage = parseInt((objectsHeight * 100) / screenHeight);
+            var mapHeightPercentage = 100 - objectsHeightPercentage;
+
+            element.css('height', mapHeightPercentage + '%');
+
+            var aboveTheFoldHeight = screenHeight - overviewHeight;
+            angular
+              .element('section[change-content-margin]')
+              .css('margin-top', aboveTheFoldHeight + 'px');
+          });
+        }
+
+        resizeMap();
+
+        scope.element = element;
+
+        scope.$on('resizeMapHeight',function(){
+          resizeMap();
+        });
+
+      }
+
+      return {
+        link: link,
+        scope: true,
+        restrict: 'A'
+      };
+    }
+
+    /**
+     * Changes margin on kit section based on above-the-fold space left after map section is resize
+     */
+
+    changeContentMargin.$inject = ['layout', '$timeout', '$document'];
+    function changeContentMargin(layout, $timeout, $document) {
+      function link(scope, element) {
+          var screenHeight = $document[0].body.clientHeight;
+
+          var overviewHeight = angular.element('.over_map').height();
+
+          var aboveTheFoldHeight = screenHeight - overviewHeight;
+          element.css('margin-top', aboveTheFoldHeight + 'px');
+      }
+
+      return {
+        link: link
+      };
+    }
+
+    /**
+     * Fixes autofocus for inputs that are inside modals
+     *
+     */
+    focusInput.$inject = ['$timeout'];
+    function focusInput($timeout) {
+      function link(scope, elem) {
+        $timeout(function() {
+          elem.focus();
+        });
+      }
+      return {
+        link: link
+      };
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .directive('activeButton', activeButton);
+
+    /**
+     * Used to highlight and unhighlight buttons on kit menu
+     *
+     * It attaches click handlers dynamically
+     */
+
+    activeButton.$inject = ['$timeout', '$window'];
+    function activeButton($timeout, $window) {
+      return {
+        link: link,
+        restrict: 'A'
+
+      };
+
+      ////////////////////////////
+
+      function link(scope, element) {
+        var childrens = element.children();
+        var container;
+
+        $timeout(function() {
+          var navbar = angular.element('.stickNav');
+          var kitMenu = angular.element('.kit_menu');
+          var kitOverview = angular.element('.kit_overview');
+          var kitDashboard = angular.element('.kit_chart');
+          var kitDetails = angular.element('.kit_details');
+          var kitOwner = angular.element('.kit_owner');
+          var kitComments = angular.element('.kit_comments');
+
+          container = {
+            navbar: {
+              height: navbar.height()
+            },
+            kitMenu: {
+              height: kitMenu.height()
+            },
+            kitOverview: {
+              height: kitOverview.height(),
+              offset: kitOverview.offset().top,
+              buttonOrder: 0
+            },
+            kitDashboard: {
+              height: kitDashboard.height(),
+              offset: kitDashboard.offset().top,
+              buttonOrder: 40
+            },
+            kitDetails: {
+              height: kitDetails.height(),
+              offset: kitDetails.offset() ? kitDetails.offset().top : 0,
+              buttonOrder: 1
+            },
+            kitOwner: {
+              height: kitOwner.height(),
+              offset: kitOwner.offset() ? kitOwner.offset().top : 0,
+              buttonOrder: 2
+            },
+            kitComments: {
+              height: kitComments.height(),
+              offset: kitComments.offset() ? kitComments.offset().top : 0,
+              buttonOrder: 3
+            }
+          };
+        }, 1000);
+
+        function scrollTo(offset) {
+          if(!container) {
+            return;
+          }
+          angular.element($window).scrollTop(offset - container.navbar.height - container.kitMenu.height);
+        }
+
+        function getButton(buttonOrder) {
+          return childrens[buttonOrder];
+        }
+
+        function unHighlightButtons() {
+          //remove border, fill and stroke of every icon
+          var activeButton = angular.element('.md-button.button_active');
+          if(activeButton.length) {
+            activeButton.removeClass('button_active');
+
+            var strokeContainer = activeButton.find('.stroke_container');
+            strokeContainer.css('stroke', 'none');
+            strokeContainer.css('stroke-width', '1');
+
+            var fillContainer = strokeContainer.find('.fill_container');
+            fillContainer.css('fill', '#FF8600');
+          }
+        }
+
+        function highlightButton(button) {
+          var clickedButton = angular.element(button);
+          //add border, fill and stroke to every icon
+          clickedButton.addClass('button_active');
+
+          var strokeContainer = clickedButton.find('.stroke_container');
+          strokeContainer.css('stroke', 'white');
+          strokeContainer.css('stroke-width', '0.01px');
+
+          var fillContainer = strokeContainer.find('.fill_container');
+          fillContainer.css('fill', 'white');
+        }
+
+        //attach event handlers for clicks for every button and scroll to a section when clicked
+        _.each(childrens, function(button) {
+          angular.element(button).on('click', function() {
+            var buttonOrder = angular.element(this).index();
+            for(var elem in container) {
+              if(container[elem].buttonOrder === buttonOrder) {
+                var offset = container[elem].offset;
+                scrollTo(offset);
+                angular.element($window).trigger('scroll');
+              }
+            }
+          });
+        });
+
+        var currentSection;
+
+        //on scroll, check if window is on a section
+        angular.element($window).on('scroll', function() {
+          if(!container){ return; }
+
+          var windowPosition = document.body.scrollTop;
+          var appPosition = windowPosition + container.navbar.height + container.kitMenu.height;
+          var button;
+          if(currentSection !== 'none' && appPosition <= container.kitOverview.offset) {
+            button = getButton(container.kitOverview.buttonOrder);
+            unHighlightButtons();
+            currentSection = 'none';
+          } else if(currentSection !== 'overview' && appPosition >= container.kitOverview.offset && appPosition <= container.kitOverview.offset + container.kitOverview.height) {
+            button = getButton(container.kitOverview.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'overview';
+          } else if(currentSection !== 'details' && appPosition >= container.kitDetails.offset && appPosition <= container.kitDetails.offset + container.kitDetails.height) {
+            button = getButton(container.kitDetails.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'details';
+          } else if(currentSection !== 'owner' && appPosition >= container.kitOwner.offset && appPosition <= container.kitOwner.offset + container.kitOwner.height) {
+            button = getButton(container.kitOwner.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'owner';
+          } else if(currentSection !== 'comments' && appPosition >= container.kitComments.offset && appPosition <= container.kitComments.offset + container.kitOwner.height) {
+            button = getButton(container.kitComments.buttonOrder);
+            unHighlightButtons();
+            highlightButton(button);
+            currentSection = 'comments';
+          }
+        });
+      }
+    }
 })();
 
 (function(){
@@ -6793,823 +7611,6 @@ function cookiesLaw($cookies) {
       }
       function isAdmin(userData) {
         return userData.role === 'admin';
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Unused directive. Double-check before removing.
-   * 
-   */
-  angular.module('app.components')
-    .directive('slide', slide)
-    .directive('slideMenu', slideMenu);
-
-    function slideMenu() {
-      return {
-        controller: controller,
-        link: link
-      };
-
-      function link(scope, element) {
-        scope.element = element;
-      }
-
-      function controller($scope) {
-        $scope.slidePosition = 0;
-        $scope.slideSize = 20;
-
-        this.getTimesSlided = function() {
-          return $scope.slideSize;
-        };
-        this.getPosition = function() {
-          return $scope.slidePosition * $scope.slideSize;
-        };
-        this.decrementPosition = function() {
-          $scope.slidePosition -= 1;
-        };
-        this.incrementPosition = function() {
-          $scope.slidePosition += 1;
-        };
-        this.scrollIsValid = function(direction) {
-          var scrollPosition = $scope.element.scrollLeft();
-          console.log('scrollpos', scrollPosition);
-          if(direction === 'left') {
-            return scrollPosition > 0 && $scope.slidePosition >= 0;
-          } else if(direction === 'right') {
-            return scrollPosition < 300;
-          }
-        };
-      }
-    }
-
-    slide.$inject = [];
-    function slide() {
-      return {
-        link: link, 
-        require: '^slide-menu',
-        restrict: 'A',
-        scope: {
-          direction: '@'
-        }
-      };
-
-      function link(scope, element, attr, slideMenuCtrl) {
-        //select first sensor container
-        var sensorsContainer = angular.element('.sensors_container');
-
-        element.on('click', function() {
-
-          if(slideMenuCtrl.scrollIsValid('left') && attr.direction === 'left') {
-            slideMenuCtrl.decrementPosition();                       
-            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition());
-            console.log(slideMenuCtrl.getPosition());  
-          } else if(slideMenuCtrl.scrollIsValid('right') && attr.direction === 'right') {
-            slideMenuCtrl.incrementPosition(); 
-            sensorsContainer.scrollLeft(slideMenuCtrl.getPosition()); 
-            console.log(slideMenuCtrl.getPosition()); 
-          }          
-        });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('showPopupInfo', showPopupInfo);
-
-    /**
-     * Used to show/hide explanation of sensor value at kit dashboard
-     * 
-     */
-    showPopupInfo.$inject = [];
-    function showPopupInfo() {
-      return {
-        link: link
-      };
-
-      //////
-
-
-      function link(scope, elem) {
-        elem.on('mouseenter', function() {
-          angular.element('.sensor_data_description').css('display', 'inline-block');
-        });
-        elem.on('mouseleave', function() {
-          angular.element('.sensor_data_description').css('display', 'none');
-        });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('showPopup', showPopup);
-
-    /**
-     * Used on kit dashboard to open full sensor description
-     */
-
-    showPopup.$inject = [];
-    function showPopup() {
-      return {
-        link: link
-      };
-
-      /////
-
-      function link(scope, element) {
-        element.on('click', function() {
-          var text = angular.element('.sensor_description_preview').text();
-          if(text.length < 140) {
-            return;
-          }
-          angular.element('.sensor_description_preview').hide();
-          angular.element('.sensor_description_full').show();
-        });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('moveFilters', moveFilters);
-
-    /**
-     * Moves map filters when scrolling
-     * 
-     */
-    moveFilters.$inject = ['$window', '$timeout'];
-    function moveFilters($window, $timeout) {
-      return {
-        link: link
-      };
-
-      function link(scope, elem) {
-        var chartHeight;
-        $timeout(function() {
-          chartHeight = angular.element('.kit_chart').height();          
-        }, 1000);
-
-        /*
-        angular.element($window).on('scroll', function() {
-          var windowPosition = document.body.scrollTop;
-          if(chartHeight > windowPosition) {
-            elem.css('bottom', 12 + windowPosition + 'px');
-          }
-        });
-        */
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('layout', layout);
-
-
-    function layout() {
-
-      var kitHeight;
-
-      var service = {
-        setKit: setKit,
-        getKit: getKit
-      };
-      return service;
-
-      function setKit(height) {
-        kitHeight = height;
-      }
-
-      function getKit() {
-        return kitHeight;
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('horizontalScroll', horizontalScroll);
-
-  /**
-   * Used to highlight and unhighlight buttons on the kit dashboard when scrolling horizontally
-   * 
-   */
-  horizontalScroll.$inject = ['$window', '$timeout'];
-  function horizontalScroll($window, $timeout) {
-    return {
-      link: link,
-      restrict: 'A'
-    };
-
-    ///////////////////
-
-
-    function link(scope, element) {
-
-      element.on('scroll', function() {
-        // horizontal scroll position
-        var position = angular.element(this).scrollLeft();
-        // real width of element
-        var scrollWidth = this.scrollWidth;
-        // visible width of element
-        var width = angular.element(this).width();
-
-        // if you cannot scroll, unhighlight both
-        if(scrollWidth === width) {
-          angular.element('.button_scroll_left').css('opacity', '0.5');
-          angular.element('.button_scroll_right').css('opacity', '0.5');          
-        }
-        // if scroll is in the middle, highlight both
-        if(scrollWidth - width > 2) {
-          angular.element('.button_scroll_left').css('opacity', '1');          
-          angular.element('.button_scroll_right').css('opacity', '1');
-        }
-        // if scroll is at the far right, unhighligh right button
-        if(scrollWidth - width - position <= 2) {
-          angular.element('.button_scroll_right').css('opacity', '0.5');
-          return;
-        }
-        // if scroll is at the far left, unhighligh left button
-        if(position === 0) { 
-          angular.element('.button_scroll_left').css('opacity', '0.5');
-          return;
-        } 
-
-        //set opacity back to normal otherwise
-        angular.element('.button_scroll_left').css('opacity', '1');
-        angular.element('.button_scroll_right').css('opacity', '1');
-      });
-
-      $timeout(function() {
-        element.trigger('scroll');        
-      });
-
-      angular.element($window).on('resize', function() {
-        $timeout(function() {
-          element.trigger('scroll');
-        }, 1000);
-      });
-    }
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('hidePopup', hidePopup);
-
-    /**
-     * Used on kit dashboard to hide popup with full sensor description
-     * 
-     */
-    
-    hidePopup.$inject = [];
-    function hidePopup() {
-      return {
-        link: link
-      };
-
-      /////////////
-
-      function link(scope, elem) {
-        elem.on('mouseleave', function() {
-          angular.element('.sensor_description_preview').show();
-          angular.element('.sensor_description_full').hide();            
-        });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('disableScroll', disableScroll);
-
-    disableScroll.$inject = ['$timeout'];
-    function disableScroll($timeout) {
-      return {
-        // link: {
-          // pre: link
-        // },
-        compile: link,
-        restrict: 'A',
-        priority: 100000
-      };
-
-
-      //////////////////////
-
-      function link(elem) {
-        console.log('i', elem);
-        // var select = elem.find('md-select'); 
-        // angular.element(select).on('click', function() {
-        elem.on('click', function() {
-          console.log('e'); 
-          angular.element(document.body).css('overflow', 'hidden');
-          $timeout(function() {
-            angular.element(document.body).css('overflow', 'initial'); 
-          });
-        });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('animation', animation);
-    
-    /**
-     * Used to emit events from rootscope. 
-     *
-     * This events are then listened by $scope on controllers and directives that care about that particular event
-     */
-    
-    animation.$inject = ['$rootScope'];
-    function animation($rootScope) {
-
-    	var service = {
-        blur: blur,
-        unblur: unblur,
-        removeNav: removeNav,
-        addNav: addNav,
-        showChartSpinner: showChartSpinner,
-        hideChartSpinner: hideChartSpinner,
-        kitLoaded: kitLoaded,
-        showPasswordRecovery: showPasswordRecovery,
-        showLogin: showLogin,
-        showSignup: showSignup,
-        showPasswordReset: showPasswordReset,
-        hideAlert: hideAlert,
-        viewLoading: viewLoading,
-        viewLoaded: viewLoaded,
-        kitWithoutData: kitWithoutData,
-        goToLocation: goToLocation,
-        mapStateLoading: mapStateLoading,
-        mapStateLoaded: mapStateLoaded
-    	};
-    	return service;
-
-      //////////////
-      
-    	function blur() {
-        $rootScope.$broadcast('blur');
-    	}
-    	function unblur() {
-    	  $rootScope.$broadcast('unblur');
-    	}
-      function removeNav() {
-        $rootScope.$broadcast('removeNav');
-      }
-      function addNav() {
-        $rootScope.$broadcast('addNav');
-      }
-      function showChartSpinner() {
-        $rootScope.$broadcast('showChartSpinner');
-      }
-      function hideChartSpinner() {
-        $rootScope.$broadcast('hideChartSpinner');
-      }
-      function kitLoaded(data) {
-        $rootScope.$broadcast('kitLoaded', data);
-      }
-      function showPasswordRecovery() {
-        $rootScope.$broadcast('showPasswordRecovery');
-      }
-      function showLogin() {
-        $rootScope.$broadcast('showLogin');
-      }
-      function showSignup() {
-        $rootScope.$broadcast('showSignup');
-      }
-      function showPasswordReset() {
-        $rootScope.$broadcast('showPasswordReset');
-      }
-      function hideAlert() {
-        $rootScope.$broadcast('hideAlert');
-      }
-      function viewLoading() {
-        $rootScope.$broadcast('viewLoading');
-      }
-      function viewLoaded() {
-        $rootScope.$broadcast('viewLoaded');
-      }
-      function kitWithoutData(data) {
-        $rootScope.$broadcast('kitWithoutData', data);
-      }
-      function goToLocation(data) {
-        $rootScope.$broadcast('goToLocation', data);
-      }
-      function mapStateLoading() {
-        $rootScope.$broadcast('mapStateLoading');
-      }
-      function mapStateLoaded() {
-        $rootScope.$broadcast('mapStateLoaded');
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-    /**
-     * TODO: This directives can be split up each one in a different file
-     */
-
-    angular.module('app.components')
-      .directive('moveDown', moveDown)
-      .directive('stick', stick)
-      .directive('blur', blur)
-      .directive('focus', focus)
-      .directive('changeMapHeight', changeMapHeight)
-      .directive('changeContentMargin', changeContentMargin)
-      .directive('focusInput', focusInput);
-
-    /**
-     * It moves down kit section to ease the transition after the kit menu is sticked to the top
-     *
-     */
-    moveDown.$inject = [];
-    function moveDown() {
-
-      function link(scope, element) {
-        scope.$watch('moveDown', function(isTrue) {
-          if(isTrue) {
-            element.addClass('move_down');
-          } else {
-            element.removeClass('move_down');
-          }
-        });
-      }
-
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
-    }
-
-    /**
-     * It sticks kit menu when kit menu touchs navbar on scrolling
-     *
-     */
-    stick.$inject = ['$window', '$timeout'];
-    function stick($window, $timeout) {
-      function link(scope, element) {
-        var elementPosition = element[0].offsetTop;
-        //var elementHeight = element[0].offsetHeight;
-        var navbarHeight = angular.element('.stickNav').height();
-
-        $timeout(function() {
-          elementPosition = element[0].offsetTop;
-          //var elementHeight = element[0].offsetHeight;
-          navbarHeight = angular.element('.stickNav').height();
-        }, 1000);
-
-
-        angular.element($window).on('scroll', function() {
-          var windowPosition = document.body.scrollTop;
-
-          //sticking menu and moving up/down
-          if(windowPosition + navbarHeight >= elementPosition) {
-            element.addClass('stickMenu');
-            scope.$apply(function() {
-              scope.moveDown = true;
-            });
-          } else {
-            element.removeClass('stickMenu');
-            scope.$apply(function() {
-              scope.moveDown = false;
-            });
-          }
-        });
-      }
-
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
-    }
-
-    /**
-     * Unused directive. Double-check is not being used before removing it
-     *
-     */
-
-    function blur() {
-
-      function link(scope, element) {
-
-        scope.$on('blur', function() {
-          element.addClass('blur');
-        });
-
-        scope.$on('unblur', function() {
-          element.removeClass('blur');
-        });
-      }
-
-      return {
-        link: link,
-        scope: false,
-        restrict: 'A'
-      };
-    }
-
-    /**
-     * Used to remove nav and unable scrolling when searching
-     *
-     */
-    focus.$inject = ['animation'];
-    function focus(animation) {
-      function link(scope, element) {
-        element.on('focusin', function() {
-          animation.removeNav();
-        });
-
-        element.on('focusout', function() {
-          animation.addNav();
-        });
-
-        var searchInput = element.find('input');
-        searchInput.on('blur', function() {
-          //enable scrolling on body when search input is not active
-          angular.element(document.body).css('overflow', 'auto');
-        });
-
-        searchInput.on('focus', function() {
-          angular.element(document.body).css('overflow', 'hidden');
-        });
-      }
-
-      return {
-        link: link
-      };
-    }
-
-    /**
-     * Changes map section based on screen size
-     *
-     */
-    changeMapHeight.$inject = ['$document', 'layout', '$timeout'];
-    function changeMapHeight($document, layout, $timeout) {
-      function link(scope, element) {
-
-        var screenHeight = $document[0].body.clientHeight;
-        var navbarHeight = angular.element('.stickNav').height();
-
-        // var overviewHeight = angular.element('.kit_overview').height();
-        // var menuHeight = angular.element('.kit_menu').height();
-        // var chartHeight = angular.element('.kit_chart').height();
-
-        function resizeMap(){
-          $timeout(function() {
-            var overviewHeight = angular.element('.over_map').height();
-
-            var objectsHeight = navbarHeight + overviewHeight;
-            var objectsHeightPercentage = parseInt((objectsHeight * 100) / screenHeight);
-            var mapHeightPercentage = 100 - objectsHeightPercentage;
-
-            element.css('height', mapHeightPercentage + '%');
-
-            var aboveTheFoldHeight = screenHeight - overviewHeight;
-            angular
-              .element('section[change-content-margin]')
-              .css('margin-top', aboveTheFoldHeight + 'px');
-          });
-        }
-
-        resizeMap();
-
-        scope.element = element;
-
-        scope.$on('resizeMapHeight',function(){
-          resizeMap();
-        });
-
-      }
-
-      return {
-        link: link,
-        scope: true,
-        restrict: 'A'
-      };
-    }
-
-    /**
-     * Changes margin on kit section based on above-the-fold space left after map section is resize
-     */
-
-    changeContentMargin.$inject = ['layout', '$timeout', '$document'];
-    function changeContentMargin(layout, $timeout, $document) {
-      function link(scope, element) {
-          var screenHeight = $document[0].body.clientHeight;
-
-          var overviewHeight = angular.element('.over_map').height();
-
-          var aboveTheFoldHeight = screenHeight - overviewHeight;
-          element.css('margin-top', aboveTheFoldHeight + 'px');
-      }
-
-      return {
-        link: link
-      };
-    }
-
-    /**
-     * Fixes autofocus for inputs that are inside modals
-     *
-     */
-    focusInput.$inject = ['$timeout'];
-    function focusInput($timeout) {
-      function link(scope, elem) {
-        $timeout(function() {
-          elem.focus();
-        });
-      }
-      return {
-        link: link
-      };
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .directive('activeButton', activeButton);
-
-    /**
-     * Used to highlight and unhighlight buttons on kit menu
-     *
-     * It attaches click handlers dynamically
-     */
-
-    activeButton.$inject = ['$timeout', '$window'];
-    function activeButton($timeout, $window) {
-      return {
-        link: link,
-        restrict: 'A'
-
-      };
-
-      ////////////////////////////
-
-      function link(scope, element) {
-        var childrens = element.children();
-        var container;
-
-        $timeout(function() {
-          var navbar = angular.element('.stickNav');
-          var kitMenu = angular.element('.kit_menu');
-          var kitOverview = angular.element('.kit_overview');
-          var kitDashboard = angular.element('.kit_chart');
-          var kitDetails = angular.element('.kit_details');
-          var kitOwner = angular.element('.kit_owner');
-          var kitComments = angular.element('.kit_comments');
-
-          container = {
-            navbar: {
-              height: navbar.height()
-            },
-            kitMenu: {
-              height: kitMenu.height()
-            },
-            kitOverview: {
-              height: kitOverview.height(),
-              offset: kitOverview.offset().top,
-              buttonOrder: 0
-            },
-            kitDashboard: {
-              height: kitDashboard.height(),
-              offset: kitDashboard.offset().top,
-              buttonOrder: 40
-            },
-            kitDetails: {
-              height: kitDetails.height(),
-              offset: kitDetails.offset() ? kitDetails.offset().top : 0,
-              buttonOrder: 1
-            },
-            kitOwner: {
-              height: kitOwner.height(),
-              offset: kitOwner.offset() ? kitOwner.offset().top : 0,
-              buttonOrder: 2
-            },
-            kitComments: {
-              height: kitComments.height(),
-              offset: kitComments.offset() ? kitComments.offset().top : 0,
-              buttonOrder: 3
-            }
-          };
-        }, 1000);
-
-        function scrollTo(offset) {
-          if(!container) {
-            return;
-          }
-          angular.element($window).scrollTop(offset - container.navbar.height - container.kitMenu.height);
-        }
-
-        function getButton(buttonOrder) {
-          return childrens[buttonOrder];
-        }
-
-        function unHighlightButtons() {
-          //remove border, fill and stroke of every icon
-          var activeButton = angular.element('.md-button.button_active');
-          if(activeButton.length) {
-            activeButton.removeClass('button_active');
-
-            var strokeContainer = activeButton.find('.stroke_container');
-            strokeContainer.css('stroke', 'none');
-            strokeContainer.css('stroke-width', '1');
-
-            var fillContainer = strokeContainer.find('.fill_container');
-            fillContainer.css('fill', '#FF8600');
-          }
-        }
-
-        function highlightButton(button) {
-          var clickedButton = angular.element(button);
-          //add border, fill and stroke to every icon
-          clickedButton.addClass('button_active');
-
-          var strokeContainer = clickedButton.find('.stroke_container');
-          strokeContainer.css('stroke', 'white');
-          strokeContainer.css('stroke-width', '0.01px');
-
-          var fillContainer = strokeContainer.find('.fill_container');
-          fillContainer.css('fill', 'white');
-        }
-
-        //attach event handlers for clicks for every button and scroll to a section when clicked
-        _.each(childrens, function(button) {
-          angular.element(button).on('click', function() {
-            var buttonOrder = angular.element(this).index();
-            for(var elem in container) {
-              if(container[elem].buttonOrder === buttonOrder) {
-                var offset = container[elem].offset;
-                scrollTo(offset);
-                angular.element($window).trigger('scroll');
-              }
-            }
-          });
-        });
-
-        var currentSection;
-
-        //on scroll, check if window is on a section
-        angular.element($window).on('scroll', function() {
-          if(!container){ return; }
-
-          var windowPosition = document.body.scrollTop;
-          var appPosition = windowPosition + container.navbar.height + container.kitMenu.height;
-          var button;
-          if(currentSection !== 'none' && appPosition <= container.kitOverview.offset) {
-            button = getButton(container.kitOverview.buttonOrder);
-            unHighlightButtons();
-            currentSection = 'none';
-          } else if(currentSection !== 'overview' && appPosition >= container.kitOverview.offset && appPosition <= container.kitOverview.offset + container.kitOverview.height) {
-            button = getButton(container.kitOverview.buttonOrder);
-            unHighlightButtons();
-            highlightButton(button);
-            currentSection = 'overview';
-          } else if(currentSection !== 'details' && appPosition >= container.kitDetails.offset && appPosition <= container.kitDetails.offset + container.kitDetails.height) {
-            button = getButton(container.kitDetails.buttonOrder);
-            unHighlightButtons();
-            highlightButton(button);
-            currentSection = 'details';
-          } else if(currentSection !== 'owner' && appPosition >= container.kitOwner.offset && appPosition <= container.kitOwner.offset + container.kitOwner.height) {
-            button = getButton(container.kitOwner.buttonOrder);
-            unHighlightButtons();
-            highlightButton(button);
-            currentSection = 'owner';
-          } else if(currentSection !== 'comments' && appPosition >= container.kitComments.offset && appPosition <= container.kitComments.offset + container.kitOwner.height) {
-            button = getButton(container.kitComments.buttonOrder);
-            unHighlightButtons();
-            highlightButton(button);
-            currentSection = 'comments';
-          }
-        });
       }
     }
 })();
