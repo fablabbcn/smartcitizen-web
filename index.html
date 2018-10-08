@@ -10,9 +10,9 @@
 
     <!-- CSS Styles -->
 
-    <link rel="stylesheet" href="styles/vendor-c250cbc94e.css">
+    <link rel="stylesheet" href="styles/vendor-247adba94d.css">
 
-    <link rel="stylesheet" href="styles/app-74cca76f5a.css">
+    <link rel="stylesheet" href="styles/app-f99f726c63.css">
 
     <meta property="og:title"
       content="Smart Citizen : Citizen Science Platform for participatory processes of the people in the cities">
@@ -22,15 +22,18 @@
   </head>
   <body>
 
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+    <div id="outdated">
+      <h6>Your browser is out of date!</h6>
+      <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+      <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
 
     <div blur>
       <div cookies-law></div>
       <div loading-backdrop></div>
       <div ui-view autoscroll="false"></div>
     </div>
+
 
     <!-- GA stats -->
 
@@ -56,9 +59,9 @@
 
     <!-- JS Dependencies -->
 
-    <script src="https://cdn.socket.io/socket.io-1.4.8.js"></script>
+    <!-- <script src="https://cdn.socket.io/socket.io-1.4.8.js"></script> -->
 
-    <script src="scripts/vendor-b03da2672f.js"></script>
+    <script src="scripts/vendor-03a015478b.js"></script>
 
     <!-- Sentry Error Tracking -->
 
@@ -69,9 +72,39 @@
       }
     </script>
 
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
+    </script>
+
     <!-- The App JS -->
 
-    <script src="scripts/app-ae5443fb51.js"></script>
+    <script src="scripts/app-dcf9baf0c9.js"></script>
 
     <!-- TODO: change path depending on local or production. Add comments to gulp inject to work https://www.npmjs.com/package/gulp-inject. See gulp inject task -->
     <!-- <script src="app/components/kit/setupModule/scktool-app.js"></script> -->
