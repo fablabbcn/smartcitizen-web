@@ -78,3 +78,7 @@ For data that has been resolved from the router, I've normally appended 'Data' t
 
 * **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`.
 * **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.
+
+## Funding
+
+This work has received funding from the European Union's Horizon 2020 research and innovation program under the grant agreement [No. 689954](https://cordis.europa.eu/project/rcn/202639_en.html)
