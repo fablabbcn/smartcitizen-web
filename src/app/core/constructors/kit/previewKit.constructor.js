@@ -16,12 +16,13 @@
 
         this.dropdownOptions = [];
 
-        if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3){
-          this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/edit/' + this.id + '?step=2'});
+        if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3) {
+          this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/' + this.id + '/edit?step=2'});
         }
-
-        this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/edit/' + this.id});
-
+        this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit'});
+        if (object.kit_id) {
+          this.dropdownOptions.push({text: 'UPLOAD CSV', value: '3', href: 'kits/' + this.id + '/upload'});
+        }
       }
       PreviewKit.prototype = Object.create(Kit.prototype);
       PreviewKit.prototype.constructor = Kit;

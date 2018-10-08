@@ -204,8 +204,9 @@
           </div>
           <div flex="30" class="kit_details_manage" ng-if="vm.kitBelongsToUser">
             <div class="kit_details_manage_buttons">
-              <md-button style="font-size:18px" ng-href="/kits/edit/{{vm.kit.id}}" class="color-cyan" aria-label="">EDIT</md-button>
-              <md-button style="font-size:18px" ng-if="vm.kit.setupAvailable" ng-href="/kits/edit/{{vm.kit.id}}?step=2" class="" aria-label="">SET UP</md-button>
+              <md-button style="font-size:18px" ui-sref="layout.kitEdit({id: vm.kit.id})" class="color-cyan" aria-label="">EDIT</md-button>
+              <md-button style="font-size:18px" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" class="" aria-label="">SET UP</md-button>
+              <md-button style="font-size:18px" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" class="" aria-label="">CSV UPLOAD</md-button>
               <md-button style="font-size:18px" ng-click="vm.removeKit()" class="warn md-subhead" aria-label="">DELETE</md-button>
             </div>
             <div class="kit_details_manage_data">

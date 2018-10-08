@@ -21,6 +21,7 @@
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
+        postReadings: postReadings,
 				removeDevice: removeDevice,
         updateContext: updateContext
 	  	};
@@ -124,6 +125,12 @@
           .one('devices', kit.id)
           .customGET('readings/csv_archive');
       }
+
+			function postReadings(kit, readings) {
+				return Restangular
+          .one('devices', kit.id)
+          .post('readings', readings);
+			}
 
 			function removeDevice(deviceID){
 				return Restangular

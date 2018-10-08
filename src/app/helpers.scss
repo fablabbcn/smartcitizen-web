@@ -17,6 +17,12 @@
 .color-cyan{
   color: $terciary_color;
 }
+.color-green {
+  color: $green;
+  svg {
+    fill: $green;
+  }
+}
 .float-left{
   float: left;
 }
@@ -55,16 +61,25 @@
 
 // Background helpers
 .bg-white{
-  background: #fff;
+  background-color: #fff;
+}
+.bg-green{
+  background-color: $green;
 }
 .bg-blue{
-  background: $blue;
+  background-color: $blue;
 }
 .bg-red{
-  background: $red;
+  background-color: $red !important;
+}
+.bg-red-light{
+  background-color: rgba($red,.2);
 }
 .bg-yellow{
-  background: $yellow;
+  background-color: $yellow;
+}
+.bg-grey {
+  background-color: $grey !important;
 }
 
 // Button helpers
@@ -126,7 +141,7 @@
 }
 .btn-blue:hover{
   background: rgba($blue, 0.8);
-  color: white;
+  color: $off_black;
 }
 .btn-round-new{
   border-radius: 24px;
@@ -137,8 +152,8 @@
 }
 .btn-round{
   border: 0;
-  border-radius: 20px;
-  padding:0px 35px;
+  border-radius: 25px;
+  padding:5px 35px;
   font-size:18px;
 }
 .btn-cyan{
@@ -156,6 +171,9 @@
 
 
 // Margin - padding helpers
+.ml-0 {
+  margin-left: 0px;
+}
 .mr-10{
   margin-right: 10px;
 }
@@ -222,4 +240,20 @@ footer{
     font-size:12px !important;
     line-height:12px !important;
   }
+}
+
+// postion helpers
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+// size helpers
+.s-48 {
+  width: 48px;
+  height: 48px;
 }
