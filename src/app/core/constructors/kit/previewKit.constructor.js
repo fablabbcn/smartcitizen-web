@@ -23,6 +23,7 @@
         if (object.kit_id) {
           this.dropdownOptions.push({text: 'UPLOAD CSV', value: '3', href: 'kits/' + this.id + '/upload'});
         }
+
       }
       PreviewKit.prototype = Object.create(Kit.prototype);
       PreviewKit.prototype.constructor = Kit;
