@@ -8,7 +8,7 @@ deploy:
   skip_cleanup: true
   script: "./.travis-deploy.sh"
   on:
-    branch: develop
+    branch: master
 before_install:
 - openssl aes-256-cbc -K $encrypted_fb17a912150b_key -iv $encrypted_fb17a912150b_iv
   -in ed25519.enc -out ed25519 -d
