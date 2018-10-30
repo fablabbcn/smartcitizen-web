@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.6.1'
+lock '3.11'
 
 set :application, 'smartcitizen-web'
 set :repo_url, 'git@github.com:fablabbcn/smartcitizen-web.git'
