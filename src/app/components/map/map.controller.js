@@ -51,9 +51,9 @@
       };
 
       vm.center = {
-        lat: 13.14950321154457,
-        lng: -1.58203125,
-        zoom: 2
+        lat: $stateParams.lat ? parseInt($stateParams.lat, 10) : 13.14950321154457,
+        lng: $stateParams.lng ? parseInt($stateParams.lng, 10) : -1.58203125,
+        zoom: $stateParams.zoom ? parseInt($stateParams.zoom, 10) : 2
       };
 
 
@@ -98,6 +98,7 @@
         var availability = data.leafletEvent.target.options.myData.labels[0];
         ga('send', 'event', 'Kit Marker', 'click', availability);
 
+        if ($state.$current.name === 'embbed') { return; }
         $state.go('layout.home.kit', {id: id});
 
         // angular.element('section.map').scope().$broadcast('resizeMapHeight');

@@ -1012,6 +1012,13 @@ KIT TAGS MODULE
   background-color: $background_blue_light;
   padding-top:5px;
 
+  a {
+    color: $off_black;
+    &:hover {
+      color: $grey_darker;
+    }
+  }
+
   .popup_name {
     padding: 0 0 1px 8px;
     font-size: 16px;
