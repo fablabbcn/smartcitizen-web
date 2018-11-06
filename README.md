@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/test_coverage)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/test_coverage)
 
-The new SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
+The SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
 
 ### Prerequisites
 
@@ -25,7 +25,7 @@ cd smartcitizen-web
 ```
 
 ### Docker quickstart
-In development mode, enable the 'volume:' in docker-compose.yml so you won't need to rebuild after every file change.
+In development mode, enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
 This also means the image needs you to do `npm install` **locally** before running the container.
 It needs the `node_modules/` to exist.
 
@@ -75,6 +75,8 @@ Constants: <Name of constant uppercase joined by an underscore>. Ex: PROFILE_TOO
 For data that has been resolved from the router, I've normally appended 'Data' to the name.
 
 ### Deployment
+
+Master branch is auto deployed to https://staging.kits.smarticitizen.me/ which is on Github Pages
 
 * **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`.
 * **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.

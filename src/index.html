@@ -81,8 +81,38 @@
     <script src="https://cdn.ravenjs.com/3.17.0/angular/raven.min.js" crossorigin="anonymous"></script>
     <script>
       if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
-        Raven.config('https://ced21d09a9434443810225d47171123f@sentry.fab.city/4').install();
+        Raven.config('https://049aa038cc004e8aa8039966a6440ae9@sentry.fab.city/4').install();
       }
+    </script>
+
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
     </script>
 
 
