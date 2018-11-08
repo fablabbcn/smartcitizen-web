@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="styles/vendor-247adba94d.css">
 
-    <link rel="stylesheet" href="styles/app-f99f726c63.css">
+    <link rel="stylesheet" href="styles/app-893fcb52ca.css">
 
     <meta property="og:title"
       content="Smart Citizen : Citizen Science Platform for participatory processes of the people in the cities">
@@ -102,9 +102,39 @@
       });
     </script>
 
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
+    </script>
+
     <!-- The App JS -->
 
-    <script src="scripts/app-6f707e1cfc.js"></script>
+    <script src="scripts/app-379034ce9d.js"></script>
 
     <!-- TODO: change path depending on local or production. Add comments to gulp inject to work https://www.npmjs.com/package/gulp-inject. See gulp inject task -->
     <!-- <script src="app/components/kit/setupModule/scktool-app.js"></script> -->
