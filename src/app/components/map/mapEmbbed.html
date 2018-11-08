@@ -1,0 +1,5 @@
+<section class="map" style="height: 100%; top: 0px;">
+  <leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet>
+
+  <md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-circular>
+</section>

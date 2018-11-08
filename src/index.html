@@ -115,6 +115,36 @@
       });
     </script>
 
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
+    </script>
+
     <!-- The App JS -->
 
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->

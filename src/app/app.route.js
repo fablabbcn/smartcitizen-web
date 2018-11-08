@@ -46,6 +46,28 @@
         -- Layout state --
         Top-level state used for inserting the layout(navbar and footer)
         */
+        .state('embbed', {
+          url: '/embbed?tags&lat&lng&zoom',
+          templateUrl: 'app/components/map/mapEmbbed.html',
+          controller: 'MapController',
+          controllerAs: 'vm',
+          resolve: {
+            sensorTypes: function(sensor) {
+              return sensor.callAPI()
+                .then(function(sensorTypes) {
+                  return sensorTypes.plain();
+                });
+            },
+            selectedTags: function($stateParams, tag){
+              if(typeof($stateParams.tags) === 'string'){
+                tag.setSelectedTags([$stateParams.tags]);
+              } else{
+                // We have an array
+                tag.setSelectedTags(_.uniq($stateParams.tags));
+              }
+            }
+          }
+        })
         .state('layout', {
           url: '',
           abstract: true,
