@@ -5,6 +5,8 @@
 
 The SmartCitizen front-end. Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
 
+## Development
+
 ### Prerequisites
 
 You need git to clone the repository. You can get git from
@@ -52,6 +54,10 @@ Note: in case you see something like:
 Run:
 `rm -Rf $(node -e "console.log(require('path').join(require('os').tmpdir(), 'tmpRepo'))")`
 
+### Talking to a different API
+In `app.route.js` the app can be configured to talk to another API:
+`RestangularProvider.setBaseUrl('http://localhost:3000/v0');`
+
 ### Directory structure
 
 [Best Practice Recommendations for Angular App Structure](https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub)
@@ -74,7 +80,7 @@ Constants: <Name of constant uppercase joined by an underscore>. Ex: PROFILE_TOO
 
 For data that has been resolved from the router, I've normally appended 'Data' to the name.
 
-### Deployment
+## Deployment
 
 Master branch is auto deployed to https://staging.kits.smarticitizen.me/ which is on Github Pages
 

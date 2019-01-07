@@ -440,6 +440,7 @@
 
       /*  Sets the default Smart Citizen API base url */
       RestangularProvider.setBaseUrl('https://api.smartcitizen.me/v0');
+      //RestangularProvider.setBaseUrl('http://localhost:3000/v0');
 
       /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
