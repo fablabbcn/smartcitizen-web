@@ -26,8 +26,8 @@ git clone https://github.com/fablabbcn/smartcitizen-web.git
 cd smartcitizen-web
 ```
 
-### Docker quickstart
-In development mode, enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
+### Docker quickstart (optional)
+If you want to use Docker in development mode, you should enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
 This also means the image needs you to do `npm install` **locally** before running the container.
 It needs the `node_modules/` to exist.
 
