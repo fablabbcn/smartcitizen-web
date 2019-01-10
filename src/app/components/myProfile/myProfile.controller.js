@@ -236,10 +236,6 @@
 
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
-          // The new endpoint is using Active Storage
-          // We only need to send the file as profile_picture:
-          // Then query the API again to get the url.
-          // The User object should have a profile_picture
           /*
           file.getCredentials(fileData[0].name)
             .then(function(res) {
@@ -250,9 +246,18 @@
               });
           */
 
-          // TODO: use Restangular to upload the file
-          Restangular.all('me').patch(fileData)
-
+          // TODO: Is there a simpler way to patch the image to the API and use the response?
+          // Something like:
+          //Restangular.all('/me').patch(data);
+          // Instead of doing it manually like here:
+          var fd = new FormData();
+          fd.append('profile_picture', fileData[0]);
+          Restangular.one('/me')
+            .withHttpConfig({transformRequest: angular.identity})
+            .customPATCH(fd, '', undefined, {'Content-Type': undefined})
+            .then(function(resp){
+              vm.user.profile_picture = resp.profile_picture;
+            })
         }
       }
 
