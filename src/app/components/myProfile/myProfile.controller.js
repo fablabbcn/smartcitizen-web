@@ -236,6 +236,11 @@
 
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
+          // The new endpoint is using Active Storage
+          // We only need to send the file as profile_picture:
+          // Then query the API again to get the url.
+          // The User object should have a profile_picture
+          /*
           file.getCredentials(fileData[0].name)
             .then(function(res) {
               file.uploadFile(fileData[0], res.key, res.policy, res.signature)
@@ -243,6 +248,11 @@
                   vm.user.avatar = file.getImageURL(res.key);
                 });
               });
+          */
+
+          // TODO: use Restangular to upload the file
+          Restangular.all('me').patch(fileData)
+
         }
       }
 
