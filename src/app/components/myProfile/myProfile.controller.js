@@ -236,6 +236,7 @@
 
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
+          /*
           file.getCredentials(fileData[0].name)
             .then(function(res) {
               file.uploadFile(fileData[0], res.key, res.policy, res.signature)
@@ -243,6 +244,20 @@
                   vm.user.avatar = file.getImageURL(res.key);
                 });
               });
+          */
+
+          // TODO: Is there a simpler way to patch the image to the API and use the response?
+          // Something like:
+          //Restangular.all('/me').patch(data);
+          // Instead of doing it manually like here:
+          var fd = new FormData();
+          fd.append('profile_picture', fileData[0]);
+          Restangular.one('/me')
+            .withHttpConfig({transformRequest: angular.identity})
+            .customPATCH(fd, '', undefined, {'Content-Type': undefined})
+            .then(function(resp){
+              vm.user.profile_picture = resp.profile_picture;
+            })
         }
       }
 

@@ -20,6 +20,7 @@
         this.id = userData.id;
         this.username = userData.username;
         this.avatar = userData.avatar;
+        this.profile_picture = userData.profile_picture;
         this.kits = userData.devices;
         this.url = userData.url;
         this.city = userData.location.city;
