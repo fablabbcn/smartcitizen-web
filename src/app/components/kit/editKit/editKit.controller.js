@@ -98,6 +98,8 @@
                 lng: vm.kitData.longitude,
                 zoom: 16
               },
+              notify_low_battery: deviceData.notify_low_battery,
+              notify_stopped_publishing: deviceData.notify_stopped_publishing,
               tags: vm.kitData.userTags,
               description: vm.kitData.description
             };
@@ -154,6 +156,8 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          notify_low_battery: vm.kitForm.notify_low_battery,
+          notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
           /*jshint camelcase: false */
           user_tags: vm.kitForm.tags.join(',')
         };

@@ -30,7 +30,7 @@
   <section class="timeline_content" flex="1">
     <section ng-show="vm.step === 1">
       <form>
-        <section class="form_block form_blockNormal isEven">
+         <section class="form_block form_blockNormal">
           <div layout="row" layout-xs="column" layout-align="space-around start">
             <div flex="30" class="form_blockContent">
               <div layout="row">
@@ -58,6 +58,31 @@
             </div>
           </div>
         </section>
+
+        <section class="form_block form_blockNormal isEven">
+          <div layout="row" layout-xs="column" layout-align="space-around start">
+            <div flex="30" class="form_blockContent">
+              <div layout="row">
+                <div class="form_blockContent_text">
+                  <h2>Notification</h2>
+                  <small>Manage your notifications</small>
+                </div>
+              </div>
+            </div>
+            <div flex="50" class="form_blockInput" >
+              <div class="form_blockInput_container" layout="column">
+                <p>Get emails when the following events occur:</p>
+                <md-checkbox ng-model="vm.kitForm.notify_low_battery">
+                  <label>Battery goes below 15%</label>
+                </md-checkbox>
+                <md-checkbox ng-model="vm.kitForm.notify_stopped_publishing">
+                  <label>Device stopped publishing</label>
+                </md-checkbox>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="form_block form_blockMap">
           <div layout="row" layout-xs="column" layout-align="space-around start">
             <div flex="30" class="form_blockContent">
