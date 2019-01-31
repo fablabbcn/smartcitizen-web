@@ -3474,7 +3474,7 @@
 
       function device(id, scope){
         devices(function(data){
-          if(id === data.device_id) {
+          if(id === data.id) {
             scope.$emit('published', data);
           }
         });
