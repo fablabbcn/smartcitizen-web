@@ -3,9 +3,10 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/test_coverage)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/test_coverage)
 
-The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen).
+The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
 
 ![Screenshot](2019-02-01_16-13-47.png)
+
 ## Development
 
 ### Prerequisites
