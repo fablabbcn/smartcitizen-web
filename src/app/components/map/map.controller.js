@@ -148,7 +148,7 @@
       vm.removeFilter = removeFilter;
       vm.removeTag = removeTag;
       vm.selectedTags = tag.getSelectedTags();
-      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline', 'new'];
+      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
 
       vm.checkAllFiltersSelected = checkAllFiltersSelected;
 

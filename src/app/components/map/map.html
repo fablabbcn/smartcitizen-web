@@ -19,9 +19,9 @@
       <div layout="row" class="chips_row">
         <span ng-repeat="filter in vm.selectedFilters"
           ng-if="!vm.checkAllFiltersSelected()"
-          class="chip label">
+          class="chip label" style="padding: 0 10px;">
           {{ filter }}
-          <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+          <!-- <md-icon ng-click="vm.removeFilter(filter)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon> -->
         </span>
       </div>
       <div layout="row" class="chips_row" layout-wrap>
