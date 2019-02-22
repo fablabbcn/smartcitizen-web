@@ -10,11 +10,30 @@
   </md-toolbar>
   <md-dialog-content>
     <div class="md-dialog-content max-width-500px">
-      <p>Only show kits containing ALL these parameters.</p>
       <md-content layout-padding>
-        <div ng-repeat="filter in vm.filters">
-          <md-checkbox ng-model="vm.checks[filter]">
-            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span></md-checkbox>
+        <h4 style="margin: 0">
+          Are you looking for real time data?
+        </h4>
+        <p style="margin: 0">
+          Online Kits have published data online at least during the past 60 minutes
+        </p>
+        <div ng-repeat="filter in vm.status">
+          <md-checkbox ng-click="vm.toggle(vm.status)" ng-model="vm.checks[filter]">
+            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span>
+          </md-checkbox>
+        </div>
+      </md-content>
+      <md-content style="margin-top: 10px;" layout-padding>
+        <h4 style="margin: 0">
+          Are you looking for outdoor data?
+        </h4>
+        <p style="margin: 0">
+          Kits can be used to monitor indoor and outdoor conditions
+        </p>
+        <div ng-repeat="filter in vm.location">
+          <md-checkbox ng-click="vm.toggle(vm.location)" ng-model="vm.checks[filter]">
+            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span>
+          </md-checkbox>
         </div>
       </md-content>
     </div>
