@@ -5478,52 +5478,6 @@ angular.module('app.components')
     }
 })();
 
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .directive('apiKey', apiKey);
-
-  function apiKey(){
-    return {
-      scope: {
-        apiKey: '=apiKey'
-      },
-      restrict: 'A',
-      controller: 'ApiKeyController',
-      controllerAs: 'vm',
-      templateUrl: 'app/components/apiKey/apiKey.html'
-    };
-  }
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .controller('ApiKeyController', ApiKeyController);
-
-  ApiKeyController.$inject = ['alert'];
-  function ApiKeyController(alert){
-    var vm = this;
-
-    vm.copied = copied;
-    vm.copyFail = copyFail;
-
-    ///////////////
-
-    function copied(){
-      alert.success('API key copied to your clipboard.');
-    }
-
-    function copyFail(err){
-      console.log('Copy error: ', err);
-      alert.error('Oops! An error occurred copying the api key.');
-    }
-
-  }
-})();
-
 (function() {
   'use strict';
 
@@ -7538,6 +7492,52 @@ function cookiesLaw($cookies) {
       }
     }
 
+})();
+
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .directive('apiKey', apiKey);
+
+  function apiKey(){
+    return {
+      scope: {
+        apiKey: '=apiKey'
+      },
+      restrict: 'A',
+      controller: 'ApiKeyController',
+      controllerAs: 'vm',
+      templateUrl: 'app/components/apiKey/apiKey.html'
+    };
+  }
+})();
+
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .controller('ApiKeyController', ApiKeyController);
+
+  ApiKeyController.$inject = ['alert'];
+  function ApiKeyController(alert){
+    var vm = this;
+
+    vm.copied = copied;
+    vm.copyFail = copyFail;
+
+    ///////////////
+
+    function copied(){
+      alert.success('API key copied to your clipboard.');
+    }
+
+    function copyFail(err){
+      console.log('Copy error: ', err);
+      alert.error('Oops! An error occurred copying the api key.');
+    }
+
+  }
 })();
 
 (function() {
