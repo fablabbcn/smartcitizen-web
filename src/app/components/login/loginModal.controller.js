@@ -17,7 +17,7 @@
             $mdDialog.hide();
           })
           .catch(function(err) {
-            vm.errors = err.data.errors;
+            vm.errors = err.data;
             alert.error('Username or password incorrect');
             ga('send', 'event', 'Login', 'logged in');
           })
