@@ -4,8 +4,8 @@
   angular.module('app.components')
     .controller('LoginModalController', LoginModalController);
 
-    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'alert', 'animation'];
-    function LoginModalController($scope, $mdDialog, auth, alert, animation) {
+    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'animation'];
+    function LoginModalController($scope, $mdDialog, auth, animation) {
       const vm = this;
       $scope.answer = function(answer) {
         $scope.waitingFromServer = true;
@@ -18,7 +18,6 @@
           })
           .catch(function(err) {
             vm.errors = err.data;
-            alert.error('Username or password incorrect');
             ga('send', 'event', 'Login', 'logged in');
           })
           .finally(function() {
