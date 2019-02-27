@@ -109,6 +109,7 @@
       function isAuth() {
         //return !!$window.localStorage.getItem('smartcitizen.token');
         // TODO: is it better to check if the token exists in a cookie, or if the user.token exists?
+        // because the user.token will be empty, not populated, if some services call it before auth initialize() has run
         return !!$cookies.get('smartcitizen.token');
         //return !!user.token;
       }
