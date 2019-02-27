@@ -27,6 +27,7 @@
 
         if(trans.to().authenticate === false) {
           if(auth.isAuth()) {
+            // TODO: does not redirect because e is undefined
             e.preventDefault();
             $state.go('landing');
             return;
@@ -35,8 +36,7 @@
 
         if(trans.to().authenticate) {
           if(!auth.isAuth()) {
-            e.preventDefault();
-            $state.go('landing');
+            $state.go('layout.login');
           }
         }
 

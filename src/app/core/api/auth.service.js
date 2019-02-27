@@ -5,9 +5,9 @@
     .factory('auth', auth);
 
     auth.$inject = ['$location', '$window', '$state', 'Restangular',
-      '$rootScope', 'AuthUser', '$timeout', 'alert'];
+      '$rootScope', 'AuthUser', '$timeout', 'alert', '$cookies'];
     function auth($location, $window, $state, Restangular, $rootScope, AuthUser,
-       $timeout, alert) {
+       $timeout, alert, $cookies) {
 
     	var user = {};
 
@@ -21,7 +21,7 @@
         setCurrentUser: setCurrentUser,
         getCurrentUser: getCurrentUser,
         updateUser: updateUser,
-        saveData: saveData,
+        saveToken: saveToken,
         login: login,
         logout: logout,
         recoverPassword: recoverPassword,
@@ -34,22 +34,32 @@
       //////////////////////////
 
       function initialize() {
+        //console.log('---- auth init -----');
         setCurrentUser('appLoad');
       }
       //run on app initialization so that we can keep auth across different sessions
       function setCurrentUser(time) {
-        user.token = $window.localStorage.getItem('smartcitizen.token') &&
-          JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
+        //user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
+
+        if ($cookies.get('smartcitizen.token')) {
+          user.token = $cookies.get('smartcitizen.token')
+          //console.log('user.token: ', user.token);
+        }else{
+          //console.log('token not found in cookie, returning');
+          return;
+        }
+
+        /*
         user.data = $window.localStorage.getItem('smartcitizen.data') &&
           new AuthUser(JSON.parse(
             $window.localStorage.getItem('smartcitizen.data')
           ));
-        if(!user.token) {
-          return;
-        }
-        return getCurrentUserInfo()
+          */
+
+        return getCurrentUserFromAPI()
           .then(function(data) {
-            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+
+            //$window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
 
             var newUser = new AuthUser(data);
             //check sensitive information
@@ -59,42 +69,55 @@
             }
             user.data = newUser;
 
+            //console.log('--- user', user)
+
+            // Broadcast happens 2x, so the user wont think he is not logged in. The other broadcast waits 3sec
+            $rootScope.$broadcast('loggedIn');
+
             // used for app initialization
             if(time && time === 'appLoad') {
               //wait until navbar is loaded to emit event
               $timeout(function() {
-                $rootScope.$broadcast('loggedIn', {time: 'appLoad'});
+                //$rootScope.$broadcast('loggedIn', {time: 'appLoad'});
               }, 3000);
             } else {
               // used for login
-              $state.reload();
+              //$state.reload();
               $timeout(function() {
                 alert.success('Login was successful');
                 $rootScope.$broadcast('loggedIn', {});
-              }, 2000);
+              }, 200);
             }
           });
       }
 
+      // Called from device.service.js updateContext(), which is called from multiple /kit/ pages
       function updateUser() {
-        return getCurrentUserInfo()
+        return getCurrentUserFromAPI()
           .then(function(data) {
-            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+            //$window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
           });
       }
 
       function getCurrentUser() {
-        user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
-        user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
+        //console.log('auth.getCurrentUser token', user.token);
+        //user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
+        //user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
         return user;
       }
 
       function isAuth() {
-        return !!$window.localStorage.getItem('smartcitizen.token');
+        //return !!$window.localStorage.getItem('smartcitizen.token');
+        // TODO: is it better to check if the token exists in a cookie, or if the user.token exists?
+        return !!$cookies.get('smartcitizen.token');
+        //return !!user.token;
       }
-      //save to localstorage and
-      function saveData(token) {
-        $window.localStorage.setItem('smartcitizen.token', JSON.stringify(token) );
+
+      // LoginModal calls this after it receives the token.
+      function saveToken(token) {
+        //console.log('saving Token to cookie:', token);
+        //$window.localStorage.setItem('smartcitizen.token', JSON.stringify(token) );
+        $cookies.put('smartcitizen.token', token);
         setCurrentUser();
       }
 
@@ -103,11 +126,12 @@
       }
 
       function logout() {
-        $window.localStorage.removeItem('smartcitizen.token');
-        $window.localStorage.removeItem('smartcitizen.data');
+        //$window.localStorage.removeItem('smartcitizen.token');
+        //$window.localStorage.removeItem('smartcitizen.data');
+        $cookies.remove('smartcitizen.token');
       }
 
-      function getCurrentUserInfo() {
+      function getCurrentUserFromAPI() {
         return Restangular.all('').customGET('me');
       }
 

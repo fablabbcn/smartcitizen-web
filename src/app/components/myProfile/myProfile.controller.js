@@ -34,6 +34,9 @@
       //THIS IS TEMPORARY.
       // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
+
+      // TODO: https://smartcitizen.me/profile/kits fails, try both logged in and not
+
       vm.user.token = auth.getCurrentUser().token;
       vm.addNewKit = addNewKit;
 
