@@ -83,7 +83,7 @@
       }
 
       function createKitBlueprints() {
-        return Restangular.all('kits').getList()
+        return Restangular.all('kits').getList({'per_page': 1000})
           .then(function(fetchedKitBlueprints){
             kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
             return kitBlueprints;

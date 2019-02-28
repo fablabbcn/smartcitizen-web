@@ -22,7 +22,7 @@
       ////////////////
 
       function callAPI() {
-        return Restangular.all('sensors').getList({'per_page': 100});
+        return Restangular.all('sensors').getList({'per_page': 1000});
       }
 
       function setTypes(sensorTypes) {
