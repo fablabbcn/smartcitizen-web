@@ -3405,7 +3405,7 @@
       ////////////////
 
       function callAPI() {
-        return Restangular.all('sensors').getList({'per_page': 100});
+        return Restangular.all('sensors').getList({'per_page': 1000});
       }
 
       function setTypes(sensorTypes) {
@@ -3506,7 +3506,7 @@
 
 
     function getTypes() {
-      return Restangular.all('measurements').getList({'per_page': 100});
+      return Restangular.all('measurements').getList({'per_page': 1000});
     }
 
     function getMeasurement(mesID) {
@@ -3679,7 +3679,7 @@
       }
 
       function createKitBlueprints() {
-        return Restangular.all('kits').getList()
+        return Restangular.all('kits').getList({'per_page': 1000})
           .then(function(fetchedKitBlueprints){
             kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
             return kitBlueprints;
