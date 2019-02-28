@@ -39,8 +39,6 @@
       }
       //run on app initialization so that we can keep auth across different sessions
       function setCurrentUser(time) {
-        //user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') );
-
         // TODO later: Should we check if token is expired here?
         if ($cookies.get('smartcitizen.token')) {
           user.token = $cookies.get('smartcitizen.token')
@@ -48,13 +46,6 @@
           //console.log('token not found in cookie, returning');
           return;
         }
-
-        /*
-        user.data = $window.localStorage.getItem('smartcitizen.data') &&
-          new AuthUser(JSON.parse(
-            $window.localStorage.getItem('smartcitizen.data')
-          ));
-          */
 
         return getCurrentUserFromAPI()
           .then(function(data) {
@@ -70,7 +61,6 @@
             user.data = newUser;
 
             //console.log('-- User populated with data: ', user)
-
             // Broadcast happens 2x, so the user wont think he is not logged in.
             // The 2nd broadcast waits 3sec, because f.x. on the /kits/ page, the layout has not loaded when the broadcast is sent
             $rootScope.$broadcast('loggedIn');
@@ -87,7 +77,7 @@
               $timeout(function() {
                 alert.success('Login was successful');
                 $rootScope.$broadcast('loggedIn', {});
-              }, 200);
+              }, 2000);
             }
           });
       }
@@ -96,26 +86,24 @@
       function updateUser() {
         return getCurrentUserFromAPI()
           .then(function(data) {
+            // TODO: Should this update the token or user.data? Then it could instead call setCurrentUser?
             //$window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
           });
       }
 
       function getCurrentUser() {
-        //console.log('auth.getCurrentUser token', user.token);
-        //user.token = $window.localStorage.getItem('smartcitizen.token') && JSON.parse( $window.localStorage.getItem('smartcitizen.token') ),
-        //user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
-
-        // TODO: remove next line. Saving tokenCookie into user.token should only be done in one place. Now this is also done in 'setCurrentUser'
+        console.log('auth.getCurrentUser token', user.token);
+        // TODO: remove next line. Saving tokenCookie into user.token should only be done in one place.
+        // Now this is also done in 'setCurrentUser'
         user.token = $cookies.get('smartcitizen.token');
         return user;
       }
 
+      // Should check if user.token exists - but now checks if the cookies.token exists.
       function isAuth() {
-        //return !!$window.localStorage.getItem('smartcitizen.token');
-        // TODO: isAuth() is called from many different services BEFORE auth init has run.
+        // TODO: isAuth() is called from many different services BEFORE auth.init has run.
         // That means that the user.token is EMPTY, meaning isAuth will be false
-
-        // We can cheat and just check the cookie, but we should NOT. Because auth init should also check if the cookie is valid / expired
+        // We can cheat and just check the cookie, but we should NOT. Because auth.init should also check if the cookie is valid / expired
         return !!$cookies.get('smartcitizen.token');
         //return !!user.token;
       }
@@ -123,7 +111,6 @@
       // LoginModal calls this after it receives the token from the API, and wants to save it in a cookie.
       function saveToken(token) {
         //console.log('saving Token to cookie:', token);
-        //$window.localStorage.setItem('smartcitizen.token', JSON.stringify(token) );
         $cookies.put('smartcitizen.token', token);
         setCurrentUser();
       }
@@ -133,8 +120,6 @@
       }
 
       function logout() {
-        //$window.localStorage.removeItem('smartcitizen.token');
-        //$window.localStorage.removeItem('smartcitizen.data');
         $cookies.remove('smartcitizen.token');
       }
 
