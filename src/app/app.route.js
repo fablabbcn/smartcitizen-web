@@ -356,11 +356,13 @@
           authenticate: false,
           resolve: {
             buttonToClick: function($location, auth) {
+              // TODO: These transitions get rejected (console error)
               if(auth.isAuth()) {
-                return $location.path('/kits');
+                $location.path('/kits/');
+              }else{
+                $location.path('/kits/');
+                $location.search('login', 'true');
               }
-              $location.path('/kits/');
-              $location.search('login', 'true');
             }
           }
         })

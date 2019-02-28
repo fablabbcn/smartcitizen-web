@@ -37,6 +37,7 @@
 
       // TODO: https://smartcitizen.me/profile/kits fails, try both logged in and not
       // The auth controller has not populated the `user` at this point, so  user.token use undefined
+      // This controller depends on auth has already been run.
       vm.user.token = auth.getCurrentUser().token;
       vm.addNewKit = addNewKit;
 

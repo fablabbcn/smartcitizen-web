@@ -27,9 +27,10 @@
 
         if(trans.to().authenticate === false) {
           if(auth.isAuth()) {
+            console.log('-- already logged in users cannot go to /login or /signup');
             // TODO: does not redirect because e is undefined
-            e.preventDefault();
-            $state.go('landing');
+            //e.preventDefault();
+            //$state.go('layout.home.kit');
             return;
           }
         }
