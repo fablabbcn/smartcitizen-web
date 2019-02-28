@@ -19,7 +19,7 @@
         <div layout="row" layout-sm="column">
           <md-input-container class="md-block">
             <label>Username</label>
-            <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input ng-required="loginForm.$submitted"/>
+            <input id="autofocus" type="text" name="username" autocomplete="username" ng-model="vm.user.username" focus-input ng-required="loginForm.$submitted"/>
             <div ng-messages="(loginForm.username.$touched && loginForm.username.$error)" role="alert">
               <div ng-message="required">Username is required</div>
               <div ng-if="vm.errors.id">Username or password incorrect</div>
@@ -28,7 +28,7 @@
 
           <md-input-container class="md-block">
             <label>Password</label>
-            <input type="password" name="password" ng-model="vm.user.password" ng-required="loginForm.$submitted"/>
+            <input type="password" name="password" autocomplete="current-password" ng-model="vm.user.password" ng-required="loginForm.$submitted"/>
             <div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert">
               <div ng-message="required">Password is required</div>
             </div>

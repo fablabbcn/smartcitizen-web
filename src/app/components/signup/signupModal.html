@@ -19,7 +19,7 @@
         <div layout="column" >
           <md-input-container>
             <label>Username</label>
-            <input type="text" name="username" ng-model="vm.user.username" focus-input name="username" required>
+            <input type="text" name="username" autocomplete="username" ng-model="vm.user.username" focus-input name="username" required>
             <div ng-messages="signupForm.username.$error || !!errors.password.length" role="alert">
               <div ng-message="required">Username is required</div>
               <div ng-repeat="error in errors.username">
@@ -29,7 +29,7 @@
           </md-input-container>
           <md-input-container flex>
             <label>Password</label>
-            <input name="password" type="password" ng-model="vm.user.password"
+            <input name="password" type="password" autocomplete="new-password" ng-model="vm.user.password"
             required>
             <div ng-messages="signupForm.password.$error || !!errors.password.length" role="alert">
               <div ng-message="required">Password is required</div>
