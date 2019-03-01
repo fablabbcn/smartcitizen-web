@@ -1,8 +1,11 @@
-<div class="profile_content" layout="row">
-  <div class="profile_sidebar">
+<div class="profile_content" layout="column" layout-gt-xs="row">
+  <div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-xs="start start" layout="column" >
     <p class="profile_sidebar_title">EDIT YOUR PROFILE</p>
     <p class="profile_sidebar_description">
-    A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
+    A complete profile brings you a better experience.
+    </p>
+    <p class="profile_sidebar_description">
+    Please, take your time completing all fields.
     </p>
     <md-button ng-href="mailto:support@smartcitizen.me" class="profile_sidebar_button myProfile_sidebar_button">
       <md-icon md-svg-src="./assets/images/support_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
@@ -13,8 +16,8 @@
       <span>Community</span>
     </md-button>
   </div>
-  <div class="profile_content_main" flex>
-    <div class="myProfile_content_form">
+  <div class="pt-80 px-20 mb-30" flex>
+    <div style="max-width:500px">
       <div class="myProfile_form_avatar" layout="row" layout-align="start center">
         <img ng-src="{{ vm.user.profile_picture || vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
         <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>

@@ -1516,11 +1516,11 @@ KIT TAGS MODULE
 }
 /* profile sidebar */
 .profile_sidebar {
-  min-height: 400px;
+  //min-height: 400px;
   // min-height: inherit;
-  width: 256px;
+  // width: 256px;
   background-color: #F5F5F5;
-  padding-top: 80px;
+  min-width:200px;
 }
 .profile_sidebar_title {
   margin: 0 0 42px 20px;
@@ -1553,11 +1553,6 @@ KIT TAGS MODULE
 }
 
 /* profile main content */
-.profile_content_main {
-  min-height: inherit;
-  padding: 82px 26px 0 41px;
-  margin-bottom: 65px;
-}
 .profile_content_main_top {
   margin: 0 0 42px 20px;
 }
@@ -1657,7 +1652,7 @@ KIT TAGS MODULE
 .myProfile_form_updateButton {
   font-size:18px;
   color: $blue;
-  margin-left:350px;
+  //margin-left:350px;
 }
 .myProfile_apiKey_text {
   color: $font_color_blue_grey;
@@ -1719,10 +1714,6 @@ KIT TAGS MODULE
 .md-button.myProfile_addKitButton:hover {
   background-color: $blue;
 }
-.myProfile_content_main_title {
-  float: right;
-}
-
 .myProfile_hiddenhref{
   position:absolute;
   height: 100%;

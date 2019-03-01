@@ -1,5 +1,5 @@
-<div class="profile_content" layout="row">
-    <div class="profile_sidebar">
+<div class="profile_content" layout="column" layout-gt-xs="row">
+    <div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-xs="start start" layout="column" >
         <p class="profile_sidebar_title">FILTER KITS BY</p>
         <div class="profile_sidebar_options" layout="column">
             <md-button ng-click="vm.filterKits('all')"
@@ -19,10 +19,10 @@
             </md-button>
         </div>
     </div>
-    <div class="profile_content_main" flex>
+    <div class="pt-80 px-20 mb-30" flex>
         <div class="profile_content_main_top">
             <md-button class="btn-round btn-cyan" ng-click="vm.addNewKit()">ADD A NEW KIT</md-button>
-            <span class="myProfile_content_main_title">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
+            <span class="float-right">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
         </div>
         <!-- KIT LIST -->
         <kit-list actions="{remove: vm.removeKit}" kits="vm.filteredKits"></kit-list>
