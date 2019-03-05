@@ -1919,594 +1919,6 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('MapTagModalController', MapTagModalController);
-
-  MapTagModalController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
-
-  function MapTagModalController($mdDialog, tag, selectedTags) {
-
-    var vm = this;
-
-    vm.checks = {};
-
-    vm.answer = answer;
-    vm.hide = hide;
-    vm.clear = clear;
-    vm.cancel = cancel;
-    vm.tags = [];
-
-    init();
-
-    ////////////////////////////////////////////////////////
-
-    function init() {
-      tag.getTags()
-        .then(function(tags) {
-          vm.tags = tags;
-
-          _.forEach(selectedTags, select);
-
-        });
-    }
-
-    function answer() {
-
-      var selectedTags = _(vm.tags)
-        .filter(isTagSelected)
-        .value();
-      $mdDialog.hide(selectedTags);
-    }
-
-    function hide() {
-      answer();
-    }
-
-    function clear() {
-      $mdDialog.hide(null);
-    }
-
-    function cancel() {
-      answer();
-    }
-
-    function isTagSelected(tag) {
-      return vm.checks[tag.name];
-    }
-
-    function select(tag){
-      vm.checks[tag] = true;
-    }
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('MapFilterModalController', MapFilterModalController);
-
-  MapFilterModalController.$inject = ['$mdDialog','selectedFilters', '$timeout'];
-
-  function MapFilterModalController($mdDialog, selectedFilters, $timeout) {
-
-    var vm = this;
-
-    vm.checks = {};
-
-    vm.answer = answer;
-    vm.hide = hide;
-    vm.clear = clear;
-    vm.cancel = cancel;
-    vm.toggle = toggle;
-
-    vm.location = ['indoor', 'outdoor'];
-    vm.status = ['online', 'offline'];
-    vm.new = ['new'];
-
-    vm.filters = [];
-
-    init();
-
-    ////////////////////////////////////////////////////////
-
-    function init() {
-      _.forEach(selectedFilters, select);
-    }
-
-    function answer() {
-      vm.filters = vm.filters.concat(vm.location, vm.status, vm.new);
-      var selectedFilters = _(vm.filters)
-        .filter(isFilterSelected)
-        .value();
-      $mdDialog.hide(selectedFilters);
-    }
-
-    function hide() {
-      answer();
-    }
-
-    function clear() {
-      vm.filters = vm.filters.concat(vm.location, vm.status);
-      $mdDialog.hide(vm.filters);
-    }
-
-    function cancel() {
-      answer();
-    }
-
-    function isFilterSelected(filter) {
-      return vm.checks[filter];
-    }
-
-    function toggle(filters) {
-      $timeout(function() {
-
-        for (var i = 0; i < filters.length - 1; i++) {
-          if (vm.checks[filters[i]] == false && vm.checks[filters[i]] == vm.checks[filters[i+1]]) {
-            for (var n = 0; n < filters.length; n++) {
-              vm.checks[filters[n]] = true;
-            }
-          }
-        }
-
-      });
-    }
-
-    function select(filter){
-      vm.checks[filter] = true;
-    }
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('MapController', MapController);
-
-    MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
-    'Marker', 'tag', 'animation', '$q'];
-    function MapController($scope, $state, $stateParams, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
-      var vm = this;
-      var updateType;
-      var focusedMarkerID;
-
-      vm.markers = [];
-
-      var retinaSuffix = isRetina() ? '512' : '256';
-      var retinaLegacySuffix = isRetina() ? '@2x' : '';
-
-      var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
-
-      vm.layers = {
-        baselayers: {
-          osm: {
-            name: 'OpenStreetMap',
-            type: 'xyz',
-            url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
-          },
-          legacy: {
-            name: 'Legacy',
-            type: 'xyz',
-            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+ retinaLegacySuffix +'.png' + '?access_token=' + mapBoxToken
-          },
-          sat: {
-            name: 'Satellite',
-            type: 'xyz',
-            url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
-          }
-        },
-        overlays: {
-          devices: {
-            name: 'Devices',
-            type: 'markercluster',
-            visible: true,
-            layerOptions: {
-              showCoverageOnHover: false
-            }
-          }
-        }
-      };
-
-      vm.center = {
-        lat: $stateParams.lat ? parseInt($stateParams.lat, 10) : 13.14950321154457,
-        lng: $stateParams.lng ? parseInt($stateParams.lng, 10) : -1.58203125,
-        zoom: $stateParams.zoom ? parseInt($stateParams.zoom, 10) : 2
-      };
-
-
-      vm.defaults = {
-        dragging: true,
-        touchZoom: true,
-        scrollWheelZoom: true,
-        doubleClickZoom: true,
-        minZoom:2,
-        worldCopyJump: true
-      };
-
-      vm.events = {
-        map: {
-          enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
-          'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
-          logic: 'broadcast'
-        }
-      };
-
-      $scope.$on('leafletDirectiveMarker.click', function(event, data) {
-        var id = undefined;
-        var currentMarker = vm.markers[data.modelName];
-
-        if(currentMarker) {
-          id = currentMarker.myData.id;
-        }
-
-        vm.kitLoading = true;
-        vm.center.lat = data.leafletEvent.latlng.lat;
-        vm.center.lng = data.leafletEvent.latlng.lng;
-
-        if(id === parseInt($state.params.id)) {
-          $timeout(function() {
-            vm.kitLoading = false;
-          });
-          return;
-        }
-
-        updateType = 'map';
-
-        var availability = data.leafletEvent.target.options.myData.labels[0];
-        ga('send', 'event', 'Kit Marker', 'click', availability);
-
-        if ($state.$current.name === 'embbed') { return; }
-        $state.go('layout.home.kit', {id: id});
-
-        // angular.element('section.map').scope().$broadcast('resizeMapHeight');
-      });
-
-
-      $scope.$on('leafletDirectiveMarker.popupclose', function() {
-        if(focusedMarkerID) {
-          var marker = vm.markers[focusedMarkerID];
-          if(marker) {
-            vm.markers[focusedMarkerID].focus = false;
-          }
-        }
-      });
-
-      vm.readyForKit = {
-        kit: false,
-        map: false
-      };
-
-      $scope.$on('kitLoaded', function(event, data) {
-        vm.readyForKit.kit = data;
-      });
-
-      $scope.$watch('vm.readyForKit', function() {
-        if (vm.readyForKit.kit && vm.readyForKit.map) {
-          zoomKitAndPopUp(vm.readyForKit.kit);
-        }
-      }, true);
-
-      $scope.$on('goToLocation', function(event, data) {
-        goToLocation(data);
-      });
-
-      $scope.$on('leafletDirectiveMap.dragend', function(){
-        reportMapInteractionByUser();
-      });
-
-      $scope.$on('leafletDirectiveMap.click', function(){
-        reportMapInteractionByUser();
-      });
-
-      vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
-
-      vm.openFilterPopup = openFilterPopup;
-      vm.openTagPopup = openTagPopup;
-      vm.removeFilter = removeFilter;
-      vm.removeTag = removeTag;
-      vm.selectedTags = tag.getSelectedTags();
-      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
-
-      vm.checkAllFiltersSelected = checkAllFiltersSelected;
-
-      initialize();
-
-      /////////////////////
-
-      function initialize() {
-
-        vm.readyForKit.map = false;
-
-        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
-          .then(function(data){
-
-            data = data[0];
-
-            vm.markers = _.chain(data)
-                .map(function(device) {
-                  return new Marker(device);
-                })
-                .filter(function(marker) {
-                  return !!marker.lng && !!marker.lat;
-                })
-                .tap(function(data) {
-                  device.setWorldMarkers(data);
-                })
-                .value();
-
-            var markersByIndex = _.keyBy(vm.markers, function(marker) {
-              return marker.myData.id;
-            });
-
-            if($state.params.id && markersByIndex[parseInt($state.params.id)]){
-              focusedMarkerID = markersByIndex[parseInt($state.params.id)]
-                                .myData.id;
-            } else {
-              updateMarkers();
-            }
-
-            vm.readyForKit.map = true;
-
-          });
-      }
-
-      function zoomKitAndPopUp(data){
-
-        if(updateType === 'map') {
-          vm.kitLoading = false;
-          updateType = undefined;
-          return;
-        } else {
-          vm.kitLoading = true;
-        }
-
-        leafletData.getMarkers()
-          .then(function(markers) {
-            var currentMarker = _.find(markers, function(marker) {
-              return data.id === marker.options.myData.id;
-            });
-
-            var id = data.id;
-
-            leafletData.getLayers()
-              .then(function(layers) {
-                if(currentMarker){
-                  layers.overlays.devices.zoomToShowLayer(currentMarker,
-                    function() {
-                      var selectedMarker = currentMarker;
-                      if(selectedMarker) {
-                        // Ensures the marker is not just zoomed but the marker is centered to improve UX
-                        // The $timeout can be replaced by an event but tests didn't show good results
-                        $timeout(function() {
-                          vm.center.lat = selectedMarker.options.lat;
-                          vm.center.lng = selectedMarker.options.lng;
-                          selectedMarker.openPopup();
-                          vm.kitLoading = false;
-                        }, 1000);
-                      }
-                    });
-                } else {
-                  leafletData.getMap().then(function(map){
-                    map.closePopup();
-                  });
-                }
-            });
-         });
-
-      }
-
-      function checkAllFiltersSelected() {
-        var allFiltersSelected = _.every(vm.filters, function(filterValue) {
-          return _.includes(vm.selectedFilters, filterValue);
-        });
-        return allFiltersSelected;
-      }
-
-      function openFilterPopup() {
-        $mdDialog.show({
-          hasBackdrop: true,
-          controller: 'MapFilterModalController',
-          controllerAs: 'vm',
-          templateUrl: 'app/components/map/mapFilterModal.html',
-          clickOutsideToClose: true,
-          locals: {
-            selectedFilters: vm.selectedFilters
-          }
-        })
-        .then(function(selectedFilters) {
-          updateType = 'map';
-          vm.selectedFilters = selectedFilters;
-          updateMapFilters();
-        });
-      }
-
-      function openTagPopup() {
-        $mdDialog.show({
-          hasBackdrop: true,
-          controller: 'MapTagModalController',
-          controllerAs: 'vm',
-          templateUrl: 'app/components/map/mapTagModal.html',
-          //targetEvent: ev,
-          clickOutsideToClose: true,
-          locals: {
-            selectedTags: vm.selectedTags
-          }
-        })
-        .then(function(selectedTags) {
-          if (selectedTags && selectedTags.length > 0) {
-            updateType = 'map';
-            tag.setSelectedTags(_.map(selectedTags, 'name'));
-            vm.selectedTags = tag.getSelectedTags();
-            reloadWithTags();
-          } else if (selectedTags === null) {
-            reloadNoTags();
-          }
-        });
-      }
-
-      function updateMapFilters(){
-          vm.selectedTags = tag.getSelectedTags();
-          checkAllFiltersSelected();
-          updateMarkers();
-      }
-
-      function removeFilter(filterName) {
-        vm.selectedFilters = _.filter(vm.selectedFilters, function(el){
-          return el !== filterName;
-        });
-        if(vm.selectedFilters.length === 0){
-          vm.selectedFilters = vm.filters;
-        }
-        updateMarkers();
-      }
-
-     function filterMarkersByLabel(tmpMarkers) {
-        return tmpMarkers.filter(function(marker) {
-          var labels = marker.myData.labels;
-          if (labels.length === 0 && vm.selectedFilters.length !== 0){
-            return false;
-          }
-          return _.every(labels, function(label) {
-            return _.includes(vm.selectedFilters, label);
-          });
-        });
-      }
-
-      function updateMarkers() {
-        $timeout(function() {
-          $scope.$apply(function() {
-            var allMarkers = device.getWorldMarkers();
-
-            var updatedMarkers = allMarkers;
-
-            updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
-            updatedMarkers = filterMarkersByLabel(updatedMarkers);
-            vm.markers = updatedMarkers;
-
-            animation.mapStateLoaded();
-
-            vm.kitLoading = false;
-
-            zoomOnMarkers();
-          });
-        });
-      }
-
-      function getZoomLevel(data) {
-        // data.layer is an array of strings like ["establishment", "point_of_interest"]
-        var zoom = 18;
-
-        if(data.layer && data.layer[0]) {
-          switch(data.layer[0]) {
-            case 'point_of_interest':
-              zoom = 18;
-              break;
-            case 'address':
-              zoom = 18;
-              break;
-            case "establishment":
-              zoom = 15;
-              break;
-            case 'neighbourhood':
-              zoom = 13;
-              break;
-            case 'locality':
-              zoom = 13;
-              break;
-            case 'localadmin':
-              zoom = 9;
-              break;
-            case 'county':
-              zoom = 9;
-              break;
-            case 'region':
-              zoom = 8;
-              break;
-            case 'country':
-              zoom = 7;
-              break;
-            case 'coarse':
-              zoom = 7;
-              break;
-          }
-        }
-
-        return zoom;
-      }
-
-      function reportMapInteractionByUser(){
-        ga('send', 'event', 'Map', 'moved');
-      }
-
-      function isRetina(){
-        return ((window.matchMedia &&
-          (window.matchMedia('only screen and (min-resolution: 192dpi), ' +
-            'only screen and (min-resolution: 2dppx), only screen and ' +
-            '(min-resolution: 75.6dpcm)').matches ||
-          window.matchMedia('only screen and (-webkit-min-device-pixel-ra' +
-            'tio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only' +
-            ' screen and (min--moz-device-pixel-ratio: 2), only screen and ' +
-            '(min-device-pixel-ratio: 2)').matches)) ||
-          (window.devicePixelRatio && window.devicePixelRatio >= 2)) &&
-          /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
-      }
-
-      function goToLocation(data){
-        // This ensures the action runs after the event is registered
-        $timeout(function() {
-          vm.center.lat = data.lat;
-          vm.center.lng = data.lng;
-          vm.center.zoom = getZoomLevel(data);
-        });
-      }
-
-      function removeTag(tagName){
-        tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
-          return el !== tagName;
-        }));
-
-        vm.selectedTags = tag.getSelectedTags();
-
-        if(vm.selectedTags.length === 0){
-          reloadNoTags();
-        } else {
-          reloadWithTags();
-        }
-
-      }
-
-      function zoomOnMarkers(){
-        $timeout(function() {
-          if(vm.markers && vm.markers.length > 0) {
-              leafletData.getMap().then(function(map){
-                  var bounds = L.latLngBounds(vm.markers);
-                  map.fitBounds(bounds);
-              });
-          } else {
-            alert.error('No markers found with those filters', 5000);
-          }
-        });
-      }
-
-      function reloadWithTags(){
-        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags}, {reload: true});
-      }
-
-      function reloadNoTags(){
-        $state.transitionTo('layout.home.kit');
-      }
-
-    }
-
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .factory('utils', utils);
 
     utils.$inject = ['device', 'PreviewKit', '$q'];
@@ -6524,6 +5936,594 @@ angular.module('app.components')
   'use strict';
 
   angular.module('app.components')
+    .controller('MapTagModalController', MapTagModalController);
+
+  MapTagModalController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
+
+  function MapTagModalController($mdDialog, tag, selectedTags) {
+
+    var vm = this;
+
+    vm.checks = {};
+
+    vm.answer = answer;
+    vm.hide = hide;
+    vm.clear = clear;
+    vm.cancel = cancel;
+    vm.tags = [];
+
+    init();
+
+    ////////////////////////////////////////////////////////
+
+    function init() {
+      tag.getTags()
+        .then(function(tags) {
+          vm.tags = tags;
+
+          _.forEach(selectedTags, select);
+
+        });
+    }
+
+    function answer() {
+
+      var selectedTags = _(vm.tags)
+        .filter(isTagSelected)
+        .value();
+      $mdDialog.hide(selectedTags);
+    }
+
+    function hide() {
+      answer();
+    }
+
+    function clear() {
+      $mdDialog.hide(null);
+    }
+
+    function cancel() {
+      answer();
+    }
+
+    function isTagSelected(tag) {
+      return vm.checks[tag.name];
+    }
+
+    function select(tag){
+      vm.checks[tag] = true;
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('MapFilterModalController', MapFilterModalController);
+
+  MapFilterModalController.$inject = ['$mdDialog','selectedFilters', '$timeout'];
+
+  function MapFilterModalController($mdDialog, selectedFilters, $timeout) {
+
+    var vm = this;
+
+    vm.checks = {};
+
+    vm.answer = answer;
+    vm.hide = hide;
+    vm.clear = clear;
+    vm.cancel = cancel;
+    vm.toggle = toggle;
+
+    vm.location = ['indoor', 'outdoor'];
+    vm.status = ['online', 'offline'];
+    vm.new = ['new'];
+
+    vm.filters = [];
+
+    init();
+
+    ////////////////////////////////////////////////////////
+
+    function init() {
+      _.forEach(selectedFilters, select);
+    }
+
+    function answer() {
+      vm.filters = vm.filters.concat(vm.location, vm.status, vm.new);
+      var selectedFilters = _(vm.filters)
+        .filter(isFilterSelected)
+        .value();
+      $mdDialog.hide(selectedFilters);
+    }
+
+    function hide() {
+      answer();
+    }
+
+    function clear() {
+      vm.filters = vm.filters.concat(vm.location, vm.status);
+      $mdDialog.hide(vm.filters);
+    }
+
+    function cancel() {
+      answer();
+    }
+
+    function isFilterSelected(filter) {
+      return vm.checks[filter];
+    }
+
+    function toggle(filters) {
+      $timeout(function() {
+
+        for (var i = 0; i < filters.length - 1; i++) {
+          if (vm.checks[filters[i]] == false && vm.checks[filters[i]] == vm.checks[filters[i+1]]) {
+            for (var n = 0; n < filters.length; n++) {
+              vm.checks[filters[n]] = true;
+            }
+          }
+        }
+
+      });
+    }
+
+    function select(filter){
+      vm.checks[filter] = true;
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('MapController', MapController);
+
+    MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
+    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
+    'Marker', 'tag', 'animation', '$q'];
+    function MapController($scope, $state, $stateParams, $timeout, device,
+      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
+      var vm = this;
+      var updateType;
+      var focusedMarkerID;
+
+      vm.markers = [];
+
+      var retinaSuffix = isRetina() ? '512' : '256';
+      var retinaLegacySuffix = isRetina() ? '@2x' : '';
+
+      var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
+
+      vm.layers = {
+        baselayers: {
+          osm: {
+            name: 'OpenStreetMap',
+            type: 'xyz',
+            url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
+          },
+          legacy: {
+            name: 'Legacy',
+            type: 'xyz',
+            url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}'+ retinaLegacySuffix +'.png' + '?access_token=' + mapBoxToken
+          },
+          sat: {
+            name: 'Satellite',
+            type: 'xyz',
+            url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/tiles/' + retinaSuffix + '/{z}/{x}/{y}?access_token=' + mapBoxToken
+          }
+        },
+        overlays: {
+          devices: {
+            name: 'Devices',
+            type: 'markercluster',
+            visible: true,
+            layerOptions: {
+              showCoverageOnHover: false
+            }
+          }
+        }
+      };
+
+      vm.center = {
+        lat: $stateParams.lat ? parseInt($stateParams.lat, 10) : 13.14950321154457,
+        lng: $stateParams.lng ? parseInt($stateParams.lng, 10) : -1.58203125,
+        zoom: $stateParams.zoom ? parseInt($stateParams.zoom, 10) : 2
+      };
+
+
+      vm.defaults = {
+        dragging: true,
+        touchZoom: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        minZoom:2,
+        worldCopyJump: true
+      };
+
+      vm.events = {
+        map: {
+          enable: ['dragend', 'zoomend', 'moveend', 'popupopen', 'popupclose',
+          'mousedown', 'dblclick', 'click', 'touchstart', 'mouseup'],
+          logic: 'broadcast'
+        }
+      };
+
+      $scope.$on('leafletDirectiveMarker.click', function(event, data) {
+        var id = undefined;
+        var currentMarker = vm.markers[data.modelName];
+
+        if(currentMarker) {
+          id = currentMarker.myData.id;
+        }
+
+        vm.kitLoading = true;
+        vm.center.lat = data.leafletEvent.latlng.lat;
+        vm.center.lng = data.leafletEvent.latlng.lng;
+
+        if(id === parseInt($state.params.id)) {
+          $timeout(function() {
+            vm.kitLoading = false;
+          });
+          return;
+        }
+
+        updateType = 'map';
+
+        var availability = data.leafletEvent.target.options.myData.labels[0];
+        ga('send', 'event', 'Kit Marker', 'click', availability);
+
+        if ($state.$current.name === 'embbed') { return; }
+        $state.go('layout.home.kit', {id: id});
+
+        // angular.element('section.map').scope().$broadcast('resizeMapHeight');
+      });
+
+
+      $scope.$on('leafletDirectiveMarker.popupclose', function() {
+        if(focusedMarkerID) {
+          var marker = vm.markers[focusedMarkerID];
+          if(marker) {
+            vm.markers[focusedMarkerID].focus = false;
+          }
+        }
+      });
+
+      vm.readyForKit = {
+        kit: false,
+        map: false
+      };
+
+      $scope.$on('kitLoaded', function(event, data) {
+        vm.readyForKit.kit = data;
+      });
+
+      $scope.$watch('vm.readyForKit', function() {
+        if (vm.readyForKit.kit && vm.readyForKit.map) {
+          zoomKitAndPopUp(vm.readyForKit.kit);
+        }
+      }, true);
+
+      $scope.$on('goToLocation', function(event, data) {
+        goToLocation(data);
+      });
+
+      $scope.$on('leafletDirectiveMap.dragend', function(){
+        reportMapInteractionByUser();
+      });
+
+      $scope.$on('leafletDirectiveMap.click', function(){
+        reportMapInteractionByUser();
+      });
+
+      vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
+
+      vm.openFilterPopup = openFilterPopup;
+      vm.openTagPopup = openTagPopup;
+      vm.removeFilter = removeFilter;
+      vm.removeTag = removeTag;
+      vm.selectedTags = tag.getSelectedTags();
+      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
+
+      vm.checkAllFiltersSelected = checkAllFiltersSelected;
+
+      initialize();
+
+      /////////////////////
+
+      function initialize() {
+
+        vm.readyForKit.map = false;
+
+        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
+          .then(function(data){
+
+            data = data[0];
+
+            vm.markers = _.chain(data)
+                .map(function(device) {
+                  return new Marker(device);
+                })
+                .filter(function(marker) {
+                  return !!marker.lng && !!marker.lat;
+                })
+                .tap(function(data) {
+                  device.setWorldMarkers(data);
+                })
+                .value();
+
+            var markersByIndex = _.keyBy(vm.markers, function(marker) {
+              return marker.myData.id;
+            });
+
+            if($state.params.id && markersByIndex[parseInt($state.params.id)]){
+              focusedMarkerID = markersByIndex[parseInt($state.params.id)]
+                                .myData.id;
+            } else {
+              updateMarkers();
+            }
+
+            vm.readyForKit.map = true;
+
+          });
+      }
+
+      function zoomKitAndPopUp(data){
+
+        if(updateType === 'map') {
+          vm.kitLoading = false;
+          updateType = undefined;
+          return;
+        } else {
+          vm.kitLoading = true;
+        }
+
+        leafletData.getMarkers()
+          .then(function(markers) {
+            var currentMarker = _.find(markers, function(marker) {
+              return data.id === marker.options.myData.id;
+            });
+
+            var id = data.id;
+
+            leafletData.getLayers()
+              .then(function(layers) {
+                if(currentMarker){
+                  layers.overlays.devices.zoomToShowLayer(currentMarker,
+                    function() {
+                      var selectedMarker = currentMarker;
+                      if(selectedMarker) {
+                        // Ensures the marker is not just zoomed but the marker is centered to improve UX
+                        // The $timeout can be replaced by an event but tests didn't show good results
+                        $timeout(function() {
+                          vm.center.lat = selectedMarker.options.lat;
+                          vm.center.lng = selectedMarker.options.lng;
+                          selectedMarker.openPopup();
+                          vm.kitLoading = false;
+                        }, 1000);
+                      }
+                    });
+                } else {
+                  leafletData.getMap().then(function(map){
+                    map.closePopup();
+                  });
+                }
+            });
+         });
+
+      }
+
+      function checkAllFiltersSelected() {
+        var allFiltersSelected = _.every(vm.filters, function(filterValue) {
+          return _.includes(vm.selectedFilters, filterValue);
+        });
+        return allFiltersSelected;
+      }
+
+      function openFilterPopup() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'MapFilterModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/map/mapFilterModal.html',
+          clickOutsideToClose: true,
+          locals: {
+            selectedFilters: vm.selectedFilters
+          }
+        })
+        .then(function(selectedFilters) {
+          updateType = 'map';
+          vm.selectedFilters = selectedFilters;
+          updateMapFilters();
+        });
+      }
+
+      function openTagPopup() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'MapTagModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/map/mapTagModal.html',
+          //targetEvent: ev,
+          clickOutsideToClose: true,
+          locals: {
+            selectedTags: vm.selectedTags
+          }
+        })
+        .then(function(selectedTags) {
+          if (selectedTags && selectedTags.length > 0) {
+            updateType = 'map';
+            tag.setSelectedTags(_.map(selectedTags, 'name'));
+            vm.selectedTags = tag.getSelectedTags();
+            reloadWithTags();
+          } else if (selectedTags === null) {
+            reloadNoTags();
+          }
+        });
+      }
+
+      function updateMapFilters(){
+          vm.selectedTags = tag.getSelectedTags();
+          checkAllFiltersSelected();
+          updateMarkers();
+      }
+
+      function removeFilter(filterName) {
+        vm.selectedFilters = _.filter(vm.selectedFilters, function(el){
+          return el !== filterName;
+        });
+        if(vm.selectedFilters.length === 0){
+          vm.selectedFilters = vm.filters;
+        }
+        updateMarkers();
+      }
+
+     function filterMarkersByLabel(tmpMarkers) {
+        return tmpMarkers.filter(function(marker) {
+          var labels = marker.myData.labels;
+          if (labels.length === 0 && vm.selectedFilters.length !== 0){
+            return false;
+          }
+          return _.every(labels, function(label) {
+            return _.includes(vm.selectedFilters, label);
+          });
+        });
+      }
+
+      function updateMarkers() {
+        $timeout(function() {
+          $scope.$apply(function() {
+            var allMarkers = device.getWorldMarkers();
+
+            var updatedMarkers = allMarkers;
+
+            updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
+            updatedMarkers = filterMarkersByLabel(updatedMarkers);
+            vm.markers = updatedMarkers;
+
+            animation.mapStateLoaded();
+
+            vm.kitLoading = false;
+
+            zoomOnMarkers();
+          });
+        });
+      }
+
+      function getZoomLevel(data) {
+        // data.layer is an array of strings like ["establishment", "point_of_interest"]
+        var zoom = 18;
+
+        if(data.layer && data.layer[0]) {
+          switch(data.layer[0]) {
+            case 'point_of_interest':
+              zoom = 18;
+              break;
+            case 'address':
+              zoom = 18;
+              break;
+            case "establishment":
+              zoom = 15;
+              break;
+            case 'neighbourhood':
+              zoom = 13;
+              break;
+            case 'locality':
+              zoom = 13;
+              break;
+            case 'localadmin':
+              zoom = 9;
+              break;
+            case 'county':
+              zoom = 9;
+              break;
+            case 'region':
+              zoom = 8;
+              break;
+            case 'country':
+              zoom = 7;
+              break;
+            case 'coarse':
+              zoom = 7;
+              break;
+          }
+        }
+
+        return zoom;
+      }
+
+      function reportMapInteractionByUser(){
+        ga('send', 'event', 'Map', 'moved');
+      }
+
+      function isRetina(){
+        return ((window.matchMedia &&
+          (window.matchMedia('only screen and (min-resolution: 192dpi), ' +
+            'only screen and (min-resolution: 2dppx), only screen and ' +
+            '(min-resolution: 75.6dpcm)').matches ||
+          window.matchMedia('only screen and (-webkit-min-device-pixel-ra' +
+            'tio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only' +
+            ' screen and (min--moz-device-pixel-ratio: 2), only screen and ' +
+            '(min-device-pixel-ratio: 2)').matches)) ||
+          (window.devicePixelRatio && window.devicePixelRatio >= 2)) &&
+          /(iPad|iPhone|iPod|Apple)/g.test(navigator.userAgent);
+      }
+
+      function goToLocation(data){
+        // This ensures the action runs after the event is registered
+        $timeout(function() {
+          vm.center.lat = data.lat;
+          vm.center.lng = data.lng;
+          vm.center.zoom = getZoomLevel(data);
+        });
+      }
+
+      function removeTag(tagName){
+        tag.setSelectedTags(_.filter(vm.selectedTags, function(el){
+          return el !== tagName;
+        }));
+
+        vm.selectedTags = tag.getSelectedTags();
+
+        if(vm.selectedTags.length === 0){
+          reloadNoTags();
+        } else {
+          reloadWithTags();
+        }
+
+      }
+
+      function zoomOnMarkers(){
+        $timeout(function() {
+          if(vm.markers && vm.markers.length > 0) {
+              leafletData.getMap().then(function(map){
+                  var bounds = L.latLngBounds(vm.markers);
+                  map.fitBounds(bounds);
+              });
+          } else {
+            alert.error('No markers found with those filters', 5000);
+          }
+        });
+      }
+
+      function reloadWithTags(){
+        $state.transitionTo('layout.home.tags', {tags: vm.selectedTags}, {reload: true});
+      }
+
+      function reloadNoTags(){
+        $state.transitionTo('layout.home.kit');
+      }
+
+    }
+
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .controller('LoginModalController', LoginModalController);
 
     LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'animation'];
@@ -8228,7 +8228,7 @@ $templateCache.put('app/components/home/template.html','<div><section class="con
 $templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="kits.length === 0"><small>No kits</small></div><div class="kitList_parent" ng-repeat="kit in kits track by kit.id" layout="row" layout-align="start center"><md-button ng-href="./kits/{{kit.id}}" class="kitList full-width" ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty, kitList_borderBottom: $last}"><div class="kitList_container" layout="row" layout-align="start center"><img class="kitList_avatar" ng-src="{{ kit.avatar || \'./assets/images/avatar.svg\' }}"><div class="kitList_content"><h4>{{ kit.name || \'No name\' }}</h4><p class="kitList_data md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg"></md-icon><span>{{ kit.location || \'No location\' }}</span><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span>{{ kit.type || \'Unknown Kit\'}}</span></p></div><div class="kitList_right" layout="row" layout-align="end center"><div class="" ng-if="kit.belongProperty && (kit.state.name === \'never published\' || kit.state.name === \'not configured\')" layout="row" layout-align="center center"><span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span></div></div></div><div class="kitList_tags" layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="label in kit.labels">{{ label }}</span><tag ng-repeat="tag in kit.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-button><div class="kitList_config" ng-if="kit.belongProperty" layout="row" layout-align="center center"><md-button class="kitList_dropdownButton" aria-label="" dropdown-menu="kit.dropdownOptions" dropdown-model="vm.dropdownSelected" dropdown-item-label="text"><md-icon md-svg-src="./assets/images/config_icon.svg"></md-icon></md-button></div><div ng-if="kit.belongProperty"><md-button ng-click="actions.remove(kit.id)" class="warn" aria-label=""><md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon></md-button></div></div>');
 $templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"> <a href="/kits/" class="btn-black-outline btn-round-new sc-off-cta-platform" analytics-on="click" analytics-category="Landing">GO TO THE PLATFORM</a><section class="video-section"><div class="heading-over-video" layout="column" layout-align="center start"><h1 class="color-white font-kanit">PRE-ORDER YOUR SMART CITIZEN KIT FROM SEEED STUDIO</h1><a href="https://www.seeedstudio.com/smartcitizen" class="btn-blue btn-round-new mb-30 mt-20" analytics-on="click" analytics-category="Landing">PRE-ORDER NOW</a></div></section><div style="margin: 0 auto; max-width:1200px" class="p-60 color-black"><section layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top"><h2>WE EMPOWER COMMUNITIES TO BETTER UNDERSTAND THEIR ENVIRONMENT</h2><p style="margin-bottom:33px">We\'re a team of passionate people who believe data is critical to inform political participation at all levels. We develop tools for citizen action in environmental monitoring and methodologies for community engagement and co-creation.</p><a href="https://www.facebook.com/PlayGroundMag/videos/2061510993888766/" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">WATCH THE DOCUMENTARY</a></div><div flex-order-xs="1" class="img-new_sck tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-sck_edu tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom"><h2>INTRODUCING A NEW AND IMPROVED KIT</h2><p style="margin-bottom:33px">For the past three years, we have been working on an updated version of the Kit. The new sensors collect urban data more accurately and are easier to use. The Smart Citizen Kit 2.1 is now available for pre-order.</p><a href="https://www.seeedstudio.com/smartcitizen" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">PRE-ORDER NOW</a></div></div></section><section class="mt-50"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2>TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd sensing initiative in your neighborhood. Use Smart Citizen to create local maps of noise and air quality; use it to raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCHERS</h3><p>Use Smart Citizen as a tool for data capture and analysis. Understand the relationship between people, environment, and technology through real-world deployment. Contribute to the project by joining the open source development community.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">CITIES AND GOVERNMENTS</h3><p class="color-white">Smart Cities should be built together with Smart Citizens. We provide the tools and knowledge to foster citizen engagement through participatory data collection, analysis and action.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section><section class="mt-50"><div layout="row" layout-xs="column" layout-align="space-around center" class="p-30 border-black bg-white"><div flex="45" flex-xs="100"><h2>CIVIC PARTICIPATION ACROSS THE GLOBE</h2></div><div flex="45" flex-xs="100"><p>The project uses open source technologies such as Arduino to enable ordinary citizens to gather information on their environment and make it available to the public on the Smart Citizen platform.</p></div></div><div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image"><a href="/kits/" class="btn-blue btn-round-new mb-30" analytics-on="click" analytics-category="Landing">GO TO THE PLATFORM</a></div></section><section class="mt-50"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input style="border:none; padding:12px 50px" class="btn-yellow btn-round-new my-20" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" analytics-on="click" analytics-category="Landing" analytics-event="Subscribe to newsletter"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="mt-50 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project in Github.</p><a href="https://github.com/fablabbcn?utf8=\u2713&q=smartcitizen" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">VISIT REPOSITORY</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px;" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">GET INVOLVED</a></p></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/landing/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
-$templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop="" md-whiteframe="4"><md-toolbar style="background-color:black" layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content layout-margin="" layout="column" layout-align="center center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><div ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></div><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class=""></div><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
+$templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop="" md-whiteframe="4"><md-toolbar style="background-color:black" layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><div ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></div><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class=""></div><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/login/login.html','<md-button class="md-flat" ng-click="showLogin($event)" angular-on="click" angular-event="Login" angular-action="click">Log In</md-button>');
 $templateCache.put('app/components/login/loginModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Log in</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear class="md-hue-3" ng-show="waitingFromServer" md-mode="indeterminate"></md-progress-linear><form novalidate="" ng-submit="answer(vm.user)" name="loginForm"><div class="md-dialog-content"><div layout="column"><h2 class="m-0">People looking for a better city</h2><p>You\'re part of them? Feel free to join us!</p></div><div layout="row" layout-sm="column"><md-input-container class="md-block"><label>Username</label> <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input="" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.username.$touched && loginForm.username.$error)" role="alert"><div ng-message="required">Username is required</div><div ng-if="vm.errors.id">Username or password incorrect</div></div></md-input-container><md-input-container class="md-block"><label>Password</label> <input type="password" name="password" ng-model="vm.user.password" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert"><div ng-message="required">Password is required</div></div></md-input-container></div><md-button class="message_below_link" ng-click="openSignup()" angular-on="click" angular-event="Login" angular-action="signup">New here? Sign up</md-button><md-button class="message_below_link" ng-click="openPasswordRecovery()" angular-on="click" angular-event="Login" angular-action="password recover">Forgot your password?</md-button></div><div><md-button class="btn-blue btn-full" type="submit">LOG IN</md-button></div></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/map/map.html','<section class="map" change-map-height=""><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><div class="map_legend" layout="row" layout-align="start center" move-filters=""><div class="map_legend__filtersContainer" layout="column"><div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50"><div class="map_filter_button"><md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon></div><p class="filter_description">Filters</p></div><div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50"><div class="map_filter_button"><p>#</p></div><p class="filter_description">Tags</p></div></div><div class="chips" layout="column"><div layout="row" class="chips_row"><span ng-repeat="filter in vm.selectedFilters" ng-if="!vm.checkAllFiltersSelected()" class="chip label" style="padding: 0 10px;">{{ filter }}</span></div><div layout="row" class="chips_row" layout-wrap=""><span class="chip tag" ng-repeat="tag in vm.selectedTags">{{ tag }}<md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon></span></div></div></div><md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
