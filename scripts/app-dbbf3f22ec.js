@@ -1919,89 +1919,6 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('UserProfileController', UserProfileController);
-
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location',
-      'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
-      'NonAuthUser', '$q', 'PreviewKit'];
-    function UserProfileController($scope, $stateParams, $location, utils,
-        user, device, alert, auth, userUtils, $timeout, animation,
-        NonAuthUser, $q, PreviewKit) {
-
-      var vm = this;
-      var userID = parseInt($stateParams.id);
-
-      vm.status = undefined;
-      vm.user = {};
-      vm.kits = [];
-      vm.filteredKits = [];
-      vm.filterKits = filterKits;
-
-      $scope.$on('loggedIn', function() {
-        var authUser = auth.getCurrentUser().data;
-        if( userUtils.isAuthUser(userID, authUser) ) {
-          $location.path('/profile');
-        }
-      });
-
-      initialize();
-
-      //////////////////
-
-      function initialize() {
-
-        user.getUser(userID)
-          .then(function(user) {
-            vm.user = new NonAuthUser(user);
-
-            var kitIDs = _.map(vm.user.kits, 'id');
-            if(!kitIDs.length) {
-              return [];
-            }
-
-            return $q.all(
-              kitIDs.map(function(id) {
-                return device.getDevice(id)
-                  .then(function(data) {
-                    return new PreviewKit(data);
-                  });
-              })
-            );
-
-          }).then(function(kitsData){
-            if (kitsData){
-              vm.kits = kitsData;
-            }
-          }, function(error) {
-            if(error && error.status === 404) {
-              $location.url('/404');
-            }
-          });
-
-        $timeout(function() {
-          setSidebarMinHeight();
-          animation.viewLoaded();
-        }, 500);
-      }
-
-      function filterKits(status) {
-        if(status === 'all') {
-          status = undefined;
-        }
-        vm.status = status;
-      }
-
-      function setSidebarMinHeight() {
-        var height = document.body.clientHeight / 4 * 3;
-        angular.element('.profile_content').css('min-height', height + 'px');
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .factory('utils', utils);
 
     utils.$inject = ['device', 'PreviewKit', '$q'];
@@ -4777,6 +4694,89 @@
   'use strict';
 
   angular.module('app.components')
+    .controller('UserProfileController', UserProfileController);
+
+    UserProfileController.$inject = ['$scope', '$stateParams', '$location',
+      'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
+      'NonAuthUser', '$q', 'PreviewKit'];
+    function UserProfileController($scope, $stateParams, $location, utils,
+        user, device, alert, auth, userUtils, $timeout, animation,
+        NonAuthUser, $q, PreviewKit) {
+
+      var vm = this;
+      var userID = parseInt($stateParams.id);
+
+      vm.status = undefined;
+      vm.user = {};
+      vm.kits = [];
+      vm.filteredKits = [];
+      vm.filterKits = filterKits;
+
+      $scope.$on('loggedIn', function() {
+        var authUser = auth.getCurrentUser().data;
+        if( userUtils.isAuthUser(userID, authUser) ) {
+          $location.path('/profile');
+        }
+      });
+
+      initialize();
+
+      //////////////////
+
+      function initialize() {
+
+        user.getUser(userID)
+          .then(function(user) {
+            vm.user = new NonAuthUser(user);
+
+            var kitIDs = _.map(vm.user.kits, 'id');
+            if(!kitIDs.length) {
+              return [];
+            }
+
+            return $q.all(
+              kitIDs.map(function(id) {
+                return device.getDevice(id)
+                  .then(function(data) {
+                    return new PreviewKit(data);
+                  });
+              })
+            );
+
+          }).then(function(kitsData){
+            if (kitsData){
+              vm.kits = kitsData;
+            }
+          }, function(error) {
+            if(error && error.status === 404) {
+              $location.url('/404');
+            }
+          });
+
+        $timeout(function() {
+          setSidebarMinHeight();
+          animation.viewLoaded();
+        }, 500);
+      }
+
+      function filterKits(status) {
+        if(status === 'all') {
+          status = undefined;
+        }
+        vm.status = status;
+      }
+
+      function setSidebarMinHeight() {
+        var height = document.body.clientHeight / 4 * 3;
+        angular.element('.profile_content').css('min-height', height + 'px');
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .controller('UploadController', UploadController);
 
   UploadController.$inject = ['kit', '$state', '$stateParams', 'animation'];
@@ -5344,6 +5344,227 @@ angular.module('app.components')
 })();
 
 (function() {
+'use strict';
+
+
+  angular.module('app.components')
+    .directive('search', search);
+
+  function search() {
+    return {
+      scope: true,
+      restrict: 'E',
+      templateUrl: 'app/components/search/search.html',
+      controller: 'SearchController',
+      controllerAs: 'vm'
+    };
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('SearchController', SearchController);
+
+    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
+    function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
+      var vm = this;
+
+      vm.searchTextChange = searchTextChange;
+      vm.selectedItemChange = selectedItemChange;
+      vm.querySearch = querySearch;
+
+      ///////////////////
+
+      function searchTextChange() {
+      }
+
+      function selectedItemChange(result) {
+        if (!result) { return; }
+        if(result.type === 'User') {
+          $location.path('/users/' + result.id);
+        } else if(result.type === 'Device') {
+          $location.path('/kits/' + result.id);
+        } else if (result.type === 'City'){
+          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type, layer: result.layer});
+        }
+      }
+
+      function querySearch(query) {
+        if(query.length < 3) {
+          return [];
+        }
+
+        ga('send', 'event', 'Search Input', 'search', query);
+        return search.globalSearch(query)
+          .then(function(data) {
+
+            return data.map(function(object) {
+
+              if(object.type === 'City' || object.type === 'Country') {
+                return new SearchResultLocation(object);
+              } else {
+                return new SearchResult(object);
+              }
+            });
+          });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('PasswordResetController', PasswordResetController);
+
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
+      'animation', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $timeout,
+      animation, $location, alert, auth) {
+        
+      var vm = this;
+      vm.showForm = false;
+      vm.form = {};
+      vm.isDifferent = false;
+      vm.answer = answer;
+
+      initialize();
+      ///////////
+
+      function initialize() {
+        $timeout(function() {
+          animation.viewLoaded();
+        }, 500);
+        getUserData();
+      }
+
+      function getUserData() {
+        auth.getResetPassword($stateParams.code)
+          .then(function() {
+            vm.showForm = true;
+          })
+          .catch(function() {
+            alert.error('Wrong url');
+            $location.path('/');
+          });
+      }
+
+      function answer(data) {
+        vm.waitingFromServer = true;
+        vm.errors = undefined;
+
+        if(data.newPassword === data.confirmPassword) {
+          vm.isDifferent = false;
+        } else {
+          vm.isDifferent = true;
+          return;
+        }
+
+        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
+          .then(function() {
+            alert.success('Your data was updated successfully');
+            $location.path('/profile');
+          })
+          .catch(function(err) {
+            alert.error('Your data wasn\'t updated');
+            vm.errors = err.data.errors;
+          })
+          .finally(function() {
+            vm.waitingFromServer = false;
+          });
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('PasswordRecoveryModalController', PasswordRecoveryModalController);
+
+    PasswordRecoveryModalController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
+    function PasswordRecoveryModalController($scope, animation, $mdDialog, auth, alert) {
+
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+
+      $scope.recoverPassword = function() {
+        $scope.waitingFromServer = true;
+        var data = {
+          /*jshint camelcase: false */
+          email_or_username: $scope.input
+        };
+
+        auth.recoverPassword(data)
+          .then(function() {
+            alert.success('You were sent an email to recover your password');
+            $mdDialog.hide();
+          })
+          .catch(function(err) {          
+            alert.error('That username doesn\'t exist');
+            $scope.errors = err.data;
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
+          }); 
+      };
+
+      $scope.openSignup = function() {
+        animation.showSignup();
+        $mdDialog.hide();
+      };
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('PasswordRecoveryController', PasswordRecoveryController);
+
+    PasswordRecoveryController.$inject = ['auth', 'alert', '$mdDialog'];
+    function PasswordRecoveryController(auth, alert, $mdDialog) {
+      var vm = this;
+
+      vm.waitingFromServer = false;
+      vm.errors = undefined;
+      vm.recoverPassword = recoverPassword;
+
+      ///////////////
+
+      function recoverPassword() {
+        vm.waitingFromServer = true;
+        vm.errors = undefined;
+        
+        var data = {
+          username: vm.username
+        };
+
+        auth.recoverPassword(data)
+          .then(function() {
+            alert.success('You were sent an email to recover your password');
+            $mdDialog.hide();
+          })
+          .catch(function(err) {          
+            vm.errors = err.data.errors;
+            if(vm.errors) {
+              alert.error('That email/username doesn\'t exist');              
+            } 
+          })
+          .finally(function() {
+            vm.waitingFromServer = false;
+          }); 
+      }
+    } 
+})();
+
+(function() {
   'use strict';
 
   angular.module('app.components')
@@ -5709,328 +5930,6 @@ angular.module('app.components')
 
 
     }
-})();
-
-(function() {
-'use strict';
-
-
-  angular.module('app.components')
-    .directive('search', search);
-
-  function search() {
-    return {
-      scope: true,
-      restrict: 'E',
-      templateUrl: 'app/components/search/search.html',
-      controller: 'SearchController',
-      controllerAs: 'vm'
-    };
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('SearchController', SearchController);
-
-    SearchController.$inject = ['$scope', 'search', 'SearchResult', '$location', 'animation', 'SearchResultLocation'];
-    function SearchController($scope, search, SearchResult, $location, animation, SearchResultLocation) {
-      var vm = this;
-
-      vm.searchTextChange = searchTextChange;
-      vm.selectedItemChange = selectedItemChange;
-      vm.querySearch = querySearch;
-
-      ///////////////////
-
-      function searchTextChange() {
-      }
-
-      function selectedItemChange(result) {
-        if (!result) { return; }
-        if(result.type === 'User') {
-          $location.path('/users/' + result.id);
-        } else if(result.type === 'Device') {
-          $location.path('/kits/' + result.id);
-        } else if (result.type === 'City'){
-          animation.goToLocation({lat: result.lat, lng: result.lng, type: result.type, layer: result.layer});
-        }
-      }
-
-      function querySearch(query) {
-        if(query.length < 3) {
-          return [];
-        }
-
-        ga('send', 'event', 'Search Input', 'search', query);
-        return search.globalSearch(query)
-          .then(function(data) {
-
-            return data.map(function(object) {
-
-              if(object.type === 'City' || object.type === 'Country') {
-                return new SearchResultLocation(object);
-              } else {
-                return new SearchResult(object);
-              }
-            });
-          });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('PasswordResetController', PasswordResetController);
-
-    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
-      'animation', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $timeout,
-      animation, $location, alert, auth) {
-        
-      var vm = this;
-      vm.showForm = false;
-      vm.form = {};
-      vm.isDifferent = false;
-      vm.answer = answer;
-
-      initialize();
-      ///////////
-
-      function initialize() {
-        $timeout(function() {
-          animation.viewLoaded();
-        }, 500);
-        getUserData();
-      }
-
-      function getUserData() {
-        auth.getResetPassword($stateParams.code)
-          .then(function() {
-            vm.showForm = true;
-          })
-          .catch(function() {
-            alert.error('Wrong url');
-            $location.path('/');
-          });
-      }
-
-      function answer(data) {
-        vm.waitingFromServer = true;
-        vm.errors = undefined;
-
-        if(data.newPassword === data.confirmPassword) {
-          vm.isDifferent = false;
-        } else {
-          vm.isDifferent = true;
-          return;
-        }
-
-        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
-          .then(function() {
-            alert.success('Your data was updated successfully');
-            $location.path('/profile');
-          })
-          .catch(function(err) {
-            alert.error('Your data wasn\'t updated');
-            vm.errors = err.data.errors;
-          })
-          .finally(function() {
-            vm.waitingFromServer = false;
-          });
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('PasswordRecoveryModalController', PasswordRecoveryModalController);
-
-    PasswordRecoveryModalController.$inject = ['$scope', 'animation', '$mdDialog', 'auth', 'alert'];
-    function PasswordRecoveryModalController($scope, animation, $mdDialog, auth, alert) {
-
-      $scope.hide = function() {
-        $mdDialog.hide();
-      };
-      $scope.cancel = function() {
-        $mdDialog.cancel();
-      };
-
-      $scope.recoverPassword = function() {
-        $scope.waitingFromServer = true;
-        var data = {
-          /*jshint camelcase: false */
-          email_or_username: $scope.input
-        };
-
-        auth.recoverPassword(data)
-          .then(function() {
-            alert.success('You were sent an email to recover your password');
-            $mdDialog.hide();
-          })
-          .catch(function(err) {          
-            alert.error('That username doesn\'t exist');
-            $scope.errors = err.data;
-          })
-          .finally(function() {
-            $scope.waitingFromServer = false;
-          }); 
-      };
-
-      $scope.openSignup = function() {
-        animation.showSignup();
-        $mdDialog.hide();
-      };
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('PasswordRecoveryController', PasswordRecoveryController);
-
-    PasswordRecoveryController.$inject = ['auth', 'alert', '$mdDialog'];
-    function PasswordRecoveryController(auth, alert, $mdDialog) {
-      var vm = this;
-
-      vm.waitingFromServer = false;
-      vm.errors = undefined;
-      vm.recoverPassword = recoverPassword;
-
-      ///////////////
-
-      function recoverPassword() {
-        vm.waitingFromServer = true;
-        vm.errors = undefined;
-        
-        var data = {
-          username: vm.username
-        };
-
-        auth.recoverPassword(data)
-          .then(function() {
-            alert.success('You were sent an email to recover your password');
-            $mdDialog.hide();
-          })
-          .catch(function(err) {          
-            vm.errors = err.data.errors;
-            if(vm.errors) {
-              alert.error('That email/username doesn\'t exist');              
-            } 
-          })
-          .finally(function() {
-            vm.waitingFromServer = false;
-          }); 
-      }
-    } 
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('LoginModalController', LoginModalController);
-
-    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'animation'];
-    function LoginModalController($scope, $mdDialog, auth, animation) {
-      const vm = this;
-      $scope.answer = function(answer) {
-        $scope.waitingFromServer = true;
-        auth.login(answer)
-          .then(function(data) {
-            /*jshint camelcase: false */
-            var token = data.access_token;
-            auth.saveData(token);
-            $mdDialog.hide();
-          })
-          .catch(function(err) {
-            vm.errors = err.data;
-            ga('send', 'event', 'Login', 'logged in');
-          })
-          .finally(function() {
-            $scope.waitingFromServer = false;
-            ga('send', 'event', 'Login', 'failed');
-          });
-      };
-      $scope.hide = function() {
-        $mdDialog.hide();
-      };
-      $scope.cancel = function() {
-        $mdDialog.hide();
-      };
-
-      $scope.openSignup = function() {
-        animation.showSignup();
-        $mdDialog.hide();
-      };
-
-      $scope.openPasswordRecovery = function() {
-        $mdDialog.show({
-          hasBackdrop: true,
-          controller: 'PasswordRecoveryModalController',
-          templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
-          clickOutsideToClose: true
-        });
-
-        $mdDialog.hide();
-      };
-    }
-})();
-
-(function() {
-  'use strict';
-
-    angular.module('app.components')
-      .directive('login', login);
-
-    function login() {
-      return {
-        scope: {
-          show: '='
-        },
-        restrict: 'A',
-        controller: 'LoginController',
-        controllerAs: 'vm',
-        templateUrl: 'app/components/login/login.html'
-      };
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('LoginController', LoginController);
-
-  LoginController.$inject = ['$scope', '$mdDialog'];
-  function LoginController($scope, $mdDialog) {
-
-    $scope.showLogin = showLogin;
-
-    $scope.$on('showLogin', function() {
-      showLogin();
-    });
-
-    ////////////////
-
-    function showLogin() {
-      $mdDialog.show({
-        hasBackdrop: true,
-        controller: 'LoginModalController',
-        controllerAs: 'vm',
-        templateUrl: 'app/components/login/loginModal.html',
-        clickOutsideToClose: true
-      });
-    }
-
-  }
 })();
 
 (function() {
@@ -6619,6 +6518,107 @@ angular.module('app.components')
 
     }
 
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('LoginModalController', LoginModalController);
+
+    LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'animation'];
+    function LoginModalController($scope, $mdDialog, auth, animation) {
+      const vm = this;
+      $scope.answer = function(answer) {
+        $scope.waitingFromServer = true;
+        auth.login(answer)
+          .then(function(data) {
+            /*jshint camelcase: false */
+            var token = data.access_token;
+            auth.saveData(token);
+            $mdDialog.hide();
+          })
+          .catch(function(err) {
+            vm.errors = err.data;
+            ga('send', 'event', 'Login', 'logged in');
+          })
+          .finally(function() {
+            $scope.waitingFromServer = false;
+            ga('send', 'event', 'Login', 'failed');
+          });
+      };
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+      $scope.cancel = function() {
+        $mdDialog.hide();
+      };
+
+      $scope.openSignup = function() {
+        animation.showSignup();
+        $mdDialog.hide();
+      };
+
+      $scope.openPasswordRecovery = function() {
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'PasswordRecoveryModalController',
+          templateUrl: 'app/components/passwordRecovery/passwordRecoveryModal.html',
+          clickOutsideToClose: true
+        });
+
+        $mdDialog.hide();
+      };
+    }
+})();
+
+(function() {
+  'use strict';
+
+    angular.module('app.components')
+      .directive('login', login);
+
+    function login() {
+      return {
+        scope: {
+          show: '='
+        },
+        restrict: 'A',
+        controller: 'LoginController',
+        controllerAs: 'vm',
+        templateUrl: 'app/components/login/login.html'
+      };
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('LoginController', LoginController);
+
+  LoginController.$inject = ['$scope', '$mdDialog'];
+  function LoginController($scope, $mdDialog) {
+
+    $scope.showLogin = showLogin;
+
+    $scope.$on('showLogin', function() {
+      showLogin();
+    });
+
+    ////////////////
+
+    function showLogin() {
+      $mdDialog.show({
+        hasBackdrop: true,
+        controller: 'LoginModalController',
+        controllerAs: 'vm',
+        templateUrl: 'app/components/login/loginModal.html',
+        clickOutsideToClose: true
+      });
+    }
+
+  }
 })();
 
 (function() {
@@ -8228,7 +8228,7 @@ $templateCache.put('app/components/home/template.html','<div><section class="con
 $templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="kits.length === 0"><small>No kits</small></div><div class="kitList_parent" ng-repeat="kit in kits track by kit.id" layout="row" layout-align="start center"><md-button ng-href="./kits/{{kit.id}}" class="kitList full-width" ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty, kitList_borderBottom: $last}"><div class="kitList_container" layout="row" layout-align="start center"><img class="kitList_avatar" ng-src="{{ kit.avatar || \'./assets/images/avatar.svg\' }}"><div class="kitList_content"><h4>{{ kit.name || \'No name\' }}</h4><p class="kitList_data md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg"></md-icon><span>{{ kit.location || \'No location\' }}</span><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span>{{ kit.type || \'Unknown Kit\'}}</span></p></div><div class="kitList_right" layout="row" layout-align="end center"><div class="" ng-if="kit.belongProperty && (kit.state.name === \'never published\' || kit.state.name === \'not configured\')" layout="row" layout-align="center center"><span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span></div></div></div><div class="kitList_tags" layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="label in kit.labels">{{ label }}</span><tag ng-repeat="tag in kit.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-button><div class="kitList_config" ng-if="kit.belongProperty" layout="row" layout-align="center center"><md-button class="kitList_dropdownButton" aria-label="" dropdown-menu="kit.dropdownOptions" dropdown-model="vm.dropdownSelected" dropdown-item-label="text"><md-icon md-svg-src="./assets/images/config_icon.svg"></md-icon></md-button></div><div ng-if="kit.belongProperty"><md-button ng-click="actions.remove(kit.id)" class="warn" aria-label=""><md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon></md-button></div></div>');
 $templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"> <a href="/kits/" class="btn-black-outline btn-round-new sc-off-cta-platform" analytics-on="click" analytics-category="Landing">GO TO THE PLATFORM</a><section class="video-section"><div class="heading-over-video" layout="column" layout-align="center start"><h1 class="color-white font-kanit">PRE-ORDER YOUR SMART CITIZEN KIT FROM SEEED STUDIO</h1><a href="https://www.seeedstudio.com/smartcitizen" class="btn-blue btn-round-new mb-30 mt-20" analytics-on="click" analytics-category="Landing">PRE-ORDER NOW</a></div></section><div style="margin: 0 auto; max-width:1200px" class="p-60 color-black"><section layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top"><h2>WE EMPOWER COMMUNITIES TO BETTER UNDERSTAND THEIR ENVIRONMENT</h2><p style="margin-bottom:33px">We\'re a team of passionate people who believe data is critical to inform political participation at all levels. We develop tools for citizen action in environmental monitoring and methodologies for community engagement and co-creation.</p><a href="https://www.facebook.com/PlayGroundMag/videos/2061510993888766/" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">WATCH THE DOCUMENTARY</a></div><div flex-order-xs="1" class="img-new_sck tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-sck_edu tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom"><h2>INTRODUCING A NEW AND IMPROVED KIT</h2><p style="margin-bottom:33px">For the past three years, we have been working on an updated version of the Kit. The new sensors collect urban data more accurately and are easier to use. The Smart Citizen Kit 2.1 is now available for pre-order.</p><a href="https://www.seeedstudio.com/smartcitizen" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">PRE-ORDER NOW</a></div></div></section><section class="mt-50"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2>TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd sensing initiative in your neighborhood. Use Smart Citizen to create local maps of noise and air quality; use it to raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCHERS</h3><p>Use Smart Citizen as a tool for data capture and analysis. Understand the relationship between people, environment, and technology through real-world deployment. Contribute to the project by joining the open source development community.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">CITIES AND GOVERNMENTS</h3><p class="color-white">Smart Cities should be built together with Smart Citizens. We provide the tools and knowledge to foster citizen engagement through participatory data collection, analysis and action.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section><section class="mt-50"><div layout="row" layout-xs="column" layout-align="space-around center" class="p-30 border-black bg-white"><div flex="45" flex-xs="100"><h2>CIVIC PARTICIPATION ACROSS THE GLOBE</h2></div><div flex="45" flex-xs="100"><p>The project uses open source technologies such as Arduino to enable ordinary citizens to gather information on their environment and make it available to the public on the Smart Citizen platform.</p></div></div><div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image"><a href="/kits/" class="btn-blue btn-round-new mb-30" analytics-on="click" analytics-category="Landing">GO TO THE PLATFORM</a></div></section><section class="mt-50"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input style="border:none; padding:12px 50px" class="btn-yellow btn-round-new my-20" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!" analytics-on="click" analytics-category="Landing" analytics-event="Subscribe to newsletter"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="mt-50 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project in Github.</p><a href="https://github.com/fablabbcn?utf8=\u2713&q=smartcitizen" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">VISIT REPOSITORY</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px;" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new" analytics-on="click" analytics-category="Landing">GET INVOLVED</a></p></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/landing/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
-$templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop="" md-whiteframe="4"><md-toolbar style="background-color:black" layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content layout-margin="" layout="column" layout-align="center center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><div ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></div><div ng-show="vm.isShown" target="_blank" hide-xs="" store="" logged="vm.isLoggedin" class=""></div><md-menu ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu><md-button ng-href="./about">About</md-button><md-button ng-href="./styleguide">Styleguide</md-button></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
+$templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop="" md-whiteframe="4"><md-toolbar style="background-color:black" layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content layout-margin="" layout="column" layout-align="center center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><div ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></div><div ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></div><div ng-show="vm.isShown" hide-xs="" store="" logged="vm.isLoggedin" class=""></div><md-menu ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu><md-button ng-href="./about">About</md-button><md-button ng-href="./styleguide">Styleguide</md-button></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/login/login.html','<md-button class="md-flat" ng-click="showLogin($event)" angular-on="click" angular-event="Login" angular-action="click">Log In</md-button>');
 $templateCache.put('app/components/login/loginModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Log in</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear class="md-hue-3" ng-show="waitingFromServer" md-mode="indeterminate"></md-progress-linear><form novalidate="" ng-submit="answer(vm.user)" name="loginForm"><div class="md-dialog-content"><div layout="column"><h2 class="m-0">People looking for a better city</h2><p>You\'re part of them? Feel free to join us!</p></div><div layout="row" layout-sm="column"><md-input-container class="md-block"><label>Username</label> <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input="" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.username.$touched && loginForm.username.$error)" role="alert"><div ng-message="required">Username is required</div><div ng-if="vm.errors.id">Username or password incorrect</div></div></md-input-container><md-input-container class="md-block"><label>Password</label> <input type="password" name="password" ng-model="vm.user.password" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert"><div ng-message="required">Password is required</div></div></md-input-container></div><md-button class="message_below_link" ng-click="openSignup()" angular-on="click" angular-event="Login" angular-action="signup">New here? Sign up</md-button><md-button class="message_below_link" ng-click="openPasswordRecovery()" angular-on="click" angular-event="Login" angular-action="password recover">Forgot your password?</md-button></div><div><md-button class="btn-blue btn-full" type="submit">LOG IN</md-button></div></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/map/map.html','<section class="map" change-map-height=""><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><div class="map_legend" layout="row" layout-align="start center" move-filters=""><div class="map_legend__filtersContainer" layout="column"><div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50"><div class="map_filter_button"><md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon></div><p class="filter_description">Filters</p></div><div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50"><div class="map_filter_button"><p>#</p></div><p class="filter_description">Tags</p></div></div><div class="chips" layout="column"><div layout="row" class="chips_row"><span ng-repeat="filter in vm.selectedFilters" ng-if="!vm.checkAllFiltersSelected()" class="chip label" style="padding: 0 10px;">{{ filter }}</span></div><div layout="row" class="chips_row" layout-wrap=""><span class="chip tag" ng-repeat="tag in vm.selectedTags">{{ tag }}<md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon></span></div></div></div><md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
@@ -8249,7 +8249,7 @@ $templateCache.put('app/components/static/404.html','<section class="landing-pag
 $templateCache.put('app/components/static/about.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>About</h1></div></div><div class=""><div class="content"><h2 id="who">Who</h2><p>The project is born within <a href="http://fablabbcn.org" class="about">Fab Lab Barcelona</a> at the <a href="http://www.iaac.net" class="about">Institute for Advanced Architecture of Catalonia</a>, both focused centers on the impact of new technologies at different scales of human habitat, from the bits to geography.</p><div layout="row" layout-align="space-between center"><a href="http://www.fablabbcn.org/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/fablab-bcn.jpg"></md-card></a> <a href="http://www.iaac.net/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/iaac.jpg"></md-card></a> <a href="http://mediainteractivedesign.com/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/mid.jpg"></md-card></a> <a href="#" flex="22"></a></div><div class="subtitle-separation"><h3>Collaborators</h3><div layout="row" layout-align="space-between center"><a href="http://www.hangar.org" flex="22"><md-card><img src="../../../assets/images/who-section-logos/hangar.jpg"></md-card></a> <a href="http://goteo.org/project/smart-citizen-sensores-ciudadanos" flex="22"><md-card><img src="../../../assets/images/who-section-logos/goteo.jpg"></md-card></a> <a href="http://lafosca.cat" flex="22"><md-card><img src="../../../assets/images/who-section-logos/lafosca.jpg"></md-card></a> <a href="http://www.facebook.com/manifiestodesign" flex="22"><md-card><img src="../../../assets/images/who-section-logos/manifesto.jpg"></md-card></a></div></div><div class="subtitle-separation"><h3>Partners</h3><div layout="row" layout-align="space-between center"><a href="http://amsterdamsmartcity.com/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/amsterdam-smart-city.jpg"></md-card></a> <a href="https://www.waag.org/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/waag-society.jpg"></md-card></a> <a href="http://futureeverything.org/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/future-everything.jpg"></md-card></a> <a href="http://cisco.com/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/cisco.jpg"></md-card></a></div><div layout="row" layout-align="space-between center"><a href="http://intel.com/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/intel.jpg"></md-card></a> <a href="http://www.bcn.cat/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/aj-barcelona.jpg"></md-card></a> <a href="http://barcelonacultura.bcn.cat/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/barcelona-cultura.jpg"></md-card></a> <a href="https://arrayofthings.github.io/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/array-things.jpg"></md-card></a></div><div layout="row" layout-align="space-between center"><a href="http://organicity.eu/" flex="22"><md-card><img src="../../../assets/images/who-section-logos/organicity.jpg"></md-card></a> <a href="#" flex="22"></a> <a href="#" flex="22"></a> <a href="#" flex="22"></a></div></div><div class="subtitle-separation"><h3>Crowdfunding</h3><p>This project gets funding thanks to lovely backers on:</p><div flex="100"><h3>Kickstarter 2013</h3></div><div layout="row" layout-xs="column" layout-align="center center"><div flex-xs="100" flex="60" style="padding:20px;"><iframe width="100%" height="240px" src="https://www.kickstarter.com/projects/acrobotic/the-smart-citizen-kit-crowdsourced-environmental-m/widget/video.html" frameborder="0"></iframe></div><div flex-xs="100" flex="30"><iframe frameborder="0" height="430" src="https://www.kickstarter.com/projects/acrobotic/the-smart-citizen-kit-crowdsourced-environmental-m/widget/card.html" width="220"></iframe></div></div><div class="expandable sensor-image-margin"><div class="expandBT"><h3>Goteo 2012</h3></div><div class="expand-panel goteo"><p>You can find more information at <a href="http://goteo.org/project/smart-citizen-sensores-ciudadanos/" class="about">Goteo</a></p><table cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0;"><tbody><tr><td width="30%">Garcia</td><td width="30%">Abraham Cembrero Z\xFA\xF1iga</td><td width="30%">Adria (rzcll)</td></tr><tr><td>Aitor Aloa del Teso</td><td>Albert homs</td><td>Alberto P\xE9rez Olaya</td></tr><tr><td>Alexandre Dubor</td><td>Alex Posada</td><td>Alfonso mendoza</td></tr><tr><td>Alvaros_g</td><td>Andr\xE9s Cerezo Guill\xE9n</td><td>\xC1ngel D. Berruezo</td></tr><tr><td>\xC1ngel Mu\xF1oz</td><td>Anna Kaziunas France</td><td>Antic Teatre</td></tr><tr><td>Anto Recio</td><td>Antonio Garc\xEDa Calder\xF3n</td><td>Araceli Corbo</td></tr><tr><td>Areti (IAAC)</td><td>Arnau Ayza</td><td>Arnau Cangr\xF2s i Alonso</td></tr><tr><td>Arturo Saez</td><td>Avenida Sofia Hotel & Spa Sitges</td><td>babisansone</td></tr><tr><td>BaM</td><td>Beatrice Th\xE8ves-Engelbach</td><td>Blance Duarte (blancaivette)</td></tr><tr><td>bzzzbip</td><td>Carlos Bock</td><td>Carlos Iglesias</td></tr><tr><td>castarco</td><td>champloo</td><td>Chema Casanova</td></tr><tr><td>Cliensol energy</td><td>ColaBoraBora</td><td>crisis2smart</td></tr><tr><td>Dani D\xEDaz</td><td>Daniel</td><td>Daniel N\xFCst</td></tr><tr><td>Daniel Saavedra</td><td>Daviba</td><td>David LH</td></tr><tr><td>David Pe\xF1uela</td><td>David Scarlatti</td><td>Davide Gallino</td></tr><tr><td>diegobus</td><td>dpr-barcelona</td><td>dsanchezbote</td></tr><tr><td>dvd (dpa1973)</td><td>Ed Borden</td><td>Ed Mago</td></tr><tr><td>edward hollands</td><td>El Franc</td><td>Eloi Garrido</td></tr><tr><td>Eloi Maduell</td><td>Emil Lima</td><td>Emily Sato</td></tr><tr><td>enricostn</td><td>ernesto guillen fontalba</td><td>esenabre</td></tr><tr><td>Eusebio Reyero</td><td>Eva Saura</td><td>Fabien Girardin</td></tr><tr><td>Felix Dubor</td><td>F\xE9lix Pedrera Garc\xEDa</td><td>Franz Jimeno</td></tr><tr><td>Fred Adam</td><td>Felix Sainz</td><td>G!N</td></tr><tr><td>Gabo</td><td>Gerald Kogler y Marti Sanchez</td><td>Gil Obradors</td></tr><tr><td>hHenri Aboulker</td><td>hexxan labs</td><td>pfaffsandy</td></tr><tr><td>Iker Jimenez</td><td>ilitch</td><td>Inigo Barrera</td></tr><tr><td>Javier A. Rodr\xEDguez</td><td>Javier Montaner</td><td>Javier S\xE1nchez</td></tr><tr><td>Jean-Baptiste HEREN</td><td>jnogueras</td><td>Joan Vall\xE9s</td></tr><tr><td>Jordi Ferran</td><td>Jorge Daniel Czajkowski</td><td>Jorge Sanz</td></tr><tr><td>Jos\xE9 Costoya</td><td>Jos\xE9 (politema)</td><td>Jose M Arbones Mainar</td></tr><tr><td>Jose Manuel</td><td>Josep Perell\xF3</td><td>josianito</td></tr><tr><td>Juan Saura Ram\xEDrez</td><td>Juanjo Frechilla</td><td>J\xFAlia L\xF3pez i Ventura</td></tr><tr><td>Juli\xE1n C\xE1naves</td><td>Kincubator</td><td>laia s\xE1nchez</td></tr><tr><td>LauraFdez</td><td>Lucas Cappelli</td><td>Luis (Fraguada)</td></tr><tr><td>Mara Balestrini</td><td>Marc (Pous)</td><td>Marc Garriga</td></tr><tr><td>marcabra (Bravalero(</td><td>Maria Mu\xF1oz</td><td>Marianella (Coronell)</td></tr><tr><td>marioarienza</td><td>Marita Bom</td><td>Marte Roel</td></tr><tr><td>mborobio</td><td>memojoelojo</td><td>Miguel Senabre</td></tr><tr><td>Miquel Colomer</td><td>miska (Goteo)</td><td>Mois\xE9s Fern\xE1ndez</td></tr><tr><td>monica donati</td><td>nadya</td><td>Natassa Pistofidou</td></tr><tr><td>Norella Coronell</td><td>Nuriona</td><td>Olivier (schulbaum)</td></tr><tr><td>Oriol Ferrer Mesi\xE0</td><td>Pablo Rey Trist\xE1n</td><td>Parque Cient\xEDfico y Tecnol\xF3gico de Bizkaia</td></tr><tr><td>Pilar Conesa</td><td>pang</td><td>Raf</td></tr><tr><td>Paula Baptista</td><td>Pere Casas Puig</td><td>Rocio Holzer</td></tr><tr><td>Ra\xFAl Micharet</td><td>Solo01</td><td>Rob Aalders</td></tr><tr><td>viriatov</td><td>Roberto (Madman)</td><td>Santiago Vilanova</td></tr><tr><td>Salvador Ejarque</td><td>pmisson</td><td>Sergi Mart\xEDnez</td></tr><tr><td>Sim\xF3n Lee</td><td>SirViente</td><td>SMD Arq (Oriol)</td></tr><tr><td>Vicen\xE7 Sampera</td><td>VideoDossier</td><td>Henri Boulker</td></tr><tr><td>tiefpunkt (Severin)</td><td>xa2 (Diaz)</td><td>Xavi Polo</td></tr><tr><td>Xixo</td><td>Zeca (Fernandez)</td><td></td></tr></tbody></table></div></div></div><div layout="column" class="subtitle-separation"><h2>Team</h2><div class="team-cells-margin"><h4 class="no-margin">Tomas Diez</h4><p class="no-margin">Co-founder, strategic planning</p></div><div class="team-cells-margin"><h4 class="no-margin">Alex Posada</h4><p class="no-margin">Co-founder, project hardware design and development</p></div><div class="team-cells-margin"><h4 class="no-margin">Guillem Camprodon</h4><p class="no-margin">Project management and development</p></div><div class="team-cells-margin"><h4 class="no-margin">M.A. Heras</h4><p class="no-margin">Hardware design and development</p></div><div class="team-cells-margin"><h4 class="no-margin">Aitor Aloa</h4><p class="no-margin">Customer support and logistics</p></div><div class="team-cells-margin"><h4 class="no-margin">John Rees</h4><p class="no-margin">Lead backend developer</p></div><div class="team-cells-margin"><h4 class="no-margin">Mara Balestrini</h4><p class="no-margin">Communities development and research</p></div><div class="team-cells-margin"><h4 class="no-margin">Enrique Perotti</h4><p class="no-margin">Industrial design</p></div><div class="team-cells-margin"><h4 class="no-margin">V\xEDctor Barber\xE1n</h4><p class="no-margin">Hardware design and development</p></div><div class="team-cells-margin"><h4 class="no-margin">Silvia Puglisi</h4><p class="no-margin">Front-end and backend developer</p></div></div><div class="subtitle-separation"><h2>Former team and collaborators</h2><p>We would like to thank the effort and contributions to the project of all the former team members and collaborators who helped the project since 2012.</p><div class="team-cells-margin"><h4 class="no-margin">Alexandre Dubor</h4><p class="no-margin">First platform design, programming and development</p></div><div class="team-cells-margin"><h4 class="no-margin">Leonardo Arrata</h4><p class="no-margin">Platform and mobile app design and development</p></div><div class="team-cells-margin"><h4 class="no-margin">Xavier Vinaixa</h4><p class="no-margin">Original platform API and mobile app development</p></div><div class="team-cells-margin"><h4 class="no-margin">Gabriel Bello-Diaz</h4><p class="no-margin">First platform design</p></div><div class="team-cells-margin"><h4 class="no-margin">Jorren Schauwaert</h4><p class="no-margin">Project management and communication</p></div><div class="team-cells-margin"><h4 class="no-margin">Alejandro Andreu</h4><p class="no-margin">Original project documentation and project revision</p></div><div class="team-cells-margin"><h4 class="no-margin">Rub\xE9n Vicario</h4><p class="no-margin">New web platform development</p></div><div class=""><h4 class="no-margin">M\xE1ximo Gavete</h4><p class="no-margin">New web platform platform design</p></div><div class="team-cells-margin"><h4 class="no-margin">\xC1ngel Mu\xF1oz</h4><p class="no-margin">Hardware research and development</p></div></div><div id="contact" class="subtitle-separation"><h2>Contact Us</h2><p>Please feel free to <a class="about" href="mailto:info@smartcitizen.me">contact us.</a> We will answer you as soon as possible!</p></div></div><img src="./assets/images/sck_front.jpg" class="full-width-img"></div></section>');
 $templateCache.put('app/components/static/policy.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Privacy policy</h1></div></div><div class=""><div class="content"><h2 id="terms-of-use" name="terms-of-use">Terms of use</h2><p>By using the Platform you acknowledge, accept and agree these Terms of Use and the Privacy Policy available at <a href="#terms-of-use" class="about">Terms of use</a>.</p><p>By using the Platform you acknowledge, accept and agree these Terms of Use and the Privacy Policy available at <a href="#">Terms of use</a>(/pages/terms).</p><h3>1. Your relationship with Smart Citizen</h3><p>1. Please note that your use of Smart Citizen website www.smartcitizen.me/ and any possible software or tool provided to you for the access/registration to and/or the use of the website <b>(hereinafter the "Platform")</b> is subject to the terms of a legal agreement between you and FabLab Barcelona, Pujades 102, Barcelona - 08005 <b>(hereinafter "Smart Citizen")</b>.</p><p>2. The legal agreement between you and Smart Citizen governing the use of the Platform is made up of the terms and conditions set out in this document <b>(hereinafter the "Terms of Use")</b> and the Smart Citizen\'s privacy policy available at <a href="#policy" class="about">Privacy policy</a> <b>(hereinafter the "Privacy Policy")</b> (collectively called the "Terms").</p><p>3. The Terms form a legally binding agreement between you and Smart Citizen in relation to your use of the Platform. It is important that you take the time to read them carefully.</p><p>4. The Terms apply to all users of the Platform, including those who are also contributing to it by uploading on the Platform data captured thought the Smart Citizen Kit <b>(hereinafter the "SCK")</b>. It is possible to purchase a SCK at the following <a ng-click="vm.showStore()" class="about" analytics-on="click" analytics-event="Kit Purchase" analytics-action="view">link</a> and this purchase is entirely regulated by the Terms and Conditions of Purchase available at the following <a href="#terms-of-use" class="about">link</a>.</p><h3>2. Accepting the Terms</h3><p>1. The Terms constitute a contract between you and Smart Citizen. If you do not agree to these Terms, you do not have the right to access or use the Platform.</p><p>2. If you do use the Platform, your use shall be deemed to confirm your acceptance of the Terms and your agreement to be a party to this binding contract.</p><p>3. You should print off or save a copy of the Terms for your records.</p><h3>3. Changes to the Terms</h3><p>1. Smart Citizen reserves the right to make changes the Terms from time to time, for example to address changes to the law or regulatory changes or changes to functionality offered through the Platform.</p><p>2. If such changes occur, Smart Citizen will do its best to provide you with advance notice, although in some situations, such as where a change is required to satisfy applicable legal requirements, an update to these Terms may need to be effective immediately. Smart Citizen will announce changes directly on the Platform and it also may elect to notify you of changes by sending an email to the address you have provided to it. In any case, the revised version of Terms of Use will be always accessible at <a href="#terms-of-use" class="about">Terms of use</a> and the revised version of the Privacy Policy will be accessible at <a href="#policy" class="about">Privacy policy</a>.</p><p>3. If Smart Citizen does update the Terms, you are free to decide whether to accept the revised terms or to stop using the Platform. Your continued use of the Platform after the date the revised Terms are posted will constitute your acceptance of these new Terms.</p><p>4. You understand and agree that You are solely responsible for periodically reviewing the Terms.</p><p>5. Except for changes made by Smart Citizen as described above, no other amendment or modification of these Terms shall be effective unless set forth in a written agreement bearing a written signature by you and Smart Citizen. For clarity, email or other communications will not constitute an effective written agreement for this purpose.</p><h3>4. Smart Citizen Platform Description</h3><p>1. The Smart Citizen Platform is born as part of a project within Fab Lab Barcelona (<a href="http://fablabbcn.org" class="about">fablabbcn.org</a>) at the Institute for Advanced Architecture of Catalonia (<a href="http://iaac.net" class="about">iaac.net</a>), developed in collaboration with Hangar (<a href="http://hangar.org" class="about">hangar.org</a>), focused on the impact of new technologies at different scales of human habitat, from the bits to geography.</p><p>2. Smart Citizen project is based on geolocation, Internet and free hardware and software for data collection and sharing. It aims at generating participatory processes of people in the cities. Connecting data, people and knowledge, the objective of the project is to serve as a node for building productive and open indicators and thereafter the collective construction of the city for its own inhabitants.</p><p>3. Anyone can order a Smart Citizen Kit at the following <a ng-click="vm.showStore()" class="about">link</a>. The SCK is an open source electronic sensor board equipped with air quality, temperature, sound, humidity and light quantity sensors, containing a solar charger and equipped with a WiFi antenna that allows to upload data from the sensors in real time to the Platform and make it available to the community.</p><p>4. In order to share data captured with the SCK and/or access to other user\'s data on the Platform, it is necessary to register and create a Smart Citizen account.</p><h3>5. Creating a Smart Citizen account</h3><p>1. In order to use the Platform, you need to create a Smart Citizen account. You create an account by providing Smart Citizen with username and email address and creating a password <b>(hereinafter "Account Information\u201D)</b>.</p><p>2. You are the only responsible for maintaining the accuracy, completeness and confidentiality of your Account Information, and you will be responsible for all activities that occur under your account, including activities of others to whom you have provided your Account Information. Smart Citizen is not be liable for any loss or damage arising from your failure to provide accurate information or to keep your Account Information secure. If you discover any unauthorized use of your Account Information or suspect that anyone may be able to access your private Content, you should immediately change your password and notify the Customer Support team at the following address <a href="mailto:info@smartcitizen.me" class="about">link</a>.</p><h3>6. Using the Platform and uploading Content</h3><p>1. Your use of the Platform shall be in accordance with these Terms. You agree that you are the only responsible for your own conduct and all conduct under your account.</p><p>2. Once your account is created and you accept these Terms, we grant you a limited, non-exclusive license to use the Platform subject to these Terms, for so long as you are not barred from using the Platform under the laws applicable to you, until you voluntarily close your account or until we close your account pursuant to these Terms. You do not obtain any other right or interest in the Platform.</p><p>3. Anyone can order a Smart Citizen Kit at the following <a ng-click="vm.showStore()" class="about">link</a>. The SCK is an open source electronic sensor board equipped with air quality, temperature, sound, humidity and light quantity sensors, containing a solar charger and equipped with a WiFi antenna that allows to upload data from the sensors in real time to the Platform and make it available to the community.</p><p>4. In order to share data captured with the SCK and/or access to other user\'s data on the Platform, it is necessary to register and create a Smart Citizen account.</p><p>5. You agree that you are the sole responsible as the person who created the Content or introduced it into the Platform. This applies whether the Content is kept private, shared or transmitted using the Platform or any third party application or services integrated with the Platform.</p><p>6. Smart Citizen is not liable for the Content or accuracy of any information, and shall not be responsible for any acts taken or decisions made based on such information.</p><p>7. Smart Citizen does not select or screen Content, and does not review, test, confirm, approve or verify any user data or Content or the accuracy of it. Smart Citizen access to/storing of/use of Content does not imply or create any liability on the part of it. However, Smart Citizen reserves in some circumstances the right to edit, limit or remove any such Content in its sole discretion and will not be responsible for any Content deleted or for your inability to submit any Content.</p><h3>7. Restricted use of the Platform</h3><p>1. You agree not to use the Platform for any illegal purpose nor to post, distribute, or otherwise make available or transmit any data, software or other computer files that (i) contain a virus, trojan horse, worm or other harmful or destructive component, (ii) infringe third parties\' rights (intellectual property rights and personality rights).</p><p>2. You agree not to alter or modify any part of the Platform and its related technologies nor to (or attempt to) circumvent, disable or otherwise interfere with any security related features of the Platform.</p><p>3. You agree not to distribute any part of or parts of the Platform, including but not limited to any Content, in any medium without Smart Citizen\'s prior written authorisation, unless Smart Citizen makes available the means for such distribution through functionality offered by the Platform. You also agree not to access Content through any technology or means other than those Smart Citizen may explicitly designate for this purpose.</p><p>4. You agree not to massively collect or harvest or use Content or any other data available thought the platform (including users\' data such as account names), unless you agree on keeping all generated analysis data sets open and available on the Platform.</p><p>5. You agree not to use the Platform or any data available through the platform for commercial use unless you obtain Smart Citizen\'s prior written approval nor to solicit, for such commercial purposes, any users of the Platform with respect to their Content;</p><p>6. You agree that you are solely responsible for (and that Smart Citizen has no responsibility to you or to any third party for) any breach of your obligations under the Terms and for the consequences of any such breach.</p><h3>8. Content rights and licenses</h3><p>1. You retain copyright and any other rights you already held in your Content before you submitted, posted or displayed it on or through the Platform. Other than the limited license and other rights you grant in these Terms, Smart Citizen acknowledges and agrees that it do not obtain any right, title or interest from you under these Terms in any of your Content.</p><p>2. By using the Platform and uploading you grant Smart Citizen a limited license in order to make your data accessible and usable on the Platform. Thus, you grant Smart Citizen a license to display, execute, and distribute any of your Content and to modify for technical purposes and reproduce such Content to enable Smart Citizen to operate the Platform. You also agree that Smart Citizen has the right to elect not to accept, post, execute, store, display, publish or transmit any Content. You agree that these rights and licenses are royalty free, irrevocable and worldwide (for so long as your Content is accessible on the Platform), and include a right for Smart Citizen to make such Content available to, and pass these rights along to, others with whom this latter has contractual relationships related to the provision of the Platform, solely for the purpose of providing Platform\'s services, and to otherwise permit access to or disclose your Content to third parties if it determines such access is necessary to comply with its legal obligations.</p><p>3. Except as described in these Terms of Use, unless you elect to enable others to view or have access to the Content you submit to the Platform, no one else should see your Content without your consent. Of course, if you do elect to publish or share any portion of your Content by creating a feed of information, or creating a webservice to publish Content, then you would be enabling each of those permitted users to access, use, display, perform, distribute and modify your Content. In addition, Smart Citizen enables you to use a variety of third party services and applications that interact with the Platform and your Content, and you should review the access rights you provide to those services or applications, as you may enable them to access your Content through your agreements with those parties.</p><p>4. You also represent and warranty that, by submitting Content to the Platform and granting Smart Citizen the rights described in these Terms, you are not infringing the rights of any person or third party.</p><h3>9. Changes to the Platform</h3><p>1. We retain the right, in our sole discretion, to implement new elements as part of and/or ancillary to the Platform, including changes that may affect its previous mode of operation.</p><p>2. We also reserve the right to establish limits to the nature or size of storage available to you, the number of transmissions and email messages, execution of you program code, your Content and other data, and impose other limitations at any time, with or without notice.</p><p>3. You agree that Smart Citizen has no responsibility or liability as a result of, without limitation, the deletion of, or failure to make available to you, any Content. You agree that we shall not be liable to you or to any third party for any modification, suspension or discontinuance of any part of the Platform.</p><h3>10. Termination</h3><p>1. You may close your Platform account at any time, for any reason (or no reason), and you do not even have to give us notice.</p><p>2. Smart Citizen may suspend access to your account, or close your account according to these Terms. Reasons for Smart Citizen suspending or closing your account may include, without limitation: (i) breach or violation of these Terms or any other agreement between you and Smart Citizen and related to the use of the Platform, (ii) the discontinuance or material modification of the Platform (or any part thereof) or (iii) unexpected technical or security issues or problems. In most cases, in the event we elect to close your account, we will provide at least 30 days advance notice to you at the email address you have provided at the creation of the account. After the expiration of this notice period, you will no longer be able to retrieve Content contained in that account or otherwise use the Platform through that account.</p><p>3. Smart Citizen shall not be liable to you or any third party for termination of the Platform.</p><p>4. All disclaimers, limitations of warranties and damages, and confidential commitments set forth in these Terms of Use or otherwise existing at law survive any termination, expiration of these Terms of Use.</p><h3>11. Third-Party Links, applications or APIs</h3><p>1. We may include or recommend third party resources, materials and developers and/or links to third party websites and applications as part of, or in connection with, the Platform. We have no control over such sites or developers and, accordingly, you acknowledge and agree that (i) we are not responsible for the availability of such external sites or applications; (ii) we are not responsible or liable for any content or other materials or performance available from such sites or applications and (iii) we shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, materials or applications.</p><h3>12. Indemnity</h3><p>1. You agree to indemnify and hold Smart Citizen, its subsidiaries, affiliates, officers, agents, employees, advertisers and partners harmless from and against any and all claims, liabilities, damages (actual and consequential), losses and expenses (including legal and other professional fees) arising from or in any way related to any third party claims relating to your use of any of the Platform, any violation of these Terms of Use or any other actions connected with your use of the Platform (including all actions taken under your account). In the event of such claim, we will provide notice of the claim, suit or action to the contact information we have for the account, provided that any failure to deliver such notice to you shall not eliminate or reduce your indemnification obligation hereunder.</p><h3>13. High Risk Activities</h3><p>1. Smart Citizen Platform are not fault-tolerant and are not designed, manufactured or intended for use as or with on-line control equipment in hazardous environments requiring fail-safe performance, such as in the operation of nuclear facilities, aircraft navigation or communication systems, air traffic control, direct life support machines or weapon systems in which the failure of the Platforms could lead directly to death, personal injury or severe physical or environmental damage ("High Risk Activities"). Accordingly, Smart Citizen and its suppliers specifically disclaim any express or implied warranty of fitness for High Risk Activities.</p><h3>14. The Platform is Available \u201CAs Is.\u201D</h3><p>1. The Platform is Available \u201CAs Is.\u201D YOU EXPRESSLY UNDERSTAND AND AGREE THAT:</p><p>1.1. YOUR USE OF THE PLATFORM IS AT YOUR SOLE RISK. THE PLATFORM IS PROVIDED ON AN \u201CAS IS\u201D AND \u201CAS AVAILABLE\u201D BASIS. TO THE MAXIMUM EXTENT PERMITTED BY LAW, SMART CITIZEN EXPRESSLY DISCLAIMS ALL WARRANTIES AND CONDITIONS OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT;</p><p>1.2. SMART CITIZEN DOES NOT WARRANT THAT (i) THE PLATFORM WILL MEET ALL OF YOUR REQUIREMENTS; (ii) THE PLATFORM WILL BE UNINTERRUPTED, TIMELY, SECURE OR ERROR-FREE; OR (iii) ALL ERRORS IN THE SOFTWARE OR PLATFORM WILL BE CORRECTED;</p><p>1.3. ANY MATERIAL DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE USE OF THE PLATFORM IS DONE AT YOUR OWN DISCRETION AND RISK AND THAT YOU ARE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR COMPUTER SYSTEMS OR OTHER DEVICE OR LOSS OF DATA THAT RESULTS FROM THE DOWNLOAD OF ANY SUCH MATERIAL;</p><p>1.4. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED BY YOU FROM SMART CITIZEN OR THROUGH OR FROM THE PLATFORM SHALL CREATE ANY WARRANTY NOT EXPRESSLY STATED IN THESE TERMS OF USE.</p><p>2. Until further notice Smart Citizen Platform is provided as a Beta software release which means THERE IS NO SERVICE LEVEL AGREEMENT AND NO WARRANTY OF SERVICE AVAILABILITY.</p><h3>15. Limitation of Liability</h3><p>1. YOU EXPRESSLY UNDERSTAND AND AGREE THAT SMART CITIZEN, ITS SUBSIDIARIES, AFFILIATES AND LICENSORS, AND OUR AND THEIR RESPECTIVE OFFICERS, EMPLOYEES, AGENTS AND SUCCESSORS SHALL NOT BE LIABLE TO YOU FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES, INCLUDING BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA, COVER OR OTHER INTANGIBLE LOSSES (EVEN IF SMART CITIZEN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES) RESULTING FROM:</p><p>1.1. THE USE OR THE INABILITY TO USE THE PLATFORM;</p><p>1.2. UNAUTHORIZED ACCESS TO OR THE LOSS, CORRUPTION OR ALTERATION OF YOUR TRANSMISSIONS, CONTENT OR DATA;</p><p>1.3. STATEMENTS OR CONDUCT OF ANY THIRD PARTY ON OR USING THE PLATFORM;</p><p>1.4. SMART CITIZEN ACTIONS OR OMISSIONS IN RELIANCE UPON YOUR ACCOUNT INFORMATION AND ANY CHANGES THERETO OR NOTICES RECEIVED THEREFROM;</p><p>1.5. YOUR FAILURE TO PROTECT THE CONFIDENTIALITY OF ANY PASSWORDS OR ACCESS RIGHTS TO YOUR ACCOUNT INFORMATION;</p><p>1.6. THE ACTS OR OMISSIONS OF ANY THIRD PARTY USING OR INTEGRATING WITH THE PLATFORM;</p><p>1.7. THE TERMINATION OF YOUR ACCOUNT IN ACCORDANCE WITH THESE TERMS; OR</p><p>1.8. ANY OTHER MATTER RELATING TO THE PLATFORM.</p><p>2. NOTHING IN THESE TERMS IS INTENDED TO EXCLUDE OR LIMIT ANY CONDITION, WARRANTY, RIGHT OR LIABILITY WHICH MAY NOT BE LAWFULLY EXCLUDED OR LIMITED.</p><h3>16. Miscellaneous</h3><p>1. These Terms of Use shall be governed by and construed in accordance with Spanish laws, without giving effect to any principles of conflict of law. You agree that any action at law or in equity arising out of or relating to these Terms of Use shall be filed only in Spanish Courts and you hereby consent and submit to the personal jurisdiction of such courts for the purposes of litigating any such action.</p><p>2. These Terms of Use shall be governed by and construed in accordance with Spanish laws, without giving effect to any principles of conflict of law. You agree that any action at law or in equity arising out of or relating to these Terms of Use shall be filed only in Spanish Courts and you hereby consent and submit to the personal jurisdiction of such courts for the purposes of litigating any such action.</p><p>3. No party shall be liable for any performance failure, delay in performance, or lost data under these Terms of Use due to causes beyond that party\'s reasonable control and occurring without its fault or negligence.</p><p>4. The failure of Smart Citizen to partially or fully exercise any right shall not prevent the subsequent exercise of such right. The waiver by Smart Citizen of any breach shall not be deemed a waiver of any subsequent breach of the same or any other term of these Terms of Use. No remedy made available to Smart Citizen by any of the provisions of these Terms of Use is intended to be exclusive of any other remedy, and each and every remedy shall be cumulative and in addition to every other remedy available at law or in equity.</p><p>5. All products, company names, brand names, trademarks and logos are the property of their respective owners.</p></div></div><div class=""><div class="content"><h2 id="policy" name="policy">Privacy</h2><p>This Privacy Policy explains what information Smart Citizen collects about you and why. Please read it carefully.</p><h3>1. The purpose of this Privacy Policy</h3><p>1. This Privacy Policy shall be read together with and in accordance with Smart Citizen Platform Terms of Use available at <a href="#terms-of-use" class="about">Terms of use</a> <b>(hereinafter the "Terms of Use")</b>, and applies to the personal data obtained by Smart Citizen through your use of the Smart Citizen Platform. The terms and definition used in this Privacy Policy shall have the meanings provided for in the Terms of Use if not otherwise defined.</p><h3>2. Changes to the Privacy Policy</h3><p>1. According to Smart Citizen evolution, we may need to update this Privacy Policy and change in the Terms of Use. We will always maintain our commitment to respect your privacy and comply with the laws applicable to us and to you.</p><p>2. We will always publish any revised Privacy Policy, along with its effective date, in the following page <a href="#policy" class="about">Privacy policy</a>.</p><p>3. If required by applicable law, we will obtain your consent to such changes. In the other cases, please note that your continuation of your Smart Citizen Platform account after any change means that you agree with, and consent to be bound by, the revised Privacy Policy. If you disagree with any changes and do not wish your personal data to be subject to the revised Policy, you will need to close your account before the new Policy becomes effective.</p><h3>3. Personal Data processed</h3><p>1. In order to operate the Platform, Smart Citizen collects personal data about platform\'s users. Two main types of information are processed:</p><p>1.1. Users\' personal data related to the creation and the maintenance of the Platform account (e.g. your username, email address, geo localisation and other personal information you provided at the creation of the account) ("<b>Personal Account Information</b>").</p><p>1.2. Information collected by Google Analytics and other tools while you navigate through the Platform, in order to help us to improve the service ("<b>Anonymous Data</b>")<b>(hereinafter collectively called "Personal Data")</b>.</p><p>2. Smart Citizen also passively stores Content you add/post/upload to your account but it do not autonomously collect or process those Content for its own purposes. You remain the only responsible, liable of the Content, and the only data controller in relation to personal data possibly published/uploaded in your account.</p><h3>4. Processing purposes</h3><p>1. All Personal Data received from you will be treated fairly and lawfully.</p><p>1.1. (a) The processing of Personal Account Information: (i) allows Smart Citizen to create and maintain your account, operate the Platform and provide the service; (ii) helps Smart Citizen communicate with you about your use of the Platform as well as answer to your assistance requests (iii) may be used by Smart Citizen for marketing purposes such as sending information material (i.e. commercial communications) and marketing emails. Providing your Personal Data for marketing purposes is a mere faculty and you are able to revoke your consent at any time (you can opt-out of such communications at any time by clicking the "unsubscribe" link found within Smart Citizen email). Any non-submission of Persona Data for such activities will have no consequence on the user\'s possibility to use the services and features offered by the Platform.</p><p>1.2. (b) Anonymous Data and automatic data collection tools: as you navigate through Smart Citizen Platform, certain anonymous information will be gathered without your actively providing the information. This information might be collected using various technologies, such as cookies, Internet tags or web beacons, and navigational data collection (log files, server logs, clickstream). Additional information is collected from your internet browser (such as the URL of the website you just came from, the Internet Protocol (IP) address, the browser version your computer or mobile device is currently using, the date and time you access the Platform and the pages that you access while at the Platform). This information is used exclusively for statistical purposes and in anonymous form in relation to the access of the Platform and for purposes of monitoring the correct functioning of the Platform and of enhancing its functioning and content.</p><h3>5. Personal Data communication by Smart Citizen</h3><p>1. Smart Citizen is not in the business of selling or renting user information, and it only discloses Personal data when:</p><p>1.1. We have your explicit consent to share the information;</p><p>1.2. We need to share your information with affiliated and unaffiliated service providers to fulfil the service request;</p><p>1.3. We believe it is necessary to investigate potential violations of our Terms of Use, to enforce them, or when we believe it is necessary to investigate, prevent or take action regarding illegal activities, suspected fraud or potential threats against persons, property or the systems on which we operate the Platform;</p><p>1.4. In any other case provided for by the applicable law, including compliance with warrants, court orders or other legal process.</p><h3>6. Your rights</h3><p>1. 1. Data subjects have the right to ask for confirmation, amendment, update and cancellation of her/his personal data as well as oppose unlawful processing.</p><p>2. If you wish to (i) access any personal data Smart Citizen hold about you; (ii) request that Smart Citizen corrects or deletes your personal data; or (iii) request that Smart Citizen not use or stop using your persona data for marketing purposes may do so by contacting us at <a href="mailto:info@smartcitizen.me" class="about">info@smartcitizen.me</a>. We will comply with such requests to the extent permitted or required by applicable laws.</p><h3>7. Personal Data storage and transmission within the European Union:</h3><p>1. When you use Smart Citizen Platform your Personal Data will be stored in servers which are currently located in Spain. By using Smart Citizen Platform you are confirming your consent to such information, including Personal Information and Content, being hosted and accessed in Spain.</p><p>2. Personal Data may be communicated to and shared with other companies in accordance with section 5 above but the transfer will always occur within the European Economic Area ("EEA").</p><h3>8. Security of you Data and data breach</h3><p>1. Smart Citizen is committed to protecting the security of your information and takes reasonable precautions to protect it. However, Internet data transmissions, whether wired or wireless, cannot be guaranteed to be 100% secure, and as a result, Smart Citizen cannot ensure the security of information you transmit by using the Platform. Accordingly, you acknowledge that you do so at your own risk. Once Smart Citizen receive your data transmission, we make all commercially reasonable efforts to ensure its security on our systems.</p><p>2. If Smart Citizen learns of a security system breach, we will notify you and provide information on protective steps, if available, through the email address that you have provided to Smart Citizen or by posting a notice on our Platform.</p><h3>9. Other websites and applications</h3><p>1. The Platform may contain links to other websites and applications. Smart Citizen is not responsible for the privacy policies or privacy practices of any third party.</p><h3>10. Data Controller and contacts</h3><p>1. The data controller in relation to the Persona Data as defined and described above is: <a href="http://iaac.net/"><span class="">INSTITUT d\u2019ARQUITECTURA AVAN\xC7ADA DE CATALUNYA</span></a></p><p>2. If you have questions, comments or concerns about this Privacy Policy, please contact us by email at <a href="mailto:info@smartcitizen.me" class="about">info@smartcitizen.me</a>.</p></div></div></section>');
 $templateCache.put('app/components/static/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
-$templateCache.put('app/components/static/styleguide.html','<div class="styleguide"><section class="profile_header"><h1 class="sg-pageTitle">Smart Citizen Style Guide</h1></section><section layout="row"><div class="profile_sidebar pt-80"><p class="profile_sidebar_title">MENU</p><div class="profile_sidebar_options"><button class="profile_sidebar_button md-button md-default-theme">Fonts</button> <button class="profile_sidebar_button md-button md-default-theme">Buttons</button> <button class="profile_sidebar_button md-button md-default-theme">Colors</button></div></div><div flex="" class="pt-80 px-40"><h2 class="sg-titles">Font style - Light theme</h2><div layout="column" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 class="info-text" flex="30">2.2 em</h1><h1 class="info-text" flex="20">normal</h1></div><md-divider></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 class="info-text" flex="30">1.7 em</h2><h2 class="info-text" flex="20">normal</h2></div><md-divider></md-divider><div layout="row"><h3 flex="50">h3 Heading</h3><h3 class="info-text" flex="30">1.3 em</h3><h3 class="info-text" flex="20">bold</h3></div><md-divider></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 class="info-text" flex="30">1.1 em</h4><h4 class="info-text" flex="20">normal</h4></div><md-divider></md-divider><div layout="row"><p flex="50">Paragraph</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">normal</p></div><md-divider></md-divider><div layout="row"><p flex="50" class="sg-paragraph2">Paragraph info</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">lighter</p></div><md-divider></md-divider><small>Small text</small></div><div class="sg-text-box"><pre>\n          <code>\n            <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>\n            <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>\n            <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>\n            <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>\n            <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>\n            <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Font style - Dark theme</h2><div class="dark-text-section section-padding"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 flex="30" class="info-text-dark">1.8 em</h1><h1 flex="20" class="info-text-dark">normal</h1></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 flex="30" class="info-text-dark">1.7 em</h2><h2 flex="20" class="info-text-dark">normal</h2></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 flex="30" class="info-text-dark">1.1 em</h4><h4 flex="20" class="info-text-dark">normal</h4></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h6 flex="50">h6 Heading</h6><h6 flex="30" class="info-text-dark">0.75 em</h6><h6 flex="20" class="info-text-dark">bold</h6></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><p flex="50">Paragraph</p><p flex="30" class="info-text-dark">1 em</p><p flex="20" class="info-text-dark">lighter</p></div><md-divider class="dark-theme-divider"></md-divider><br><small>Small text</small></div><div class="sg-text-box"><pre>\n          <code class="">\n            <span>&lt;div class="dark-theme-section"&gt;</span>\n              <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>\n              <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>\n              <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>\n              <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>\n              <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>\n              <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>\n            <span>&lt;/div&gt;</span>  \n          </code>\n        </pre></div><h2 class="sg-titles">Buttons</h2><div flex="" layout="row" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div flex="25"><md-button>Button</md-button><br><md-button class="md-warn sg-button-margin">Warn button</md-button></div><div flex="25"><md-button ng-href="/about" class="btn-round btn-cyan">Link button</md-button><br><md-button class="md-flat md-primary sg-button-margin">Raised button</md-button></div><div flex="25"><span class="label">offline</span> <span class="tag">Barcelona</span></div></div><div class="sg-text-box"><pre>\n          <code>\n            <span>&lt;md-button&gt;</span> Button <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="btn-round btn-cyan"&gt;</span> Link button< span>&lt;/md-button&gt;\n            <span>&lt;md-button class="label"&gt;</span> offline <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="tag"&gt;</span> Barcelona <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="md-warn"&gt;</span> Warn button <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="md-flat md-primary"&gt;</span> Raised button <span>&lt;/md-button&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Colors</h2><div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><div flex="20" class="secondary-color"><p>#065063</p><p>$secondary_color</p></div><div flex="20" class="terciary_color"><p>#38CEF3</p><p>$terciary_color</p></div><div flex="20" class="secondary_color_light"><p>#8DB2BA</p><p>$secondary_color_light</p></div><div flex="20" class="secondary-color-pastel"><p>#C8E6ED</p></div><div flex="20" class="white"><p>#FFFFFF</p></div></div></div><div class="sg-text-box"><pre>\n          <code class="">\n            <span>&lt;div class="secondary-color"&gt;</span> \n              &lt;p&gt;#065063&lt;/p&gt;\n              &lt;p&gt;$secondary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="terciary_color"&gt;</span> \n              &lt;p&gt;#38CEF3&lt;/p&gt;\n              &lt;p&gt;$terciary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="secondary_color_light"&gt;</span> \n              &lt;p&gt;#8DB2BA&lt;/p&gt;\n              &lt;p&gt;$secondary_color_light&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="secondary-color-pastel"&gt;</span> \n              &lt;p&gt;#065063&lt;/p&gt;\n              &lt;p&gt;$secondary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="white"&gt;</span> \n              &lt;p&gt;#FFFFFF&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Sensor Charts Colors</h2><div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row" class="sensors"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div></div></section></div>');
+$templateCache.put('app/components/static/styleguide.html','<div class="styleguide"><section class="profile_header"><h1 class="sg-pageTitle">Smart Citizen Style Guide</h1></section><section layout="column" layout-gt-xs="row"><div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-sm="start start" layout="column"><p class="profile_sidebar_title">MENU</p><div class="profile_sidebar_options"><button class="profile_sidebar_button md-button md-default-theme">Fonts</button> <button class="profile_sidebar_button md-button md-default-theme">Buttons</button> <button class="profile_sidebar_button md-button md-default-theme">Colors</button></div></div><div flex="" class="pt-80 px-40"><h2 class="sg-titles">Font style - Light theme</h2><div layout="column" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 class="info-text" flex="30">2.2 em</h1><h1 class="info-text" flex="20">normal</h1></div><md-divider></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 class="info-text" flex="30">1.7 em</h2><h2 class="info-text" flex="20">normal</h2></div><md-divider></md-divider><div layout="row"><h3 flex="50">h3 Heading</h3><h3 class="info-text" flex="30">1.3 em</h3><h3 class="info-text" flex="20">bold</h3></div><md-divider></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 class="info-text" flex="30">1.1 em</h4><h4 class="info-text" flex="20">normal</h4></div><md-divider></md-divider><div layout="row"><p flex="50">Paragraph</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">normal</p></div><md-divider></md-divider><div layout="row"><p flex="50" class="sg-paragraph2">Paragraph info</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">lighter</p></div><md-divider></md-divider><small>Small text</small></div><div class="sg-text-box"><pre>\n          <code>\n            <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>\n            <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>\n            <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>\n            <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>\n            <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>\n            <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Font style - Dark theme</h2><div class="dark-text-section section-padding"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 flex="30" class="info-text-dark">1.8 em</h1><h1 flex="20" class="info-text-dark">normal</h1></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 flex="30" class="info-text-dark">1.7 em</h2><h2 flex="20" class="info-text-dark">normal</h2></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 flex="30" class="info-text-dark">1.1 em</h4><h4 flex="20" class="info-text-dark">normal</h4></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h6 flex="50">h6 Heading</h6><h6 flex="30" class="info-text-dark">0.75 em</h6><h6 flex="20" class="info-text-dark">bold</h6></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><p flex="50">Paragraph</p><p flex="30" class="info-text-dark">1 em</p><p flex="20" class="info-text-dark">lighter</p></div><md-divider class="dark-theme-divider"></md-divider><br><small>Small text</small></div><div class="sg-text-box"><pre>\n          <code class="">\n            <span>&lt;div class="dark-theme-section"&gt;</span>\n              <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>\n              <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>\n              <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>\n              <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>\n              <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>\n              <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>\n            <span>&lt;/div&gt;</span>  \n          </code>\n        </pre></div><h2 class="sg-titles">Buttons</h2><div layout="row" layout-wrap="" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div flex="33" flex-xs="100"><md-button>Button</md-button><br><md-button class="md-warn sg-button-margin">Warn button</md-button></div><div flex="33" flex-xs="100"><md-button ng-href="/about" class="btn-round btn-cyan">Link button</md-button><br><md-button class="md-flat md-primary sg-button-margin">Raised button</md-button></div><div flex="33" flex-xs="100"><span class="label">offline</span> <span class="tag">Barcelona</span></div></div><div class="sg-text-box"><pre>\n          <code>\n            <span>&lt;md-button&gt;</span> Button <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="btn-round btn-cyan"&gt;</span> Link button< span>&lt;/md-button&gt;\n            <span>&lt;md-button class="label"&gt;</span> offline <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="tag"&gt;</span> Barcelona <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="md-warn"&gt;</span> Warn button <span>&lt;/md-button&gt;</span>\n            <span>&lt;md-button class="md-flat md-primary"&gt;</span> Raised button <span>&lt;/md-button&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Colors</h2><div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><div flex="20" class="secondary-color"><p>#065063</p><p>$secondary_color</p></div><div flex="20" class="terciary_color"><p>#38CEF3</p><p>$terciary_color</p></div><div flex="20" class="secondary_color_light"><p>#8DB2BA</p><p>$secondary_color_light</p></div><div flex="20" class="secondary-color-pastel"><p>#C8E6ED</p></div><div flex="20" class="white"><p>#FFFFFF</p></div></div></div><div class="sg-text-box"><pre>\n          <code class="">\n            <span>&lt;div class="secondary-color"&gt;</span> \n              &lt;p&gt;#065063&lt;/p&gt;\n              &lt;p&gt;$secondary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="terciary_color"&gt;</span> \n              &lt;p&gt;#38CEF3&lt;/p&gt;\n              &lt;p&gt;$terciary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="secondary_color_light"&gt;</span> \n              &lt;p&gt;#8DB2BA&lt;/p&gt;\n              &lt;p&gt;$secondary_color_light&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="secondary-color-pastel"&gt;</span> \n              &lt;p&gt;#065063&lt;/p&gt;\n              &lt;p&gt;$secondary_color&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n\n            <span>&lt;div class="white"&gt;</span> \n              &lt;p&gt;#FFFFFF&lt;/p&gt;\n            <span>&lt;/div&gt;</span>\n          </code>\n        </pre></div><h2 class="sg-titles">Sensor Charts Colors</h2><div class="colors-section section-padding mb-30" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row" class="sensors"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div></div></section></div>');
 $templateCache.put('app/components/store/store.html','<md-button class="md-flat" ng-class="(isLoggedin) ? \'navbar_highlight_button\' : \'no-class\'" ng-href="https://www.seeedstudio.com/smartcitizen" analytics-on="click" analytics-event="Kit Purchase" analytics-action="view">Get your Kit</md-button>');
 $templateCache.put('app/components/store/storeModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Store</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" validate=""><div class="md-dialog-content max-width-500px min-height-80"><h2>Order your Smartcitizen Kit</h2><p>An Open-Source Environmental Monitoring Platform consisting of arduino-compatible hardware, data visualization web and mobile app, and a full featured Rest API.</p><div layout="row" layout-xs="column" layout-align="space-around center"><img class="img-circle" src="assets/images/sckit_avatar.jpg" alt="Smartcitizen Kit"><div class="store_itemDescription"><h3>This is what you get</h3><ul><li>Smart Citizen Kit (Data board,<br>Ambient board and battery)</li><li>Platform life subscription</li><li>Private REST API Key</li><li>Android App</li><li><i>Note: Outdoor enclosure available<br>separately. Please, write us on <a href="mailto:store@smartcitizen.me">store@smartcitizen.me</a></i></li></ul></div></div><p>We are currently out of stock working against time to finish the new version of the Smart Citizen Kit. Share us your email below and we will notify you as soon as kits are ready!</p><md-input-container><label>Email</label> <input type="email" name="EMAIL" required=""></md-input-container><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div></div><md-button ng-disabled="MailchimpSubscriptionForm.$invalid" type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn-blue btn-full" analytics-on="store" analytics-event="Kit Purchase" ng-click="addSubscription(mailchimp)" analytics-action="purchase">Notify me when ready</md-button></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/tags/tags.html','<section class="kitTags__section" ng-if="tagsCtl.selectedTags.length > 0" change-content-margin=""><div class="shadow"></div><div class="over_map"><div class="kit_fixed kitTags__container bg-white"><div class="kitTags__textContainer" layout-xs="column"><div class="kitTags__textElement"><h1><span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span></h1><h2>{{tagsCtl.markers.length}} kit{{tagsCtl.markers.length > 1 ? \'s are\' : \' is\'}} on <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span> and {{tagsCtl.percActive}}% are active today.</h2><p ng-repeat="tag in tagsCtl.selectedTags"><span ng-if="tag==\'BarcelonaNoise\'">The Barcelona <a href="http://making-sense.eu/">Making Sense</a> community looking at noise while testing the new SCK 1.5!</span></p></div><div class="kitTags__textElement"><h4 class="md-title">About #Tags</h4><p class="sg-paragraph2">Smart Citizen is a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the cityfor its own inhbitants.</p><md-button class="color-cyan" ng-href="https://forum.smartcitizen.me/index.php?p=/discussion/comment/1501" target="_blank">SUGGEST NEW TAGS</md-button></div></div></div></div><div class="kitTags__listContainer kit_fixed"><md-progress-circular ng-show="!tagsCtl.kits || tagsCtl.kits.length <= 0" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><section class="kit_owner_kits inside_list" ng-if="tagsCtl.kits.length > 0"><kit-list kits="tagsCtl.kits"></kit-list></section></div></section>');
