@@ -12,14 +12,13 @@
     color: $yellow;
     border-radius: 50px;
     //padding: 9px 11px;
-    width: 108px;
+    //width: 108px;
   }
 
   .logo_link {
     text-align: center;
 
     .logo_icon {
-      margin-left: 15px;
       height: 32px;
       width: 32px;
     }
@@ -34,45 +33,30 @@
     }
   }
 
-  .padding14 {
-    padding: 14px 8px;
-  }
-
-  .nav_left {
-    //width: 204px;
-    margin: 0px 18px;
-    .map {
+  .navbar_signup_button {
+    .md-button {
+      padding: 2px 0px;
+      border: 2px solid $yellow;
+      color: $yellow;
+      border-radius: 50px;
+      width: 79px;
     }
-    .community {
-      //width: 106px;
-    }
-  }
-
-  .nav_right {
-
-    .get {
-    }
-    .log {
-    }
-    .navbar_signup_button {
-
-      .md-button {
-        padding: 2px 0px;
-        border: 2px solid $yellow;
-        color: $yellow;
-        border-radius: 50px;
-        width: 79px;
-      }
-      .md-button:hover {
-        background-color: $yellow;
-        color: $off_black;
-      }
+    .md-button:hover {
+      background-color: $yellow;
+      color: $off_black;
     }
   }
+
 }
 
-md-toolbar{
-  background-color: $background_blue_dark_navbar !important;
-  z-index: $large_priority;
-  height: 64px;
+.navbar_avatar_icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
 }
+
+// Make sure the Dropdown stays below the button pushed
+.md-open-menu-container.md-active{
+  margin-top: 50px !important;
+}
+

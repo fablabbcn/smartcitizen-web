@@ -4,11 +4,23 @@
   angular.module('app.components')
     .controller('LayoutController', LayoutController);
 
-    LayoutController.$inject = ['$location', '$state', '$scope', '$transitions', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
-    function LayoutController($location, $state, $scope, $transitions, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
+    LayoutController.$inject = ['$mdSidenav','$mdDialog', '$location', '$state', '$scope', '$transitions', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
+    function LayoutController($mdSidenav, $mdDialog, $location, $state, $scope, $transitions, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
       var vm = this;
 
       vm.navRightLayout = 'space-around center';
+
+      $scope.toggleNav = function(){
+        vm.isShown = !vm.isShown;
+      }
+
+      $scope.toggleRight = buildToggler('right');
+
+    function buildToggler(componentId) {
+      return function() {
+        $mdSidenav(componentId).toggle();
+      };
+    }
 
       // listen for any login event so that the navbar can be updated
       $scope.$on('loggedIn', function(ev, options) {

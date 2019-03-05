@@ -171,6 +171,12 @@
 
 
 // Margin - padding helpers
+.m-0{
+  margin: 0;
+}
+.m-10{
+  margin: 10px;
+}
 .ml-0 {
   margin-left: 0px;
 }
@@ -201,6 +207,9 @@
 }
 .mw-100{
   max-width: 100%;
+}
+.p-0{
+  padding: 0;
 }
 .p-20{
   padding: 20px;

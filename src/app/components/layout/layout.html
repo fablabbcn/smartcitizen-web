@@ -1,42 +1,105 @@
 <div class="navbar_container">
-  <md-toolbar layout="row" layout-align="space-between center" class="stickNav" style="height:64px;">
+  <md-toolbar layout="row" layout-align="space-between center" class="stickNav">
+
     <a ui-sref="landing" class="logo_link">
-      <md-icon md-svg-src="./assets/images/LogotipoSmartCitizen.svg"
-               alt="Insert Drive Icon" class="logo_icon">
+      <md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon">
       </md-icon>
     </a>
-    <section layout="row" class="nav_left" layout-align="space-around center">
-      <md-button ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat padding14 map">
-        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon">
-        </md-icon>
+
+    <section layout="row" layout-align="start center">
+      <md-button hide-xs ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat map">
+        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"> </md-icon>
         <span>Map</span>
       </md-button>
-      <md-button ng-show="vm.isShown" href="" class="md-flat padding14 community" aria-label=""
-          dropdown-menu="vm.dropdownOptionsCommunity"
-          dropdown-model="vm.dropdownSelectedCommunity"
-          dropdown-item-label="text" layout="row" layout-align="center center">
-        <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon">
-        </md-icon>
+
+      <md-menu hide show-gt-sm ng-show="vm.isShown" >
+        <md-button ng-click="$mdMenu.open($event)">
+          <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"> </md-icon>
         <span>Community</span>
-      </md-button>
+        </md-button>
+
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
+            <md-button href="{{item.href}}">
+              {{item.text}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
     </section>
 
-    <search hide show-gt-xs flex ></search>
+    <search flex></search>
 
-    <section layout="row" class="nav_right" layout-align="{{vm.navRightLayout}}">
+    <section layout="row" layout-align="{{vm.navRightLayout}}">
 
-      <div ng-show="vm.isShown" store logged="vm.isLoggedin" class="md-flat get"></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" login class="navbar_login_button md-display-1"></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button md-display-1"></div>
+      <div ng-show="vm.isShown" hide-xs store logged="vm.isLoggedin" class="md-flat get"></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs login class="navbar_login_button "></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button"></div>
 
-      <md-button ng-show="vm.isShown && vm.isLoggedin" class="md-flat navbar_avatar_button float-right" aria-label="" dropdown-menu="vm.dropdownOptions"
-          dropdown-model="vm.dropdownSelected"
-          dropdown-item-label="text">
-        <img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || './assets/images/avatar.svg' }}" />
-      </md-button>
+      <md-menu ng-show="vm.isShown && vm.isLoggedin" >
+        <md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
+          <img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || './assets/images/avatar.svg' }}" />
+        </md-button>
+
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in vm.dropdownOptions">
+            <md-button href="{{item.href}}">
+              {{item.text}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </section>
+
+    <md-button hide-gt-sm ng-click="toggleRight()" layout="column" layout-align="center center">
+      <img class="" ng-src="{{'./assets/images/menu2.svg' }}" />
+    </md-button>
+
   </md-toolbar>
 </div>
+
+<!-- Sidenav menu only visible on small -->
+<section layout="row" flex>
+  <md-sidenav class="md-sidenav-right" md-component-id="right" md-disable-backdrop md-whiteframe="4">
+
+    <md-toolbar style="background-color:black" layout="row" layout-align="end center">
+      <md-button ng-click="toggleRight()" layout="column" layout-align="center center"> 
+        <img class="" ng-src="{{'./assets/images/menu2.svg' }}" />
+      </md-button>
+    </md-toolbar>
+
+    <md-content layout-margin layout="column" layout-align="center center">
+      <md-button hide-xs ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat map">
+        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon>
+        <span>Map</span>
+      </md-button>
+
+      <div ng-show="vm.isShown && !vm.isLoggedin" login class=""></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" signup class=""></div>
+      <div ng-show="vm.isShown" target="_blank" hide-xs store logged="vm.isLoggedin" class=""></div>
+
+      <md-menu ng-show="vm.isShown" >
+        <md-button ng-click="$mdMenu.open($event)">
+          <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"> </md-icon>
+        <span>Community</span>
+        </md-button>
+
+        <md-menu-content ng-mouseleave="$mdMenu.close()">
+          <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
+            <md-button href="{{item.href}}">
+              {{item.text}}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+
+      <md-button ng-href='./about'> About </md-button>
+      <md-button ng-href='./styleguide'> Styleguide </md-button>
+    </md-content>
+
+  </md-sidenav>
+</section>
 
 <div ui-view></div>
 
