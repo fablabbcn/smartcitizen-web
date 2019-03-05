@@ -79,23 +79,11 @@
       <div ng-show="vm.isShown && !vm.isLoggedin" signup class=""></div>
       <div ng-show="vm.isShown" hide-xs store logged="vm.isLoggedin" class=""></div>
 
-      <md-menu ng-show="vm.isShown" >
-        <md-button ng-click="$mdMenu.open($event)">
-          <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"> </md-icon>
-        <span>Community</span>
+      <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
+        <md-button href="{{item.href}}">
+          {{item.text}}
         </md-button>
-
-        <md-menu-content ng-mouseleave="$mdMenu.close()">
-          <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
-            <md-button href="{{item.href}}">
-              {{item.text}}
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-
-      <md-button ng-href='./about'> About </md-button>
-      <md-button ng-href='./styleguide'> Styleguide </md-button>
+      </md-menu-item>
     </md-content>
 
   </md-sidenav>
