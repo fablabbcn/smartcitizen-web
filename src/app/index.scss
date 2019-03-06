@@ -1280,10 +1280,6 @@ KIT TAGS MODULE
  *  KIT LIST
  *
  */
-.kitList_parent {
-  position: relative;
-}
-
 .kitList {
   margin: 0px;
   color: $grey;
@@ -1323,44 +1319,17 @@ KIT TAGS MODULE
     right: 130px;
   }
 
-  .kitList_tags{
-    margin-left: 60px;
-  }
 }
 
-.kitList_secondary {
-  width: 95%;
-}
 .kitList_avatar {
   width: 44px;
   height: 44px;
   border-radius: 22px;
-  margin-top:-10px;
-  margin-right: 14px;
-}
-.kitList_content {
-  text-align: initial;
 }
 .kitList_name {
   margin-bottom: 5px;
   font-size: 18px;
   color: $blue;
-}
-.kitList_data {
-  span {
-    color: $grey_darker;
-    margin-right: 15px;
-  }
-}
-.kitList_icon {
-  width: 14px;
-  height: 14px;
-  margin-right: 8px;
-  position: relative;
-  top: -2px;
-}
-.kitList_config {
-  width: 60px;
 }
 .kitList_right {
   position: absolute;
@@ -1392,11 +1361,9 @@ KIT TAGS MODULE
     position: relative;
   }
 }
+
 .kitList_noKits {
   line-height: 5;
-}
-.kitList_borderBottom {
-  border-bottom: 1px solid #EAECF1;
 }
 
 .dropdown-item-button {
