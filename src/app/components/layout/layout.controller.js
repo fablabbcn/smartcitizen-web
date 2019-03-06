@@ -10,17 +10,13 @@
 
       vm.navRightLayout = 'space-around center';
 
-      $scope.toggleNav = function(){
-        vm.isShown = !vm.isShown;
-      }
-
       $scope.toggleRight = buildToggler('right');
 
-    function buildToggler(componentId) {
-      return function() {
-        $mdSidenav(componentId).toggle();
-      };
-    }
+      function buildToggler(componentId) {
+        return function() {
+          $mdSidenav(componentId).toggle();
+        };
+      }
 
       // listen for any login event so that the navbar can be updated
       $scope.$on('loggedIn', function(ev, options) {
