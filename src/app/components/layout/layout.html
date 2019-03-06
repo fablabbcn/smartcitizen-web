@@ -70,14 +70,21 @@
     </md-toolbar>
 
     <md-content>
-      <md-button hide-xs ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat map">
-        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon>
-        <span>Map</span>
-      </md-button>
-
       <div ng-show="vm.isShown && !vm.isLoggedin" login class=""></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" signup class=""></div>
-      <div ng-show="vm.isShown" hide-xs store logged="vm.isLoggedin" class=""></div>
+      <md-divider ng-show="vm.isShown && !vm.isLoggedin" > </md-divider>
+
+      <md-menu-item>
+        <md-button href="./kits"> Map </md-button>
+      </md-menu-item>
+
+      <md-menu-item>
+        <md-button target="_blank" href="https://www.seeedstudio.com/smartcitizen">
+          Get your kit
+        </md-button>
+      </md-menu-item>
+
+      <md-divider> </md-divider>
 
       <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
         <md-button href="{{item.href}}">
