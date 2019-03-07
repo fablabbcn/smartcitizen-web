@@ -1,10 +1,11 @@
 <div class="profile_content" layout="column" layout-gt-xs="row">
     <div class="profile_sidebar pt-80"
-         layout-align="start center"
-         layout-align-gt-sm="start start" 
+         layout-align="start"
+         layout-align-xs="start center"
          layout="column">
-        <p class="profile_sidebar_title">FILTER KITS BY</p>
-        <div class="profile_sidebar_options" layout="column">
+        <p class="profile_sidebar_title text-center">FILTER KITS BY</p>
+
+        <div class="" layout-xs="row" layout="column">
             <md-button ng-click="vm.filterKits('all')"
             class="profile_sidebar_button" analytics-on="click"
             analytics-event="Profile" analytics-action="kit filter">
@@ -21,6 +22,7 @@
             OFFLINE
             </md-button>
         </div>
+
     </div>
     <div class="pt-80 px-20 mb-30" flex>
         <div class="profile_content_main_top">

@@ -1423,25 +1423,20 @@ KIT TAGS MODULE
   min-width:200px;
 }
 .profile_sidebar_title {
-  margin: 0 0 42px 20px;
   color: $off_black;
   font-weight: bold;
 }
 .profile_sidebar_description {
   font-size: 14px;
-  margin: 0 35px 24px 20px;
 }
 
 .profile_sidebar_button {
-  display: block;
-  text-align: start;
-  font-size:18px;
-  padding-left: 40px;
+  //display: block;
+  //text-align: start;
+  //font-size:18px;
   height: 64px;
   color: $terciary_color;
-  svg {
-    fill: $blue;
-  }
+  svg { fill: $blue; }
 }
 
 .profile_sidebar_avatar {

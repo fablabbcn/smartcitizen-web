@@ -1,7 +1,10 @@
 <div class="profile_content" layout="column" layout-gt-xs="row">
-    <div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-xs="start start" layout="column" >
-        <p class="profile_sidebar_title">FILTER TOOLS BY</p>
-        <div class="profile_sidebar_options" layout="column">
+    <div class="profile_sidebar pt-80"
+      layout-align="start"
+      layout-align-xs="start center"
+      layout="column" >
+        <p class="profile_sidebar_title text-center">FILTER TOOLS BY</p>
+        <div class="text-left" layout="column">
             <md-button ng-click="vm.filterTools('all')" class="profile_sidebar_button">ALL</md-button>
             <md-button ng-click="vm.filterTools('documentation')" class="profile_sidebar_button">DOCUMENTATION</md-button>
             <md-button ng-click="vm.filterTools('community')" class="profile_sidebar_button">COMMUNITY</md-button>

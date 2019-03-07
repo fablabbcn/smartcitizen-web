@@ -1,10 +1,14 @@
 <div class="profile_content" layout="column" layout-gt-xs="row">
-  <div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-xs="start start" layout="column" >
-    <p class="profile_sidebar_title">EDIT YOUR PROFILE</p>
-    <p class="profile_sidebar_description">
+  <div class="profile_sidebar pt-80"
+       layout-margin
+       layout-align="start center"
+       layout-align-gt-xs="start start"
+       layout="column" >
+    <p class="profile_sidebar_title ml-20">EDIT YOUR PROFILE</p>
+    <p class="profile_sidebar_description ml-20">
     A complete profile brings you a better experience.
     </p>
-    <p class="profile_sidebar_description">
+    <p class="profile_sidebar_description ml-20">
     Please, take your time completing all fields.
     </p>
     <md-button ng-href="mailto:support@smartcitizen.me" class="profile_sidebar_button myProfile_sidebar_button">
@@ -16,7 +20,7 @@
       <span>Community</span>
     </md-button>
   </div>
-  <div class="pt-80 px-20 mb-30" flex>
+  <div class="pt-80 px-20 mb-30">
     <div style="max-width:500px">
       <div class="myProfile_form_avatar" layout="row" layout-align="start center">
         <img ng-src="{{ vm.user.profile_picture || vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
