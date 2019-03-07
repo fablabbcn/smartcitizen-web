@@ -244,7 +244,7 @@ div[api-key]{
 
   .api_key_number {
     background-color: #F2F2F2;
-    word-wrap: break-word;
+    word-break: break-all;
     width: 420px;
   }
   .api_key_refresh_button {
