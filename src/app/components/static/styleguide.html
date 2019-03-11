@@ -1,11 +1,12 @@
 <div class="styleguide">
   <section class="profile_header">
-    <h1 class="sg-pageTitle">Smart Citizen Style Guide</h1>
+    <h1>Smart Citizen Style Guide</h1>
   </section>
-  <section layout="column" layout-gt-xs="row">
-    <div class="profile_sidebar pt-80" layout-align="start center" layout-align-gt-sm="start start" layout="column" >
-      <p class="profile_sidebar_title">MENU</p>
-      <div class="">
+
+  <section layout="column" layout-gt-sm="row">
+    <div class="profile_sidebar pt-80">
+      <p class="profile_sidebar_title text-center">MENU</p>
+      <div layout="column">
         <button class="profile_sidebar_button md-button md-default-theme">
           Fonts
         </button>
@@ -18,8 +19,10 @@
       </div>
     </div>
 
+
     <div flex class="pt-80 px-40">
-      <h2 class="sg-titles">Font style - Light theme</h2>
+      <h2 class="">Font style - Light theme</h2>
+      <a href="https://material.angularjs.org/latest/CSS/typography" target="_blank">Read more about AngularJS Material Typography here</a>
       <div layout="column" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)">
         <div layout="row">
           <h1 flex="50">h1 Heading</h1>
@@ -52,27 +55,15 @@
         </div>
         <md-divider></md-divider>
         <div layout="row">
-          <p flex="50" class="sg-paragraph2">Paragraph info</p>
+          <p flex="50">Paragraph info</p>
           <p class="info-text" flex="30">1 em</p>
           <p class="info-text" flex="20">lighter</p>
         </div>
-        <md-divider></md-divider>
         <small>Small text</small>
       </div>
-      <div class="sg-text-box">
-        <pre>
-          <code>
-            <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>
-            <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>
-            <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>
-            <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>
-            <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>
-            <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>
-          </code>
-        </pre>
-      </div>
 
-      <h2 class="sg-titles">Font style - Dark theme</h2>
+      <h2>Font style - Dark theme</h2>
+
       <div class="dark-text-section section-padding">
         <div layout="row">
           <h1 flex="50">h1 Heading</h1>
@@ -106,122 +97,104 @@
         <md-divider class="dark-theme-divider"></md-divider><br>
         <small>Small text</small>
       </div>
-      <div class="sg-text-box">
-        <pre>
-          <code class="">
-            <span>&lt;div class="dark-theme-section"&gt;</span>
-              <span>&lt;h1&gt;</span> h1 heading <span>&lt;/h1&gt;</span>
-              <span>&lt;h2&gt;</span> h2 heading <span>&lt;/h2&gt;</span>
-              <span>&lt;h3&gt;</span> h3 heading <span>&lt;/h3&gt;</span>
-              <span>&lt;h4&gt;</span> h4 heading <span>&lt;/h4&gt;</span>
-              <span>&lt;p&gt;</span>  Paragraph  <span>&lt;/p&gt;</span>
-              <span>&lt;small&gt;</span> Small text<span>&lt;/small&gt;</span>
-            <span>&lt;/div&gt;</span>  
-          </code>
-        </pre>
+
+      <h2>Buttons</h2>
+
+      <div layout="column" layout-wrap class="section-padding" style="border:1px solid rgba(0,0,0,0.12)">
+        <div>
+          <a href="https://material.angularjs.org/latest/Theming/03_configuring_a_theme" target="_blank">Read about Material Design theming here</a>
+          <br>
+          <a href="https://material.angularjs.org/1.1.4/demo/colors" target="_blank">Material Design color picker</a>
+          <h4>Primary Buttons</h4>
+          <md-button class="md-raised md-primary">md-primary</md-button>
+          <md-button class="md-raised md-primary md-hue-1">md-primary md-hue-1</md-button>
+          <md-button class="md-raised md-primary md-hue-2">md-primary md-hue-2</md-button>
+          <br>
+          <md-button class="md-primary">md-primary</md-button>
+          <md-button class="md-primary md-hue-1">md-hue-1</md-button>
+          <md-button class="md-primary md-hue-2">md-hue-2</md-button>
+          <h4>Accent (secondary) Buttons</h4>
+          <md-button class="md-raised md-accent">md-accent</md-button>
+          <md-button class="md-raised md-accent md-hue-1">md-accent md-hue-1</md-button>
+          <md-button class="md-raised md-accent md-hue-2">md-accent md-hue-2</md-button>
+          <br>
+          <md-button class="md-accent">md-accent</md-button>
+          <md-button class="md-accent md-hue-1">md-accent md-hue-1</md-button>
+          <md-button class="md-accent md-hue-2">md-accent md-hue-2</md-button>
+          <h4>Warning buttons</h4>
+          <md-button class="md-raised md-warn">md-warn</md-button>
+          <md-button class="md-raised md-warn md-hue-1">md-warn md-hue-1</md-button>
+          <md-button class="md-raised md-warn md-hue-2">md-warn md-hue-2</md-button>
+          <br>
+          <md-button class="md-warn">md-warn</md-button>
+          <md-button class="md-warn md-hue-1">md-warn md-hue-1</md-button>
+          <md-button class="md-warn md-hue-2">md-warn md-hue-2</md-button>
+          <br>
+          <md-button class="md-raised">md-raised</md-button>
+          <md-button>empty button (no class)</md-button>
+          <h4>Custom</h4>
+          <md-button class="btn-round btn-cyan">btn-round btn-cyan</md-button>
+        </div>
       </div>
 
-      <h2 class="sg-titles">Buttons</h2>
+      <h2>Labels and Tags</h2>
 
-      <div layout="row" layout-wrap class="section-padding" style="border:1px solid rgba(0,0,0,0.12)">
-        <div flex="33" flex-xs="100">
-          <!-- <h2 class="sg-titles">Flat buttons</h2> -->
-          <md-button>Button</md-button><br>
-          <md-button class="md-warn sg-button-margin">Warn button</md-button>
-        </div>
-        <div flex="33" flex-xs="100">
-          <!-- <h2 class="sg-titles" style="padding-bottom:5px;">Raised buttons</h2> -->
-          <md-button ng-href="/about" class="btn-round btn-cyan">Link button</md-button><br>
-          <md-button class="md-flat md-primary sg-button-margin">Raised button</md-button>
-        </div>
-        <div flex="33" flex-xs="100">
-          <!-- <h2 class="sg-titles">Tags</h2> -->
+      <div layout="column" layout-wrap class="section-padding" style="border:1px solid rgba(0,0,0,0.12)">
+        <div>
+          <h3>Label</h3>
           <span class="label">offline</span>
+          <md-divider class="my-20"></md-divider>
+          <h3>Tag</h3>
           <span class="tag">Barcelona</span>
         </div>
       </div>
-      <div class="sg-text-box">
-        <pre>
-          <code>
-            <span>&lt;md-button&gt;</span> Button <span>&lt;/md-button&gt;</span>
-            <span>&lt;md-button class="btn-round btn-cyan"&gt;</span> Link button< span>&lt;/md-button&gt;</span>
-            <span>&lt;md-button class="label"&gt;</span> offline <span>&lt;/md-button&gt;</span>
-            <span>&lt;md-button class="tag"&gt;</span> Barcelona <span>&lt;/md-button&gt;</span>
-            <span>&lt;md-button class="md-warn"&gt;</span> Warn button <span>&lt;/md-button&gt;</span>
-            <span>&lt;md-button class="md-flat md-primary"&gt;</span> Raised button <span>&lt;/md-button&gt;</span>
-          </code>
-        </pre>
-      </div>
 
-      <h2 class="sg-titles">Colors</h2>
-      <div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)">
-        <div layout="row">
-          <div flex="20" class="secondary-color">
-            <p>#065063</p>
-            <p>$secondary_color</p>
-          </div>
-          <div flex="20" class="terciary_color">
-            <p>#38CEF3</p>
-            <p>$terciary_color</p>
-          </div>
-          <div flex="20" class="secondary_color_light">
-            <p>#8DB2BA</p>
-            <p>$secondary_color_light</p>
-          </div>
-          <div flex="20" class="secondary-color-pastel">
-            <p>#C8E6ED</p>
-            <!-- <p>$ "p - no bot selected"</p> -->
-          </div>
-          <div flex="20" class="white">
-            <p>#FFFFFF</p>
-            <!-- <p>$ "h1 - no bot selected"</p> -->
+      <div>
+        <h2>Colors</h2>
+
+        <div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)">
+          <div layout="row">
+            <div flex="20" class="secondary-color">
+              <p>#065063</p>
+              <p>$secondary_color</p>
+            </div>
+            <div flex="20" class="terciary_color">
+              <p>#38CEF3</p>
+              <p>$terciary_color</p>
+            </div>
+            <div flex="20" class="secondary_color_light">
+              <p>#8DB2BA</p>
+              <p>$secondary_color_light</p>
+            </div>
+            <div flex="20" class="secondary-color-pastel">
+              <p>#C8E6ED</p>
+              <!-- <p>$ "p - no bot selected"</p> -->
+            </div>
+            <div flex="20" class="white">
+              <p>#FFFFFF</p>
+              <!-- <p>$ "h1 - no bot selected"</p> -->
+            </div>
           </div>
         </div>
-      </div>
-      <div class="sg-text-box">
-        <pre>
-          <code class="">
-            <span>&lt;div class="secondary-color"&gt;</span> 
-              &lt;p&gt;#065063&lt;/p&gt;
-              &lt;p&gt;$secondary_color&lt;/p&gt;
-            <span>&lt;/div&gt;</span>
 
-            <span>&lt;div class="terciary_color"&gt;</span> 
-              &lt;p&gt;#38CEF3&lt;/p&gt;
-              &lt;p&gt;$terciary_color&lt;/p&gt;
-            <span>&lt;/div&gt;</span>
+        <h2>Sensor Charts Colors</h2>
 
-            <span>&lt;div class="secondary_color_light"&gt;</span> 
-              &lt;p&gt;#8DB2BA&lt;/p&gt;
-              &lt;p&gt;$secondary_color_light&lt;/p&gt;
-            <span>&lt;/div&gt;</span>
-
-            <span>&lt;div class="secondary-color-pastel"&gt;</span> 
-              &lt;p&gt;#065063&lt;/p&gt;
-              &lt;p&gt;$secondary_color&lt;/p&gt;
-            <span>&lt;/div&gt;</span>
-
-            <span>&lt;div class="white"&gt;</span> 
-              &lt;p&gt;#FFFFFF&lt;/p&gt;
-            <span>&lt;/div&gt;</span>
-          </code>
-        </pre>
-      </div>
-      <h2 class="sg-titles">Sensor Charts Colors</h2>
-      <div class="colors-section section-padding mb-30" style="border:1px solid rgba(0,0,0,0.12)">
-        <div layout="row" class="sensors"> 
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+        <div class="colors-section section-padding mb-30" style="border:1px solid rgba(0,0,0,0.12)">
+          <div layout="row" class="sensors"> 
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
         </div>
+
       </div>
-    </div>
+    </div> <!-- end flex pt-80 -->
   </section>
 </div>

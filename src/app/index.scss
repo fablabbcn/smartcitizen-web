@@ -1525,15 +1525,6 @@ KIT TAGS MODULE
   border-radius: 32px;
   margin-right: 7%;
 }
-.myProfile_form_avatarButton {
-  color: $terciary_color;
-  font-size:18px;
-}
-.myProfile_form_updateButton {
-  font-size:18px;
-  color: $blue;
-  //margin-left:350px;
-}
 .myProfile_apiKey_text {
   color: $font_color_blue_grey;
   margin-right: 5px;
@@ -1988,11 +1979,6 @@ p.no-margin {
 // Styleguide
 
 .styleguide {
-  .sg-title-section {
-    background-color: $background_blue_dark_menu;
-    margin: 64px 0px 50px 0px;
-  }
-
   .info-text {
     color: rgba(0, 0, 0, 0.3);
   }
@@ -2001,44 +1987,12 @@ p.no-margin {
     color: rgba(255, 255, 255, 0.3) !important;
   }
 
-  h1.sg-pageTitle {
-    font-size: 36px;
-    color: #fff;
-    padding:70px 47px;
-  }
-
-  h2.sg-titles {
-    font-size: 16px;
-    color: #23444C;
-    margin-top: 0;
-  }
-
   .dark-theme-divider {
     border-top-color: rgba(255,255,255,0.12);
   }
 
-  p.sg-paragraph2 {
-    color: $secondary_color_light;
-    font-weight: 300;
-  }
-
   small {
     margin-top: 20px;
-  }
-
-  .sg-text-box {
-    background-color: #f7f7f7;
-    margin: -1px 0px 70px 0px;
-    border: 1px solid rgba(0,0,0,0.12);
-  }
-
-  pre {
-    word-break: normal;
-    margin-bottom: 0;
-    padding: 16px;
-    font-size: 16px;
-    line-height: 1.45;
-    color: #a7a7a7;
   }
 
   .dark-text-section {
@@ -2051,11 +2005,6 @@ p.no-margin {
 
     h2 {
       color: #fff;
-    }
-
-    h2.sg-titles {
-      font-size: 16px;
-      color: #a1a1a1;
     }
 
     h4 {
@@ -2076,16 +2025,8 @@ p.no-margin {
     }
   }
 
-  .sg-button-margin {
-    margin-top: 30px;
-  }
-
   .section-padding {
     padding: 60px;
-  }
-
-  .last-section {
-    margin-bottom: 100px;
   }
 
   .colors-section {

@@ -82,6 +82,10 @@
   background-color: $grey !important;
 }
 
+.outline{
+  outline: 1px solid red;
+}
+
 // Button helpers
 .btn-outline-blue{
   border:2px solid $blue;
