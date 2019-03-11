@@ -17,7 +17,7 @@
           <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
         </md-card-avatar>
 
-        <md-card-header-text>
+        <div>
           <h4 class="m-0">{{ kit.name || 'No name' }}</h4>
           <span class="md-subhead">
             <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg">
@@ -27,11 +27,11 @@
             </md-icon>
             <span>{{ kit.type || 'Unknown Kit'}}</span>
           </span>
-        </md-card-header-text>
 
-        <div class="">
-          <div ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')">
-            <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
+          <div>
+            <div ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')">
+              <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
+            </div>
           </div>
         </div>
 
@@ -44,19 +44,19 @@
         </div>
       </md-card-content>
 
-      <md-card-actions>
-        <md-button ng-href="./kits/{{kit.id}}"
+      <md-card-actions class="ml-50">
+        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}"
                    ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty}"
                    >
                    <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
           View on map
         </md-button>
 
-        <md-button ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
+        <md-button class="md-raised md-accent md-hue-2" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
           {{item.text}}
         </md-button>
 
-        <md-button ng-click="actions.remove(kit.id)" class="warn" aria-label="">
+        <md-button ng-click="actions.remove(kit.id)" class="md-warn" aria-label="">
           <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
           Remove
         </md-button>
