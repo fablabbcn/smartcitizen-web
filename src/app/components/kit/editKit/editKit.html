@@ -118,9 +118,17 @@
             <div flex="50" class="form_blockInput">
               <div class="form_blockInput_container">
                 <div flex="100" flex-gt-md="50">
-                  <md-select ng-model="vm.tag" placeholder="Select tag">
-                    <md-option ng-value="{{ tag.id }}" ng-repeat="tag in vm.tags">{{ tag.name }}</md-option>
-                  </md-select>
+                  <md-input-container md-no-float class="md-block">
+                    <input type="text" ng-model="tagSearch" placeholder="Search for tags">
+                  </md-input-container>
+
+                  <md-content layout-padding style="height: calc(20vh);">
+                    <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
+                      <md-checkbox ng-model="vm.checks[tag.name]">
+                        <span class="tag">{{tag.name}}</span>
+                      </md-checkbox>
+                    </div>
+                  </md-content>
                 </div>
                 <div class="form_blockInput_chips">
                   <div class="chips" layout="row" layout-align="start center">
@@ -157,7 +165,9 @@
           </div>
         </section>
       </form>
-      <md-button ng-show="vm.setupAvailable" class="md-primary timeline_button timeline_buttonOpen" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
+      <div layout>
+        <md-button flex ng-show="vm.setupAvailable" class="md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
+      </div>
     </section>
     <section ng-show="vm.step === 2 && vm.setupAvailable">
       <form>
@@ -200,7 +210,7 @@
           </div>
         </section>
       </form>
-      <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'" class="btn-cyan timeline_button">Save</md-button>
+      <md-button class="md-primary md-raised timeline_button mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
       <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>  
       <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>
       <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
