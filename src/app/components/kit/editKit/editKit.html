@@ -89,7 +89,7 @@
               </div>
             </div>
           </div>
-          <div flex="50" class="form_blockInput">
+          <div flex="50">
             <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
               <div class="form_blockInput_container" layout="row" layout-align="center center">
                 <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
@@ -137,15 +137,13 @@
 
         <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
-            <div layout="row">
-              <div>
-                <h2>Kit description</h2>
-                <small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small>
-              </div>
+            <div>
+              <h2>Kit description</h2>
+              <small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small>
             </div>
           </div>
-          <div flex-gt-xs="50" class="form_blockInput">
-            <div class="form_blockInput_container" layout="row">
+          <div flex-gt-xs="50">
+            <div layout="row">
               <md-input-container flex="100" flex-gt-md="50">
                 <label>Description</label>
                 <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
@@ -154,6 +152,9 @@
           </div>
         </section>
       </form>
+      <div class="mt-50" layout="row" layout-align="center start" layout-margin layout-padding>
+        <md-button class="md-raised md-primary" ng-click="vm.submitFormAndKit()">Save</md-button>
+      </div>
       <div layout layout-padding layout-margin>
         <md-button flex ng-show="vm.setupAvailable" class="md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
       </div>
