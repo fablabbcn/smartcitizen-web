@@ -23,112 +23,84 @@
   <section class="timeline_content" flex="1">
     <section ng-show="vm.step === 1">
       <form>
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Basic information</h2>
-                  <small>Please, provide kit basic info. That includes a name and exposure</small>
-                </div>
+
+        <section class="isEven" layout="row" layout-xs="column" layout-align="" layout-xs="column" layout-padding>
+          <div flex-gt-xs="50">
+            <h2>Basic information</h2>
+            <small>Please, provide kit basic info. That includes a name and exposure</small>
+          </div>
+          <div class="mt-50"  flex-gt-xs="50">
+            <md-input-container>
+              <label>Kit Name</label>
+              <input type="text" ng-model="vm.kitForm.name">
+              <div class="form_errors">
+                <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
               </div>
-            </div>
-            <div flex="50" class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <md-input-container>
-                  <label>Kit Name</label>
-                  <input type="text" ng-model="vm.kitForm.name">
-                  <div class="form_errors">
-                    <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
-                  </div>
-                </md-input-container>
-                <div layout="row" layout-align="space-between start">
-                  <div class="form_blockInput_select" layout="row" layout-align="start center">
-                    <label>Exposure:</label>
-                    <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
-                      <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
-                    </md-select>
-                  </div>
-                </div>
+            </md-input-container>
+            <div layout="row" layout-align="space-between start">
+              <div class="form_blockInput_select" layout="row" layout-align="start center">
+                <label>Exposure:</label>
+                <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
+                  <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
+                </md-select>
               </div>
             </div>
           </div>
         </section>
-        <section class="form_block form_blockMap">
-          <div layout="row" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit location</h2>
-                  <small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small>
-                </div>
-              </div>
+
+        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <h2>Kit location</h2>
+            <small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small>
+          </div>
+          <div class="mt-50"  flex-gt-xs="50">
+            <div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+              <md-button class="md-raised md-primary" ng-click="vm.getLocation()">Get your location</md-button>
             </div>
-            <div flex="50" class="form_blockInput" flex>
-              <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-                <div class="form_blockInput_container" layout="row" layout-align="center center">
-                  <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
-                </div>
-              </div>
-              <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
-                <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
-              </div>
+            <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
+              <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
             </div>
           </div>
         </section>
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit tags</h2>
-                  <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
-                </div>
+
+        <section class="isEven" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <h2>Kit tags</h2>
+            <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
+          </div>
+
+          <div class="mt-50"  flex-gt-xs="50" layout-padding>
+            <md-input-container md-no-float class="md-block">
+              <input type="text" ng-model="tagSearch" placeholder="Search for tags">
+            </md-input-container>
+
+            <md-content layout-padding style="height: calc(20vh);">
+              <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
+                <md-checkbox ng-model="vm.checks[tag.name]">
+                  <span class="tag">{{tag.name}}</span>
+                </md-checkbox>
               </div>
-            </div>
-            <div flex="50" class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <div>
-                  <md-select ng-model="vm.tag" placeholder="Select tag">
-                    <md-option ng-value="{{ tag.id }}" ng-repeat="tag in vm.tags">{{ tag.name }}</md-option>
-                  </md-select>
-                </div>
-                <div class="form_blockInput_chips">
-                  <div class="chips" layout="row" layout-align="start center">
-                    <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
-                      <span class="chip_name">{{ tag.name }}</span>
-                      <button class="chip_icon" ng-click="vm.removeTag(tag.id)" class="map_filter_icon" arial-label>
-                        <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </md-content>
           </div>
         </section>
-        <section class="form_block form_blockNormal">
-          <div layout="row" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit description</h2>
-                  <small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small>
-                </div>
-              </div>
-            </div>
-            <div flex="50" class="form_blockInput" flex>
-              <div class="form_blockInput_container" layout="row">
-                <md-input-container flex="100" flex-gt-md="50">
-                  <label>Description</label>
-                  <textarea type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
-                </md-input-container>
-              </div>
-            </div>
+
+        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <h2>Kit description</h2>
+            <small>Say something nice about your kit. What is it for? Is this part of any kind of project?</small>
+          </div>
+          <div class="mt-50" flex-gt-xs="50">
+            <md-input-container>
+              <label>Description</label>
+              <textarea type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+            </md-input-container>
           </div>
         </section>
+
       </form>
-      <md-button class="md-flat btn-cyan timeline_button" ng-click="vm.submitStepOne()">Next</md-button>
+      <div layout>
+        <md-button flex class="md-raised md-primary" ng-click="vm.submitStepOne()">Next</md-button>
+      </div>
     </section>
   </section>
 </section>

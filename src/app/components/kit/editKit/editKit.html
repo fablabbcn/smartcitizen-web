@@ -28,192 +28,175 @@
     </div>
   </section>
   <section class="timeline_content" flex="1">
+
     <section ng-show="vm.step === 1">
       <form>
-         <section class="form_block form_blockNormal">
-          <div layout="row" layout-xs="column" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Basic information</h2>
-                  <small>Please, provide kit basic info. That includes a name and exposure</small>
-                </div>
+         <section class="bg-white" layout-padding div layout="row" layout-xs="column" layout-align="space-around start">
+           <div flex-gt-xs="50">
+             <div layout="row">
+               <div class="">
+                 <h2>Basic information</h2>
+                 <small>Please, provide kit basic info. That includes a name and exposure</small>
+               </div>
+             </div>
+           </div>
+           <div flex-gt-xs="50">
+             <div class="" layout="column">
+               <md-input-container>
+                 <label>Kit Name</label>
+                 <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.name">
+               </md-input-container>
+               <div layout="row" layout-align="space-between start">
+                 <div class="" layout="row" layout-align="start center">
+                   <label class="mr-10">Exposure:</label>
+                   <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
+                     <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
+                   </md-select>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </section>
+
+        <section layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div class="">
+                <h2>Notification</h2>
+                <small>Manage your notifications</small>
               </div>
             </div>
-            <div flex="50" class="form_blockInput" >
-              <div class="form_blockInput_container" layout="column">
-                <md-input-container>
-                  <label>Kit Name</label>
-                  <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.name">
+          </div>
+          <div flex-gt-xs="50">
+            <div class="" layout="column">
+              <p>Get emails when the following events occur:</p>
+              <md-checkbox ng-model="vm.kitForm.notify_low_battery">
+                <label>Battery goes below 15%</label>
+              </md-checkbox>
+              <md-checkbox ng-model="vm.kitForm.notify_stopped_publishing">
+                <label>Device stopped publishing</label>
+              </md-checkbox>
+            </div>
+          </div>
+        </section>
+
+        <section class="form_blockMap bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div>
+                <h2>Kit location</h2>
+                <small>You can adjust the location by dragging the marker on the map.</small>
+              </div>
+            </div>
+          </div>
+          <div flex="50" class="form_blockInput">
+            <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+              <div class="form_blockInput_container" layout="row" layout-align="center center">
+                <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
+              </div>
+            </div>
+            <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
+              <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
+            </div>
+          </div>
+        </section>
+
+        <section layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div>
+                <h2>Kit tags</h2>
+                <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
+              </div>
+            </div>
+          </div>
+          <div flex-gt-xs="50">
+            <div>
+              <div flex="100" flex-gt-md="50">
+                <md-input-container md-no-float class="md-block">
+                  <input type="text" ng-model="tagSearch" placeholder="Search for tags">
                 </md-input-container>
-                <div layout="row" layout-align="space-between start">
-                  <div class="form_blockInput_select" layout="row" layout-align="start center">
-                    <label>Exposure:</label>
-                    <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
-                      <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
-                    </md-select>
+
+                <md-content layout-padding style="height: calc(20vh);">
+                  <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
+                    <md-checkbox ng-model="vm.checks[tag.name]">
+                      <span class="tag">{{tag.name}}</span>
+                    </md-checkbox>
                   </div>
-                </div>
+                </md-content>
+              </div>
+              <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
+                <span class="chip_name">{{ tag }}</span>
+                <button class="chip_icon" ng-click="vm.removeTag(tag)" class="map_filter_icon" arial-label>
+                  <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
+                </button>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-xs="column" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Notification</h2>
-                  <small>Manage your notifications</small>
-                </div>
-              </div>
-            </div>
-            <div flex="50" class="form_blockInput" >
-              <div class="form_blockInput_container" layout="column">
-                <p>Get emails when the following events occur:</p>
-                <md-checkbox ng-model="vm.kitForm.notify_low_battery">
-                  <label>Battery goes below 15%</label>
-                </md-checkbox>
-                <md-checkbox ng-model="vm.kitForm.notify_stopped_publishing">
-                  <label>Device stopped publishing</label>
-                </md-checkbox>
+        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div>
+                <h2>Kit description</h2>
+                <small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small>
               </div>
             </div>
           </div>
+          <div flex-gt-xs="50" class="form_blockInput">
+            <div class="form_blockInput_container" layout="row">
+              <md-input-container flex="100" flex-gt-md="50">
+                <label>Description</label>
+                <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+              </md-input-container>
+            </div>
+          </div>
         </section>
+      </form>
+      <div layout layout-padding layout-margin>
+        <md-button flex ng-show="vm.setupAvailable" class="md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
+      </div>
+    </section>
 
-        <section class="form_block form_blockMap">
-          <div layout="row" layout-xs="column" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit location</h2>
-                  <small>You can adjust the location by dragging the marker on the map.</small>
-                </div>
-              </div>
+    <section ng-show="vm.step === 2 && vm.setupAvailable">
+      <form>
+        <section class="isEven">
+          <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
+            <div>
+              <h2>Setup your kit</h2>
+              <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
             </div>
-            <div flex="50" class="form_blockInput">
-              <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-                <div class="form_blockInput_container" layout="row" layout-align="center center">
-                  <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
-                </div>
-              </div>
-              <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
-                <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
-              </div>
-            </div>
+            <img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit">
           </div>
         </section>
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-xs="column" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit tags</h2>
-                  <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
-                </div>
-              </div>
+      </form>
+      <section class="bg-white" layout-padding>
+        <div setuptool></div>
+      </section>
+      <form>
+        <section ng-show="vm.macAddressFieldVisible" class="form_blockNormal isEven">
+          <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
+            <div flex-gt-xs="50">
+              <h2>Mac address</h2>
+              <small>The setup tool will read the Mac Address automatically from your kit. Plase wait or enter it manually.</small>
             </div>
-            <div flex="50" class="form_blockInput">
-              <div class="form_blockInput_container">
-                <div flex="100" flex-gt-md="50">
-                  <md-input-container md-no-float class="md-block">
-                    <input type="text" ng-model="tagSearch" placeholder="Search for tags">
-                  </md-input-container>
-
-                  <md-content layout-padding style="height: calc(20vh);">
-                    <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
-                      <md-checkbox ng-model="vm.checks[tag.name]">
-                        <span class="tag">{{tag.name}}</span>
-                      </md-checkbox>
-                    </div>
-                  </md-content>
-                </div>
-                <div class="form_blockInput_chips">
-                  <div class="chips" layout="row" layout-align="start center">
-                    <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
-                      <span class="chip_name">{{ tag }}</span>
-                      <button class="chip_icon" ng-click="vm.removeTag(tag)" class="map_filter_icon" arial-label>
-                        <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="form_block form_blockNormal">
-          <div layout="row" layout-xs="column" layout-align="space-around start">
-            <div flex="30" class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Kit description</h2>
-                  <small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small>
-                </div>
-              </div>
-            </div>
-            <div flex="50" class="form_blockInput">
-              <div class="form_blockInput_container" layout="row">
-                <md-input-container flex="100" flex-gt-md="50">
-                  <label>Description</label>
-                  <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
-                </md-input-container>
-              </div>
+            <div>
+              <md-input-container>
+                <label>Mac Address</label>
+                <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress">
+              </md-input-container>
             </div>
           </div>
         </section>
       </form>
       <div layout>
-        <md-button flex ng-show="vm.setupAvailable" class="md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
+        <md-button flex class="md-primary md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
       </div>
-    </section>
-    <section ng-show="vm.step === 2 && vm.setupAvailable">
-      <form>
-        <section class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text long">
-                  <h2>Setup your kit</h2>
-                  <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
-                </div>
-                <img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit">
-              </div>
-            </div>
-          </div>
-        </section>
-      </form>
-      <section class="form_block">
-        <div setuptool></div>
-      </section>
-      <form>
-        <section ng-show="vm.macAddressFieldVisible" class="form_block form_blockNormal isEven">
-          <div layout="row" layout-align="start start">
-            <div class="form_blockContent">
-              <div layout="row">
-                <div class="form_blockContent_text">
-                  <h2>Mac address</h2>
-                  <small>The setup tool will read the Mac Address automatically from your kit. Plase wait or enter it manually.</small>
-                </div>
-              </div>
-            </div>
-            <div class="form_blockInput" flex>
-              <div class="form_blockInput_container">
-                <md-input-container>
-                  <label>Mac Address</label>
-                  <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress">
-                </md-input-container>
-              </div>
-            </div>
-          </div>
-        </section>
-      </form>
-      <md-button class="md-primary md-raised timeline_button mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
       <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>  
       <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>
       <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
     </section>
+
   </section>
 </section>
