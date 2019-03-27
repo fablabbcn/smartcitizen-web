@@ -173,6 +173,11 @@
   margin: 0px;
 }
 
+.btn-small {
+  min-width: unset !important;
+  min-height: unset !important;
+  //outline: 1px solid red;
+}
 
 // Margin - padding helpers
 .m-0{

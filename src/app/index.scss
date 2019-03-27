@@ -205,15 +205,8 @@ md-toolbar{
   //height: 64px;
 }
 
-.md-button{
-  // Bug: causes profile/kits 'Cancel' 'Ok' buttons to be very small.
-  min-width: unset !important;
-  min-height: unset !important;
-  // If we remove, almost all clickable items will get BIG
-  //outline:1px solid red;
-}
-
 md-icon{
+  // Effects ALL icons on the site
   min-width: unset !important;
 }
 

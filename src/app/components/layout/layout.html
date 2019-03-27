@@ -2,12 +2,14 @@
   <md-toolbar layout="row" layout-align="space-between center" class="stickNav">
 
     <a ui-sref="landing" class="logo_link">
+      <md-tooltip md-direction="bottom">Visit the frontpage</md-tooltip>
       <md-icon class="m-10 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon">
       </md-icon>
     </a>
 
     <section layout="row" layout-align="start center">
       <md-button hide-xs ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat map">
+        <md-tooltip md-direction="bottom">Visit the map</md-tooltip>
         <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"> </md-icon>
         <span>Map</span>
       </md-button>
@@ -38,7 +40,8 @@
       <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button"></div>
 
       <md-menu ng-show="vm.isShown && vm.isLoggedin" >
-        <md-button ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
+        <md-button class="btn-small" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
+          <md-tooltip md-direction="bottom">Your profile</md-tooltip>
           <img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || vm.currentUser.avatar || './assets/images/avatar.svg' }}" />
         </md-button>
 

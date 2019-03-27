@@ -216,10 +216,11 @@ section .kit_menu {
 
   .button_scroll {
     margin: 0px;
-    position: absolute;
-    top: 0;
-    width: 60px;
-    height: 96px;
+    //position: absolute;
+    //top: 0;
+    //width: 60px;
+    //height: 96px;
+    background: #ccc;
   }
 
   .button_scroll_left {
@@ -717,13 +718,6 @@ section .kit_menu {
     .kit_owner_kits_list_config_icon {
       width: 22px;
       height: 22px;
-    }
-    .kit_owner_kits_more_button {
-      font-size: 16px;
-      float: right;
-      right: 5%;
-      margin-top: 32px;
-      color: $blue;
     }
   }
 }
