@@ -4,9 +4,9 @@
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
-    EditKitController.$inject = ['$scope', '$location', '$timeout', '$state',
+    EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
     'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    function EditKitController($scope, $location, $timeout, $state, animation,
+    function EditKitController($scope, $element, $location, $timeout, $state, animation,
      device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
@@ -38,31 +38,14 @@
       vm.kitForm = {};
       vm.kitData = undefined;
 
-      // TAGS SELECT
-      vm.tags = [];
-      $scope.$watch('vm.tag', function(newVal) {
-        if(!newVal) {
-          return;
-        }
-        // remove selected tag from select element
-        vm.tag = undefined;
-
-        var selectedTag = _.find(vm.tags, function(tag) {
-          return tag.id === newVal;
-        });
-
-        var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
-          return tag === selectedTag.name;
-        });
-
-        if(alreadyPushed) {
-          return;
-        }
-
-        vm.kitForm.tags.push(selectedTag.name);
+      $scope.clearSearchTerm = function() {
+        $scope.searchTerm = '';
+      };
+      // The md-select directive eats keydown events for some quick select
+      // logic. Since we have a search input here, we don't need that logic.
+      $element.find('input').on('keydown', function(ev) {
+          ev.stopPropagation();
       });
-
-      vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
@@ -122,6 +105,15 @@
           });
       }
 
+      // Return tags in a comma separated list
+      function joinSelectedTags(){
+        let tmp = []
+        $scope.selectedTags.forEach(function(e){
+          tmp.push(e.name)
+        })
+        return tmp.join(', ');
+      }
+
       function getLocation() {
         window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
@@ -132,12 +124,6 @@
             vm.markers.main.lat = lat;
             vm.markers.main.lng = lng;
           });
-        });
-      }
-
-      function removeTag(tagName) {
-        vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
-          return tag !== tagName;
         });
       }
 
@@ -159,7 +145,7 @@
           notify_low_battery: vm.kitForm.notify_low_battery,
           notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
           /*jshint camelcase: false */
-          user_tags: vm.kitForm.tags.join(',')
+          user_tags: joinSelectedTags()
         };
 
         if(!vm.macAddress || vm.macAddress === ''){

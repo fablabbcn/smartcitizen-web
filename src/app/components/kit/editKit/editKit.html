@@ -111,27 +111,25 @@
             </div>
           </div>
           <div flex-gt-xs="50">
-            <div>
-              <div flex="100" flex-gt-md="50">
-                <md-input-container md-no-float class="md-block">
-                  <input type="text" ng-model="tagSearch" placeholder="Search for tags">
-                </md-input-container>
-
-                <md-content layout-padding style="height: calc(20vh);">
-                  <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
-                    <md-checkbox ng-model="vm.checks[tag.name]">
-                      <span class="tag">{{tag.name}}</span>
-                    </md-checkbox>
-                  </div>
-                </md-content>
-              </div>
-              <div class="chip kit_tag" ng-repeat="tag in vm.kitForm.tags">
-                <span class="chip_name">{{ tag }}</span>
-                <button class="chip_icon" ng-click="vm.removeTag(tag)" class="map_filter_icon" arial-label>
-                  <md-icon md-svg-src="./assets/images/close_icon_black.svg"></md-icon>
-                </button>
-              </div>
-            </div>
+            <md-input-container>
+              <label>Select tags</label>
+              <md-select ng-model="selectedTags"
+                         md-on-close="clearSearchTerm()"
+                         data-md-container-class="selectdemoSelectHeader"
+                         multiple>
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchTerm"
+                         type="search"
+                         placeholder="Search for a tag.."
+                         class="demo-header-searchbox md-text">
+                </md-select-header>
+                <md-optgroup label="tags">
+                  <md-option ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
+                    {{item.name}}
+                  </md-option>
+                </md-optgroup>
+              </md-select>
+            </md-input-container>
           </div>
         </section>
 
