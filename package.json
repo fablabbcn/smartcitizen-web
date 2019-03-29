@@ -6,6 +6,7 @@
   },
   "scripts": {
     "postinstall": "node ./node_modules/bower/bin/bower install",
+    "protractor": "./node_modules/.bin/protractor protractor.conf.js",
     "dev": "gulp serve"
   },
   "devDependencies": {
