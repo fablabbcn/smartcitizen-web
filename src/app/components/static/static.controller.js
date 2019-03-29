@@ -28,11 +28,6 @@
       }, 500);
     }
 
-    function goToHash(hash){
-      $location.hash(hash);
-      $anchorScroll();
-    }
-
     function showStore() {
       $mdDialog.show({
         hasBackdrop: true,

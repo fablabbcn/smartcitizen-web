@@ -43,7 +43,7 @@
       });
     }
 
-    function infoNoDataOwner(kitID) {
+    function infoNoDataOwner() {
       info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data.',
         10000);
     }

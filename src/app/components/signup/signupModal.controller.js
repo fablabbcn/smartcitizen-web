@@ -5,9 +5,9 @@
     .controller('SignupModalController', SignupModalController);
 
     SignupModalController.$inject = ['$scope', '$mdDialog', 'user',
-      'alert', 'animation', '$location'];
+      'alert', 'animation'];
     function SignupModalController($scope, $mdDialog, user,
-      alert, animation, $location) {
+      alert, animation ) {
       var vm = this;
       vm.answer = function(signupForm) {
 
@@ -17,7 +17,7 @@
 
         $scope.waitingFromServer = true;
         user.createUser(vm.user)
-          .then(function(data) {
+          .then(function() {
             alert.success('Signup was successful');
             $mdDialog.hide();
             ga('send', 'event', 'Signup', 'signed up');
@@ -26,7 +26,7 @@
             $scope.errors = err.data.errors;
             ga('send', 'event', 'Signup', 'failed');
           })
-          .finally(function(data) {
+          .finally(function() {
             $scope.waitingFromServer = false;
           });
       };

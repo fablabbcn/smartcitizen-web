@@ -14,7 +14,7 @@
         link: link
       };
 
-      function link(scope, elem) {
+      function link() {
         var chartHeight;
         $timeout(function() {
           chartHeight = angular.element('.kit_chart').height();          

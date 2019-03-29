@@ -52,10 +52,10 @@ describe('Controller: User Profile', function() {
       it('should expose filterKits function', function() {
         expect(MyProfileController.filterKits).toBeDefined();
       });
-      xit('should expose updateUser function', function() {
+      it('should expose updateUser function', function() {
 
       });
-      xit('should expose removeUser function', function() {
+      it('should expose removeUser function', function() {
 
       });
     }); 

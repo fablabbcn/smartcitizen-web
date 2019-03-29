@@ -4,8 +4,8 @@
   angular.module('app.components')
     .service('scktoolService', scktoolService);
 
-  scktoolService.$inject = ['angularLoad', '$q', '$rootScope'];
-  function scktoolService(angularLoad, $q, $rootScope){
+  scktoolService.$inject = ['angularLoad', '$q'];
+  function scktoolService(angularLoad, $q){
     var d = $q.defer();
     var scripts = [
       'scripts/scktool-app.js',

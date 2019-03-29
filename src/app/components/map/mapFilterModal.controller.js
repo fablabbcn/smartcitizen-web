@@ -61,7 +61,7 @@
       $timeout(function() {
 
         for (var i = 0; i < filters.length - 1; i++) {
-          if (vm.checks[filters[i]] == false && vm.checks[filters[i]] == vm.checks[filters[i+1]]) {
+          if (vm.checks[filters[i]] === false && vm.checks[filters[i]] === vm.checks[filters[i+1]]) {
             for (var n = 0; n < filters.length; n++) {
               vm.checks[filters[n]] = true;
             }
