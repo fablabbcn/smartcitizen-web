@@ -428,14 +428,14 @@
             return new Sensor(sensor, sensorTypes);
           }).sort(function(a, b) {
             /* This is a temporary hack to set always PV panel at the end*/
-            if (a.id == 18) return -1;
-            if (b.id == 18) return  1;
+            if (a.id === 18){ return -1;}
+            if (b.id === 18){ return  1;}
             /* This is a temporary hack to set always the Battery at the end*/
-            if (a.id == 17) return -1;
-            if (b.id == 17) return  1;
+            if (a.id === 17){ return -1;}
+            if (b.id === 17){ return  1;}
             /* This is a temporary hack to set always the Battery at the end*/
-            if (a.id == 10) return -1;
-            if (b.id == 10) return  1;
+            if (a.id === 10){ return -1;}
+            if (b.id === 10){ return  1;}
             /* After the hacks, sort the sensors by id */
             return b.id - a.id;
           })
@@ -1417,8 +1417,8 @@
   angular.module('app.components')
     .service('scktoolService', scktoolService);
 
-  scktoolService.$inject = ['angularLoad', '$q', '$rootScope'];
-  function scktoolService(angularLoad, $q, $rootScope){
+  scktoolService.$inject = ['angularLoad', '$q'];
+  function scktoolService(angularLoad, $q){
     var d = $q.defer();
     var scripts = [
       'scripts/scktool-app.js',
@@ -2626,7 +2626,7 @@
         return obj;
       }
 
-      function setDefaultFilters(filterData, defaultFilters) {
+      function setDefaultFilters(filterData) {
         var obj = {};
         if(!filterData.indoor || !filterData.outdoor) {
           obj.exposure = filterData.indoor ? 'indoor' : 'outdoor';
@@ -4016,7 +4016,7 @@
         link: link
       };
 
-      function link(scope, elem) {
+      function link() {
         var chartHeight;
         $timeout(function() {
           chartHeight = angular.element('.kit_chart').height();          
@@ -5218,11 +5218,6 @@ angular.module('app.components')
       }, 500);
     }
 
-    function goToHash(hash){
-      $location.hash(hash);
-      $anchorScroll();
-    }
-
     function showStore() {
       $mdDialog.show({
         hasBackdrop: true,
@@ -5241,9 +5236,9 @@ angular.module('app.components')
     .controller('SignupModalController', SignupModalController);
 
     SignupModalController.$inject = ['$scope', '$mdDialog', 'user',
-      'alert', 'animation', '$location'];
+      'alert', 'animation'];
     function SignupModalController($scope, $mdDialog, user,
-      alert, animation, $location) {
+      alert, animation ) {
       var vm = this;
       vm.answer = function(signupForm) {
 
@@ -5253,7 +5248,7 @@ angular.module('app.components')
 
         $scope.waitingFromServer = true;
         user.createUser(vm.user)
-          .then(function(data) {
+          .then(function() {
             alert.success('Signup was successful');
             $mdDialog.hide();
             ga('send', 'event', 'Signup', 'signed up');
@@ -5262,7 +5257,7 @@ angular.module('app.components')
             $scope.errors = err.data.errors;
             ga('send', 'event', 'Signup', 'failed');
           })
-          .finally(function(data) {
+          .finally(function() {
             $scope.waitingFromServer = false;
           });
       };
@@ -6045,7 +6040,7 @@ angular.module('app.components')
       $timeout(function() {
 
         for (var i = 0; i < filters.length - 1; i++) {
-          if (vm.checks[filters[i]] == false && vm.checks[filters[i]] == vm.checks[filters[i+1]]) {
+          if (vm.checks[filters[i]] === false && vm.checks[filters[i]] === vm.checks[filters[i+1]]) {
             for (var n = 0; n < filters.length; n++) {
               vm.checks[filters[n]] = true;
             }
@@ -7578,7 +7573,7 @@ function cookiesLaw($cookies) {
       });
     }
 
-    function infoNoDataOwner(kitID) {
+    function infoNoDataOwner() {
       info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data.',
         10000);
     }
@@ -8205,13 +8200,13 @@ angular.module('app', [
 
 })();
 
-angular.module('app').run(['$templateCache', function($templateCache) {$templateCache.put('app/components/alert/alerterror.html','<md-toast class="red"><md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="alert_typeIcon"></md-icon><span ng-bind-html="vm.message" flex="">{{ vm.message }}</span><md-button ng-click="vm.close()" aria-label=""><md-icon md-svg-src="./assets/images/close_icon_black.svg" alt="Insert Drive Icon" class="alert_closeIcon"></md-icon></md-button></md-toast>');
+angular.module('app').run(['$templateCache', function($templateCache) {$templateCache.put('app/components/apiKey/apiKey.html','<div class="api_key_number">{{ apiKey }}</div><md-button clipboard="" text="apiKey" class="api_key_refresh_button" aria-label="" on-copied="vm.copied()" on-error="vm.copyFail(err)"><md-icon class="" md-svg-src="./assets/images/paste_icon.svg"></md-icon></md-button>');
+$templateCache.put('app/components/disqus/disqus.html','<div id="disqus_thread"></div><script type="text/javascript">\n   /* * * CONFIGURATION VARIABLES * * */\n   var disqus_shortname = \'smartcitizen\';\n   // var disqus_identifier = \'newid1\';\n   // var disqus_url = \'http://example.com/unique-path-to-article-1/\';\n   // var disqus_config = function () {\n   //   this.language = "en";\n   // };\n\n\n   /* * * DON\'T EDIT BELOW THIS LINE * * */\n   (function() {\n       var dsq = document.createElement(\'script\'); dsq.type = \'text/javascript\'; dsq.async = true;\n       dsq.src = \'//\' + disqus_shortname + \'.disqus.com/embed.js\';\n       (document.getElementsByTagName(\'head\')[0] || document.getElementsByTagName(\'body\')[0]).appendChild(dsq);\n   })();\n</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>');
+$templateCache.put('app/components/download/downloadModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Download data</h2><span flex=""></span><md-button class="md-icon-button" ng-click="vm.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content class="modal modal_download"><div class="md-dialog-content max-width-500px"><p>We will process your sensor data and send you an email with a download link when it is ready</p></div><md-button class="btn-blue btn-full" ng-click="vm.download()">Download</md-button></md-dialog-content></md-dialog>');
+$templateCache.put('app/components/alert/alerterror.html','<md-toast class="red"><md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="alert_typeIcon"></md-icon><span ng-bind-html="vm.message" flex="">{{ vm.message }}</span><md-button ng-click="vm.close()" aria-label=""><md-icon md-svg-src="./assets/images/close_icon_black.svg" alt="Insert Drive Icon" class="alert_closeIcon"></md-icon></md-button></md-toast>');
 $templateCache.put('app/components/alert/alertinfo.html','<md-toast class="yellow"><md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Alert icon" class="alert_typeIcon"></md-icon><span flex="">{{ vm.message }}</span><md-button ng-click="vm.close()" aria-label=""><md-icon md-svg-src="./assets/images/close_icon_black.svg" alt="Insert Drive Icon" class="alert_closeIcon"></md-icon></md-button></md-toast>');
 $templateCache.put('app/components/alert/alertinfoButton.html','<md-toast class="yellow" layout="row" layout-align="space-between center"><div flex=""><md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Alert icon" class="alert_typeIcon"></md-icon><span flex="">{{ vm.message }}</span><md-button ng-href="{{vm.href}}" class="alert_button">{{ vm.button }}</md-button></div><div flex-nogrow=""><md-button ng-click="vm.close()" aria-label=""><md-icon md-svg-src="./assets/images/close_icon_black.svg" alt="Insert Drive Icon" class="alert_closeIcon"></md-icon></md-button></div></md-toast>');
 $templateCache.put('app/components/alert/alertsuccess.html','<md-toast class="green"><md-icon md-svg-src="./assets/images/alert_icon.svg" alt="Insert Drive Icon" class="alert_typeIcon"></md-icon><span flex="">{{ vm.message }}</span><md-button ng-click="vm.close()" aria-label=""><md-icon md-svg-src="./assets/images/close_icon_black.svg" alt="Insert Drive Icon" class="alert_closeIcon"></md-icon></md-button></md-toast>');
-$templateCache.put('app/components/apiKey/apiKey.html','<div class="api_key_number">{{ apiKey }}</div><md-button clipboard="" text="apiKey" class="api_key_refresh_button" aria-label="" on-copied="vm.copied()" on-error="vm.copyFail(err)"><md-icon class="" md-svg-src="./assets/images/paste_icon.svg"></md-icon></md-button>');
-$templateCache.put('app/components/disqus/disqus.html','<div id="disqus_thread"></div><script type="text/javascript">\n   /* * * CONFIGURATION VARIABLES * * */\n   var disqus_shortname = \'smartcitizen\';\n   // var disqus_identifier = \'newid1\';\n   // var disqus_url = \'http://example.com/unique-path-to-article-1/\';\n   // var disqus_config = function () {\n   //   this.language = "en";\n   // };\n\n\n   /* * * DON\'T EDIT BELOW THIS LINE * * */\n   (function() {\n       var dsq = document.createElement(\'script\'); dsq.type = \'text/javascript\'; dsq.async = true;\n       dsq.src = \'//\' + disqus_shortname + \'.disqus.com/embed.js\';\n       (document.getElementsByTagName(\'head\')[0] || document.getElementsByTagName(\'body\')[0]).appendChild(dsq);\n   })();\n</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>');
-$templateCache.put('app/components/download/downloadModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Download data</h2><span flex=""></span><md-button class="md-icon-button" ng-click="vm.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content class="modal modal_download"><div class="md-dialog-content max-width-500px"><p>We will process your sensor data and send you an email with a download link when it is ready</p></div><md-button class="btn-blue btn-full" ng-click="vm.download()">Download</md-button></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/footer/footer.html','<footer class="p-60" style="padding-bottom: 10px"><div layout="row" layout-xs="column" layout-sm="column" layout-wrap="" layout-align="space-between center" layout-align-xs="space-between stretch" style="color:white; margin:0 auto; max-width:1200px"><div><img style="height:80px" src="./assets/images/smartcitizen_logo2.svg" alt="logos"></div><div layout="row" layout-align="space-between center" class="border-white p-20 mb-10"><div class="mr-10">Follow us</div><a class="mr-10" href="https://twitter.com/smartcitizenkit"><img style="height:30px" src="./assets/images/tw.svg" alt="twitter"></a> <a href="https://www.facebook.com/smartcitizenBCN/"><img style="height:30px" src="./assets/images/fb.svg" alt="fb"></a></div><div layout="row" layout-align="space-between center" class="border-white p-20 mb-10"><div class="mr-10">A project by</div><a class="mr-10" href="https://fablabbcn.org"><img style="height:18px; padding-right: 5px" src="./assets/images/logo_fablab_bcn_small.png" alt="fablab"></a> <a href="https://iaac.net"><img style="height:15px" src="./assets/images/iaac.png" alt="fablab"></a></div><div flex="25" flex-xs="100" layout="row" layout-xs="column" layout-sm="column" layout-align="start center"><img style="height:48px; padding-right: 15px" src="./assets/images/eu_flag.png" alt="fablab"><p class="color-white text-funding">Smart Citizen has received funding from the European Community\u2019s H2020 Programme under Grant Agreement No. 689954.</p></div><div flex="100" layout="row" layout-align="center center" style="margin-top:20px; padding-bottom:10px"><p class="color-white text-center">Except where otherwise noted, content on this site by Smart Citizen\xAE is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <a rel="policy" href="policy">Terms of use and privacy policy</a></p></div></div></footer>');
 $templateCache.put('app/components/home/template.html','<div><section class="content"><div ui-view="map" class="map_state"></div><div ui-view="container" class="kit"></div></section></div>');
 $templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="kits.length === 0"><small>No kits</small></div><md-list layout="row" layout-wrap=""><md-list-item class="kitList_parent" ng-repeat="kit in kits track by kit.id" flex="100" flex-gt-md="50" layout-xs="column" layout-align="start center"><md-card flex="" layout-padding="" href="./kits/{{kit.id}}"><md-card-header layout="row" layout-align="start center"><md-card-avatar><img class="kitList_avatar" ng-src="{{ kit.avatar || \'./assets/images/avatar.svg\' }}"></md-card-avatar><div><h4 class="m-0">{{ kit.name || \'No name\' }}</h4><span class="md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg"></md-icon><span>{{ kit.location || \'No location\' }}</span><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span>{{ kit.type || \'Unknown Kit\'}}</span></span><div><div ng-if="kit.belongProperty && (kit.state.name === \'never published\' || kit.state.name === \'not configured\')"><span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span></div></div></div></md-card-header><md-card-content class="ml-50 mt-20"><div layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="label in kit.labels">{{ label }}</span><tag ng-repeat="tag in kit.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-card-content><md-card-actions class="ml-50"><md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}" ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty}"><md-icon md-svg-src="./assets/images/map_icon.svg"></md-icon>View on map</md-button><md-button class="md-raised md-accent md-hue-2" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">{{item.text}}</md-button><md-button ng-click="actions.remove(kit.id)" class="md-warn" aria-label=""><md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>Remove</md-button></md-card-actions></md-card></md-list-item></md-list>');
