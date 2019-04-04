@@ -35,10 +35,9 @@
       // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
 
-      // TODO: https://smartcitizen.me/profile/kits fails, try both as logged in and not logged in
       // The auth controller has not populated the `user` at this point, so  user.token is undefined
       // This controller depends on auth has already been run.
-      vm.user.token = auth.getCurrentUser().token;
+      vm.user.token = auth.getToken;
       vm.addNewKit = addNewKit;
 
 

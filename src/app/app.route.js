@@ -73,7 +73,12 @@
           abstract: true,
           templateUrl: 'app/components/layout/layout.html',
           controller: 'LayoutController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve:{
+            isLogged: function(auth){
+              auth.setCurrentUser();
+            }
+          }
         })
         .state('layout.styleguide',{
           url: '/styleguide',
@@ -270,10 +275,8 @@
           controllerAs: 'vm',
           resolve: {
             userData: function($location, $window, user, auth, AuthUser) {
-              //console.log('resolve in /profile/');
               var userData = auth.getCurrentUser().data;
               if(!userData) {
-                //console.log('no userData found, return empty');
                 return;
               }
               return userData;
