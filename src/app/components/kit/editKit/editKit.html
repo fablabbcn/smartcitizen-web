@@ -103,12 +103,8 @@
 
         <section layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
-            <div layout="row">
-              <div>
-                <h2>Kit tags</h2>
-                <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
-              </div>
-            </div>
+            <h2>Kit tags</h2>
+            <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
           </div>
           <div flex-gt-xs="50">
             <md-input-container>
@@ -117,11 +113,11 @@
                          md-on-close="clearSearchTerm()"
                          data-md-container-class="selectdemoSelectHeader"
                          multiple>
-                <md-select-header class="demo-select-header">
+                <md-select-header class="kit_tags-select-header">
                   <input ng-model="searchTerm"
                          type="search"
                          placeholder="Search for a tag.."
-                         class="demo-header-searchbox md-text">
+                         class="kit_tags-header-searchbox md-text">
                 </md-select-header>
                 <md-optgroup label="tags">
                   <md-option ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
