@@ -109,8 +109,13 @@
         <div class="hint" ng-if="vm.kitWithoutData">
           <p></p>
         </div>
-        <div class="container" layout="row" layout-xs="column">
-          <div class="kit_chart_left" flex="100" flex-gt-xs="20" layout-xs="column" layout-align-xs="end start">
+        <div class="container" layout="column" layout-gt-sm="row">
+
+          <div class="kit_chart_left" layout-padding flex="100" flex-gt-sm="20">
+            <div class="sensor_data" show-popup-info>
+              <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
+              <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
+            </div>
             <div class="sensor_select">
               <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
@@ -123,10 +128,6 @@
                   </span>
                 </md-option>
               </md-select>
-            </div>
-            <div class="sensor_data" show-popup-info>
-              <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
-              <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description" >
@@ -152,8 +153,9 @@
               </div>
             </div>
           </div>
-          <div class="kit_chart_right" flex>
-            <div class="chart_navigation" layout="row" layout-xs="column" layout-align="end center" layout-align-xs="end end">
+
+          <div class="kit_chart_right" layout-padding flex>
+            <div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end">
               <div class="picker_container">
                 <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received"
                   ng-change="vm.timeOptSelected()">
@@ -257,7 +259,7 @@
       </section>
 
       <section class="kit_owner" ng-if="vm.kit">
-        <div class="kit_detailed_content_container" layout="column" layout-gt-md="row">
+        <div class="kit_detailed_content_container" layout="column">
 
           <div layout="row" layout-align="start center">
             <img class="ml-20 mr-30" style="height:100px" ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
@@ -289,7 +291,7 @@
               <h4 class="ml-20">Other kits owned by {{ vm.kit.owner.username }}</h4>
               <kit-list kits="vm.sampleKits"></kit-list>
               <div layout="row" layout-align="end end">
-                <md-button class="md-primary md-raised" ng-href="/users/{{ vm.kit.owner.id }}"  ng-if="vm.kit.owner.kits.length > 5" aria-label="">VIEW ALL KITS BY {{ vm.kit.owner.username }}</md-button>
+                <md-button class="md-primary md-raised" ng-href="/users/{{ vm.kit.owner.id }}" style="margin-right:23px" ng-if="vm.kit.owner.kits.length > 5" aria-label="">VIEW ALL KITS BY {{ vm.kit.owner.username }}</md-button>
               </div>
             </section>
           </div>
