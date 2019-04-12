@@ -52,11 +52,11 @@
           View on map
         </md-button>
 
-        <md-button class="md-raised md-accent md-hue-2" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
+        <md-button class="md-raised md-accent md-hue-2" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
           {{item.text}}
         </md-button>
 
-        <md-button ng-click="actions.remove(kit.id)" class="md-warn" aria-label="">
+        <md-button class="md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
           <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
           Remove
         </md-button>
