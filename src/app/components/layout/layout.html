@@ -37,7 +37,7 @@
 
       <div ng-show="vm.isShown" hide-xs store logged="vm.isLoggedin" class="md-flat get"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs login class="navbar_login_button "></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" signup class="navbar_signup_button"></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs signup class="navbar_signup_button"></div>
 
       <md-menu ng-show="vm.isShown && vm.isLoggedin" >
         <md-button class="btn-small" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
@@ -73,8 +73,8 @@
     </md-toolbar>
 
     <md-content>
-      <div ng-show="vm.isShown && !vm.isLoggedin" login class=""></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" signup class=""></div>
+      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login class=""></md-menu-item>
+      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup class=""></md-menu-item>
       <md-divider ng-show="vm.isShown && !vm.isLoggedin" > </md-divider>
 
       <md-menu-item>
