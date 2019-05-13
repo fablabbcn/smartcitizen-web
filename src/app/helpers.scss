@@ -82,6 +82,10 @@
   background-color: $grey !important;
 }
 
+.outline{
+  outline: 1px solid red;
+}
+
 // Button helpers
 .btn-outline-blue{
   border:2px solid $blue;
@@ -169,10 +173,27 @@
   margin: 0px;
 }
 
+.btn-small {
+  min-width: unset !important;
+  min-height: unset !important;
+  //outline: 1px solid red;
+}
 
 // Margin - padding helpers
+.m-0{
+  margin: 0;
+}
+.m-10{
+  margin: 10px;
+}
 .ml-0 {
   margin-left: 0px;
+}
+.ml-20 {
+  margin-left: 20px;
+}
+.ml-50{
+  margin-left: 50px;
 }
 .mr-10{
   margin-right: 10px;
@@ -202,6 +223,9 @@
 .mw-100{
   max-width: 100%;
 }
+.p-0{
+  padding: 0;
+}
 .p-20{
   padding: 20px;
 }
@@ -220,6 +244,9 @@
 .pl-20{
   padding-left: 20px;
 }
+.pt-80{
+  padding-top:80px;
+}
 .py-40{
   padding-top:40px;
   padding-bottom:40px;
@@ -228,6 +255,12 @@
   padding-left:20px;
   padding-right:20px;
 }
+
+.px-40{
+  padding-left:40px;
+  padding-right:40px;
+}
+
 
 // img helpers
 

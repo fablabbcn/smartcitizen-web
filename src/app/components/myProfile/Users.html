@@ -1,24 +1,11 @@
-<div class="profile_content" layout="row">
-  <div class="profile_sidebar">
-    <p class="profile_sidebar_title">EDIT YOUR PROFILE</p>
-    <p class="profile_sidebar_description">
-    A complete profile helps us to bring to you a better experience. Please, take your time completing all fields.
-    </p>
-    <md-button ng-href="mailto:support@smartcitizen.me" class="profile_sidebar_button myProfile_sidebar_button">
-      <md-icon md-svg-src="./assets/images/support_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
-      <span>Support</span>
-    </md-button>
-    <md-button ng-href="http://forum.smartcitizen.me" ng-click="" class="profile_sidebar_button myProfile_sidebar_button">
-      <md-icon md-svg-src="./assets/images/community_icon_blue.svg" class="profile_sidebar_avatar"></md-icon>
-      <span>Community</span>
-    </md-button>
-  </div>
-  <div class="profile_content_main" flex>
-    <div class="myProfile_content_form">
+<div class="profile_content" layout="column" layout-gt-xs="row" layout-align="center">
+  <div layout-padding layout-margin class="mt-50 mb-30 bg-white">
+    <div style="max-width:500px">
       <div class="myProfile_form_avatar" layout="row" layout-align="start center">
         <img ng-src="{{ vm.user.profile_picture || vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
-        <md-button class="myProfile_form_avatarButton" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
+        <md-button class="md-raised md-primary" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
       </div>
+
       <form ng-submit="vm.updateUser(vm.formUser)">
         <div layout layout-sm="column" class="field myProfile_content_form_input">
           <md-input-container flex>
@@ -92,29 +79,30 @@
           </span>
           </p>
         </div>
-        <md-button type="submit" class="myProfile_form_updateButton" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
+        <md-button type="submit" class="md-primary md-raised" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
       </form>
 
-      <div class="myProfile_apiKey_block">
-        <div class="myProfile_apiKey" layout="row" layout-align="start center">
-          <md-icon flex="10" md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
-          <span flex="30" class="myProfile_apiKey_text">oAuth API Key:</span>
-          <div flex="60" api-key="vm.user.token"></div>
+      <div class="mb-20">
+
+        <div class="mb-20" layout="column" layout-align="start">
+          <h4><md-icon md-svg-src="./assets/images/key_icon.svg"></md-icon> oAuth API Key:</h4>
+          <div api-key="vm.user.token"></div>
         </div>
+
         <small>Keep it safe as a password, never show it or release it publicly. The new API uses oAuth but doesn't require any Keys for basic queries. Soon you will be able to manage and renew Keys per application. Check the <a target="_blank" href="http://developer.smartcitizen.me/">documentation and have fun!</a></small></small>
       </div>
 
-      <div class="myProfile_apiKey_block">
-        <div class="myProfile_apiKey" layout="row" layout-align="start center">
-          <md-icon flex="10" md-svg-src="./assets/images/key_icon.svg" class="myProfile_tab_icon"></md-icon>
-          <span flex="30" class="myProfile_apiKey_text">Legacy API Key:</span>
-          <div flex="60" api-key="vm.user.key"></div>
+      <div class="mb-20">
+        <div layout="column" layout-align="start">
+           <h4><md-icon md-svg-src="./assets/images/key_icon.svg"></md-icon> Legacy API Key:</h4>
+          <div api-key="vm.user.key"></div>
         </div>
         <small>This API Key is limited to the <a target="_blank" href="http://developer.smartcitizen.me/#legacy">legacy API</a>.</small>
       </div>
 
-      <md-button ng-click="vm.removeUser()" class="warn" style="font-size:18px" type="button">DELETE ACCOUNT</md-button><br>
-      <small>Delete your profile will erase all your data. Please consider think twice before click this button.</small>
+      <md-button class="md-raised md-warn" ng-click="vm.removeUser()" style="font-size:18px" type="button">DELETE ACCOUNT</md-button>
+      <br />
+      <small>Delete your profile will erase ALL your data. Please think twice before clicking this button.</small>
     </div>
   </div>
 </div>

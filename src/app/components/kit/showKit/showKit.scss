@@ -216,10 +216,11 @@ section .kit_menu {
 
   .button_scroll {
     margin: 0px;
-    position: absolute;
-    top: 0;
-    width: 60px;
-    height: 96px;
+    //position: absolute;
+    //top: 0;
+    //width: 60px;
+    //height: 96px;
+    background: #ccc;
   }
 
   .button_scroll_left {
@@ -338,10 +339,6 @@ section .kit_menu {
   background-color: white;
   position: relative;
 
-  h3, h4, p{
-    line-height: 0.4em;
-  }
-
   p.description {
     line-height: inherit;
     font-weight: lighter;
@@ -427,8 +424,6 @@ section .kit_menu {
           }
         }
         .sensor_data {
-          margin: 8% 0 5% 0;
-
           .sensor_value {
             font-size: 2em;
             font-weight: bold;
@@ -584,8 +579,6 @@ section .kit_menu {
   .kit_details_description_content {
     font-size: 12px;
   }
-  .kit_details_manage {
-  }
   .kit_details_manage_buttons {
     margin-bottom: 32px;
   }
@@ -612,16 +605,6 @@ section .kit_menu {
     top: -1px;
     svg {
       fill: $grey_darker;
-    }
-  }
-  .kit_detailed_avatar {
-    float: left;
-    margin-right: 26px;
-    md-icon, img {
-      width: 100px;
-      height : 100px;
-      border-radius: 50px;
-      margin-top: 55px;
     }
   }
   .kit_detailed_icon_title {
@@ -654,12 +637,6 @@ section .kit_menu {
     .container {
       width: 95%;
       margin: 0 auto;
-    }
-    .kit_owner_content {
-//  width: 85%;
-    }
-    .kit_owner_info {
-      margin-bottom: 65px;
     }
     .kit_owner_usernameLink {
       text-decoration: none;
@@ -721,13 +698,6 @@ section .kit_menu {
     .kit_owner_kits_list_config_icon {
       width: 22px;
       height: 22px;
-    }
-    .kit_owner_kits_more_button {
-      font-size: 16px;
-      float: right;
-      right: 5%;
-      margin-top: 32px;
-      color: $blue;
     }
   }
 }

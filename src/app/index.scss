@@ -199,15 +199,14 @@ button.md-button, button{
   Overwrite global material design, allow icons to be smaller
 */
 
-.md-button{
-  // Bug: causes profile/kits 'Cancel' 'Ok' buttons to be very small.
-  min-width: unset !important;
-  min-height: unset !important;
-  // If we remove, almost all clickable items will get BIG
-  //outline:1px solid red;
+md-toolbar{
+  background-color: $background_blue_dark_navbar !important;
+  z-index: $large_priority;
+  //height: 64px;
 }
 
 md-icon{
+  // Effects ALL icons on the site
   min-width: unset !important;
 }
 
@@ -235,45 +234,24 @@ button.warn{
 
 div[api-key]{
   display: flex;
-  flex-direction: row;
-  color: $secondary_color_light;
 
   .api_key_number {
-    flex:1;
-    margin-left: 5px;
     background-color: #F2F2F2;
-    padding: 2px 10px;
-    display: inline-block;
-    height: inherit;
-    word-wrap: break-word;
-    flex-wrap: wrap;
+    word-break: break-all;
     width: 420px;
-
   }
   .api_key_refresh_button {
-    height: inherit;
     background-color: #DBDBDB;
-    border-radius: 0 4px 4px 0;
     margin:0;
-    padding-right:24px;
     md-icon {
+      padding: 10px;
       height: 15px;
       width: 15px;
-      display: block;
     }
   }
   md-icon {
     opacity: .5;
   }
-}
-
-.inside_list{
-  h1{
-    color: $grey_darker;
-    font-size:1.1em;
-    margin: 10px 0px;
-  }
-
 }
 
 .info_overlay{
@@ -323,8 +301,8 @@ button.md-primary{
   // font-size:18px;
 }
 .md-button.md-flat.md-primary {
-  margin: 0px;
-  background-color: $terciary_color;
+  //margin: 0px;
+  //background-color: $terciary_color;
   //color: white !important;
 }
 
@@ -1264,79 +1242,6 @@ KIT TAGS MODULE
     }
   }
 }
-// user avatar dropdown
-.nav_right {
-  padding-left: 40px;
-
-  .wrap-dd-menu {
-    width: 50px;
-    display: inline-block;
-    margin: 0 0 0 30px;
-    //padding: 0;
-    display: none;
-  }
-  .wrap-dd-menu .dropdown {
-    top: 65%;
-    line-height: 1em;
-    left: auto;
-    right: -15px;
-    border-radius: 0px;
-    min-width: 160px;
-    font-size: 14px;
-    li a {
-      border-bottom: 0px;
-      color: $secondary_color;
-    }
-    li.divider {
-      background-color: white;
-      color: $blue;
-      font-weight: bold;
-      margin-left: 8px;
-      margin-right: 38px;
-    }
-  }
-}
-// community dropdown
-.nav_left {
-  .wrap-dd-menu {
-    width: unset !important; //angular sets this at 200px
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-  }
-  .wrap-dd-menu .dropdown {
-    top: 74%;
-    line-height: 1em;
-    left: 7px;
-    right: 0px;
-    border-radius: 0px;
-    font-size: 14px;
-    li a {
-      text-align: center;
-      border-bottom: 0px;
-    }
-  }
-}
-
-.wrap-dd-menu .dropdown:before {
-  content: none;
-}
-.wrap-dd-menu .dropdown:after {
-  content: none;
-}
-
-.navbar_avatar_button {
-  //margin-top:16px;
-  padding: 6px;
-  height: 52px;
-  display: inline-table;
-}
-
-.navbar_avatar_icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 19px;
-}
 
 .kit_owner_dropdown_button {
   display: block;
@@ -1347,10 +1252,6 @@ KIT TAGS MODULE
  *  KIT LIST
  *
  */
-.kitList_parent {
-  position: relative;
-}
-
 .kitList {
   margin: 0px;
   color: $grey;
@@ -1390,44 +1291,17 @@ KIT TAGS MODULE
     right: 130px;
   }
 
-  .kitList_tags{
-    margin-left: 60px;
-  }
 }
 
-.kitList_secondary {
-  width: 95%;
-}
 .kitList_avatar {
   width: 44px;
   height: 44px;
   border-radius: 22px;
-  margin-top:-10px;
-  margin-right: 14px;
-}
-.kitList_content {
-  text-align: initial;
 }
 .kitList_name {
   margin-bottom: 5px;
   font-size: 18px;
   color: $blue;
-}
-.kitList_data {
-  span {
-    color: $grey_darker;
-    margin-right: 15px;
-  }
-}
-.kitList_icon {
-  width: 14px;
-  height: 14px;
-  margin-right: 8px;
-  position: relative;
-  top: -2px;
-}
-.kitList_config {
-  width: 60px;
 }
 .kitList_right {
   position: absolute;
@@ -1459,11 +1333,9 @@ KIT TAGS MODULE
     position: relative;
   }
 }
+
 .kitList_noKits {
   line-height: 5;
-}
-.kitList_borderBottom {
-  border-bottom: 1px solid #EAECF1;
 }
 
 .dropdown-item-button {
@@ -1516,32 +1388,24 @@ KIT TAGS MODULE
 }
 /* profile sidebar */
 .profile_sidebar {
-  min-height: 400px;
+  //min-height: 400px;
   // min-height: inherit;
-  width: 256px;
+  // width: 256px;
   background-color: #F5F5F5;
-  padding-top: 80px;
+  min-width:200px;
 }
 .profile_sidebar_title {
-  margin: 0 0 42px 20px;
   color: $off_black;
   font-weight: bold;
 }
 .profile_sidebar_description {
   font-size: 14px;
-  margin: 0 35px 24px 20px;
 }
 
 .profile_sidebar_button {
-  display: block;
-  text-align: start;
-  font-size:18px;
-  padding-left: 40px;
   height: 64px;
   color: $terciary_color;
-  svg {
-    fill: $blue;
-  }
+  svg { fill: $blue; }
 }
 
 .profile_sidebar_avatar {
@@ -1553,11 +1417,6 @@ KIT TAGS MODULE
 }
 
 /* profile main content */
-.profile_content_main {
-  min-height: inherit;
-  padding: 82px 26px 0 41px;
-  margin-bottom: 65px;
-}
 .profile_content_main_top {
   margin: 0 0 42px 20px;
 }
@@ -1650,15 +1509,6 @@ KIT TAGS MODULE
   border-radius: 32px;
   margin-right: 7%;
 }
-.myProfile_form_avatarButton {
-  color: $terciary_color;
-  font-size:18px;
-}
-.myProfile_form_updateButton {
-  font-size:18px;
-  color: $blue;
-  margin-left:350px;
-}
 .myProfile_apiKey_text {
   color: $font_color_blue_grey;
   margin-right: 5px;
@@ -1719,10 +1569,6 @@ KIT TAGS MODULE
 .md-button.myProfile_addKitButton:hover {
   background-color: $blue;
 }
-.myProfile_content_main_title {
-  float: right;
-}
-
 .myProfile_hiddenhref{
   position:absolute;
   height: 100%;
@@ -1934,12 +1780,6 @@ button.doorbell-button {
   }
   .form_blockInput_button {
     height:inherit;
-
-    button {
-      display: inline-block;
-      width: 200px;
-      height: 50px;
-    }
   }
   .form_blockInput_map {
     height: 250px;
@@ -2117,11 +1957,6 @@ p.no-margin {
 // Styleguide
 
 .styleguide {
-  .sg-title-section {
-    background-color: $background_blue_dark_menu;
-    margin: 64px 0px 50px 0px;
-  }
-
   .info-text {
     color: rgba(0, 0, 0, 0.3);
   }
@@ -2130,44 +1965,12 @@ p.no-margin {
     color: rgba(255, 255, 255, 0.3) !important;
   }
 
-  h1.sg-pageTitle {
-    font-size: 36px;
-    color: #fff;
-    padding:70px 47px;
-  }
-
-  h2.sg-titles {
-    font-size: 16px;
-    color: #23444C;
-    margin-top: 0;
-  }
-
   .dark-theme-divider {
     border-top-color: rgba(255,255,255,0.12);
   }
 
-  p.sg-paragraph2 {
-    color: $secondary_color_light;
-    font-weight: 300;
-  }
-
   small {
     margin-top: 20px;
-  }
-
-  .sg-text-box {
-    background-color: #f7f7f7;
-    margin: -1px 0px 70px 0px;
-    border: 1px solid rgba(0,0,0,0.12);
-  }
-
-  pre {
-    word-break: normal;
-    margin-bottom: 0;
-    padding: 16px;
-    font-size: 16px;
-    line-height: 1.45;
-    color: #a7a7a7;
   }
 
   .dark-text-section {
@@ -2180,11 +1983,6 @@ p.no-margin {
 
     h2 {
       color: #fff;
-    }
-
-    h2.sg-titles {
-      font-size: 16px;
-      color: #a1a1a1;
     }
 
     h4 {
@@ -2205,16 +2003,8 @@ p.no-margin {
     }
   }
 
-  .sg-button-margin {
-    margin-top: 30px;
-  }
-
   .section-padding {
     padding: 60px;
-  }
-
-  .last-section {
-    margin-bottom: 100px;
   }
 
   .colors-section {

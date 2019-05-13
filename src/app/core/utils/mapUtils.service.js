@@ -26,7 +26,7 @@
         return obj;
       }
 
-      function setDefaultFilters(filterData, defaultFilters) {
+      function setDefaultFilters(filterData) {
         var obj = {};
         if(!filterData.indoor || !filterData.outdoor) {
           obj.exposure = filterData.indoor ? 'indoor' : 'outdoor';

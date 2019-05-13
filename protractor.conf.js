@@ -12,6 +12,8 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
+  getPageTimeout: 26500,
+  allScriptsTimeout: 22000,
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.

@@ -1,21 +1,43 @@
-'use strict';
 
-describe('The main view', function () {
-  var page;
-
+describe('Protractor Demo App', function() {
   beforeEach(function () {
-    browser.get('http://localhost:3000/index.html');
-    page = require('./main.po');
+    console.log('Started before each block');
   });
 
-  it('should include jumbotron with correct data', function() {
-    expect(page.h1El.getText()).toBe('\'Allo, \'Allo!');
-    expect(page.imgEl.getAttribute('src')).toMatch(/assets\/images\/yeoman.png$/);
-    expect(page.imgEl.getAttribute('alt')).toBe('I\'m Yeoman');
+  it('should have a title', function() {
+    browser.get('http://localhost:8080/');
+    expect(browser.getTitle()).toEqual('Smart Citizen');
   });
 
-  it('list more than 5 awesome things', function () {
-    expect(page.thumbnailEls.count()).toBeGreaterThan(5);
+  it('visits the styleguide page', function() {
+    browser.get('http://localhost:8080/styleguide');
+    expect(browser.getTitle()).toEqual('Smart Citizen');
+
+    element.all(by.css('.profile_sidebar_button')).first().click()
+
+    element(by.model('$mdAutocompleteCtrl.scope.searchText'))
+      .sendKeys('barcelona')
+    //.sendKeys(protractor.Key.down)
+    // .sendKeys(protractor.Key.enter)
+
+    // TODO: verify the search has some results
+
+    //element(by.model('$mdAutocompleteCtrl.scope.searchText')).click();
+
+    //expect( $('.btn-cyan') ).toEqual('bbcd')
+    //expect( element(by.css('.btn-cyan')) ).toEqual('bbcddf')
   });
 
+  it('visits the about page', function() {
+    browser.get('http://localhost:8080/about');
+  });
+
+  it('visits the /kits page', function() {
+    //browser.get('http://localhost:8080/kits/4');
+    //element(by.model('$mdAutocompleteCtrl.scope.searchText')).click();
+  });
+    // Find search input
+    //element(by.model('$mdAutocompleteCtrl.scope.searchText')).click();
+    //element(by.model('vm-selectedSensor')).click();
+    //element(by.model('vm.dropDownSelection')).click();
 });

@@ -22,4 +22,11 @@ angular.module('app', [
   'ngtweet',
   'btford.socket-io',
   'ngAnimate'
-]);
+]).config(function($mdThemingProvider){
+  $mdThemingProvider.theme('default')
+    .primaryPalette('indigo')
+    .accentPalette('amber');
+});
+
+// Here you can define a custom Palette:
+// Theme configuration: https://material.angularjs.org/latest/Theming/03_configuring_a_theme

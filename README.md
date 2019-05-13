@@ -49,7 +49,7 @@ It needs the `node_modules/` to exist.
 * `gulp serve:dist` to launch a server on your optimized application
 * `gulp test` to launch your unit tests with Karma
 * `gulp test:auto` to launch your unit tests with Karma in watch mode
-* `gulp protractor` to launch your e2e tests with Protractor
+* `gulp protractor` to launch your e2e tests with Protractor. Tests are in the ./e2e/ folder.
 * `gulp protractor:dist` to launch your e2e tests with Protractor on the dist files
 * `npm run deploy` to publish the project to Github pages (gh-pages branch).
 
