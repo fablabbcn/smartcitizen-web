@@ -45,10 +45,8 @@
       </md-card-content>
 
       <md-card-actions class="ml-50">
-        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}"
-                   ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty}"
-                   >
-                   <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
+        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}" >
+          <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
           View on map
         </md-button>
 
@@ -56,9 +54,9 @@
           {{item.text}}
         </md-button>
 
-        <md-button class="md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
+        <md-button class="md-raised md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
           <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
-          Remove
+          DELETE
         </md-button>
 
       </md-card-actions>

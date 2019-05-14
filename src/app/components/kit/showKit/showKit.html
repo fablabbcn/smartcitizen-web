@@ -218,8 +218,13 @@
           <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
             <div class="kit_details_manage_buttons">
               <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label="">EDIT</md-button>
+              <md-button class="md-accent md-raised" ng-click="vm.downloadData(vm.kit)">
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)">
+                </md-icon>
+                Download Data
+              </md-button>
               <md-button class="md-accent md-raised" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">SET UP</md-button>
-              <md-button class="md-accent md-raised" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">CSV UPLOAD</md-button>
+              <md-button class="md-accent md-raised" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">SD CARD UPLOAD</md-button>
               <md-button class="md-warn md-raised" ng-click="vm.removeKit()" aria-label=""> <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon> DELETE</md-button>
             </div>
             <div class="kit_details_manage_data">
@@ -241,13 +246,6 @@
                 <span class="bold">Status:</span>
                 <span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span>
               </div>
-              <div class="clearfix"></div>
-              <md-button class="md-accent md-raised"
-                         ng-click="vm.downloadData(vm.kit)">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)">
-                </md-icon>
-                Download Data
-              </md-button>
             </div>
           </div>
 

@@ -17,7 +17,7 @@
         </div>
         <div class="profile_content_main_kits">
             <div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}">
-                <md-button ng-href="{{tool.href}}" class="kitList kitList_primary" layout="column" layout-align="start start">
+                <md-button ng-href="{{tool.href}}" class="kitList" layout="column" layout-align="start start">
                 <h4>{{ tool.title }}</h4>
                 <p class="md-subhead">{{ tool.description }}</p>
                 </md-button>
