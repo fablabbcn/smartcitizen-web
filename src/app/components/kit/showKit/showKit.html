@@ -219,8 +219,7 @@
             <div class="kit_details_manage_buttons">
               <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label="">EDIT</md-button>
               <md-button class="md-accent md-raised" ng-click="vm.downloadData(vm.kit)">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)">
-                </md-icon>
+                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)"> </md-icon>
                 Download Data
               </md-button>
               <md-button class="md-accent md-raised" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">SET UP</md-button>
