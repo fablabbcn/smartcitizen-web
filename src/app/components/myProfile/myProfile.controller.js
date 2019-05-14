@@ -42,6 +42,7 @@
       vm.kits = [];
       vm.kitStatus = undefined;
       vm.removeKit = removeKit;
+      vm.downloadData = downloadData;
 
       vm.filteredKits = [];
 
@@ -310,6 +311,40 @@
         var isAdmin = userUtils.isAdmin(userData);
 
         return isAdmin || belongsToUser;
+      }
+
+      function downloadData(kit){
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'DownloadModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/download/downloadModal.html',
+          clickOutsideToClose: true,
+          locals: {thisKit:kit}
+        }).then(function(){
+          var alert = $mdDialog.alert()
+          .title('SUCCESS')
+          .content('We are processing your data. Soon you will be notified in your inbox')
+          .ariaLabel('')
+          .ok('OK!')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+          $mdDialog.show(alert);
+        }).catch(function(err){
+          if (!err){
+            return;
+          }
+          var errorAlert = $mdDialog.alert()
+          .title('ERROR')
+          .content('Uh-oh, something went wrong')
+          .ariaLabel('')
+          .ok('D\'oh')
+          .theme('primary')
+          .clickOutsideToClose(false);
+
+          $mdDialog.show(errorAlert);
+        });
       }
 
       function removeKit(kitID) {

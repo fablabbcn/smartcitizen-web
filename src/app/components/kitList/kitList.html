@@ -54,12 +54,16 @@
           {{item.text}}
         </md-button>
 
+        <md-button class="md-raised md-accent" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
+          <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)"> </md-icon>
+          Download data
+        </md-button>
+
         <md-button class="md-raised md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
           <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
           DELETE
         </md-button>
-
-      </md-card-actions>
+     </md-card-actions>
     </md-card>
 
   </md-list-item>
