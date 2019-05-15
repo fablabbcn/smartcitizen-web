@@ -18,6 +18,7 @@
     function showLogin() {
       $mdDialog.show({
         hasBackdrop: true,
+        fullscreen: true,
         controller: 'LoginModalController',
         controllerAs: 'vm',
         templateUrl: 'app/components/login/loginModal.html',

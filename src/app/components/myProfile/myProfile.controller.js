@@ -380,6 +380,22 @@
           });
       }
 
+      $scope.addKitSelector = addKitSelector;
+      function addKitSelector(){
+        $mdDialog.show({
+          templateUrl: 'app/components/myProfile/addKitSelectorModal.html',
+          clickOutsideToClose: true,
+          multiple: true,
+          controller: DialogController,
+        });
+      }
+
+      function DialogController($scope, $mdDialog){
+        $scope.cancel = function(){
+          $mdDialog.cancel();
+        };
+      }
+
       function addNewKit() {
         var confirm = $mdDialog.confirm()
           .title('Hey! Do you want to add a new kit?')
