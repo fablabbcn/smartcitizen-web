@@ -1,21 +1,11 @@
-<!-- TODO add validation -->
-<button
-  name=csvFiles
-  type="file"
-  class="md-button btn-blue md-flat btn-round ml-0"
-  ngf-select="vm.change($files, $invalidFiles)"
-  ngf-before-model-change="vm.onSelect()"
-  ngf-multiple="true"
-  ngf-accept="'application/csv,.csv'"
-  ngf-max-files="30"
-  ngf-max-size="'10MB'"
-  ngf-pattern="'.csv'">
-  Load CSV Files
-</button>
+<div class="">
+  <h3>Upload your files</h2>
+  <p>Select the files you want and upload them into your kit!</p>
+</div>
 
-<div ng-if="vm.invalidFiles && vm.invalidFiles.length > 0">
-  <h3>Unsopported files</h2>
-  <p>We’re unable to upload the following files due to the problems mentioned below.</p>
+<!-- TODO add validation -->
+<div ng-if="vm.invalidFiles && vm.invalidFiles.length > 0" class="mb-30">
+  <p md-colors="{color:'warn'}">We are unable to upload the following files due to the problems mentioned below.</p>
 
   <md-list class="list-shadow bg-red-light">
     <md-list-item ng-repeat="invalidFile in vm.invalidFiles">
@@ -42,8 +32,20 @@
 </div>
 
 <div class="">
-  <h3>Upload your files</h2>
-  <p>Select the files you want and upload them into your kit!</p>
+  <button
+     name=csvFiles
+     type="file"
+     class="md-button btn-blue btn-round ml-0 mb-30"
+     ngf-select="vm.change($files, $invalidFiles)"
+     ngf-before-model-change="vm.onSelect()"
+     ngf-multiple="true"
+     ngf-accept="'application/csv,.csv'"
+     ngf-max-files="30"
+     ngf-max-size="'10MB'"
+     ngf-pattern="'.csv'">
+    Load CSV Files
+  </button>
+
 </div>
 
 <md-input-container>
@@ -66,7 +68,7 @@
 </md-input-container>
 
 
-<md-button class="md-flat" ng-class="vm.action ? 'color-blue' : ''" ng-click="vm.doAction()" ng-disabled="(!vm.csvFiles || vm.csvFiles.length === 0) && !vm.action">
+<md-button class="md-raised md-primary" ng-class="vm.action ? 'color-blue' : ''" ng-click="vm.doAction()" ng-disabled="(!vm.csvFiles || vm.csvFiles.length === 0) && !vm.action">
   Apply
 </md-button>
 

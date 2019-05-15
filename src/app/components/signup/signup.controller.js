@@ -18,6 +18,7 @@
 
       function showSignup() {
         $mdDialog.show({
+          fullscreen: true,
           hasBackdrop: true,
           controller: 'SignupModalController',
           controllerAs: 'vm',

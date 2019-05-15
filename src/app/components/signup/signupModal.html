@@ -12,11 +12,10 @@
   <md-dialog-content class="modal signup">
     <form name="signupForm" novalidate ng-submit="vm.answer(signupForm)">
       <div class="md-dialog-content">
-        <div layout="column" >
-          <h2 class="m-0">People looking for a better city</h2>
-          <p class="subheader">You're part of them? Feel free to join us!</p>
+        <div>
+          <p>Join Smart Citizen</p>
         </div>
-        <div layout="column" >
+        <div layout="column">
           <md-input-container>
             <label>Username</label>
             <input type="text" name="username" ng-model="vm.user.username" focus-input name="username" required>
@@ -67,7 +66,7 @@
           </md-input-container>
         </div>
 
-        <md-button class="message_below_link" ng-click="openLogin()"
+        <md-button class="md-primary" ng-click="openLogin()"
           analytics-on="click" analytics-event="Signup" analytics-action="login">
           Already have an account? Log in
         </md-button>
