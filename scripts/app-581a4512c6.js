@@ -555,6 +555,281 @@
   'use strict';
 
   angular.module('app.components')
+    .controller('EditKitController', EditKitController);
+
+    EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
+    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
+    function EditKitController($scope, $element, $location, $timeout, $state, animation,
+     device, tag, alert, step, $stateParams, FullKit, push) {
+
+      var vm = this;
+
+      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
+      var timewait = {
+          long: 5000,
+          normal: 2000,
+          short: 1000
+      };
+
+      vm.step = step;
+
+      // KEY USER ACTIONS
+      vm.submitFormAndKit = submitFormAndKit;
+      vm.submitFormAndNext = submitFormAndNext;
+      vm.backToProfile = backToProfile;
+      vm.submitForm = submitForm;
+      vm.goToStep = goToStep;
+      vm.nextAction = 'save';
+
+      // EXPOSURE SELECT
+      vm.exposure = [
+        {name: 'indoor', value: 1},
+        {name: 'outdoor', value: 2}
+      ];
+
+      // FORM INFO
+      vm.kitForm = {};
+      vm.kitData = undefined;
+
+      $scope.clearSearchTerm = function() {
+        $scope.searchTerm = '';
+      };
+      // The md-select directive eats keydown events for some quick select
+      // logic. Since we have a search input here, we don't need that logic.
+      $element.find('input').on('keydown', function(ev) {
+          ev.stopPropagation();
+      });
+
+      // MAP CONFIGURATION
+      vm.getLocation = getLocation;
+      vm.markers = {};
+      vm.tiles = {
+        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
+      };
+      vm.defaults = {
+        scrollWheelZoom: false
+      };
+
+      initialize();
+
+      /////////////////
+
+      function initialize() {
+        var kitID = $stateParams.id;
+
+        animation.viewLoaded();
+        getTags();
+
+        if (!kitID || kitID === ''){
+          return;
+        }
+        device.getDevice(kitID)
+          .then(function(deviceData) {
+            vm.kitData = new FullKit(deviceData);
+            vm.kitForm = {
+              name: vm.kitData.name,
+              exposure: findExposureFromLabels(vm.kitData.labels),
+              location: {
+                lat: vm.kitData.latitude,
+                lng: vm.kitData.longitude,
+                zoom: 16
+              },
+              notify_low_battery: deviceData.notify_low_battery,
+              notify_stopped_publishing: deviceData.notify_stopped_publishing,
+              tags: vm.kitData.userTags,
+              description: vm.kitData.description
+            };
+            vm.markers = {
+              main: {
+                lat: vm.kitData.latitude,
+                lng: vm.kitData.longitude,
+                draggable: true
+              }
+            };
+
+            if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
+              vm.setupAvailable = true;
+            }
+
+            vm.macAddress = vm.kitData.macAddress;
+
+            push.device(vm.kitData.id, $scope);
+
+          });
+      }
+
+      // Return tags in a comma separated list
+      function joinSelectedTags(){
+        let tmp = []
+        $scope.selectedTags.forEach(function(e){
+          tmp.push(e.name)
+        })
+        return tmp.join(', ');
+      }
+
+      function getLocation() {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
+          $scope.$apply(function() {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            vm.kitForm.location.lat = lat;
+            vm.kitForm.location.lng = lng;
+            vm.markers.main.lat = lat;
+            vm.markers.main.lng = lng;
+          });
+        });
+      }
+
+      function submitFormAndKit(){
+        submitForm(toProfile, timewait.normal);
+      }
+
+      function submitFormAndNext(){
+        submitForm(openKitSetup, timewait.short);
+      }
+
+      function submitForm(next, delayTransition) {
+        var data = {
+          name: vm.kitForm.name,
+          description: vm.kitForm.description,
+          exposure: findExposure(vm.kitForm.exposure),
+          latitude: vm.kitForm.location.lat,
+          longitude: vm.kitForm.location.lng,
+          notify_low_battery: vm.kitForm.notify_low_battery,
+          notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
+          /*jshint camelcase: false */
+          user_tags: joinSelectedTags()
+        };
+
+        if(!vm.macAddress || vm.macAddress === ''){
+          /*jshint camelcase: false */
+          data.mac_address = null;
+        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
+          /*jshint camelcase: false */
+          data.mac_address = vm.macAddress;
+        } else {
+          /*jshint camelcase: false */
+          var message = 'The mac address you entered is not a valid address';
+          alert.error(message);
+          data.mac_address = null;
+          throw new Error('[Client:error] ' + message);
+        }
+
+        device.updateDevice(vm.kitData.id, data)
+          .then(
+            function() {
+              if (!vm.macAddress && $stateParams.step === 2) {
+                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
+              } else if (next){
+                alert.success('Your kit was successfully updated');
+              }
+              ga('send', 'event', 'Kit', 'update');
+              device.updateContext().then(function(){
+                if (next){
+                  $timeout(next, delayTransition);
+                }
+              });
+            })
+            .catch(function(err) {
+              if(err.data.errors.mac_address[0] === 'has already been taken') {
+                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
+                ga('send', 'event', 'Kit', 'unprocessable entity');
+              }
+              else {
+                alert.error('There has been an error during kit set up');
+                ga('send', 'event', 'Kit', 'update failed');
+              }
+              $timeout(function(){ },timewait.long);
+            });
+      }
+
+      function findExposureFromLabels(labels){
+        var label = vm.exposure.filter(function(n) {
+            return labels.indexOf(n.name) !== -1;
+        })[0];
+        if(label) {
+          return findExposure(label.name);
+        } else {
+          return findExposure(vm.exposure[0].name);
+        }
+      }
+
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
+        }
+
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList[findProp] === nameOrValue;
+        });
+        if(option) {
+          return option[resultProp];
+        } else {
+          return vm.exposure[0][resultProp];
+        }
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
+      }
+
+      function backToProfile(){
+        if (!vm.macAddress && $stateParams.step === 2) {
+          alert.info.generic('Remember you will need to register the Mac Address later 🔧');
+          $timeout(toProfile, timewait.normal);
+        } else {
+          toProfile();
+        }
+      }
+
+      function toProfile(){
+        $state.transitionTo('layout.myProfile.kits', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
+      }
+
+      function openKitSetup() {
+        $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
+      }
+
+      function backToKit(){
+        $state.transitionTo('layout.home.kit', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
+      }
+
+      function goToStep(step) {
+        vm.step = step;
+        $state.transitionTo('layout.kitEdit', { id:$stateParams.id, step: step} ,
+        {
+          reload: false,
+          inherit: false,
+          notify: false
+        });
+      }
+
+
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .controller('KitController', KitController);
 
   KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
@@ -1630,281 +1905,6 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('EditKitController', EditKitController);
-
-    EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation,
-     device, tag, alert, step, $stateParams, FullKit, push) {
-
-      var vm = this;
-
-      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
-      var timewait = {
-          long: 5000,
-          normal: 2000,
-          short: 1000
-      };
-
-      vm.step = step;
-
-      // KEY USER ACTIONS
-      vm.submitFormAndKit = submitFormAndKit;
-      vm.submitFormAndNext = submitFormAndNext;
-      vm.backToProfile = backToProfile;
-      vm.submitForm = submitForm;
-      vm.goToStep = goToStep;
-      vm.nextAction = 'save';
-
-      // EXPOSURE SELECT
-      vm.exposure = [
-        {name: 'indoor', value: 1},
-        {name: 'outdoor', value: 2}
-      ];
-
-      // FORM INFO
-      vm.kitForm = {};
-      vm.kitData = undefined;
-
-      $scope.clearSearchTerm = function() {
-        $scope.searchTerm = '';
-      };
-      // The md-select directive eats keydown events for some quick select
-      // logic. Since we have a search input here, we don't need that logic.
-      $element.find('input').on('keydown', function(ev) {
-          ev.stopPropagation();
-      });
-
-      // MAP CONFIGURATION
-      vm.getLocation = getLocation;
-      vm.markers = {};
-      vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
-      };
-      vm.defaults = {
-        scrollWheelZoom: false
-      };
-
-      initialize();
-
-      /////////////////
-
-      function initialize() {
-        var kitID = $stateParams.id;
-
-        animation.viewLoaded();
-        getTags();
-
-        if (!kitID || kitID === ''){
-          return;
-        }
-        device.getDevice(kitID)
-          .then(function(deviceData) {
-            vm.kitData = new FullKit(deviceData);
-            vm.kitForm = {
-              name: vm.kitData.name,
-              exposure: findExposureFromLabels(vm.kitData.labels),
-              location: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
-                zoom: 16
-              },
-              notify_low_battery: deviceData.notify_low_battery,
-              notify_stopped_publishing: deviceData.notify_stopped_publishing,
-              tags: vm.kitData.userTags,
-              description: vm.kitData.description
-            };
-            vm.markers = {
-              main: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
-                draggable: true
-              }
-            };
-
-            if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
-              vm.setupAvailable = true;
-            }
-
-            vm.macAddress = vm.kitData.macAddress;
-
-            push.device(vm.kitData.id, $scope);
-
-          });
-      }
-
-      // Return tags in a comma separated list
-      function joinSelectedTags(){
-        let tmp = []
-        $scope.selectedTags.forEach(function(e){
-          tmp.push(e.name)
-        })
-        return tmp.join(', ');
-      }
-
-      function getLocation() {
-        window.navigator.geolocation.getCurrentPosition(function(position) {
-          $scope.$apply(function() {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
-            vm.markers.main.lat = lat;
-            vm.markers.main.lng = lng;
-          });
-        });
-      }
-
-      function submitFormAndKit(){
-        submitForm(toProfile, timewait.normal);
-      }
-
-      function submitFormAndNext(){
-        submitForm(openKitSetup, timewait.short);
-      }
-
-      function submitForm(next, delayTransition) {
-        var data = {
-          name: vm.kitForm.name,
-          description: vm.kitForm.description,
-          exposure: findExposure(vm.kitForm.exposure),
-          latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.lng,
-          notify_low_battery: vm.kitForm.notify_low_battery,
-          notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
-          /*jshint camelcase: false */
-          user_tags: joinSelectedTags()
-        };
-
-        if(!vm.macAddress || vm.macAddress === ''){
-          /*jshint camelcase: false */
-          data.mac_address = null;
-        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
-          /*jshint camelcase: false */
-          data.mac_address = vm.macAddress;
-        } else {
-          /*jshint camelcase: false */
-          var message = 'The mac address you entered is not a valid address';
-          alert.error(message);
-          data.mac_address = null;
-          throw new Error('[Client:error] ' + message);
-        }
-
-        device.updateDevice(vm.kitData.id, data)
-          .then(
-            function() {
-              if (!vm.macAddress && $stateParams.step === 2) {
-                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              } else if (next){
-                alert.success('Your kit was successfully updated');
-              }
-              ga('send', 'event', 'Kit', 'update');
-              device.updateContext().then(function(){
-                if (next){
-                  $timeout(next, delayTransition);
-                }
-              });
-            })
-            .catch(function(err) {
-              if(err.data.errors.mac_address[0] === 'has already been taken') {
-                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
-                ga('send', 'event', 'Kit', 'unprocessable entity');
-              }
-              else {
-                alert.error('There has been an error during kit set up');
-                ga('send', 'event', 'Kit', 'update failed');
-              }
-              $timeout(function(){ },timewait.long);
-            });
-      }
-
-      function findExposureFromLabels(labels){
-        var label = vm.exposure.filter(function(n) {
-            return labels.indexOf(n.name) !== -1;
-        })[0];
-        if(label) {
-          return findExposure(label.name);
-        } else {
-          return findExposure(vm.exposure[0].name);
-        }
-      }
-
-      function findExposure(nameOrValue) {
-        var findProp, resultProp;
-
-        //if it's a string
-        if(isNaN(parseInt(nameOrValue))) {
-          findProp = 'name';
-          resultProp = 'value';
-        } else {
-          findProp = 'value';
-          resultProp = 'name';
-        }
-
-        var option = _.find(vm.exposure, function(exposureFromList) {
-          return exposureFromList[findProp] === nameOrValue;
-        });
-        if(option) {
-          return option[resultProp];
-        } else {
-          return vm.exposure[0][resultProp];
-        }
-      }
-
-      function getTags() {
-        tag.getTags()
-          .then(function(tagsData) {
-            vm.tags = tagsData;
-          });
-      }
-
-      function backToProfile(){
-        if (!vm.macAddress && $stateParams.step === 2) {
-          alert.info.generic('Remember you will need to register the Mac Address later 🔧');
-          $timeout(toProfile, timewait.normal);
-        } else {
-          toProfile();
-        }
-      }
-
-      function toProfile(){
-        $state.transitionTo('layout.myProfile.kits', $stateParams,
-        { reload: false,
-          inherit: false,
-          notify: true
-        });
-      }
-
-      function openKitSetup() {
-        $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
-      }
-
-      function backToKit(){
-        $state.transitionTo('layout.home.kit', $stateParams,
-        { reload: false,
-          inherit: false,
-          notify: true
-        });
-      }
-
-      function goToStep(step) {
-        vm.step = step;
-        $state.transitionTo('layout.kitEdit', { id:$stateParams.id, step: step} ,
-        {
-          reload: false,
-          inherit: false,
-          notify: false
-        });
-      }
-
-
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .factory('utils', utils);
 
     utils.$inject = ['device', 'PreviewKit', '$q'];
@@ -2208,6 +2208,14 @@
             sensorName = 'SOLAR PANEL';
           } else if(new RegExp('battery', 'i').test(name) ) {
             sensorName = 'BATTERY';
+          } else if(new RegExp('barometric pressure', 'i').test(name) ) {
+            sensorName = 'BAROMETRIC PRESSURE';
+          } else if(new RegExp('PM 1', 'i').test(name) ) {
+            sensorName = 'PM 1';
+          } else if(new RegExp('PM 2.5', 'i').test(name) ) {
+            sensorName = 'PM 2.5';
+          } else if(new RegExp('PM 10', 'i').test(name) ) {
+            sensorName = 'PM 10';
           } else {
             sensorName = name;
           }
@@ -2241,6 +2249,14 @@
             break;
           case 'SOLAR PANEL':
             sensorUnit = 'V';
+            break;
+          case 'BAROMETRIC PRESSURE':
+            sensorUnit = 'K Pa';
+            break;
+          case 'PM 1':
+          case 'PM 2.5':
+          case 'PM 10':
+            sensorUnit = 'ug/m3';
             break;
           default:
             sensorUnit = 'N/A';
@@ -2277,22 +2293,22 @@
 
         switch(thisName) {
           case 'TEMPERATURE':
-            return './assets/images/temperature_icon.svg';
+            return './assets/images/temperature_icon_new.svg';
 
           case 'HUMIDITY':
-            return './assets/images/humidity_icon.svg';
+            return './assets/images/humidity_icon_new.svg';
 
           case 'LIGHT':
-            return './assets/images/light_icon.svg';
+            return './assets/images/light_icon_new.svg';
 
           case 'SOUND':
-            return './assets/images/sound_icon.svg';
+            return './assets/images/sound_icon_new.svg';
 
           case 'CO':
-            return './assets/images/co_icon.svg';
+            return './assets/images/co_icon_new.svg';
 
           case 'NO2':
-            return './assets/images/no2_icon.svg';
+            return './assets/images/no2_icon_new.svg';
 
           case 'NETWORKS':
             return './assets/images/networks_icon.svg';
@@ -2302,6 +2318,14 @@
 
           case 'SOLAR PANEL':
             return './assets/images/solar_panel_icon.svg';
+
+          case 'BAROMETRIC PRESSURE':
+            return './assets/images/pressure_icon_new.svg';
+
+          case 'PM 1':
+          case 'PM 2.5':
+          case 'PM 10':
+            return './assets/images/particle_icon_new.svg';
 
           default:
             return './assets/images/unknownsensor_icon.svg';
