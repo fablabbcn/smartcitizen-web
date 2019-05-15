@@ -33,7 +33,7 @@
 
     <search flex></search>
 
-    <section layout="row" layout-align="{{vm.navRightLayout}}">
+    <section hide-xs layout="row" layout-align="{{vm.navRightLayout}}">
 
       <div ng-show="vm.isShown" hide-xs hide-sm store logged="vm.isLoggedin" class="md-flat get"></div>
       <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs login class="navbar_login_button "></div>
@@ -75,7 +75,9 @@
     <md-content>
       <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login class=""></md-menu-item>
       <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup class=""></md-menu-item>
-      <md-divider ng-show="vm.isShown && !vm.isLoggedin" > </md-divider>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="./profile">Profile</md-button> </md-menu-item>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="./logout"> Log out </md-button> </md-menu-item>
+      <md-divider> </md-divider>
 
       <md-menu-item>
         <md-button href="./kits"> Map </md-button>
