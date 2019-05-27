@@ -27,7 +27,7 @@
 
           <md-input-container class="md-block">
             <label>Password</label>
-            <input type="password" name="password" ng-model="vm.user.password" ng-required="loginForm.$submitted"/>
+            <input type="password" name="password" autocomplete="current-password" ng-model="vm.user.password" ng-required="loginForm.$submitted"/>
             <div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert">
               <div ng-message="required">Password is required</div>
             </div>

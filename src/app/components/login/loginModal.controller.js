@@ -13,7 +13,7 @@
           .then(function(data) {
             /*jshint camelcase: false */
             var token = data.access_token;
-            auth.saveData(token);
+            auth.saveToken(token);
             $mdDialog.hide();
           })
           .catch(function(err) {

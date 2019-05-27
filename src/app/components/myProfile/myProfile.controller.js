@@ -34,7 +34,10 @@
       //THIS IS TEMPORARY.
       // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
-      vm.user.token = auth.getCurrentUser().token;
+
+      // The auth controller has not populated the `user` at this point, so  user.token is undefined
+      // This controller depends on auth has already been run.
+      vm.user.token = auth.getToken;
       vm.addNewKit = addNewKit;
 
 
