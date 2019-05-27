@@ -29,8 +29,8 @@
     }
 
 
-    config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
-    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
+    config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider', '$cookiesProvider'];
+    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider, $cookiesProvider) {
       $stateProvider
         /*
          -- Landing state --
@@ -451,5 +451,10 @@
 
       /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
+
+      /* Allow cookies across *.smartcitizen.me Apps */
+      $cookiesProvider.defaults.path = '/';
+      $cookiesProvider.defaults.domain = '.smartcitizen.me';
+
     }
 })();
