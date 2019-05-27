@@ -70,6 +70,14 @@
             sensorName = 'SOLAR PANEL';
           } else if(new RegExp('battery', 'i').test(name) ) {
             sensorName = 'BATTERY';
+          } else if(new RegExp('barometric pressure', 'i').test(name) ) {
+            sensorName = 'BAROMETRIC PRESSURE';
+          } else if(new RegExp('PM 1', 'i').test(name) ) {
+            sensorName = 'PM 1';
+          } else if(new RegExp('PM 2.5', 'i').test(name) ) {
+            sensorName = 'PM 2.5';
+          } else if(new RegExp('PM 10', 'i').test(name) ) {
+            sensorName = 'PM 10';
           } else {
             sensorName = name;
           }
@@ -103,6 +111,14 @@
             break;
           case 'SOLAR PANEL':
             sensorUnit = 'V';
+            break;
+          case 'BAROMETRIC PRESSURE':
+            sensorUnit = 'K Pa';
+            break;
+          case 'PM 1':
+          case 'PM 2.5':
+          case 'PM 10':
+            sensorUnit = 'ug/m3';
             break;
           default:
             sensorUnit = 'N/A';
@@ -139,22 +155,22 @@
 
         switch(thisName) {
           case 'TEMPERATURE':
-            return './assets/images/temperature_icon.svg';
+            return './assets/images/temperature_icon_new.svg';
 
           case 'HUMIDITY':
-            return './assets/images/humidity_icon.svg';
+            return './assets/images/humidity_icon_new.svg';
 
           case 'LIGHT':
-            return './assets/images/light_icon.svg';
+            return './assets/images/light_icon_new.svg';
 
           case 'SOUND':
-            return './assets/images/sound_icon.svg';
+            return './assets/images/sound_icon_new.svg';
 
           case 'CO':
-            return './assets/images/co_icon.svg';
+            return './assets/images/co_icon_new.svg';
 
           case 'NO2':
-            return './assets/images/no2_icon.svg';
+            return './assets/images/no2_icon_new.svg';
 
           case 'NETWORKS':
             return './assets/images/networks_icon.svg';
@@ -164,6 +180,14 @@
 
           case 'SOLAR PANEL':
             return './assets/images/solar_panel_icon.svg';
+
+          case 'BAROMETRIC PRESSURE':
+            return './assets/images/pressure_icon_new.svg';
+
+          case 'PM 1':
+          case 'PM 2.5':
+          case 'PM 10':
+            return './assets/images/particle_icon_new.svg';
 
           default:
             return './assets/images/unknownsensor_icon.svg';

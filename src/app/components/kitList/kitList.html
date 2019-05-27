@@ -13,42 +13,33 @@
     <md-card flex layout-padding href="./kits/{{kit.id}}">
       <md-card-header layout="row" layout-align="start center">
 
-        <md-card-avatar>
-          <img class="kitList_avatar" ng-src="{{ kit.avatar || './assets/images/avatar.svg' }}" />
-        </md-card-avatar>
-
-        <div>
-          <h4 class="m-0">{{ kit.name || 'No name' }}</h4>
+        <div class="ml-20 mt-20">
+          <h4 class="m-0 mb-10">{{ kit.name || 'No name' }}</h4>
           <span class="md-subhead">
             <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg">
             </md-icon>
-            <span>{{ kit.location || 'No location' }}</span>
+            <span class="mr-10">{{ kit.location || 'No location' }}</span>
             <md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg">
             </md-icon>
-            <span>{{ kit.type || 'Unknown Kit'}}</span>
-          </span>
-
-          <div>
-            <div ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')">
+            <span class="mr-10">{{ kit.type || 'Unknown Kit'}}</span>
+            <span ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')">
               <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
-            </div>
-          </div>
+            </span>
+          </span>
         </div>
 
       </md-card-header>
 
-      <md-card-content class="ml-50 mt-20">
+      <md-card-content class="ml-20 mb-20">
         <div layout="row" layout-align="start center" layout-wrap>
           <span class="label" ng-repeat="label in kit.labels">{{ label }}</span>
           <tag ng-repeat='tag in kit.userTags' ng-attr-tag-name="tag" clickable></tag>
         </div>
       </md-card-content>
 
-      <md-card-actions class="ml-50">
-        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}"
-                   ng-class="{kitList_primary: !kit.belongProperty, kitList_secondary: kit.belongProperty}"
-                   >
-                   <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
+      <div class="ml-10 mb-20">
+        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}" >
+          <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
           View on map
         </md-button>
 
@@ -56,12 +47,16 @@
           {{item.text}}
         </md-button>
 
-        <md-button class="md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
-          <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
-          Remove
+        <md-button class="md-raised md-accent" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
+          <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)"> </md-icon>
+          Download data
         </md-button>
 
-      </md-card-actions>
+        <md-button class="md-raised md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
+          <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
+          DELETE
+        </md-button>
+     </div>
     </md-card>
 
   </md-list-item>

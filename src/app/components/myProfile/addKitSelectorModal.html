@@ -1,0 +1,25 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Select Kit</h2>
+      <span flex></span>
+      <md-dialog-actions>
+        <md-button ng-click="cancel()">
+          <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </md-dialog-actions>
+    </div>
+  </md-toolbar>
+  <md-dialog-content layout-padding layout-margin layout="row" layout-xs="column" layout-align-xs="center center">
+    <div class="bg-grey-lightest" layout-padding layout="column" layout-align="center center">
+      <img style="max-height: 250px;" src="./assets/images/sckit_1.png" alt=""/>
+      <p>Legacy SCK 1.0 and 1.1 from 2012 to 2016</p>
+      <md-button class="btn-round btn-cyan" ui-sref="layout.kitAdd" ng-click="cancel()">Add a kit</md-button>
+    </div>
+    <div class="bg-grey-lightest" layout-padding layout="column" layout-align="center center">
+      <img style="" src="./assets/images/sckit_2.png" alt=""/>
+      <p>SCK 2.0 and 2.1 from 2017+</p>
+      <md-button class="btn-round btn-cyan" target="_blank" ng-href="https://start.smartcitizen.me" ng-click="cancel()">Add a kit</md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>
