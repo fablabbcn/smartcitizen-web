@@ -27,16 +27,17 @@
 
         if(trans.to().authenticate === false) {
           if(auth.isAuth()) {
-            e.preventDefault();
-            $state.go('landing');
+            console.log('-- already logged in users cannot go to /login or /signup');
+            // TODO: does not redirect because e is undefined
+            //e.preventDefault();
+            //$state.go('layout.home.kit');
             return;
           }
         }
 
         if(trans.to().authenticate) {
           if(!auth.isAuth()) {
-            e.preventDefault();
-            $state.go('landing');
+            $state.go('layout.login');
           }
         }
 
@@ -53,7 +54,7 @@
 
       Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
         if (auth.isAuth()) {
-          var token = auth.getCurrentUser().token;
+          var token = auth.getToken();
           headers.Authorization = 'Bearer ' + token;
         }
         return {

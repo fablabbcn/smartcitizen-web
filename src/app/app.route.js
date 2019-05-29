@@ -29,8 +29,8 @@
     }
 
 
-    config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider'];
-    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider) {
+    config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider', '$cookiesProvider'];
+    function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider, $cookiesProvider) {
       $stateProvider
         /*
          -- Landing state --
@@ -73,7 +73,12 @@
           abstract: true,
           templateUrl: 'app/components/layout/layout.html',
           controller: 'LayoutController',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve:{
+            isLogged: function(auth){
+              auth.setCurrentUser();
+            }
+          }
         })
         .state('layout.styleguide',{
           url: '/styleguide',
@@ -354,11 +359,13 @@
           authenticate: false,
           resolve: {
             buttonToClick: function($location, auth) {
+              // TODO: These transitions get rejected (console error)
               if(auth.isAuth()) {
-                return $location.path('/kits');
+                $location.path('/kits/');
+              }else{
+                $location.path('/kits/');
+                $location.search('login', 'true');
               }
-              $location.path('/kits/');
-              $location.search('login', 'true');
             }
           }
         })
@@ -444,5 +451,10 @@
 
       /* Remove angular leaflet logs */
       $logProvider.debugEnabled(false);
+
+      /* Allow cookies across *.smartcitizen.me Apps */
+      $cookiesProvider.defaults.path = '/';
+      $cookiesProvider.defaults.domain = '.smartcitizen.me';
+
     }
 })();
