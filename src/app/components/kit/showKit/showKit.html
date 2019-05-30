@@ -117,12 +117,12 @@
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_select">
-              <md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>
+              <!--<md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>-->
               <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
                 analytics-on="click" analytics-category="Kit Chart"
                 analytics-event="click" analytics-label="Metric">
                 <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
-                  <img class="select_image" ng-src="{{ sensor.icon }}">
+                  <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                   <span>
                     {{ sensor.name }}
                   </span>
@@ -144,7 +144,7 @@
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
                     analytics-on="click" analytics-category="Kit Chart"
                     analytics-event="click" analytics-label="Compare">
-                    <img class="select_image" ng-src="{{ sensor.icon }}">
+                    <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                     <span class="sensor_name">
                       {{ sensor.name }}
                     </span>
