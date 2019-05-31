@@ -118,12 +118,21 @@
             </div>
             <div class="sensor_select">
               <!--<md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>-->
+<<<<<<< HEAD
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
                   analytics-on="click" analytics-category="Kit Chart"
                   analytics-event="click" analytics-label="Metric">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                   <span class="md-primary">
+=======
+              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
+                analytics-on="click" analytics-category="Kit Chart"
+                analytics-event="click" analytics-label="Metric">
+                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
+                  <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
+                  <span>
+>>>>>>> 85442110ff896bb98ddb627b1bf1c94d012a92a1
                     {{ sensor.name }}
                   </span>
                 </md-option>
@@ -145,7 +154,11 @@
                     analytics-on="click" analytics-category="Kit Chart"
                     analytics-event="click" analytics-label="Compare">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
+<<<<<<< HEAD
                     <span class="md-primary">
+=======
+                    <span class="sensor_name">
+>>>>>>> 85442110ff896bb98ddb627b1bf1c94d012a92a1
                       {{ sensor.name }}
                     </span>
                   </md-option>
