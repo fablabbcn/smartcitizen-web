@@ -23,7 +23,7 @@
             </md-icon>
             <span class="mr-10">{{ kit.type || 'Unknown Kit'}}</span>
             <span ng-if="kit.belongProperty && (kit.state.name === 'never published' || kit.state.name === 'not configured')">
-              <span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
+              <md-icon style="color:#F43D4D" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
             </span>
           </span>
         </div>
@@ -39,22 +39,23 @@
 
       <div class="ml-10 mb-20">
         <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}" >
-          <md-icon md-svg-src="./assets/images/map_icon.svg"> </md-icon>
+          <md-icon style="margin:5px" md-font-icon="fa fa-globe"> </md-icon>
           View on map
         </md-button>
 
-        <md-button class="md-raised md-accent md-hue-2" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
-          {{item.text}}
+        <md-button class="md-raised md-primary" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
+          <md-icon style="margin:5px" md-font-icon="{{item.icon}}"> </md-icon>
+          <span>{{item.text}}</span>
         </md-button>
 
-        <md-button class="md-raised md-accent" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
-          <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)"> </md-icon>
-          Download data
+        <md-button class="md-raised md-primary" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
+          <md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
+          Download CSV
         </md-button>
 
-        <md-button class="md-raised md-warn" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
-          <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon>
-          DELETE
+        <md-button class="md-raised md-primary" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
+          <md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>
+          REMOVE
         </md-button>
      </div>
     </md-card>
