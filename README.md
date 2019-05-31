@@ -4,7 +4,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/test_coverage)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/test_coverage)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2566531.svg)](https://doi.org/10.5281/zenodo.2566531)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)][![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffablabbcn%2Fsmartcitizen-web.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffablabbcn%2Fsmartcitizen-web?ref=badge_shield)
+()
 
 The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
 
@@ -95,3 +96,7 @@ Master branch is auto deployed to https://staging.kits.smartcitizen.me/ which is
 ## Funding
 
 This work has received funding from the European Union's Horizon 2020 research and innovation program under the grant agreement [No. 689954](https://cordis.europa.eu/project/rcn/202639_en.html)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffablabbcn%2Fsmartcitizen-web.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffablabbcn%2Fsmartcitizen-web?ref=badge_large)
