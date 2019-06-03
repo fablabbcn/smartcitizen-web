@@ -117,26 +117,14 @@
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_select">
-              <!--<md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>-->
-<<<<<<< HEAD
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
                 <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
                   analytics-on="click" analytics-category="Kit Chart"
-                  analytics-event="click" analytics-label="Metric">
+                  analytics-event="click" analytics-label="Metric" style="color:#3f51b5">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
-                  <span class="md-primary">
-=======
-              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
-                analytics-on="click" analytics-category="Kit Chart"
-                analytics-event="click" analytics-label="Metric">
-                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
-                  <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
-                  <span>
->>>>>>> 85442110ff896bb98ddb627b1bf1c94d012a92a1
-                    {{ sensor.name }}
-                  </span>
+                  <span class="md-primary">{{ sensor.name }}</span>
                 </md-option>
-              </md-select>
+              </md-select></span>
             </div>
             <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description" >
@@ -152,15 +140,9 @@
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
                     analytics-on="click" analytics-category="Kit Chart"
-                    analytics-event="click" analytics-label="Compare">
+                    analytics-event="click" analytics-label="Compare" style="color:#3f51b5">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
-<<<<<<< HEAD
-                    <span class="md-primary">
-=======
-                    <span class="sensor_name">
->>>>>>> 85442110ff896bb98ddb627b1bf1c94d012a92a1
-                      {{ sensor.name }}
-                    </span>
+                    <span class="md-primary">{{ sensor.name }}</span>
                   </md-option>
                 </md-select>
               </div>
