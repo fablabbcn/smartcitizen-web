@@ -202,7 +202,7 @@
               </md-icon>
               <span class="md-title">{{ vm.kit.typeDescription }}</span>
               </p>
-              <span><md-icon class="kitList_state_{{ vm.kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span></span>
+              <span><md-icon class="kitList_state kitList_state_{{ vm.kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span></span>
               <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
               <p class="kit_details_labels">
               <span style="padding:4px 8px" class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
@@ -211,8 +211,9 @@
             </div>
           </div>
 
-          <section flex-gt-xs="50" class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser" >
+          <section flex-gt-xs="50" class="info kit_details_notAuth">
               <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
+                <h3>Manage your kit</h3>
                 <div class="kit_details_manage_buttons">
                   <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-pencil"></md-icon><span>EDIT</span></md-button>
                   <md-button class="md-primary md-raised" ng-click="vm.downloadData(vm.kit)">
@@ -226,8 +227,8 @@
                   <md-button class="md-primary md-raised" ng-click="vm.removeKit()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
                 </div>
               </div>
-            <div>
-              <h4>People looking for a better city</h4>
+            <div ng-if="!vm.kitBelongsToUser">
+              <h3>People looking for a better city</h3>
               <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
               <md-button style="margin: 0px;" class="btn-blue" ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
             </div>
