@@ -117,15 +117,12 @@
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
             </div>
             <div class="sensor_select">
-              <!--<md-icon md-svg-src="{{ vm.selectedSensorData.icon }}" class="sensor_icon_selected"></md-icon>-->
-              <md-select placeholder="Choose sensor" ng-model="vm.selectedSensor"
-                analytics-on="click" analytics-category="Kit Chart"
-                analytics-event="click" analytics-label="Metric">
-                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first">
+              <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
+                <md-option ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
+                  analytics-on="click" analytics-category="Kit Chart"
+                  analytics-event="click" analytics-label="Metric" style="color:#3f51b5">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
-                  <span>
-                    {{ sensor.name }}
-                  </span>
+                  <span class="md-primary">{{ sensor.name }}</span>
                 </md-option>
               </md-select>
             </div>
@@ -143,11 +140,9 @@
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}"
                     analytics-on="click" analytics-category="Kit Chart"
-                    analytics-event="click" analytics-label="Compare">
+                    analytics-event="click" analytics-label="Compare" style="color:#3f51b5">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
-                    <span class="sensor_name">
-                      {{ sensor.name }}
-                    </span>
+                    <span class="md-primary">{{ sensor.name }}</span>
                   </md-option>
                 </md-select>
               </div>
@@ -191,8 +186,8 @@
           </div>
         </div>
       </section>
-      <section class="kit_details" ng-if="vm.kit">
-        <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between end" layout-align-xs="space-between start">
+      <div class="kit_details" ng-if="vm.kit">
+        <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
 
           <div class="kit_details_content_main">
             <div class="kit_details_content">
@@ -207,6 +202,7 @@
               </md-icon>
               <span class="md-title">{{ vm.kit.typeDescription }}</span>
               </p>
+              <span><md-icon class="kitList_state kitList_state_{{ vm.kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span></span>
               <p class="description" ng-bind-html="vm.kit.description | linky:'_blank'"></p>
               <p class="kit_details_labels">
               <span style="padding:4px 8px" class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span>
@@ -215,48 +211,32 @@
             </div>
           </div>
 
-          <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
-            <div class="kit_details_manage_buttons">
-              <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label="">EDIT</md-button>
-              <md-button class="md-accent md-raised" ng-click="vm.downloadData(vm.kit)">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/download_icon.svg" ng-click="vm.downloadData(vm.kit)"> </md-icon>
-                Download Data
-              </md-button>
-              <md-button class="md-accent md-raised" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">SET UP</md-button>
-              <md-button class="md-accent md-raised" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">SD CARD UPLOAD</md-button>
-              <md-button class="md-warn md-raised" ng-click="vm.removeKit()" aria-label=""> <md-icon md-svg-src="./assets/images/delete_icon.svg"></md-icon> DELETE</md-button>
+          <section flex-gt-xs="50" class="info kit_details_notAuth">
+              <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
+                <h3>Manage your kit</h3>
+                <div class="kit_details_manage_buttons">
+                  <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-pencil"></md-icon><span>EDIT</span></md-button>
+                  <md-button class="md-primary md-raised" ng-click="vm.downloadData(vm.kit)">
+                    <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
+                    Download CSV
+                  </md-button>
+                  <md-button class="md-primary md-raised" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">
+                    <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"><span>SET UP</span></md-button>
+                  <md-button class="md-primary md-raised" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">
+                    <span>SD CARD UPLOAD</span></md-button>
+                  <md-button class="md-primary md-raised" ng-click="vm.removeKit()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
+                </div>
+              </div>
+            <div ng-if="!vm.kitBelongsToUser">
+              <h3>People looking for a better city</h3>
+              <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
+              <md-button style="margin: 0px;" class="btn-blue" ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
             </div>
-            <div class="kit_details_manage_data">
-              <div class="kit_details_macaddress data_container">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/kit_details_icon_normal.svg">
-                </md-icon>
-                <span class="bold">Device:</span>
-                <span>{{ vm.kit.id }}</span>
-              </div>
-              <div ng-show="vm.kit.macAddress" class="kit_details_macaddress data_container">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/mac_address_icon.svg">
-                </md-icon>
-                <span class="bold">Mac Address:</span>
-                <span>{{ vm.kit.macAddress }}</span>
-              </div>
-              <div class="data_container">
-                <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/debug_icon.svg">
-                </md-icon>
-                <span class="bold">Status:</span>
-                <span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span>
-              </div>
-            </div>
-          </div>
-
-          <section flex-gt-xs="50" class="info kit_details_notAuth" ng-if="!vm.kitBelongsToUser">
-            <h1>People looking for a better city</h1>
-            <p>Smart Citizen is a a platform to generate participatory processes of the people in the cities. Connecting data, people and knowledge, the objective of the platform is to serve as a node for building productive open indicators and distributed tools, and thereafter the collective construction of the city for its own inhabitants.</p>
-            <md-button class="btn-blue" ng-click="vm.showStore()">GET YOUR KIT AND JOIN US</md-button>
           </section>
         </div>
-      </section>
+      </div>
 
-      <section class="kit_owner" ng-if="vm.kit">
+      <div class="kit_owner" ng-if="vm.kit">
         <div class="kit_detailed_content_container" layout="column">
 
           <div layout="row" layout-align="start center">
@@ -295,7 +275,7 @@
           </div>
 
         </div>
-      </section>
+      </div>
       <!-- HACK: conflit zith lodash -->
       <!-- <section class="kit_comments" ng-if="vm.kit">
         <div class="kit_detailed_content_container">

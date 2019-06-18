@@ -1313,17 +1313,16 @@ KIT TAGS MODULE
 }
 .kitList_state {
   color:white;
-  margin-right: 15px;
   text-transform: uppercase;
 }
 .kitList_state_has_published {
-  background-color: $green;
+  color: $green;
 }
 .kitList_state_never_published {
-  background-color: $yellow;
+  color: $yellow;
 }
 .kitList_state_not_configured {
-  background-color: $red;
+  color: #F43D4D;
 }
 .kitList_dropdownButton {
   display: block;
