@@ -215,16 +215,16 @@
               <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
                 <h3>Manage your kit</h3>
                 <div class="kit_details_manage_buttons">
-                  <md-button class="md-primary md-raised" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-pencil"></md-icon><span>EDIT</span></md-button>
-                  <md-button class="md-primary md-raised" ng-click="vm.downloadData(vm.kit)">
+                  <md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-pencil"></md-icon><span>EDIT</span></md-button>
+                  <md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.kit)">
                     <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
                     Download CSV
                   </md-button>
-                  <md-button class="md-primary md-raised" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">
+                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label="">
                     <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"><span>SET UP</span></md-button>
-                  <md-button class="md-primary md-raised" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">
+                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">
                     <span>SD CARD UPLOAD</span></md-button>
-                  <md-button class="md-primary md-raised" ng-click="vm.removeKit()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
+                  <md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeKit()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
                 </div>
               </div>
             <div ng-if="!vm.kitBelongsToUser">

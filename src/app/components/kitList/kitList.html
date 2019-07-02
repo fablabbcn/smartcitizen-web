@@ -38,22 +38,22 @@
       </md-card-content>
 
       <div class="ml-10 mb-20">
-        <md-button class="md-raised md-primary" ng-href="./kits/{{kit.id}}" >
+        <md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{kit.id}}" >
           <md-icon style="margin:5px" md-font-icon="fa fa-globe"> </md-icon>
           View on map
         </md-button>
 
-        <md-button class="md-raised md-primary" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
+        <md-button class="md-raised md-primary md-hue-1" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
           <md-icon style="margin:5px" md-font-icon="{{item.icon}}"> </md-icon>
           <span>{{item.text}}</span>
         </md-button>
 
-        <md-button class="md-raised md-primary" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
+        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
           <md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
           Download CSV
         </md-button>
 
-        <md-button class="md-raised md-primary" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
+        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
           <md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>
           REMOVE
         </md-button>
