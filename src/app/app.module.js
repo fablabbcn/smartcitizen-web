@@ -25,19 +25,19 @@ angular.module('app', [
 ]).config(function($mdThemingProvider) {
 
   $mdThemingProvider.definePalette('customGreyPalette', {
-    '50': '#ffffff',
-    '100': '#ffffff',
-    '200': '#ffffff',
-    '300': '#ffffff',
+    '50': '#d4d4d4',
+    '100': '#d4d4d4',
+    '200': '#d4d4d4',
+    '300': '#d4d4d4',
     '400': '#fbfbfb',
-    '500': '#d4d4d4',
-    '600': '#dfdfdf',
+    '500': '#aeaeae',
+    '600': '#d4d4d4',
     '700': '#d4d4d4',
-    '800': '#c8c8c8',
-    '900': '#bbbbbb',
-    'A100': '#ffffff',
-    'A200': '#ffffff',
-    'A400': '#ffffff',
+    '800': '#bbbbbb',
+    '900': '#c8c8c8',
+    'A100': '#d4d4d4',
+    'A200': '#d4d4d4',
+    'A400': '#d4d4d4',
     'A700': '#aeaeae',
     'contrastDefaultColor': 'dark'
   });
