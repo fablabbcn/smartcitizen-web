@@ -334,7 +334,7 @@ md-input-container:not(.md-input-invalid).md-input-focused {
   box-shadow: unset !important;
   background-color: unset !important;
   color: black !important;
-  width: 100%;
+  min-width: 100%;
 }
 
 md-toast {
@@ -347,7 +347,7 @@ md-toast {
   padding: 0;
   position: fixed;
   top: 64px !important; // Start the toast at top below navbar.
-  width: 100%;
+  min-width: 100%;
   z-index: 8;
 
   .alert_typeIcon {
