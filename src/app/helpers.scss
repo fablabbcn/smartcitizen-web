@@ -8,6 +8,9 @@
 .color-white{
   color: white !important;
 }
+.color-dropdown{
+  color: $dropdown_blue !important;
+}
 .color-black{
   color: $off_black;
 }
@@ -62,6 +65,9 @@
 // Background helpers
 .bg-white{
   background-color: #fff;
+}
+.bg-black{
+  background-color: black;
 }
 .bg-green{
   background-color: $green;
@@ -174,6 +180,7 @@
   width: 100%;
   border-radius: 0px;
   margin: 0px;
+  padding:12px 29px;
 }
 
 .btn-small {

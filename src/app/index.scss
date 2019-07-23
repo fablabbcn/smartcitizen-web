@@ -181,12 +181,12 @@ section.info{
 }
 
 a{
-  color: $secondary_color;
+  color: $blue;
   text-decoration: none;
 
   &:hover, &:active{
     text-decoration: none;
-    color: $grey;
+    color: $grey_darker;
   }
 }
 a.md-button, a,
@@ -202,6 +202,10 @@ button.md-button, button{
 md-toolbar{
   background-color: $background_blue_dark_navbar !important;
   z-index: $large_priority;
+  color: white !important;
+  md-icon{
+    fill: white !important;
+  }
   //height: 64px;
 }
 
@@ -1655,7 +1659,7 @@ button.doorbell-button {
 }
 .timeline_line {
   width: 500px;
-  border: 1px solid $blue;
+  border: 1px solid $yellow;
   position: relative;
   top: 14px;
 }
@@ -1672,18 +1676,17 @@ button.doorbell-button {
   color: white;
   font-weight: bold;
   &.is-on {
-    border: 2px solid $blue;
-    background-color: $blue;
+    border: 2px solid $yellow;
+    background-color: $yellow;
   }
   &.is-off {
-    background-color: none;
-    border: 2px solid $blue;
-    color: $blue;
+    border: 2px solid $yellow;
+    color: $yellow;
   }
 }
 .timeline_stepName {
   text-transform: uppercase;
-  color: $terciary_color;
+  color: $yellow;
   font-size:18px;
 
   &.vertical {

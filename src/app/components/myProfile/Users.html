@@ -3,7 +3,7 @@
     <div style="max-width:500px">
       <div class="myProfile_form_avatar" layout="row" layout-align="start center">
         <img ng-src="{{ vm.user.profile_picture || vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
-        <md-button class="md-raised md-primary" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
+        <md-button class="md-raised md-accent" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
       </div>
 
       <form ng-submit="vm.updateUser(vm.formUser)">
@@ -79,7 +79,7 @@
           </span>
           </p>
         </div>
-        <md-button type="submit" class="md-primary md-raised" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
+        <md-button type="submit" class="md-accent md-raised" type="submit">UPDATE PROFILE</md-button> <!-- ng-click="vm.updateUser(vm.formUser)" -->
       </form>
 
       <div class="mb-20">
@@ -100,7 +100,7 @@
         <small>This API Key is limited to the <a target="_blank" href="http://developer.smartcitizen.me/#legacy">legacy API</a>.</small>
       </div>
 
-      <md-button class="md-raised md-warn" ng-click="vm.removeUser()" style="font-size:18px" type="button">DELETE ACCOUNT</md-button>
+      <md-button class="md-raised md-warn" ng-click="vm.removeUser()" type="button">DELETE ACCOUNT</md-button>
       <br />
       <small>Delete your profile will erase ALL your data. Please think twice before clicking this button.</small>
     </div>
