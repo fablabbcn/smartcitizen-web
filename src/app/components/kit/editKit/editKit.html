@@ -50,7 +50,7 @@
                  <div class="" layout="row" layout-align="start center">
                    <label class="mr-10">Exposure:</label>
                    <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
-                     <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
+                     <md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                    </md-select>
                  </div>
                </div>
@@ -120,7 +120,7 @@
                          class="kit_tags-header-searchbox md-text">
                 </md-select-header>
                 <md-optgroup label="tags">
-                  <md-option ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
+                  <md-option class="color-dropdown" ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
                     {{item.name}}
                   </md-option>
                 </md-optgroup>
@@ -147,7 +147,7 @@
         </section>
       </form>
       <div class="mt-50" layout="row" layout-align="center start" layout-margin layout-padding>
-        <md-button class="md-raised md-primary" ng-click="vm.submitFormAndKit()">Save</md-button>
+        <md-button flex class="md-raised md-accent" ng-click="vm.submitFormAndKit()">Save</md-button>
       </div>
       <div layout layout-padding layout-margin>
         <md-button flex ng-show="vm.setupAvailable" class="md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
@@ -174,7 +174,7 @@
           <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
             <div flex-gt-xs="50">
               <h2>Mac address</h2>
-              <small>The setup tool will read the Mac Address automatically from your kit. Plase wait or enter it manually.</small>
+              <small>The setup tool will read the Mac Address automatically from your kit. Please wait or enter it manually.</small>
             </div>
             <div>
               <md-input-container>
@@ -186,7 +186,7 @@
         </section>
       </form>
       <div layout>
-        <md-button flex class="md-primary md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
+        <md-button flex class="md-accent md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
       </div>
       <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>  
       <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>

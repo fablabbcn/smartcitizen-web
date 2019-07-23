@@ -41,7 +41,7 @@
               <div class="form_blockInput_select" layout="row" layout-align="start center">
                 <label>Exposure:</label>
                 <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
-                  <md-option ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
+                  <md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                 </md-select>
               </div>
             </div>
@@ -55,7 +55,7 @@
           </div>
           <div class="mt-50"  flex-gt-xs="50">
             <div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-              <md-button class="md-raised md-primary" ng-click="vm.getLocation()">Get your location</md-button>
+              <md-button class="md-raised md-accent" ng-click="vm.getLocation()">Get your location</md-button>
             </div>
             <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
               <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
@@ -99,7 +99,7 @@
 
       </form>
       <div layout>
-        <md-button flex class="md-raised md-primary" ng-click="vm.submitStepOne()">Next</md-button>
+        <md-button flex class="md-raised md-accent" ng-click="vm.submitStepOne()">Next</md-button>
       </div>
     </section>
   </section>
