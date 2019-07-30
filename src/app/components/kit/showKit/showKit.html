@@ -15,11 +15,13 @@
             <md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon>
             <span>{{ vm.kit.name }}</span>
           </div>
-          <div ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery">
-            <md-icon ng-if="vm.battery.value != -1" md-svg-src="{{ vm.battery.icon }}"> </md-icon>
-            <md-icon class="color-red" ng-if="vm.battery.value == -1" md-svg-src="./assets/images/battery-not-connected.svg"> </md-icon>
-            <span ng-if="vm.battery.value != -1">{{ vm.battery.value }} {{ vm.battery.unit }}</span>
-            <span ng-if="vm.battery.value == -1" class="color-red">NOT CONNECTED</span>
+          <div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery">
+            <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
+            <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
+          </div>
+          <div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery">
+            <md-icon md-font-icon="fa fa-battery-empty" class="color-red"> </md-icon>
+            <span class="color-red">NOT CONNECTED</span>
           </div>
         </div>
         <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
@@ -217,7 +219,7 @@
               <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
                 <h3>Manage your kit</h3>
                 <div class="kit_details_manage_buttons">
-                  <md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-pencil"></md-icon><span>EDIT</span></md-button>
+                  <md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button>
                   <md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.kit)">
                     <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
                     Download CSV

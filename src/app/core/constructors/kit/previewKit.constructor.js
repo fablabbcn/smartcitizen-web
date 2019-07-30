@@ -19,7 +19,7 @@
         if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3) {
           this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/' + this.id + '/edit?step=2', icon: 'fa fa-wrench'});
         }
-        this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit', icon: 'fa fa-pencil'});
+        this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit', icon: 'fa fa-edit'});
         if (object.kit_id) {
           this.dropdownOptions.push({text: 'SD CARD UPLOAD', value: '3', href: 'kits/' + this.id + '/upload'});
         }
