@@ -26,6 +26,12 @@
     fill: $green;
   }
 }
+.color-red {
+  color: $red;
+  svg {
+    fill: $red !important;
+  }
+}
 .float-left{
   float: left;
 }
