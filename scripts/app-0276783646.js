@@ -2892,6 +2892,232 @@
 (function() {
   'use strict';
 
+  angular.module('app.components')
+    .controller('PasswordResetController', PasswordResetController);
+
+    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
+      'animation', '$location', 'alert', 'auth'];
+    function PasswordResetController($mdDialog, $stateParams, $timeout,
+      animation, $location, alert, auth) {
+        
+      var vm = this;
+      vm.showForm = false;
+      vm.form = {};
+      vm.isDifferent = false;
+      vm.answer = answer;
+
+      initialize();
+      ///////////
+
+      function initialize() {
+        $timeout(function() {
+          animation.viewLoaded();
+        }, 500);
+        getUserData();
+      }
+
+      function getUserData() {
+        auth.getResetPassword($stateParams.code)
+          .then(function() {
+            vm.showForm = true;
+          })
+          .catch(function() {
+            alert.error('Wrong url');
+            $location.path('/');
+          });
+      }
+
+      function answer(data) {
+        vm.waitingFromServer = true;
+        vm.errors = undefined;
+
+        if(data.newPassword === data.confirmPassword) {
+          vm.isDifferent = false;
+        } else {
+          vm.isDifferent = true;
+          return;
+        }
+
+        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
+          .then(function() {
+            alert.success('Your data was updated successfully');
+            $location.path('/profile');
+          })
+          .catch(function(err) {
+            alert.error('Your data wasn\'t updated');
+            vm.errors = err.data.errors;
+          })
+          .finally(function() {
+            vm.waitingFromServer = false;
+          });
+      }
+    }
+})();
+
+(function(){
+'use strict';
+
+angular.module('app.components')
+  .directive('cookiesLaw', cookiesLaw);
+
+
+cookiesLaw.$inject = ['$cookies'];
+
+function cookiesLaw($cookies) {
+  return {
+    template:
+      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
+      'This site uses cookies to offer you a better experience.  ' +
+      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
+      ' <a ui-sref="layout.policy">Learn More.</a> ' +
+      '</div>',
+    controller: function($scope) {
+
+      var init = function(){
+        $scope.isCookieValid();
+      }
+
+      // Helpers to debug
+      //$cookies.remove('consent');
+      //$cookies.remove('expires');
+      //console.log($cookies.getAll());
+
+      $scope.isCookieValid = function() {
+        // Use a boolean for the ng-hide, because using a function with ng-hide
+        // is considered bad practice. The digest cycle will call it multiple 
+        // times, in our case around 240 times.
+        $scope.isCookieValidBool = ($cookies.get('consent') === 'true') && ($scope.isCookieAlive())
+      }
+
+      $scope.isCookieAlive = function() {
+        return $cookies.get('expires') > (new Date).getTime();
+      }
+
+      $scope.acceptCookie = function() {
+        //console.log('Accepting cookie...');
+        var d = new Date();
+        d.setTime(d.getTime() + (30 * 24 * 60 * 60 *1000));
+        var expires = 'expires=' + d.toUTCString();
+        $cookies.put('expires', d.getTime());
+        $cookies.put('consent', true);
+        $scope.isCookieValid();
+      };
+
+      init();
+
+    }
+  };
+}
+
+
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('LayoutController', LayoutController);
+
+    LayoutController.$inject = ['$mdSidenav','$mdDialog', '$location', '$state', '$scope', '$transitions', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
+    function LayoutController($mdSidenav, $mdDialog, $location, $state, $scope, $transitions, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
+      var vm = this;
+
+      vm.navRightLayout = 'space-around center';
+
+      $scope.toggleRight = buildToggler('right');
+
+      function buildToggler(componentId) {
+        return function() {
+          $mdSidenav(componentId).toggle();
+        };
+      }
+
+      // listen for any login event so that the navbar can be updated
+      $scope.$on('loggedIn', function(ev, options) {
+        // if(options && options.time === 'appLoad') {
+        //   $scope.$apply(function() {
+        //     vm.isLoggedin = true;
+        //     vm.isShown = true;
+        //     angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        //     vm.currentUser = auth.getCurrentUser().data;
+        //     vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        //     vm.navRightLayout = 'end center';
+        //   });
+        // } else {
+        //   vm.isLoggedin = true;
+        //   vm.isShown = true;
+        //   angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        //   vm.currentUser = auth.getCurrentUser().data;
+        //   vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        //   vm.navRightLayout = 'end center';
+        // }
+
+        vm.isLoggedin = true;
+        vm.isShown = true;
+        angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
+        vm.currentUser = auth.getCurrentUser().data;
+        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        vm.navRightLayout = 'end center';
+        if(!$scope.$$phase) {
+          $scope.$digest();
+        }
+      });
+
+      // listen for logout events so that the navbar can be updated
+      $scope.$on('loggedOut', function() {
+        vm.isLoggedIn = false;
+        vm.isShown = true;
+        angular.element('navbar .wrap-dd-menu').css('display', 'none');
+        vm.navRightLayout = 'space-around center';
+        ga('send', 'event', 'Logout', 'click');
+      });
+
+
+      vm.isShown = true;
+      vm.isLoggedin = false;
+      vm.logout = logout;
+
+      vm.dropdownOptions = DROPDOWN_OPTIONS_USER;
+      vm.dropdownSelected = undefined;
+
+      vm.dropdownOptionsCommunity = DROPDOWN_OPTIONS_COMMUNITY;
+      vm.dropdownSelectedCommunity = undefined;
+
+      $scope.$on('removeNav', function() {
+          vm.isShown = false;
+      });
+
+      $scope.$on('addNav', function() {
+          vm.isShown = true;
+      });
+
+      initialize();
+
+      //////////////////
+
+      function initialize() {
+        $timeout(function() {
+          var hash = $location.search();
+          if(hash.signup) {
+            animation.showSignup();
+          } else if(hash.login) {
+            animation.showLogin();
+          } else if(hash.passwordRecovery) {
+            animation.showPasswordRecovery();
+          }
+        }, 1000);
+      }
+
+      function logout() {
+        auth.logout();
+        vm.isLoggedin = false;
+      }
+    }
+})();
+
+(function() {
+  'use strict';
+
   /**
    * Tools links for user profile
    * @constant
@@ -5447,70 +5673,14 @@ angular.module('app.components')
 })();
 
 (function() {
-  'use strict';
+	'use strict';
 
-  angular.module('app.components')
-    .controller('PasswordResetController', PasswordResetController);
+	angular.module('app.components')
+	  .controller('HomeController', HomeController);
 
-    PasswordResetController.$inject = ['$mdDialog', '$stateParams', '$timeout',
-      'animation', '$location', 'alert', 'auth'];
-    function PasswordResetController($mdDialog, $stateParams, $timeout,
-      animation, $location, alert, auth) {
-        
-      var vm = this;
-      vm.showForm = false;
-      vm.form = {};
-      vm.isDifferent = false;
-      vm.answer = answer;
-
-      initialize();
-      ///////////
-
-      function initialize() {
-        $timeout(function() {
-          animation.viewLoaded();
-        }, 500);
-        getUserData();
-      }
-
-      function getUserData() {
-        auth.getResetPassword($stateParams.code)
-          .then(function() {
-            vm.showForm = true;
-          })
-          .catch(function() {
-            alert.error('Wrong url');
-            $location.path('/');
-          });
-      }
-
-      function answer(data) {
-        vm.waitingFromServer = true;
-        vm.errors = undefined;
-
-        if(data.newPassword === data.confirmPassword) {
-          vm.isDifferent = false;
-        } else {
-          vm.isDifferent = true;
-          return;
-        }
-
-        auth.patchResetPassword($stateParams.code, {password: data.newPassword})
-          .then(function() {
-            alert.success('Your data was updated successfully');
-            $location.path('/profile');
-          })
-          .catch(function(err) {
-            alert.error('Your data wasn\'t updated');
-            vm.errors = err.data.errors;
-          })
-          .finally(function() {
-            vm.waitingFromServer = false;
-          });
-      }
-    }
+	  function HomeController() {
+	  }
 })();
-
 (function() {
   'use strict';
 
@@ -6713,109 +6883,6 @@ angular.module('app.components')
   'use strict';
 
   angular.module('app.components')
-    .controller('LayoutController', LayoutController);
-
-    LayoutController.$inject = ['$mdSidenav','$mdDialog', '$location', '$state', '$scope', '$transitions', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
-    function LayoutController($mdSidenav, $mdDialog, $location, $state, $scope, $transitions, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
-      var vm = this;
-
-      vm.navRightLayout = 'space-around center';
-
-      $scope.toggleRight = buildToggler('right');
-
-      function buildToggler(componentId) {
-        return function() {
-          $mdSidenav(componentId).toggle();
-        };
-      }
-
-      // listen for any login event so that the navbar can be updated
-      $scope.$on('loggedIn', function(ev, options) {
-        // if(options && options.time === 'appLoad') {
-        //   $scope.$apply(function() {
-        //     vm.isLoggedin = true;
-        //     vm.isShown = true;
-        //     angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
-        //     vm.currentUser = auth.getCurrentUser().data;
-        //     vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
-        //     vm.navRightLayout = 'end center';
-        //   });
-        // } else {
-        //   vm.isLoggedin = true;
-        //   vm.isShown = true;
-        //   angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
-        //   vm.currentUser = auth.getCurrentUser().data;
-        //   vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
-        //   vm.navRightLayout = 'end center';
-        // }
-
-        vm.isLoggedin = true;
-        vm.isShown = true;
-        angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
-        vm.currentUser = auth.getCurrentUser().data;
-        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
-        vm.navRightLayout = 'end center';
-        if(!$scope.$$phase) {
-          $scope.$digest();
-        }
-      });
-
-      // listen for logout events so that the navbar can be updated
-      $scope.$on('loggedOut', function() {
-        vm.isLoggedIn = false;
-        vm.isShown = true;
-        angular.element('navbar .wrap-dd-menu').css('display', 'none');
-        vm.navRightLayout = 'space-around center';
-        ga('send', 'event', 'Logout', 'click');
-      });
-
-
-      vm.isShown = true;
-      vm.isLoggedin = false;
-      vm.logout = logout;
-
-      vm.dropdownOptions = DROPDOWN_OPTIONS_USER;
-      vm.dropdownSelected = undefined;
-
-      vm.dropdownOptionsCommunity = DROPDOWN_OPTIONS_COMMUNITY;
-      vm.dropdownSelectedCommunity = undefined;
-
-      $scope.$on('removeNav', function() {
-          vm.isShown = false;
-      });
-
-      $scope.$on('addNav', function() {
-          vm.isShown = true;
-      });
-
-      initialize();
-
-      //////////////////
-
-      function initialize() {
-        $timeout(function() {
-          var hash = $location.search();
-          if(hash.signup) {
-            animation.showSignup();
-          } else if(hash.login) {
-            animation.showLogin();
-          } else if(hash.passwordRecovery) {
-            animation.showPasswordRecovery();
-          }
-        }, 1000);
-      }
-
-      function logout() {
-        auth.logout();
-        vm.isLoggedin = false;
-      }
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .controller('LandingController', LandingController);
 
   LandingController.$inject = ['$timeout', 'animation', '$mdDialog', '$location', '$anchorScroll'];
@@ -6875,15 +6942,6 @@ angular.module('app.components')
   }
 })();
 
-(function() {
-	'use strict';
-
-	angular.module('app.components')
-	  .controller('HomeController', HomeController);
-
-	  function HomeController() {
-	  }
-})();
 (function (){
 	'use strict';
 
@@ -6914,64 +6972,6 @@ angular.module('app.components')
 			$mdDialog.cancel();
 		}
 	}
-
-})();
-
-(function(){
-'use strict';
-
-angular.module('app.components')
-  .directive('cookiesLaw', cookiesLaw);
-
-
-cookiesLaw.$inject = ['$cookies'];
-
-function cookiesLaw($cookies) {
-  return {
-    template:
-      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
-      'This site uses cookies to offer you a better experience.  ' +
-      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
-      ' <a ui-sref="layout.policy">Learn More.</a> ' +
-      '</div>',
-    controller: function($scope) {
-
-      var init = function(){
-        $scope.isCookieValid();
-      }
-
-      // Helpers to debug
-      //$cookies.remove('consent');
-      //$cookies.remove('expires');
-      //console.log($cookies.getAll());
-
-      $scope.isCookieValid = function() {
-        // Use a boolean for the ng-hide, because using a function with ng-hide
-        // is considered bad practice. The digest cycle will call it multiple 
-        // times, in our case around 240 times.
-        $scope.isCookieValidBool = ($cookies.get('consent') === 'true') && ($scope.isCookieAlive())
-      }
-
-      $scope.isCookieAlive = function() {
-        return $cookies.get('expires') > (new Date).getTime();
-      }
-
-      $scope.acceptCookie = function() {
-        //console.log('Accepting cookie...');
-        var d = new Date();
-        d.setTime(d.getTime() + (30 * 24 * 60 * 60 *1000));
-        var expires = 'expires=' + d.toUTCString();
-        $cookies.put('expires', d.getTime());
-        $cookies.put('consent', true);
-        $scope.isCookieValid();
-      };
-
-      init();
-
-    }
-  };
-}
-
 
 })();
 
