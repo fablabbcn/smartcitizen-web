@@ -32,8 +32,7 @@
     "papaparse": "papa-parse#^4.5.0",
     "angular-papa-promise": "^0.0.4",
     "outdated-browser": "^1.1.5",
-    "socket.io-client": "^2.1.1",
-    "components-font-awesome": "^5.9.0"
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.7.8"
