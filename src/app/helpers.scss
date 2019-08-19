@@ -159,8 +159,7 @@
   padding:12px 29px;
 }
 .btn-blue:hover{
-  background: #1426D7;
-  color: white;
+  color: blue;
 }
 .btn-round-new{
   border-radius: 40px;
@@ -178,6 +177,10 @@
 .btn-cyan{
   background-color: $terciary_color;
   color:white;
+}
+
+.btn-cyan:hover{
+  color: blue;
 }
 
 // display helpers
