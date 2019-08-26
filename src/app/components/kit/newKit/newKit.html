@@ -27,7 +27,7 @@
         <section class="isEven" layout="row" layout-xs="column" layout-align="" layout-xs="column" layout-padding>
           <div flex-gt-xs="50">
             <h2>Basic information</h2>
-            <small>Please, provide kit basic info. That includes a name and exposure</small>
+            <small>Please, provide kit basic info. That includes a name and exposure.</small>
           </div>
           <div class="mt-50"  flex-gt-xs="50">
             <md-input-container>
@@ -45,6 +45,9 @@
                 </md-select>
               </div>
             </div>
+            <md-checkbox ng-model="vm.kitForm.is_private">
+              <label>Make this device private</label>
+            </md-checkbox>
           </div>
         </section>
 
@@ -55,7 +58,7 @@
           </div>
           <div class="mt-50"  flex-gt-xs="50">
             <div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-              <md-button class="md-raised md-accent" ng-click="vm.getLocation()">Get your location</md-button>
+              <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
             </div>
             <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
               <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
@@ -92,7 +95,7 @@
           <div class="mt-50" flex-gt-xs="50">
             <md-input-container>
               <label>Description</label>
-              <textarea type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+              <textarea type="text" class="font-roboto-condensed" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
             </md-input-container>
           </div>
         </section>

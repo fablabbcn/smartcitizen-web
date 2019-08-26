@@ -22,6 +22,7 @@
           lng: undefined,
           zoom: 16
         },
+        is_private: false,
         tags: []
       };
 
@@ -107,6 +108,7 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          is_private: vm.kitForm.is_private,
           /*jshint camelcase: false */
           user_tags: _.map(vm.kitForm.tags, 'name').join(',')
         };
