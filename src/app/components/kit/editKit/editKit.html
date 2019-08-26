@@ -54,6 +54,9 @@
                    </md-select>
                  </div>
                </div>
+               <md-checkbox ng-model="vm.kitForm.is_private">
+                 <label>Make this device private</label>
+               </md-checkbox>
              </div>
            </div>
          </section>
@@ -76,6 +79,7 @@
               <md-checkbox ng-model="vm.kitForm.notify_stopped_publishing">
                 <label>Device stopped publishing</label>
               </md-checkbox>
+              </div>
             </div>
           </div>
         </section>
