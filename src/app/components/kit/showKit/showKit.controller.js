@@ -27,6 +27,7 @@
     vm.kit = undefined;
     vm.kitBelongsToUser = belongsToUser;
     vm.kitWithoutData = false;
+    vm.kitIsPrivate = false;
     vm.legacyApiKey = belongsToUser ?
       auth.getCurrentUser().data.key :
       undefined;
@@ -139,6 +140,10 @@
           .then(function(deviceData) {
             var newKit = new FullKit(deviceData);
 
+            if (deviceData.is_private) {
+              kitIsPrivate();
+            }
+
             vm.prevKit = vm.kit;
 
             if (vm.prevKit) {
@@ -207,6 +212,16 @@
       animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
       if(vm.kitBelongsToUser) {
         alert.info.noData.owner($stateParams.id);
+      } else {
+        alert.info.noData.visitor();
+      }
+    }
+
+    function kitIsPrivate() {
+      vm.kitIsPrivate = true;
+      animation.kitIsPrivate({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
+      if(vm.kitBelongsToUser) {
+        alert.info.noData.private();
       } else {
         alert.info.noData.visitor();
       }

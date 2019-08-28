@@ -12,7 +12,8 @@
       info: {
         noData: {
           visitor: infoNoDataVisitor,
-          owner: infoNoDataOwner
+          owner: infoNoDataOwner,
+          private: infoDataPrivate,
         },
         longTime: infoLongTime,
         generic: info
@@ -48,6 +49,17 @@
         10000);
     }
 
+    function infoDataPrivate() {
+      info('This kit has been set to private. Leave a ' +
+        'comment to let its owner know you\'re interested.',
+        10000,
+        {
+          button: 'Leave comment',
+          buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
+            'analytics-category="Private Kit Comment Link"',
+          href: 'https://forum.smartcitizen.me/'
+        });
+    }
 
     function infoLongTime() {
       info('😅 It looks like this kit hasn\'t posted any data in a long ' +
