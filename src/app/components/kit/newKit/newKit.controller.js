@@ -80,6 +80,7 @@
       function initialize() {
         animation.viewLoaded();
         getTags();
+        vm.userRole = auth.getCurrentUser().data.role;
       }
 
       function getLocation() {

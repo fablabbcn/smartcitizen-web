@@ -5,8 +5,8 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation,
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
+    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
      device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
@@ -73,6 +73,7 @@
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kitData = new FullKit(deviceData);
+            vm.userRole = auth.getCurrentUser().data.role;
             vm.kitForm = {
               name: vm.kitData.name,
               exposure: findExposureFromLabels(vm.kitData.labels),
