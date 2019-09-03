@@ -29,6 +29,7 @@
         viewLoading: viewLoading,
         viewLoaded: viewLoaded,
         kitWithoutData: kitWithoutData,
+        kitIsPrivate: kitIsPrivate,
         goToLocation: goToLocation,
         mapStateLoading: mapStateLoading,
         mapStateLoaded: mapStateLoaded
@@ -81,6 +82,9 @@
       }
       function kitWithoutData(data) {
         $rootScope.$broadcast('kitWithoutData', data);
+      }
+      function kitIsPrivate(data) {
+        $rootScope.$broadcast('kitIsPrivate', data);
       }
       function goToLocation(data) {
         $rootScope.$broadcast('goToLocation', data);

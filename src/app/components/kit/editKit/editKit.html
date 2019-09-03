@@ -54,6 +54,9 @@
                    </md-select>
                  </div>
                </div>
+               <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.kitForm.is_private">
+                 <label>Make this device private</label>
+               </md-checkbox>
              </div>
            </div>
          </section>
