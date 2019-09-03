@@ -1,6 +1,6 @@
 <section class="kit_data" change-content-margin>
   <div class="shadow"></div>
-  <div ng-if="!vm.kitIsPrivate || (vm.kitIsPrivate && vm.kitBelongsToUser)" class="over_map">
+  <div ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="over_map">
     <section class="kit_menu" stick>
       <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
       <div class="container" layout="row" layout-align="space-between center">
@@ -73,7 +73,7 @@
         </p>
       </section>
       <div no-data-backdrop></div>
-      <section ng-if="!vm.kitIsPrivate || (vm.kitIsPrivate && vm.kitBelongsToUser)" class="kit_overview" layout="row">
+      <section ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="kit_overview" layout="row">
         <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left btn-small" aria-label="">
           <md-tooltip md-direction="right">Click to see more sensors</md-tooltip>
           <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
@@ -108,7 +108,7 @@
       <md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button>
     </div>
     <section class="kit_detailed">
-      <section ng-if="!vm.kitIsPrivate || (vm.kitIsPrivate && vm.kitBelongsToUser)" class="kit_chart">
+      <section ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="kit_chart">
         <div class="hint" ng-if="vm.kitWithoutData">
           <p></p>
         </div>

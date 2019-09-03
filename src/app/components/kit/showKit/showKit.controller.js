@@ -140,9 +140,7 @@
           .then(function(deviceData) {
             var newKit = new FullKit(deviceData);
 
-            if (deviceData.is_private) {
-              kitIsPrivate();
-            }
+            checkIfKitIsPrivate(deviceData);
 
             vm.prevKit = vm.kit;
 
@@ -217,13 +215,15 @@
       }
     }
 
-    function kitIsPrivate() {
-      vm.kitIsPrivate = true;
-      animation.kitIsPrivate({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
-      if(vm.kitBelongsToUser) {
-        alert.info.noData.private();
-      } else {
-        alert.info.noData.visitor();
+    function checkIfKitIsPrivate(deviceData) {
+      if (deviceData.is_private) {
+        vm.kitIsPrivate = true;
+        animation.kitIsPrivate({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
+        if(vm.kitBelongsToUser) {
+          alert.info.noData.private();
+        } else {
+          alert.info.noData.visitor();
+        }
       }
     }
 
