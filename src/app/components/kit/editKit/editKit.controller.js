@@ -49,13 +49,13 @@
 
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
-      vm.markers = {};
-      vm.tiles = {
-        url: 'https://api.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg'
-      };
-      vm.defaults = {
-        scrollWheelZoom: false
-      };
+      vm.tiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox.streets'
+      });
 
       initialize();
 
@@ -88,13 +88,6 @@
               tags: vm.kitData.userTags,
               description: vm.kitData.description
             };
-            vm.markers = {
-              main: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
-                draggable: true
-              }
-            };
 
             if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
               vm.setupAvailable = true;
@@ -119,12 +112,30 @@
       function getLocation() {
         window.navigator.geolocation.getCurrentPosition(function(position) {
           $scope.$apply(function() {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
-            vm.markers.main.lat = lat;
-            vm.markers.main.lng = lng;
+
+            if (vm.kitData.latitude === null || vm.kitData.longitude === null) {
+              vm.kitForm.location.lat = position.coords.latitude;
+              vm.kitForm.location.lng = position.coords.longitude;
+            }
+            else {
+              vm.kitForm.location.lat = vm.kitData.latitude;
+              vm.kitForm.location.lng = vm.kitData.longitude;
+            }
+
+            vm.map = L.map('mapid').setView([vm.kitForm.location.lat, vm.kitForm.location.lng], 13);
+            vm.tiles.addTo(vm.map);
+            vm.marker = L.marker([vm.kitForm.location.lat, vm.kitForm.location.lng],{
+              draggable: 'true'
+            }).addTo(vm.map);
+            vm.map.on('click', onMapClick);
+
+            function onMapClick(e) {
+              vm.kitForm.location.lat = e.latlng.lat;
+              vm.kitForm.location.lng = e.latlng.lng;
+              vm.marker.setLatLng(e.latlng, {
+                draggable: 'true'
+              });
+            }
           });
         });
       }

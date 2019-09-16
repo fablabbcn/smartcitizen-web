@@ -54,14 +54,16 @@
         <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
             <h2>Kit location</h2>
-            <small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small>
+            <small>Please, let us locate you, later you can adjust the location by clicking on the map.</small>
           </div>
-          <div class="mt-50"  flex-gt-xs="50">
-            <div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
-              <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
+          <div flex="50">
+            <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+              <div class="form_blockInput_container" layout="row" layout-align="center center">
+                <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
+              </div>
             </div>
             <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
-              <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
+              <div id="mapid" style="width: 100%; height: 100%;" ng-init="vm.getLocation()"></div>
             </div>
           </div>
         </section>
