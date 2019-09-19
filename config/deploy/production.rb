@@ -3,7 +3,7 @@ server 'lin2.server.smartcitizen.me', user: 'deployer', roles: %w{app db web}, p
 set :deploy_to, '/home/deployer/apps/smartcitizen-web/'
 
 # Default branch is :master
-set :branch, 'master'
+set :branch, ENV.fetch('REVISION', 'master')
 
 # server-based syntax
 # ======================
