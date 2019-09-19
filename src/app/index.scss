@@ -201,7 +201,7 @@ button.md-button, button{
 
 md-toolbar{
   background-color: $background_blue_dark_navbar !important;
-  z-index: $large_priority;
+  z-index: 999;
   color: white !important;
   md-icon{
     fill: white !important;
@@ -352,7 +352,7 @@ md-toast {
   position: fixed;
   top: 64px !important; // Start the toast at top below navbar.
   min-width: 100%;
-  z-index: 8;
+  z-index: 500;
 
   .alert_typeIcon {
     width: 16px;
