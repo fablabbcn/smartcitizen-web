@@ -43,13 +43,6 @@
     },
     "lodash": {
       "main": "dist/lodash.js"
-    },
-    "leaflet.markercluster": {
-      "main": [
-        "dist/leaflet.markercluster.js",
-        "dist/MarkerCluster.css",
-        "dist/MarkerCluster.Default.css"
-      ]
     }
   }
 }
