@@ -47,6 +47,11 @@
           ev.stopPropagation();
       });
 
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.kitForm.location.lat = args.model.lat;
+        vm.kitForm.location.lng = args.model.lng;
+      });
+
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
       vm.markers = {};

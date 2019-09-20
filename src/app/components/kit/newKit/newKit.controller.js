@@ -32,6 +32,11 @@
         {name: 'outdoor', value: 2}
       ];
 
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.kitForm.location.lat = args.model.lat;
+        vm.kitForm.location.lng = args.model.lng;
+      });
+
       // TAGS SELECT
       vm.tags = [];
       $scope.$watch('vm.tag', function(newVal, oldVal) {
