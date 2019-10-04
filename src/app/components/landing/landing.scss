@@ -71,7 +71,10 @@
     min-height:630px !important;
     background: blue url("/assets/images/sck_platform.jpg") center/cover;
   }
-
+  .img-docs{
+    min-height:320px !important;
+    background: blue url("/assets/images/sck_docs.jpg") top/cover;
+  }
   // Tiles on landing page
   .tile{
     padding: 60px 40px;
