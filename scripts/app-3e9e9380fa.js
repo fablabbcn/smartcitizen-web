@@ -6165,7 +6165,7 @@ angular.module('app.components')
     }
 
     function clear() {
-      vm.filters = vm.filters.concat(vm.location, vm.status);
+      vm.filters = vm.filters.concat(vm.location, vm.status, vm.new);
       $mdDialog.hide(vm.filters);
     }
 
@@ -6347,7 +6347,7 @@ angular.module('app.components')
       vm.removeFilter = removeFilter;
       vm.removeTag = removeTag;
       vm.selectedTags = tag.getSelectedTags();
-      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline'];
+      vm.selectedFilters = ['indoor', 'outdoor', 'online', 'offline', 'new'];
 
       vm.checkAllFiltersSelected = checkAllFiltersSelected;
 
