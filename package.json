@@ -10,7 +10,7 @@
     "dev": "gulp serve"
   },
   "devDependencies": {
-    "bower": "^1.8.4",
+    "bower": "^1.8.8",
     "browser-sync": "~2.24.4",
     "browser-sync-spa": "~1.0.3",
     "chalk": "~2.4.1",
