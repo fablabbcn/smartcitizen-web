@@ -5,8 +5,8 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation', 'device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation,
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
+    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
      device, tag, alert, step, $stateParams, FullKit, push) {
 
       var vm = this;
@@ -47,6 +47,11 @@
           ev.stopPropagation();
       });
 
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.kitForm.location.lat = args.model.lat;
+        vm.kitForm.location.lng = args.model.lng;
+      });
+
       // MAP CONFIGURATION
       vm.getLocation = getLocation;
       vm.markers = {};
@@ -73,6 +78,7 @@
         device.getDevice(kitID)
           .then(function(deviceData) {
             vm.kitData = new FullKit(deviceData);
+            vm.userRole = auth.getCurrentUser().data.role;
             vm.kitForm = {
               name: vm.kitData.name,
               exposure: findExposureFromLabels(vm.kitData.labels),
@@ -81,6 +87,7 @@
                 lng: vm.kitData.longitude,
                 zoom: 16
               },
+              is_private: deviceData.is_private,
               notify_low_battery: deviceData.notify_low_battery,
               notify_stopped_publishing: deviceData.notify_stopped_publishing,
               tags: vm.kitData.userTags,
@@ -142,6 +149,7 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          is_private: vm.kitForm.is_private,
           notify_low_battery: vm.kitForm.notify_low_battery,
           notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
           /*jshint camelcase: false */

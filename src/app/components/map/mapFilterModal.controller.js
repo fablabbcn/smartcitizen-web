@@ -45,7 +45,7 @@
     }
 
     function clear() {
-      vm.filters = vm.filters.concat(vm.location, vm.status);
+      vm.filters = vm.filters.concat(vm.location, vm.status, vm.new);
       $mdDialog.hide(vm.filters);
     }
 

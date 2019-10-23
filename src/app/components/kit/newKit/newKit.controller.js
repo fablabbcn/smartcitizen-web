@@ -22,6 +22,7 @@
           lng: undefined,
           zoom: 16
         },
+        is_private: false,
         tags: []
       };
 
@@ -30,6 +31,11 @@
         {name: 'indoor', value: 1},
         {name: 'outdoor', value: 2}
       ];
+
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.kitForm.location.lat = args.model.lat;
+        vm.kitForm.location.lng = args.model.lng;
+      });
 
       // TAGS SELECT
       vm.tags = [];
@@ -79,6 +85,7 @@
       function initialize() {
         animation.viewLoaded();
         getTags();
+        vm.userRole = auth.getCurrentUser().data.role;
       }
 
       function getLocation() {
@@ -107,6 +114,7 @@
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
+          is_private: vm.kitForm.is_private,
           /*jshint camelcase: false */
           user_tags: _.map(vm.kitForm.tags, 'name').join(',')
         };
