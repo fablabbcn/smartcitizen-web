@@ -138,9 +138,11 @@
       if (vm.kitID || !isNaN(vm.kitID)){
         return device.getDevice(vm.kitID)
           .then(function(deviceData) {
-            var newKit = new FullKit(deviceData);
+            if (deviceData.is_private) {
+              kitIsPrivate();
+            }
 
-            checkIfKitIsPrivate(deviceData);
+            var newKit = new FullKit(deviceData);
 
             vm.prevKit = vm.kit;
 
@@ -191,6 +193,9 @@
         else if (error.noSensorData) {
           kitHasNoData();
         }
+        else if (error.status === 403){
+          kitIsPrivate();
+        }
       }
     }
 
@@ -215,16 +220,9 @@
       }
     }
 
-    function checkIfKitIsPrivate(deviceData) {
-      if (deviceData.is_private) {
-        vm.kitIsPrivate = true;
-        animation.kitIsPrivate({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
-        if(vm.kitBelongsToUser) {
-          alert.info.noData.private();
-        } else {
-          alert.info.noData.visitor();
-        }
-      }
+    function kitIsPrivate() {
+      vm.kitIsPrivate = true;
+      alert.info.noData.private();
     }
 
     function setOwnerSampleKits() {
