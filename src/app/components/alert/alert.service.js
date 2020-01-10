@@ -50,7 +50,7 @@
     }
 
     function infoDataPrivate() {
-      info('This kit has been set to private. Leave a ' +
+      info('Device not found, or it has been set to private. Leave a ' +
         'comment to let its owner know you\'re interested.',
         10000,
         {

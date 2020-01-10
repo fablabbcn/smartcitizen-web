@@ -189,8 +189,8 @@
           </div>
         </div>
       </section>
-      <div ng-if="vm.kitIsPrivate && !vm.kitBelongsToUser" class="kit_fixed bg-grey-lightest" move-down layout="row">
-        <p>This kit has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p>
+      <div ng-if="vm.kitIsPrivate" class="kit_fixed bg-grey-lightest" move-down layout="row">
+        <p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p>
       </div>
       <div class="kit_details" ng-if="vm.kit">
         <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
