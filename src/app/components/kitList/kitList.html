@@ -22,10 +22,10 @@
             <md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg">
             </md-icon>
             <span class="mr-10">{{ kit.type || 'Unknown Kit'}}</span>
-            <span class="mr-10" ng-if="kit.belongProperty">
-              <md-icon class="kitList_state_{{ kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
-            </span>
           </span>
+          <p class="m-0 mb-10" ng-if="kit.belongProperty">
+            <md-icon class="kitList_state_{{ kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
+          </p>
         </div>
       </md-card-header>
 
