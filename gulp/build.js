@@ -64,7 +64,7 @@ module.exports = function(options) {
       // Looks like a hack but temporary works: After '$.rev()' rename the index.html again
       .pipe($.rename(function(path) {
           if (path.dirname == '.' && path.extname == '.html') {
-            path.basename = 'index';
+            path.basename = '404';
           }
       }))
       .pipe(gulp.dest(options.dist + '/'))
