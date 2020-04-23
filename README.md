@@ -6,7 +6,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2566531.svg)](https://doi.org/10.5281/zenodo.2566531)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
-The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with the new [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
+The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
 
 ![Screenshot](2019-02-01_16-13-47.png)
 
@@ -32,6 +32,7 @@ cd smartcitizen-web
 ```
 
 ### Docker quickstart (optional)
+
 If you want to use Docker in development mode, you should enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
 This also means the image needs you to do `npm install` **locally** before running the container.
 It needs the `node_modules/` to exist.
@@ -39,6 +40,7 @@ It needs the `node_modules/` to exist.
 `docker-compose up`
 
 ### Install dependencies
+
 * Install tools to manage and test the application: `npm install.`
 * No need of `bower install`, `npm install` will take care of it.
 
@@ -60,6 +62,7 @@ Run:
 `rm -Rf $(node -e "console.log(require('path').join(require('os').tmpdir(), 'tmpRepo'))")`
 
 ### Talking to a different API
+
 In `app.route.js` the app can be configured to talk to another API:
 `RestangularProvider.setBaseUrl('http://localhost:3000/v0');`
 
@@ -68,16 +71,19 @@ In `app.route.js` the app can be configured to talk to another API:
 [Best Practice Recommendations for Angular App Structure](https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub)
 
 ### Git Commit Guidelines
+
 Visit https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md
 
 
 ### Naming conventions for files
+
 Same for all types of components:
 <Name of component camelcased>.<Type of module>.js
 Ex: kit.controller.js, sensor.service.js, profileTools.constant.js
 
 
 ### Naming conventions for components
+
 Controller: <Name of controller capitalized>Controller. Ex: MapController
 Service: <Name of service camelcased>. Ex: device, kit, user
 Constructor: <Name of constructor capitalized>. Ex: User, Kit. Note: Constructors are actually made using services.
@@ -87,7 +93,7 @@ For data that has been resolved from the router, I've normally appended 'Data' t
 
 ## Deployment
 
-Master branch is auto deployed to https://staging.kits.smartcitizen.me/ which is on Github Pages
+Master branch is auto deployed to https://smartcitizen.me/ which is on Github Pages
 
 * **Staging:** Change base tag on index.html to `base` url for staging: http://fablabbcn.github.io/smartcitizen-web/ and do `gulp deploy`.
 * **Production:** Change base tag back to `/`. Do `cap production deploy` and select the branch you want to deploy.
