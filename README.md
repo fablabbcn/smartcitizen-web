@@ -1,4 +1,4 @@
-# SmartCitizen Web 
+# SmartCitizen Web
 
 [![Build Status](https://travis-ci.org/fablabbcn/smartcitizen-web.svg?branch=develop)](https://travis-ci.org/fablabbcn/smartcitizen-web)
 [![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
@@ -6,7 +6,8 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2566531.svg)](https://doi.org/10.5281/zenodo.2566531)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
-The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together with [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
+The SmartCitizen [front-end](https://kits.smartcitizen.me/).
+Working together with [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
 
 ![Screenshot](2019-02-01_16-13-47.png)
 
@@ -17,8 +18,9 @@ The SmartCitizen [front-end](https://kits.smartcitizen.me/). Working together wi
 You need git to clone the repository. You can get git from
 [http://git-scm.com/](http://git-scm.com/).
 
-We also use a number of node.js tools to initialize and test the Web App. You must have node.js and
-its package manager (npm) installed. You can get them from [http://nodejs.org/](http://nodejs.org/).
+We also use a number of node.js tools to initialize and test the Web App.
+You must have node.js and its package manager (npm) installed.
+You can get them from [http://nodejs.org/](http://nodejs.org/).
 
 Also gulp: `npm install -g gulp` (with `sudo` if you are using Mac).
 
@@ -31,18 +33,18 @@ git clone https://github.com/fablabbcn/smartcitizen-web.git
 cd smartcitizen-web
 ```
 
-### Docker quickstart (optional)
-
-If you want to use Docker in development mode, you should enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
-This also means the image needs you to do `npm install` **locally** before running the container.
-It needs the `node_modules/` to exist.
-
-`docker-compose up`
-
 ### Install dependencies
 
 * Install tools to manage and test the application: `npm install.`
 * No need of `bower install`, `npm install` will take care of it.
+
+### Docker quickstart (optional)
+
+If you want to use Docker in development mode, you should enable the `volume:` in docker-compose.yml so you won't need to rebuild after every file change.
+The image needs you to do `npm install` **locally** before running the container.
+It needs the `node_modules/` to exist.
+
+`docker-compose up`
 
 ### Use Gulp tasks
 
@@ -74,13 +76,11 @@ In `app.route.js` the app can be configured to talk to another API:
 
 Visit https://github.com/ajoslin/conventional-changelog/blob/master/CONVENTIONS.md
 
-
 ### Naming conventions for files
 
 Same for all types of components:
 <Name of component camelcased>.<Type of module>.js
 Ex: kit.controller.js, sensor.service.js, profileTools.constant.js
-
 
 ### Naming conventions for components
 
