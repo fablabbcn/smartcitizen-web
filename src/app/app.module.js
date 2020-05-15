@@ -19,7 +19,6 @@ angular.module('app', [
   'angular-clipboard',
   'ngCookies',
   'ngMessages',
-  'ngtweet',
   'btford.socket-io',
   'ngAnimate'
 ]).config(function($mdThemingProvider) {
