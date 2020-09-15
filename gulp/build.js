@@ -61,10 +61,18 @@ module.exports = function(options) {
         conditionals: true
       }))
       .pipe(htmlFilter.restore)
-      // Looks like a hack but temporary works: After '$.rev()' rename the index.html again
+      // Creates 404.html with app index content
+      // A 404.html is need it for gh-pages to deal with routing
       .pipe($.rename(function(path) {
           if (path.dirname == '.' && path.extname == '.html') {
             path.basename = '404';
+          }
+      }))
+      .pipe(gulp.dest(options.dist + '/'))
+      // Creates index.html with app index content
+      .pipe($.rename(function(path) {
+          if (path.dirname == '.' && path.extname == '.html') {
+            path.basename = 'index';
           }
       }))
       .pipe(gulp.dest(options.dist + '/'))
