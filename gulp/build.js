@@ -14,11 +14,7 @@ module.exports = function(options) {
       options.src + '/app/**/*.html',
       options.tmp + '/serve/app/**/*.html'
     ])
-      .pipe($.minifyHtml({
-        empty: true,
-        spare: true,
-        quotes: true
-      }))
+      .pipe($.htmlmin({ collapseWhitespace: true }))
       .pipe($.angularTemplatecache('templateCacheHtml.js', {
         module: 'app',
         root: 'app'
@@ -54,11 +50,9 @@ module.exports = function(options) {
       .pipe($.useref())
       .pipe($.revReplace())
       .pipe(htmlFilter)
-      .pipe($.minifyHtml({
-        empty: true,
-        spare: true,
-        quotes: true,
-        conditionals: true
+      .pipe($.htmlmin({
+        collapseWhitespace: true,
+        removeComments: true
       }))
       .pipe(htmlFilter.restore)
       // Creates 404.html with app index content
