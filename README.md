@@ -6,7 +6,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2566531.svg)](https://doi.org/10.5281/zenodo.2566531)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
-The SmartCitizen [front-end](https://kits.smartcitizen.me/).
+The SmartCitizen [front-end](https://smartcitizen.me/).
 Working together with [SmartCitizen API](https://github.com/fablabbcn/smartcitizen-api).
 
 ![Screenshot](2019-02-01_16-13-47.png)
