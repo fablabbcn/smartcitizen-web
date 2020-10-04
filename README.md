@@ -13,6 +13,24 @@ Working together with [SmartCitizen API](https://github.com/fablabbcn/smartcitiz
 
 ## Development
 
+Using `nvm` (recommended but optional) do:
+
+1. Install the correct Node version:
+
+`nvm install` 
+
+2. Load the correct version:
+
+`nvm use`
+
+3. Install dependencies
+
+`npm i`
+
+4. Start development server
+
+`gulp serve`
+
 ### Prerequisites
 
 You need git to clone the repository. You can get git from
