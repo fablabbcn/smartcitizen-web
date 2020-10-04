@@ -545,6 +545,8 @@
       //set to-picker max to today
       to_picker.set('max', getLatestUpdated());
 
+      // TODO: move to timeUtils.service
+
       function getToday() {
         return getMillisFromDate(new Date());
       }
@@ -566,6 +568,10 @@
 
       function getLatestUpdated() {
         return moment(vm.kit.time).toDate();
+      }
+
+      function getAddedDate() {
+        return moment(vm.kit.addedTime).toDate();
       }
 
       function getCalculatedFrom(pickerTimeFrom) {
@@ -636,17 +642,27 @@
         updateChart();
       }
 
-
-      if(vm.kit){
-        if(vm.kit.labels.includes('new')){
+      if(vm.kit && vm.kit.time){
+        // registered during the last 24h
+        if(timeUtils.isWithin(1, 'days', getAddedDate())) {
           var lastUpdate = getLatestUpdated();
           setRange(getHourAgo(lastUpdate), lastUpdate);
-        } else if (timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
-          //set from-picker to seven days ago and set to-picker to today
-          setRange(getSevenDaysAgo(), getToday());
+        // hasn't published for a year
+        } else if (!timeUtils.isWithin(1, 'year', getLatestUpdated())) {
+            // get the full story of the kit show something
+            //setRange(getAddedDate(), getLatestUpdated());
+            // get the last hour to show something
+            var lastUpdate = getLatestUpdated();
+            setRange(getHourAgo(lastUpdate), lastUpdate);
+        // any other normal kit
         } else {
-          // set from-picker to and set to-picker to today
-          setRange(getSevenDaysAgoFromLatestUpdate(), getLatestUpdated());
+          // published during the last 7 days
+          if(timeUtils.isWithin(7, 'days', getLatestUpdated())) {
+            setRange(getSevenDaysAgo(), getToday());
+          } else {
+          // published during the last 7 days
+            setRange(getSevenDaysAgoFromLatestUpdate(), getLatestUpdated());
+          }
         }
       }
 

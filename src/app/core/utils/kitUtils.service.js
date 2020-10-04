@@ -13,6 +13,7 @@
         parseType: parseType,
         classify: classify,
         parseTime: parseTime,
+        parseAddedTime, parseAddedTime,
         parseVersion: parseVersion,
         parseOwner: parseOwner,
         parseState: parseState,
@@ -97,6 +98,11 @@
       function parseTime(object) {
         /*jshint camelcase: false */
         return object.last_reading_at;
+      }
+
+      function parseAddedTime(object) {
+        /*jshint camelcase: false */
+        return object.added_at;
       }
 
       function parseVersion(object) {
