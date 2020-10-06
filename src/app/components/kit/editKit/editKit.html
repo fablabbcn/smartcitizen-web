@@ -54,12 +54,29 @@
                    </md-select>
                  </div>
                </div>
-               <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.kitForm.is_private">
-                 <label>Make this device private</label>
-               </md-checkbox>
              </div>
            </div>
          </section>
+
+        <section layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div class="">
+                <h2>Open Data</h2>
+                <small>We advocate for open data and open science! However, some times your devices might be collecting potential personal data (i.e. your exact location, by GPS using in your bike) and you might consider changing how others can access your data
+                </small>
+              </div>
+            </div>
+          </div>
+          <div flex-gt-xs="50">
+            <div class="" layout="column">
+              <p>Manage how others can access your data:</p>
+               <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.kitForm.is_private">
+                 <label>Make this device private</label>
+               </md-checkbox>
+            </div>
+          </div>
+        </section>
 
         <section layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
