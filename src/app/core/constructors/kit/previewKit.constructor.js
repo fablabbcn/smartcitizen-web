@@ -21,7 +21,7 @@
         }
         this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit', icon: 'fa fa-edit'});
         if (object.kit_id) {
-          this.dropdownOptions.push({text: 'SD CARD UPLOAD', value: '3', href: 'kits/' + this.id + '/upload'});
+          this.dropdownOptions.push({text: 'SD CARD UPLOAD', value: '3', href: 'kits/' + this.id + '/upload', icon: 'fa fa-sd-card'});
         }
 
       }
