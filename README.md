@@ -31,6 +31,16 @@ Using `nvm` (recommended but optional) do:
 
 `gulp serve`
 
+
+To be able to login from localhost:8080 with our real `username:password` connected to the SC API, we need to comment out the following lines in `app.route.js`:
+```
+/* Allow cookies across *.smartcitizen.me Apps */
+$cookiesProvider.defaults.path = '/';
+$cookiesProvider.defaults.domain = '.smartcitizen.me';
+```
+
+(We are looking for a better solution).
+
 ### Prerequisites
 
 You need git to clone the repository. You can get git from
