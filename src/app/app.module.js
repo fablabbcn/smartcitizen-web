@@ -14,7 +14,6 @@ angular.module('app', [
   'papa-promise',
   'angularLoad',
   'angulartics',
-  'angulartics.google.analytics',
   'ngSanitize',
   'angular-clipboard',
   'ngCookies',
