@@ -119,6 +119,12 @@
         map: false
       };
 
+      vm.lastReadingFilter = 1;
+
+      $scope.$watch('vm.lastReadingFilter', function() {
+        updateMarkers();
+      });
+
       $scope.$on('kitLoaded', function(event, data) {
         vm.readyForKit.kit = data;
       });
@@ -303,6 +309,15 @@
         updateMarkers();
       }
 
+     function filterMarkersByLastReading(tmpMarkers) {
+        return tmpMarkers.filter(function(marker) {
+          if (new Date() - marker.myData.lastReading < 1000*3600*24*365*vm.lastReadingFilter ) {
+            return marker;
+          }
+        });
+      }
+
+
      function filterMarkersByLabel(tmpMarkers) {
         return tmpMarkers.filter(function(marker) {
           var labels = marker.myData.labels;
@@ -322,8 +337,10 @@
 
             var updatedMarkers = allMarkers;
 
+            updatedMarkers = filterMarkersByLastReading(updatedMarkers);
             updatedMarkers = tag.filterMarkersByTag(updatedMarkers);
             updatedMarkers = filterMarkersByLabel(updatedMarkers);
+
             vm.markers = updatedMarkers;
 
             animation.mapStateLoaded();

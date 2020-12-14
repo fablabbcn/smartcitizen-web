@@ -14,6 +14,14 @@
         </div>
         <p class="filter_description">Tags</p>
       </div>
+      <div class="map_legend__filtersRow" flex="50">
+        <!-- https://github.com/angular-slider/angularjs-slider -->
+        <rzslider
+           rz-slider-model="vm.lastReadingFilter"
+           rz-slider-options="{floor: 1, ceil: 10}">
+        </rzslider>
+      </div>
+
     </div>
     <div class="chips" layout="column">
       <div layout="row" class="chips_row">

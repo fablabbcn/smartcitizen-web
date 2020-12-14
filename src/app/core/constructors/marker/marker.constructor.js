@@ -49,6 +49,9 @@
           labels: markerUtils.parseLabels(deviceData),
           tags: markerUtils.parseUserTags(deviceData)
         };
+        if (deviceData.last_reading_at) {
+          this.myData.lastReading = new Date(deviceData.last_reading_at);
+        }
       }
       return Marker;
 

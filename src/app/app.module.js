@@ -21,7 +21,8 @@ angular.module('app', [
   'ngMessages',
   'ngtweet',
   'btford.socket-io',
-  'ngAnimate'
+  'ngAnimate',
+  'rzSlider'
 ]).config(function($mdThemingProvider) {
 
   $mdThemingProvider.definePalette('customGreyPalette', {
