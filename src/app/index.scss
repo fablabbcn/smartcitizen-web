@@ -538,6 +538,64 @@ section.map {
   }
 }
 
+.map-range-slider {
+    width: 400px;
+    height: 20px;
+    padding: 15px;
+    background: white;
+    z-index: 200;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    overflow:hidden;
+    // border-radius:4px;
+    // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+
+  .rzslider .rz-bar {
+    background: #ffe4d1;
+    height: 2px;
+  }
+  .rzslider .rz-selection {
+    background: orange;
+  }
+
+  .rzslider .rz-pointer {
+    width: 8px;
+    height: 16px;
+    top: auto; /* to remove the default positioning */
+    bottom: 0;
+    background-color: #333;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .rzslider .rz-pointer:after {
+    display: none;
+  }
+
+  .rzslider .rz-bubble {
+    bottom: 14px;
+  }
+
+  .rzslider .rz-limit {
+    font-weight: bold;
+    color: orange;
+  }
+
+  .rzslider .rz-tick {
+    width: 1px;
+    height: 10px;
+    margin-left: 4px;
+    border-radius: 0;
+    background: #ffe4d1;
+    top: -1px;
+  }
+
+  .rzslider .rz-tick.rz-selected {
+    background: orange;
+  }
+}
+
 /*
   CORE CHIP COMPONENT
  */
@@ -607,8 +665,7 @@ section.map {
     flex-direction: column;
     justify-content: space-between;
     width: 124px;
-    height: 200px;
-
+    height: 81px;
     border-radius:4px;
     overflow:hidden;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);

@@ -14,14 +14,6 @@
         </div>
         <p class="filter_description">Tags</p>
       </div>
-      <div class="map_legend__filtersRow" flex="50">
-        <!-- https://github.com/angular-slider/angularjs-slider -->
-        <rzslider
-           rz-slider-model="vm.lastReadingFilter"
-           rz-slider-options="{floor: 1, ceil: 10}">
-        </rzslider>
-      </div>
-
     </div>
     <div class="chips" layout="column">
       <div layout="row" class="chips_row">
@@ -39,6 +31,10 @@
         </span>
       </div>
     </div>
+  </div>
+
+  <div class="map-range-slider">
+    <rzslider rz-slider-model="vm.lastReadingSlider.value" rz-slider-options="vm.lastReadingSlider.options"></rzslider>
   </div>
 
   <md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-circular>

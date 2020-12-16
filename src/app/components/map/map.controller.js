@@ -119,11 +119,28 @@
         map: false
       };
 
-      vm.lastReadingFilter = 1;
+      // Temporary set one year from now
 
-      $scope.$watch('vm.lastReadingFilter', function() {
-        updateMarkers();
-      });
+      var defaultSlider = new Date().setFullYear(2020);
+
+      vm.lastReadingSlider = {
+        value: defaultSlider,
+        options: {
+          rightToLeft: true,
+          logScale: true,
+          // showTicksValues: true,
+          // steps: 100,
+          // ticksArray: [0, 10, 25, 50, 100]
+          // showTicks: true,
+          floor: 1387187787623,
+          ceil: 1639648531555,
+          translate: function(value) {
+            return value/365/24/3600/1000 + 'years';
+          }
+        }
+      };
+
+      $scope.$on('slideEnded', updateMarkers);
 
       $scope.$on('kitLoaded', function(event, data) {
         vm.readyForKit.kit = data;
@@ -224,6 +241,9 @@
                     function() {
                       var selectedMarker = currentMarker;
                       if(selectedMarker) {
+
+                        setTimeRange(selectedMarker);
+
                         // Ensures the marker is not just zoomed but the marker is centered to improve UX
                         // The $timeout can be replaced by an event but tests didn't show good results
                         $timeout(function() {
@@ -311,11 +331,27 @@
 
      function filterMarkersByLastReading(tmpMarkers) {
         return tmpMarkers.filter(function(marker) {
-          if (new Date() - marker.myData.lastReading < 1000*3600*24*365*vm.lastReadingFilter ) {
+          if (marker.myData.lastReading < vm.lastReadingSlider.value) {
             return marker;
           }
         });
       }
+
+      function setTimeRange(selectedMarker){
+
+          /*
+            Ensure current filterMarkersByLastReading actually includes the selected marker
+          */
+
+          /*
+            We can also do vm.markers[focusedMarkerID]
+          */
+
+         // if(vm.lastReadingFilter < selectedMarker.myData.lastReading) {
+         //    vm.lastReadingFilter = new Date(selectedMarker.myData.lastReading);
+         // }
+      }
+
 
 
      function filterMarkersByLabel(tmpMarkers) {
@@ -335,6 +371,8 @@
           $scope.$apply(function() {
             var allMarkers = device.getWorldMarkers();
 
+            if(!allMarkers) return;
+
             var updatedMarkers = allMarkers;
 
             updatedMarkers = filterMarkersByLastReading(updatedMarkers);
@@ -347,7 +385,12 @@
 
             vm.kitLoading = false;
 
-            zoomOnMarkers();
+            if(focusedMarkerID) {
+              /*
+                We only zoom when we have one marker
+              */
+               zoomOnMarkers();
+            }
           });
         });
       }
