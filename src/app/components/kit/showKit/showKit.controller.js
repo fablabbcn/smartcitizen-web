@@ -280,7 +280,6 @@
     function removeKit() {
       var confirm = $mdDialog.confirm()
         .title('Delete this kit?')
-        .content('Are you sure you want to delete this kit?')
         .ariaLabel('')
         .ok('DELETE')
         .cancel('Cancel')
