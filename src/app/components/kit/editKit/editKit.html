@@ -165,6 +165,32 @@
             </div>
           </div>
         </section>
+
+        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+          <div flex-gt-xs="50">
+            <div>
+              <h2>Postprocessing info</h2>
+              <small>
+                Paste a valid JSON containing the fields 'blueprint_url' and 'hardware_url' for your kit to be processed.
+                This is an advanced feature and it's not required for standard SmartCitizen Kits!
+              </small>
+            </div>
+          </div>
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <md-input-container flex="100" flex-gt-md="50">
+                <label>JSON formatted</label>
+                <textarea
+                  json-text
+                  class="font-roboto-condensed"
+                  type="text"
+                  rows="8"
+                  ng-model="vm.kitForm.postprocessing_info">
+                </textarea>
+              </md-input-container>
+            </div>
+          </div>
+        </section>
       </form>
       <div class="mt-50" layout="row" layout-align="center start" layout-margin layout-padding>
         <md-button flex class="md-raised md-accent" ng-click="vm.submitFormAndKit()">Save</md-button>

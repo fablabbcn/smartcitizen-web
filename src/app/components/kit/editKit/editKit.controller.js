@@ -1,6 +1,25 @@
 (function() {
   'use strict';
 
+  // Taken from this answer on SO:
+  // https://stackoverflow.com/questions/17893708/angularjs-textarea-bind-to-json-object-shows-object-object
+  angular.module('app.components').directive('jsonText', function() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function(scope, element, attr, ngModel){
+        function into(input) {
+          return JSON.parse(input);
+        }
+        function out(data) {
+          return JSON.stringify(data);
+        }
+        ngModel.$parsers.push(into);
+        ngModel.$formatters.push(out);
+      }
+    };
+  });
+
   angular.module('app.components')
     .controller('EditKitController', EditKitController);
 
@@ -91,6 +110,7 @@
               notify_low_battery: deviceData.notify_low_battery,
               notify_stopped_publishing: deviceData.notify_stopped_publishing,
               tags: vm.kitData.userTags,
+              postprocessing_info: deviceData.postprocessing_info,
               description: vm.kitData.description
             };
             vm.markers = {
@@ -146,6 +166,7 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
+          postprocessing_info: vm.kitForm.postprocessing_info,
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
