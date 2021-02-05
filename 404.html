@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <base href="/">
+    <meta charset="utf-8">
+    <title>Smart Citizen</title>
+    <meta name="description" content="Smart Citizen empowers communities to better understand their environment by offering an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. Home of the Smart Citizen Kit!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <script src="https://kit.fontawesome.com/ecc648e5f7.js"></script>
+
+    <!-- Adds Page Map for Search Engines -->
+
+    <!--
+    <PageMap>
+      <DataObject type="thumbnail">
+        <Attribute name="src" value="https://smartcitizen.me/assets/images/sck_platform_thum.jpg"/>
+        <Attribute name="width" value="512"/>
+        <Attribute name="height" value="413"/>
+      </DataObject>
+    </PageMap>
+    -->
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- CSS Styles -->
+
+    <link rel="stylesheet" href="styles/vendor-613bbe217f.css">
+
+    <link rel="stylesheet" href="styles/app-20bb1f462e.css">
+
+    <meta property=”og:type” content=”website” />
+    <meta property="og:title"
+      content="Smart Citizen empowers communities to better understand their environment">
+    <meta property="og:description"
+      content="Smart Citizen empowers communities to better understand their environment by offering an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. Home of the Smart Citizen Kit!">
+    <meta property="og:image" content="https://smartcitizen.me/assets/favicon_128x128.png">
+  </head>
+  <body>
+
+    <div id="outdated">
+      <h6>Your browser is out of date!</h6>
+      <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+      <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+
+    <div blur>
+      <div cookies-law></div>
+      <div loading-backdrop></div>
+      <div ui-view autoscroll="false"></div>
+    </div>
+
+
+    <!-- GA stats -->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42666356-2', 'auto');
+    </script>
+
+    <!-- Doorbell feedback -->
+
+    <script type="text/javascript">
+        window.doorbellOptions = {
+            appKey: 'epGCzRsQjOyOPslP2rONu5XUVwoAAKY4yQZy21baD3Sb0RolnuBi6G9H4Kd9tgzG'
+        };
+        (function(d, t) {
+            var g = d.createElement(t);g.id = 'doorbellScript';g.type = 'text/javascript';g.async = true;g.src = 'https://embed.doorbell.io/button/1904?t='+(new Date().getTime());(d.getElementsByTagName('head')[0]||d.getElementsByTagName('body')[0]).appendChild(g);
+        }(document, 'script'));
+    </script>
+
+    <!-- JS Dependencies -->
+
+    <!-- <script src="https://cdn.socket.io/socket.io-1.4.8.js"></script> -->
+
+    <script src="scripts/vendor-5adc7a67cd.js"></script>
+
+    <!-- Sentry Error Tracking -->
+
+    <script src="https://cdn.ravenjs.com/3.26.2/angular/raven.min.js" crossorigin="anonymous"></script>
+    <script>
+      if (location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+        Raven.config('https://26395b6976c64ac9a032fc6f06d4dbb6@o373800.ingest.sentry.io/5434868').install();
+      }
+    </script>
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
+    </script>
+
+
+    <!-- Outdated browsers -->
+
+    <script type="text/javascript">
+      // Plain Javascript
+      //event listener: DOM ready
+      function addLoadEvent(func) {
+        var oldonload = window.onload;
+        if (typeof window.onload != 'function') {
+            window.onload = func;
+        } else {
+            window.onload = function() {
+                if (oldonload) {
+                    oldonload();
+                }
+                func();
+            }
+        }
+      }
+      //call plugin function after DOM ready
+      addLoadEvent(function(){
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'IE11',
+            languagePath: ''
+        })
+      });
+    </script>
+
+    <!-- The App JS -->
+
+    <script src="scripts/app-f36c2bbbda.js"></script>
+
+    <!-- TODO: change path depending on local or production. Add comments to gulp inject to work https://www.npmjs.com/package/gulp-inject. See gulp inject task -->
+    <!-- <script src="app/components/kit/setupModule/scktool-app.js"></script> -->
+    <!-- <script src="app/components/kit/setupModule/scktool-connector.js"></script> -->
+    <!-- <script src="scripts/scktool-app.js"></script>
+    <script src="scripts/scktool-connector.js"></script> -->
+
+  </body>
+</html>

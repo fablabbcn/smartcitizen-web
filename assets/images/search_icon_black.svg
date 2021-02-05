@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>search icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Search" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g sketch:type="MSArtboardGroup" transform="translate(-307.000000, -25.000000)" id="Navbar-with-search" fill="#032933">
+            <g sketch:type="MSLayerGroup">
+                <g id="Search-box" transform="translate(291.000000, 14.000000)" sketch:type="MSShapeGroup">
+                    <path d="M26.0073185,19.8046312 L25.3717553,19.8046312 L25.150829,19.5853059 C25.931275,18.6751858 26.4059463,17.4953116 26.4059463,16.2025729 C26.4059463,13.3289308 24.0766152,10.9995998 21.2029731,10.9995998 C18.329331,10.9995998 16,13.3289308 16,16.2025729 C16,19.076215 18.329331,21.405546 21.2029731,21.405546 C22.4957118,21.405546 23.6747856,20.9316752 24.5849057,20.1520297 L24.8058319,20.3713551 L24.8058319,21.0053173 L28.806518,25.0004002 L30,23.8069182 L26.0073185,19.8046312 L26.0073185,19.8046312 Z M21.2029731,19.8046312 C19.213036,19.8046312 17.6009148,18.19251 17.6009148,16.2025729 C17.6009148,14.2134362 19.213036,12.6005146 21.2029731,12.6005146 C23.1921098,12.6005146 24.8050314,14.2134362 24.8050314,16.2025729 C24.8050314,18.19251 23.1921098,19.8046312 21.2029731,19.8046312 L21.2029731,19.8046312 Z" id="search-icon"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
