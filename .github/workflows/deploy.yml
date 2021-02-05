@@ -13,6 +13,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Test something (currently we have no tests)
+      run: |
+        npm install -g gulp-cli
+        npm install
+        gulp build
 
     - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v3
