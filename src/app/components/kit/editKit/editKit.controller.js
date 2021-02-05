@@ -110,7 +110,7 @@
               notify_low_battery: deviceData.notify_low_battery,
               notify_stopped_publishing: deviceData.notify_stopped_publishing,
               tags: vm.kitData.userTags,
-              postprocessing_info: deviceData.postprocessing_info,
+              postprocessing: deviceData.postprocessing,
               description: vm.kitData.description
             };
             vm.markers = {
@@ -166,7 +166,7 @@
         var data = {
           name: vm.kitForm.name,
           description: vm.kitForm.description,
-          postprocessing_info: vm.kitForm.postprocessing_info,
+          postprocessing_attributes: vm.kitForm.postprocessing,
           exposure: findExposure(vm.kitForm.exposure),
           latitude: vm.kitForm.location.lat,
           longitude: vm.kitForm.location.lng,
