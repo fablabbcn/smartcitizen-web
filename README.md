@@ -1,6 +1,6 @@
 # SmartCitizen Web
 
-[![Build Status](https://travis-ci.org/fablabbcn/smartcitizen-web.svg?branch=develop)](https://travis-ci.org/fablabbcn/smartcitizen-web)
+![Deploy to GH](https://github.com/fablabbcn/smartcitizen-web/workflows/Deploy%20to%20GH/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/maintainability)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/544684946bf58a15d531/test_coverage)](https://codeclimate.com/github/fablabbcn/smartcitizen-web/test_coverage)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2566531.svg)](https://doi.org/10.5281/zenodo.2566531)
