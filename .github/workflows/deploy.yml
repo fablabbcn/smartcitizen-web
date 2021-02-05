@@ -1,0 +1,22 @@
+name: Deploy to GH
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Test and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Test something (currently we have no tests)
+
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
+        if: job.status == 'success'
