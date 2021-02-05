@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="17px" viewBox="0 0 16 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="My-Profile-/-Kits-/-Tools" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g id="MY-PROFILE" sketch:type="MSArtboardGroup" transform="translate(-20.000000, -633.000000)">
+            <g id="EDIT-PROFILE" sketch:type="MSLayerGroup" transform="translate(0.000000, 64.000000)">
+                <g id="SIDEBAR" transform="translate(0.000000, 236.000000)" sketch:type="MSShapeGroup">
+                    <g id="Community" transform="translate(0.000000, 307.000000)">
+                        <g id="Community-icon" transform="translate(20.000000, 26.000000)">
+                            <path d="M15.2,3.92727273 L13.6,3.92727273 L13.6,11.1272727 L3.2,11.1272727 L3.2,12.7272727 C3.2,13.2072727 3.52,13.5272727 4,13.5272727 L12.8,13.5272727 L16,16.7272727 L16,4.72727273 C16,4.24727273 15.68,3.92727273 15.2,3.92727273 L15.2,3.92727273 L15.2,3.92727273 Z M12,8.72727273 L12,1.52727273 C12,1.04727273 11.68,0.727272727 11.2,0.727272727 L0.8,0.727272727 C0.32,0.727272727 0,1.04727273 0,1.52727273 L0,12.7272727 L3.2,9.52727273 L11.2,9.52727273 C11.68,9.52727273 12,9.20727273 12,8.72727273 L12,8.72727273 L12,8.72727273 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="22px" height="12px" viewBox="0 0 22 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>battery_icon@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Subnavbar-+-Preview-+-popup" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g id="Subnavbar-+-preview-+-popup" sketch:type="MSArtboardGroup" transform="translate(-342.000000, -387.000000)" fill-opacity="0.87">
+            <g id="Subnavbar" sketch:type="MSLayerGroup" transform="translate(0.000000, 248.000000)">
+                <g id="Kit-name-and-Username" transform="translate(20.000000, 135.000000)" sketch:type="MSShapeGroup">
+                    <g id="battery" transform="translate(322.000000, 3.000000)">
+                        <path d="M2.2,10.3 L2.2,3.7 L17.6,3.7 L17.6,10.3 L2.2,10.3 L2.2,10.3 Z M3,4.5 L10,4.5 L17,9.5 L3,9.5 L3,4.5 Z M19.8,11.037 C19.8,11.0370001 19.8,9.2 19.8,9.2 L22,9.2 L22,4.8 L19.8,4.8 L19.8,2.963 C19.8,2.15500741 19.1449926,1.5 18.337,1.5 L1.463,1.5 C0.66,1.5 0,2.16 0,2.963 L0,11.037 C0,11.8449926 0.65500743,12.5 1.463,12.5 L18.337,12.5 C19.14,12.5 19.8,11.912758 19.8,11.037 Z" id="battery_icon"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

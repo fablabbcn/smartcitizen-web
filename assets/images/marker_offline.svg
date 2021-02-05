@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>marker_offline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="style-guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="kits-on-the-map" sketch:type="MSArtboardGroup" transform="translate(-717.000000, -274.000000)" fill="#35C2E5">
+            <g id="Oval-201-Copy-5-+-SmartCitizen-Kit-Copy-Copy" sketch:type="MSLayerGroup" transform="translate(717.000000, 273.000000)">
+                <path d="M6,13 C9.3137085,13 12,10.3137085 12,7 C12,3.6862915 9.3137085,1 6,1 C2.6862915,1 0,3.6862915 0,7 C0,10.3137085 2.6862915,13 6,13 L6,13 Z M6,11.5 C3.51471863,11.5 1.5,9.48528137 1.5,7 C1.5,4.51471863 3.51471863,2.5 6,2.5 C8.48528137,2.5 10.5,4.51471863 10.5,7 C10.5,9.48528137 8.48528137,11.5 6,11.5 L6,11.5 Z" id="marker_offline" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

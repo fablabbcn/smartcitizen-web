@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="14px" viewBox="0 0 15 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>discussion_icon_inactive</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g class="stroke_container" id="Preview" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g class="fill_container" id="Subnavbar-+-preview-+-popup-OK" sketch:type="MSArtboardGroup" transform="translate(-940.000000, -385.000000)">
+            <g id="Subnavbar" sketch:type="MSLayerGroup" transform="translate(0.000000, 376.000000)">
+                <g id="Navigation" transform="translate(778.000000, 9.000000)" sketch:type="MSShapeGroup">
+                    <g id="DISCUSSION" transform="translate(162.400000, 0.000000)">
+                        <path d="M14,1.4 C14,0.63 13.37,0 12.6,0 L1.4,0 C0.63,0 0,0.63 0,1.4 L0,9.8 C0,10.57 0.63,11.2 1.4,11.2 L11.2,11.2 L14,14 L14,1.4 L14,1.4 Z M11.2,8.4 L2.8,8.4 L2.8,7 L11.2,7 L11.2,8.4 L11.2,8.4 Z M11.2,6.3 L2.8,6.3 L2.8,4.9 L11.2,4.9 L11.2,6.3 L11.2,6.3 Z M11.2,4.2 L2.8,4.2 L2.8,2.8 L11.2,2.8 L11.2,4.2 L11.2,4.2 Z" id="discussion_icon"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

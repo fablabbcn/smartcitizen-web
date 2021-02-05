@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.1 (12002) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Owner-detail" stroke="none" stroke-width="1" sketch:type="MSPage">
+        <g id="my-owner-detail" sketch:type="MSArtboardGroup" transform="translate(-633.000000, -956.000000)">
+            <g id="Kit-Details" sketch:type="MSLayerGroup" transform="translate(0.000000, 768.000000)">
+                <g id="API-KEY-Copy" transform="translate(631.500000, 183.000000)" sketch:type="MSShapeGroup">
+                    <path d="M15.548686,11.690605 L14.341338,10.472307 L7.26929967,10.472307 C6.66465067,9.40700878 5.52990254,8.68790997 4.22715469,8.69075996 C2.28630789,8.68670997 0.714610484,10.2746073 0.710260492,12.2306041 C0.714610484,14.1912509 2.28630789,15.7789983 4.22715469,15.7819983 C5.52630255,15.7798983 6.65850068,15.0630494 7.26419968,14.0006012 L8.68664733,14.0006012 L9.81344547,12.8741031 L10.675494,13.7364516 L11.5030427,12.908753 L12.3533913,13.7588016 L13.2154399,12.897203 L14.0774884,13.7588016 L15.548836,12.288054 C15.7613857,12.0665044 15.7667856,11.9111046 15.548686,11.690605 L15.548686,11.690605 Z M2.68725723,13.1619526 C2.16855809,13.1571526 1.75140877,12.7350533 1.75620877,12.2190541 C1.75140877,11.696005 2.16855809,11.2742057 2.68725723,11.2766057 C3.19740639,11.2739057 3.6145557,11.696005 3.61845569,12.2190541 C3.6147057,12.7350533 3.19755639,13.1570026 2.68725723,13.1619526 L2.68725723,13.1619526 Z" id="Shape" transform="translate(8.210260, 12.236375) rotate(-315.000000) translate(-8.210260, -12.236375) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
