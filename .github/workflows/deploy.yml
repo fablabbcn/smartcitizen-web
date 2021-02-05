@@ -12,6 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '9'
+
     - name: Test something (currently we have no tests)
       run: |
         npm install -g gulp-cli
