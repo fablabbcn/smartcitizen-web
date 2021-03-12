@@ -280,6 +280,7 @@
     function removeKit() {
       var confirm = $mdDialog.confirm()
         .title('Delete this kit?')
+        .textContent('Are you sure you want to delete this kit?')
         .ariaLabel('')
         .ok('DELETE')
         .cancel('Cancel')
@@ -728,7 +729,7 @@
       }).then(function(){
         var alert = $mdDialog.alert()
         .title('SUCCESS')
-        //.content('We are processing your data. Soon you will be notified in your inbox')
+        .textContent('We are processing your data. Soon you will be notified in your inbox')
         .ariaLabel('')
         .ok('OK!')
         .theme('primary')
@@ -741,7 +742,7 @@
         }
         var errorAlert = $mdDialog.alert()
         .title('ERROR')
-        //.content('Uh-oh, something went wrong')
+        .textContent('Uh-oh, something went wrong')
         .ariaLabel('')
         .ok('D\'oh')
         .theme('primary')
