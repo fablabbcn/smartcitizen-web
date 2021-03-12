@@ -728,7 +728,7 @@
       }).then(function(){
         var alert = $mdDialog.alert()
         .title('SUCCESS')
-        .content('We are processing your data. Soon you will be notified in your inbox')
+        //.content('We are processing your data. Soon you will be notified in your inbox')
         .ariaLabel('')
         .ok('OK!')
         .theme('primary')
@@ -741,7 +741,7 @@
         }
         var errorAlert = $mdDialog.alert()
         .title('ERROR')
-        .content('Uh-oh, something went wrong')
+        //.content('Uh-oh, something went wrong')
         .ariaLabel('')
         .ok('D\'oh')
         .theme('primary')

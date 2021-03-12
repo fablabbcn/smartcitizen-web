@@ -143,7 +143,7 @@
       function removeUser() {
         var confirm = $mdDialog.confirm()
           .title('Delete your account?')
-          .content('Are you sure you want to delete your account?')
+        //.content('Are you sure you want to delete your account?')
           .ariaLabel('')
           .ok('delete')
           .cancel('cancel')
@@ -327,7 +327,7 @@
         }).then(function(){
           var alert = $mdDialog.alert()
           .title('SUCCESS')
-          .content('We are processing your data. Soon you will be notified in your inbox')
+          //.content('We are processing your data. Soon you will be notified in your inbox')
           .ariaLabel('')
           .ok('OK!')
           .theme('primary')
@@ -340,7 +340,7 @@
           }
           var errorAlert = $mdDialog.alert()
           .title('ERROR')
-          .content('Uh-oh, something went wrong')
+          //.content('Uh-oh, something went wrong')
           .ariaLabel('')
           .ok('D\'oh')
           .theme('primary')
@@ -401,7 +401,7 @@
       function addNewKit() {
         var confirm = $mdDialog.confirm()
           .title('Hey! Do you want to add a new kit?')
-          .content('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
+        //.content('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
           .ariaLabel('')
           .ok('Ok')
           .cancel('Cancel')
