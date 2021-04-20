@@ -320,6 +320,10 @@ button.md-primary{
   color: white;
 }
 
+.md-button.fillwidth {
+  width: 100% !important;
+}
+
 md-input-container:not(.md-input-invalid).md-input-focused {
   label {
     color: $terciary_color;
