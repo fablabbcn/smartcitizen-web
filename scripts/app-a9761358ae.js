@@ -1411,11 +1411,8 @@
         });
 
         $(element).on('sck_done', function(event, data){
-          scope.vm.nextAction = 'waiting';
-          publishedPID = scope.$on('published', function(e, data) { // here is the error...
-            scope.vm.nextAction = 'ready';
-            scope.$apply();
-          });
+          scope.vm.nextAction = 'ready';
+          scope.$apply();
         });
 
       });
@@ -1676,9 +1673,9 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
     function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
-     device, tag, alert, step, $stateParams, FullKit, push) {
+     device, tag, alert, step, $stateParams, FullKit) {
 
       var vm = this;
 
@@ -1780,8 +1777,6 @@
             }
 
             vm.macAddress = vm.kitData.macAddress;
-
-            push.device(vm.kitData.id, $scope);
 
           });
       }
@@ -3515,6 +3510,8 @@
 
 (function() {
 	'use strict';
+
+  // Deprecated module. Currently not in use within the app.
 
 	angular.module('app.components')
 	  .factory('push', push);
