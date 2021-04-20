@@ -24,9 +24,9 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit', 'push'];
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
     function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
-     device, tag, alert, step, $stateParams, FullKit, push) {
+     device, tag, alert, step, $stateParams, FullKit) {
 
       var vm = this;
 
@@ -128,8 +128,6 @@
             }
 
             vm.macAddress = vm.kitData.macAddress;
-
-            push.device(vm.kitData.id, $scope);
 
           });
       }

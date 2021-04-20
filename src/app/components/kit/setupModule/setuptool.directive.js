@@ -36,11 +36,8 @@
         });
 
         $(element).on('sck_done', function(event, data){
-          scope.vm.nextAction = 'waiting';
-          publishedPID = scope.$on('published', function(e, data) { // here is the error...
-            scope.vm.nextAction = 'ready';
-            scope.$apply();
-          });
+          scope.vm.nextAction = 'ready';
+          scope.$apply();
         });
 
       });

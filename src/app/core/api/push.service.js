@@ -1,6 +1,8 @@
 (function() {
 	'use strict';
 
+  // Deprecated module. Currently not in use within the app.
+
 	angular.module('app.components')
 	  .factory('push', push);
 
