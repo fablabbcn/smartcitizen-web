@@ -20,12 +20,10 @@
           // listen for app loading event
           $scope.$on('viewLoading', function() {
             vm.isViewLoading = true;
-            angular.element('#doorbell-button').hide();
           });
 
           $scope.$on('viewLoaded', function() {
             vm.isViewLoading = false;
-            angular.element('#doorbell-button').show();
           });
 
           // listen for map state loading event 
