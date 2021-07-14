@@ -485,9 +485,12 @@ section .kit_menu {
               margin-right: 8px;
             }
           }
+          .picker_container {
+            margin: 15px 0 0 20px;
+          }
           .chart_move {
             .chart_move_button {
-              margin: -2px;
+              margin: 15px -2px 0 -2px;
               width: 40px;
               height: 28px;
               display: inline-flex;

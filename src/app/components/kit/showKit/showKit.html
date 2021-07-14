@@ -138,8 +138,7 @@
             <div class="sensor_description" >
               <h6>{{ vm.selectedSensorData.name }}</h6>
               <div class="sensor_description_content" >
-                <small class="sensor_description_preview">{{ vm.selectedSensorData.previewDescription }}<a href="#" ng-show="vm.selectedSensorData.previewDescription.length > 140" show-popup>More info</a></small>
-                <p class="sensor_description_full" hide-popup>{{ vm.selectedSensorData.fullDescription }}</p>
+                <small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small>
               </div>
             </div>
             <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
