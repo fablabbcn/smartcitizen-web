@@ -107,7 +107,8 @@ h2 {
   font-weight: normal;
 }
 h3 {
-  font-size: 1.3em;
+  font-size: 1.4em;
+  font-weight: normal;
 }
 h4 {
   font-size: 1.2em;
@@ -174,10 +175,6 @@ section.info{
   h1{
     font-size:1.3em;
   }
-  p{
-    line-height: inherit;
-    font-weight: lighter;
-  }
 }
 
 a{
@@ -186,7 +183,7 @@ a{
 
   &:hover, &:active{
     text-decoration: none;
-    color: $blue_light;
+    color: $yellow;
   }
 }
 a.md-button, a,
@@ -1070,13 +1067,6 @@ KIT TAGS MODULE
 .unknown {
   background-color: grey;
 }
-.ms {
-  // background-color: $alert_green;
-  // background-image: url("https://making-sense.eu/wp-content/uploads/2016/04/background-2.gif");
-  // background-size: 1200px;
-  // background-repeat: no-repeat;
-  // background-color: #efefef;
-}
 /**
  * OVERRIDE LEAFLET
  */
@@ -1351,7 +1341,7 @@ KIT TAGS MODULE
     width: 100%;
 }
 .dropdown-item-button:hover{
-  background-color: $blue_light !important
+  background-color: $yellow !important
 }
 
 /**
@@ -1945,7 +1935,7 @@ p.no-margin {
 // Feedback
 
 .doorbell-button {
- background-color: $blue_light !important;
+ background-color: $yellow !important;
 }
 
 // Styleguide
@@ -2113,11 +2103,11 @@ p.no-margin {
       .5em 0 0 rgba(0,0,0,0);}
   60% {
     text-shadow:
-      .25em 0 0 $blue_light,
+      .25em 0 0 $yellow,
       .5em 0 0 rgba(0,0,0,0);}
   80%, 100% {
     text-shadow:
-      .25em 0 0 $blue_light,
+      .25em 0 0 $yellow,
       .5em 0 0 $blue;}}
 
 
