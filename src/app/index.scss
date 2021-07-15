@@ -178,12 +178,10 @@ section.info{
 }
 
 a{
-  color: $blue;
-  text-decoration: none;
-
+  color: $off_black;
   &:hover, &:active{
     text-decoration: none;
-    color: $yellow;
+    color: $blue;
   }
 }
 a.md-button, a,
