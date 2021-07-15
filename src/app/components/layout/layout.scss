@@ -3,8 +3,10 @@
  */
 
 .navbar_container {
-  .md-button {
-    //font-size: 14px;
+  a{
+    &:hover, &:active{
+      color: $font_color_white
+    }
   }
 
   .md-button.navbar_highlight_button {
