@@ -184,11 +184,11 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
+              vm.readyForKit.map = true;
             } else {
               updateMarkers();
+              vm.readyForKit.map = true;
             }
-
-            vm.readyForKit.map = true;
 
           });
       }
