@@ -184,6 +184,16 @@ a{
     color: $blue;
   }
 }
+
+a.footer-link{
+  color: $yellow;
+  text-decoration: none;
+  transition: color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:hover, &:active{
+    text-decoration: none;
+    color:$blue;
+  }
+}
 a.md-button, a,
 button.md-button, button{
   // color here overwrites MAP and COMMUNITY in navbar
