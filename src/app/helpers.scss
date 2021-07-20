@@ -140,9 +140,10 @@
   color: $off_black;
   padding:12px 29px;
 }
+
 .btn-yellow:hover{
-  background: rgba($yellow, 0.8);
-  color: $off_black;
+  background: $off_black;
+  color: $yellow;
 }
 .btn-black-outline{
   border:2px solid $off_black;
@@ -158,15 +159,20 @@
   color: white;
   padding:12px 29px;
 }
+
 .btn-blue:hover{
-  color: $yellow;
+  color: $blue;
+  background: $grey_lighter;
 }
+
 .btn-round-new{
   border-radius: 40px;
   font-family: 'Roboto Condensed';
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.0325em;
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
 }
 .btn-round{
   border: 0;

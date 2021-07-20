@@ -15,6 +15,13 @@
     border-radius: 50px;
     //padding: 9px 11px;
     //width: 108px;
+    padding-top: .01rem;
+    padding-bottom: .01rem;
+    transition: color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    &:hover, &:active {
+      background-color:$yellow !important;
+      color: $off_black !important;
+    }
   }
 
   .logo_link {
