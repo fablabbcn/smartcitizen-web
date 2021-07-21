@@ -12,10 +12,10 @@ KIT COMMENTS MODULE
 */
 
 .chart_container {
-  min-width: 340px;
+  /*min-width: 340px;*/
   min-height: 310px;
-  //width: 100%;
-  //height: 90%;
+  /*width: 100%;*/
+  /*height: 90%;*/
   position: relative;
 
   .chart_line {
@@ -331,7 +331,7 @@ section .kit_menu {
   float: right;
 }
 .kit_detailed {
-  // height: 1000px;
+  /*height: 1000px;*/
   z-index: $medium_priority;
   background-color: white;
   position: relative;
@@ -386,10 +386,10 @@ section .kit_menu {
           }
         }
         .sensor_description {
-          //color: $background_blue_light;
-          //height: 80px;
-          //margin-top: 0px; //30;
-          //position: relative;
+          /*//color: $background_blue_light;*/
+          /*//height: 80px;*/
+          /*//margin-top: 0px; //30;*/
+          /*//position: relative;*/
 
           h6 {
             margin: 0;
@@ -456,16 +456,13 @@ section .kit_menu {
         .sensor_compare {
           font-size: .8em;
           padding-top:30px;
-
-          span {
-            margin-right: 10px;
-          }
+          margin-top: 10px;
         }
       }
 
       .kit_chart_right {
-        //display: inline-block;
-        //height: 100%;
+        /*//display: inline-block;*/
+        /*//height: 100%;*/
 
         .chart_navigation {
           height: 10%;
@@ -485,12 +482,51 @@ section .kit_menu {
               margin-right: 8px;
             }
           }
+
           .picker_container {
-            margin: 15px 0 0 20px;
+            margin-left: 20px;
           }
+
+          @media only screen and (max-device-width: 1050px) {
+            .chart_navigation{
+              justify-content: space-around !important;
+              margin: 5px !important;
+            }
+            .picker_container {
+              margin: 0 5px 0 5px !important;
+            }
+          }
+
+          @media only screen and (max-device-width: 960px) {
+
+            .picker_container {
+              display: flex !important;
+              align-content: middle !important;
+              margin: 10px 0 0 0 !important;
+              width: 100% !important;
+              justify-content: space-between !important;
+              align-items: center !important;
+            }
+
+            .word_picker{
+              display: inline-block !important;
+              width: 100% !important;
+            }
+            .chart_move {
+              display: flex !important;
+              width: 100% !important;
+              justify-content: space-between !important;
+              margin-top: 15px !important;
+
+              .chart_move_button {
+                width: 100% !important;
+              }
+            }
+          }
+
           .chart_move {
             .chart_move_button {
-              margin: 15px -2px 0 -2px;
+              margin: 0px -2px 0 -2px;
               width: 40px;
               height: 28px;
               display: inline-flex;

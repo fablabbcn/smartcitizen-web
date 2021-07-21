@@ -26,11 +26,11 @@
           </div>
           <div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery">
             <md-icon md-font-icon="fa fa-battery-empty" class="color-red"> </md-icon>
-            <span class="color-red">NOT CONNECTED</span>
+            <span class="color-red hide-sm" hide show-gt-sm>NOT CONNECTED</span>
           </div>
         </div>
         <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
-          <span ng-if="vm.kit.time" hide show-gt-xs >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
+          <span ng-if="vm.kit.time" hide show-gt-sm >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
 
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
@@ -74,7 +74,7 @@
           No kit selected <span class="emoji">👆</span>
         </h2>
         <p>
-          Browse the map and tap on any kit to see its data.
+          Browse the map and click on any kit to see its data.
         </p>
       </section>
       <div no-data-backdrop></div>
@@ -142,8 +142,8 @@
               </div>
             </div>
             <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
-              <div>
-                <span class="float-left" style="margin-top:7px">Compare with</span>
+              <div style="display: block; width: 100%;">
+                <span style="vertical-align: middle;">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)"
                     analytics-on="click" analytics-category="Kit Chart"
@@ -158,7 +158,7 @@
 
           <div class="kit_chart_right" layout-padding flex>
             <div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end">
-              <div class="picker_container">
+              <div class="picker_container word_picker">
                 <md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received"
                   ng-change="vm.timeOptSelected()">
                   <md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option>
