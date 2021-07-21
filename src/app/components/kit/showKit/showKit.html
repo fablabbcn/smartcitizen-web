@@ -32,6 +32,13 @@
         <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
           <span ng-if="vm.kit.time" hide show-gt-sm >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
+        <div class="kit-show-raw">
+          <label class="switch">
+            <input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw">
+            <span class="slider round"></span>
+          </label>
+          <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide show-gt-sm>SHOW RAW</label>
+        </div>
 
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
 
@@ -85,7 +92,7 @@
           </md-icon>
         </md-button>
         <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
-          <div ng-if="sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
+          <div ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
           ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}">
             <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
             <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
@@ -126,7 +133,7 @@
             </div>
             <div class="sensor_select">
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
-                <md-option ng-if="sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
+                <md-option ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
                   analytics-on="click" analytics-category="Kit Chart"
                   analytics-event="click" analytics-label="Metric" class="color-dropdown">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
@@ -145,7 +152,7 @@
               <div style="display: block; width: 100%;">
                 <span style="vertical-align: middle;">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)"
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)"
                     analytics-on="click" analytics-category="Kit Chart"
                     analytics-event="click" analytics-label="Compare" class="color-dropdown">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>

@@ -49,6 +49,7 @@
     vm.showSensorOnChart = showSensorOnChart;
     vm.showStore = showStore;
     vm.slide = slide;
+    vm.showRaw = false;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
     vm.updateInterval = 15000;
@@ -816,6 +817,5 @@
         clickOutsideToClose: true
       });
     }
-
   }
 })();
