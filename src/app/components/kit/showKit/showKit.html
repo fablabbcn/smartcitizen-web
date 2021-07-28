@@ -32,7 +32,7 @@
         <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
           <span ng-if="vm.kit.time" hide show-gt-sm >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
-        <div class="kit-show-raw">
+        <div class="kit-show-raw" ng-if="vm.hasRaw">
           <label class="switch">
             <input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw">
             <span class="slider round"></span>
