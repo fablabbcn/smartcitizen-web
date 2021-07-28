@@ -26,6 +26,7 @@
        * @property {string} color - Color that belongs to sensor
        * @property {string} fullDescription - Full Description for popup
        * @property {string} previewDescription - Short Description for dashboard. Max 140 chars
+       * @property {string} tags - Contains sensor tags for filtering the view
        */
       function Sensor(sensorData, sensorTypes) {
 
@@ -47,6 +48,10 @@
         this.fullDescription = description;
         this.previewDescription = description.length > 140 ? description.slice(
           0, 140).concat(' ... ') : description;
+        // Get sensor tags
+        this.tags = _.result(_.find(sensorTypes, {
+          'id': this.id
+        }), 'tags');
       }
 
       return Sensor;

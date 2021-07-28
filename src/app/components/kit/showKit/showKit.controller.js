@@ -49,9 +49,11 @@
     vm.showSensorOnChart = showSensorOnChart;
     vm.showStore = showStore;
     vm.slide = slide;
+    vm.showRaw = false;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
     vm.updateInterval = 15000;
+    vm.hasRaw;
 
     var focused = true;
 
@@ -251,6 +253,7 @@
 
       vm.battery = _.find(mainSensors, {name: 'battery'});
       vm.sensors = mainSensors.reverse();
+      vm.sensors.forEach(checkRaw);
 
       setSensorSideChart();
 
@@ -259,6 +262,10 @@
         vm.sensorsToCompare = compareSensors;
         vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
       }
+    }
+
+    function checkRaw(value){
+      vm.hasRaw |= (value.tags.indexOf('raw') !== -1);
     }
 
     function updateKitViewExtras(){
@@ -816,6 +823,5 @@
         clickOutsideToClose: true
       });
     }
-
   }
 })();
