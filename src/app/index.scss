@@ -83,6 +83,22 @@ a.about{
   color: $blue;
 }
 
+li.policy-toc {
+  padding: 3px;
+  a {
+    text-decoration: none;
+  }
+}
+
+ul#policy-toc {
+  padding-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.policy-toc#header{
+  list-style: none;
+}
+
 .icon_label{
   width: 14px;
   height: 14px;
