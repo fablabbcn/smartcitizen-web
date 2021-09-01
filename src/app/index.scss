@@ -74,7 +74,7 @@ html {
 
 body {
   background-color: rgba(0, 0, 0, 0);
-  color: $grey_darkest;
+  color: $off_black;
 }
 
 a.about{
@@ -1855,7 +1855,7 @@ footer {
     align-items: flex-start stretch;
 
     .content{
-      padding:0 10px;
+      padding:0 0px;
     }
   }
 
