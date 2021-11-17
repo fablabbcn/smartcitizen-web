@@ -115,7 +115,7 @@
       function createChart(elem) {
         d3.select(elem).selectAll('*').remove();
 
-        margin = {top: 20, right: 12, bottom: 20, left: 40};
+        margin = {top: 20, right: 12, bottom: 20, left: 42};
         width = elem.clientWidth - margin.left - margin.right;
         height = elem.clientHeight - margin.top - margin.bottom;
 
