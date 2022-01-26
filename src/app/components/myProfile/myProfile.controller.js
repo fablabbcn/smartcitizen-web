@@ -131,12 +131,10 @@
             _.extend(vm.user, user);
             vm.errors = {};
             alert.success('User updated');
-            ga('send', 'event', 'Profile', 'update');
           })
           .catch(function(err) {
             alert.error('User could not be updated ');
             vm.errors = err.data.errors;
-            ga('send', 'event', 'Profile', 'update failed');
           });
       }
 
@@ -367,7 +365,6 @@
               .removeDevice(kitID)
               .then(function(){
                 alert.success('Your kit was deleted successfully');
-                ga('send', 'event', 'Kit', 'delete');
                 device.updateContext().then(function(){
                   var userData = auth.getCurrentUser().data;
                   if(userData){

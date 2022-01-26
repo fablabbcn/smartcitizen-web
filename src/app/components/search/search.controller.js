@@ -33,7 +33,6 @@
           return [];
         }
 
-        ga('send', 'event', 'Search Input', 'search', query);
         return search.globalSearch(query)
           .then(function(data) {
 

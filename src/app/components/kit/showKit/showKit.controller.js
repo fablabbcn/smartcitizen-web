@@ -301,7 +301,6 @@
             .removeDevice(vm.kit.id)
             .then(function(){
               alert.success('Your kit was deleted successfully');
-              ga('send', 'event', 'Kit', 'delete');
               device.updateContext().then(function(){
                 $state.transitionTo('layout.myProfile.kits', $stateParams,
                   { reload: false,
@@ -489,7 +488,6 @@
       /*jshint camelcase: false*/
       var from_$input = angular.element('#picker_from').pickadate({
         onOpen: function(){
-          ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
           vm.resetTimeOpts();
         },
         onClose: function(){
@@ -504,7 +502,6 @@
 
       var to_$input = angular.element('#picker_to').pickadate({
         onOpen: function(){
-          ga('send', 'event', 'Kit Chart', 'click', 'Date Picker');
           vm.resetTimeOpts();
         },
         onClose: function(){

@@ -18,11 +18,9 @@
           })
           .catch(function(err) {
             vm.errors = err.data;
-            ga('send', 'event', 'Login', 'logged in');
           })
           .finally(function() {
             $scope.waitingFromServer = false;
-            ga('send', 'event', 'Login', 'failed');
           });
       };
       $scope.hide = function() {

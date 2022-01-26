@@ -55,7 +55,6 @@
         vm.isShown = true;
         angular.element('navbar .wrap-dd-menu').css('display', 'none');
         vm.navRightLayout = 'space-around center';
-        ga('send', 'event', 'Logout', 'click');
       });
 
 

@@ -199,7 +199,6 @@
               } else if (next){
                 alert.success('Your kit was successfully updated');
               }
-              ga('send', 'event', 'Kit', 'update');
               device.updateContext().then(function(){
                 if (next){
                   $timeout(next, delayTransition);
@@ -209,11 +208,9 @@
             .catch(function(err) {
               if(err.data.errors.mac_address[0] === 'has already been taken') {
                 alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
-                ga('send', 'event', 'Kit', 'unprocessable entity');
               }
               else {
                 alert.error('There has been an error during kit set up');
-                ga('send', 'event', 'Kit', 'update failed');
               }
               $timeout(function(){ },timewait.long);
             });

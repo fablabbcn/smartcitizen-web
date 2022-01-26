@@ -20,11 +20,9 @@
           .then(function() {
             alert.success('Signup was successful');
             $mdDialog.hide();
-            ga('send', 'event', 'Signup', 'signed up');
           }).catch(function(err) {
             alert.error('Signup failed');
             $scope.errors = err.data.errors;
-            ga('send', 'event', 'Signup', 'failed');
           })
           .finally(function() {
             $scope.waitingFromServer = false;

@@ -96,7 +96,6 @@
         updateType = 'map';
 
         var availability = data.leafletEvent.target.options.myData.labels[0];
-        ga('send', 'event', 'Kit Marker', 'click', availability);
 
         if ($state.$current.name === 'embbed') { return; }
         $state.go('layout.home.kit', {id: id});
@@ -131,14 +130,6 @@
 
       $scope.$on('goToLocation', function(event, data) {
         goToLocation(data);
-      });
-
-      $scope.$on('leafletDirectiveMap.dragend', function(){
-        reportMapInteractionByUser();
-      });
-
-      $scope.$on('leafletDirectiveMap.click', function(){
-        reportMapInteractionByUser();
       });
 
       vm.filters = ['indoor', 'outdoor', 'online', 'offline'];
@@ -375,10 +366,6 @@
         }
 
         return zoom;
-      }
-
-      function reportMapInteractionByUser(){
-        ga('send', 'event', 'Map', 'moved');
       }
 
       function isRetina(){
