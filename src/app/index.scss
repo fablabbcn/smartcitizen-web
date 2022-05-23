@@ -1929,10 +1929,17 @@ footer {
   .md-button.md-primary{
     color: $blue;
   }
-
-
 }
 
+.not-found-404 {
+  height: 36vh;
+}
+
+@media (min-width: 960px) {
+  .not-found-404 {
+    height: 67.3vh;
+  }
+}
 
 // About
 
