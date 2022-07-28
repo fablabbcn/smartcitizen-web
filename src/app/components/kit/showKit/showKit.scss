@@ -471,8 +471,11 @@ section .kit_menu {
 
           h6 {
             margin: 0;
+            margin-bottom:3px;
+            font-size: 1em;
           }
-          small{
+
+          small {
             line-height: 1em;
           }
 
@@ -498,6 +501,7 @@ section .kit_menu {
             box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
           }
         }
+
         .sensor_data {
           .sensor_value {
             font-size: 2em;

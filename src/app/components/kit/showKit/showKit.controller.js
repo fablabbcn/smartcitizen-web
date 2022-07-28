@@ -54,6 +54,7 @@
     vm.timeOptSelected = timeOptSelected;
     vm.updateInterval = 15000;
     vm.hasRaw;
+    vm.sensorNames = {};
 
     var focused = true;
 
@@ -254,6 +255,7 @@
       vm.battery = _.find(mainSensors, {name: 'battery'});
       vm.sensors = mainSensors.reverse();
       vm.sensors.forEach(checkRaw);
+      vm.sensors.forEach(getHardwareName);
 
       setSensorSideChart();
 
@@ -266,6 +268,10 @@
 
     function checkRaw(value){
       vm.hasRaw |= (value.tags.indexOf('raw') !== -1);
+    }
+
+    function getHardwareName(value) {
+      vm.sensorNames[value.id] = vm.kit.data.find(element => element.id === value.id).name;
     }
 
     function updateKitViewExtras(){

@@ -125,7 +125,6 @@
           <p></p>
         </div>
         <div class="container" layout="column" layout-gt-sm="row">
-
           <div class="kit_chart_left" layout-padding flex="100" flex-gt-sm="20">
             <div class="sensor_data" show-popup-info>
               <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
@@ -142,8 +141,8 @@
               </md-select>
             </div>
             <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
-            <div class="sensor_description" >
-              <h6>{{ vm.selectedSensorData.name }}</h6>
+            <div class="sensor_description">
+              <h6>{{ vm.sensorNames[vm.selectedSensor] }} </h6>
               <div class="sensor_description_content" >
                 <small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small>
               </div>
