@@ -23,7 +23,7 @@
 
       function getTags() {
         return Restangular.all('tags')
-          .getList({'per_page': 100})
+          .getList({'per_page': 200})
           .then(function(fetchedTags){
             tags = fetchedTags.plain();
             return tags;
