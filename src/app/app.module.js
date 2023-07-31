@@ -13,8 +13,6 @@ angular.module('app', [
 	'app.components',
   'papa-promise',
   'angularLoad',
-  'angulartics',
-  'angulartics.google.analytics',
   'ngSanitize',
   'angular-clipboard',
   'ngCookies',
