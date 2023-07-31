@@ -19,6 +19,7 @@ jobs:
     - name: Test something (currently we have no tests)
       run: |
         npm install -g gulp-cli
+        export NODE_OPTIONS=--use-openssl-ca
         npm install
         gulp build
 
