@@ -38,8 +38,6 @@
       10000,
       {
         button: 'Leave comment',
-        buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
-          'analytics-category="Offline Kit Comment Link"',
         href: 'https://forum.smartcitizen.me/'
       });
     }
@@ -55,8 +53,6 @@
         10000,
         {
           button: 'Leave comment',
-          buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
-            'analytics-category="Private Kit Comment Link"',
           href: 'https://forum.smartcitizen.me/'
         });
     }
@@ -66,8 +62,6 @@
         'time. Why not leave a comment to let its owner know?', 10000,
         {
           button: 'Leave comment',
-          buttonAttributes: 'analytics-on="click" analytics-event="click" ' +
-          'analytics-category="Long time No published Kit Comment Link"',
           href: 'https://forum.smartcitizen.me/'
         });
     }
