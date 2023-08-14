@@ -35,11 +35,11 @@
     function infoNoDataVisitor() {
       info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data. Leave a ' +
         'comment to let its owner know.',
-      10000,
-      {
-        button: 'Leave comment',
-        href: 'https://forum.smartcitizen.me/'
-      });
+        10000,
+        {
+          button: 'Leave comment',
+          href: 'https://forum.smartcitizen.me/'
+        });
     }
 
     function infoNoDataOwner() {
@@ -59,14 +59,13 @@
 
     function infoLongTime() {
       info('😅 It looks like this kit hasn\'t posted any data in a long ' +
-        'time. Why not leave a comment to let its owner know?', 10000,
+        'time. Why not leave a comment to let its owner know?', 
+        10000,
         {
           button: 'Leave comment',
           href: 'https://forum.smartcitizen.me/'
         });
     }
-
-
 
     function info(message, delay, options) {
       if(options && options.button) {
@@ -89,7 +88,6 @@
         locals: {
           message: message,
           button: options && options.button,
-          buttonAttributes: options && options.buttonAttributes,
           href: options && options.href
         }
       });
