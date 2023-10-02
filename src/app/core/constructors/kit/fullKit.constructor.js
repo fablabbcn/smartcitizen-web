@@ -39,6 +39,7 @@
         this.macAddress = object.mac_address;
         this.elevation = object.data.location.elevation;
         this.typeDescription = kitUtils.parseTypeDescription(object);
+        this.hardwareInfo = object.hardware_info;
       }
 
       FullKit.prototype = Object.create(Kit.prototype);
@@ -76,5 +77,5 @@
       };
 
       return FullKit;
-    }]); 
+    }]);
 })();

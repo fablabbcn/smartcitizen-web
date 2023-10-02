@@ -49,11 +49,13 @@
     vm.showSensorOnChart = showSensorOnChart;
     vm.showStore = showStore;
     vm.slide = slide;
-    vm.showRaw = false;
+    vm.showAll = false;
     vm.timeOpt = ['60 minutes', 'day' , 'month'];
     vm.timeOptSelected = timeOptSelected;
     vm.updateInterval = 15000;
     vm.hasRaw;
+    vm.hasSystem;
+    vm.kitChecksToggle = kitChecksToggle;
     vm.sensorNames = {};
 
     var focused = true;
@@ -255,6 +257,7 @@
       vm.battery = _.find(mainSensors, {name: 'battery'});
       vm.sensors = mainSensors.reverse();
       vm.sensors.forEach(checkRaw);
+      vm.sensors.forEach(checkSystem);
       vm.sensors.forEach(getHardwareName);
 
       setSensorSideChart();
@@ -268,6 +271,23 @@
 
     function checkRaw(value){
       vm.hasRaw |= (value.tags.indexOf('raw') !== -1);
+    }
+
+    function checkSystem(value){
+      vm.hasSystem |= (value.tags.indexOf('system') !== -1);
+    }
+
+    //TODO Add function to modify status of the device health
+    function kitChecksToggle() {
+      console.log('Toggle kit');
+      console.log(vm.kit.hardwareInfo);
+      console.log(vm.kit.data);
+      // TODO
+      // For each sensor in the data, check if it's system. Then add it to list
+      // Add hardwareInfo check for rcause
+      // - RCAUSE
+      // - WiFi Signal (any other metric?)
+      // - sd-card presence
     }
 
     function getHardwareName(value) {

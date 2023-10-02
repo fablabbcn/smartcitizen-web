@@ -1,10 +1,10 @@
 <section class="kit_data" change-content-margin>
   <div class="shadow"></div>
-  
+
   <div ng-if="vm.kitIsPrivate" class="kit_fixed bg-grey-lightest" move-down layout="row">
     <p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p>
   </div>
-  
+
   <div ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="over_map">
     <section class="kit_menu" stick>
       <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
@@ -32,12 +32,12 @@
         <div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
           <span ng-if="vm.kit.time" hide show-gt-sm >Last data received:</span><span>{{ vm.kit.timeParsed }}</span>
         </div>
-        <div class="kit-show-raw" ng-if="vm.hasRaw">
+        <div class="kit-show-all" ng-if="vm.hasRaw || vm.hasSystem">
           <label class="switch">
-            <input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw">
+            <input type="checkbox" class="custom-control-input kit-all-toggle" id="show-all-switch" ng-model="vm.showAll">
             <span class="slider round"></span>
           </label>
-          <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide show-gt-sm>SHOW RAW</label>
+          <label class="kit-show-all-text hide-sm" for="show-all-switch" hide show-gt-sm>SHOW ALL</label>
         </div>
 
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
@@ -64,6 +64,13 @@
             <md-icon md-svg-src="./assets/images/discussion_icon.svg">
             </md-icon>
           </md-button> -->
+
+          <!-- TODO Decide if this should be only for the kit Owner -->
+          <md-button href="#" ng-if="vm.hasSystem && vm.kitBelongsToUser" ng-click="vm.kitChecksToggle()" class="md-flat kit_checks_icon btn-small" aria-label="">
+            <md-tooltip md-direction="top">Device Health Checks</md-tooltip>
+            <!--TODO Improve Icon-->
+            <md-icon md-svg-src="./assets/images/kit_checks_icon_light.svg"></md-icon>
+          </md-button>
         </div>
       </div>
     </section>
@@ -84,8 +91,7 @@
           </md-icon>
         </md-button>
         <div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll>
-          <div ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
-          ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}">
+          <div ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showAll && (sensor.tags.indexOf('raw') !== -1 || sensor.tags.indexOf('system') !== -1))" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)" ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}">
             <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
             <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
             <div class="sensor_right">
@@ -124,7 +130,7 @@
             </div>
             <div class="sensor_select">
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
-                <md-option ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown">
+                <md-option ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showAll && (sensor.tags.indexOf('raw') !== -1 || sensor.tags.indexOf('system') !== -1))" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                   <span class="md-primary">{{ sensor.name }}</span>
                 </md-option>
@@ -141,7 +147,7 @@
               <div style="display: block; width: 100%;">
                 <span style="vertical-align: middle;">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" class="color-dropdown">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showAll && (sensor.tags.indexOf('raw') !== -1 || sensor.tags.indexOf('system') !== -1))" class="color-dropdown">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                     <span class="md-primary">{{ sensor.name }}</span>
                   </md-option>
@@ -187,7 +193,7 @@
           </div>
         </div>
       </section>
-      
+
       <div class="kit_details" ng-if="vm.kit">
         <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
 
