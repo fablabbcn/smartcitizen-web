@@ -42,33 +42,25 @@
 
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
 
-          <md-button href="#" class="md-flat chart_icon btn-small" aria-label=""
-            analytics-on="click" analytics-category="Kit Detail Section Button"
-            analytics-event="click" analytics-label="Chart">
+          <md-button href="#" class="md-flat chart_icon btn-small" aria-label="">
             <md-tooltip md-direction="top">Chart</md-tooltip>
             <md-icon md-svg-src="./assets/images/chart_icon.svg">
             </md-icon>
           </md-button>
 
-          <md-button href="#" class="md-flat kit_details_icon btn-small" aria-label=""
-            analytics-on="click" analytics-category="Kit Detail Section Button"
-            analytics-event="click" analytics-label="Kit">
+          <md-button href="#" class="md-flat kit_details_icon btn-small" aria-label="">
             <md-tooltip md-direction="top">Kit Detail</md-tooltip>
             <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
             </md-icon>
           </md-button>
 
-          <md-button href="#" class="md-flat user_details btn-small" aria-label=""
-            analytics-on="click" analytics-category="Kit Detail Section Button"
-            analytics-event="click" analytics-label="User">
+          <md-button href="#" class="md-flat user_details btn-small" aria-label="">
             <md-tooltip md-direction="top">User info</md-tooltip>
             <md-icon md-svg-src="./assets/images/user_details_icon.svg">
             </md-icon>
           </md-button>
           <!-- HACK: disable because of lodash  -->
-          <!-- <md-button href="#" class="md-flat discussion_icon" aria-label=""
-            analytics-on="click" analytics-category="Kit Detail Section Button"
-            analytics-event="click" analytics-label="Comments">
+          <!-- <md-button href="#" class="md-flat discussion_icon" aria-label="">
             <md-icon md-svg-src="./assets/images/discussion_icon.svg">
             </md-icon>
           </md-button> -->
@@ -132,9 +124,7 @@
             </div>
             <div class="sensor_select">
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
-                <md-option ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first"
-                  analytics-on="click" analytics-category="Kit Chart"
-                  analytics-event="click" analytics-label="Metric" class="color-dropdown">
+                <md-option ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown">
                   <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                   <span class="md-primary">{{ sensor.name }}</span>
                 </md-option>
@@ -151,9 +141,7 @@
               <div style="display: block; width: 100%;">
                 <span style="vertical-align: middle;">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
-                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)"
-                    analytics-on="click" analytics-category="Kit Chart"
-                    analytics-event="click" analytics-label="Compare" class="color-dropdown">
+                  <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != 'battery' || (sensor.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" class="color-dropdown">
                     <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
                     <span class="md-primary">{{ sensor.name }}</span>
                   </md-option>

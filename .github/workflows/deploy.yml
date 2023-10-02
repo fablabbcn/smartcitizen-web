@@ -1,8 +1,6 @@
 name: Deploy to GH
 
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   test:
@@ -19,6 +17,7 @@ jobs:
     - name: Test something (currently we have no tests)
       run: |
         npm install -g gulp-cli
+        export NODE_OPTIONS=--use-openssl-ca
         npm install
         gulp build
 
@@ -27,4 +26,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
-        if: job.status == 'success'
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
