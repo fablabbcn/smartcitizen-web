@@ -2,7 +2,7 @@
   <div layout-padding layout-margin class="mt-50 mb-30 bg-white">
     <div style="max-width:500px">
       <div class="myProfile_form_avatar" layout="row" layout-align="start center">
-        <img ng-src="{{ vm.user.profile_picture || vm.user.avatar || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
+        <img ng-src="{{ vm.user.profile_picture || './assets/images/avatar.svg' }}" class="myProfile_form_avatarImage" />
         <md-button class="md-raised md-accent" ngf-select ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button>
       </div>
 

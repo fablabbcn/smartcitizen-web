@@ -139,7 +139,7 @@
           city: object.owner.location.city,
           country: COUNTRY_CODES[object.owner.location.country_code],
           url: object.owner.url,
-          avatar: object.owner.avatar
+          profile_picture: object.owner.profile_picture
         };
       }
 

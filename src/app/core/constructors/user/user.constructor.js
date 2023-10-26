@@ -9,7 +9,7 @@
        * @param {Object} userData - User data sent from API
        * @property {number} id - User ID
        * @property {string} username - Username
-       * @property {string} avatar - Avatar URL of user
+       * @property {string} profile_picture - Avatar URL of user
        * @property {Array} kits - Kits that belongs to this user
        * @property {string} url - URL 
        * @property {string} city - User city
@@ -19,7 +19,6 @@
       function User(userData) {
         this.id = userData.id;
         this.username = userData.username;
-        this.avatar = userData.avatar;
         this.profile_picture = userData.profile_picture;
         this.kits = userData.devices;
         this.url = userData.url;
