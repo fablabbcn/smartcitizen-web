@@ -64,13 +64,6 @@
             <md-icon md-svg-src="./assets/images/discussion_icon.svg">
             </md-icon>
           </md-button> -->
-
-          <!-- TODO Decide if this should be only for the kit Owner -->
-          <md-button href="#" ng-if="vm.hasSystem && vm.kitBelongsToUser" ng-click="vm.kitChecksToggle()" class="md-flat kit_checks_icon btn-small" aria-label="">
-            <md-tooltip md-direction="top">Device Health Checks</md-tooltip>
-            <!--TODO Improve Icon-->
-            <md-icon md-svg-src="./assets/images/kit_checks_icon_light.svg"></md-icon>
-          </md-button>
         </div>
       </div>
     </section>
@@ -228,7 +221,7 @@
 
           <section flex-gt-xs="50" class="info kit_details_notAuth">
               <div class="kit_details_manage" ng-if="vm.kitBelongsToUser">
-                <h3>Manage your kit</h3>
+                <h3 class="tight">Manage your kit</h3>
                 <div class="kit_details_manage_buttons">
                   <md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button>
                   <md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.kit)">
@@ -240,6 +233,29 @@
                   <md-button class="md-primary md-raised md-hue-1" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label="">
                     <md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button>
                   <md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeKit()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
+                </div>
+                <div class="kit_health_checks" ng-if="vm.hasSystem && vm.kitBelongsToUser">
+                  <h3 class="tight">Health checks</h3>
+                    Here you can find some indicators of how your kit is doing:
+                    <ul>
+                      <li>Last reset cause: <a href="https://docs.smartcitizen.me/_FAQ/#what-is-reset-cause">{{ vm.kit.hardwareInfo.rcause }}</a></li>
+                      <li>Wi-Fi Signal Strength: <a href="https://docs.smartcitizen.me/_FAQ#what-are-good-rssi-values">{{ vm.rssi.value }} dBm</a></li>
+                      <li>SD-card:
+                        <span ng-if="(parseInt(vm.sdcard.value) == 0)">not</span> present
+                      </li>
+                      <li>Battery:
+                        <div id="battery-check" style="display: inline;">
+                          <div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery" style="display: inline;">
+                            <md-icon md-svg-src="{{ vm.battery.icon }}"> </md-icon>
+                            <span>{{ vm.battery.value }} {{ vm.battery.unit }}</span>
+                          </div>
+                          <div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery" style="display: inline;">
+                            <md-icon md-font-icon="fa fa-battery-empty" class="color-red"> </md-icon>
+                            <span class="color-red hide-sm" hide show-gt-sm>NOT CONNECTED</span>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
                 </div>
               </div>
             <div ng-if="!vm.kitBelongsToUser">

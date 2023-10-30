@@ -255,6 +255,8 @@
       var compareSensors = sensorsRes[1];
 
       vm.battery = _.find(mainSensors, {name: 'battery'});
+      vm.sdcard = _.find(mainSensors, {id: 221})
+      vm.rssi = _.find(mainSensors, {id: 220});
       vm.sensors = mainSensors.reverse();
       vm.sensors.forEach(checkRaw);
       vm.sensors.forEach(checkSystem);
