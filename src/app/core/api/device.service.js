@@ -99,8 +99,11 @@
           timestamp: new Date(),
           data: data
         };
-
-        $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
+        try {
+          $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
+        } catch {
+          console.log("Could not store markers in localstorage. skipping...");
+        }
         worldMarkers = obj.data;
       }
 
