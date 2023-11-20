@@ -101,7 +101,7 @@
         };
         try {
           $window.localStorage.setItem('smartcitizen.markers', JSON.stringify(obj) );
-        } catch {
+        } catch (e) {
           console.log("Could not store markers in localstorage. skipping...");
         }
         worldMarkers = obj.data;
