@@ -9,7 +9,7 @@
     "angular-load": "~0.3.0",
     "angular-material": "^1.1.9",
     "angular-sanitize": "^1.7.0",
-    "angular-spinner": "~0.6.1",
+    "angular-spinner": "https://github.com/fablabbcn/bower-angular-spinner.git",
     "angular-ui-router": "^1.0.17",
     "angular-cookies": "^1.7.0",
     "d3": "~3.5.5",
