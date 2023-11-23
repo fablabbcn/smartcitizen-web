@@ -41,7 +41,7 @@
       function parseIcon(object, type) {
         switch(type) {
           case 'User':
-            return object.avatar;
+            return object.profile_picture;
           case 'Device':
             return 'assets/images/kit.svg';
           case 'Country':

@@ -1,10 +1,10 @@
 <section class="kit_data" change-content-margin>
   <div class="shadow"></div>
-  
+
   <div ng-if="vm.kitIsPrivate" class="kit_fixed bg-grey-lightest" move-down layout="row">
     <p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p>
   </div>
-  
+
   <div ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="over_map">
     <section class="kit_menu" stick>
       <section ng-if="!vm.kit" class="overlay-kitinfo"></section>
@@ -13,7 +13,7 @@
         <div flex="nogrow" layout="row" layout-align="start center">
           <div hide show-gt-xs class="kit_user">
             <md-tooltip md-direction="top">Visit user profile</md-tooltip>
-            <img ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg'}}" />
+            <img ng-src="{{ vm.kit.owner.profile_picture || './assets/images/avatar.svg'}}" />
             <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a>
           </div>
           <div hide show-gt-xs class="kit_name">
@@ -187,7 +187,7 @@
           </div>
         </div>
       </section>
-      
+
       <div class="kit_details" ng-if="vm.kit">
         <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
 
@@ -248,7 +248,7 @@
         <div class="kit_detailed_content_container" layout="column">
 
           <div layout="row" layout-align="start center">
-            <img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.kit.owner.avatar || './assets/images/avatar.svg' }}" />
+            <img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.kit.owner.profile_picture || './assets/images/avatar.svg' }}" />
 
             <div>
               <a href="./users/{{vm.kit.owner.id}}" class="kit_owner_usernameLink">

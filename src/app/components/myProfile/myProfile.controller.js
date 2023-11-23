@@ -238,15 +238,6 @@
 
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
-          /*
-          file.getCredentials(fileData[0].name)
-            .then(function(res) {
-              file.uploadFile(fileData[0], res.key, res.policy, res.signature)
-                .success(function() {
-                  vm.user.avatar = file.getImageURL(res.key);
-                });
-              });
-          */
 
           // TODO: Is there a simpler way to patch the image to the API and use the response?
           // Something like:
