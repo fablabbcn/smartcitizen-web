@@ -37,25 +37,17 @@
           .then(function(user) {
             vm.user = new NonAuthUser(user);
 
-            var kitIDs = _.map(vm.user.kits, 'id');
-            if(!kitIDs.length) {
+            if(!vm.user.kits.length) {
               return [];
             }
 
-            return $q.all(
-              kitIDs.map(function(id) {
-                return device.getDevice(id)
-                  .then(function(data) {
-                    return new PreviewKit(data);
-                  });
+            device.createKitBlueprints().then(function(){
+              vm.kits = vm.user.kits.map(function(data){
+                return new PreviewKit(data);
               })
-            );
+            })
 
-          }).then(function(kitsData){
-            if (kitsData){
-              vm.kits = kitsData;
-            }
-          }, function(error) {
+          }).then(function(error) {
             if(error && error.status === 404) {
               $location.url('/404');
             }
