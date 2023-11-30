@@ -4833,25 +4833,17 @@
           .then(function(user) {
             vm.user = new NonAuthUser(user);
 
-            var kitIDs = _.map(vm.user.kits, 'id');
-            if(!kitIDs.length) {
+            if(!vm.user.kits.length) {
               return [];
             }
 
-            return $q.all(
-              kitIDs.map(function(id) {
-                return device.getDevice(id)
-                  .then(function(data) {
-                    return new PreviewKit(data);
-                  });
-              })
-            );
+            device.createKitBlueprints().then(function(){
+              $q.all(vm.kits = vm.user.kits.map(function(data){
+                return new PreviewKit(data);
+              }))
+            })
 
-          }).then(function(kitsData){
-            if (kitsData){
-              vm.kits = kitsData;
-            }
-          }, function(error) {
+          }).then(function(error) {
             if(error && error.status === 404) {
               $location.url('/404');
             }
@@ -6953,61 +6945,6 @@ angular.module('app.components')
 
 })();
 
-(function(){
-'use strict';
-
-angular.module('app.components')
-  .directive('cookiesLaw', cookiesLaw);
-
-
-cookiesLaw.$inject = ['$cookies'];
-
-function cookiesLaw($cookies) {
-  return {
-    template:
-      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
-      'This site uses cookies to offer you a better experience.  ' +
-      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
-      ' <a ui-sref="layout.policy">Learn More.</a> ' +
-      '</div>',
-    controller: function($scope) {
-
-      var init = function(){
-        $scope.isCookieValid();
-      }
-
-      // Helpers to debug
-      // You can also use `document.cookie` in the browser dev console.
-      //console.log($cookies.getAll());
-
-      $scope.isCookieValid = function() {
-        // Use a boolean for the ng-hide, because using a function with ng-hide
-        // is considered bad practice. The digest cycle will call it multiple
-        // times, in our case around 240 times.
-        $scope.isCookieValidBool = ($cookies.get('consent') === 'true')
-      }
-
-      $scope.acceptCookie = function() {
-        //console.log('Accepting cookie...');
-        var today = new Date();
-        var expireDate = new Date(today);
-        expireDate.setMonth(today.getMonth() + 6);
-
-        $cookies.put('consent', true, {'expires' : expireDate.toUTCString()} );
-
-        // Trigger the check again, after we click
-        $scope.isCookieValid();
-      };
-
-      init();
-
-    }
-  };
-}
-
-
-})();
-
 (function() {
   'use strict';
 
@@ -7619,6 +7556,61 @@ function cookiesLaw($cookies) {
         return getContainerWidth(widestElem) + margins;
       }
     }
+
+})();
+
+(function(){
+'use strict';
+
+angular.module('app.components')
+  .directive('cookiesLaw', cookiesLaw);
+
+
+cookiesLaw.$inject = ['$cookies'];
+
+function cookiesLaw($cookies) {
+  return {
+    template:
+      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
+      'This site uses cookies to offer you a better experience.  ' +
+      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
+      ' <a ui-sref="layout.policy">Learn More.</a> ' +
+      '</div>',
+    controller: function($scope) {
+
+      var init = function(){
+        $scope.isCookieValid();
+      }
+
+      // Helpers to debug
+      // You can also use `document.cookie` in the browser dev console.
+      //console.log($cookies.getAll());
+
+      $scope.isCookieValid = function() {
+        // Use a boolean for the ng-hide, because using a function with ng-hide
+        // is considered bad practice. The digest cycle will call it multiple
+        // times, in our case around 240 times.
+        $scope.isCookieValidBool = ($cookies.get('consent') === 'true')
+      }
+
+      $scope.acceptCookie = function() {
+        //console.log('Accepting cookie...');
+        var today = new Date();
+        var expireDate = new Date(today);
+        expireDate.setMonth(today.getMonth() + 6);
+
+        $cookies.put('consent', true, {'expires' : expireDate.toUTCString()} );
+
+        // Trigger the check again, after we click
+        $scope.isCookieValid();
+      };
+
+      init();
+
+    }
+  };
+}
+
 
 })();
 
@@ -8437,8 +8429,8 @@ $templateCache.put('app/components/myProfile/addKitSelectorModal.html','<md-dial
 $templateCache.put('app/components/myProfile/myProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="myProfile_tabs_parent" flex=""><md-tabs md-dynamic-height="" class="myProfile_tabs" md-center-tabs="false" md-selected="vm.startingTab"><md-tab label="" md-on-select="vm.selectThisTab(0, \'kits\')"><md-tab-label><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">KITS</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab><md-tab label="" md-on-select="vm.selectThisTab(1, \'user\')"><md-tab-label><md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">USER</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab></md-tabs></div></section>');
 $templateCache.put('app/components/passwordRecovery/passwordRecovery.html','<form name="recovery_form" ng-submit="vm.recoverPassword()" novalidate="" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">FORGOT YOUR PASSWORD?</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p><p class="form_messageDescription">Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p></div><div layout="" layout-sm="column" class="formRecovery_field"><md-input-container flex=""><label>Username</label> <input type="text" name="username" ng-model="vm.username" autofocus="" ng-required="recovery_form.$submitted"></md-input-container><p class="form_errors formRecovery_errors" ng-show="vm.errors"><span ng-show="recovery_form.username.$error.required">Valid Username or Email is required</span></p></div></div><md-progress-circular ng-show="vm.waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular><md-button type="submit" class="md-flat md-primary form_button">REQUEST NEW PASSWORD</md-button></form><header style="margin-top:120px" class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></header>');
 $templateCache.put('app/components/passwordRecovery/passwordRecoveryModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Forgot your password?</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><form name="recoveryForm" novalidate="" ng-submit="recoverPassword()"><div class="md-dialog-content max-width-500px"><p>Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p><div layout="" layout-sm="column"><md-input-container flex=""><label>Username or Email</label> <input type="text" name="input" ng-model="input" focus-input="" required=""><div ng-messages="recoveryForm.input.$error"><div ng-message="required">Valid Username or Email is required</div></div></md-input-container></div><md-button ng-click="openSignup()">New here? Sign up</md-button></div><md-button class="btn-blue btn-full" type="submit">REQUEST NEW PASSWORD</md-button></form></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/passwordReset/passwordReset.html','<form name="form" novalidate="" ng-submit="vm.answer(vm.form)" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">ENTER YOUR NEW PASSWORD</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>New Password</label> <input type="password" name="newPassword" ng-model="vm.form.newPassword" autofocus="" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.newPassword.$touched"><span ng-show="form.newPassword.$error.required">Password is required</span></p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>Confirm Password</label> <input type="password" name="password" ng-model="vm.form.confirmPassword" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.password.$touched"><span ng-show="form.password.$error.required">Password is required</span> <span ng-show="vm.isDifferent && !form.password.$error.required && !vm.errors.password.length">It must be the same password</span> <span ng-show="!!vm.errors.password.length"><span ng-repeat="error in vm.errors.password">Password {{ error }}<span ng-if="!$last">,</span></span></span></p></div></div><md-button class="md-flat md-primary form_button" type="submit">RESET PASSWORD</md-button></form><footer class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/search/search.html','<md-autocomplete id="search" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-search-text-change="vm.searchTextChange(vm.searchText)" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.name" placeholder="Search" md-delay="300" md-min-length="3"><md-item-template layout="row" layout-align="start center"><div class="search_results"><img ng-if="item.iconType === \'img\'" ng-src="{{ item.icon }}" class="result_icon"><div ng-if="item.iconType === \'div\'" class="markerSmartCitizenOnline result_icon"></div><span ng-class="{\'result_name\': item.name.length > 0}">{{ item.name }}</span> <span class="result_location">{{ item.location }}</span></div></md-item-template></md-autocomplete>');
+$templateCache.put('app/components/passwordReset/passwordReset.html','<form name="form" novalidate="" ng-submit="vm.answer(vm.form)" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">ENTER YOUR NEW PASSWORD</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>New Password</label> <input type="password" name="newPassword" ng-model="vm.form.newPassword" autofocus="" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.newPassword.$touched"><span ng-show="form.newPassword.$error.required">Password is required</span></p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>Confirm Password</label> <input type="password" name="password" ng-model="vm.form.confirmPassword" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.password.$touched"><span ng-show="form.password.$error.required">Password is required</span> <span ng-show="vm.isDifferent && !form.password.$error.required && !vm.errors.password.length">It must be the same password</span> <span ng-show="!!vm.errors.password.length"><span ng-repeat="error in vm.errors.password">Password {{ error }}<span ng-if="!$last">,</span></span></span></p></div></div><md-button class="md-flat md-primary form_button" type="submit">RESET PASSWORD</md-button></form><footer class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/signup/signup.html','<md-button class="" ng-click="vm.showSignup($event)">Sign Up</md-button>');
 $templateCache.put('app/components/signup/signupModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Sign up</h2><span flex=""></span><md-button class="" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><md-dialog-content class="modal signup"><form name="signupForm" novalidate="" ng-submit="vm.answer(signupForm)"><div class="md-dialog-content"><div><p>Join Smart Citizen</p></div><div layout="column"><md-input-container><label>Username</label> <input type="text" name="username" autocomplete="username" ng-model="vm.user.username" focus-input="" required=""><div ng-messages="signupForm.username.$error || !!errors.password.length" role="alert"><div ng-message="required">Username is required</div><div ng-repeat="error in errors.username"><div>Username {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container flex=""><label>Password</label> <input name="password" type="password" autocomplete="new-password" ng-model="vm.user.password" required=""><div ng-messages="signupForm.password.$error || !!errors.password.length" role="alert"><div ng-message="required">Password is required</div><div ng-repeat="error in errors.password"><div>Password {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><label>Email</label> <input name="email" type="email" ng-model="vm.user.email" required=""><div ng-messages="signupForm.email.$error || !!errors.email.length" role="alert"><div ng-message="required">Email is required</div><div ng-repeat="error in errors.email" ng-if="!!errors.email.length"><div>Email {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><md-checkbox name="conditions" ng-model="vm.user.conditions" aria-label="Terms and Conditions" required="">I <a ui-sref="layout.policy" ng-click="hide()">have read</a> and accept Terms and Conditions</md-checkbox><div ng-messages="signupForm.conditions.$error || !!errors.conditions.length" role="alert"><div ng-message="required">You have to accept Terms and Conditions first</div><div ng-repeat="error in errors.conditions"><div>{{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container></div><md-button class="md-primary" ng-click="openLogin()">Already have an account? Log in</md-button></div><md-button class="btn-blue btn-full" type="submit">Sign up</md-button></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/static/404.html','<section class="not-found-404" flex=""><div id="content-land"><div class="block photo kit-0" data-stellar-background-ratio="0.01"><div class="container" style="height:inherit"><div style="text-align: center; vertical-align: middle;"><div style="margin-top: 85px;"><h3>404</h3><span>Yikes! We couldn\'t find what you are looking for...</span></div><div style="margin-top: 50px;"><a href="/kits/" style="text-decoration: none" class="btn-black-outline btn-round-new">GO BACK TO THE PLATFORM</a></div></div></div><div class="bullet-landing plus grey"></div></div></div></section>');
