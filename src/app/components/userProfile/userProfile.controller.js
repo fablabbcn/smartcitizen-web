@@ -42,9 +42,9 @@
             }
 
             device.createKitBlueprints().then(function(){
-              vm.kits = vm.user.kits.map(function(data){
+              $q.all(vm.kits = vm.user.kits.map(function(data){
                 return new PreviewKit(data);
-              })
+              }))
             })
 
           }).then(function(error) {
