@@ -82,13 +82,13 @@
           id = currentMarker.myData.id;
         }
 
-        vm.kitLoading = true;
+        vm.deviceLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
 
         if(id === parseInt($state.params.id)) {
           $timeout(function() {
-            vm.kitLoading = false;
+            vm.deviceLoading = false;
           });
           return;
         }
@@ -113,18 +113,18 @@
         }
       });
 
-      vm.readyForKit = {
-        kit: false,
+      vm.readyForDevice = {
+        device: false,
         map: false
       };
 
-      $scope.$on('kitLoaded', function(event, data) {
-        vm.readyForKit.kit = data;
+      $scope.$on('deviceLoaded', function(event, data) {
+        vm.readyForDevice.device = data;
       });
 
-      $scope.$watch('vm.readyForKit', function() {
-        if (vm.readyForKit.kit && vm.readyForKit.map) {
-          zoomKitAndPopUp(vm.readyForKit.kit);
+      $scope.$watch('vm.readyForDevice', function() {
+        if (vm.readyForDevice.device && vm.readyForDevice.map) {
+          zoomDeviceAndPopUp(vm.readyForDevice.device);
         }
       }, true);
 
@@ -149,12 +149,13 @@
 
       function initialize() {
 
-        vm.readyForKit.map = false;
+        vm.readyForDevice.map = false;
 
-        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
+        $q.all([device.getAllDevices($stateParams.reloadMap)])
           .then(function(data){
 
             data = data[0];
+            // TODO - Refactor data does not contain hardware_info in it
 
             vm.markers = _.chain(data)
                 .map(function(device) {
@@ -175,23 +176,23 @@
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
-              vm.readyForKit.map = true;
+              vm.readyForDevice.map = true;
             } else {
               updateMarkers();
-              vm.readyForKit.map = true;
+              vm.readyForDevice.map = true;
             }
 
           });
       }
 
-      function zoomKitAndPopUp(data){
+      function zoomDeviceAndPopUp(data){
 
         if(updateType === 'map') {
-          vm.kitLoading = false;
+          vm.deviceLoading = false;
           updateType = undefined;
           return;
         } else {
-          vm.kitLoading = true;
+          vm.deviceLoading = true;
         }
 
         leafletData.getMarkers()
@@ -215,7 +216,7 @@
                           vm.center.lat = selectedMarker.options.lat;
                           vm.center.lng = selectedMarker.options.lng;
                           selectedMarker.openPopup();
-                          vm.kitLoading = false;
+                          vm.deviceLoading = false;
                         }, 1000);
                       }
                     });
@@ -319,7 +320,7 @@
 
             animation.mapStateLoaded();
 
-            vm.kitLoading = false;
+            vm.deviceLoading = false;
 
             zoomOnMarkers();
           });

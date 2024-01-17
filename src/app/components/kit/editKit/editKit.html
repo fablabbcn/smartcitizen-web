@@ -44,12 +44,12 @@
              <div class="" layout="column">
                <md-input-container>
                  <label>Kit Name</label>
-                 <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.name">
+                 <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name">
                </md-input-container>
                <div layout="row" layout-align="space-between start">
                  <div class="" layout="row" layout-align="start center">
                    <label class="mr-10">Exposure:</label>
-                   <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
+                   <md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure">
                      <md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                    </md-select>
                  </div>
@@ -71,7 +71,7 @@
           <div flex-gt-xs="50">
             <div class="" layout="column">
               <p>Manage how others can access your data:</p>
-               <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.kitForm.is_private">
+               <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.deviceForm.is_private">
                  <label>Make this device private</label>
                </md-checkbox>
             </div>
@@ -90,10 +90,10 @@
           <div flex-gt-xs="50">
             <div class="" layout="column">
               <p>Get emails when the following events occur:</p>
-              <md-checkbox ng-model="vm.kitForm.notify_low_battery">
+              <md-checkbox ng-model="vm.deviceForm.notify_low_battery">
                 <label>Battery goes below 15%</label>
               </md-checkbox>
-              <md-checkbox ng-model="vm.kitForm.notify_stopped_publishing">
+              <md-checkbox ng-model="vm.deviceForm.notify_stopped_publishing">
                 <label>Device stopped publishing</label>
               </md-checkbox>
             </div>
@@ -110,13 +110,13 @@
             </div>
           </div>
           <div flex="50">
-            <div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+            <div class="form_blockInput_button" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng">
               <div class="form_blockInput_container" layout="row" layout-align="center center">
                 <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
               </div>
             </div>
-            <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
-              <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
+            <div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng">
+              <leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
             </div>
           </div>
         </section>
@@ -140,7 +140,7 @@
                          class="kit_tags-header-searchbox md-text">
                 </md-select-header>
                 <md-optgroup label="tags">
-                  <md-option class="color-dropdown" ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
+                  <md-option class="color-dropdown" ng-selected="vm.deviceForm.tags.includes(item.name)" ng-model="vm.deviceForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">
                     {{item.name}}
                   </md-option>
                 </md-optgroup>
@@ -160,7 +160,7 @@
             <div layout="row">
               <md-input-container flex="100" flex-gt-md="50">
                 <label>Description</label>
-                <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+                <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
               </md-input-container>
             </div>
           </div>
@@ -174,15 +174,15 @@
               This is an advanced feature and it's not required for standard Smart Citizen Kits!
               <br>
               <br>
-              Last updated: {{vm.kitForm.postprocessing.updated_at}}
+              Last updated: {{vm.deviceForm.postprocessing.updated_at}}
               <br>
-              Latest postprocessing: {{vm.kitForm.postprocessing.latest_postprocessing}}
+              Latest postprocessing: {{vm.deviceForm.postprocessing.latest_postprocessing}}
             </small>
           </div>
           <div layout="column" flex="100">
             <md-input-container>
               <label>Hardware url</label>
-              <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.postprocessing.hardware_url">
+              <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.postprocessing.hardware_url">
             </md-input-container>
           </div>
         </section>

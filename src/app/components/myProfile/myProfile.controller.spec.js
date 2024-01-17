@@ -7,7 +7,7 @@ describe('Controller: User Profile', function() {
   var MyProfileController,
       scope,
       mockUserData,
-      mockKitsData,
+      mockDevicesData,
       mockAlertService,
       deferred;
 
@@ -19,7 +19,7 @@ describe('Controller: User Profile', function() {
       username: 'Ruben'
     };
 
-    mockKitsData = [
+    mockDevicesData = [
       {name: 'Kit 1', id: 1},
       {name: 'Kit 2', id: 2}
     ];
@@ -29,13 +29,13 @@ describe('Controller: User Profile', function() {
       error: function(){}
     };
 
-    
+
     // spyOn(mockUserService, 'updateUser').and.returnValue(deferred.promise);
-    //spyOn(mockAnimationService, 'blur'); 
+    //spyOn(mockAnimationService, 'blur');
 
     MyProfileController = $controller('MyProfileController', {
-      $scope: scope, userData: mockUserData, kitsData: mockKitsData, alert: mockAlertService
-    });    
+      $scope: scope, userData: mockUserData, devicesData: mockDevicesData, alert: mockAlertService
+    });
   }));
 
     describe('State', function() {
@@ -44,13 +44,13 @@ describe('Controller: User Profile', function() {
         expect(MyProfileController.user).toEqual(jasmine.any(Object));
         expect(Object.keys(MyProfileController.user)).toEqual(['username']);
       });
-      it('should expose kit instances of the user', function() {
-        expect(MyProfileController.kits).toBeDefined();
-        expect(Array.isArray(MyProfileController.kits)).toBe(true);
-        expect(_.map(MyProfileController.kits, 'id')).toEqual([1,2]);
+      it('should expose device instances of the user', function() {
+        expect(MyProfileController.devices).toBeDefined();
+        expect(Array.isArray(MyProfileController.devices)).toBe(true);
+        expect(_.map(MyProfileController.devices, 'id')).toEqual([1,2]);
       });
-      it('should expose filterKits function', function() {
-        expect(MyProfileController.filterKits).toBeDefined();
+      it('should expose filterDevices function', function() {
+        expect(MyProfileController.filterDevices).toBeDefined();
       });
       it('should expose updateUser function', function() {
 
@@ -58,7 +58,7 @@ describe('Controller: User Profile', function() {
       it('should expose removeUser function', function() {
 
       });
-    }); 
+    });
 
     describe('Synchronous calls', function() {
 

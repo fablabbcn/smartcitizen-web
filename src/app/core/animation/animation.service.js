@@ -3,13 +3,13 @@
 
   angular.module('app.components')
     .factory('animation', animation);
-    
+
     /**
-     * Used to emit events from rootscope. 
+     * Used to emit events from rootscope.
      *
      * This events are then listened by $scope on controllers and directives that care about that particular event
      */
-    
+
     animation.$inject = ['$rootScope'];
     function animation($rootScope) {
 
@@ -20,7 +20,7 @@
         addNav: addNav,
         showChartSpinner: showChartSpinner,
         hideChartSpinner: hideChartSpinner,
-        kitLoaded: kitLoaded,
+        deviceLoaded: deviceLoaded,
         showPasswordRecovery: showPasswordRecovery,
         showLogin: showLogin,
         showSignup: showSignup,
@@ -28,8 +28,8 @@
         hideAlert: hideAlert,
         viewLoading: viewLoading,
         viewLoaded: viewLoaded,
-        kitWithoutData: kitWithoutData,
-        kitIsPrivate: kitIsPrivate,
+        deviceWithoutData: deviceWithoutData,
+        deviceIsPrivate: deviceIsPrivate,
         goToLocation: goToLocation,
         mapStateLoading: mapStateLoading,
         mapStateLoaded: mapStateLoaded
@@ -37,7 +37,7 @@
     	return service;
 
       //////////////
-      
+
     	function blur() {
         $rootScope.$broadcast('blur');
     	}
@@ -56,8 +56,8 @@
       function hideChartSpinner() {
         $rootScope.$broadcast('hideChartSpinner');
       }
-      function kitLoaded(data) {
-        $rootScope.$broadcast('kitLoaded', data);
+      function deviceLoaded(data) {
+        $rootScope.$broadcast('deviceLoaded', data);
       }
       function showPasswordRecovery() {
         $rootScope.$broadcast('showPasswordRecovery');
@@ -80,11 +80,11 @@
       function viewLoaded() {
         $rootScope.$broadcast('viewLoaded');
       }
-      function kitWithoutData(data) {
-        $rootScope.$broadcast('kitWithoutData', data);
+      function deviceWithoutData(data) {
+        $rootScope.$broadcast('deviceWithoutData', data);
       }
-      function kitIsPrivate(data) {
-        $rootScope.$broadcast('kitIsPrivate', data);
+      function deviceIsPrivate(data) {
+        $rootScope.$broadcast('deviceIsPrivate', data);
       }
       function goToLocation(data) {
         $rootScope.$broadcast('goToLocation', data);

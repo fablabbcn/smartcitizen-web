@@ -25,15 +25,15 @@
 
       <p class="profile_sidebar_title">FILTER KITS BY</p>
       <div class="" layout="column">
-        <md-button ng-click="vm.filterKits('all')"
+        <md-button ng-click="vm.filterDevices('all')"
         class="profile_sidebar_button">
           ALL
         </md-button>
-        <md-button ng-click="vm.filterKits('online')"
+        <md-button ng-click="vm.filterDevices('online')"
           class="profile_sidebar_button">
           ONLINE
         </md-button>
-        <md-button ng-click="vm.filterKits('offline')"
+        <md-button ng-click="vm.filterDevices('offline')"
         class="profile_sidebar_button">
           OFFLINE
         </md-button>
@@ -41,11 +41,11 @@
     </div>
     <div class="pt-80 px-20" flex>
       <div class="profile_content_main_top">
-        <span class="">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.status.toUpperCase() || 'ALL' }}</span>
+        <span class="">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.status.toUpperCase() || 'ALL' }}</span>
       </div>
       <div class="profile_content_main_kits">
-        <kit-list actions="{remove: vm.removeKit}"  kits="(vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))"></kit-list>
-        <div class="kitList kitList_borderBottom" ng-show="!vm.kits.length">
+        <kit-list actions="{remove: vm.removeDevice}"  devices="(vm.filteredDevices = (vm.devices | filterLabel:vm.deviceStatus ))"></kit-list>
+        <div class="kitList kitList_borderBottom" ng-show="!vm.devices.length">
           <div class="kitList_container">
             <div class="kitList_noKits">
               <span>There are not kits yet</span>

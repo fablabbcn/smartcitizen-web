@@ -24,9 +24,9 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullDevice'];
     function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
-     device, tag, alert, step, $stateParams, FullKit) {
+     device, tag, alert, step, $stateParams, FullDevice) {
 
       var vm = this;
 
@@ -54,8 +54,8 @@
       ];
 
       // FORM INFO
-      vm.kitForm = {};
-      vm.kitData = undefined;
+      vm.deviceForm = {};
+      vm.deviceData = undefined;
 
       $scope.clearSearchTerm = function() {
         $scope.searchTerm = '';
@@ -67,8 +67,8 @@
       });
 
       $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
-        vm.kitForm.location.lat = args.model.lat;
-        vm.kitForm.location.lng = args.model.lng;
+        vm.deviceForm.location.lat = args.model.lat;
+        vm.deviceForm.location.lng = args.model.lng;
       });
 
       // MAP CONFIGURATION
@@ -98,36 +98,36 @@
         }
         device.getDevice(kitID)
           .then(function(deviceData) {
-            vm.kitData = new FullKit(deviceData);
+            vm.deviceData = new FullDevice(deviceData);
             vm.userRole = auth.getCurrentUser().data.role;
-            vm.kitForm = {
-              name: vm.kitData.name,
-              exposure: findExposureFromLabels(vm.kitData.labels),
+            vm.deviceForm = {
+              name: vm.deviceData.name,
+              exposure: findExposureFromLabels(vm.deviceData.labels),
               location: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
+                lat: vm.deviceData.latitude,
+                lng: vm.deviceData.longitude,
                 zoom: 16
               },
               is_private: deviceData.is_private,
               notify_low_battery: deviceData.notify_low_battery,
               notify_stopped_publishing: deviceData.notify_stopped_publishing,
-              tags: vm.kitData.userTags,
+              tags: vm.deviceData.userTags,
               postprocessing: deviceData.postprocessing,
-              description: vm.kitData.description
+              description: vm.deviceData.description
             };
             vm.markers = {
               main: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
+                lat: vm.deviceData.latitude,
+                lng: vm.deviceData.longitude,
                 draggable: true
               }
             };
-
-            if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
+            // TODO - Refactor. Change based on new names for versions after refactor
+            if(!vm.deviceData.version || vm.deviceData.version.id === 2 || vm.deviceData.version.id === 3){
               vm.setupAvailable = true;
             }
 
-            vm.macAddress = vm.kitData.macAddress;
+            vm.macAddress = vm.deviceData.macAddress;
 
           });
       }
@@ -146,8 +146,8 @@
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
+            vm.deviceForm.location.lat = lat;
+            vm.deviceForm.location.lng = lng;
             vm.markers.main.lat = lat;
             vm.markers.main.lng = lng;
           });
@@ -164,15 +164,15 @@
 
       function submitForm(next, delayTransition) {
         var data = {
-          name: vm.kitForm.name,
-          description: vm.kitForm.description,
-          postprocessing_attributes: vm.kitForm.postprocessing,
-          exposure: findExposure(vm.kitForm.exposure),
-          latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.lng,
-          is_private: vm.kitForm.is_private,
-          notify_low_battery: vm.kitForm.notify_low_battery,
-          notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
+          name: vm.deviceForm.name,
+          description: vm.deviceForm.description,
+          postprocessing_attributes: vm.deviceForm.postprocessing,
+          exposure: findExposure(vm.deviceForm.exposure),
+          latitude: vm.deviceForm.location.lat,
+          longitude: vm.deviceForm.location.lng,
+          is_private: vm.deviceForm.is_private,
+          notify_low_battery: vm.deviceForm.notify_low_battery,
+          notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
           /*jshint camelcase: false */
           user_tags: joinSelectedTags()
         };
@@ -191,7 +191,7 @@
           throw new Error('[Client:error] ' + message);
         }
 
-        device.updateDevice(vm.kitData.id, data)
+        device.updateDevice(vm.deviceData.id, data)
           .then(
             function() {
               if (!vm.macAddress && $stateParams.step === 2) {

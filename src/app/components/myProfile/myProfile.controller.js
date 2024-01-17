@@ -7,12 +7,12 @@
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
     'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
-    '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
+    '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
     'userUtils', '$filter','$state', 'Restangular'];
     function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, utils, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
-      $mdDialog, PreviewKit, device, kitUtils,
+      $mdDialog, PreviewDevice, device, deviceUtils,
       userUtils, $filter, $state, Restangular) {
 
       var vm = this;
@@ -38,16 +38,15 @@
       // The auth controller has not populated the `user` at this point, so  user.token is undefined
       // This controller depends on auth has already been run.
       vm.user.token = auth.getToken();
-      vm.addNewKit = addNewKit;
-
+      vm.addNewDevice = addNewDevice;
 
       //KITS TAB
-      vm.kits = [];
-      vm.kitStatus = undefined;
-      vm.removeKit = removeKit;
+      vm.devices = [];
+      vm.deviceStatus = undefined;
+      vm.removeDevice = removeDevice;
       vm.downloadData = downloadData;
 
-      vm.filteredKits = [];
+      vm.filteredDevices = [];
 
       vm.dropdownSelected = undefined;
 
@@ -57,12 +56,10 @@
       vm.filteredTools = [];
 
       //SIDEBAR
-      vm.filterKits = filterKits;
+      vm.filterDevices = filterDevices;
       vm.filterTools = filterTools;
 
       vm.selectThisTab = selectThisTab;
-
-      var updateKitsTimer;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
@@ -78,33 +75,31 @@
 
       function initialize() {
         startingTab();
-        if(!vm.user.kits.length) {
-          vm.kits = [];
+        if(!vm.user.devices.length) {
+          vm.devices = [];
           animation.viewLoaded();
         } else {
-          device.createKitBlueprints().then(function(){
 
-            vm.kits = vm.user.kits.map(function(data) {
-              return new PreviewKit(data);
-            })
+          vm.devices = vm.user.devices.map(function(data) {
+            return new PreviewDevice(data);
+          })
 
-            $timeout(function() {
-              mapWithBelongstoUser(vm.kits);
-              filterKits(vm.status);
-              setSidebarMinHeight();
-              animation.viewLoaded();
-            });
-
+          $timeout(function() {
+            mapWithBelongstoUser(vm.devices);
+            filterDevices(vm.status);
+            setSidebarMinHeight();
+            animation.viewLoaded();
           });
+
         }
       }
 
-      function filterKits(status) {
+      function filterDevices(status) {
         if(status === 'all') {
           status = undefined;
         }
-        vm.kitStatus = status;
-        vm.filteredKits = $filter('filterLabel')(vm.kits, vm.kitStatus);
+        vm.deviceStatus = status;
+        vm.filteredDevices = $filter('filterLabel')(vm.devices, vm.deviceStatus);
       }
 
       function filterTools(type) {
@@ -264,55 +259,39 @@
         }
       }
 
-      function updateKits() {
-        if(!vm.user.kits.length) {
-          return [];
-        }
-
-        device.createKitBlueprints().then(function(){
-          vm.kits = vm.user.kits.map(function(data) {
-            return new PreviewKit(data);
-          })
-        })
-
-        .then(function(data){
-          vm.kits = data;
-        });
+      function mapWithBelongstoUser(devices){
+        _.map(devices, addBelongProperty);
       }
 
-      function mapWithBelongstoUser(kits){
-        _.map(kits, addBelongProperty);
+      function addBelongProperty(device){
+        device.belongProperty = deviceBelongsToUser(device);
+        return device;
       }
 
-      function addBelongProperty(kit){
-        kit.belongProperty = kitBelongsToUser(kit);
-        return kit;
-      }
-
-      function kitBelongsToUser(kit){
-        if(!auth.isAuth() || !kit || !kit.id) {
+      function deviceBelongsToUser(device){
+        if(!auth.isAuth() || !device || !device.id) {
           return false;
         }
-        var kitID = parseInt(kit.id);
+        var deviceID = parseInt(device.id);
         var userData = ( auth.getCurrentUser().data ) ||
           ($window.localStorage.getItem('smartcitizen.data') &&
           new AuthUser( JSON.parse(
             $window.localStorage.getItem('smartcitizen.data') )));
 
-        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+        var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
         var isAdmin = userUtils.isAdmin(userData);
 
         return isAdmin || belongsToUser;
       }
 
-      function downloadData(kit){
+      function downloadData(device){
         $mdDialog.show({
           hasBackdrop: true,
           controller: 'DownloadModalController',
           controllerAs: 'vm',
           templateUrl: 'app/components/download/downloadModal.html',
           clickOutsideToClose: true,
-          locals: {thisKit:kit}
+          locals: {thisDevice:device}
         }).then(function(){
           var alert = $mdDialog.alert()
           .title('SUCCESS')
@@ -339,7 +318,7 @@
         });
       }
 
-      function removeKit(kitID) {
+      function removeDevice(deviceID) {
         var confirm = $mdDialog.confirm()
           .title('Delete this kit?')
           .textContent('Are you sure you want to delete this kit?')
@@ -353,7 +332,7 @@
           .show(confirm)
           .then(function(){
             device
-              .removeDevice(kitID)
+              .removeDevice(deviceID)
               .then(function(){
                 alert.success('Your kit was deleted successfully');
                 device.updateContext().then(function(){
@@ -371,10 +350,10 @@
           });
       }
 
-      $scope.addKitSelector = addKitSelector;
-      function addKitSelector(){
+      $scope.addDeviceSelector = addDeviceSelector;
+      function addDeviceSelector(){
         $mdDialog.show({
-          templateUrl: 'app/components/myProfile/addKitSelectorModal.html',
+          templateUrl: 'app/components/myProfile/addDeviceSelectorModal.html',
           clickOutsideToClose: true,
           multiple: true,
           controller: DialogController,
@@ -387,7 +366,7 @@
         };
       }
 
-      function addNewKit() {
+      function addNewDevice() {
         var confirm = $mdDialog.confirm()
           .title('Hey! Do you want to add a new kit?')
           .textContent('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')

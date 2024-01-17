@@ -6,15 +6,15 @@
         <p class="profile_sidebar_title text-center">FILTER KITS BY</p>
 
         <div class="" layout="row" layout-align="center center" layout-gt-sm="column">
-            <md-button ng-click="vm.filterKits('all')"
+            <md-button ng-click="vm.filterDevices('all')"
             class="profile_sidebar_button">
             ALL
             </md-button>
-            <md-button ng-click="vm.filterKits('online')"
+            <md-button ng-click="vm.filterDevices('online')"
             class="profile_sidebar_button">
             ONLINE
             </md-button>
-            <md-button ng-click="vm.filterKits('offline')"
+            <md-button ng-click="vm.filterDevices('offline')"
             class="profile_sidebar_button">
             OFFLINE
             </md-button>
@@ -23,13 +23,13 @@
     </div>
     <div class="pt-80 px-20 mb-30" flex>
         <div class="profile_content_main_top">
-            <md-button class="btn-round btn-cyan" ng-click="addKitSelector()">ADD A NEW KIT</md-button>
-            <span class="float-right">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || 'ALL' }}</span>
+            <md-button class="btn-round btn-cyan" ng-click="addDeviceSelector()">ADD A NEW KIT</md-button>
+            <span class="float-right">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.deviceStatus.toUpperCase() || 'ALL' }}</span>
         </div>
         <!-- KIT LIST -->
-        <kit-list actions="{remove: vm.removeKit, downloadData: vm.downloadData}" kits="vm.filteredKits"></kit-list>
+        <kit-list actions="{remove: vm.removeDevice, downloadData: vm.downloadData}" devices="vm.filteredDevices"></kit-list>
         <!-- End kit list -->
-        <div class="kitList kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.kits.length">
+        <div class="kitList kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.devices.length">
             <div class="kitList_container">
                 <div class="kitList_noKits">
                     <span>There are not kits yet</span>

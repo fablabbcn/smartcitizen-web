@@ -14,7 +14,7 @@
       vm.submitStepTwo = submitStepTwo;
 
       // FORM INFO
-      vm.kitForm = {
+      vm.deviceForm = {
         name: undefined,
         exposure: undefined,
         location: {
@@ -33,8 +33,8 @@
       ];
 
       $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
-        vm.kitForm.location.lat = args.model.lat;
-        vm.kitForm.location.lng = args.model.lng;
+        vm.deviceForm.location.lat = args.model.lat;
+        vm.deviceForm.location.lng = args.model.lng;
       });
 
       // TAGS SELECT
@@ -46,7 +46,7 @@
         // remove selected tag from select element
         vm.tag = undefined;
 
-        var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
+        var alreadyPushed = _.some(vm.deviceForm.tags, function(tag) {
           return tag.id === newVal;
         });
         if(alreadyPushed) {
@@ -56,7 +56,7 @@
         var tag = _.find(vm.tags, function(tag) {
           return tag.id === newVal;
         });
-        vm.kitForm.tags.push(tag);
+        vm.deviceForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
 
@@ -96,8 +96,8 @@
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
+            vm.deviceForm.location.lat = lat;
+            vm.deviceForm.location.lng = lng;
             vm.markers.main.lat = lat;
             vm.markers.main.lng = lng;
           });
@@ -105,21 +105,21 @@
       }
 
       function removeTag(tagID) {
-        vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
+        vm.deviceForm.tags = _.filter(vm.deviceForm.tags, function(tag) {
           return tag.id !== tagID;
         });
       }
 
       function submitStepOne() {
         var data = {
-          name: vm.kitForm.name,
-          description: vm.kitForm.description,
-          exposure: findExposure(vm.kitForm.exposure),
-          latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.lng,
-          is_private: vm.kitForm.is_private,
+          name: vm.deviceForm.name,
+          description: vm.deviceForm.description,
+          exposure: findExposure(vm.deviceForm.exposure),
+          latitude: vm.deviceForm.location.lat,
+          longitude: vm.deviceForm.location.lng,
+          is_private: vm.deviceForm.is_private,
           /*jshint camelcase: false */
-          user_tags: _.map(vm.kitForm.tags, 'name').join(',')
+          user_tags: _.map(vm.deviceForm.tags, 'name').join(',')
         };
 
         device.createDevice(data)

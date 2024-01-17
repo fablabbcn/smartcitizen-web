@@ -1,58 +1,59 @@
-<div class="" ng-if="kits.length === 0">
+<div class="" ng-if="devices.length === 0">
   <small>No kits</small>
 </div>
 
 <md-list layout="row" layout-wrap>
   <md-list-item class="kitList_parent"
-                ng-repeat="kit in kits track by kit.id"
+                ng-repeat="device in devices track by device.id"
                 flex="100"
                 flex-gt-md="50"
                 layout-xs="column"
                 layout-align="start center">
 
-    <md-card flex layout-padding href="./kits/{{kit.id}}">
+    <md-card flex layout-padding href="./kits/{{device.id}}">
       <md-card-header layout="row" layout-align="start center">
 
         <div class="ml-20 mt-20">
-          <h4 class="m-0 mb-10">{{ kit.name || 'No name' }}</h4>
+          <h4 class="m-0 mb-10">{{ device.name || 'No name' }}</h4>
           <span class="md-subhead">
             <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg">
             </md-icon>
-            <span class="mr-10">{{ kit.location || 'No location' }}</span>
+            <span class="mr-10">{{ device.location || 'No location' }}</span>
             <md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg">
             </md-icon>
-            <span class="mr-10">{{ kit.type || 'Unknown Kit'}}</span>
+            <span class="mr-10">{{ device.type || 'Unknown Kit'}}</span>
           </span>
-          <p class="m-0 mb-10" ng-if="kit.belongProperty">
-            <md-icon class="kitList_state_{{ kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span>
+          <p class="m-0 mb-10" ng-if="device.belongProperty">
+            <md-icon class="kitList_state_{{ device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ device.state.className }} state">{{ device.state.name }}</span>
           </p>
         </div>
       </md-card-header>
 
       <md-card-content class="ml-20 mb-20">
         <div layout="row" layout-align="start center" layout-wrap>
-          <span class="label" ng-repeat="label in kit.labels">{{ label }}</span>
-          <tag ng-repeat='tag in kit.userTags' ng-attr-tag-name="tag" clickable></tag>
+          <span class="label" ng-repeat="label in device.labels">{{ label }}</span>
+          <tag ng-repeat='tag in device.userTags' ng-attr-tag-name="tag" clickable></tag>
         </div>
       </md-card-content>
 
       <div class="ml-10 mb-20">
-        <md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{kit.id}}" >
+        <md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{device.id}}" >
           <md-icon style="margin:5px" md-font-icon="fa fa-globe"> </md-icon>
           View on map
         </md-button>
 
-        <md-button class="md-raised md-primary md-hue-1" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}">
+        <md-button class="md-raised md-primary md-hue-1" ng-if="device.belongProperty" ng-repeat="item in device.dropdownOptions" ng-href="{{item.href}}">
           <md-icon style="margin:5px" md-font-icon="{{item.icon}}"> </md-icon>
           <span>{{item.text}}</span>
         </md-button>
 
-        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label="">
+        <!-- TODO - Refactor vm.kit?? -->
+        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(kit)" ng-if="device.belongProperty" aria-label="">
           <md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"> </md-icon>
           Download CSV
         </md-button>
 
-        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label="">
+        <md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(device.id)" ng-if="device.belongProperty" aria-label="">
           <md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>
           REMOVE
         </md-button>

@@ -6,19 +6,19 @@
 
     UserProfileController.$inject = ['$scope', '$stateParams', '$location',
       'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
-      'NonAuthUser', '$q', 'PreviewKit'];
+      'NonAuthUser', '$q', 'PreviewDevice'];
     function UserProfileController($scope, $stateParams, $location, utils,
         user, device, alert, auth, userUtils, $timeout, animation,
-        NonAuthUser, $q, PreviewKit) {
+        NonAuthUser, $q, PreviewDevice) {
 
       var vm = this;
       var userID = parseInt($stateParams.id);
 
       vm.status = undefined;
       vm.user = {};
-      vm.kits = [];
-      vm.filteredKits = [];
-      vm.filterKits = filterKits;
+      vm.devices = [];
+      vm.filteredDevices = [];
+      vm.filterDevices = filterDevices;
 
       $scope.$on('loggedIn', function() {
         var authUser = auth.getCurrentUser().data;
@@ -37,15 +37,13 @@
           .then(function(user) {
             vm.user = new NonAuthUser(user);
 
-            if(!vm.user.kits.length) {
+            if(!vm.user.devices.length) {
               return [];
             }
 
-            device.createKitBlueprints().then(function(){
-              $q.all(vm.kits = vm.user.kits.map(function(data){
-                return new PreviewKit(data);
-              }))
-            })
+            $q.all(vm.devices = vm.user.devices.map(function(data){
+              return new PreviewDevice(data);
+            }))
 
           }).then(function(error) {
             if(error && error.status === 404) {
@@ -59,7 +57,7 @@
         }, 500);
       }
 
-      function filterKits(status) {
+      function filterDevices(status) {
         if(status === 'all') {
           status = undefined;
         }

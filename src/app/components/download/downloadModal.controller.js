@@ -4,19 +4,19 @@
 	angular.module('app.components')
 		.controller('DownloadModalController', DownloadModalController);
 
-	DownloadModalController.$inject = ['thisKit', 'device', '$mdDialog'];
+	DownloadModalController.$inject = ['thisDevice', 'device', '$mdDialog'];
 
-	function DownloadModalController(thisKit, device, $mdDialog) {
+	function DownloadModalController(thisDevice, device, $mdDialog) {
 		var vm = this;
 
-		vm.kit = thisKit;
+		vm.device = thisDevice;
 		vm.download = download;
 		vm.cancel = cancel;
 
 		////////////////////////////
 
 		function download(){
-			device.mailReadings(vm.kit)
+			device.mailReadings(vm.device)
 				.then(function (){
 					$mdDialog.hide();
 				}).catch(function(err){

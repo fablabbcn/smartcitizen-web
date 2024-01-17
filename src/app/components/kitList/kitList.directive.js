@@ -7,7 +7,7 @@
     return{
       restrict:'E',
       scope:{
-        kits:'=kits',
+        devices:'=devices',
         actions: '=actions'
       },
       controllerAs:'vm',

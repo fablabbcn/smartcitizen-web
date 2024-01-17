@@ -32,7 +32,7 @@
           <div class="mt-50"  flex-gt-xs="50">
             <md-input-container>
               <label>Kit Name</label>
-              <input type="text" ng-model="vm.kitForm.name">
+              <input type="text" ng-model="vm.deviceForm.name">
               <div class="form_errors">
                 <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
               </div>
@@ -40,12 +40,12 @@
             <div layout="row" layout-align="space-between start">
               <div class="form_blockInput_select" layout="row" layout-align="start center">
                 <label>Exposure:</label>
-                <md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure">
+                <md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure">
                   <md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                 </md-select>
               </div>
             </div>
-            <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.kitForm.is_private">
+            <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.deviceForm.is_private">
               <label>Make this device private</label>
             </md-checkbox>
           </div>
@@ -57,11 +57,11 @@
             <small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small>
           </div>
           <div class="mt-50"  flex-gt-xs="50">
-            <div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng">
+            <div layout="row" layout-align="center center" class="" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng">
               <md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button>
             </div>
-            <div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng">
-              <leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
+            <div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng">
+              <leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet>
             </div>
           </div>
         </section>
@@ -95,7 +95,7 @@
           <div class="mt-50" flex-gt-xs="50">
             <md-input-container>
               <label>Description</label>
-              <textarea type="text" class="font-roboto-condensed" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+              <textarea type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
             </md-input-container>
           </div>
         </section>

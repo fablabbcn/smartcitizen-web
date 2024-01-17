@@ -6,7 +6,7 @@
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
 	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
-      var kitBlueprints, worldMarkers;
+      var worldMarkers;
 
       initialize();
 
@@ -16,8 +16,6 @@
         getDevice: getDevice,
         createDevice: createDevice,
         updateDevice: updateDevice,
-        createKitBlueprints: createKitBlueprints,
-        getKitBlueprints: getKitBlueprints,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
@@ -50,6 +48,7 @@
         }
       }
 
+      // TODO Refactor - Devices world map
       function getAllDevicesCached() {
         return Restangular.all('devices/world_map')
           .getList()
@@ -76,18 +75,6 @@
 
       function updateDevice(id, data) {
         return Restangular.one('devices', id).patch(data);
-      }
-
-      function getKitBlueprints() {
-        return kitBlueprints;
-      }
-
-      function createKitBlueprints() {
-        return Restangular.all('kits').getList({'per_page': 1000})
-          .then(function(fetchedKitBlueprints){
-            kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
-            return kitBlueprints;
-        });
       }
 
       function getWorldMarkers() {

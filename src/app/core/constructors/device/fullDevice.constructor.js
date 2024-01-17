@@ -2,49 +2,51 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', function(Kit, Sensor, kitUtils) {
+    .factory('FullDevice', ['Device', 'Sensor', 'deviceUtils', function(Device, Sensor, deviceUtils) {
 
       /**
-       * Full Kit constructor.
+       * Full Device constructor.
        * @constructor
-       * @extends Kit
-       * @param {Object} object - Object with all the data about the kit from the API
-       * @property {string} version - Kit version. Ex: 1.0
-       * @property {string} time - Last time kit sent data in UTC format
-       * @property {string} timeParsed - Last time kit sent data in readable format
-       * @property {string} timeAgo - Last time kit sent data in 'ago' format. Ex: 'a few seconds ago'
-       * @property {string} class - CSS class for kit
-       * @property {string} description - Kit description
-       * @property {Object} owner - Kit owner data
-       * @property {Array} data - Kit sensor's data
-       * @property {number} latitude - Kit latitude
-       * @property {number} longitude - Kit longitude
-       * @property {string} macAddress - Kit mac address
+       * @extends Device
+       * @param {Object} object - Object with all the data about the device from the API
+       * @property {string} version - Device version. Ex: 1.0
+       * @property {string} time - Last time device sent data in UTC format
+       * @property {string} timeParsed - Last time device sent data in readable format
+       * @property {string} timeAgo - Last time device sent data in 'ago' format. Ex: 'a few seconds ago'
+       * @property {string} class - CSS class for device
+       * @property {string} description - Device description
+       * @property {Object} owner - Device owner data
+       * @property {Array} data - Device sensor's data
+       * @property {number} latitude - Device latitude
+       * @property {number} longitude - Device longitude
+       * @property {string} macAddress - Device mac address
        * @property {number} elevation
        */
-      function FullKit(object) {
-        Kit.call(this, object);
+      function FullDevice(object) {
+        Device.call(this, object);
 
-        this.version = kitUtils.parseVersion(object);
-        this.time = kitUtils.parseTime(object);
+        // TODO - Refactor. Waiting for new type
+        this.version = deviceUtils.parseVersion(object);
+        this.time = deviceUtils.parseLastReadingAt(object);
         this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
         this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
-        this.class = kitUtils.classify(kitUtils.parseTypeSlug(object));
+        // this.class = deviceUtils.classify(deviceUtils.parseTypeSlug(object));
         this.description = object.description;
-        this.owner = kitUtils.parseOwner(object);
+        this.owner = deviceUtils.parseOwner(object);
         this.data = object.data.sensors;
         this.latitude = object.data.location.latitude;
         this.longitude = object.data.location.longitude;
         /*jshint camelcase: false */
         this.macAddress = object.mac_address;
         this.elevation = object.data.location.elevation;
-        this.typeDescription = kitUtils.parseTypeDescription(object);
+        // TODO - Refactor
+        // this.typeDescription = deviceUtils.parseTypeDescription(object);
       }
 
-      FullKit.prototype = Object.create(Kit.prototype);
-      FullKit.prototype.constructor = FullKit;
+      FullDevice.prototype = Object.create(Device.prototype);
+      FullDevice.prototype.constructor = FullDevice;
 
-      FullKit.prototype.getSensors = function(sensorTypes, options) {
+      FullDevice.prototype.getSensors = function(sensorTypes, options) {
         var sensors = _(this.data)
           .chain()
           .map(function(sensor) {
@@ -75,6 +77,6 @@
           return sensors;
       };
 
-      return FullKit;
-    }]); 
+      return FullDevice;
+    }]);
 })();

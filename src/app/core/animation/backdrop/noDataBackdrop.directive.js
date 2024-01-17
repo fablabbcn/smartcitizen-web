@@ -6,7 +6,7 @@
 
   /**
    * Backdrop for chart section when kit has no data
-   * 
+   *
    */
   noDataBackdrop.$inject = [];
 
@@ -18,14 +18,14 @@
       controller: function($scope, $timeout) {
         var vm = this;
 
-        vm.kitWithoutData = false;
+        vm.deviceWithoutData = false;
         vm.scrollToComments = scrollToComments;
 
-        $scope.$on('kitWithoutData', function(ev, data) {
+        $scope.$on('deviceWithoutData', function(ev, data) {
 
           $timeout(function() {
-            vm.kit = data.kit;
-            vm.kitWithoutData = true;
+            vm.device = data.device;
+            vm.deviceWithoutData = true;
 
             if (data.belongsToUser) {
               vm.user = 'owner';

@@ -8,14 +8,15 @@
       Check app.config.js to know how states are protected
     */
 
-    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'kitUtils', 'userUtils']
-    function belongsToUser($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'deviceUtils', 'userUtils'];
+    function belongsToUser($window, $stateParams, auth, AuthUser, deviceUtils, userUtils) {
       if(!auth.isAuth() || !$stateParams.id) {
         return false;
       }
-      var kitID = parseInt($stateParams.id);
+      var deviceID = parseInt($stateParams.id);
+
       var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-      var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+      var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
       var isAdmin = userUtils.isAdmin(userData);
       return isAdmin || belongsToUser;
     }
@@ -27,7 +28,6 @@
         $location.path('/kits/');
       }
     }
-
 
     config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider', '$cookiesProvider'];
     function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider, $cookiesProvider) {
@@ -138,9 +138,10 @@
           controllerAs: 'vm',
           resolve: {
             belongsToUser: belongsToUser,
-            kit: ['device', 'FullKit', '$stateParams', function(device, FullKit, $stateParams) {
+            // TODO - Refactor variable
+            kit: ['device', 'FullDevice', '$stateParams', function(device, FullDevice, $stateParams) {
               return device.getDevice($stateParams.id)
-              .then(kit => new FullKit(kit));
+              .then(kit => new FullDevice(kit));
             }],
             redirectNotOwner: redirectNotOwner
          }

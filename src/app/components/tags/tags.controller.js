@@ -5,10 +5,10 @@
     .controller('tagsController', tagsController);
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
-    'PreviewKit', 'animation', '$timeout', '$rootScope'
+    'PreviewDevice', 'animation'
   ];
 
-  function tagsController(tag, $scope, device, $state, $q, PreviewKit,
+  function tagsController(tag, $scope, device, $state, $q, PreviewDevice,
     animation, $timeout, $rootScope) {
 
     var vm = this;
@@ -53,10 +53,10 @@
 
       animation.viewLoaded();
 
-      getTaggedKits()
+      getTaggedDevices()
         .then(function(res){
           vm.kits = res;
-        }); 
+        });
     }
 
 
@@ -68,18 +68,18 @@
         return -new Date(o.last_reading_at).getTime();
     }
 
-    function getTaggedKits() {
+    function getTaggedDevices() {
 
       var deviceProm = _.map(vm.markers, getMarkerDevice);
 
       return $q.all(deviceProm)
-        .then(function(devices) {  
-          return _.map(_.sortBy(devices, descLastUpdate), toPreviewKit); // This sort is temp
+        .then(function(devices) {
+          return _.map(_.sortBy(devices, descLastUpdate), toPreviewDevice); // This sort is temp
         });
     }
 
-    function toPreviewKit(dev) {
-      return new PreviewKit(dev);
+    function toPreviewDevice(dev) {
+      return new PreviewDevice(dev);
     }
 
     function getMarkerDevice(marker) {
