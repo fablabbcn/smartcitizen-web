@@ -9,7 +9,7 @@
   ];
 
   function tagsController(tag, $scope, device, $state, $q, PreviewDevice,
-    animation, $timeout, $rootScope) {
+    animation) {
 
     var vm = this;
 
@@ -27,7 +27,7 @@
         $state.transitionTo('layout.home.kit');
       }
 
-      if (device.getWorldMarkers()) { 
+      if (device.getWorldMarkers()) {
         // If the user has already loaded a prev page and has markers in mem or localstorage
         updateSelectedTags();
       } else {

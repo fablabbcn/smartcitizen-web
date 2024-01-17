@@ -5,10 +5,10 @@
     .controller('UserProfileController', UserProfileController);
 
     UserProfileController.$inject = ['$scope', '$stateParams', '$location',
-      'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
+       'user', 'auth', 'userUtils', '$timeout', 'animation',
       'NonAuthUser', '$q', 'PreviewDevice'];
-    function UserProfileController($scope, $stateParams, $location, utils,
-        user, device, alert, auth, userUtils, $timeout, animation,
+    function UserProfileController($scope, $stateParams, $location,
+        user, auth, userUtils, $timeout, animation,
         NonAuthUser, $q, PreviewDevice) {
 
       var vm = this;
