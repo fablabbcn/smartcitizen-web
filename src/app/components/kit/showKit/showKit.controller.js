@@ -4,14 +4,14 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-  KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
+  KitController.$inject = ['$state','$scope', '$stateParams',
     'sensor', 'FullDevice', '$mdDialog', 'belongsToUser',
-    'timeUtils', 'animation', 'auth', 'kitUtils', 'userUtils',
+    'timeUtils', 'animation', 'auth',
     '$timeout', 'alert', '$q', 'device',
     'HasSensorDevice', 'geolocation', 'PreviewDevice', 'sensorTypes'];
-  function KitController($state, $scope, $stateParams, $filter,
+  function KitController($state, $scope, $stateParams,
     sensor, FullDevice, $mdDialog, belongsToUser,
-    timeUtils, animation, auth, kitUtils, userUtils,
+    timeUtils, animation, auth,
     $timeout, alert, $q, device,
     HasSensorDevice, geolocation, PreviewDevice, sensorTypes) {
 
@@ -408,7 +408,7 @@
         return [];
       }
       return data[sensorID].map(function(dataPoint) {
-        var time = parseTime(dataPoint[0]);
+        var time = timeUtils.formatDate(dataPoint[0]);
         var value = dataPoint[1];
         var count = value === null ? 0 : value;
         return {
@@ -417,10 +417,6 @@
           value: value
         };
       });
-    }
-
-    function parseTime(t) {
-      return moment(t).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     function setSensor(options) {
@@ -440,10 +436,6 @@
       name.css('color', vm.selectedSensorToCompareData.color || 'white');
       var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
       icon.css('color', 'white');
-    }
-
-    function getMillisFromDate(date) {
-      return (new Date(date)).getTime();
     }
 
     function getCurrentRange() {
@@ -472,7 +464,7 @@
       } else if(direction === 'right') {
         var today = timeUtils.getToday();
         var currentValueTo = picker.getValuePickerTo();
-        if( timeUtils.isSameDay(today, getMillisFromDate(currentValueTo)) ) {
+        if( timeUtils.isSameDay(today, timeUtils.getMillisFromDate(currentValueTo)) ) {
           return;
         }
 
@@ -551,20 +543,6 @@
 
       //set to-picker max to today
       to_picker.set('max', getLatestUpdated());
-
-      function getToday() {
-        return getMillisFromDate(new Date());
-      }
-
-      function getHourAgo(date) {
-        var now = moment(date);
-        return now.subtract(1, 'hour').valueOf();
-      }
-
-      function getSevenDaysAgo() {
-        var now = moment();
-        return now.subtract(7, 'days').valueOf();
-      }
 
       function getSevenDaysAgoFromLatestUpdate() {
         var lastTime = moment(vm.device.time);
@@ -646,10 +624,10 @@
       if(vm.device){
         if(vm.device.labels.includes('new')){
           var lastUpdate = getLatestUpdated();
-          setRange(getHourAgo(lastUpdate), lastUpdate);
+          setRange(timeUtils.getHourBefore(lastUpdate), lastUpdate);
         } else if (timeUtils.isWithin(7, 'days', vm.device.time) || !vm.device.time) {
           //set from-picker to seven days ago and set to-picker to today
-          setRange(getSevenDaysAgo(), getToday());
+          setRange(timeUtils.getSevenDaysAgo(), timeUtils.getToday());
         } else {
           // set from-picker to and set to-picker to today
           setRange(getSevenDaysAgoFromLatestUpdate(), getLatestUpdated());

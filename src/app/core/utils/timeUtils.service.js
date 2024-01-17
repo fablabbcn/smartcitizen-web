@@ -7,11 +7,14 @@
   function timeUtils() {
     var service = {
       getSecondsFromDate: getSecondsFromDate,
+      getMillisFromDate: getMillisFromDate,
       getCurrentRange: getCurrentRange,
       getToday: getToday,
+      getHourBefore: getHourBefore,
       getSevenDaysAgo: getSevenDaysAgo,
       getDateIn: getDateIn,
-      parseTime: parseTime,
+      convertTime: convertTime,
+      formatDate: formatDate,
       isSameDay: isSameDay,
       isWithin15min: isWithin15min,
       isWithin1Month: isWithin1Month,
@@ -42,18 +45,24 @@
       return result;
     }
 
+    function convertTime(time) {
+      return moment(time).toISOString();
+    }
+
+    function formatDate(time) {
+      return moment(time).format('YYYY-MM-DDTHH:mm:ss');
+    }
 
     function getSecondsFromDate(date) {
       return (new Date(date)).getTime();
     }
 
-    function getCurrentRange(fromDate, toDate) {
-      return moment(toDate).diff(moment(fromDate), 'days');
+    function getMillisFromDate(date) {
+      return (new Date(date)).getTime();
     }
 
-    function parseTime(time, format) {
-      time = getSecondsFromDate(time);
-      return getDateIn(time, format);
+    function getCurrentRange(fromDate, toDate) {
+      return moment(toDate).diff(moment(fromDate), 'days');
     }
 
     function getToday() {
@@ -62,6 +71,11 @@
 
     function getSevenDaysAgo() {
       return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
+    }
+
+    function getHourBefore(date) {
+      var now = moment(date);
+      return now.subtract(1, 'hour').valueOf();
     }
 
     function isSameDay(day1, day2) {

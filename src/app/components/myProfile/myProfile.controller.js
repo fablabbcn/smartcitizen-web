@@ -5,12 +5,12 @@
     .controller('MyProfileController', MyProfileController);
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
-    'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
+    'userData', 'AuthUser', 'user', 'auth', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
     '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
     'userUtils', '$filter','$state', 'Restangular'];
     function MyProfileController($scope, $location, $q, $interval,
-      userData, AuthUser, user, auth, utils, alert,
+      userData, AuthUser, user, auth, alert,
       COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
       $mdDialog, PreviewDevice, device, deviceUtils,
       userUtils, $filter, $state, Restangular) {
@@ -268,6 +268,7 @@
         return device;
       }
 
+
       function deviceBelongsToUser(device){
         if(!auth.isAuth() || !device || !device.id) {
           return false;
@@ -340,7 +341,6 @@
                   if(userData){
                     vm.user = userData;
                   }
-                  //updateKits();
                   initialize();
                 });
               })
