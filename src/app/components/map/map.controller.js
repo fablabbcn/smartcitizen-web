@@ -5,10 +5,10 @@
     .controller('MapController', MapController);
 
     MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
+    '$mdDialog', 'leafletData', 'alert',
     'Marker', 'tag', 'animation', '$q'];
     function MapController($scope, $state, $stateParams, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
+      $mdDialog, leafletData, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -56,7 +56,6 @@
         zoom: $stateParams.zoom ? parseInt($stateParams.zoom, 10) : 2
       };
 
-
       vm.defaults = {
         dragging: true,
         touchZoom: true,
@@ -94,8 +93,6 @@
         }
 
         updateType = 'map';
-
-        var availability = data.leafletEvent.target.options.myData.labels[0];
 
         if ($state.$current.name === 'embbed') { return; }
         $state.go('layout.home.kit', {id: id});
