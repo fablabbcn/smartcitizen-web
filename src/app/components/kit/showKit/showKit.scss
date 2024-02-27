@@ -184,15 +184,15 @@ section .kit_menu {
     }
   }
 
-  .kit-show-raw{
+  .kit-show-all{
     margin-right: 6px;
   }
 
-  .kit-raw-toggle{
+  .kit-all-toggle{
     vertical-align: middle;
   }
 
-  /*Show raw Toggle*/
+  /*Show all Toggle*/
   .switch {
     vertical-align: middle;
     position: relative;
@@ -201,7 +201,7 @@ section .kit_menu {
     height: 15px;
   }
 
-  .switch input { 
+  .switch input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -255,11 +255,21 @@ section .kit_menu {
     border-radius: 50%;
   }
 
-  .kit-show-raw-text{
+  .kit-show-all-text{
     vertical-align: middle;
     color: $grey_darker;
     font-size: 12px;
     font-weight: bold;
+  }
+
+  .kit_checks {
+
+    md-icon {
+      width: 14px;
+      svg {
+        fill: $grey_darker;
+      }
+    }
   }
 
   .kit_navbar {
@@ -894,3 +904,7 @@ because they conflict with enter animations */
 .bat_animation.ng-leave-active {
   opacity: 1;
 } */
+
+h3.tight{
+  margin-top: 5px;
+}
