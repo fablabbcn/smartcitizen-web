@@ -19,7 +19,8 @@
       isWithin15min: isWithin15min,
       isWithin1Month: isWithin1Month,
       isWithin: isWithin,
-      isDiffMoreThan15min: isDiffMoreThan15min
+      isDiffMoreThan15min: isDiffMoreThan15min,
+      parseDate: parseDate
     };
     return service;
 
@@ -112,6 +113,15 @@
       dateToCheck = moment(dateToCheck).valueOf();
 
       return dateToCheck > ago;
+    }
+
+    function parseDate(object){
+      var time = object;
+      return {
+        raw: time,
+        parsed: !time ? 'No time' : moment(time).format('MMMM DD, YYYY - HH:mm'),
+        ago: !time ? 'No time' : moment(time).fromNow()
+      }
     }
   }
 })();

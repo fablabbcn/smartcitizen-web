@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Sensor', ['sensorUtils', 'measurement', function(sensorUtils,
+    .factory('Sensor', ['sensorUtils', 'timeUtils', 'measurement', function(sensorUtils, timeUtils,
       measurement) {
 
       /*jshint camelcase: false */
@@ -21,6 +21,7 @@
        * @property {string} unit - Unit of sensor. Ex: %
        * @property {string} value - Last value sent. Ex: 95
        * @property {string} prevValue - Previous value before last value
+       * @property {string} lastReadingAt - last_reading_at for the sensor reading
        * @property {string} icon - Icon URL for sensor
        * @property {string} arrow - Icon URL for sensor trend(up, down or equal)
        * @property {string} color - Color that belongs to sensor
@@ -39,6 +40,7 @@
         this.unit = sensorData.unit;
         this.value = sensorUtils.getSensorValue(sensorData);
         this.prevValue = sensorUtils.getSensorPrevValue(sensorData);
+        this.lastReadingAt = timeUtils.parseDate(sensorData.last_reading_at);
         this.icon = sensorUtils.getSensorIcon(this.name);
         this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
         this.color = sensorUtils.getSensorColor(this.name);

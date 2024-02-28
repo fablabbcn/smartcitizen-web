@@ -13,7 +13,6 @@
         parseUserTags: parseUserTags,
         classify: classify,
         parseNotifications: parseNotifications,
-        parseDate: parseDate,
         parseLastReadingAt: parseLastReadingAt,
         parseOwner: parseOwner,
         parseName: parseName,
@@ -78,15 +77,6 @@
         return {
           lowBattery: object.notify_low_battery,
           stopPublishing: object.notifiy_stopped_publishing
-        }
-      }
-
-      function parseDate(object){
-        var time = object;
-        return {
-          raw: time,
-          parsed: !time ? 'No time' : moment(time).format('MMMM DD, YYYY - HH:mm'),
-          ago: !time ? 'No time' : moment(time).fromNow()
         }
       }
 
