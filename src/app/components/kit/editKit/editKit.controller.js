@@ -42,6 +42,7 @@
       vm.submitFormAndKit = submitFormAndKit;
       vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
+      vm.backToDevice = backToDevice;
       vm.submitForm = submitForm;
       vm.goToStep = goToStep;
       vm.nextAction = 'save';
@@ -283,7 +284,7 @@
         $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
       }
 
-      function backToKit(){
+      function backToDevice(){
         $state.transitionTo('layout.home.kit', $stateParams,
         { reload: false,
           inherit: false,
@@ -300,7 +301,5 @@
           notify: false
         });
       }
-
-
     }
 })();
