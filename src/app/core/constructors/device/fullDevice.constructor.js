@@ -9,18 +9,11 @@
        * @constructor
        * @extends Device
        * @param {Object} object - Object with all the data about the device from the API
-       * @property {string} version - Device version. Ex: 1.0
-       * @property {string} time - Last time device sent data in UTC format
-       * @property {string} timeParsed - Last time device sent data in readable format
-       * @property {string} timeAgo - Last time device sent data in 'ago' format. Ex: 'a few seconds ago'
-       * @property {string} class - CSS class for device
-       * @property {string} description - Device description
+      //  TODO: Refactor - FIX
        * @property {Object} owner - Device owner data
        * @property {Array} data - Device sensor's data
-       * @property {number} latitude - Device latitude
-       * @property {number} longitude - Device longitude
-       * @property {string} macAddress - Device mac address
-       * @property {number} elevation
+       * @property {Array} sensors - Device sensors data
+       * @property {Array} postProcessing - Device postprocessing
        */
       function FullDevice(object) {
         Device.call(this, object);

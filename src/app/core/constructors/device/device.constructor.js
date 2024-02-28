@@ -7,16 +7,25 @@
       /**
        * Device constructor.
        * @constructor
-       // TODO: Refactor Fix
        * @param {Object} object - Object with all the data about the device from the API
        * @property {number} id - ID of the device
        * @property {string} name - Name of the device
-       * @property {string} type - Type of device. Ex: SmartCitizen Device
-       * @property {string} location - Location of device. Ex: Madrid, Spain; Germany; Paris, France
-       * @property {string} avatar - URL that contains the user avatar
-       * @property {Array} labels - System tags
        * @property {string} state - State of the device. Ex: Never published
+       * @property {string} description - Device description
+       * @property {Array} systemTags - System tags
        * @property {Array} userTags - User tags. Ex: ''
+       * @property {bool} isPrivate - True if private device
+       * @property {Array} notifications - Notifications for low battery and stopped publishing
+       * @property {Object} lastReadingAt - last_reading_at: raw, ago, and parsed
+       * @property {Object} createdAt - created_at: raw, ago, and parsed
+       * @property {Object} updatedAt - updated_at: raw, ago, and parsed
+       * @property {Object} location - Location of device. Object with lat, long, elevation, city, country, country_code
+       * @property {string} locationString - Location of device. Ex: Madrid, Spain; Germany; Paris, France
+       * @property {Object} hardware - Device hardware field. Contains type, version, info, slug and name
+       * @property {string} hardwareName - Device hardware name
+       * @property {bool} isLegacy - True if legacy device
+       * @property {bool} isSCK - True if SC device
+       * @property {string} avatar - URL that contains the user avatar
        */
       function Device(object) {
         // Basic information
@@ -25,7 +34,7 @@
         this.state = deviceUtils.parseState(object);
         this.description = object.description;
 
-        // TODO: Refactor, changed
+        // Tags and dates
         this.systemTags = deviceUtils.parseSystemTags(object);
         this.userTags = deviceUtils.parseUserTags(object);
         this.isPrivate = deviceUtils.isPrivate(object);
@@ -34,8 +43,11 @@
         this.createdAt = deviceUtils.parseDate(object.created_at);
         this.updatedAt = deviceUtils.parseDate(object.updated_at);
 
+        // Location
         this.location = object.location;
         this.locationString = deviceUtils.parseLocation(object);
+
+        // Hardware
         this.hardware = deviceUtils.parseHardware(object);
         this.hardwareName = deviceUtils.parseHardwareName(this);
         this.isLegacy = deviceUtils.isLegacyVersion(this);
