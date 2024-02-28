@@ -47,7 +47,6 @@
       vm.downloadData = downloadData;
 
       vm.filteredDevices = [];
-
       vm.dropdownSelected = undefined;
 
       //TOOLS TAB
@@ -183,9 +182,9 @@
           case 'user':
             vm.startingTab = 1;
             break;
-          case 'tools':
-            vm.startingTab = 2;
-            break;
+          // case 'tools':
+          //   vm.startingTab = 2;
+          //   break;
           default:
             vm.startingTab = 0;
             break;
@@ -234,7 +233,7 @@
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
 
-          // TODO: Is there a simpler way to patch the image to the API and use the response?
+          // TODO: Improvement Is there a simpler way to patch the image to the API and use the response?
           // Something like:
           //Restangular.all('/me').patch(data);
           // Instead of doing it manually like here:

@@ -12,74 +12,57 @@
         parseSystemTags: parseSystemTags,
         parseUserTags: parseUserTags,
         classify: classify,
+        parseNotifications: parseNotifications,
+        parseDate: parseDate,
         parseLastReadingAt: parseLastReadingAt,
         parseOwner: parseOwner,
         parseName: parseName,
-        parseVersion: parseVersion,
-        parseId: parseId,
-        parseType: parseType,
+        parseString: parseString,
+        parseHardware: parseHardware,
+        parseHardwareInfo: parseHardwareInfo,
+        parseHardwareName: parseHardwareName,
+        isPrivate: isPrivate,
+        isLegacyVersion: isLegacyVersion,
+        isSCKHardware: isSCKHardware,
         parseState: parseState,
         parseAvatar: parseAvatar,
         belongsToUser: belongsToUser,
-        parseSensorTime: parseSensorTime,
-        // parseTypeSlug: parseTypeSlug,
-        parseTypeDescription: parseTypeDescription
+        parseSensorTime: parseSensorTime
       };
 
       return service;
 
       ///////////////
 
-      // TODO - Refactor Make an uniform representation on
-      // devices and world_map to avoid checking for data or location?
       function parseLocation(object) {
         var location = '';
-        var locationData = object.hasOwnProperty('data') ? object.data : object;
-        var city = ''
-        var country = ''
-        if (object.hasOwnProperty('location')){
-          if (locationData.location) {
-            city = locationData.location.city;
-            country = locationData.location.country;
+        var city = '';
+        var country = '';
 
-            if(!!city) {
-              location += city;
-            }
-            if(!!country) {
-              location += ', ' + country;
-            }
-          }
-        } else {
-          city = locationData.city;
-          var country_code = locationData.country_code;
-          country = COUNTRY_CODES[country_code];
-
+        if (object.location) {
+          city = object.location.city;
+          country = object.location.country;
           if(!!city) {
             location += city;
           }
+          if(!!city && !!location) {
+            location += ', '
+          }
           if(!!country) {
-            location += ', ' + country;
+            location += country;
           }
         }
         return location;
       }
 
       function parseCoordinates(object) {
-        var locationData = object.hasOwnProperty('data') ? object.data : object;
-
-        if (object.hasOwnProperty('location')){
-          if (locationData.location) {
-            return {
-              lat: locationData.location.latitude,
-              lng: locationData.location.longitude
-            };
-          }
-        } else {
+        if (object.location) {
           return {
-            lat: locationData.latitude,
-            lng: locationData.longitude
+            lat: object.location.latitude,
+            lng: object.location.longitude
           };
         }
+        // TODO: Bug - what happens if no location?
       }
 
       function parseSystemTags(object) {
@@ -91,45 +74,20 @@
         return object.user_tags;
       }
 
-      // TODO - Refactor based on new hardware_description
-      // TODO - Refactor Decide what we do with non sck devices (if any)
-      function parseType(object) {
-        // var deviceType;
-        return 'Smart Citizen Kit'
-      }
-      // function parseType(object) {
-      //   if (object.hasOwnProperty('kit')) {
-      //     return !object.kit ? 'Unknown type': object.kit.name;
-      //   } else {
-      //     console.log(device)
-      //     var kitBlueprints = device.getKitBlueprints();
-      //     return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].name;
-      //   };
-      // }
-
-      // TODO Refactor - Consider if we take back this one
-      function parseTypeDescription(object) {
-        if (object.hasOwnProperty('kit')) {
-          return !object.kit ? 'Unknown type': object.kit.description;
-        } else {
-          var kitBlueprints = device.getKitBlueprints();
-          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].description;
-        };
+      function parseNotifications(object){
+        return {
+          lowBattery: object.notify_low_battery,
+          stopPublishing: object.notifiy_stopped_publishing
+        }
       }
 
-      // function parseTypeSlug(object) {
-      //   if (object.hasOwnProperty('kit')) {
-      //     var kitType = !object.kit ? 'unknown': object.kit.slug;
-      //   } else {
-      //     var kitBlueprints = device.getKitBlueprints();
-      //     var kitType = !kitBlueprints[object.kit_id] ? 'unknown': kitBlueprints[object.kit_id].slug;
-      //   };
-      //   var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
-      //   return kitTypeSlug;
-      // }
-
-      function parseId(object) {
-        return object.id;
+      function parseDate(object){
+        var time = object;
+        return {
+          raw: time,
+          parsed: !time ? 'No time' : moment(time).format('MMMM DD, YYYY - HH:mm'),
+          ago: !time ? 'No time' : moment(time).fromNow()
+        }
       }
 
       function classify(kitType) {
@@ -163,54 +121,98 @@
         return time;
       }
 
-      // TODO Refactor - Decide if we do this this way
-      function parseVersion(object) {
-        if (!object.hardware_info) {
+      function parseHardware(object) {
+        if (!object.hardware) {
           return;
         }
-        // var deviceVersion;
+
         return {
-          id: 26,
-          hardware: 'SCK',
-          release: '2.1',
-          slug: null
+          name: parseString(object.hardware.name),
+          type: parseString(object.hardware.type),
+          description: parseString(object.hardware.description),
+          version: parseVersionString(object.hardware.version),
+          slug: object.hardware.slug,
+          info: parseHardwareInfo(object.hardware.info)
         }
       }
 
-      // // TODO - Refactor Version
-      // function parseVersion(object) {
-      //   if(!object.kit || !object.kit.slug ) {
-      //     return;
-      //   }
-      //   return {
-      //     // TODO - Refactor based on hardware information
-      //     id: object.kit.id,
-      //     hardware: parseVersionName(object.kit.slug.split(':')[0]),
-      //     release: parseVersionString(object.kit.slug.split(':')[1]),
-      //     slug: object.kit.slug
-      //   };
-      // }
+      function parseString(str) {
+          if (typeof(str) !== 'string') { return null; }
+          return str;
+      }
 
-      // function parseVersionName (str) {
-      //     if (typeof(str) !== 'string') { return false; }
-      //     return str;
-      // }
+      function parseVersionString (str) {
+          if (typeof(str) !== 'string') { return null; }
+          var x = str.split('.');
+          // parse from string or default to 0 if can't parse
+          var maj = parseInt(x[0]) || 0;
+          var min = parseInt(x[1]) || 0;
+          var pat = parseInt(x[2]) || 0;
+          return {
+              major: maj,
+              minor: min,
+              patch: pat
+          };
+      }
 
-      // function parseVersionString (str) {
-      //     if (typeof(str) !== 'string') { return false; }
-      //     var x = str.split('.');
-      //     // parse from string or default to 0 if can't parse
-      //     var maj = parseInt(x[0]) || 0;
-      //     var min = parseInt(x[1]) || 0;
-      //     var pat = parseInt(x[2]) || 0;
-      //     return {
-      //         major: maj,
-      //         minor: min,
-      //         patch: pat
-      //     };
-      // }
+      function parseHardwareInfo (object) {
+        if (!object) { return null; } // null
+        if (typeof(object) == 'string') { return null; } // FILTERED
+
+        var id = parseString(object.id);
+        var mac = parseString(object.mac);
+        var time = Date(object.time);
+        var esp_bd = parseString(object.esp_bd);
+        var hw_ver = parseString(object.hw_ver);
+        var sam_bd = parseString(object.sam_bd);
+        var esp_ver = parseString(object.esp_ver);
+        var sam_ver = parseString(object.sam_ver);
+
+        return {
+          id: id,
+          mac: mac,
+          time: time,
+          esp_bd: esp_bd,
+          hw_ver: hw_ver,
+          sam_bd: sam_bd,
+          esp_ver: esp_ver,
+          sam_ver: sam_ver
+        };
+      }
+
+      function parseHardwareName(object) {
+        if (object.hasOwnProperty('hardware')) {
+          if (!object.hardware.name) {
+            return 'Unknown hardware'
+          }
+          return object.hardware.name;
+        } else {
+          return 'Unknown hardware'
+        }
+      }
+
+      function isPrivate(object) {
+        return object.is_private;
+      }
+
+      function isLegacyVersion (object) {
+        if (!object.hardware || !object.hardware.version || object.hardware.version.major > 1) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      function isSCKHardware (object){
+        if (!object.hardware || !object.hardware.type || object.hardware.type != 'SCK') {
+          return false;
+        } else {
+          return true;
+        }
+      }
 
       function parseOwner(object) {
+        // TODO: Refactor, check it didn't break anything
         return {
           id: object.owner.id,
           username: object.owner.username,
@@ -247,10 +249,9 @@
         return moment(sensor.recorded_at).format('');
       }
 
-      // TODO - What is this?
-      function belongsToUser(kitsArray, kitID) {
-        return _.some(kitsArray, function(kit) {
-          return kit.id === kitID;
+      function belongsToUser(devicesArray, deviceID) {
+        return _.some(devicesArray, function(device) {
+          return device.id === deviceID;
         });
       }
     }

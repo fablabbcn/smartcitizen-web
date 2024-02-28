@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Device', ['Sensor', 'deviceUtils', function(Sensor, deviceUtils) {
+    .factory('Device', ['deviceUtils', function(deviceUtils) {
 
       /**
        * Device constructor.
@@ -18,17 +18,31 @@
        * @property {Array} userTags - User tags. Ex: ''
        */
       function Device(object) {
+        // Basic information
         this.id = object.id;
         this.name = object.name;
-        // this.type = deviceUtils.parseType(object);
-        // TODO - Refactor, define common type on device or markerutils
-        this.type = 'Smart Citizen Kit'
-        this.location = deviceUtils.parseLocation(object);
-        this.avatar = deviceUtils.parseAvatar(object, this.type);
-        this.labels = deviceUtils.parseSystemTags(object);
         this.state = deviceUtils.parseState(object);
+        this.description = object.description;
+
+        // TODO: Refactor, changed
+        this.systemTags = deviceUtils.parseSystemTags(object);
+        this.userTags = deviceUtils.parseUserTags(object);
+        this.isPrivate = deviceUtils.isPrivate(object);
+        this.notifications = deviceUtils.parseNotifications(object);
+        this.lastReadingAt = deviceUtils.parseDate(object.last_reading_at);
+        this.createdAt = deviceUtils.parseDate(object.created_at);
+        this.updatedAt = deviceUtils.parseDate(object.updated_at);
+
+        this.location = object.location;
+        this.locationString = deviceUtils.parseLocation(object);
+        this.hardware = deviceUtils.parseHardware(object);
+        this.hardwareName = deviceUtils.parseHardwareName(this);
+        this.isLegacy = deviceUtils.isLegacyVersion(this);
+        this.isSCK = deviceUtils.isSCKHardware(this);
+        // this.class = deviceUtils.classify(object); // TODO - Do we need this?
+
+        this.avatar = deviceUtils.parseAvatar();
         /*jshint camelcase: false */
-        this.userTags = object.user_tags;
       }
 
       return Device;

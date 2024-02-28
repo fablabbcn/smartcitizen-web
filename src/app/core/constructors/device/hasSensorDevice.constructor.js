@@ -7,7 +7,7 @@
       function HasSensorDevice(object) {
         Device.call(this, object);
 
-        this.data = object.data.sensors;
+        this.sensors = object.data.sensors;
         this.longitude = object.data.location.longitude;
         this.latitude = object.data.location.latitude;
       }
@@ -16,7 +16,7 @@
       HasSensorDevice.prototype.constructor = Device;
 
       HasSensorDevice.prototype.sensorsHasData = function() {
-        var parsedSensors = this.data.map(function(sensor) {
+        var parsedSensors = this.sensors.map(function(sensor) {
           return sensor.value;
         });
 

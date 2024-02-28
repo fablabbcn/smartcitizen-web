@@ -25,29 +25,17 @@
       function FullDevice(object) {
         Device.call(this, object);
 
-        // TODO - Refactor. Waiting for new type
-        this.version = deviceUtils.parseVersion(object);
-        this.time = deviceUtils.parseLastReadingAt(object);
-        this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
-        this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
-        // this.class = deviceUtils.classify(deviceUtils.parseTypeSlug(object));
-        this.description = object.description;
         this.owner = deviceUtils.parseOwner(object);
-        this.data = object.data.sensors;
-        this.latitude = object.data.location.latitude;
-        this.longitude = object.data.location.longitude;
-        /*jshint camelcase: false */
-        this.macAddress = object.mac_address;
-        this.elevation = object.data.location.elevation;
-        // TODO - Refactor
-        // this.typeDescription = deviceUtils.parseTypeDescription(object);
+        this.postProcessing = object.postprocessing;
+        this.data = object.data;
+        this.sensors = object.data.sensors;
       }
 
       FullDevice.prototype = Object.create(Device.prototype);
       FullDevice.prototype.constructor = FullDevice;
 
       FullDevice.prototype.getSensors = function(sensorTypes, options) {
-        var sensors = _(this.data)
+        var sensors = _(this.data.sensors)
           .chain()
           .map(function(sensor) {
             return new Sensor(sensor, sensorTypes);

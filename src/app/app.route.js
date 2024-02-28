@@ -138,7 +138,6 @@
           controllerAs: 'vm',
           resolve: {
             belongsToUser: belongsToUser,
-            // TODO - Refactor variable
             kit: ['device', 'FullDevice', '$stateParams', function(device, FullDevice, $stateParams) {
               return device.getDevice($stateParams.id)
               .then(kit => new FullDevice(kit));

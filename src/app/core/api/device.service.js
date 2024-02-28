@@ -48,7 +48,6 @@
         }
       }
 
-      // TODO Refactor - Devices world map
       function getAllDevicesCached() {
         return Restangular.all('devices/world_map')
           .getList()

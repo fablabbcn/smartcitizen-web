@@ -152,7 +152,6 @@
           .then(function(data){
 
             data = data[0];
-            // TODO - Refactor data does not contain hardware_info in it
 
             vm.markers = _.chain(data)
                 .map(function(device) {

@@ -17,13 +17,12 @@
 
       function getIcon(object) {
         var icon;
-
         var labels = deviceUtils.parseSystemTags(object);
-        var type = deviceUtils.parseType(object);
+        var isSCKHardware = deviceUtils.isSCKHardware(object);
 
         if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.markerSmartCitizenOffline;
-        } else if (type === 'sck') {
+        } else if (isSCKHardware) {
           icon = MARKER_ICONS.markerSmartCitizenOnline;
         } else {
           icon = MARKER_ICONS.markerExperimentalNormal;

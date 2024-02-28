@@ -17,26 +17,18 @@
        */
       function Marker(deviceData) {
         let linkStart = '', linkEnd = '';
-        const id = deviceUtils.parseId(deviceData);
+        const id = deviceData.id;
         if ($state.$current.name === 'embbed') {
           linkStart = '<a target="_blank" href="https://smartcitizen.me/kits/' + id + '">';
           linkEnd = '</a>';
         }
-        // TODO - Do we need double implementations in marker and device of some of these things?
         this.lat = deviceUtils.parseCoordinates(deviceData).lat;
         this.lng = deviceUtils.parseCoordinates(deviceData).lng;
-        // TODO - Refactor, pop-up lastreading at doesn't get updated by publication
-        // (in production either)
+        // TODO: Bug, pop-up lastreading at doesn't get updated by publication
         this.message = '<div class="popup"><div class="popup_top sck' +
-          // TODO Refactor - Check if we ever going to do this differently...
-          // The color of the popup seems to be determined by the slug
-          // However, we do not use other colors, other than the sck class,
-          // which has now been hardcoded above
-          // markerUtils.classify(markerUtils.parseTypeSlug(deviceData)) +
           '">' + linkStart + '<p class="popup_name">' + deviceUtils.parseName(deviceData, true) +
           '</p><p class="popup_type">' +
-          // TODO Refactor - Decide what we put here
-          deviceUtils.parseType(deviceData) +
+          deviceUtils.parseHardwareName(deviceData) +
           '</p><p class="popup_time"><md-icon class="popup_icon" ' +
           'md-svg-src="./assets/images/update_icon.svg"></md-icon>' +
           deviceUtils.parseLastReadingAt(deviceData, true) + '</p>' + linkEnd + '</div>' +

@@ -174,8 +174,8 @@ function controller(device, Papa, $mdDialog, $q) {
       .map((file, index, filteredFiles) => {
         file.progress = true;
         return vm._analyzeData(file)
-        .then((result) => parseDataForPost(result.data)) // TODO remove
-        // TODO with workers
+        .then((result) => parseDataForPost(result.data)) // TODO: Improvement remove
+        // TODO: Improvement with workers
         .then((payload) => device.postReadings(vm.kit, payload))
         .then(() => {
           if (vm.loadingType === 'indeterminate') { vm.loadingType = 'determinate'; };

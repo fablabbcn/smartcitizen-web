@@ -47,7 +47,7 @@
       function getSensorName(name) {
 
         var sensorName;
-
+        // TODO: Improvement check how we set new names
         if( new RegExp('custom circuit', 'i').test(name) ) {
           sensorName = name;
         } else {

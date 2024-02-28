@@ -1,15 +1,14 @@
 <section class="kit_data" change-content-margin>
   <div class="shadow"></div>
 
-  <div ng-if="vm.deviceIsPrivate" class="kit_fixed bg-grey-lightest" move-down layout="row">
-    <p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p>
+  <div ng-if="vm.device.isPrivate" class="kit_fixed bg-grey-lightest" move-down layout="row">
+    <p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">You can ask in the forum</a> for more information.</p>
   </div>
 
-  <div ng-if="!vm.deviceIsPrivate || vm.deviceBelongsToUser" class="over_map">
+  <div ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="over_map">
     <section class="kit_menu" stick>
       <section ng-if="!vm.device" class="overlay-kitinfo"></section>
       <div class="container" layout="row" layout-align="space-between center">
-
         <div flex="nogrow" layout="row" layout-align="start center">
           <div hide show-gt-xs class="kit_user">
             <md-tooltip md-direction="top">Visit user profile</md-tooltip>
@@ -29,8 +28,8 @@
             <span class="color-red hide-sm" hide show-gt-sm>NOT CONNECTED</span>
           </div>
         </div>
-        <div ng-animate-swap="vm.device.time" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
-          <span ng-if="vm.device.time" hide show-gt-sm >Last data received:</span><span>{{ vm.device.timeParsed }}</span>
+        <div ng-animate-swap="vm.device.lastReadingAt.raw" ng-class="{time_animation: vm.prevKit}" flex class="kit_time">
+          <span ng-if="vm.device.lastReadingAt.raw" hide show-gt-sm >Last data received:</span><span>{{ vm.device.lastReadingAt.parsed }}</span>
         </div>
         <div class="kit-show-raw" ng-if="vm.hasRaw">
           <label class="switch">
@@ -77,7 +76,7 @@
         </p>
       </section>
       <div no-data-backdrop></div>
-      <section ng-if="!vm.deviceIsPrivate || vm.deviceBelongsToUser" class="kit_overview" layout="row">
+      <section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_overview" layout="row">
         <md-button ng-click="vm.slide('right')" class="md-flat button_scroll button_scroll_left btn-small" aria-label="">
           <md-tooltip md-direction="right">Click to see more sensors</md-tooltip>
           <md-icon md-svg-src="./assets/images/arrow_left_icon.svg">
@@ -112,7 +111,7 @@
       <md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button>
     </div>
     <section class="kit_detailed">
-      <section ng-if="!vm.deviceIsPrivate || vm.deviceBelongsToUser" class="kit_chart">
+      <section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_chart">
         <div class="hint" ng-if="vm.deviceWithoutData">
           <p></p>
         </div>
@@ -194,19 +193,19 @@
           <div class="kit_details_content_main">
             <div class="kit_details_content">
               <h1 class="kit_details_name">{{ vm.device.name }}</h1>
-              <span class="mr-10" ng-if="vm.deviceIsPrivate">
+              <span class="mr-10" ng-if="vm.device.isPrivate">
                 <md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon>
                 <span class="kitList_state kitList_state_not_configured state">Private</span>
               </span>
               <p class="kit_details_location">
               <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
               </md-icon>
-              <span class="md-title">{{ vm.device.location || 'No location' }}</span>
+              <span class="md-title">{{ vm.device.locationString || 'No location' }}</span>
               </p>
               <p class="kit_details_type">
-              <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
-              </md-icon>
-              <span class="md-title">{{ vm.device.typeDescription }}</span>
+                <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
+                </md-icon>
+                <span class="md-title">{{ vm.device.hardwareName }}</span>
               </p>
               <span>
                 <md-icon class="kitList_state kitList_state_{{ vm.device.state.className }}" md-font-icon="fa fa-wifi"></md-icon>
@@ -214,8 +213,8 @@
               </span>
               <p class="description" ng-bind-html="vm.device.description | linky:'_blank'"></p>
               <p class="kit_details_labels">
-              <span style="padding:4px 8px" class="label" ng-repeat="label in vm.device.labels">{{ label }}</span>
-              <tag  style="padding:4px 8px" ng-repeat='tag in vm.device.userTags' ng-attr-tag-name="tag" clickable></tag>
+                <span style="padding:4px 8px" class="label" ng-repeat="system_tag in vm.device.systemTags">{{ system_tag }}</span>
+                <tag  style="padding:4px 8px" ng-repeat='tag in vm.device.userTags' ng-attr-tag-name="tag" clickable></tag>
               </p>
             </div>
           </div>
@@ -229,14 +228,15 @@
                     <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.device)"> </md-icon>
                     Download CSV
                   </md-button>
-                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.device.id})" aria-label="">
-                    <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"><span>SET UP</span></md-button>
-                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.version" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label="">
+                  <!-- <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.isLegacy" ui-sref="layout.kitEdit({step: 2, id: vm.device.id})" aria-label="">
+                    <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"></md-icon><span>SET UP!</span></md-button> -->
+                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label="">
                     <md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button>
                   <md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeDevice()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
                 </div>
               </div>
             <div ng-if="!vm.deviceBelongsToUser">
+              <!-- TODO: Improvement -Change copy -->
               <h2>We empower communities to better understand their environment</h2>
               <p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p>
             </div>

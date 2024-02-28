@@ -25,12 +25,11 @@
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
     'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullDevice'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
-     device, tag, alert, step, $stateParams, FullDevice) {
+    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth, device, tag, alert, step, $stateParams, FullDevice) {
 
       var vm = this;
 
-      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
+      // WAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
       var timewait = {
           long: 5000,
           normal: 2000,
@@ -55,7 +54,7 @@
 
       // FORM INFO
       vm.deviceForm = {};
-      vm.deviceData = undefined;
+      vm.device = undefined;
 
       $scope.clearSearchTerm = function() {
         $scope.searchTerm = '';
@@ -88,47 +87,50 @@
       /////////////////
 
       function initialize() {
-        var kitID = $stateParams.id;
+        var deviceID = $stateParams.id;
 
         animation.viewLoaded();
         getTags();
 
-        if (!kitID || kitID === ''){
+        if (!deviceID || deviceID === ''){
           return;
         }
-        device.getDevice(kitID)
+        device.getDevice(deviceID)
           .then(function(deviceData) {
-            vm.deviceData = new FullDevice(deviceData);
+            vm.device = new FullDevice(deviceData);
             vm.userRole = auth.getCurrentUser().data.role;
             vm.deviceForm = {
-              name: vm.deviceData.name,
-              exposure: findExposureFromLabels(vm.deviceData.labels),
+              name: vm.device.name,
+              exposure: findExposureFromLabels(vm.device.systemTags),
               location: {
-                lat: vm.deviceData.latitude,
-                lng: vm.deviceData.longitude,
+                lat: vm.device.location.latitude,
+                lng: vm.device.location.longitude,
                 zoom: 16
               },
-              is_private: deviceData.is_private,
-              notify_low_battery: deviceData.notify_low_battery,
-              notify_stopped_publishing: deviceData.notify_stopped_publishing,
-              tags: vm.deviceData.userTags,
-              postprocessing: deviceData.postprocessing,
-              description: vm.deviceData.description
+              is_private: vm.device.isPrivate,
+              notify_low_battery: vm.device.notifications.lowBattery,
+              notify_stopped_publishing: vm.device.notifications.stopPublishing,
+              tags: vm.device.userTags,
+              postprocessing: vm.device.postProcessing,
+              description: vm.device.description
+              // hardware: vm.device.hardware
             };
             vm.markers = {
               main: {
-                lat: vm.deviceData.latitude,
-                lng: vm.deviceData.longitude,
+                lat: vm.device.location.latitude,
+                lng: vm.device.location.longitude,
                 draggable: true
               }
             };
-            // TODO - Refactor. Change based on new names for versions after refactor
-            if(!vm.deviceData.version || vm.deviceData.version.id === 2 || vm.deviceData.version.id === 3){
-              vm.setupAvailable = true;
+
+            // TODO: Refactor. Change based on new names for versions after refactor
+            // This needs to be available in world_map as well
+            // Double Check
+            if (vm.device.hardware.info) {
+              vm.macAddress = vm.device.hardware.info.mac;
+            } else {
+              vm.macAddress = null;
             }
-
-            vm.macAddress = vm.deviceData.macAddress;
-
           });
       }
 
@@ -174,7 +176,9 @@
           notify_low_battery: vm.deviceForm.notify_low_battery,
           notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
           /*jshint camelcase: false */
-          user_tags: joinSelectedTags()
+          user_tags: joinSelectedTags(),
+          // TODO: Refactor
+          // hardware: vm.deviceForm.hardware
         };
 
         if(!vm.macAddress || vm.macAddress === ''){
@@ -191,9 +195,10 @@
           throw new Error('[Client:error] ' + message);
         }
 
-        device.updateDevice(vm.deviceData.id, data)
+        device.updateDevice(vm.device.id, data)
           .then(
             function() {
+              // TODO: Refactor Check
               if (!vm.macAddress && $stateParams.step === 2) {
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
               } else if (next){
@@ -257,6 +262,7 @@
       }
 
       function backToProfile(){
+        // TODO: Refactor Check
         if (!vm.macAddress && $stateParams.step === 2) {
           alert.info.generic('Remember you will need to register the Mac Address later 🔧');
           $timeout(toProfile, timewait.normal);

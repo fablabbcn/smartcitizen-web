@@ -20,7 +20,6 @@
 
     var mainSensorID, compareSensorID;
     var picker;
-    // TODO - Refactor move away from kit naming
     vm.deviceID = $stateParams.id;
     vm.battery = {};
     vm.downloadData = downloadData;
@@ -28,7 +27,6 @@
     vm.device = undefined;
     vm.deviceBelongsToUser = belongsToUser;
     vm.deviceWithoutData = false;
-    vm.deviceIsPrivate = false;
     vm.legacyApiKey = belongsToUser ?
       auth.getCurrentUser().data.key :
       undefined;
@@ -77,7 +75,7 @@
       vm.sensorsToCompare = getSensorsToCompare();
 
       $timeout(function() {
-        // TODO - Refactor, change how we set the colors
+        // TODO: Improvement, change how we set the colors
         colorSensorCompareName();
         setSensor({type: 'main', value: newVal});
 
@@ -139,13 +137,14 @@
     }
 
     function getAndUpdateDevice(){
+      // TODO: Improvement UX Change below to && to avoid constant unhandled error
+      // Through reject is not possible
       if (vm.deviceID || !isNaN(vm.deviceID)){
         return device.getDevice(vm.deviceID)
           .then(function(deviceData) {
             if (deviceData.is_private) {
               deviceIsPrivate();
             }
-
             var newDevice = new FullDevice(deviceData);
             vm.prevDevice = vm.device;
 
@@ -154,13 +153,14 @@
               if (vm.prevDevice.state.name !== 'has published' && newDevice.state.name === 'has published'){
                 /* The kit has just published data for the first time. Fully reload the view */
                 return $q.reject({justPublished: true});
-              } else if(new Date(vm.prevDevice.time) >= new Date(newDevice.time)) {
+              } else if(new Date(vm.prevDevice.lastReadingAt.raw) >= new Date(newDevice.lastReadingAt.raw)) {
                 /* Break if there's no new data*/
                 return $q.reject();
               }
             }
 
             vm.device = newDevice;
+            setOwnerSampleDevices();
 
             if (vm.device.state.name === 'has published') {
               /* Device has data */
@@ -177,7 +177,7 @@
             }
           })
           .then(setSensors, killSensorsLoading);
-       }
+      }
     }
 
     function killSensorsLoading(error){
@@ -200,12 +200,12 @@
     }
 
     function deviceAnnouncements(){
-      if(!timeUtils.isWithin(1, 'months', vm.device.time)) {
-        /* TODO: Update the message */
+      if(!timeUtils.isWithin(1, 'months', vm.device.lastReadingAt.raw)) {
+        //TODO: Cosmetic Update the message
         alert.info.longTime();
       }
       /* The device has just published data after not publishing for 15min */
-      else if(vm.prevDevice && timeUtils.isDiffMoreThan15min(vm.prevDevice.time, vm.device.time)) {
+      else if(vm.prevDevice && timeUtils.isDiffMoreThan15min(vm.prevDevice.lastReadingAt.raw, vm.device.lastReadingAt.raw)) {
         alert.success('Your Kit just published again!');
       }
     }
@@ -221,12 +221,12 @@
     }
 
     function deviceIsPrivate() {
-      vm.deviceIsPrivate = true;
       alert.info.noData.private();
     }
 
     function setOwnerSampleDevices() {
-      getOwnerDevices(vm.device, -5)
+      // TODO: Refactor - this information is in the user, no need to go to devices
+      getOwnerDevices(vm.device, -6)
         .then(function(ownerDevices){
           vm.sampleDevices = ownerDevices;
         });
@@ -268,15 +268,8 @@
     }
 
     function getHardwareName(value) {
-      vm.sensorNames[value.id] = vm.device.data.find(element => element.id === value.id).name;
+      vm.sensorNames[value.id] = vm.device.sensors.find(element => element.id === value.id).name;
     }
-
-    function updateDeviceViewExtras(){
-      if(!vm.device.version || vm.device.version.id === 2 || vm.device.version.id === 3){
-        vm.setupAvailable = true;
-      }
-    }
-
     function setSensorSideChart() {
       if(vm.sensors){
         vm.sensors.forEach(function(sensor) {
@@ -545,12 +538,12 @@
       to_picker.set('max', getLatestUpdated());
 
       function getSevenDaysAgoFromLatestUpdate() {
-        var lastTime = moment(vm.device.time);
+        var lastTime = moment(vm.device.lastReadingAt.raw);
         return lastTime.subtract(7, 'days').valueOf();
       }
 
       function getLatestUpdated() {
-        return moment(vm.device.time).toDate();
+        return moment(vm.device.lastReadingAt.raw).toDate();
       }
 
       function getCalculatedFrom(pickerTimeFrom) {
@@ -622,10 +615,10 @@
       }
 
       if(vm.device){
-        if(vm.device.labels.includes('new')){
+        if(vm.device.systemTags.includes('new')){
           var lastUpdate = getLatestUpdated();
           setRange(timeUtils.getHourBefore(lastUpdate), lastUpdate);
-        } else if (timeUtils.isWithin(7, 'days', vm.device.time) || !vm.device.time) {
+        } else if (timeUtils.isWithin(7, 'days', vm.device.lastReadingAt.raw) || !vm.device.lastReadingAt.raw) {
           //set from-picker to seven days ago and set to-picker to today
           setRange(timeUtils.getSevenDaysAgo(), timeUtils.getToday());
         } else {
@@ -633,7 +626,6 @@
           setRange(getSevenDaysAgoFromLatestUpdate(), getLatestUpdated());
         }
       }
-
 
       // api to interact with the picker from outside
       return {
@@ -709,7 +701,7 @@
         controllerAs: 'vm',
         templateUrl: 'app/components/download/downloadModal.html',
         clickOutsideToClose: true,
-        locals: {thisDevice:device}
+        locals: {thisDevice: device}
       }).then(function(){
         var alert = $mdDialog.alert()
         .title('SUCCESS')
@@ -740,20 +732,23 @@
       if(!deviceData) {
         return undefined;
       }
-      return $q.all(deviceData.getSensors(sensorTypes, {type: 'main'}));
+      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'main'}));
+      return deviceData.getSensors(sensorTypes, {type: 'main'});
     }
-    function getCompareSensors(deviceData,sensorTypes) {
+    function getCompareSensors(deviceData, sensorTypes) {
       if(!vm.device) {
         return undefined;
       }
-      return $q.all(deviceData.getSensors(sensorTypes, {type: 'compare'}));
+      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'compare'}));
+      deviceData.getSensors(sensorTypes, {type: 'compare'});
     }
     function getOwnerDevices(deviceData, sampling) {
       if(!deviceData) {
         return undefined;
       }
       var deviceIDs = deviceData.owner.devices.slice(sampling);
-
+      // var ownerID = deviceData.owner.id;
+      // TODO: Refactor This is in the user endpoint, no need to query devices
       return $q.all(
         deviceIDs.map(function(id) {
           return device.getDevice(id)
@@ -769,18 +764,19 @@
       instead it will show the last hour or day*/
       var to, from;
       if (what === '60 minutes') {
-        to = moment(vm.device.time);
-        from = moment(vm.device.time).subtract(60, 'minutes');
+        to = moment(vm.device.lastReadingAt.raw);
+        from = moment(vm.device.lastReadingAt.raw).subtract(60, 'minutes');
       } else {
-        to = moment(vm.device.time).endOf(what);
-        from = moment(vm.device.time).startOf(what);
+        to = moment(vm.device.lastReadingAt.raw).endOf(what);
+        from = moment(vm.device.lastReadingAt.raw).startOf(what);
       }
       // Check if we are in the future
       if (moment().diff(to) < 0){
-        to = moment(vm.device.time);
+        to = moment(vm.device.lastReadingAt.raw);
       }
       picker.setValuePickers([from.toDate(), to.toDate()]);
     }
+
     function timeOptSelected(){
       vm.allowUpdateChart = false;
       if (vm.dropDownSelection){

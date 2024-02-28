@@ -6,13 +6,13 @@
 
 
     function filterLabel() {
-      return function(kits, targetLabel) {
+      return function(devices, targetLabel) {
         if(targetLabel === undefined) {
-          return kits;
+          return devices;
         }
-        if(kits) {
-          return _.filter(kits, function(kit) {
-            var containsLabel = kit.labels.indexOf(targetLabel) !== -1;
+        if(devices) {
+          return _.filter(devices, function(device) {
+            var containsLabel = device.systemTags.indexOf(targetLabel) !== -1;
             if(containsLabel) {
               return containsLabel;
             }
