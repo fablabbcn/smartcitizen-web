@@ -20,7 +20,7 @@ describe('Protractor Demo App', function() {
     //.sendKeys(protractor.Key.down)
     // .sendKeys(protractor.Key.enter)
 
-    // TODO: verify the search has some results
+    // TODO: Improvement verify the search has some results
 
     //element(by.model('$mdAutocompleteCtrl.scope.searchText')).click();
 

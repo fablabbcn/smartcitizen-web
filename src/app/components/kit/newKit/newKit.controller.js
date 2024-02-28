@@ -1,5 +1,6 @@
 (function() {
   'use strict';
+  //TODO: Remove
 
   angular.module('app.components')
     .controller('NewKitController', NewKitController);

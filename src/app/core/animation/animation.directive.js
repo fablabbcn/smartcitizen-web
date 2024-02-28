@@ -2,7 +2,7 @@
   'use strict';
 
     /**
-     * TODO: This directives can be split up each one in a different file
+     * TODO: Improvement These directives can be split up each one in a different file
      */
 
     angular.module('app.components')

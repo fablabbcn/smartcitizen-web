@@ -7,6 +7,7 @@
       /**
        * Device constructor.
        * @constructor
+       // TODO: Refactor Fix
        * @param {Object} object - Object with all the data about the device from the API
        * @property {number} id - ID of the device
        * @property {string} name - Name of the device

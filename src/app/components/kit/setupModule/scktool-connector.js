@@ -5,6 +5,7 @@
  * 2015 SmartCitizen
  * Licensed under MIT
  */
+//TODO: Remove
 function debugConnector(message) {
     if (debugLevel > 1) console.log(message); //This is temporary. Will be implemented as log.proto
 }

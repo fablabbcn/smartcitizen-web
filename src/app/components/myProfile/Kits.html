@@ -1,4 +1,5 @@
 <div class="profile_content" layout="column" layout-gt-sm="row">
+    <!-- TODO: Improvements -->
     <div class="profile_sidebar pt-80"
          layout-align="start"
          layout-align-xs="start center"
@@ -21,12 +22,14 @@
         </div>
 
     </div>
+    <!-- TODO: Improvement -->
     <div class="pt-80 px-20 mb-30" flex>
         <div class="profile_content_main_top">
             <md-button class="btn-round btn-cyan" ng-click="addDeviceSelector()">ADD A NEW KIT</md-button>
             <span class="float-right">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.deviceStatus.toUpperCase() || 'ALL' }}</span>
         </div>
         <!-- KIT LIST -->
+        <!-- TODO: Improvement -->
         <kit-list actions="{remove: vm.removeDevice, downloadData: vm.downloadData}" devices="vm.filteredDevices"></kit-list>
         <!-- End kit list -->
         <div class="kitList kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.devices.length">

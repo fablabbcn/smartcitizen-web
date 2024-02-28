@@ -359,7 +359,7 @@
           authenticate: false,
           resolve: {
             buttonToClick: function($location, auth) {
-              // TODO: These transitions get rejected (console error)
+              // TODO: Bug These transitions get rejected (console error)
               if(auth.isAuth()) {
                 $location.path('/kits/');
               }else{

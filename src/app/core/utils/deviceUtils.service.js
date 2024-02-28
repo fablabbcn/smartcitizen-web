@@ -217,7 +217,6 @@
           id: object.owner.id,
           username: object.owner.username,
           /*jshint camelcase: false */
-          // TODO - Refactor, check it didn't break anything
           devices: object.owner.device_ids,
           city: object.owner.location.city,
           country: COUNTRY_CODES[object.owner.location.country_code],
