@@ -108,7 +108,7 @@
       <p>
         We can also take you to your nearest online kit by letting us know your location.
       </p>
-      <md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button>
+      <md-button class="md-button btn-round-new btn-cyan" ng-click="vm.geolocate()">Locate me</md-button>
     </div>
     <section class="kit_detailed">
       <section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_chart">
@@ -275,7 +275,8 @@
               <h4 class="ml-20">Other kits owned by {{ vm.device.owner.username }}</h4>
               <kit-list devices="vm.sampleDevices"></kit-list>
               <div layout="row" layout-align="end end">
-                <md-button class="btn-blue" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px" ng-if="vm.device.owner.devices.length > 5" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button>
+                <!-- TODO: Cosmetic - Style fix -->
+                <md-button class="btn-round-new btn-cyan" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px; padding-top:4px" ng-if="vm.device.owner.devices.length > 6" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button>
               </div>
             </section>
           </div>

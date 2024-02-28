@@ -11,9 +11,8 @@
                 layout-xs="column"
                 layout-align="start center">
 
-    <md-card flex layout-padding href="./kits/{{device.id}}">
+    <md-card class="kit-list-item" flex layout-padding href="./kits/{{device.id}}">
       <md-card-header layout="row" layout-align="start center">
-
         <div class="ml-20 mt-20">
           <h4 class="m-0 mb-10">{{ device.name || 'No name' }}</h4>
           <span class="md-subhead">

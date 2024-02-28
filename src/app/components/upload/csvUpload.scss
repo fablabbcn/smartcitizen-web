@@ -35,9 +35,14 @@
 
 .upload-csv {
     .container {
-      padding-bottom:20px;
+      // padding-bottom:20px;
       margin-right: auto;
       margin-left: auto;
+    }
+
+    .csv_content{
+      margin-top: 240px;
+      min-height: 50vh;
     }
 
     @media (min-width: 768px) {

@@ -367,7 +367,7 @@ md-input-container:not(.md-input-invalid).md-input-focused {
 }
 
 md-toast {
-  // TODO: when a toast is on screen, the body gets class='md-toast-open-bottom'
+  // TODO: Bug when a toast is on screen, the body gets class='md-toast-open-bottom'
   // Where does that come from?
   // If there is a similar *open-top, we can remove the CSS bottom, top
   bottom: unset !important; // Overwrite angular default
@@ -1360,12 +1360,16 @@ KIT TAGS MODULE
 }
 
 .dropdown-item-button {
-    border-radius: 0px;
+    border-radius: 5px;
     text-align: center;
     width: 100%;
 }
 .dropdown-item-button:hover{
   background-color: $yellow !important
+}
+
+md-card.kit-list-item {
+  border-radius: 10px;
 }
 
 /**
@@ -1375,7 +1379,7 @@ KIT TAGS MODULE
 
 /* profile header */
 .profile_header {
-  background-color: $background_blue_dark_menu;
+  background-color: $background_blue_lighter_menu;
   color: $font_color_blue_grey;
   height: 192px;
   margin-top: 64px;
@@ -1465,6 +1469,10 @@ KIT TAGS MODULE
     color: $blue;
     background-color: $blue;
   }
+}
+
+md-tabs-canvas {
+  background-color: #2E2E2E;
 }
 
 .myProfile_header {
@@ -1655,12 +1663,37 @@ footer {
 */
 
 .timeline {
-  margin-top: 64px;
-  background-color: $background_blue_dark_menu;
-  height: 128px;
+  // margin-top: 64px;
+  // background-color: $background_blue_dark_menu;
+  height: $timeline-height;
+  background-color: $background_blue_lighter_menu;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  top: 64px;
+  box-shadow: 0 4px 5px -2px $background_blue_lighter_menu;
+  padding: 30px;
 }
+
+@media (max-width: 960px) {
+  .timeline-btn-extra {
+    display: None;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 959px) and (orientation: portrait) {
+  .timeline {
+    top: 56px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 959px) and (orientation: landscape) {
+  .timeline {
+    top: 53px;
+  }
+}
+
 .timeline_container {
-  margin: 0 20px;
   width: 100%;
 }
 .timeline_line {
@@ -1674,22 +1707,34 @@ footer {
   margin: 0px 20px;
   top:0px !important;
 }
-.timeline_stepCircle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin: 0 8px;
-  color: white;
-  font-weight: bold;
-  &.is-on {
-    border: 2px solid $yellow;
-    background-color: $yellow;
-  }
-  &.is-off {
-    border: 2px solid $yellow;
-    color: $yellow;
+// .timeline_stepCircle {
+//   width: 30px;
+//   height: 30px;
+//   border-radius: 50%;
+//   margin: 0 8px;
+//   color: white;
+//   font-weight: bold;
+//   &.is-on {
+//     border: 2px solid $yellow;
+//     background-color: $yellow;
+//   }
+//   &.is-off {
+//     border: 2px solid $yellow;
+//     color: $yellow;
+//   }
+// }
+
+.timeline-title {
+  text-transform: uppercase;
+  color: $yellow;
+  font-size:24px;
+  font-weight: 600; // TODO: Cosmetic
+
+  &.vertical {
+    margin-top: 10px;
   }
 }
+
 .timeline_stepName {
   text-transform: uppercase;
   color: $yellow;
@@ -1699,66 +1744,84 @@ footer {
     margin-top: 10px;
   }
 }
+
 .timeline_content {
   min-height: 400px;
   width: 100%;
+  margin-top: $content-margin-top;
 }
-.timeline_button {
-  width: 99%;
-  height: 90px;
-  font-size: 26px;
 
-  &.timeline_buttonOpen.md-primary {
-    color: $terciary_color;
-    text-align: center;
+// .timeline_button {
+//   width: 99%;
+//   height: 90px;
+//   font-size: 26px;
 
-    &.inverted{
-      color: white;
-      background-color: $terciary_color;
+//   &.timeline_buttonOpen.md-primary {
+//     color: $terciary_color;
+//     text-align: center;
 
-      small {
-        color: white;
-      }
-    }
+//     &.inverted{
+//       color: white;
+//       background-color: $terciary_color;
 
-    .main {
-      margin: 10px;
-      font-size: 32px;
-    }
+//       small {
+//         color: white;
+//       }
+//     }
 
-    .sub {
-      margin: 10px;
-      font-size: 16px;
-    }
+//     .main {
+//       margin: 10px;
+//       font-size: 32px;
+//     }
 
-    small {
-      color: rgba(0,0,0,0.54);
-      text-transform: initial;
-      display: block;
-      font-size: 16px;
-    }
+//     .sub {
+//       margin: 10px;
+//       font-size: 16px;
+//     }
 
-  }
+//     small {
+//       color: rgba(0,0,0,0.54);
+//       text-transform: initial;
+//       display: block;
+//       font-size: 16px;
+//     }
 
-}
+//   }
+// }
+
 .md-button.timeline_buttonSave {
   color: white !important;
+  border: 2px solid white !important;
   width: 130px;
   height: 44px;
   border-radius: 22px;
   font-size: 18px;
+  font-weight: $font-weight-heavy;
 }
 
 .md-button.timeline_buttonBack{
   color: white !important;
+  border: 2px solid white !important;
   flex-shrink: 1;
-  flex-basis: 200px;
+  flex-basis: 260px;
   height: 44px;
   border-radius: 22px;
   font-size: 18px;
   margin-left: auto;
   margin-right: 20px;
+  font-weight: $font-weight-heavy;
 }
+
+.md-button.timeline_buttonBack:hover {
+  color: black !important;
+  background-color: white !important;
+}
+
+section.relaxed-layout {
+  padding: 10px 25px;
+}
+
+
 
 /*
   ADD KIT STATE
