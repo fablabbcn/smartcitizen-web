@@ -296,12 +296,6 @@
           templateUrl: 'app/components/myProfile/Users.html',
           controllerAs: 'vm',
         })
-        .state('layout.myProfile.tools', {
-          url: '/tools',
-          authenticate: true,
-          templateUrl: 'app/components/myProfile/Tools.html',
-          controllerAs: 'vm',
-        })
         /*
         -- My Profile Admin --
         State to let admins see private profiles of users with full data
@@ -342,12 +336,6 @@
           url: '/users',
           authenticate: true,
           templateUrl: 'app/components/myProfile/Users.html',
-          controllerAs: 'vm',
-        })
-        .state('layout.myProfileAdmin.tools', {
-          url: '/tools',
-          authenticate: true,
-          templateUrl: 'app/components/myProfile/Tools.html',
           controllerAs: 'vm',
         })
         /*

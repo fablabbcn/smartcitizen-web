@@ -6,12 +6,12 @@
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
     'userData', 'AuthUser', 'user', 'auth', 'alert',
-    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
+    'COUNTRY_CODES', '$timeout', 'file', 'animation',
     '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
     'userUtils', '$filter','$state', 'Restangular'];
     function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, alert,
-      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
+      COUNTRY_CODES, $timeout, file, animation,
       $mdDialog, PreviewDevice, device, deviceUtils,
       userUtils, $filter, $state, Restangular) {
 
@@ -48,11 +48,6 @@
 
       vm.filteredDevices = [];
       vm.dropdownSelected = undefined;
-
-      //TOOLS TAB
-      vm.tools = PROFILE_TOOLS;
-      vm.toolType = undefined;
-      vm.filteredTools = [];
 
       //SIDEBAR
       vm.filterDevices = filterDevices;
