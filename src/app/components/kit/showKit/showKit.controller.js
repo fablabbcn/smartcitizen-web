@@ -261,6 +261,8 @@
         vm.sensorsToCompare = compareSensors;
         vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
       }
+
+      animation.mapStateLoaded();
     }
 
     function checkRaw(value){
