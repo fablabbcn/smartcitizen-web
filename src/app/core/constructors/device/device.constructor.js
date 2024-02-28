@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Device', ['deviceUtils', function(deviceUtils) {
+    .factory('Device', ['deviceUtils', 'timeUtils', function(deviceUtils, timeUtils) {
 
       /**
        * Device constructor.
@@ -39,9 +39,9 @@
         this.userTags = deviceUtils.parseUserTags(object);
         this.isPrivate = deviceUtils.isPrivate(object);
         this.notifications = deviceUtils.parseNotifications(object);
-        this.lastReadingAt = deviceUtils.parseDate(object.last_reading_at);
-        this.createdAt = deviceUtils.parseDate(object.created_at);
-        this.updatedAt = deviceUtils.parseDate(object.updated_at);
+        this.lastReadingAt = timeUtils.parseDate(object.last_reading_at);
+        this.createdAt = timeUtils.parseDate(object.created_at);
+        this.updatedAt = timeUtils.parseDate(object.updated_at);
 
         // Location
         this.location = object.location;

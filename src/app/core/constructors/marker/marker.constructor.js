@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Marker', ['deviceUtils', 'markerUtils', '$state', function(deviceUtils, markerUtils, $state) {
+    .factory('Marker', ['deviceUtils', 'markerUtils', 'timeUtils', '$state', function(deviceUtils, markerUtils, timeUtils, $state) {
       /**
        * Marker constructor
        * @constructor
@@ -31,7 +31,7 @@
           deviceUtils.parseHardwareName(deviceData) +
           '</p><p class="popup_time"><md-icon class="popup_icon" ' +
           'md-svg-src="./assets/images/update_icon.svg"></md-icon>' +
-          deviceUtils.parseLastReadingAt(deviceData, true) + '</p>' + linkEnd + '</div>' +
+          timeUtils.parseDate(deviceData.last_reading_at).ago + '</p>' + linkEnd + '</div>' +
           '<div class="popup_bottom"><p class="popup_location">' +
           '<md-icon class="popup_icon" ' +
           'md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' +

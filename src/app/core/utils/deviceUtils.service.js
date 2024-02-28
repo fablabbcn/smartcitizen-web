@@ -13,7 +13,6 @@
         parseUserTags: parseUserTags,
         classify: classify,
         parseNotifications: parseNotifications,
-        parseLastReadingAt: parseLastReadingAt,
         parseOwner: parseOwner,
         parseName: parseName,
         parseString: parseString,
@@ -95,20 +94,6 @@
           return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
         }
         return object.name;
-      }
-
-      function parseLastReadingAt(object, fromNow=false) {
-        var time = object.last_reading_at;
-        if(!time) {
-          if (fromNow) {
-            return 'No time'
-          }
-          return;
-        }
-        if(fromNow){
-          return moment(time).fromNow();
-        }
-        return time;
       }
 
       function parseHardware(object) {
