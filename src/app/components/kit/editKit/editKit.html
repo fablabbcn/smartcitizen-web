@@ -68,7 +68,26 @@
              </div>
            </div>
         </section>
-
+        <section class="bg-white relaxed-layout" layout-padding div layout="row" layout-xs="column" layout-align="space-around start" ng-if="vm.device.isLegacy">
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div class="">
+                <h2>Legacy devices</h2>
+                <small>Seems like you have a {{vm.device.hardware.name}}. Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit's shell</a>. More info <a target="_blank" href="https://docs.smartcitizen.me/Components/legacy/#registering-the-kit-in-the-platform_1"></a></small>
+              </div>
+            </div>
+          </div>
+          <div flex-gt-xs="50">
+            <div class="" layout="column">
+              <md-input-container>
+                <label>Input here the MAC Address:</label>
+                <input type="text" ng-model="vm.deviceForm.macAddress">
+                <!-- TODO: Refactor -->
+                <!-- <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.deviceForm.macAddress"> -->
+              </md-input-container>
+            </div>
+          </div>
+        </section>
         <section class="form_blockMap relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
             <div layout="row">

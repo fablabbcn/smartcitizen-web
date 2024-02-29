@@ -113,8 +113,10 @@
               notify_stopped_publishing: vm.device.notifications.stopPublishing,
               tags: vm.device.userTags,
               postprocessing: vm.device.postProcessing,
-              description: vm.device.description
-              // hardware: vm.device.hardware
+              description: vm.device.description,
+              // TODO: Refactor, make sure that this is part of the form, only editable
+              // if !vm.device.isSCK
+              hardwareName: vm.device.hardware.name
             };
             vm.markers = {
               main: {
@@ -127,10 +129,8 @@
             // TODO: Refactor. Change based on new names for versions after refactor
             // This needs to be available in world_map as well
             // Double Check
-            if (vm.device.hardware.info) {
-              vm.macAddress = vm.device.hardware.info.mac;
-            } else {
-              vm.macAddress = null;
+            if (vm.device.isLegacy) {
+              vm.deviceForm.macAddress = vm.device.macAddress;
             }
           });
       }
@@ -178,33 +178,37 @@
           notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
           /*jshint camelcase: false */
           user_tags: joinSelectedTags(),
-          // TODO: Refactor
-          // hardware: vm.deviceForm.hardware
         };
 
-        if(!vm.macAddress || vm.macAddress === ''){
-          /*jshint camelcase: false */
-          data.mac_address = null;
-        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
-          /*jshint camelcase: false */
-          data.mac_address = vm.macAddress;
-        } else {
-          /*jshint camelcase: false */
-          var message = 'The mac address you entered is not a valid address';
-          alert.error(message);
-          data.mac_address = null;
-          throw new Error('[Client:error] ' + message);
+        if(!vm.device.isSCK) {
+          data.hardware_name_override = vm.deviceForm.hardwareName;
+        }
+
+        if(vm.device.isLegacy){
+          if(!vm.deviceForm.macAddress || vm.deviceForm.macAddress === ''){
+            /*jshint camelcase: false */
+            data.mac_address = null;
+          } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.deviceForm.macAddress)){
+            /*jshint camelcase: false */
+            data.mac_address = vm.deviceForm.macAddress;
+          } else {
+            /*jshint camelcase: false */
+            var message = 'The mac address you entered is not a valid address';
+            alert.error(message);
+            data.mac_address = null;
+            throw new Error('[Client:error] ' + message);
+          }
         }
 
         device.updateDevice(vm.device.id, data)
           .then(
             function() {
               // TODO: Refactor Check
-              if (!vm.macAddress && $stateParams.step === 2) {
-                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              } else if (next){
-                alert.success('Your kit was successfully updated');
-              }
+              // if (!vm.macAddress && $stateParams.step === 2) {
+              //   alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
+              // } else if (next){
+              //   alert.success('Your kit was successfully updated');
+              // }
               device.updateContext().then(function(){
                 if (next){
                   $timeout(next, delayTransition);
@@ -212,6 +216,7 @@
               });
             })
             .catch(function(err) {
+              // TODO: Refactor - This doesn't take get checked
               if(err.data.errors.mac_address[0] === 'has already been taken') {
                 alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
               }
