@@ -219,12 +219,13 @@
           </div>
         </section>
       </form>
+      <!-- TODO: Refactor, remove -->
       <!-- <div class="mt-50" layout="row" layout-align="center start" layout-margin layout-padding>
         <md-button class="fillwidth md-raised md-accent" ng-click="vm.submitFormAndKit()">Save</md-button>
       </div> -->
-      <div layout layout-padding layout-margin>
+      <!-- <div layout layout-padding layout-margin>
         <md-button ng-show="vm.deviceData.isLegacy" class="fillwidth md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button>
-      </div>
+      </div> -->
     </section>
 
     <section ng-if="vm.step === 2">
@@ -254,7 +255,9 @@
             <div>
               <md-input-container>
                 <label>Mac Address</label>
-                <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress">
+                <!-- TODO: Refactor, check -->
+                <input type="text" ng-model="vm.deviceForm.macAddress">
+                <!-- <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress"> -->
               </md-input-container>
             </div>
           </div>

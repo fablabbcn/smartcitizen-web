@@ -40,7 +40,8 @@
 
       // KEY USER ACTIONS
       vm.submitFormAndKit = submitFormAndKit;
-      vm.submitFormAndNext = submitFormAndNext;
+      // TODO: Refactor, remove
+      // vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
       vm.backToDevice = backToDevice;
       vm.submitForm = submitForm;
@@ -126,6 +127,8 @@
               }
             };
 
+            console.log(vm.device)
+
             // TODO: Refactor. Change based on new names for versions after refactor
             // This needs to be available in world_map as well
             // Double Check
@@ -161,9 +164,10 @@
         submitForm(toProfile, timewait.normal);
       }
 
-      function submitFormAndNext(){
-        submitForm(openKitSetup, timewait.short);
-      }
+      // TODO: Refactor, remove
+      // function submitFormAndNext(){
+      //   submitForm(openKitSetup, timewait.short);
+      // }
 
       function submitForm(next, delayTransition) {
         var data = {
@@ -184,7 +188,8 @@
           data.hardware_name_override = vm.deviceForm.hardwareName;
         }
 
-        if(vm.device.isLegacy){
+        // TODO: Refactor, bring this back once we have a way to create legacy
+        // if(vm.device.isLegacy){
           if(!vm.deviceForm.macAddress || vm.deviceForm.macAddress === ''){
             /*jshint camelcase: false */
             data.mac_address = null;
@@ -197,7 +202,7 @@
             alert.error(message);
             data.mac_address = null;
             throw new Error('[Client:error] ' + message);
-          }
+          // }
         }
 
         device.updateDevice(vm.device.id, data)
@@ -285,9 +290,10 @@
         });
       }
 
-      function openKitSetup() {
-        $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
-      }
+      // TODO: Refactor, remove
+      // function openKitSetup() {
+      //   $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
+      // }
 
       function backToDevice(){
         $state.transitionTo('layout.home.kit', $stateParams,
