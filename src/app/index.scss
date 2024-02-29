@@ -377,7 +377,7 @@ md-toast {
   position: fixed;
   top: 64px !important; // Start the toast at top below navbar.
   min-width: 100%;
-  z-index: 8;
+  z-index: 15;
 
   .alert_typeIcon {
     width: 16px;
