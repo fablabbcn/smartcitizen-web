@@ -227,7 +227,7 @@
       </div>
     </section>
 
-    <section ng-if="vm.step === 2 && vm.deviceData.isLegacy">
+    <section ng-if="vm.step === 2">
       <form>
         <section class="isEven">
           <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
@@ -239,11 +239,13 @@
           </div>
         </section>
       </form>
-      <section class="bg-white" layout-padding>
+      <!-- TODO: Refactor - remove -->
+      <!-- <section class="bg-white" layout-padding>
         <div setuptool></div>
-      </section>
+      </section> -->
       <form>
-        <section ng-show="vm.macAddressFieldVisible" class="form_blockNormal isEven">
+        <section class="form_blockNormal isEven">
+        <!-- <section ng-show="vm.macAddressFieldVisible" class="form_blockNormal isEven"> -->
           <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
             <div flex-gt-xs="50">
               <h2>Mac address</h2>

@@ -204,11 +204,11 @@
           .then(
             function() {
               // TODO: Refactor Check
-              // if (!vm.macAddress && $stateParams.step === 2) {
-              //   alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              // } else if (next){
-              //   alert.success('Your kit was successfully updated');
-              // }
+              if (!vm.macAddress && $stateParams.step === 2) {
+                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
+              } else if (next){
+                alert.success('Your kit was successfully updated');
+              }
               device.updateContext().then(function(){
                 if (next){
                   $timeout(next, delayTransition);
