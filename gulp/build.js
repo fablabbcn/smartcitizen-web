@@ -35,7 +35,8 @@ module.exports = function(options) {
     };
 
     var htmlFilter = $.filter('*.html', {restore: true});
-    var jsFilter = $.filter(['**/*.js', '!'+options.src+'/**/scktool-*.js'], {restore: true});
+    var jsFilter = $.filter(['**/*.js'], {restore: true});
+    // var jsFilter = $.filter(['**/*.js', '!'+options.src+'/**/scktool-*.js'], {restore: true});
     var cssFilter = $.filter('**/*.css', {restore: true});
     var assets;
 
@@ -135,13 +136,14 @@ module.exports = function(options) {
       .pipe(gulp.dest(options.dist + '/styles/images'));
   });
 
-  gulp.task('oldModule-js', function() {
-    return gulp.src([
-      options.src + '/app/components/kit/setupModule/scktool-app.js',
-      options.src + '/app/components/kit/setupModule/scktool-connector.js'
-    ])
-      .pipe(gulp.dest(options.dist + '/scripts/'));
-  });
+  // gulp.task('oldModule-js', function() {
+  //   return gulp.src([
+  //     options.src + '/app/components/kit/setupModule/scktool-app.js',
+  //     options.src + '/app/components/kit/setupModule/scktool-connector.js'
+  //   ])
+  //   .pipe(gulp.dest(options.dist + '/scripts/'));
+  // });
 
-  gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'oldModule-js', 'version']);
+  gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'version']);
+  // gulp.task('build', ['html', 'fonts', 'other', 'external-assets', 'oldModule-js', 'version']);
 };
