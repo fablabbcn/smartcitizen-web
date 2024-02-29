@@ -75,7 +75,7 @@
       function parseNotifications(object){
         return {
           lowBattery: object.notify_low_battery,
-          stopPublishing: object.notifiy_stopped_publishing
+          stopPublishing: object.notify_stopped_publishing
         }
       }
 
