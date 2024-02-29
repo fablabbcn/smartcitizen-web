@@ -33,6 +33,8 @@
         this.name = object.name;
         this.state = deviceUtils.parseState(object);
         this.description = object.description;
+        this.token = object.device_token;
+        this.macAddress = object.mac_address;
 
         // Tags and dates
         this.systemTags = deviceUtils.parseSystemTags(object);
