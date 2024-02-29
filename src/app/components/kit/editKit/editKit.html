@@ -42,7 +42,7 @@
              <div layout="row">
                <div class="">
                  <h2>Basic information</h2>
-                 <small>Want to change your kit's name? Or perhahps say something nice about it in the description?
+                 <small>Want to change your kit's name? Or perhaps say something nice about it in the description?
                   <br>Don't forget about the exposure!</small>
                </div>
              </div>
@@ -56,8 +56,12 @@
                <md-input-container flex="100" flex-gt-md="50">
                 <label>Say something nice about your kit, what is it for?</label>
                 <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
-              </md-input-container>
-               <div layout="row" layout-align="space-between start">
+               </md-input-container>
+                <md-input-container flex="100" flex-gt-md="50" ng-if="!vm.device.isSCK">
+                  <label>Seems like you have a custom kit, tell us what is it! (i.e. DIY Kit with CO2)</label>
+                  <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.hardwareName" placeholder="Describe your kit" md-maxlength="120"></textarea>
+                </md-input-container>
+                <div layout="row" layout-align="space-between start">
                  <div class="" layout="row" layout-align="start center">
                    <label class="mr-10">Exposure:</label>
                    <md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure">
