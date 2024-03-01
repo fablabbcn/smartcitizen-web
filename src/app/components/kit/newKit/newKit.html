@@ -2,61 +2,77 @@
   <section class="timeline" flex="1" layout="row" layout-align="center center">
     <div class="timeline_container" layout="row" layout-align="space-between center">
       <div layout="column" layout-align="start center">
-        <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 1, 'is-off': vm.step !== 1}">
-          1
-        </div>
-        <div class="timeline_stepName vertical">
-          Kit data
+        <div class="timeline_stepName vertical timeline-title">
+          Add your kit
         </div>
       </div>
-      <div class="timeline_line"></div>
-      <div layout="column" layout-align="start center">
-        <div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
-          2
-        </div>
-        <div class="timeline_stepName vertical">
-          Set up
-        </div>
-      </div>
+      <md-button ng-show="vm.step===1" class="md-flat md-primary timeline_buttonBack btn-round-new" ng-click="vm.backToProfile()">Back<span class="timeline-btn-extra"> to Profile</span></md-button>
+      <md-button class="md-flat md-primary timeline_buttonSave btn-round-new" ng-click="vm.submitStepOne()">Next</md-button>
     </div>
   </section>
   <section class="timeline_content" flex="1">
     <section ng-show="vm.step === 1">
       <form>
-        <section class="isEven" layout="row" layout-xs="column" layout-align="" layout-xs="column" layout-padding>
+        <section class="bg-white relaxed-layout" layout-padding div  layout="row" layout-xs="column" layout-align="space-around start" layout-xs="column" >
           <div flex-gt-xs="50">
-            <h2>Basic information</h2>
-            <small>Please, provide kit basic info. That includes a name and exposure.</small>
+            <div layout="row">
+              <div class="">
+                <h2>Basic information</h2>
+                <small>Want to change your kit's name? Or perhaps say something nice about it in the description?
+                  <br>Don't forget about the exposure!</small>
+              </div>
+            </div>
           </div>
-          <div class="mt-50"  flex-gt-xs="50">
+          <div flex-gt-xs="50">
+            <div class="" layout="column">
             <md-input-container>
               <label>Kit Name</label>
-              <input type="text" ng-model="vm.deviceForm.name">
+              <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name">
               <div class="form_errors">
                 <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
               </div>
             </md-input-container>
+            <md-input-container>
+              <label>Say something nice about your kit, what is it for?</label>
+              <textarea type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
+            </md-input-container>
             <div layout="row" layout-align="space-between start">
               <div class="form_blockInput_select" layout="row" layout-align="start center">
-                <label>Exposure:</label>
+                <label class="mr-10">Exposure:</label>
                 <md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure">
                   <md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option>
                 </md-select>
               </div>
             </div>
-            <div class="form_blockInput_select" layout="row" layout-align="start center">
-              <label>Hardware version:</label>
+            <div class="form_blockInput_select" layout="row" layout-align="start center" style="margin-top: 20px">
+              <label class="mr-10">Hardware version:</label>
               <md-select ng-model="vm.deviceForm.legacyVersion" placeholder="Select hardware version">
                 <md-option class="color-dropdown" ng-repeat="version in vm.version" ng-value="{{ version.value }}">{{ version.name }}</md-option>
               </md-select>
             </div>
-            <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.deviceForm.is_private">
-              <label>Make this device private</label>
-            </md-checkbox>
+          </div>
+        </section>
+        <section class="relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'">
+          <div flex-gt-xs="50">
+            <div layout="row">
+              <div class="">
+                <h2>Open data</h2>
+                <small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data.
+                </small>
+              </div>
+            </div>
+          </div>
+          <div flex-gt-xs="50">
+            <div class="" layout="column">
+              <p>Manage how others can access your data:</p>
+               <md-checkbox ng-model="vm.deviceForm.is_private">
+                 <label>Make this device private</label>
+               </md-checkbox>
+            </div>
           </div>
         </section>
 
-        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+        <section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
             <h2>Kit location</h2>
             <small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small>
@@ -71,17 +87,15 @@
           </div>
         </section>
 
-        <section class="isEven" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
+        <section class="isEven relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
           <div flex-gt-xs="50">
             <h2>Kit tags</h2>
             <small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small>
           </div>
-
           <div class="mt-50"  flex-gt-xs="50" layout-padding>
             <md-input-container md-no-float class="md-block">
               <input type="text" ng-model="tagSearch" placeholder="Search for tags">
             </md-input-container>
-
             <md-content layout-padding style="height: calc(20vh);">
               <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
                 <md-checkbox ng-model="vm.checks[tag.name]">
@@ -91,24 +105,7 @@
             </md-content>
           </div>
         </section>
-
-        <section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding>
-          <div flex-gt-xs="50">
-            <h2>Kit description</h2>
-            <small>Say something nice about your kit. What is it for? Is this part of any kind of project?</small>
-          </div>
-          <div class="mt-50" flex-gt-xs="50">
-            <md-input-container>
-              <label>Description</label>
-              <textarea type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea>
-            </md-input-container>
-          </div>
-        </section>
-
       </form>
-      <div layout>
-        <md-button flex class="md-raised md-accent mb-30" ng-click="vm.submitStepOne()">Next</md-button>
-      </div>
     </section>
   </section>
 </section>

@@ -5,14 +5,15 @@
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
 
-    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth', '$timeout'];
-    function NewKitController($scope, $state, animation, device, tag, alert, auth, $timeout) {
+    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth', '$stateParams', '$timeout'];
+    function NewKitController($scope, $state, animation, device, tag, alert, auth, $stateParams, $timeout) {
       var vm = this;
 
       vm.step = 1;
 
       vm.submitStepOne = submitStepOne;
       vm.submitStepTwo = submitStepTwo;
+      vm.backToProfile = backToProfile;
 
       // FORM INFO
       vm.deviceForm = {
@@ -155,6 +156,19 @@
           .then(function(tagsData) {
             vm.tags = tagsData;
           });
+      }
+
+      function toProfile(){
+        $state.transitionTo('layout.myProfile.kits', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
+      }
+
+      function backToProfile(){
+        // TODO: Refactor Check
+        toProfile();
       }
 
       //TODO: move to utils
