@@ -1,36 +1,42 @@
 <section class="kit_dataChange">
   <section class="timeline" flex="1" layout="row" layout-align="center center">
     <div class="timeline_container" layout="row" layout-align="space-between center">
-      <div layout="row" layout-align="start center">
+      <div layout="row" layout-align="start center" ng-show="vm.step === 1">
         <!-- TODO: Refactor - This was removed -->
         <!-- <div class="timeline_stepCircle"
-        ng-class="{'is-on':vm.step===1, 'is-off':vm.step!==1}"
         layout="row" layout-align="center center">
           1
         </div> -->
-        <!-- <md-button ng-click="vm.goToStep(1)" class="timeline_stepName">
-          Kit data
-        </md-button> -->
-        <h2 class="timeline-title timeline-title">
-          Kit Data
-        </div>
+        <h2 class="timeline_stepName timeline-title">
+          Edit your kit
+        </h2>
+      </div>
+      <div layout="row" layout-align="start center" ng-show="vm.step === 2">
         <!-- TODO: Refactor - This was removed -->
-        <!-- <div ng-if="vm.deviceData.isLegacy" class="timeline_line timeline_line_small"></div>
+        <!-- <div class="timeline_stepCircle"
+        layout="row" layout-align="center center">
+          1
+        </div> -->
+        <h2 class="timeline_stepName timeline-title">
+          Finalise your setup
+        </h2>
+      </div>
+      <!-- TODO: Refactor - This was removed -->
+      <div ng-if="vm.deviceData.isLegacy" class="timeline_line timeline_line_small" ng-show="vm.step === 2"></div>
         <div ng-if="vm.deviceData.isLegacy" layout="row" layout-align="start center">
           <div class="timeline_stepCircle"
-          ng-class="{'is-on':vm.step===2, 'is-off':vm.step!==2}"
-          layout="row" layout-align="center center"
-          ng-class="{'is-on': vm.step === 2, 'is-off': vm.step !== 2}">
+          ng-show="vm.step === 2"
+          layout="row" layout-align="center center">
             2
           </div>
           <md-button ng-if="vm.deviceData.isLegacy" ng-click="vm.goToStep(2)" class="timeline_stepName">
             Set up
           </md-button>
-        </div> -->
+        </div>
       </div>
       <!-- TODO: Cosmetic Make nicer -->
       <!-- <md-button style="margin-left: auto" class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToDevice()">Back to Device</md-button> -->
-      <md-button class="md-flat md-primary timeline_buttonBack btn-round-new" ng-click="vm.backToProfile()">Back<span class="timeline-btn-extra"> to Profile</span></md-button>
+      <md-button ng-show="vm.step===1" class="md-flat md-primary timeline_buttonBack btn-round-new" ng-click="vm.backToProfile()">Back<span class="timeline-btn-extra"> to Profile</span></md-button>
       <md-button class="md-flat md-primary timeline_buttonSave btn-round-new" ng-click="vm.submitFormAndKit()">Save</md-button>
     </div>
   </section>
@@ -52,6 +58,9 @@
                <md-input-container>
                  <label>Kit Name</label>
                  <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name">
+                 <div class="form_errors">
+                  <div ng-repeat="error in vm.errors.name">Name {{ error }}</div>
+                </div>
                </md-input-container>
                <md-input-container flex="100" flex-gt-md="50">
                 <label>Say something nice about your kit, what is it for?</label>
@@ -77,15 +86,18 @@
             <div layout="row">
               <div class="">
                 <h2>Legacy devices</h2>
-                <small>Seems like you have a {{vm.device.hardware.name}}. Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit's shell</a>. More info <a target="_blank" href="https://docs.smartcitizen.me/Components/legacy/#registering-the-kit-in-the-platform_1"></a></small>
+                <small>Seems like you have a {{vm.device.hardware.name}}. Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit's shell</a>. <a target="_blank" href="https://docs.smartcitizen.me/Components/legacy/#registering-the-kit-in-the-platform_1">More info</a></small>
               </div>
             </div>
           </div>
           <div flex-gt-xs="50">
             <div class="" layout="column">
               <md-input-container>
-                <label>Input here the MAC Address:</label>
+                <label>Input here the MAC Address</label>
                 <input type="text" ng-model="vm.deviceForm.macAddress">
+                <div class="form_errors">
+                  <div ng-repeat="error in vm.errors.mac_address">MAC address {{ error }}</div>
+                </div>
                 <!-- TODO: Refactor -->
                 <!-- <input type="text" pattern="([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})" ng-model="vm.deviceForm.macAddress"> -->
               </md-input-container>
@@ -230,11 +242,11 @@
 
     <section ng-if="vm.step === 2">
       <form>
-        <section class="isEven">
+        <section class="relaxed-layout bg-white">
           <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
             <div>
               <h2>Setup your kit</h2>
-              <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit's Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
+              <small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small>
             </div>
             <img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit">
           </div>
@@ -245,26 +257,26 @@
         <div setuptool></div>
       </section> -->
       <form>
-        <section class="form_blockNormal isEven">
+        <section class="form_blockNormal relaxed-layout">
         <!-- <section ng-show="vm.macAddressFieldVisible" class="form_blockNormal isEven"> -->
           <div layout="row" layout-xs="column" layout-align="start start" layout-padding>
             <div flex-gt-xs="50">
-              <h2>Mac address</h2>
-              <small>The setup tool will read the Mac Address automatically from your kit. Please wait or enter it manually.</small>
+              <h2>MAC address</h2>
+              <small>The setup tool will read the MAC Address automatically from your kit. Please wait or enter it manually.</small>
             </div>
             <div>
               <md-input-container>
-                <label>Mac Address</label>
+                <label>MAC Address</label>
                 <!-- TODO: Refactor, check -->
                 <input type="text" ng-model="vm.deviceForm.macAddress">
+                <div class="form_errors">
+                  <div ng-repeat="error in vm.errors.mac_address">MAC address {{ error }}</div>
+                </div>
               </md-input-container>
             </div>
           </div>
         </section>
       </form>
-      <div layout>
-        <md-button class="fillwidth md-accent md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'save'">Save</md-button>
-      </div>
       <md-progress-linear class="md-hue-3" ng-show="vm.nextAction == 'waiting'" md-mode="indeterminate"></md-progress-linear>
       <md-button ng-disabled="true" ng-show="vm.nextAction == 'waiting'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit's data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small> Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button>
       <md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == 'ready'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button>
