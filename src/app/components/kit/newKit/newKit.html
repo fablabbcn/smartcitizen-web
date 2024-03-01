@@ -44,6 +44,12 @@
                 </md-select>
               </div>
             </div>
+            <div class="form_blockInput_select" layout="row" layout-align="start center">
+              <label>Hardware version:</label>
+              <md-select ng-model="vm.deviceForm.legacyVersion" placeholder="Select hardware version">
+                <md-option class="color-dropdown" ng-repeat="version in vm.version" ng-value="{{ version.value }}">{{ version.name }}</md-option>
+              </md-select>
+            </div>
             <md-checkbox ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'" ng-model="vm.deviceForm.is_private">
               <label>Make this device private</label>
             </md-checkbox>

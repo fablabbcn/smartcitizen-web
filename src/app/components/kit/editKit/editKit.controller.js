@@ -189,7 +189,7 @@
         }
 
         // TODO: Refactor, bring this back once we have a way to create legacy
-        // if(vm.device.isLegacy){
+        if(vm.device.isLegacy){
           if(!vm.deviceForm.macAddress || vm.deviceForm.macAddress === ''){
             /*jshint camelcase: false */
             data.mac_address = null;
@@ -202,7 +202,7 @@
             alert.error(message);
             data.mac_address = null;
             throw new Error('[Client:error] ' + message);
-          // }
+          }
         }
 
         device.updateDevice(vm.device.id, data)

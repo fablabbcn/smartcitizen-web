@@ -24,6 +24,7 @@
           zoom: 16
         },
         is_private: false,
+        legacyVersion: '1.1',
         tags: []
       };
 
@@ -31,6 +32,12 @@
       vm.exposure = [
         {name: 'indoor', value: 1},
         {name: 'outdoor', value: 2}
+      ];
+
+      // VERSION SELECT
+      vm.version = [
+        {name: 'Smart Citizen Kit 1.0', value: '1.0'},
+        {name: 'Smart Citizen Kit 1.1', value: '1.1'}
       ];
 
       $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
@@ -62,7 +69,6 @@
       vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
-
       var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
 
       vm.getLocation = getLocation;
@@ -119,6 +125,7 @@
           latitude: vm.deviceForm.location.lat,
           longitude: vm.deviceForm.location.lng,
           is_private: vm.deviceForm.is_private,
+          hardware_version_override: vm.deviceForm.legacyVersion,
           /*jshint camelcase: false */
           user_tags: _.map(vm.deviceForm.tags, 'name').join(',')
         };
