@@ -372,7 +372,7 @@ md-toast {
   // If there is a similar *open-top, we can remove the CSS bottom, top
   bottom: unset !important; // Overwrite angular default
   color: black;
-  opacity: 0.9;
+  opacity: 0.95;
   padding: 0;
   position: fixed;
   top: 64px !important; // Start the toast at top below navbar.

@@ -1,11 +1,15 @@
-<md-toast class="red">
-  <md-icon md-svg-src="./assets/images/alert_icon.svg"
-           alt="Insert Drive Icon" class="alert_typeIcon">
-  </md-icon>
-  <span ng-bind-html="vm.message" flex>{{ vm.message }}</span>
-  <md-button ng-click="vm.close()" aria-label>
-    <md-icon md-svg-src="./assets/images/close_icon_black.svg"
-             alt="Insert Drive Icon" class="alert_closeIcon">
+<md-toast class="red"layout="row" layout-align="space-between center">
+  <div flex>
+    <md-icon md-svg-src="./assets/images/alert_icon.svg"
+            alt="Insert Drive Icon" class="alert_typeIcon">
     </md-icon>
-  </md-button>
+    <span ng-bind-html="vm.message" flex>{{ vm.message }}</span>
+  </div>
+  <div flex-nogrow>
+    <md-button ng-click="vm.close()" aria-label>
+      <md-icon md-svg-src="./assets/images/close_icon_black.svg"
+              alt="Insert Drive Icon" class="alert_closeIcon">
+      </md-icon>
+    </md-button>
+  </div>
 </md-toast>
