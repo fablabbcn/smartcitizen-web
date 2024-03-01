@@ -174,7 +174,10 @@
         if (!object.hardware || !object.hardware.version || object.hardware.version.major > 1) {
           return false;
         } else {
-          return true;
+          if (object.hardware.version.major == 1 && object.hardware.version.minor <5 ){
+            return true;
+          }
+          return false;
         }
       }
 
