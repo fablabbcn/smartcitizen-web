@@ -54,7 +54,6 @@
             }
           })
           .value();
-          console.log(sensors)
           return sensors;
       };
 
