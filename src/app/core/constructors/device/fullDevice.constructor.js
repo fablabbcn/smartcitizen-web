@@ -9,7 +9,6 @@
        * @constructor
        * @extends Device
        * @param {Object} object - Object with all the data about the device from the API
-      //  TODO: Refactor - FIX
        * @property {Object} owner - Device owner data
        * @property {Array} data - Device sensor's data
        * @property {Array} sensors - Device sensors data
@@ -55,6 +54,7 @@
             }
           })
           .value();
+          console.log(sensors)
           return sensors;
       };
 

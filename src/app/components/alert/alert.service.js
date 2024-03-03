@@ -16,6 +16,8 @@
           private: infoDataPrivate,
         },
         longTime: infoLongTime,
+        // TODO: Refactor, check why this was removed
+        // inValid: infoDataInvalid,
         generic: info
       }
     };
@@ -57,9 +59,15 @@
         });
     }
 
+    // TODO: Refactor, check why this was removed
+    // function infoDataInvalid() {
+    //   info('Device not found, or it has been set to private.',
+    //     10000);
+    // }
+
     function infoLongTime() {
       info('😅 It looks like this kit hasn\'t posted any data in a long ' +
-        'time. Why not leave a comment to let its owner know?', 
+        'time. Why not leave a comment to let its owner know?',
         10000,
         {
           button: 'Leave comment',

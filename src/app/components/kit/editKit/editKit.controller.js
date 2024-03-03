@@ -115,8 +115,6 @@
               tags: vm.device.userTags,
               postprocessing: vm.device.postProcessing,
               description: vm.device.description,
-              // TODO: Refactor, make sure that this is part of the form, only editable
-              // if !vm.device.isSCK
               hardwareName: vm.device.hardware.name
             };
             vm.markers = {
@@ -127,11 +125,6 @@
               }
             };
 
-            console.log(vm.device)
-
-            // TODO: Refactor. Change based on new names for versions after refactor
-            // This needs to be available in world_map as well
-            // Double Check
             if (vm.device.isLegacy) {
               vm.deviceForm.macAddress = vm.device.macAddress;
             }
@@ -163,11 +156,6 @@
       function submitFormAndKit(){
         submitForm(toProfile, timewait.normal);
       }
-
-      // TODO: Refactor, remove
-      // function submitFormAndNext(){
-      //   submitForm(openKitSetup, timewait.short);
-      // }
 
       function submitForm(next, delayTransition) {
         var data = {

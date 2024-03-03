@@ -190,7 +190,6 @@
       }
 
       function parseOwner(object) {
-        // TODO: Refactor, check it didn't break anything
         return {
           id: object.owner.id,
           username: object.owner.username,
