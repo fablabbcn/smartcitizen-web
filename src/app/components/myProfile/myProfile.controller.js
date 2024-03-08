@@ -8,12 +8,12 @@
     'userData', 'AuthUser', 'user', 'auth', 'alert',
     'COUNTRY_CODES', '$timeout', 'file', 'animation',
     '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
-    'userUtils', '$filter','$state', 'Restangular'];
+    'userUtils', '$filter', '$state', 'Restangular', '$window'];
     function MyProfileController($scope, $location, $q, $interval,
       userData, AuthUser, user, auth, alert,
       COUNTRY_CODES, $timeout, file, animation,
       $mdDialog, PreviewDevice, device, deviceUtils,
-      userUtils, $filter, $state, Restangular) {
+      userUtils, $filter, $state, Restangular, $window) {
 
       var vm = this;
 
@@ -35,7 +35,8 @@
       // Will grow on to a dynamic API KEY management
       // with the new /accounts oAuth mgmt methods
 
-      // The auth controller has not populated the `user` at this point, so  user.token is undefined
+      // The auth controller has not populated the `user` at this point,
+      // so  user.token is undefined
       // This controller depends on auth has already been run.
       vm.user.token = auth.getToken();
       vm.addNewDevice = addNewDevice;
@@ -60,6 +61,10 @@
       });
 
       $scope.$on('devicesContextUpdated', function(){
+        var userData = auth.getCurrentUser().data;
+        if(userData){
+          vm.user = userData;
+        }
         initialize();
       });
 
@@ -68,6 +73,7 @@
       //////////////////
 
       function initialize() {
+
         startingTab();
         if(!vm.user.devices.length) {
           vm.devices = [];
@@ -177,9 +183,6 @@
           case 'user':
             vm.startingTab = 1;
             break;
-          // case 'tools':
-          //   vm.startingTab = 2;
-          //   break;
           default:
             vm.startingTab = 0;
             break;
@@ -330,13 +333,7 @@
               .removeDevice(deviceID)
               .then(function(){
                 alert.success('Your kit was deleted successfully');
-                device.updateContext().then(function(){
-                  var userData = auth.getCurrentUser().data;
-                  if(userData){
-                    vm.user = userData;
-                  }
-                  initialize();
-                });
+                device.updateContext();
               })
               .catch(function(){
                 alert.error('Error trying to delete your kit.');

@@ -93,13 +93,12 @@
         return getCurrentUserFromAPI()
           .then(function(data) {
             // TODO: Should this update the token or user.data? Then it could instead call setCurrentUser?
-            //$window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+            return getCurrentUser();
           });
       }
 
       function getCurrentUser() {
-        // TODO: remove next line. Saving tokenCookie into user.token should ONLY BE DONE IN ONE PLACE.
-        // Now this is also done in 'setCurrentUser'
         user.token = getToken();
         user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
         return user;

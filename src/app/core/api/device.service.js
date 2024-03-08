@@ -124,7 +124,10 @@
 			function removeDevice(deviceID){
 				return Restangular
           .one('devices', deviceID)
-					.remove();
+					.remove().then(function () {
+            $rootScope.$broadcast('devicesContextUpdated');
+          })
+        ;
 			}
 
       function updateContext (){
