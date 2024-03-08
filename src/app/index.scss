@@ -1685,11 +1685,17 @@ footer {
   .timeline {
     top: 56px;
   }
+  .profile_header {
+    margin-top: 53px;
+  }
 }
 
 @media (min-width: 0px) and (max-width: 959px) and (orientation: landscape) {
   .timeline {
     top: 53px;
+  }
+  .profile_header {
+    margin-top: 53px;
   }
 }
 
