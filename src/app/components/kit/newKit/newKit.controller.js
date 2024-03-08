@@ -9,9 +9,7 @@
       var vm = this;
 
       vm.step = 1;
-
       vm.submitStepOne = submitStepOne;
-      vm.submitStepTwo = submitStepTwo;
       vm.backToProfile = backToProfile;
 
       // FORM INFO
@@ -133,7 +131,6 @@
         device.createDevice(data)
           .then(
             function(response) {
-              alert.success('Your kit was created but has not been configured yet');
               device.updateContext().then(function(){
                 auth.setCurrentUser('appLoad').then(function(){
                   $timeout($state.go('layout.kitEdit', {id:response.id, step:2}), 2000);
@@ -144,10 +141,6 @@
               vm.errors = err.data.errors;
               alert.error('There has been an error during kit set up');
             });
-      }
-
-      function submitStepTwo() {
-
       }
 
       function getTags() {
