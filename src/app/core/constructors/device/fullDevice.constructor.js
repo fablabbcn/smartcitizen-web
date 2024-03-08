@@ -26,11 +26,11 @@
       FullDevice.prototype = Object.create(Device.prototype);
       FullDevice.prototype.constructor = FullDevice;
 
-      FullDevice.prototype.getSensors = function(sensorTypes, options) {
+      FullDevice.prototype.getSensors = function(options) {
         var sensors = _(this.data.sensors)
           .chain()
           .map(function(sensor) {
-            return new Sensor(sensor, sensorTypes);
+            return new Sensor(sensor);
           }).sort(function(a, b) {
             /* This is a temporary hack to set always PV panel at the end*/
             if (a.id === 18){ return -1;}

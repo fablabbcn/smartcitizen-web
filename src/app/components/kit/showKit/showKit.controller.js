@@ -8,12 +8,12 @@
     'sensor', 'FullDevice', '$mdDialog', 'belongsToUser',
     'timeUtils', 'animation', 'auth',
     '$timeout', 'alert', '$q', 'device',
-    'HasSensorDevice', 'geolocation', 'PreviewDevice', 'sensorTypes'];
+    'HasSensorDevice', 'geolocation', 'PreviewDevice'];
   function KitController($state, $scope, $stateParams,
     sensor, FullDevice, $mdDialog, belongsToUser,
     timeUtils, animation, auth,
     $timeout, alert, $q, device,
-    HasSensorDevice, geolocation, PreviewDevice, sensorTypes) {
+    HasSensorDevice, geolocation, PreviewDevice) {
 
     var vm = this;
     var sensorsData = [];
@@ -169,8 +169,7 @@
               deviceAnnouncements();
 
               /*Load sensor if it has already published*/
-              return $q.all([getMainSensors(vm.device, sensorTypes),
-              getCompareSensors(vm.device, sensorTypes)]);
+              return $q.all([getMainSensors(vm.device), getCompareSensors(vm.device)]);
             } else {
               /* Device just loaded and has no data yet */
               return $q.reject({noSensorData: true});
@@ -730,19 +729,17 @@
       });
     }
 
-    function getMainSensors(deviceData, sensorTypes) {
+    function getMainSensors(deviceData) {
       if(!deviceData) {
         return undefined;
       }
-      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'main'}));
-      return deviceData.getSensors(sensorTypes, {type: 'main'});
+      return deviceData.getSensors({type: 'main'});
     }
-    function getCompareSensors(deviceData, sensorTypes) {
+    function getCompareSensors(deviceData) {
       if(!vm.device) {
         return undefined;
       }
-      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'compare'}));
-      deviceData.getSensors(sensorTypes, {type: 'compare'});
+      deviceData.getSensors({type: 'compare'});
     }
     function getOwnerDevices(deviceData, sampling) {
       if(!deviceData) {

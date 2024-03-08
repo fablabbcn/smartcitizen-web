@@ -52,12 +52,6 @@
           controller: 'MapController',
           controllerAs: 'vm',
           resolve: {
-            sensorTypes: function(sensor) {
-              return sensor.callAPI()
-                .then(function(sensorTypes) {
-                  return sensorTypes.plain();
-                });
-            },
             selectedTags: function($stateParams, tag){
               if(typeof($stateParams.tags) === 'string'){
                 tag.setSelectedTags([$stateParams.tags]);
@@ -174,12 +168,6 @@
             }
           },
           resolve: {
-            sensorTypes: function(sensor) {
-              return sensor.callAPI()
-                .then(function(sensorTypes) {
-                  return sensorTypes.plain();
-                });
-            },
             selectedTags: function($stateParams, tag){
               if(typeof($stateParams.tags) === 'string'){
                 tag.setSelectedTags([$stateParams.tags]);
@@ -218,14 +206,7 @@
             }
           },
           params: {id: '', reloadMap: false},
-
           resolve: {
-            sensorTypes: function(sensor) {
-              return sensor.callAPI()
-                .then(function(sensorTypes) {
-                  return sensorTypes.plain();
-                });
-            },
             belongsToUser: belongsToUser
           }
         })
