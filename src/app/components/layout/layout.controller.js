@@ -42,7 +42,7 @@
         vm.isShown = true;
         angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
         vm.currentUser = auth.getCurrentUser().data;
-        vm.dropdownOptions[0].text = 'Hello, ' + vm.currentUser.username;
+        vm.dropdownOptions[0].text = 'Hi, ' + vm.currentUser.username + '!';
         vm.navRightLayout = 'end center';
         if(!$scope.$$phase) {
           $scope.$digest();

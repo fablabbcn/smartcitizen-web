@@ -8,8 +8,8 @@
    */
   angular.module('app.components')
     .constant('DROPDOWN_OPTIONS_USER', [
-      {divider: true, text: 'Hello,', href: './profile'},
-      // {text: 'PROFILE', href: './profile'},
-      {text: 'LOGOUT', href: './logout'}
+      {divider: true, text: 'Hi,', href: './profile'},
+      {text: 'My profile', href: './profile'},
+      {text: 'Log out', href: './logout'}
     ]);
 })();
