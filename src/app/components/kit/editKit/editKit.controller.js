@@ -25,7 +25,8 @@
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
     'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullDevice'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth, device, tag, alert, step, $stateParams, FullDevice) {
+    function EditKitController($scope, $element, $location, $timeout, $state, animation,
+      auth, device, tag, alert, step, $stateParams, FullDevice) {
 
       var vm = this;
 
@@ -168,85 +169,39 @@
           is_private: vm.deviceForm.is_private,
           notify_low_battery: vm.deviceForm.notify_low_battery,
           notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
+          mac_address: vm.deviceForm.macAddress ? vm.deviceForm.macAddress : null,
           /*jshint camelcase: false */
           user_tags: joinSelectedTags(),
         };
 
         vm.errors={};
-        var errors = [];
 
         if(!vm.device.isSCK) {
           data.hardware_name_override = vm.deviceForm.hardwareName;
         }
 
-        // TODO: Refactor, final check
-        if(vm.device.isLegacy){
-          if(!vm.deviceForm.macAddress || vm.deviceForm.macAddress === ''){
-            /*jshint camelcase: false */
-            var message = "The MAC address can't be empty";
-            // alert.error(message);
-            vm.errors['mac_address'] = [ "can't be blank" ]
-            data.mac_address = null;
-            errors.push(message);
-            // throw new Error('[Client:error] ' + message);
-          } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.deviceForm.macAddress)){
-            /*jshint camelcase: false */
-            data.mac_address = vm.deviceForm.macAddress;
-          } else {
-            /*jshint camelcase: false */
-            var message = 'The mac address you entered is not a valid address';
-            // alert.error(message);
-            data.mac_address = null;
-            vm.errors['mac_address'] = [ "is not valid" ];
-            errors.push(message);
-            // throw new Error('[Client:error] ' + message);
-          }
-        }
-
-        if (!vm.deviceForm.name) {
-          var message = "Name can't be blank";
-          // alert.error(message);
-          vm.errors['name'] = [ "can't be blank" ];
-          // throw new Error('[Client:error] ' + message);
-          errors.push(message);
-        }
-
-        if (errors && errors.length) {
-          alert.error('Oups! Check the input. Something went wrong!')
-          throw new Error('[Client:error] ' + 'Form has errors');
-        }
-
         device.updateDevice(vm.device.id, data)
           .then(
             function() {
-
               if (!vm.macAddress && $stateParams.step === 2) {
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
               } else if (next){
-                if (!vm.errors) {
-                  alert.success('Your kit was successfully updated');
-                }
+                alert.success('Your kit was updated!');
               }
 
-              if (!vm.errors || !vm.errors.length) {
-                device.updateContext().then(function(){
-                  if (next){
-                    alert.success('Your kit was successfully updated');
-                    $timeout(next, delayTransition);
-                  }
-                });
-              }
+              device.updateContext().then(function(){
+                if (next){
+                  $timeout(next, delayTransition);
+                }
+              });
             })
             .catch(function(err) {
-              console.log(err)
-              if(err.data.errors.mac_address[0] === 'has already been taken') {
-                alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
-                vm.errors['mac_address']=['has already been taken'];
-              }
-              else {
+              if(err.data.errors) {
                 vm.errors = err.data.errors;
-                console.log(vm.errors)
-                alert.error('There has been an error');
+                var message = Object.keys(vm.errors).map(function (key, _) {
+                  return [key, vm.errors[key][0]].join(' '); }).join('');
+                alert.error('Oups! Check the input. Something went wrong!');
+                throw new Error('[Client:error] ' + message);
               }
               $timeout(function(){ }, timewait.long);
             });
