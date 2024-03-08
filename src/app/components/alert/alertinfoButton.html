@@ -4,7 +4,7 @@
              alt="Alert icon" class="alert_typeIcon">
     </md-icon>
     <span flex>{{ vm.message }}</span>
-    <md-button ng-href="{{vm.href}}" class="alert_button">{{ vm.button }}</md-button>
+    <md-button ng-attr-target="_blank" ng-href="{{vm.href}}" class="alert_button">{{ vm.button }}</md-button>
   </div>
   <div flex-nogrow>
     <md-button ng-click="vm.close()" aria-label>
