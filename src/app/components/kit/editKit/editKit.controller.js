@@ -41,8 +41,6 @@
 
       // KEY USER ACTIONS
       vm.submitFormAndKit = submitFormAndKit;
-      // TODO: Refactor, remove
-      // vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
       vm.backToDevice = backToDevice;
       vm.submitForm = submitForm;
@@ -155,7 +153,7 @@
       }
 
       function submitFormAndKit(){
-        submitForm(toProfile, timewait.normal);
+        submitForm(backToProfile, timewait.normal);
       }
 
       function submitForm(next, delayTransition) {
@@ -169,7 +167,7 @@
           is_private: vm.deviceForm.is_private,
           notify_low_battery: vm.deviceForm.notify_low_battery,
           notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
-          mac_address: vm.deviceForm.macAddress ? vm.deviceForm.macAddress : null,
+          mac_address: "",
           /*jshint camelcase: false */
           user_tags: joinSelectedTags(),
         };
@@ -180,12 +178,20 @@
           data.hardware_name_override = vm.deviceForm.hardwareName;
         }
 
+        // Workaround for the mac_address bypass
+        // If mac_address is "", we get an error on the request -> we use it for the newKit
+        // If mac_address is null, no problem -> we use it for the
+        if ($stateParams.step === "2") {
+          data.mac_address = vm.deviceForm.macAddress ? vm.deviceForm.macAddress : "";
+        } else {
+          data.mac_address = vm.deviceForm.macAddress ? vm.deviceForm.macAddress : null;
+        }
+
         device.updateDevice(vm.device.id, data)
           .then(
             function() {
-              if (!vm.macAddress && $stateParams.step === 2) {
-                alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
-              } else if (next){
+
+              if (next){
                 alert.success('Your kit was updated!');
               }
 
@@ -248,27 +254,12 @@
       }
 
       function backToProfile(){
-        // TODO: Refactor Check
-        if (!vm.macAddress && $stateParams.step === 2) {
-          alert.info.generic('Remember you will need to register the Mac Address later 🔧');
-          $timeout(toProfile, timewait.normal);
-        } else {
-          toProfile();
-        }
-      }
-
-      function toProfile(){
         $state.transitionTo('layout.myProfile.kits', $stateParams,
         { reload: false,
           inherit: false,
           notify: true
         });
       }
-
-      // TODO: Refactor, remove
-      // function openKitSetup() {
-      //   $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
-      // }
 
       function backToDevice(){
         $state.transitionTo('layout.home.kit', $stateParams,
