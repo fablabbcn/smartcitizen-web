@@ -124,6 +124,7 @@
           .then(function(data) {
             var user = new AuthUser(data);
             _.extend(vm.user, user);
+            auth.updateUser();
             vm.errors = {};
             alert.success('User updated');
           })
