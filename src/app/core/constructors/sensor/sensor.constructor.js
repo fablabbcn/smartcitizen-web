@@ -34,10 +34,16 @@
         this.color = sensorUtils.getSensorColor(this.name);
         this.measurement = sensorData.measurement;
 
-        var description = sensorData.measurement.description;
-        this.fullDescription = description;
-        this.previewDescription = description.length > 140 ? description.slice(
-          0, 140).concat(' ... ') : description;
+        // Some sensors don't have measurements because they are ancestors
+        if (sensorData.measurement) {
+          var description = sensorData.measurement.description;
+          this.fullDescription = description;
+          this.previewDescription = description.length > 140 ? description.slice(
+            0, 140).concat(' ... ') : description;
+          this.is_ancestor = false;
+        } else {
+          this.is_ancestor = true;
+        }
 
         // Get sensor tags
         this.tags = sensorData.tags;
