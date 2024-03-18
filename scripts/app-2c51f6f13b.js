@@ -17,23 +17,23 @@
        * @property {number} id - User ID
        * @property {string} username - Username
        * @property {string} profile_picture - Avatar URL of user
-       * @property {Array} kits - Kits that belongs to this user
-       * @property {string} url - URL 
+       * @property {Array} devices - Kits that belongs to this user
+       * @property {string} url - URL
        * @property {string} city - User city
        * @property {string} country - User country
        */
-      
+
       function User(userData) {
         this.id = userData.id;
         this.username = userData.username;
         this.profile_picture = userData.profile_picture;
-        this.kits = userData.devices;
+        this.devices = userData.devices;
         this.url = userData.url;
         this.city = userData.location.city;
         /*jshint camelcase: false */
         this.country = COUNTRY_CODES[userData.location.country_code];
       }
-      return User;      
+      return User;
     }]);
 
 })();
@@ -88,7 +88,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Sensor', ['sensorUtils', 'measurement', function(sensorUtils,
+    .factory('Sensor', ['sensorUtils', 'timeUtils', 'measurement', function(sensorUtils, timeUtils,
       measurement) {
 
       /*jshint camelcase: false */
@@ -107,6 +107,7 @@
        * @property {string} unit - Unit of sensor. Ex: %
        * @property {string} value - Last value sent. Ex: 95
        * @property {string} prevValue - Previous value before last value
+       * @property {string} lastReadingAt - last_reading_at for the sensor reading
        * @property {string} icon - Icon URL for sensor
        * @property {string} arrow - Icon URL for sensor trend(up, down or equal)
        * @property {string} color - Color that belongs to sensor
@@ -125,6 +126,7 @@
         this.unit = sensorData.unit;
         this.value = sensorUtils.getSensorValue(sensorData);
         this.prevValue = sensorUtils.getSensorPrevValue(sensorData);
+        this.lastReadingAt = timeUtils.parseDate(sensorData.last_reading_at);
         this.icon = sensorUtils.getSensorIcon(this.name);
         this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
         this.color = sensorUtils.getSensorColor(this.name);
@@ -201,7 +203,7 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Marker', ['device', 'markerUtils', '$state', function(device, markerUtils, $state) {
+    .factory('Marker', ['deviceUtils', 'markerUtils', 'timeUtils', '$state', function(deviceUtils, markerUtils, timeUtils, $state) {
       /**
        * Marker constructor
        * @constructor
@@ -216,27 +218,28 @@
        */
       function Marker(deviceData) {
         let linkStart = '', linkEnd = '';
-        const id = markerUtils.parseId(deviceData);
+        const id = deviceData.id;
         if ($state.$current.name === 'embbed') {
           linkStart = '<a target="_blank" href="https://smartcitizen.me/kits/' + id + '">';
           linkEnd = '</a>';
         }
-        this.lat = markerUtils.parseCoordinates(deviceData).lat;
-        this.lng = markerUtils.parseCoordinates(deviceData).lng;
-        this.message = '<div class="popup"><div class="popup_top ' +
-          markerUtils.classify(markerUtils.parseTypeSlug(deviceData)) +
-          '">' + linkStart + '<p class="popup_name">' + markerUtils.parseName(deviceData) +
-          '</p><p class="popup_type">' + markerUtils.parseType(deviceData) +
+        this.lat = deviceUtils.parseCoordinates(deviceData).lat;
+        this.lng = deviceUtils.parseCoordinates(deviceData).lng;
+        // TODO: Bug, pop-up lastreading at doesn't get updated by publication
+        this.message = '<div class="popup"><div class="popup_top sck' +
+          '">' + linkStart + '<p class="popup_name">' + deviceUtils.parseName(deviceData, true) +
+          '</p><p class="popup_type">' +
+          deviceUtils.parseHardwareName(deviceData) +
           '</p><p class="popup_time"><md-icon class="popup_icon" ' +
           'md-svg-src="./assets/images/update_icon.svg"></md-icon>' +
-          markerUtils.parseTime(deviceData) + '</p>' + linkEnd + '</div>' +
+          timeUtils.parseDate(deviceData.last_reading_at).ago + '</p>' + linkEnd + '</div>' +
           '<div class="popup_bottom"><p class="popup_location">' +
           '<md-icon class="popup_icon" ' +
           'md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' +
-          markerUtils.parseLocation(deviceData) +
+          deviceUtils.parseLocation(deviceData) +
           '</p><div class="popup_labels">' +
-          createTagsTemplate(markerUtils.parseLabels(deviceData), 'label') +
-          createTagsTemplate(markerUtils.parseUserTags(deviceData),
+          createTagsTemplate(deviceUtils.parseSystemTags(deviceData), 'label') +
+          createTagsTemplate(deviceUtils.parseUserTags(deviceData),
             'tag', true) +
           '</div></div></div>';
 
@@ -245,12 +248,11 @@
         this.focus = false;
         this.myData = {
           id: id,
-          labels: markerUtils.parseLabels(deviceData),
-          tags: markerUtils.parseUserTags(deviceData)
+          labels: deviceUtils.parseSystemTags(deviceData),
+          tags: deviceUtils.parseUserTags(deviceData)
         };
       }
       return Marker;
-
 
       function createTagsTemplate(tagsArr, tagType, clickable) {
         if(typeof(clickable) === 'undefined'){
@@ -280,36 +282,29 @@
     }]);
 })();
 
-(function() {
+(function () {
   'use strict';
 
   angular.module('app.components')
-    .factory('PreviewKit', ['Kit', function(Kit) {
+    .factory('PreviewDevice', ['Device', function (Device) {
 
       /**
-       * Preview Kit constructor.
-       * Used for kits stacked in a list, like in User Profile or Kit states
-       * @extends Kit
+       * Preview Device constructor.
+       * Used for devices stacked in a list, like in User Profile or Device states
+       * @extends Device
        * @constructor
-       * @param {Object} object - Object with all the data about the kit from the API
+       * @param {Object} object - Object with all the data about the device from the API
        */
-      function PreviewKit(object) {
-        Kit.call(this, object);
+      function PreviewDevice(object) {
+        Device.call(this, object);
 
         this.dropdownOptions = [];
-
-        if (!object.kit_id || object.kit_id === 2 || object.kit_id === 3) {
-          this.dropdownOptions.push({text: 'SET UP', value: '1', href: 'kits/' + this.id + '/edit?step=2', icon: 'fa fa-wrench'});
-        }
-        this.dropdownOptions.push({text: 'EDIT', value: '2', href: 'kits/' + this.id + '/edit', icon: 'fa fa-edit'});
-        if (object.kit_id) {
-          this.dropdownOptions.push({text: 'SD CARD UPLOAD', value: '3', href: 'kits/' + this.id + '/upload', icon: 'fa fa-sd-card'});
-        }
-
+        this.dropdownOptions.push({ text: 'EDIT', value: '1', href: 'kits/' + this.id + '/edit', icon: 'fa fa-edit' });
+        this.dropdownOptions.push({ text: 'SD CARD UPLOAD', value: '2', href: 'kits/' + this.id + '/upload', icon: 'fa fa-sd-card' });
       }
-      PreviewKit.prototype = Object.create(Kit.prototype);
-      PreviewKit.prototype.constructor = Kit;
-      return PreviewKit;
+      PreviewDevice.prototype = Object.create(Device.prototype);
+      PreviewDevice.prototype.constructor = Device;
+      return PreviewDevice;
     }]);
 })();
 
@@ -317,56 +312,21 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Kit', ['Sensor', 'kitUtils', function(Sensor, kitUtils) {
+    .factory('HasSensorDevice', ['Device', function(Device) {
 
-      /**
-       * Kit constructor. 
-       * @constructor
-       * @param {Object} object - Object with all the data about the kit from the API
-       * @property {number} id - ID of the kit
-       * @property {string} name - Name of the kit
-       * @property {string} type - Type of kit. Ex: SmartCitizen Kit
-       * @property {string} location - Location of kit. Ex: Madrid, Spain; Germany; Paris, France
-       * @property {string} avatar - URL that contains the user avatar
-       * @property {Array} labels - System tags
-       * @property {string} state - State of the kit. Ex: Never published
-       * @property {Array} userTags - User tags. Ex: ''
-       */
-      function Kit(object) {
-        this.id = object.id;
-        this.name = object.name;
-        this.type = kitUtils.parseType(object);
-        this.location = kitUtils.parseLocation(object);
-        this.avatar = kitUtils.parseAvatar(object, this.type);
-        this.labels = kitUtils.parseLabels(object); //TODO: refactor name to systemTags
-        this.state = kitUtils.parseState(object);
-        /*jshint camelcase: false */
-        this.userTags = object.user_tags;
-      }
+      function HasSensorDevice(object) {
+        Device.call(this, object);
 
-      return Kit;
-    }]);
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('HasSensorKit', ['Kit', function(Kit) {
-
-      function HasSensorKit(object) {
-        Kit.call(this, object);
-
-        this.data = object.data.sensors;
+        this.sensors = object.data.sensors;
         this.longitude = object.data.location.longitude;
         this.latitude = object.data.location.latitude;
       }
 
-      HasSensorKit.prototype = Object.create(Kit.prototype);
-      HasSensorKit.prototype.constructor = Kit;
+      HasSensorDevice.prototype = Object.create(Device.prototype);
+      HasSensorDevice.prototype.constructor = Device;
 
-      HasSensorKit.prototype.sensorsHasData = function() {
-        var parsedSensors = this.data.map(function(sensor) {
+      HasSensorDevice.prototype.sensorsHasData = function() {
+        var parsedSensors = this.sensors.map(function(sensor) {
           return sensor.value;
         });
 
@@ -375,7 +335,7 @@
         });
       };
 
-      return HasSensorKit;
+      return HasSensorDevice;
     }]);
 })();
 
@@ -383,50 +343,33 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('FullKit', ['Kit', 'Sensor', 'kitUtils', function(Kit, Sensor, kitUtils) {
+    .factory('FullDevice', ['Device', 'Sensor', 'deviceUtils', function(Device, Sensor, deviceUtils) {
 
       /**
-       * Full Kit constructor.
+       * Full Device constructor.
        * @constructor
-       * @extends Kit
-       * @param {Object} object - Object with all the data about the kit from the API
-       * @property {string} version - Kit version. Ex: 1.0
-       * @property {string} time - Last time kit sent data in UTC format
-       * @property {string} timeParsed - Last time kit sent data in readable format
-       * @property {string} timeAgo - Last time kit sent data in 'ago' format. Ex: 'a few seconds ago'
-       * @property {string} class - CSS class for kit
-       * @property {string} description - Kit description
-       * @property {Object} owner - Kit owner data
-       * @property {Array} data - Kit sensor's data
-       * @property {number} latitude - Kit latitude
-       * @property {number} longitude - Kit longitude
-       * @property {string} macAddress - Kit mac address
-       * @property {number} elevation
+       * @extends Device
+       * @param {Object} object - Object with all the data about the device from the API
+      //  TODO: Refactor - FIX
+       * @property {Object} owner - Device owner data
+       * @property {Array} data - Device sensor's data
+       * @property {Array} sensors - Device sensors data
+       * @property {Array} postProcessing - Device postprocessing
        */
-      function FullKit(object) {
-        Kit.call(this, object);
+      function FullDevice(object) {
+        Device.call(this, object);
 
-        this.version = kitUtils.parseVersion(object);
-        this.time = kitUtils.parseTime(object);
-        this.timeParsed = !this.time ? 'No time' : moment(this.time).format('MMMM DD, YYYY - HH:mm');
-        this.timeAgo = !this.time ? 'No time' : moment(this.time).fromNow();
-        this.class = kitUtils.classify(kitUtils.parseTypeSlug(object));
-        this.description = object.description;
-        this.owner = kitUtils.parseOwner(object);
-        this.data = object.data.sensors;
-        this.latitude = object.data.location.latitude;
-        this.longitude = object.data.location.longitude;
-        /*jshint camelcase: false */
-        this.macAddress = object.mac_address;
-        this.elevation = object.data.location.elevation;
-        this.typeDescription = kitUtils.parseTypeDescription(object);
+        this.owner = deviceUtils.parseOwner(object);
+        this.postProcessing = object.postprocessing;
+        this.data = object.data;
+        this.sensors = object.data.sensors;
       }
 
-      FullKit.prototype = Object.create(Kit.prototype);
-      FullKit.prototype.constructor = FullKit;
+      FullDevice.prototype = Object.create(Device.prototype);
+      FullDevice.prototype.constructor = FullDevice;
 
-      FullKit.prototype.getSensors = function(sensorTypes, options) {
-        var sensors = _(this.data)
+      FullDevice.prototype.getSensors = function(sensorTypes, options) {
+        var sensors = _(this.data.sensors)
           .chain()
           .map(function(sensor) {
             return new Sensor(sensor, sensorTypes);
@@ -456,8 +399,74 @@
           return sensors;
       };
 
-      return FullKit;
-    }]); 
+      return FullDevice;
+    }]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .factory('Device', ['deviceUtils', 'timeUtils', function(deviceUtils, timeUtils) {
+
+      /**
+       * Device constructor.
+       * @constructor
+       * @param {Object} object - Object with all the data about the device from the API
+       * @property {number} id - ID of the device
+       * @property {string} name - Name of the device
+       * @property {string} state - State of the device. Ex: Never published
+       * @property {string} description - Device description
+       * @property {Array} systemTags - System tags
+       * @property {Array} userTags - User tags. Ex: ''
+       * @property {bool} isPrivate - True if private device
+       * @property {Array} notifications - Notifications for low battery and stopped publishing
+       * @property {Object} lastReadingAt - last_reading_at: raw, ago, and parsed
+       * @property {Object} createdAt - created_at: raw, ago, and parsed
+       * @property {Object} updatedAt - updated_at: raw, ago, and parsed
+       * @property {Object} location - Location of device. Object with lat, long, elevation, city, country, country_code
+       * @property {string} locationString - Location of device. Ex: Madrid, Spain; Germany; Paris, France
+       * @property {Object} hardware - Device hardware field. Contains type, version, info, slug and name
+       * @property {string} hardwareName - Device hardware name
+       * @property {bool} isLegacy - True if legacy device
+       * @property {bool} isSCK - True if SC device
+       * @property {string} avatar - URL that contains the user avatar
+       */
+      function Device(object) {
+        // Basic information
+        this.id = object.id;
+        this.name = object.name;
+        this.state = deviceUtils.parseState(object);
+        this.description = object.description;
+        this.token = object.device_token;
+        this.macAddress = object.mac_address;
+
+        // Tags and dates
+        this.systemTags = deviceUtils.parseSystemTags(object);
+        this.userTags = deviceUtils.parseUserTags(object);
+        this.isPrivate = deviceUtils.isPrivate(object);
+        this.notifications = deviceUtils.parseNotifications(object);
+        this.lastReadingAt = timeUtils.parseDate(object.last_reading_at);
+        this.createdAt = timeUtils.parseDate(object.created_at);
+        this.updatedAt = timeUtils.parseDate(object.updated_at);
+
+        // Location
+        this.location = object.location;
+        this.locationString = deviceUtils.parseLocation(object);
+
+        // Hardware
+        this.hardware = deviceUtils.parseHardware(object);
+        this.hardwareName = deviceUtils.parseHardwareName(this);
+        this.isLegacy = deviceUtils.isLegacyVersion(this);
+        this.isSCK = deviceUtils.isSCKHardware(this);
+        // this.class = deviceUtils.classify(object); // TODO - Do we need this?
+
+        this.avatar = deviceUtils.parseAvatar();
+        /*jshint camelcase: false */
+      }
+
+      return Device;
+    }]);
 })();
 
 (function() {
@@ -468,7 +477,7 @@
 
   /**
    * Backdrop for chart section when kit has no data
-   * 
+   *
    */
   noDataBackdrop.$inject = [];
 
@@ -480,14 +489,14 @@
       controller: function($scope, $timeout) {
         var vm = this;
 
-        vm.kitWithoutData = false;
+        vm.deviceWithoutData = false;
         vm.scrollToComments = scrollToComments;
 
-        $scope.$on('kitWithoutData', function(ev, data) {
+        $scope.$on('deviceWithoutData', function(ev, data) {
 
           $timeout(function() {
-            vm.kit = data.kit;
-            vm.kitWithoutData = true;
+            vm.device = data.device;
+            vm.deviceWithoutData = true;
 
             if (data.belongsToUser) {
               vm.user = 'owner';
@@ -516,14 +525,14 @@
 
     /**
      * Backdrop for app initialization and between states
-     * 
+     *
      */
     loadingBackdrop.$inject = [];
     function loadingBackdrop() {
       return {
         templateUrl: 'app/core/animation/backdrop/loadingBackdrop.html',
         controller: function($scope) {
-          var vm = this;  
+          var vm = this;
           vm.isViewLoading = true;
           vm.mapStateLoading = false;
 
@@ -536,7 +545,7 @@
             vm.isViewLoading = false;
           });
 
-          // listen for map state loading event 
+          // listen for map state loading event
           $scope.$on('mapStateLoading', function() {
             if(vm.isViewLoading) {
               return;
@@ -559,40 +568,39 @@
   angular.module('app.components')
     .controller('KitController', KitController);
 
-  KitController.$inject = ['$state','$scope', '$stateParams', '$filter',
-    'utils', 'sensor', 'FullKit', '$mdDialog', 'belongsToUser',
-    'timeUtils', 'animation', 'auth', 'kitUtils', 'userUtils',
+  KitController.$inject = ['$state','$scope', '$stateParams',
+    'sensor', 'FullDevice', '$mdDialog', 'belongsToUser',
+    'timeUtils', 'animation', 'auth',
     '$timeout', 'alert', '$q', 'device',
-    'HasSensorKit', 'geolocation', 'PreviewKit', 'sensorTypes'];
-  function KitController($state, $scope, $stateParams, $filter,
-    utils, sensor, FullKit, $mdDialog, belongsToUser,
-    timeUtils, animation, auth, kitUtils, userUtils,
+    'HasSensorDevice', 'geolocation', 'PreviewDevice', 'sensorTypes'];
+  function KitController($state, $scope, $stateParams,
+    sensor, FullDevice, $mdDialog, belongsToUser,
+    timeUtils, animation, auth,
     $timeout, alert, $q, device,
-    HasSensorKit, geolocation, PreviewKit, sensorTypes) {
+    HasSensorDevice, geolocation, PreviewDevice, sensorTypes) {
 
     var vm = this;
     var sensorsData = [];
 
     var mainSensorID, compareSensorID;
     var picker;
-    vm.kitID = $stateParams.id;
+    vm.deviceID = $stateParams.id;
     vm.battery = {};
     vm.downloadData = downloadData;
     vm.geolocate = geolocate;
-    vm.kit = undefined;
-    vm.kitBelongsToUser = belongsToUser;
-    vm.kitWithoutData = false;
-    vm.kitIsPrivate = false;
+    vm.device = undefined;
+    vm.deviceBelongsToUser = belongsToUser;
+    vm.deviceWithoutData = false;
     vm.legacyApiKey = belongsToUser ?
       auth.getCurrentUser().data.key :
       undefined;
     vm.loadingChart = true;
     vm.moveChart = moveChart;
     vm.allowUpdateChart = true;
-    vm.ownerKits = [];
-    vm.removeKit = removeKit;
+    vm.ownerDevices = [];
+    vm.removeDevice = removeDevice;
     vm.resetTimeOpts = resetTimeOpts;
-    vm.sampleKits = [];
+    vm.sampleDevices = [];
     vm.selectedSensor = undefined;
     vm.selectedSensorData = {};
     vm.selectedSensorToCompare = undefined;
@@ -631,8 +639,8 @@
       vm.sensorsToCompare = getSensorsToCompare();
 
       $timeout(function() {
+        // TODO: Improvement, change how we set the colors
         colorSensorCompareName();
-
         setSensor({type: 'main', value: newVal});
 
         if (picker){
@@ -687,55 +695,53 @@
     }
 
     function updatePeriodically(){
-      getAndUpdateKit().then(function(){
+      getAndUpdateDevice().then(function(){
         pollAndUpdate();
       });
     }
 
-    function getAndUpdateKit(){
-      if (vm.kitID || !isNaN(vm.kitID)){
-        return device.getDevice(vm.kitID)
+    function getAndUpdateDevice(){
+      // TODO: Improvement UX Change below to && to avoid constant unhandled error
+      // Through reject is not possible
+      if (vm.deviceID || !isNaN(vm.deviceID)){
+        return device.getDevice(vm.deviceID)
           .then(function(deviceData) {
             if (deviceData.is_private) {
-              kitIsPrivate();
+              deviceIsPrivate();
             }
+            var newDevice = new FullDevice(deviceData);
+            vm.prevDevice = vm.device;
 
-            var newKit = new FullKit(deviceData);
-
-            vm.prevKit = vm.kit;
-
-            if (vm.prevKit) {
+            if (vm.prevDevice) {
               /* Kit already loaded. We are waiting for updates */
-              if (vm.prevKit.state.name !== 'has published' && newKit.state.name === 'has published'){
+              if (vm.prevDevice.state.name !== 'has published' && newDevice.state.name === 'has published'){
                 /* The kit has just published data for the first time. Fully reload the view */
                 return $q.reject({justPublished: true});
-              } else if(new Date(vm.prevKit.time) >= new Date(newKit.time)) {
+              } else if(new Date(vm.prevDevice.lastReadingAt.raw) >= new Date(newDevice.lastReadingAt.raw)) {
                 /* Break if there's no new data*/
                 return $q.reject();
               }
             }
 
-            vm.kit = newKit;
+            vm.device = newDevice;
+            setOwnerSampleDevices();
 
-            setOwnerSampleKits();
-            updateKitViewExtras();
-
-            if (vm.kit.state.name === 'has published') {
-              /* Kit has data */
-              setKitOnMap();
+            if (vm.device.state.name === 'has published') {
+              /* Device has data */
+              setDeviceOnMap();
               setChartTimeRange();
-              kitAnnouncements();
+              deviceAnnouncements();
+
               /*Load sensor if it has already published*/
-              return $q.all([getMainSensors(vm.kit, sensorTypes),
-              getCompareSensors(vm.kit, sensorTypes)]);
+              return $q.all([getMainSensors(vm.device, sensorTypes),
+              getCompareSensors(vm.device, sensorTypes)]);
             } else {
-              /* Kit just loaded and has no data yet */
+              /* Device just loaded and has no data yet */
               return $q.reject({noSensorData: true});
             }
-
           })
           .then(setSensors, killSensorsLoading);
-       }
+      }
     }
 
     function killSensorsLoading(error){
@@ -744,49 +750,49 @@
           $state.go('layout.404');
         }
         else if (error.justPublished) {
-          $state.transitionTo($state.current, {reloadMap: true, id: vm.kitID}, {
+          $state.transitionTo($state.current, {reloadMap: true, id: vm.deviceID}, {
             reload: true, inherit: false, notify: true
           });
         }
         else if (error.noSensorData) {
-          kitHasNoData();
+          deviceHasNoData();
         }
         else if (error.status === 403){
-          kitIsPrivate();
+          deviceIsPrivate();
         }
       }
     }
 
-    function kitAnnouncements(){
-      if(!timeUtils.isWithin(1, 'months', vm.kit.time)) {
-        /* TODO: Update the message */
+    function deviceAnnouncements(){
+      if(!timeUtils.isWithin(1, 'months', vm.device.lastReadingAt.raw)) {
+        //TODO: Cosmetic Update the message
         alert.info.longTime();
       }
-      /* The kit has just published data after not publishing for 15min */
-      else if(vm.prevKit && timeUtils.isDiffMoreThan15min(vm.prevKit.time, vm.kit.time)) {
+      /* The device has just published data after not publishing for 15min */
+      else if(vm.prevDevice && timeUtils.isDiffMoreThan15min(vm.prevDevice.lastReadingAt.raw, vm.device.lastReadingAt.raw)) {
         alert.success('Your Kit just published again!');
       }
     }
 
-    function kitHasNoData() {
-      vm.kitWithoutData = true;
-      animation.kitWithoutData({kit: vm.kit, belongsToUser:vm.kitBelongsToUser});
-      if(vm.kitBelongsToUser) {
+    function deviceHasNoData() {
+      vm.deviceWithoutData = true;
+      animation.deviceWithoutData({device: vm.device, belongsToUser:vm.deviceBelongsToUser});
+      if(vm.deviceBelongsToUser) {
         alert.info.noData.owner($stateParams.id);
       } else {
         alert.info.noData.visitor();
       }
     }
 
-    function kitIsPrivate() {
-      vm.kitIsPrivate = true;
+    function deviceIsPrivate() {
       alert.info.noData.private();
     }
 
-    function setOwnerSampleKits() {
-      getOwnerKits(vm.kit, -5)
-        .then(function(ownerKits){
-          vm.sampleKits = ownerKits;
+    function setOwnerSampleDevices() {
+      // TODO: Refactor - this information is in the user, no need to go to devices
+      getOwnerDevices(vm.device, -6)
+        .then(function(ownerDevices){
+          vm.sampleDevices = ownerDevices;
         });
     }
 
@@ -797,9 +803,9 @@
       }
     }
 
-    function setKitOnMap() {
-      animation.kitLoaded({lat: vm.kit.latitude, lng: vm.kit.longitude,
-          id: vm.kit.id});
+    function setDeviceOnMap() {
+      animation.deviceLoaded({lat: vm.device.latitude, lng: vm.device.longitude,
+          id: vm.device.id});
     }
 
     function setSensors(sensorsRes){
@@ -819,6 +825,8 @@
         vm.sensorsToCompare = compareSensors;
         vm.selectedSensor = (vm.sensors && vm.sensors[0]) ? vm.sensors[0].id : undefined;
       }
+
+      animation.mapStateLoaded();
     }
 
     function checkRaw(value){
@@ -826,15 +834,8 @@
     }
 
     function getHardwareName(value) {
-      vm.sensorNames[value.id] = vm.kit.data.find(element => element.id === value.id).name;
+      vm.sensorNames[value.id] = vm.device.sensors.find(element => element.id === value.id).name;
     }
-
-    function updateKitViewExtras(){
-      if(!vm.kit.version || vm.kit.version.id === 2 || vm.kit.version.id === 3){
-        vm.setupAvailable = true;
-      }
-    }
-
     function setSensorSideChart() {
       if(vm.sensors){
         vm.sensors.forEach(function(sensor) {
@@ -845,7 +846,7 @@
       }
     }
 
-    function removeKit() {
+    function removeDevice() {
       var confirm = $mdDialog.confirm()
         .title('Delete this kit?')
         .textContent('Are you sure you want to delete this kit?')
@@ -859,7 +860,7 @@
         .show(confirm)
         .then(function(){
           device
-            .removeDevice(vm.kit.id)
+            .removeDevice(vm.device.id)
             .then(function(){
               alert.success('Your kit was deleted successfully');
               device.updateContext().then(function(){
@@ -966,7 +967,7 @@
         return [];
       }
       return data[sensorID].map(function(dataPoint) {
-        var time = parseTime(dataPoint[0]);
+        var time = timeUtils.formatDate(dataPoint[0]);
         var value = dataPoint[1];
         var count = value === null ? 0 : value;
         return {
@@ -975,10 +976,6 @@
           value: value
         };
       });
-    }
-
-    function parseTime(t) {
-      return moment(t).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     function setSensor(options) {
@@ -998,10 +995,6 @@
       name.css('color', vm.selectedSensorToCompareData.color || 'white');
       var icon = angular.element('.sensor_compare').find('md-select-label').find('.md-select-icon');
       icon.css('color', 'white');
-    }
-
-    function getMillisFromDate(date) {
-      return (new Date(date)).getTime();
     }
 
     function getCurrentRange() {
@@ -1030,7 +1023,7 @@
       } else if(direction === 'right') {
         var today = timeUtils.getToday();
         var currentValueTo = picker.getValuePickerTo();
-        if( timeUtils.isSameDay(today, getMillisFromDate(currentValueTo)) ) {
+        if( timeUtils.isSameDay(today, timeUtils.getMillisFromDate(currentValueTo)) ) {
           return;
         }
 
@@ -1110,27 +1103,13 @@
       //set to-picker max to today
       to_picker.set('max', getLatestUpdated());
 
-      function getToday() {
-        return getMillisFromDate(new Date());
-      }
-
-      function getHourAgo(date) {
-        var now = moment(date);
-        return now.subtract(1, 'hour').valueOf();
-      }
-
-      function getSevenDaysAgo() {
-        var now = moment();
-        return now.subtract(7, 'days').valueOf();
-      }
-
       function getSevenDaysAgoFromLatestUpdate() {
-        var lastTime = moment(vm.kit.time);
+        var lastTime = moment(vm.device.lastReadingAt.raw);
         return lastTime.subtract(7, 'days').valueOf();
       }
 
       function getLatestUpdated() {
-        return moment(vm.kit.time).toDate();
+        return moment(vm.device.lastReadingAt.raw).toDate();
       }
 
       function getCalculatedFrom(pickerTimeFrom) {
@@ -1201,20 +1180,18 @@
         updateChart();
       }
 
-
-      if(vm.kit){
-        if(vm.kit.labels.includes('new')){
+      if(vm.device){
+        if(vm.device.systemTags.includes('new')){
           var lastUpdate = getLatestUpdated();
-          setRange(getHourAgo(lastUpdate), lastUpdate);
-        } else if (timeUtils.isWithin(7, 'days', vm.kit.time) || !vm.kit.time) {
+          setRange(timeUtils.getHourBefore(lastUpdate), lastUpdate);
+        } else if (timeUtils.isWithin(7, 'days', vm.device.lastReadingAt.raw) || !vm.device.lastReadingAt.raw) {
           //set from-picker to seven days ago and set to-picker to today
-          setRange(getSevenDaysAgo(), getToday());
+          setRange(timeUtils.getSevenDaysAgo(), timeUtils.getToday());
         } else {
           // set from-picker to and set to-picker to today
           setRange(getSevenDaysAgoFromLatestUpdate(), getLatestUpdated());
         }
       }
-
 
       // api to interact with the picker from outside
       return {
@@ -1260,18 +1237,18 @@
               _(data)
                 .chain()
                 .map(function(device) {
-                  return new HasSensorKit(device);
+                  return new HasSensorDevice(device);
                 })
-                .filter(function(kit) {
-                  return !!kit.longitude && !!kit.latitude;
+                .filter(function(device) {
+                  return !!device.longitude && !!device.latitude;
                 })
-                .find(function(kit) {
-                  return _.includes(kit.labels, 'online');
+                .find(function(device) {
+                  return _.includes(device.labels, 'online');
                 })
-                .tap(function(closestKit) {
+                .tap(function(closestDevice) {
                   if(focused){
-                    if(closestKit) {
-                      $state.go('layout.home.kit', {id: closestKit.id});
+                    if(closestDevice) {
+                      $state.go('layout.home.kit', {id: closestDevice.id});
                     } else {
                       $state.go('layout.home.kit', {id: data[0].id});
                     }
@@ -1283,14 +1260,14 @@
       }
     }
 
-    function downloadData(kit){
+    function downloadData(device){
       $mdDialog.show({
         hasBackdrop: true,
         controller: 'DownloadModalController',
         controllerAs: 'vm',
         templateUrl: 'app/components/download/downloadModal.html',
         clickOutsideToClose: true,
-        locals: {thisKit:kit}
+        locals: {thisDevice: device}
       }).then(function(){
         var alert = $mdDialog.alert()
         .title('SUCCESS')
@@ -1317,29 +1294,32 @@
       });
     }
 
-    function getMainSensors(kitData, sensorTypes) {
-      if(!kitData) {
+    function getMainSensors(deviceData, sensorTypes) {
+      if(!deviceData) {
         return undefined;
       }
-      return kitData.getSensors(sensorTypes, {type: 'main'});
+      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'main'}));
+      return deviceData.getSensors(sensorTypes, {type: 'main'});
     }
-    function getCompareSensors(kitData,sensorTypes) {
-      if(!vm.kit) {
+    function getCompareSensors(deviceData, sensorTypes) {
+      if(!vm.device) {
         return undefined;
       }
-      return kitData.getSensors(sensorTypes, {type: 'compare'});
+      // return $q.all(deviceData.getSensors(sensorTypes, {type: 'compare'}));
+      deviceData.getSensors(sensorTypes, {type: 'compare'});
     }
-    function getOwnerKits(kitData, sampling) {
-      if(!kitData) {
+    function getOwnerDevices(deviceData, sampling) {
+      if(!deviceData) {
         return undefined;
       }
-      var kitIDs = kitData.owner.kits.slice(sampling);
-
+      var deviceIDs = deviceData.owner.devices.slice(sampling);
+      // var ownerID = deviceData.owner.id;
+      // TODO: Refactor This is in the user endpoint, no need to query devices
       return $q.all(
-        kitIDs.map(function(id) {
+        deviceIDs.map(function(id) {
           return device.getDevice(id)
             .then(function(data) {
-              return new PreviewKit(data);
+              return new PreviewDevice(data);
             });
         })
       );
@@ -1350,18 +1330,19 @@
       instead it will show the last hour or day*/
       var to, from;
       if (what === '60 minutes') {
-        to = moment(vm.kit.time);
-        from = moment(vm.kit.time).subtract(60, 'minutes');
+        to = moment(vm.device.lastReadingAt.raw);
+        from = moment(vm.device.lastReadingAt.raw).subtract(60, 'minutes');
       } else {
-        to = moment(vm.kit.time).endOf(what);
-        from = moment(vm.kit.time).startOf(what);
+        to = moment(vm.device.lastReadingAt.raw).endOf(what);
+        from = moment(vm.device.lastReadingAt.raw).startOf(what);
       }
       // Check if we are in the future
       if (moment().diff(to) < 0){
-        to = moment(vm.kit.time);
+        to = moment(vm.device.lastReadingAt.raw);
       }
       picker.setValuePickers([from.toDate(), to.toDate()]);
     }
+
     function timeOptSelected(){
       vm.allowUpdateChart = false;
       if (vm.dropDownSelection){
@@ -1384,109 +1365,9 @@
   }
 })();
 
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .directive('setuptool', setuptool);
-
-  setuptool.$inject = ['scktoolService'];
-  function setuptool(scktoolService){
-    return {
-      restrict: 'A',
-      link: link,
-      scope:false
-    };
-
-    function link(scope, element, attrs){
-      var publishedPID;
-
-      scope.vm.macAddressFieldVisible = true;
-
-      scktoolService.scktool().then(function(){
-        $(element).sckapp();
-
-        $(element).on('sck_start', function(event, data){
-          scope.vm.macAddressFieldVisible = false;
-          scope.vm.nextAction = 'no';
-          if(publishedPID){
-            publishedPID();
-          }
-          scope.$apply();
-        });
-
-        $(element).on('sck_info', function(event, data){
-          scope.vm.macAddress = data.mac;
-          scope.$apply();
-          scope.vm.submitForm();
-        });
-
-        $(element).on('sck_done', function(event, data){
-          scope.vm.nextAction = 'ready';
-          scope.$apply();
-        });
-
-      });
-    }
-  }
-
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .service('scktoolService', scktoolService);
-
-  scktoolService.$inject = ['angularLoad', '$q'];
-  function scktoolService(angularLoad, $q){
-    var d = $q.defer();
-    var scripts = [
-      'scripts/scktool-app.js',
-      'scripts/scktool-connector.js'
-    ];
-    var scriptsLoaded = 0;
-
-    var service = {
-      scktool: scktool
-    };
-
-    initialize();
-
-    return service;
-
-    //////////////////////////////
-
-    function initialize(){
-      load(scripts[scriptsLoaded]);
-    }
-
-    function load(scriptSrc){
-      angularLoad.loadScript(scriptSrc)
-        .then(function(){
-          onScriptLoad();
-        });
-    }
-
-    function onScriptLoad(){
-      scriptsLoaded++;
-      if(scriptsLoaded < scripts.length){
-        load(scripts[scriptsLoaded]);
-        return;
-      }
-
-      d.resolve();
-    }
-
-    function scktool(){
-      return d.promise;
-    }
-
-  }
-})();
-
 (function() {
   'use strict';
+  //TODO: Remove
 
   angular.module('app.components')
     .controller('NewKitController', NewKitController);
@@ -1501,7 +1382,7 @@
       vm.submitStepTwo = submitStepTwo;
 
       // FORM INFO
-      vm.kitForm = {
+      vm.deviceForm = {
         name: undefined,
         exposure: undefined,
         location: {
@@ -1510,6 +1391,7 @@
           zoom: 16
         },
         is_private: false,
+        legacyVersion: '1.1',
         tags: []
       };
 
@@ -1519,9 +1401,15 @@
         {name: 'outdoor', value: 2}
       ];
 
+      // VERSION SELECT
+      vm.version = [
+        {name: 'Smart Citizen Kit 1.0', value: '1.0'},
+        {name: 'Smart Citizen Kit 1.1', value: '1.1'}
+      ];
+
       $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
-        vm.kitForm.location.lat = args.model.lat;
-        vm.kitForm.location.lng = args.model.lng;
+        vm.deviceForm.location.lat = args.model.lat;
+        vm.deviceForm.location.lng = args.model.lng;
       });
 
       // TAGS SELECT
@@ -1533,7 +1421,7 @@
         // remove selected tag from select element
         vm.tag = undefined;
 
-        var alreadyPushed = _.some(vm.kitForm.tags, function(tag) {
+        var alreadyPushed = _.some(vm.deviceForm.tags, function(tag) {
           return tag.id === newVal;
         });
         if(alreadyPushed) {
@@ -1543,12 +1431,11 @@
         var tag = _.find(vm.tags, function(tag) {
           return tag.id === newVal;
         });
-        vm.kitForm.tags.push(tag);
+        vm.deviceForm.tags.push(tag);
       });
       vm.removeTag = removeTag;
 
       // MAP CONFIGURATION
-
       var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
 
       vm.getLocation = getLocation;
@@ -1583,8 +1470,8 @@
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
+            vm.deviceForm.location.lat = lat;
+            vm.deviceForm.location.lng = lng;
             vm.markers.main.lat = lat;
             vm.markers.main.lng = lng;
           });
@@ -1592,21 +1479,22 @@
       }
 
       function removeTag(tagID) {
-        vm.kitForm.tags = _.filter(vm.kitForm.tags, function(tag) {
+        vm.deviceForm.tags = _.filter(vm.deviceForm.tags, function(tag) {
           return tag.id !== tagID;
         });
       }
 
       function submitStepOne() {
         var data = {
-          name: vm.kitForm.name,
-          description: vm.kitForm.description,
-          exposure: findExposure(vm.kitForm.exposure),
-          latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.lng,
-          is_private: vm.kitForm.is_private,
+          name: vm.deviceForm.name,
+          description: vm.deviceForm.description,
+          exposure: findExposure(vm.deviceForm.exposure),
+          latitude: vm.deviceForm.location.lat,
+          longitude: vm.deviceForm.location.lng,
+          is_private: vm.deviceForm.is_private,
+          hardware_version_override: vm.deviceForm.legacyVersion,
           /*jshint camelcase: false */
-          user_tags: _.map(vm.kitForm.tags, 'name').join(',')
+          user_tags: _.map(vm.deviceForm.tags, 'name').join(',')
         };
 
         device.createDevice(data)
@@ -1684,13 +1572,12 @@
     .controller('EditKitController', EditKitController);
 
     EditKitController.$inject = ['$scope', '$element', '$location', '$timeout', '$state',
-    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullKit'];
-    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth,
-     device, tag, alert, step, $stateParams, FullKit) {
+    'animation','auth','device', 'tag', 'alert', 'step', '$stateParams', 'FullDevice'];
+    function EditKitController($scope, $element, $location, $timeout, $state, animation, auth, device, tag, alert, step, $stateParams, FullDevice) {
 
       var vm = this;
 
-      // WHAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
+      // WAIT INTERVAL FOR USER FEEDBACK and TRANSITIONS (This will need to change)
       var timewait = {
           long: 5000,
           normal: 2000,
@@ -1701,8 +1588,10 @@
 
       // KEY USER ACTIONS
       vm.submitFormAndKit = submitFormAndKit;
-      vm.submitFormAndNext = submitFormAndNext;
+      // TODO: Refactor, remove
+      // vm.submitFormAndNext = submitFormAndNext;
       vm.backToProfile = backToProfile;
+      vm.backToDevice = backToDevice;
       vm.submitForm = submitForm;
       vm.goToStep = goToStep;
       vm.nextAction = 'save';
@@ -1714,8 +1603,8 @@
       ];
 
       // FORM INFO
-      vm.kitForm = {};
-      vm.kitData = undefined;
+      vm.deviceForm = {};
+      vm.device = undefined;
 
       $scope.clearSearchTerm = function() {
         $scope.searchTerm = '';
@@ -1727,8 +1616,8 @@
       });
 
       $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
-        vm.kitForm.location.lat = args.model.lat;
-        vm.kitForm.location.lng = args.model.lng;
+        vm.deviceForm.location.lat = args.model.lat;
+        vm.deviceForm.location.lng = args.model.lng;
       });
 
       // MAP CONFIGURATION
@@ -1748,47 +1637,52 @@
       /////////////////
 
       function initialize() {
-        var kitID = $stateParams.id;
+        var deviceID = $stateParams.id;
 
         animation.viewLoaded();
         getTags();
 
-        if (!kitID || kitID === ''){
+        if (!deviceID || deviceID === ''){
           return;
         }
-        device.getDevice(kitID)
+        device.getDevice(deviceID)
           .then(function(deviceData) {
-            vm.kitData = new FullKit(deviceData);
+            vm.device = new FullDevice(deviceData);
             vm.userRole = auth.getCurrentUser().data.role;
-            vm.kitForm = {
-              name: vm.kitData.name,
-              exposure: findExposureFromLabels(vm.kitData.labels),
+            vm.deviceForm = {
+              name: vm.device.name,
+              exposure: findExposureFromLabels(vm.device.systemTags),
               location: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
+                lat: vm.device.location.latitude,
+                lng: vm.device.location.longitude,
                 zoom: 16
               },
-              is_private: deviceData.is_private,
-              notify_low_battery: deviceData.notify_low_battery,
-              notify_stopped_publishing: deviceData.notify_stopped_publishing,
-              tags: vm.kitData.userTags,
-              postprocessing: deviceData.postprocessing,
-              description: vm.kitData.description
+              is_private: vm.device.isPrivate,
+              notify_low_battery: vm.device.notifications.lowBattery,
+              notify_stopped_publishing: vm.device.notifications.stopPublishing,
+              tags: vm.device.userTags,
+              postprocessing: vm.device.postProcessing,
+              description: vm.device.description,
+              // TODO: Refactor, make sure that this is part of the form, only editable
+              // if !vm.device.isSCK
+              hardwareName: vm.device.hardware.name
             };
             vm.markers = {
               main: {
-                lat: vm.kitData.latitude,
-                lng: vm.kitData.longitude,
+                lat: vm.device.location.latitude,
+                lng: vm.device.location.longitude,
                 draggable: true
               }
             };
 
-            if(!vm.kitData.version || vm.kitData.version.id === 2 || vm.kitData.version.id === 3){
-              vm.setupAvailable = true;
+            console.log(vm.device)
+
+            // TODO: Refactor. Change based on new names for versions after refactor
+            // This needs to be available in world_map as well
+            // Double Check
+            if (vm.device.isLegacy) {
+              vm.deviceForm.macAddress = vm.device.macAddress;
             }
-
-            vm.macAddress = vm.kitData.macAddress;
-
           });
       }
 
@@ -1806,8 +1700,8 @@
           $scope.$apply(function() {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            vm.kitForm.location.lat = lat;
-            vm.kitForm.location.lng = lng;
+            vm.deviceForm.location.lat = lat;
+            vm.deviceForm.location.lng = lng;
             vm.markers.main.lat = lat;
             vm.markers.main.lng = lng;
           });
@@ -1818,42 +1712,51 @@
         submitForm(toProfile, timewait.normal);
       }
 
-      function submitFormAndNext(){
-        submitForm(openKitSetup, timewait.short);
-      }
+      // TODO: Refactor, remove
+      // function submitFormAndNext(){
+      //   submitForm(openKitSetup, timewait.short);
+      // }
 
       function submitForm(next, delayTransition) {
         var data = {
-          name: vm.kitForm.name,
-          description: vm.kitForm.description,
-          postprocessing_attributes: vm.kitForm.postprocessing,
-          exposure: findExposure(vm.kitForm.exposure),
-          latitude: vm.kitForm.location.lat,
-          longitude: vm.kitForm.location.lng,
-          is_private: vm.kitForm.is_private,
-          notify_low_battery: vm.kitForm.notify_low_battery,
-          notify_stopped_publishing: vm.kitForm.notify_stopped_publishing,
+          name: vm.deviceForm.name,
+          description: vm.deviceForm.description,
+          postprocessing_attributes: vm.deviceForm.postprocessing,
+          exposure: findExposure(vm.deviceForm.exposure),
+          latitude: vm.deviceForm.location.lat,
+          longitude: vm.deviceForm.location.lng,
+          is_private: vm.deviceForm.is_private,
+          notify_low_battery: vm.deviceForm.notify_low_battery,
+          notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
           /*jshint camelcase: false */
-          user_tags: joinSelectedTags()
+          user_tags: joinSelectedTags(),
         };
 
-        if(!vm.macAddress || vm.macAddress === ''){
-          /*jshint camelcase: false */
-          data.mac_address = null;
-        } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.macAddress)){
-          /*jshint camelcase: false */
-          data.mac_address = vm.macAddress;
-        } else {
-          /*jshint camelcase: false */
-          var message = 'The mac address you entered is not a valid address';
-          alert.error(message);
-          data.mac_address = null;
-          throw new Error('[Client:error] ' + message);
+        if(!vm.device.isSCK) {
+          data.hardware_name_override = vm.deviceForm.hardwareName;
         }
 
-        device.updateDevice(vm.kitData.id, data)
+        // TODO: Refactor, bring this back once we have a way to create legacy
+        if(vm.device.isLegacy){
+          if(!vm.deviceForm.macAddress || vm.deviceForm.macAddress === ''){
+            /*jshint camelcase: false */
+            data.mac_address = null;
+          } else if(/([0-9A-Fa-f]{2}\:){5}([0-9A-Fa-f]{2})/.test(vm.deviceForm.macAddress)){
+            /*jshint camelcase: false */
+            data.mac_address = vm.deviceForm.macAddress;
+          } else {
+            /*jshint camelcase: false */
+            var message = 'The mac address you entered is not a valid address';
+            alert.error(message);
+            data.mac_address = null;
+            throw new Error('[Client:error] ' + message);
+          }
+        }
+
+        device.updateDevice(vm.device.id, data)
           .then(
             function() {
+              // TODO: Refactor Check
               if (!vm.macAddress && $stateParams.step === 2) {
                 alert.info.generic('Your kit was successfully updated but you will need to register the Mac Address later 🔧');
               } else if (next){
@@ -1866,6 +1769,7 @@
               });
             })
             .catch(function(err) {
+              // TODO: Refactor - This doesn't take get checked
               if(err.data.errors.mac_address[0] === 'has already been taken') {
                 alert.error('You are trying to register a kit that is already registered. Please, read <a href="http://docs.smartcitizen.me/#/start/how-do-i-register-again-my-sck">How do I register again my SCK?</a> or contact <a href="mailto:support@smartcitizen.me ">support@smartcitizen.me</a> for any questions.');
               }
@@ -1917,6 +1821,7 @@
       }
 
       function backToProfile(){
+        // TODO: Refactor Check
         if (!vm.macAddress && $stateParams.step === 2) {
           alert.info.generic('Remember you will need to register the Mac Address later 🔧');
           $timeout(toProfile, timewait.normal);
@@ -1933,11 +1838,12 @@
         });
       }
 
-      function openKitSetup() {
-        $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
-      }
+      // TODO: Refactor, remove
+      // function openKitSetup() {
+      //   $timeout($state.go('layout.kitEdit', {id:$stateParams.id, step:2}), timewait.short);
+      // }
 
-      function backToKit(){
+      function backToDevice(){
         $state.transitionTo('layout.home.kit', $stateParams,
         { reload: false,
           inherit: false,
@@ -1953,115 +1859,6 @@
           inherit: false,
           notify: false
         });
-      }
-
-
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('utils', utils);
-
-    utils.$inject = ['device', 'PreviewKit', '$q'];
-    function utils(device, PreviewKit, $q) {
-      var service = {
-        parseKit: parseKit,
-        parseKitTime: parseKitTime,
-        parseSensorTime: parseSensorTime,
-        convertTime: convertTime,
-        getOwnerKits: getOwnerKits
-      };
-      return service;
-
-      ///////////////////////////
-
-      function parseKit(object) {
-        var parsedKit = {
-          kitName: object.device.name,
-          kitType: parseKitType(object),
-          kitLastTime: moment(parseKitTime(object)).fromNow(),
-          kitLocation: parseKitLocation(object),
-          kitLabels: parseKitLabels(object),
-          kitClass: classify(parseTypeSlug(object))
-        };
-        return parsedKit;
-      }
-
-      function parseKitLocation(object) {
-        var location = '';
-
-        var city = object.data.location.city;
-        var country = object.data.location.country;
-
-        if(!!city) {
-          location += city;
-        }
-        if(!!country) {
-          location += ', ' + country;
-        }
-
-        return location;
-      }
-
-      function parseKitLabels(object) {
-        return {
-          status: object.status,
-          exposure: object.data.location.exposure
-        };
-      }
-
-      function parseKitType(object) {
-        var kitType = !object.kit ? 'Unknown type': object.kit.name;
-        return kitType; 
-      }
-
-      function parseTypeSlug(object) {
-        var kitType = !object.kit ? 'unknown': object.kit.slug;
-        var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
-        return kitTypeSlug;
-      }
-
-      function classify(kitType) {
-        if(!kitType) {
-          return '';
-        }
-        return kitType.toLowerCase().split(' ').join('_');
-      }
-
-      function parseKitTime(object) {
-        /*jshint camelcase: false */
-        return object.updated_at;
-      }
-
-      function parseSensorTime(sensor) {
-        /*jshint camelcase: false */
-        return moment(sensor.recorded_at).format('');
-      }
-
-      function convertTime(time) {
-        return moment(time).toISOString();
-      }
-
-      function getOwnerKits(ids) {
-        var deferred = $q.defer();
-        var kitsResolved = 0;
-        var kits = [];
-
-        ids.forEach(function(id, index) {
-          device.getDevice(id)
-            .then(function(data) {
-              kits[index] = new PreviewKit(data);
-              kitsResolved++;
-
-              if(ids.length === kitsResolved) {
-                deferred.resolve(kits);
-              }
-            });
-        });
-        return deferred.promise;
       }
     }
 })();
@@ -2099,16 +1896,20 @@
   function timeUtils() {
     var service = {
       getSecondsFromDate: getSecondsFromDate,
+      getMillisFromDate: getMillisFromDate,
       getCurrentRange: getCurrentRange,
       getToday: getToday,
+      getHourBefore: getHourBefore,
       getSevenDaysAgo: getSevenDaysAgo,
       getDateIn: getDateIn,
-      parseTime: parseTime,
+      convertTime: convertTime,
+      formatDate: formatDate,
       isSameDay: isSameDay,
       isWithin15min: isWithin15min,
       isWithin1Month: isWithin1Month,
       isWithin: isWithin,
-      isDiffMoreThan15min: isDiffMoreThan15min
+      isDiffMoreThan15min: isDiffMoreThan15min,
+      parseDate: parseDate
     };
     return service;
 
@@ -2134,18 +1935,24 @@
       return result;
     }
 
+    function convertTime(time) {
+      return moment(time).toISOString();
+    }
+
+    function formatDate(time) {
+      return moment(time).format('YYYY-MM-DDTHH:mm:ss');
+    }
 
     function getSecondsFromDate(date) {
       return (new Date(date)).getTime();
     }
 
-    function getCurrentRange(fromDate, toDate) {
-      return moment(toDate).diff(moment(fromDate), 'days');
+    function getMillisFromDate(date) {
+      return (new Date(date)).getTime();
     }
 
-    function parseTime(time, format) {
-      time = getSecondsFromDate(time);
-      return getDateIn(time, format);
+    function getCurrentRange(fromDate, toDate) {
+      return moment(toDate).diff(moment(fromDate), 'days');
     }
 
     function getToday() {
@@ -2154,6 +1961,11 @@
 
     function getSevenDaysAgo() {
       return getSecondsFromDate( getToday() - (7 * 24 * 60 * 60 * 1000) );
+    }
+
+    function getHourBefore(date) {
+      var now = moment(date);
+      return now.subtract(1, 'hour').valueOf();
     }
 
     function isSameDay(day1, day2) {
@@ -2190,6 +2002,15 @@
       dateToCheck = moment(dateToCheck).valueOf();
 
       return dateToCheck > ago;
+    }
+
+    function parseDate(object){
+      var time = object;
+      return {
+        raw: time,
+        parsed: !time ? 'No time' : moment(time).format('MMMM DD, YYYY - HH:mm'),
+        ago: !time ? 'No time' : moment(time).fromNow()
+      }
     }
   }
 })();
@@ -2243,7 +2064,7 @@
       function getSensorName(name) {
 
         var sensorName;
-
+        // TODO: Improvement check how we set new names
         if( new RegExp('custom circuit', 'i').test(name) ) {
           sensorName = name;
         } else {
@@ -2518,125 +2339,25 @@
   angular.module('app.components')
     .factory('markerUtils', markerUtils);
 
-    markerUtils.$inject = ['device', 'kitUtils', 'COUNTRY_CODES', 'MARKER_ICONS'];
-    function markerUtils(device, kitUtils, COUNTRY_CODES, MARKER_ICONS) {
+    markerUtils.$inject = ['deviceUtils', 'MARKER_ICONS'];
+    function markerUtils(deviceUtils, MARKER_ICONS) {
       var service = {
-        parseType: parseType,
-        parseLocation: parseLocation,
-        parseLabels: parseLabels,
-        parseUserTags: parseUserTags,
-        parseCoordinates: parseCoordinates,
-        parseId: parseId,
         getIcon: getIcon,
-        parseName: parseName,
-        parseTime: parseTime,
         getMarkerIcon: getMarkerIcon,
-        parseTypeSlug: parseTypeSlug
       };
-      _.defaults(service, kitUtils);
+      _.defaults(service, deviceUtils);
       return service;
 
       ///////////////
 
-      function parseType(object) {
-        var kitType;
-
-        // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getKitBlueprints();
-
-        if(!genericKitData){
-            kitType = 'Unknown kit';
-            return kitType;
-        }
-        //////////////////////////////////////////////////////////////////
-
-        /*jshint camelcase: false */
-        if(!object.kit_id){
-          kitType = 'Unknown kit';
-          return;
-        }
-
-        /*jshint camelcase: false */
-        var kit = genericKitData[object.kit_id];
-
-        kitType = !kit ? 'Unknown type': kit.name;
-
-        return kitType; 
-      }
-
-      function parseTypeSlug(object) {
-        var kitType;
-
-        // We must wait here if the genericKitData is not already defined.
-        var genericKitData = device.getKitBlueprints();
-
-        if(!genericKitData){
-            kitType = 'unknown';
-            return kitType;
-        }
-        //////////////////////////////////////////////////////////////////
-
-        /*jshint camelcase: false */
-        if(!object.kit_id){
-          kitType = 'unknown';
-          return;
-        }
-
-        /*jshint camelcase: false */
-        var kit = genericKitData[object.kit_id];
-
-        var kitTypeSlug = !kit ? 'unknown': kit.slug;
-
-        return kitTypeSlug.substr(0,kitTypeSlug.indexOf(':')).toLowerCase();
-      }
-
-      function parseLocation(object) {
-        var location = '';
-
-        /*jshint camelcase: false */
-        var city = object.city;
-        var country_code = object.country_code;
-        var country = COUNTRY_CODES[country_code];
-
-        if(!!city) {
-          location += city;
-        }
-        if(!!country) {
-          location += ', ' + country;
-        }
-
-        return location;
-      }
-
-      function parseLabels(object) {
-        /*jshint camelcase: false */
-        return object.system_tags;
-      }
-
-      function parseUserTags(object) {
-        return object.user_tags;
-      }
-
-      function parseCoordinates(object) {
-        return {
-          lat: object.latitude,
-          lng: object.longitude
-        };
-      }
-
-      function parseId(object) {
-        return object.id;
-      }
-
       function getIcon(object) {
         var icon;
-
-        var labels = this.parseLabels(object);
-        var type = this.parseTypeSlug(object);
+        var labels = deviceUtils.parseSystemTags(object);
+        var isSCKHardware = deviceUtils.isSCKHardware(object);
 
         if(hasLabel(labels, 'offline')) {
           icon = MARKER_ICONS.markerSmartCitizenOffline;
-        } else if (type === 'sck') {
+        } else if (isSCKHardware) {
           icon = MARKER_ICONS.markerSmartCitizenOnline;
         } else {
           icon = MARKER_ICONS.markerExperimentalNormal;
@@ -2648,21 +2369,6 @@
         return _.some(labels, function(label) {
           return label === targetLabel;
         });
-      }
-
-      function parseName(object) {
-        if(!object.name) {
-          return;
-        }
-        return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
-      }
-
-      function parseTime(object) {
-        var time = object.last_reading_at;
-        if(!time) {
-          return 'No time';
-        }
-        return moment(time).fromNow();
       }
 
       function getMarkerIcon(marker, state) {
@@ -2731,55 +2437,84 @@
 
 (function() {
   'use strict';
+  angular.module('app.components')
+   .config(function ($provide) {
+        $provide.decorator('$exceptionHandler', ['$delegate', function($delegate) {
+          return function (exception, cause) {
+            /*jshint camelcase: false */
+            $delegate(exception, cause);
+          };
+        }]);
+
+    });
+})();
+
+(function() {
+  'use strict';
 
   angular.module('app.components')
-    .factory('kitUtils', kitUtils);
+    .factory('deviceUtils', deviceUtils);
 
-    kitUtils.$inject = ['COUNTRY_CODES', 'device'];
-    function kitUtils(COUNTRY_CODES, device) {
+    deviceUtils.$inject = ['COUNTRY_CODES', 'device'];
+    function deviceUtils(COUNTRY_CODES, device) {
       var service = {
         parseLocation: parseLocation,
-        parseLabels: parseLabels,
+        parseCoordinates: parseCoordinates,
+        parseSystemTags: parseSystemTags,
         parseUserTags: parseUserTags,
-        parseType: parseType,
         classify: classify,
-        parseTime: parseTime,
-        parseVersion: parseVersion,
+        parseNotifications: parseNotifications,
         parseOwner: parseOwner,
+        parseName: parseName,
+        parseString: parseString,
+        parseHardware: parseHardware,
+        parseHardwareInfo: parseHardwareInfo,
+        parseHardwareName: parseHardwareName,
+        isPrivate: isPrivate,
+        isLegacyVersion: isLegacyVersion,
+        isSCKHardware: isSCKHardware,
         parseState: parseState,
         parseAvatar: parseAvatar,
         belongsToUser: belongsToUser,
-        parseSensorTime: parseSensorTime,
-        parseTypeSlug: parseTypeSlug,
-        parseTypeDescription: parseTypeDescription
+        parseSensorTime: parseSensorTime
       };
 
       return service;
-
 
       ///////////////
 
       function parseLocation(object) {
         var location = '';
+        var city = '';
+        var country = '';
 
-        var locationData = object.hasOwnProperty('data') ? object.data : object;
-
-        if (locationData.location) {
-          var city = locationData.location.city;
-          var country = locationData.location.country;
-
+        if (object.location) {
+          city = object.location.city;
+          country = object.location.country;
           if(!!city) {
             location += city;
           }
+          if(!!city && !!location) {
+            location += ', '
+          }
           if(!!country) {
-            location += ', ' + country;
+            location += country;
           }
         }
-
         return location;
       }
 
-      function parseLabels(object) {
+      function parseCoordinates(object) {
+        if (object.location) {
+          return {
+            lat: object.location.latitude,
+            lng: object.location.longitude
+          };
+        }
+        // TODO: Bug - what happens if no location?
+      }
+
+      function parseSystemTags(object) {
         /*jshint camelcase: false */
         return object.system_tags;
       }
@@ -2788,34 +2523,11 @@
         return object.user_tags;
       }
 
-      function parseType(object) {
-        if (object.hasOwnProperty('kit')) {
-          return !object.kit ? 'Unknown type': object.kit.name;
-        } else {
-          var kitBlueprints = device.getKitBlueprints();
-          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].name;
-        };
-
-        return kitType;
-      }
-      function parseTypeDescription(object) {
-        if (object.hasOwnProperty('kit')) {
-          return !object.kit ? 'Unknown type': object.kit.description;
-        } else {
-          var kitBlueprints = device.getKitBlueprints();
-          return !kitBlueprints[object.kit_id] ? 'Unknown type': kitBlueprints[object.kit_id].description;
-        };
-      }
-
-      function parseTypeSlug(object) {
-        if (object.hasOwnProperty('kit')) {
-          var kitType = !object.kit ? 'unknown': object.kit.slug;
-        } else {
-          var kitBlueprints = device.getKitBlueprints();
-          var kitType = !kitBlueprints[object.kit_id] ? 'unknown': kitBlueprints[object.kit_id].slug;
-        };
-        var kitTypeSlug = kitType.substr(0,kitType.indexOf(':')).toLowerCase();
-        return kitTypeSlug;
+      function parseNotifications(object){
+        return {
+          lowBattery: object.notify_low_battery,
+          stopPublishing: object.notify_stopped_publishing
+        }
       }
 
       function classify(kitType) {
@@ -2825,30 +2537,38 @@
         return kitType.toLowerCase().split(' ').join('_');
       }
 
-      function parseTime(object) {
-        /*jshint camelcase: false */
-        return object.last_reading_at;
-      }
-
-      function parseVersion(object) {
-        if(!object.kit || !object.kit.slug ) {
+      function parseName(object, trim=false) {
+        if(!object.name) {
           return;
         }
-        return {
-          id: object.kit.id,
-          hardware:  parseVersionName(object.kit.slug.split(':')[0]),
-          release: parseVersionString(object.kit.slug.split(':')[1]),
-          slug: object.kit.slug
-        };
+        if (trim) {
+          return object.name.length <= 41 ? object.name : object.name.slice(0, 35).concat(' ... ');
+        }
+        return object.name;
       }
 
-      function parseVersionName (str) {
-          if (typeof(str) !== 'string') { return false; }
+      function parseHardware(object) {
+        if (!object.hardware) {
+          return;
+        }
+
+        return {
+          name: parseString(object.hardware.name),
+          type: parseString(object.hardware.type),
+          description: parseString(object.hardware.description),
+          version: parseVersionString(object.hardware.version),
+          slug: object.hardware.slug,
+          info: parseHardwareInfo(object.hardware.info)
+        }
+      }
+
+      function parseString(str) {
+          if (typeof(str) !== 'string') { return null; }
           return str;
       }
 
       function parseVersionString (str) {
-          if (typeof(str) !== 'string') { return false; }
+          if (typeof(str) !== 'string') { return null; }
           var x = str.split('.');
           // parse from string or default to 0 if can't parse
           var maj = parseInt(x[0]) || 0;
@@ -2861,12 +2581,72 @@
           };
       }
 
+      function parseHardwareInfo (object) {
+        if (!object) { return null; } // null
+        if (typeof(object) == 'string') { return null; } // FILTERED
+
+        var id = parseString(object.id);
+        var mac = parseString(object.mac);
+        var time = Date(object.time);
+        var esp_bd = parseString(object.esp_bd);
+        var hw_ver = parseString(object.hw_ver);
+        var sam_bd = parseString(object.sam_bd);
+        var esp_ver = parseString(object.esp_ver);
+        var sam_ver = parseString(object.sam_ver);
+
+        return {
+          id: id,
+          mac: mac,
+          time: time,
+          esp_bd: esp_bd,
+          hw_ver: hw_ver,
+          sam_bd: sam_bd,
+          esp_ver: esp_ver,
+          sam_ver: sam_ver
+        };
+      }
+
+      function parseHardwareName(object) {
+        if (object.hasOwnProperty('hardware')) {
+          if (!object.hardware.name) {
+            return 'Unknown hardware'
+          }
+          return object.hardware.name;
+        } else {
+          return 'Unknown hardware'
+        }
+      }
+
+      function isPrivate(object) {
+        return object.is_private;
+      }
+
+      function isLegacyVersion (object) {
+        if (!object.hardware || !object.hardware.version || object.hardware.version.major > 1) {
+          return false;
+        } else {
+          if (object.hardware.version.major == 1 && object.hardware.version.minor <5 ){
+            return true;
+          }
+          return false;
+        }
+      }
+
+      function isSCKHardware (object){
+        if (!object.hardware || !object.hardware.type || object.hardware.type != 'SCK') {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
       function parseOwner(object) {
+        // TODO: Refactor, check it didn't break anything
         return {
           id: object.owner.id,
           username: object.owner.username,
           /*jshint camelcase: false */
-          kits: object.owner.device_ids,
+          devices: object.owner.device_ids,
           city: object.owner.location.city,
           country: COUNTRY_CODES[object.owner.location.country_code],
           url: object.owner.url,
@@ -2897,26 +2677,12 @@
         return moment(sensor.recorded_at).format('');
       }
 
-      function belongsToUser(kitsArray, kitID) {
-        return _.some(kitsArray, function(kit) {
-          return kit.id === kitID;
+      function belongsToUser(devicesArray, deviceID) {
+        return _.some(devicesArray, function(device) {
+          return device.id === deviceID;
         });
       }
     }
-})();
-
-(function() {
-  'use strict';
-  angular.module('app.components')
-   .config(function ($provide) {
-        $provide.decorator('$exceptionHandler', ['$delegate', function($delegate) {
-          return function (exception, cause) {
-            /*jshint camelcase: false */
-            $delegate(exception, cause);
-          };
-        }]);
-
-    });
 })();
 
 (function() {
@@ -2927,14 +2693,13 @@
 
 
     function filterLabel() {
-      return function(kits, targetLabel) {
+      return function(devices, targetLabel) {
         if(targetLabel === undefined) {
-          return kits;
+          return devices;
         }
-        if(kits) {
-          return _.filter(kits, function(kit) {
-            var containsLabel = kit.labels.indexOf(targetLabel) !== -1;
-            console.log(containsLabel);
+        if(devices) {
+          return _.filter(devices, function(device) {
+            var containsLabel = device.systemTags.indexOf(targetLabel) !== -1;
             if(containsLabel) {
               return containsLabel;
             }
@@ -3063,7 +2828,7 @@
   angular.module('app.components')
     .constant('DROPDOWN_OPTIONS_USER', [
       {divider: true, text: 'Hello,', href: './profile'},
-      {text: 'PROFILE', href: './profile'},
+      // {text: 'PROFILE', href: './profile'},
       {text: 'LOGOUT', href: './logout'}
     ]);
 })();
@@ -3455,8 +3220,8 @@
   angular.module('app.components')
     .factory('sensor', sensor);
 
-    sensor.$inject = ['Restangular', 'utils', 'sensorUtils'];
-    function sensor(Restangular, utils, sensorUtils) {
+    sensor.$inject = ['Restangular', 'timeUtils', 'sensorUtils'];
+    function sensor(Restangular, timeUtils, sensorUtils) {
       var sensorTypes;
       callAPI().then(function(data) {
         setTypes(data);
@@ -3486,9 +3251,9 @@
 
       function getSensorsData(deviceID, sensorID, dateFrom, dateTo) {
         var rollup = sensorUtils.getRollup(dateFrom, dateTo);
-        dateFrom = utils.convertTime(dateFrom);
-        dateTo = utils.convertTime(dateTo);
-        
+        dateFrom = timeUtils.convertTime(dateFrom);
+        dateTo = timeUtils.convertTime(dateTo);
+
         return Restangular.one('devices', deviceID).customGET('readings', {'from': dateFrom, 'to': dateTo, 'rollup': rollup, 'sensor_id': sensorID, 'all_intervals': true});
       }
     }
@@ -3672,7 +3437,7 @@
 
     device.$inject = ['Restangular', '$window', 'timeUtils','$http', 'auth', '$rootScope'];
 	  function device(Restangular, $window, timeUtils, $http, auth, $rootScope) {
-      var kitBlueprints, worldMarkers;
+      var worldMarkers;
 
       initialize();
 
@@ -3682,8 +3447,6 @@
         getDevice: getDevice,
         createDevice: createDevice,
         updateDevice: updateDevice,
-        createKitBlueprints: createKitBlueprints,
-        getKitBlueprints: getKitBlueprints,
         getWorldMarkers: getWorldMarkers,
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
@@ -3742,18 +3505,6 @@
 
       function updateDevice(id, data) {
         return Restangular.one('devices', id).patch(data);
-      }
-
-      function getKitBlueprints() {
-        return kitBlueprints;
-      }
-
-      function createKitBlueprints() {
-        return Restangular.all('kits').getList({'per_page': 1000})
-          .then(function(fetchedKitBlueprints){
-            kitBlueprints = _.keyBy(fetchedKitBlueprints.plain(), 'id');
-            return kitBlueprints;
-        });
       }
 
       function getWorldMarkers() {
@@ -4312,13 +4063,13 @@
 
   angular.module('app.components')
     .factory('animation', animation);
-    
+
     /**
-     * Used to emit events from rootscope. 
+     * Used to emit events from rootscope.
      *
      * This events are then listened by $scope on controllers and directives that care about that particular event
      */
-    
+
     animation.$inject = ['$rootScope'];
     function animation($rootScope) {
 
@@ -4329,7 +4080,7 @@
         addNav: addNav,
         showChartSpinner: showChartSpinner,
         hideChartSpinner: hideChartSpinner,
-        kitLoaded: kitLoaded,
+        deviceLoaded: deviceLoaded,
         showPasswordRecovery: showPasswordRecovery,
         showLogin: showLogin,
         showSignup: showSignup,
@@ -4337,8 +4088,8 @@
         hideAlert: hideAlert,
         viewLoading: viewLoading,
         viewLoaded: viewLoaded,
-        kitWithoutData: kitWithoutData,
-        kitIsPrivate: kitIsPrivate,
+        deviceWithoutData: deviceWithoutData,
+        deviceIsPrivate: deviceIsPrivate,
         goToLocation: goToLocation,
         mapStateLoading: mapStateLoading,
         mapStateLoaded: mapStateLoaded
@@ -4346,7 +4097,7 @@
     	return service;
 
       //////////////
-      
+
     	function blur() {
         $rootScope.$broadcast('blur');
     	}
@@ -4365,8 +4116,8 @@
       function hideChartSpinner() {
         $rootScope.$broadcast('hideChartSpinner');
       }
-      function kitLoaded(data) {
-        $rootScope.$broadcast('kitLoaded', data);
+      function deviceLoaded(data) {
+        $rootScope.$broadcast('deviceLoaded', data);
       }
       function showPasswordRecovery() {
         $rootScope.$broadcast('showPasswordRecovery');
@@ -4389,11 +4140,11 @@
       function viewLoaded() {
         $rootScope.$broadcast('viewLoaded');
       }
-      function kitWithoutData(data) {
-        $rootScope.$broadcast('kitWithoutData', data);
+      function deviceWithoutData(data) {
+        $rootScope.$broadcast('deviceWithoutData', data);
       }
-      function kitIsPrivate(data) {
-        $rootScope.$broadcast('kitIsPrivate', data);
+      function deviceIsPrivate(data) {
+        $rootScope.$broadcast('deviceIsPrivate', data);
       }
       function goToLocation(data) {
         $rootScope.$broadcast('goToLocation', data);
@@ -4411,7 +4162,7 @@
   'use strict';
 
     /**
-     * TODO: This directives can be split up each one in a different file
+     * TODO: Improvement These directives can be split up each one in a different file
      */
 
     angular.module('app.components')
@@ -4801,20 +4552,20 @@
     .controller('UserProfileController', UserProfileController);
 
     UserProfileController.$inject = ['$scope', '$stateParams', '$location',
-      'utils', 'user', 'device', 'alert', 'auth', 'userUtils', '$timeout', 'animation',
-      'NonAuthUser', '$q', 'PreviewKit'];
-    function UserProfileController($scope, $stateParams, $location, utils,
-        user, device, alert, auth, userUtils, $timeout, animation,
-        NonAuthUser, $q, PreviewKit) {
+       'user', 'auth', 'userUtils', '$timeout', 'animation',
+      'NonAuthUser', '$q', 'PreviewDevice'];
+    function UserProfileController($scope, $stateParams, $location,
+        user, auth, userUtils, $timeout, animation,
+        NonAuthUser, $q, PreviewDevice) {
 
       var vm = this;
       var userID = parseInt($stateParams.id);
 
       vm.status = undefined;
       vm.user = {};
-      vm.kits = [];
-      vm.filteredKits = [];
-      vm.filterKits = filterKits;
+      vm.devices = [];
+      vm.filteredDevices = [];
+      vm.filterDevices = filterDevices;
 
       $scope.$on('loggedIn', function() {
         var authUser = auth.getCurrentUser().data;
@@ -4833,15 +4584,13 @@
           .then(function(user) {
             vm.user = new NonAuthUser(user);
 
-            if(!vm.user.kits.length) {
+            if(!vm.user.devices.length) {
               return [];
             }
 
-            device.createKitBlueprints().then(function(){
-              $q.all(vm.kits = vm.user.kits.map(function(data){
-                return new PreviewKit(data);
-              }))
-            })
+            $q.all(vm.devices = vm.user.devices.map(function(data){
+              return new PreviewDevice(data);
+            }))
 
           }).then(function(error) {
             if(error && error.status === 404) {
@@ -4855,7 +4604,7 @@
         }, 500);
       }
 
-      function filterKits(status) {
+      function filterDevices(status) {
         if(status === 'all') {
           status = undefined;
         }
@@ -5077,8 +4826,8 @@ function controller(device, Papa, $mdDialog, $q) {
       .map((file, index, filteredFiles) => {
         file.progress = true;
         return vm._analyzeData(file)
-        .then((result) => parseDataForPost(result.data)) // TODO remove
-        // TODO with workers
+        .then((result) => parseDataForPost(result.data)) // TODO: Improvement remove
+        // TODO: Improvement with workers
         .then((payload) => device.postReadings(vm.kit, payload))
         .then(() => {
           if (vm.loadingType === 'indeterminate') { vm.loadingType = 'determinate'; };
@@ -5122,11 +4871,11 @@ angular.module('app.components')
     .controller('tagsController', tagsController);
 
   tagsController.$inject = ['tag', '$scope', 'device', '$state', '$q',
-    'PreviewKit', 'animation', '$timeout', '$rootScope'
+    'PreviewDevice', 'animation'
   ];
 
-  function tagsController(tag, $scope, device, $state, $q, PreviewKit,
-    animation, $timeout, $rootScope) {
+  function tagsController(tag, $scope, device, $state, $q, PreviewDevice,
+    animation) {
 
     var vm = this;
 
@@ -5144,7 +4893,7 @@ angular.module('app.components')
         $state.transitionTo('layout.home.kit');
       }
 
-      if (device.getWorldMarkers()) { 
+      if (device.getWorldMarkers()) {
         // If the user has already loaded a prev page and has markers in mem or localstorage
         updateSelectedTags();
       } else {
@@ -5170,10 +4919,10 @@ angular.module('app.components')
 
       animation.viewLoaded();
 
-      getTaggedKits()
+      getTaggedDevices()
         .then(function(res){
           vm.kits = res;
-        }); 
+        });
     }
 
 
@@ -5185,18 +4934,18 @@ angular.module('app.components')
         return -new Date(o.last_reading_at).getTime();
     }
 
-    function getTaggedKits() {
+    function getTaggedDevices() {
 
       var deviceProm = _.map(vm.markers, getMarkerDevice);
 
       return $q.all(deviceProm)
-        .then(function(devices) {  
-          return _.map(_.sortBy(devices, descLastUpdate), toPreviewKit); // This sort is temp
+        .then(function(devices) {
+          return _.map(_.sortBy(devices, descLastUpdate), toPreviewDevice); // This sort is temp
         });
     }
 
-    function toPreviewKit(dev) {
-      return new PreviewKit(dev);
+    function toPreviewDevice(dev) {
+      return new PreviewDevice(dev);
     }
 
     function getMarkerDevice(marker) {
@@ -5660,14 +5409,14 @@ angular.module('app.components')
     .controller('MyProfileController', MyProfileController);
 
     MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
-    'userData', 'AuthUser', 'user', 'auth', 'utils', 'alert',
-    'COUNTRY_CODES', '$timeout', 'file', 'PROFILE_TOOLS', 'animation',
-    '$mdDialog', 'PreviewKit', 'device', 'kitUtils',
+    'userData', 'AuthUser', 'user', 'auth', 'alert',
+    'COUNTRY_CODES', '$timeout', 'file', 'animation',
+    '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
     'userUtils', '$filter','$state', 'Restangular'];
     function MyProfileController($scope, $location, $q, $interval,
-      userData, AuthUser, user, auth, utils, alert,
-      COUNTRY_CODES, $timeout, file, PROFILE_TOOLS, animation,
-      $mdDialog, PreviewKit, device, kitUtils,
+      userData, AuthUser, user, auth, alert,
+      COUNTRY_CODES, $timeout, file, animation,
+      $mdDialog, PreviewDevice, device, deviceUtils,
       userUtils, $filter, $state, Restangular) {
 
       var vm = this;
@@ -5693,31 +5442,22 @@ angular.module('app.components')
       // The auth controller has not populated the `user` at this point, so  user.token is undefined
       // This controller depends on auth has already been run.
       vm.user.token = auth.getToken();
-      vm.addNewKit = addNewKit;
-
+      vm.addNewDevice = addNewDevice;
 
       //KITS TAB
-      vm.kits = [];
-      vm.kitStatus = undefined;
-      vm.removeKit = removeKit;
+      vm.devices = [];
+      vm.deviceStatus = undefined;
+      vm.removeDevice = removeDevice;
       vm.downloadData = downloadData;
 
-      vm.filteredKits = [];
-
+      vm.filteredDevices = [];
       vm.dropdownSelected = undefined;
 
-      //TOOLS TAB
-      vm.tools = PROFILE_TOOLS;
-      vm.toolType = undefined;
-      vm.filteredTools = [];
-
       //SIDEBAR
-      vm.filterKits = filterKits;
+      vm.filterDevices = filterDevices;
       vm.filterTools = filterTools;
 
       vm.selectThisTab = selectThisTab;
-
-      var updateKitsTimer;
 
       $scope.$on('loggedOut', function() {
         $location.path('/');
@@ -5733,33 +5473,31 @@ angular.module('app.components')
 
       function initialize() {
         startingTab();
-        if(!vm.user.kits.length) {
-          vm.kits = [];
+        if(!vm.user.devices.length) {
+          vm.devices = [];
           animation.viewLoaded();
         } else {
-          device.createKitBlueprints().then(function(){
 
-            vm.kits = vm.user.kits.map(function(data) {
-              return new PreviewKit(data);
-            })
+          vm.devices = vm.user.devices.map(function(data) {
+            return new PreviewDevice(data);
+          })
 
-            $timeout(function() {
-              mapWithBelongstoUser(vm.kits);
-              filterKits(vm.status);
-              setSidebarMinHeight();
-              animation.viewLoaded();
-            });
-
+          $timeout(function() {
+            mapWithBelongstoUser(vm.devices);
+            filterDevices(vm.status);
+            setSidebarMinHeight();
+            animation.viewLoaded();
           });
+
         }
       }
 
-      function filterKits(status) {
+      function filterDevices(status) {
         if(status === 'all') {
           status = undefined;
         }
-        vm.kitStatus = status;
-        vm.filteredKits = $filter('filterLabel')(vm.kits, vm.kitStatus);
+        vm.deviceStatus = status;
+        vm.filteredDevices = $filter('filterLabel')(vm.devices, vm.deviceStatus);
       }
 
       function filterTools(type) {
@@ -5843,9 +5581,9 @@ angular.module('app.components')
           case 'user':
             vm.startingTab = 1;
             break;
-          case 'tools':
-            vm.startingTab = 2;
-            break;
+          // case 'tools':
+          //   vm.startingTab = 2;
+          //   break;
           default:
             vm.startingTab = 0;
             break;
@@ -5894,7 +5632,7 @@ angular.module('app.components')
       function uploadAvatar(fileData) {
         if(fileData && fileData.length) {
 
-          // TODO: Is there a simpler way to patch the image to the API and use the response?
+          // TODO: Improvement Is there a simpler way to patch the image to the API and use the response?
           // Something like:
           //Restangular.all('/me').patch(data);
           // Instead of doing it manually like here:
@@ -5919,55 +5657,40 @@ angular.module('app.components')
         }
       }
 
-      function updateKits() {
-        if(!vm.user.kits.length) {
-          return [];
-        }
-
-        device.createKitBlueprints().then(function(){
-          vm.kits = vm.user.kits.map(function(data) {
-            return new PreviewKit(data);
-          })
-        })
-
-        .then(function(data){
-          vm.kits = data;
-        });
+      function mapWithBelongstoUser(devices){
+        _.map(devices, addBelongProperty);
       }
 
-      function mapWithBelongstoUser(kits){
-        _.map(kits, addBelongProperty);
+      function addBelongProperty(device){
+        device.belongProperty = deviceBelongsToUser(device);
+        return device;
       }
 
-      function addBelongProperty(kit){
-        kit.belongProperty = kitBelongsToUser(kit);
-        return kit;
-      }
 
-      function kitBelongsToUser(kit){
-        if(!auth.isAuth() || !kit || !kit.id) {
+      function deviceBelongsToUser(device){
+        if(!auth.isAuth() || !device || !device.id) {
           return false;
         }
-        var kitID = parseInt(kit.id);
+        var deviceID = parseInt(device.id);
         var userData = ( auth.getCurrentUser().data ) ||
           ($window.localStorage.getItem('smartcitizen.data') &&
           new AuthUser( JSON.parse(
             $window.localStorage.getItem('smartcitizen.data') )));
 
-        var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+        var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
         var isAdmin = userUtils.isAdmin(userData);
 
         return isAdmin || belongsToUser;
       }
 
-      function downloadData(kit){
+      function downloadData(device){
         $mdDialog.show({
           hasBackdrop: true,
           controller: 'DownloadModalController',
           controllerAs: 'vm',
           templateUrl: 'app/components/download/downloadModal.html',
           clickOutsideToClose: true,
-          locals: {thisKit:kit}
+          locals: {thisDevice:device}
         }).then(function(){
           var alert = $mdDialog.alert()
           .title('SUCCESS')
@@ -5994,7 +5717,7 @@ angular.module('app.components')
         });
       }
 
-      function removeKit(kitID) {
+      function removeDevice(deviceID) {
         var confirm = $mdDialog.confirm()
           .title('Delete this kit?')
           .textContent('Are you sure you want to delete this kit?')
@@ -6008,7 +5731,7 @@ angular.module('app.components')
           .show(confirm)
           .then(function(){
             device
-              .removeDevice(kitID)
+              .removeDevice(deviceID)
               .then(function(){
                 alert.success('Your kit was deleted successfully');
                 device.updateContext().then(function(){
@@ -6016,7 +5739,6 @@ angular.module('app.components')
                   if(userData){
                     vm.user = userData;
                   }
-                  //updateKits();
                   initialize();
                 });
               })
@@ -6026,10 +5748,10 @@ angular.module('app.components')
           });
       }
 
-      $scope.addKitSelector = addKitSelector;
-      function addKitSelector(){
+      $scope.addDeviceSelector = addDeviceSelector;
+      function addDeviceSelector(){
         $mdDialog.show({
-          templateUrl: 'app/components/myProfile/addKitSelectorModal.html',
+          templateUrl: 'app/components/myProfile/addDeviceSelectorModal.html',
           clickOutsideToClose: true,
           multiple: true,
           controller: DialogController,
@@ -6042,7 +5764,7 @@ angular.module('app.components')
         };
       }
 
-      function addNewKit() {
+      function addNewDevice() {
         var confirm = $mdDialog.confirm()
           .title('Hey! Do you want to add a new kit?')
           .textContent('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
@@ -6213,10 +5935,10 @@ angular.module('app.components')
     .controller('MapController', MapController);
 
     MapController.$inject = ['$scope', '$state', '$stateParams', '$timeout', 'device',
-    '$mdDialog', 'leafletData', 'mapUtils', 'markerUtils', 'alert',
+    '$mdDialog', 'leafletData', 'alert',
     'Marker', 'tag', 'animation', '$q'];
     function MapController($scope, $state, $stateParams, $timeout, device,
-      $mdDialog, leafletData, mapUtils, markerUtils, alert, Marker, tag, animation, $q) {
+      $mdDialog, leafletData, alert, Marker, tag, animation, $q) {
       var vm = this;
       var updateType;
       var focusedMarkerID;
@@ -6264,7 +5986,6 @@ angular.module('app.components')
         zoom: $stateParams.zoom ? parseInt($stateParams.zoom, 10) : 2
       };
 
-
       vm.defaults = {
         dragging: true,
         touchZoom: true,
@@ -6290,20 +6011,18 @@ angular.module('app.components')
           id = currentMarker.myData.id;
         }
 
-        vm.kitLoading = true;
+        vm.deviceLoading = true;
         vm.center.lat = data.leafletEvent.latlng.lat;
         vm.center.lng = data.leafletEvent.latlng.lng;
 
         if(id === parseInt($state.params.id)) {
           $timeout(function() {
-            vm.kitLoading = false;
+            vm.deviceLoading = false;
           });
           return;
         }
 
         updateType = 'map';
-
-        var availability = data.leafletEvent.target.options.myData.labels[0];
 
         if ($state.$current.name === 'embbed') { return; }
         $state.go('layout.home.kit', {id: id});
@@ -6321,18 +6040,18 @@ angular.module('app.components')
         }
       });
 
-      vm.readyForKit = {
-        kit: false,
+      vm.readyForDevice = {
+        device: false,
         map: false
       };
 
-      $scope.$on('kitLoaded', function(event, data) {
-        vm.readyForKit.kit = data;
+      $scope.$on('deviceLoaded', function(event, data) {
+        vm.readyForDevice.device = data;
       });
 
-      $scope.$watch('vm.readyForKit', function() {
-        if (vm.readyForKit.kit && vm.readyForKit.map) {
-          zoomKitAndPopUp(vm.readyForKit.kit);
+      $scope.$watch('vm.readyForDevice', function() {
+        if (vm.readyForDevice.device && vm.readyForDevice.map) {
+          zoomDeviceAndPopUp(vm.readyForDevice.device);
         }
       }, true);
 
@@ -6357,9 +6076,9 @@ angular.module('app.components')
 
       function initialize() {
 
-        vm.readyForKit.map = false;
+        vm.readyForDevice.map = false;
 
-        $q.all([device.getAllDevices($stateParams.reloadMap), device.createKitBlueprints()])
+        $q.all([device.getAllDevices($stateParams.reloadMap)])
           .then(function(data){
 
             data = data[0];
@@ -6383,23 +6102,23 @@ angular.module('app.components')
             if($state.params.id && markersByIndex[parseInt($state.params.id)]){
               focusedMarkerID = markersByIndex[parseInt($state.params.id)]
                                 .myData.id;
-              vm.readyForKit.map = true;
+              vm.readyForDevice.map = true;
             } else {
               updateMarkers();
-              vm.readyForKit.map = true;
+              vm.readyForDevice.map = true;
             }
 
           });
       }
 
-      function zoomKitAndPopUp(data){
+      function zoomDeviceAndPopUp(data){
 
         if(updateType === 'map') {
-          vm.kitLoading = false;
+          vm.deviceLoading = false;
           updateType = undefined;
           return;
         } else {
-          vm.kitLoading = true;
+          vm.deviceLoading = true;
         }
 
         leafletData.getMarkers()
@@ -6423,7 +6142,7 @@ angular.module('app.components')
                           vm.center.lat = selectedMarker.options.lat;
                           vm.center.lng = selectedMarker.options.lng;
                           selectedMarker.openPopup();
-                          vm.kitLoading = false;
+                          vm.deviceLoading = false;
                         }, 1000);
                       }
                     });
@@ -6527,7 +6246,7 @@ angular.module('app.components')
 
             animation.mapStateLoaded();
 
-            vm.kitLoading = false;
+            vm.deviceLoading = false;
 
             zoomOnMarkers();
           });
@@ -6894,7 +6613,7 @@ angular.module('app.components')
     return{
       restrict:'E',
       scope:{
-        kits:'=kits',
+        devices:'=devices',
         actions: '=actions'
       },
       controllerAs:'vm',
@@ -6918,19 +6637,19 @@ angular.module('app.components')
 	angular.module('app.components')
 		.controller('DownloadModalController', DownloadModalController);
 
-	DownloadModalController.$inject = ['thisKit', 'device', '$mdDialog'];
+	DownloadModalController.$inject = ['thisDevice', 'device', '$mdDialog'];
 
-	function DownloadModalController(thisKit, device, $mdDialog) {
+	function DownloadModalController(thisDevice, device, $mdDialog) {
 		var vm = this;
 
-		vm.kit = thisKit;
+		vm.device = thisDevice;
 		vm.download = download;
 		vm.cancel = cancel;
 
 		////////////////////////////
 
 		function download(){
-			device.mailReadings(vm.kit)
+			device.mailReadings(vm.device)
 				.then(function (){
 					$mdDialog.hide();
 				}).catch(function(err){
@@ -6942,6 +6661,61 @@ angular.module('app.components')
 			$mdDialog.cancel();
 		}
 	}
+
+})();
+
+(function(){
+'use strict';
+
+angular.module('app.components')
+  .directive('cookiesLaw', cookiesLaw);
+
+
+cookiesLaw.$inject = ['$cookies'];
+
+function cookiesLaw($cookies) {
+  return {
+    template:
+      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
+      'This site uses cookies to offer you a better experience.  ' +
+      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
+      ' <a ui-sref="layout.policy">Learn More.</a> ' +
+      '</div>',
+    controller: function($scope) {
+
+      var init = function(){
+        $scope.isCookieValid();
+      }
+
+      // Helpers to debug
+      // You can also use `document.cookie` in the browser dev console.
+      //console.log($cookies.getAll());
+
+      $scope.isCookieValid = function() {
+        // Use a boolean for the ng-hide, because using a function with ng-hide
+        // is considered bad practice. The digest cycle will call it multiple
+        // times, in our case around 240 times.
+        $scope.isCookieValidBool = ($cookies.get('consent') === 'true')
+      }
+
+      $scope.acceptCookie = function() {
+        //console.log('Accepting cookie...');
+        var today = new Date();
+        var expireDate = new Date(today);
+        expireDate.setMonth(today.getMonth() + 6);
+
+        $cookies.put('consent', true, {'expires' : expireDate.toUTCString()} );
+
+        // Trigger the check again, after we click
+        $scope.isCookieValid();
+      };
+
+      init();
+
+    }
+  };
+}
+
 
 })();
 
@@ -7560,61 +7334,6 @@ angular.module('app.components')
 })();
 
 (function(){
-'use strict';
-
-angular.module('app.components')
-  .directive('cookiesLaw', cookiesLaw);
-
-
-cookiesLaw.$inject = ['$cookies'];
-
-function cookiesLaw($cookies) {
-  return {
-    template:
-      '<div class="cookies-policy_container" ng-hide="isCookieValidBool">' +
-      'This site uses cookies to offer you a better experience.  ' +
-      ' <a href="" ng-click="acceptCookie(true)">Accept</a> or' +
-      ' <a ui-sref="layout.policy">Learn More.</a> ' +
-      '</div>',
-    controller: function($scope) {
-
-      var init = function(){
-        $scope.isCookieValid();
-      }
-
-      // Helpers to debug
-      // You can also use `document.cookie` in the browser dev console.
-      //console.log($cookies.getAll());
-
-      $scope.isCookieValid = function() {
-        // Use a boolean for the ng-hide, because using a function with ng-hide
-        // is considered bad practice. The digest cycle will call it multiple
-        // times, in our case around 240 times.
-        $scope.isCookieValidBool = ($cookies.get('consent') === 'true')
-      }
-
-      $scope.acceptCookie = function() {
-        //console.log('Accepting cookie...');
-        var today = new Date();
-        var expireDate = new Date(today);
-        expireDate.setMonth(today.getMonth() + 6);
-
-        $cookies.put('consent', true, {'expires' : expireDate.toUTCString()} );
-
-        // Trigger the check again, after we click
-        $scope.isCookieValid();
-      };
-
-      init();
-
-    }
-  };
-}
-
-
-})();
-
-(function(){
   'use strict';
 
   angular.module('app.components')
@@ -7882,14 +7601,15 @@ angular.module('app', [
       Check app.config.js to know how states are protected
     */
 
-    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'kitUtils', 'userUtils']
-    function belongsToUser($window, $stateParams, auth, AuthUser, kitUtils, userUtils) {
+    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'deviceUtils', 'userUtils'];
+    function belongsToUser($window, $stateParams, auth, AuthUser, deviceUtils, userUtils) {
       if(!auth.isAuth() || !$stateParams.id) {
         return false;
       }
-      var kitID = parseInt($stateParams.id);
+      var deviceID = parseInt($stateParams.id);
+
       var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-      var belongsToUser = kitUtils.belongsToUser(userData.kits, kitID);
+      var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
       var isAdmin = userUtils.isAdmin(userData);
       return isAdmin || belongsToUser;
     }
@@ -7901,7 +7621,6 @@ angular.module('app', [
         $location.path('/kits/');
       }
     }
-
 
     config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider', '$cookiesProvider'];
     function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider, $cookiesProvider) {
@@ -8012,9 +7731,9 @@ angular.module('app', [
           controllerAs: 'vm',
           resolve: {
             belongsToUser: belongsToUser,
-            kit: ['device', 'FullKit', '$stateParams', function(device, FullKit, $stateParams) {
+            kit: ['device', 'FullDevice', '$stateParams', function(device, FullDevice, $stateParams) {
               return device.getDevice($stateParams.id)
-              .then(kit => new FullKit(kit));
+              .then(kit => new FullDevice(kit));
             }],
             redirectNotOwner: redirectNotOwner
          }
@@ -8170,12 +7889,6 @@ angular.module('app', [
           templateUrl: 'app/components/myProfile/Users.html',
           controllerAs: 'vm',
         })
-        .state('layout.myProfile.tools', {
-          url: '/tools',
-          authenticate: true,
-          templateUrl: 'app/components/myProfile/Tools.html',
-          controllerAs: 'vm',
-        })
         /*
         -- My Profile Admin --
         State to let admins see private profiles of users with full data
@@ -8218,12 +7931,6 @@ angular.module('app', [
           templateUrl: 'app/components/myProfile/Users.html',
           controllerAs: 'vm',
         })
-        .state('layout.myProfileAdmin.tools', {
-          url: '/tools',
-          authenticate: true,
-          templateUrl: 'app/components/myProfile/Tools.html',
-          controllerAs: 'vm',
-        })
         /*
         -- Login --
         It redirects to a certain kit state and opens the login dialog automatically
@@ -8233,7 +7940,7 @@ angular.module('app', [
           authenticate: false,
           resolve: {
             buttonToClick: function($location, auth) {
-              // TODO: These transitions get rejected (console error)
+              // TODO: Bug These transitions get rejected (console error)
               if(auth.isAuth()) {
                 $location.path('/kits/');
               }else{
@@ -8363,7 +8070,8 @@ angular.module('app', [
         if(trans.to().authenticate === false) {
           if(auth.isAuth()) {
             console.log('-- already logged in users cannot go to /login or /signup');
-            // TODO: does not redirect because e is undefined
+            // TODO: Bug
+            // does not redirect because e is undefined
             //e.preventDefault();
             //$state.go('layout.home.kit');
             return;
@@ -8412,25 +8120,24 @@ $templateCache.put('app/components/disqus/disqus.html','<div id="disqus_thread">
 $templateCache.put('app/components/download/downloadModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Download data</h2><span flex=""></span><md-button class="md-icon-button" ng-click="vm.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content class="modal modal_download"><div class="md-dialog-content max-width-500px"><p>We will process your sensor data and send you an email with a download link when it is ready</p></div><md-button class="btn-blue btn-full" ng-click="vm.download()">Download</md-button></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/footer/footer.html','<footer class="p-60" style="padding-bottom: 10px"><div layout="row" layout-xs="column" layout-sm="column" layout-wrap="" layout-align="space-between center" layout-align-xs="space-between stretch" style="color:white; margin:0 auto; max-width:1200px"><div><img style="height:80px" src="./assets/images/smartcitizen_logo2.svg" alt="logos"></div><div layout="row" layout-align="space-between center" class="border-white p-20 mb-10"><div class="mr-10">Follow us</div><a class="mr-10" href="https://twitter.com/smartcitizenkit"><img style="height:30px" src="./assets/images/tw.svg" alt="twitter"></a> <a class="mr-10" href="https://www.facebook.com/smartcitizenBCN/"><img style="height:30px" src="./assets/images/fb.svg" alt="facebook"></a> <a href="https://www.instagram.com/smartcitizenkit/"><img style="height:30px" src="./assets/images/in.svg" alt="instagram"></a></div><div layout="row" layout-align="space-between center" class="border-white p-20 mb-10"><div class="mr-10">A project by</div><a class="mr-10" href="https://fablabbcn.org"><img style="height:36px; margin-right: 7px" src="./assets/images/logo_fablab_bcn_small.png" alt="fablab"></a> <a href="https://iaac.net"><img style="height:16px" src="./assets/images/iaac.png" alt="fablab"></a></div><div flex="25" flex-xs="100" layout="row" layout-xs="column" layout-sm="column" layout-align="start center"><img style="height:48px; padding-right: 15px" src="./assets/images/eu_flag.png" alt="fablab"><p class="color-white text-funding">Smart Citizen has received funding from the European Community\u2019s H2020 Programme under Grant Agreement No. 689954.</p></div><div flex="100" layout="row" layout-align="center center" style="margin-top:20px; padding-bottom:10px"><p class="color-white text-center">Except where otherwise noted, content on this site by Smart Citizen\xAE is licensed under a <a class="footer-link" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. Check the <a class="footer-link" rel="policy" href="policy">Terms of use and Privacy Policy</a></p></div></div></footer>');
 $templateCache.put('app/components/home/template.html','<div><section class="content"><div ui-view="map" class="map_state"></div><div ui-view="container" class="kit"></div></section></div>');
-$templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="kits.length === 0"><small>No kits</small></div><md-list layout="row" layout-wrap=""><md-list-item class="kitList_parent" ng-repeat="kit in kits track by kit.id" flex="100" flex-gt-md="50" layout-xs="column" layout-align="start center"><md-card flex="" layout-padding="" href="./kits/{{kit.id}}"><md-card-header layout="row" layout-align="start center"><div class="ml-20 mt-20"><h4 class="m-0 mb-10">{{ kit.name || \'No name\' }}</h4><span class="md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg"></md-icon><span class="mr-10">{{ kit.location || \'No location\' }}</span><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span class="mr-10">{{ kit.type || \'Unknown Kit\'}}</span></span><p class="m-0 mb-10" ng-if="kit.belongProperty"><md-icon class="kitList_state_{{ kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ kit.state.className }} state">{{ kit.state.name }}</span></p></div></md-card-header><md-card-content class="ml-20 mb-20"><div layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="label in kit.labels">{{ label }}</span><tag ng-repeat="tag in kit.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-card-content><div class="ml-10 mb-20"><md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{kit.id}}"><md-icon style="margin:5px" md-font-icon="fa fa-globe"></md-icon>View on map</md-button><md-button class="md-raised md-primary md-hue-1" ng-if="kit.belongProperty" ng-repeat="item in kit.dropdownOptions" ng-href="{{item.href}}"><md-icon style="margin:5px" md-font-icon="{{item.icon}}"></md-icon><span>{{item.text}}</span></md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(kit)" ng-if="kit.belongProperty" aria-label=""><md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"></md-icon>Download CSV</md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(kit.id)" ng-if="kit.belongProperty" aria-label=""><md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>REMOVE</md-button></div></md-card></md-list-item></md-list>');
+$templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="devices.length === 0"><small>No kits</small></div><md-list layout="row" layout-wrap=""><md-list-item class="kitList_parent" ng-repeat="device in devices track by device.id" flex="100" flex-gt-md="50" layout-xs="column" layout-align="start center"><md-card flex="" layout-padding="" href="./kits/{{device.id}}"><md-card-header layout="row" layout-align="start center"><div class="ml-20 mt-20"><h4 class="m-0 mb-10">{{ device.name || \'No name\' }}</h4><span class="md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_light.svg"></md-icon><span class="mr-10">{{ device.locationString || \'No location\' }}</span><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span class="mr-10">{{ device.hardwareName || \'Unknown Kit\'}}</span></span><p class="m-0 mb-10" ng-if="device.belongProperty"><md-icon class="kitList_state_{{ device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ device.state.className }} state">{{ device.state.name }}</span></p></div></md-card-header><md-card-content class="ml-20 mb-20"><div layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="system_tag in device.systemTags">{{ system_tag }}</span><tag ng-repeat="tag in device.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-card-content><div class="ml-10 mb-20"><md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{device.id}}"><md-icon style="margin:5px" md-font-icon="fa fa-globe"></md-icon>View on map</md-button><md-button class="md-raised md-primary md-hue-1" ng-if="device.belongProperty" ng-repeat="item in device.dropdownOptions" ng-href="{{item.href}}"><md-icon style="margin:5px" md-font-icon="{{item.icon}}"></md-icon><span>{{item.text}}</span></md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(device)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(device)"></md-icon>Download CSV</md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(device.id)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>REMOVE</md-button></div></md-card></md-list-item></md-list>');
 $templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"> <a href="/kits/" class="btn-black-outline btn-round-new sc-off-cta-platform">GO TO THE PLATFORM</a><section class="video-section"><div class="heading-over-video" layout="column" layout-align="center start"><h1 class="color-white font-kanit">ORDER YOUR SMART CITIZEN KIT FROM SEEED STUDIO</h1><a href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html" class="btn-blue btn-round-new mb-30 mt-20">ORDER NOW</a></div></section><div style="margin: 0 auto; max-width:1200px" class="p-60 color-black"><section layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top"><h2>WE EMPOWER COMMUNITIES TO BETTER UNDERSTAND THEIR ENVIRONMENT</h2><p style="margin-bottom:33px">We\'re a community of passionate people who believe data is critical to inform political participation at all levels. We develop tools for citizen action in environmental monitoring and methodologies for community engagement and co-creation.</p><a href="https://www.youtube.com/watch?v=hvn5LyACUYw" class="btn-black-outline btn-round-new">WATCH DOCUMENTARY</a></div><div flex-order-xs="1" class="img-new_sck tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-sck_edu tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom"><h2>INTRODUCING A NEW AND IMPROVED KIT</h2><p style="margin-bottom:33px">For the past three years, we have been working on an updated version of the Kit. The new sensors collect urban data more accurately and are easier to use. The Smart Citizen Kit 2.1 is available from Seeed studio.</p><a href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html" class="btn-black-outline btn-round-new">ORDER NOW</a></div></div></section><section class="mt-50"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2>TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd sensing initiative in your neighborhood. Use Smart Citizen to create local maps of noise and air quality; or use it to raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCHERS</h3><p>Use Smart Citizen as a tool for data capture and analysis. Understand the relationship between people, environment, and technology through real-world deployments. Contribute to the project by joining the open source development community.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">CITIES AND GOVERNMENTS</h3><p class="color-white">Smart Cities should be built together with Smart Citizens. We provide the tools and knowledge to foster citizen engagement through participatory data collection, analysis and action.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section><section class="mt-50"><div layout="row" layout-xs="column" layout-align="space-around center" class="p-30 border-black bg-white"><div flex="45" flex-xs="100"><h2>CIVIC PARTICIPATION ACROSS THE GLOBE</h2></div><div flex="45" flex-xs="100"><p>Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p></div></div><div layout="column" layout-align="end center" style="" class="img-platform tile tile-left tile-image"><a href="/kits/" class="btn-blue btn-round-new mb-30">GO TO THE PLATFORM</a></div></section><section class="mt-50"><div layout="row" layout-xs="column" layout-align="space-around center" class="p-30 border-black bg-white"><div flex="45" flex-xs="100"><h2>AN OPEN PLATFORM TO LEARN, BUILD AND CONTRIBUTE</h2></div><div flex="45" flex-xs="100"><p>The project builds on open source technologies such as Arduino to enable citizens and communities to gather information on their environment and make it available to the public via the Smart Citizen platform.</p></div></div><div layout="column" layout-align="end center" style="" class="img-docs tile tile-left tile-image"><a href="https://docs.smartcitizen.me/" class="btn-blue btn-round-new mb-30">GO TO THE DOCS</a></div></section><section class="mt-50"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST NEWS</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input style="border:none; padding:12px 50px" class="btn-yellow btn-round-new my-20" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="mt-50 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project in GitHub.</p><a href="https://github.com/fablabbcn?utf8=\u2713&q=smartcitizen" class="btn-black-outline btn-round-new">VISIT OUR REPOS</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10"><img style="height:80px;" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new">GET INVOLVED</a></p></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/landing/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
 $templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-tooltip md-direction="bottom">Visit the frontpage</md-tooltip><md-icon class="m-10 ml-15 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-tooltip md-direction="bottom">Visit the map</md-tooltip><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section hide-xs="" layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" hide-sm="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button class="btn-small" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><md-tooltip md-direction="bottom">Your profile</md-tooltip><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-whiteframe="3"><md-toolbar layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></md-menu-item><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button href="./profile">Profile</md-button></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button href="./logout">Log out</md-button></md-menu-item><md-divider></md-divider><md-menu-item><md-button href="./kits">Map</md-button></md-menu-item><md-menu-item><md-button target="_blank" href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html">Get your kit</md-button></md-menu-item><md-divider></md-divider><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/login/login.html','<md-button class="md-flat" ng-click="showLogin($event)" angular-on="click" angular-event="Login" angular-action="click">Log In</md-button>');
 $templateCache.put('app/components/login/loginModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Log in</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear class="md-hue-3" ng-show="waitingFromServer" md-mode="indeterminate"></md-progress-linear><form novalidate="" ng-submit="answer(vm.user)" name="loginForm"><div class="md-dialog-content"><div><p>Log in to Smart Citizen</p></div><div layout="column"><md-input-container class="md-block"><label>Username or email</label> <input id="autofocus" type="text" name="username" ng-model="vm.user.username" focus-input="" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.username.$touched && loginForm.username.$error)" role="alert"><div ng-message="required">Username is required</div><div ng-if="vm.errors.id">Username or password incorrect</div></div></md-input-container><md-input-container class="md-block"><label>Password</label> <input type="password" name="password" autocomplete="current-password" ng-model="vm.user.password" ng-required="loginForm.$submitted"><div ng-messages="(loginForm.$submitted || loginForm.password.$touched) && loginForm.password.$error" role="alert"><div ng-message="required">Password is required</div></div></md-input-container></div><md-button class="md-primary" ng-click="openSignup()" angular-on="click" angular-event="Login" angular-action="signup">New here? Sign up</md-button><md-button class="md-warn" ng-click="openPasswordRecovery()" angular-on="click" angular-event="Login" angular-action="password recover">Forgot your password?</md-button></div><div><md-button class="btn-blue btn-full" type="submit">LOG IN</md-button></div></form></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/map/map.html','<section class="map" change-map-height=""><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><div class="map_legend" layout="row" layout-align="start center" move-filters=""><div class="map_legend__filtersContainer" layout="column"><div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50"><div class="map_filter_button"><md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon></div><p class="filter_description">Filters</p></div><div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50"><div class="map_filter_button"><p>#</p></div><p class="filter_description">Tags</p></div></div><div class="chips" layout="column"><div layout="row" class="chips_row"><span ng-repeat="filter in vm.selectedFilters" ng-if="!vm.checkAllFiltersSelected()" class="chip label" style="padding: 0 10px;">{{ filter }}</span></div><div layout="row" class="chips_row" layout-wrap=""><span class="chip tag" ng-repeat="tag in vm.selectedTags">{{ tag }}<md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon></span></div></div></div><md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
-$templateCache.put('app/components/map/mapEmbbed.html','<section class="map" style="height: 100%; top: 0px;"><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><md-progress-linear ng-show="vm.kitLoading || !vm.readyForKit.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
+$templateCache.put('app/components/map/map.html','<section class="map" change-map-height=""><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><div class="map_legend" layout="row" layout-align="start center" move-filters=""><div class="map_legend__filtersContainer" layout="column"><div class="map_legend__filtersRow" ng-click="vm.openFilterPopup()" flex="50"><div class="map_filter_button"><md-icon md-svg-src="./assets/images/filter_icon.svg"></md-icon></div><p class="filter_description">Filters</p></div><div class="map_legend__filtersRow" ng-click="vm.openTagPopup()" flex="50"><div class="map_filter_button"><p>#</p></div><p class="filter_description">Tags</p></div></div><div class="chips" layout="column"><div layout="row" class="chips_row"><span ng-repeat="filter in vm.selectedFilters" ng-if="!vm.checkAllFiltersSelected()" class="chip label" style="padding: 0 10px;">{{ filter }}</span></div><div layout="row" class="chips_row" layout-wrap=""><span class="chip tag" ng-repeat="tag in vm.selectedTags">{{ tag }}<md-icon ng-click="vm.removeTag(tag)" md-svg-src="./assets/images/close_icon_black.svg"></md-icon></span></div></div></div><md-progress-linear ng-show="vm.deviceLoading || !vm.readyForDevice.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
+$templateCache.put('app/components/map/mapEmbbed.html','<section class="map" style="height: 100%; top: 0px;"><leaflet center="vm.center" layers="vm.layers" markers="vm.markers" defaults="vm.defaults" event-broadcast="vm.events" width="100%" height="100%"></leaflet><md-progress-linear ng-show="vm.deviceLoading || !vm.readyForDevice.map" class="md-hue-3 kit_spinner" md-mode="indeterminate"></md-progress-linear></section>');
 $templateCache.put('app/components/map/mapFilterModal.html','<md-dialog class="filters"><md-toolbar><div class="md-toolbar-tools"><h2>Filters</h2><span flex=""></span><md-button class="md-icon-button" ng-click="vm.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><div class="md-dialog-content max-width-500px"><md-content layout-padding=""><h4 style="margin: 0">Are you looking for real time data?</h4><p style="margin: 0">Online Kits have published data online at least during the past 60 minutes</p><div ng-repeat="filter in vm.status"><md-checkbox ng-click="vm.toggle(vm.status)" ng-model="vm.checks[filter]"><span style="padding: 3px 8px" class="filter">{{filter.toUpperCase()}}</span></md-checkbox></div></md-content><md-content style="margin-top: 10px;" layout-padding=""><h4 style="margin: 0">Are you looking for outdoor data?</h4><p style="margin: 0">Kits can be used to monitor indoor and outdoor conditions</p><div ng-repeat="filter in vm.location"><md-checkbox ng-click="vm.toggle(vm.location)" ng-model="vm.checks[filter]"><span style="padding: 3px 8px" class="filter">{{filter.toUpperCase()}}</span></md-checkbox></div></md-content></div><md-button class="md-warn btn-full" ng-click="vm.clear()">Clear filters</md-button><md-button class="btn-blue btn-full" ng-click="vm.answer()">Apply</md-button></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/map/mapTagModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Tags</h2><span flex=""></span><md-button class="md-icon-button" ng-click="vm.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><div class="md-dialog-content max-width-500px min-height-80"><p>Kits sharing a #tag show their average data.</p><p class="hide-xs">Browse and select from the list to show the kits containing ALL these tags.</p><md-input-container md-no-float="" class="md-block"><input type="text" ng-model="tagSearch" placeholder="Search for tags.."></md-input-container><md-content layout-padding="" style="height: calc(80vh - 450px);"><div ng-repeat="tag in vm.tags | filter:{name: tagSearch}"><md-checkbox ng-model="vm.checks[tag.name]"><span class="tag">{{tag.name}}</span></md-checkbox></div></md-content></div><md-button class="md-warn btn-full" ng-click="vm.clear()">Clear selection</md-button><md-button class="btn-blue btn-full" ng-click="vm.answer()">Apply</md-button></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/myProfile/Kits.html','<div class="profile_content" layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80" layout-align="start" layout-align-xs="start center" layout="column"><p class="profile_sidebar_title text-center">FILTER KITS BY</p><div class="" layout="row" layout-align="center center" layout-gt-sm="column"><md-button ng-click="vm.filterKits(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterKits(\'online\')" class="profile_sidebar_button">ONLINE</md-button><md-button ng-click="vm.filterKits(\'offline\')" class="profile_sidebar_button">OFFLINE</md-button></div></div><div class="pt-80 px-20 mb-30" flex=""><div class="profile_content_main_top"><md-button class="btn-round btn-cyan" ng-click="addKitSelector()">ADD A NEW KIT</md-button><span class="float-right">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.kitStatus.toUpperCase() || \'ALL\' }}</span></div><kit-list actions="{remove: vm.removeKit, downloadData: vm.downloadData}" kits="vm.filteredKits"></kit-list><div class="kitList kitList_borderBottom" ng-show="!vm.kits.length"><div class="kitList_container"><div class="kitList_noKits"><span>There are not kits yet</span></div></div></div></div></div>');
-$templateCache.put('app/components/myProfile/Tools.html','<div class="profile_content" layout="column" layout-gt-xs="row"><div class="profile_sidebar pt-80" layout-align="start" layout-align-xs="start center" layout="column"><p class="profile_sidebar_title text-center">FILTER TOOLS BY</p><div class="text-left" layout="column"><md-button ng-click="vm.filterTools(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterTools(\'documentation\')" class="profile_sidebar_button">DOCUMENTATION</md-button><md-button ng-click="vm.filterTools(\'community\')" class="profile_sidebar_button">COMMUNITY</md-button><md-button ng-click="vm.filterTools(\'social\')" class="profile_sidebar_button">SOCIAL</md-button></div></div><div class="pt-80 px-20 mb-30" flex=""><div class="profile_content_main_top"><span class="">{{ vm.filteredTools.length || 0 }} tools filtering by {{ vm.toolType.toUpperCase() || \'ALL\' }}</span></div><div class="profile_content_main_kits"><div ng-repeat="tool in (vm.filteredTools = (vm.tools | filter: { type: vm.toolType } ))" ng-class="{kitList_borderBottom: $last}"><md-button ng-href="{{tool.href}}" class="kitList" layout="column" layout-align="start start"><h4>{{ tool.title }}</h4><p class="md-subhead">{{ tool.description }}</p></md-button></div></div></div></div>');
+$templateCache.put('app/components/myProfile/Kits.html','<div class="profile_content" layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80" layout-align="start" layout-align-xs="start center" layout="column"><p class="profile_sidebar_title text-center">FILTER KITS BY</p><div class="" layout="row" layout-align="center center" layout-gt-sm="column"><md-button ng-click="vm.filterDevices(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterDevices(\'online\')" class="profile_sidebar_button">ONLINE</md-button><md-button ng-click="vm.filterDevices(\'offline\')" class="profile_sidebar_button">OFFLINE</md-button></div></div><div class="pt-80 px-20 mb-30" flex=""><div class="profile_content_main_top"><md-button class="btn-round btn-cyan" ng-click="addDeviceSelector()">ADD A NEW KIT</md-button><span class="float-right">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.deviceStatus.toUpperCase() || \'ALL\' }}</span></div><kit-list actions="{remove: vm.removeDevice, downloadData: vm.downloadData}" devices="vm.filteredDevices"></kit-list><div class="kitList kitList_borderBottom" ng-show="!vm.devices.length"><div class="kitList_container"><div class="kitList_noKits"><span>There are not kits yet</span></div></div></div></div></div>');
 $templateCache.put('app/components/myProfile/Users.html','<div class="profile_content" layout="column" layout-gt-xs="row" layout-align="center"><div layout-padding="" layout-margin="" class="mt-50 mb-30 bg-white"><div style="max-width:500px"><div class="myProfile_form_avatar" layout="row" layout-align="start center"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="myProfile_form_avatarImage"><md-button class="md-raised md-accent" ngf-select="" ngf-change="vm.uploadAvatar($files)">CHANGE AVATAR</md-button></div><form ng-submit="vm.updateUser(vm.formUser)"><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container flex=""><label>Username</label> <input type="text" ng-model="vm.formUser.username"></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.username.length"><span ng-repeat="error in vm.errors.username">Username {{ error }}<span ng-if="!$last">,</span></span></p></div><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container flex=""><label>Password</label> <input type="password" ng-model="vm.formUser.password"></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.password.length"><span ng-repeat="error in vm.errors.password">Password {{ error }}<span ng-if="!$last">,</span></span></p></div><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container flex=""><label>Email</label> <input type="email" ng-model="vm.formUser.email"></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.email.length"><span ng-repeat="error in vm.errors.email">Email {{ error }}<span ng-if="!$last">,</span></span></p></div><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container flex=""><label>City</label> <input type="text" ng-model="vm.formUser.city"></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.city.length"><span ng-repeat="error in vm.errors.city">City {{ error }}<span ng-if="!$last">,</span></span></p></div><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container class="countryInput_container" flex=""><label>Country</label><md-autocomplete md-search-text="vm.searchText" md-items="item in vm.getCountries(vm.searchText)" md-item-text="item" md-selected-item="vm.formUser.country"><span>{{ item }}</span></md-autocomplete></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.country.length"><span ng-repeat="error in vm.errors.country">Country {{ error }}<span ng-if="!$last">,</span></span></p></div><div layout="" layout-sm="column" class="field myProfile_content_form_input"><md-input-container flex=""><label>Website</label> <input type="url" ng-model="vm.formUser.url"></md-input-container><p class="myProfile_updateForm_error" ng-show="!!vm.errors.url.length"><span ng-repeat="error in vm.errors.url">URL {{ error }}<span ng-if="!$last">,</span></span></p></div><md-button type="submit" class="md-accent md-raised">UPDATE PROFILE</md-button></form><div class="mb-20"><div class="mb-20" layout="column" layout-align="start"><h4><md-icon md-svg-src="./assets/images/key_icon.svg"></md-icon>oAuth API Key:</h4><div api-key="vm.user.token"></div></div><small>Keep it safe as a password, never show it or release it publicly. The new API uses oAuth but doesn\'t require any Keys for basic queries. Soon you will be able to manage and renew Keys per application. Check the <a target="_blank" href="http://developer.smartcitizen.me/">documentation and have fun!</a></small></div><md-button class="md-raised md-warn" ng-click="vm.removeUser()" type="button">DELETE ACCOUNT</md-button><br><small>Delete your profile will erase ALL your data. Please think twice before clicking this button.</small></div></div></div>');
-$templateCache.put('app/components/myProfile/addKitSelectorModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Select Kit</h2><span flex=""></span><md-dialog-actions><md-button ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></md-dialog-actions></div></md-toolbar><md-dialog-content layout-padding="" layout-margin="" layout="row" layout-xs="column" layout-align-xs="center center"><div class="bg-grey-lightest" layout-padding="" layout="column" layout-align="center center"><img style="max-height: 250px;" src="./assets/images/sckit_1.png" alt=""><p>Legacy SCK 1.0 and 1.1 from 2012 to 2016</p><md-button class="btn-round btn-cyan" ui-sref="layout.kitAdd" ng-click="cancel()">Add a kit</md-button></div><div class="bg-grey-lightest" layout-padding="" layout="column" layout-align="center center"><img style="" src="./assets/images/sckit_2.png" alt=""><p>SCK 2.0 and 2.1 from 2017+</p><md-button class="btn-round btn-cyan" target="_blank" ng-href="https://start.smartcitizen.me" ng-click="cancel()">Add a kit</md-button></div></md-dialog-content></md-dialog>');
+$templateCache.put('app/components/myProfile/addDeviceSelectorModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Select Kit</h2><span flex=""></span><md-dialog-actions><md-button ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></md-dialog-actions></div></md-toolbar><md-dialog-content layout-padding="" layout-margin="" layout="row" layout-xs="column" layout-align-xs="center center"><div class="bg-grey-lightest" layout-padding="" layout="column" layout-align="center center"><img style="max-height: 250px;" src="./assets/images/sckit_1.png" alt=""><p>Legacy SCK 1.0 and 1.1 from 2012 to 2016</p><md-button class="btn-round btn-cyan" ui-sref="layout.kitAdd" ng-click="cancel()">Add a kit</md-button></div><div class="bg-grey-lightest" layout-padding="" layout="column" layout-align="center center"><img style="" src="./assets/images/sckit_2.png" alt=""><p>SCK 2.0 and 2.1 from 2017+</p><md-button class="btn-round btn-cyan" target="_blank" ng-href="https://start.smartcitizen.me" ng-click="cancel()">Add a kit</md-button></div></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/myProfile/myProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="myProfile_tabs_parent" flex=""><md-tabs md-dynamic-height="" class="myProfile_tabs" md-center-tabs="false" md-selected="vm.startingTab"><md-tab label="" md-on-select="vm.selectThisTab(0, \'kits\')"><md-tab-label><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">KITS</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab><md-tab label="" md-on-select="vm.selectThisTab(1, \'user\')"><md-tab-label><md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">USER</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab></md-tabs></div></section>');
 $templateCache.put('app/components/passwordRecovery/passwordRecovery.html','<form name="recovery_form" ng-submit="vm.recoverPassword()" novalidate="" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">FORGOT YOUR PASSWORD?</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p><p class="form_messageDescription">Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p></div><div layout="" layout-sm="column" class="formRecovery_field"><md-input-container flex=""><label>Username</label> <input type="text" name="username" ng-model="vm.username" autofocus="" ng-required="recovery_form.$submitted"></md-input-container><p class="form_errors formRecovery_errors" ng-show="vm.errors"><span ng-show="recovery_form.username.$error.required">Valid Username or Email is required</span></p></div></div><md-progress-circular ng-show="vm.waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular><md-button type="submit" class="md-flat md-primary form_button">REQUEST NEW PASSWORD</md-button></form><header style="margin-top:120px" class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></header>');
 $templateCache.put('app/components/passwordRecovery/passwordRecoveryModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Forgot your password?</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><form name="recoveryForm" novalidate="" ng-submit="recoverPassword()"><div class="md-dialog-content max-width-500px"><p>Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p><div layout="" layout-sm="column"><md-input-container flex=""><label>Username or Email</label> <input type="text" name="input" ng-model="input" focus-input="" required=""><div ng-messages="recoveryForm.input.$error"><div ng-message="required">Valid Username or Email is required</div></div></md-input-container></div><md-button ng-click="openSignup()">New here? Sign up</md-button></div><md-button class="btn-blue btn-full" type="submit">REQUEST NEW PASSWORD</md-button></form></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/search/search.html','<md-autocomplete id="search" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-search-text-change="vm.searchTextChange(vm.searchText)" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.name" placeholder="Search" md-delay="300" md-min-length="3"><md-item-template layout="row" layout-align="start center"><div class="search_results"><img ng-if="item.iconType === \'img\'" ng-src="{{ item.icon }}" class="result_icon"><div ng-if="item.iconType === \'div\'" class="markerSmartCitizenOnline result_icon"></div><span ng-class="{\'result_name\': item.name.length > 0}">{{ item.name }}</span> <span class="result_location">{{ item.location }}</span></div></md-item-template></md-autocomplete>');
 $templateCache.put('app/components/passwordReset/passwordReset.html','<form name="form" novalidate="" ng-submit="vm.answer(vm.form)" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">ENTER YOUR NEW PASSWORD</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>New Password</label> <input type="password" name="newPassword" ng-model="vm.form.newPassword" autofocus="" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.newPassword.$touched"><span ng-show="form.newPassword.$error.required">Password is required</span></p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>Confirm Password</label> <input type="password" name="password" ng-model="vm.form.confirmPassword" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.password.$touched"><span ng-show="form.password.$error.required">Password is required</span> <span ng-show="vm.isDifferent && !form.password.$error.required && !vm.errors.password.length">It must be the same password</span> <span ng-show="!!vm.errors.password.length"><span ng-repeat="error in vm.errors.password">Password {{ error }}<span ng-if="!$last">,</span></span></span></p></div></div><md-button class="md-flat md-primary form_button" type="submit">RESET PASSWORD</md-button></form><footer class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
+$templateCache.put('app/components/search/search.html','<md-autocomplete id="search" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-search-text-change="vm.searchTextChange(vm.searchText)" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.name" placeholder="Search" md-delay="300" md-min-length="3"><md-item-template layout="row" layout-align="start center"><div class="search_results"><img ng-if="item.iconType === \'img\'" ng-src="{{ item.icon }}" class="result_icon"><div ng-if="item.iconType === \'div\'" class="markerSmartCitizenOnline result_icon"></div><span ng-class="{\'result_name\': item.name.length > 0}">{{ item.name }}</span> <span class="result_location">{{ item.location }}</span></div></md-item-template></md-autocomplete>');
 $templateCache.put('app/components/signup/signup.html','<md-button class="" ng-click="vm.showSignup($event)">Sign Up</md-button>');
 $templateCache.put('app/components/signup/signupModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Sign up</h2><span flex=""></span><md-button class="" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><md-dialog-content class="modal signup"><form name="signupForm" novalidate="" ng-submit="vm.answer(signupForm)"><div class="md-dialog-content"><div><p>Join Smart Citizen</p></div><div layout="column"><md-input-container><label>Username</label> <input type="text" name="username" autocomplete="username" ng-model="vm.user.username" focus-input="" required=""><div ng-messages="signupForm.username.$error || !!errors.password.length" role="alert"><div ng-message="required">Username is required</div><div ng-repeat="error in errors.username"><div>Username {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container flex=""><label>Password</label> <input name="password" type="password" autocomplete="new-password" ng-model="vm.user.password" required=""><div ng-messages="signupForm.password.$error || !!errors.password.length" role="alert"><div ng-message="required">Password is required</div><div ng-repeat="error in errors.password"><div>Password {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><label>Email</label> <input name="email" type="email" ng-model="vm.user.email" required=""><div ng-messages="signupForm.email.$error || !!errors.email.length" role="alert"><div ng-message="required">Email is required</div><div ng-repeat="error in errors.email" ng-if="!!errors.email.length"><div>Email {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><md-checkbox name="conditions" ng-model="vm.user.conditions" aria-label="Terms and Conditions" required="">I <a ui-sref="layout.policy" ng-click="hide()">have read</a> and accept Terms and Conditions</md-checkbox><div ng-messages="signupForm.conditions.$error || !!errors.conditions.length" role="alert"><div ng-message="required">You have to accept Terms and Conditions first</div><div ng-repeat="error in errors.conditions"><div>{{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container></div><md-button class="md-primary" ng-click="openLogin()">Already have an account? Log in</md-button></div><md-button class="btn-blue btn-full" type="submit">Sign up</md-button></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/static/404.html','<section class="not-found-404" flex=""><div id="content-land"><div class="block photo kit-0" data-stellar-background-ratio="0.01"><div class="container" style="height:inherit"><div style="text-align: center; vertical-align: middle;"><div style="margin-top: 85px;"><h3>404</h3><span>Yikes! We couldn\'t find what you are looking for...</span></div><div style="margin-top: 50px;"><a href="/kits/" style="text-decoration: none" class="btn-black-outline btn-round-new">GO BACK TO THE PLATFORM</a></div></div></div><div class="bullet-landing plus grey"></div></div></div></section>');
@@ -8440,13 +8147,13 @@ $templateCache.put('app/components/static/static.html','<section class="static_p
 $templateCache.put('app/components/static/styleguide.html','<div class="styleguide"><section class="profile_header"><h1>Smart Citizen Style Guide</h1></section><section layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80"><p class="profile_sidebar_title text-center">MENU</p><div layout="column"><button class="profile_sidebar_button md-button md-default-theme">Fonts</button> <button class="profile_sidebar_button md-button md-default-theme">Buttons</button> <button class="profile_sidebar_button md-button md-default-theme">Colors</button></div></div><div flex="" class="pt-80 px-40"><h2 class="">CSS help classes</h2><div class="ml-10 bg-green">ml-10</div><div class="ml-20 bg-green">ml-20</div><div class="ml-30 bg-green">ml-30</div><div class="ml-50 bg-green">ml-50</div><div class="mb-10 bg-blue">mb-10</div><div class="mb-20 bg-blue">mb-20</div><div class="mb-30 bg-blue">mb-30</div><div class="mb-50 bg-blue">mb-50</div><div class="mr-10 bg-red-light">mr-10</div><div class="mr-20 bg-red-light">mr-20</div><div class="mr-30 bg-red-light">mr-30</div><div class="mr-50 bg-red-light">mr-50</div><div class="mt-10 bg-green">mt-10</div><div class="mt-20 bg-green">mt-20</div><div class="mt-30 bg-green">mt-30</div><div class="mt-50 bg-green">mt-50</div><h2 class="">Font style - Light theme</h2><a href="https://material.angularjs.org/latest/CSS/typography" target="_blank">Read more about AngularJS Material Typography here</a><div layout="column" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 class="info-text" flex="30">2.2 em</h1><h1 class="info-text" flex="20">normal</h1></div><md-divider></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 class="info-text" flex="30">1.7 em</h2><h2 class="info-text" flex="20">normal</h2></div><md-divider></md-divider><div layout="row"><h3 flex="50">h3 Heading</h3><h3 class="info-text" flex="30">1.3 em</h3><h3 class="info-text" flex="20">bold</h3></div><md-divider></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 class="info-text" flex="30">1.1 em</h4><h4 class="info-text" flex="20">normal</h4></div><md-divider></md-divider><div layout="row"><p flex="50">Paragraph</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">normal</p></div><md-divider></md-divider><div layout="row"><p flex="50">Paragraph info</p><p class="info-text" flex="30">1 em</p><p class="info-text" flex="20">lighter</p></div><small>Small text</small></div><h2>Font style - Dark theme</h2><div class="dark-text-section section-padding"><div layout="row"><h1 flex="50">h1 Heading</h1><h1 flex="30" class="info-text-dark">1.8 em</h1><h1 flex="20" class="info-text-dark">normal</h1></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h2 flex="50">h2 Heading</h2><h2 flex="30" class="info-text-dark">1.7 em</h2><h2 flex="20" class="info-text-dark">normal</h2></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h4 flex="50">h4 Heading</h4><h4 flex="30" class="info-text-dark">1.1 em</h4><h4 flex="20" class="info-text-dark">normal</h4></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><h6 flex="50">h6 Heading</h6><h6 flex="30" class="info-text-dark">0.75 em</h6><h6 flex="20" class="info-text-dark">bold</h6></div><md-divider class="dark-theme-divider"></md-divider><div layout="row"><p flex="50">Paragraph</p><p flex="30" class="info-text-dark">1 em</p><p flex="20" class="info-text-dark">lighter</p></div><md-divider class="dark-theme-divider"></md-divider><br><small>Small text</small></div><h2>Buttons</h2><div layout="column" layout-wrap="" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div><a href="https://material.angularjs.org/latest/Theming/03_configuring_a_theme" target="_blank">Read about Material Design theming here</a><br><a href="https://material.angularjs.org/1.1.4/demo/colors" target="_blank">Material Design color picker</a><h4>Primary Buttons</h4><md-button class="md-raised md-primary">md-primary</md-button><md-button class="md-raised md-primary md-hue-1">md-primary md-hue-1</md-button><md-button class="md-raised md-primary md-hue-2">md-primary md-hue-2</md-button><md-button class="md-raised md-primary md-hue-3">md-primary md-hue-3</md-button><br><md-button class="md-primary">md-primary</md-button><md-button class="md-primary md-hue-1">md-hue-1</md-button><md-button class="md-primary md-hue-2">md-hue-2</md-button><md-button class="md-primary md-hue-3">md-hue-3</md-button><h4>Accent (secondary) Buttons</h4><md-button class="md-raised md-accent">md-accent</md-button><md-button class="md-raised md-accent md-hue-1">md-accent md-hue-1</md-button><md-button class="md-raised md-accent md-hue-2">md-accent md-hue-2</md-button><md-button class="md-raised md-accent md-hue-3">md-accent md-hue-3</md-button><br><md-button class="md-accent">md-accent</md-button><md-button class="md-accent md-hue-1">md-accent md-hue-1</md-button><md-button class="md-accent md-hue-2">md-accent md-hue-2</md-button><md-button class="md-accent md-hue-3">md-accent md-hue-3</md-button><h4>Warning buttons</h4><md-button class="md-raised md-warn">md-warn</md-button><md-button class="md-raised md-warn md-hue-1">md-warn md-hue-1</md-button><md-button class="md-raised md-warn md-hue-2">md-warn md-hue-2</md-button><md-button class="md-raised md-warn md-hue-3">md-warn md-hue-3</md-button><br><md-button class="md-warn">md-warn</md-button><md-button class="md-warn md-hue-1">md-warn md-hue-1</md-button><md-button class="md-warn md-hue-2">md-warn md-hue-2</md-button><md-button class="md-warn md-hue-3">md-warn md-hue-3</md-button><br><md-button class="md-raised">md-raised</md-button><md-button>empty button (no class)</md-button><h4>Custom</h4><md-button class="btn-round btn-cyan">btn-round btn-cyan</md-button></div></div><h2>Labels and Tags</h2><div layout="column" layout-wrap="" class="section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div><h3>Label</h3><span class="label">offline</span><md-divider class="my-20"></md-divider><h3>Tag</h3><span class="tag">Barcelona</span></div></div><div><h2>Colors</h2><div class="colors-section section-padding" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row"><div flex="20" class="secondary-color"><p>#065063</p><p>$secondary_color</p></div><div flex="20" class="terciary_color"><p>#38CEF3</p><p>$terciary_color</p></div><div flex="20" class="secondary_color_light"><p>#8DB2BA</p><p>$secondary_color_light</p></div><div flex="20" class="secondary-color-pastel"><p>#C8E6ED</p></div><div flex="20" class="white"><p>#FFFFFF</p></div></div></div><h2>Sensor Charts Colors</h2><div class="colors-section section-padding mb-30" style="border:1px solid rgba(0,0,0,0.12)"><div layout="row" class="sensors"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div></div></div></section></div>');
 $templateCache.put('app/components/store/store.html','<md-button class="md-flat" ng-class="(isLoggedin) ? \'navbar_highlight_button\' : \'no-class\'" ng-href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html"><md-tooltip md-direction="bottom">Get your kit on Seeed studio</md-tooltip>Get your Kit</md-button>');
 $templateCache.put('app/components/store/storeModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Store</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/tags/tags.html','<section class="kitTags__section" ng-if="tagsCtl.selectedTags.length > 0" change-content-margin=""><div class="shadow"></div><div class="over_map"><div class="kit_fixed kitTags__container bg-white"><div class="kitTags__textContainer" layout-xs="column"><div class="kitTags__textElement"><h1><span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span></h1><h2>{{tagsCtl.markers.length}} kit{{tagsCtl.markers.length > 1 ? \'s are\' : \' is\'}} on <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span> and {{tagsCtl.percActive}}% are active today.</h2><p ng-repeat="tag in tagsCtl.selectedTags"></p></div><div class="kitTags__textElement"><h4 class="md-title">About #Tags</h4><p class="sg-paragraph2">These tags are contributed by the community and show the variety applications of the Smart Citizen Project. You can use tags to organize and filter devices. If you need a tag, and you can\'t find one that works for you, you can request the creation of new tags in the forum.</p><br><a style="text-decoration: none" href="https://forum.smartcitizen.me/c/general/" class="btn-black-outline btn-round-new">SUGGEST NEW TAGS</a></div></div></div></div><div class="kitTags__listContainer kit_fixed"><md-progress-circular ng-show="!tagsCtl.kits || tagsCtl.kits.length <= 0" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><section class="kit_owner_kits" ng-if="tagsCtl.kits.length > 0"><kit-list kits="tagsCtl.kits"></kit-list></section></div></section>');
+$templateCache.put('app/components/tags/tags.html','<section class="kitTags__section" ng-if="tagsCtl.selectedTags.length > 0" change-content-margin=""><div class="shadow"></div><div class="over_map"><div class="kit_fixed kitTags__container bg-white"><div class="kitTags__textContainer" layout-xs="column"><div class="kitTags__textElement"><h1><span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span></h1><h2>{{tagsCtl.markers.length}} kit{{tagsCtl.markers.length > 1 ? \'s are\' : \' is\'}} on <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span> and {{tagsCtl.percActive}}% are active today.</h2><p ng-repeat="tag in tagsCtl.selectedTags"></p></div><div class="kitTags__textElement"><h4 class="md-title">About #Tags</h4><p class="sg-paragraph2">These tags are contributed by the community and show the variety applications of the Smart Citizen Project. You can use tags to organize and filter devices. If you need a tag, and you can\'t find one that works for you, you can request the creation of new tags in the forum.</p><br><a style="text-decoration: none" href="https://forum.smartcitizen.me/c/general/" class="btn-black-outline btn-round-new">SUGGEST NEW TAGS</a></div></div></div></div><div class="kitTags__listContainer kit_fixed"><md-progress-circular ng-show="!tagsCtl.devices || tagsCtl.devices.length <= 0" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><section class="kit_owner_kits" ng-if="tagsCtl.devices.length > 0"><kit-list devices="tagsCtl.devices"></kit-list></section></div></section>');
 $templateCache.put('app/components/upload/csvUpload.html','<div class=""><h3>Upload your files<p>Select the files you want and upload them into your kit!</p></h3></div><div ng-if="vm.invalidFiles && vm.invalidFiles.length > 0" class="mb-30"><p md-colors="{color:\'warn\'}">We are unable to upload the following files due to the problems mentioned below.</p><md-list class="list-shadow bg-red-light"><md-list-item ng-repeat="invalidFile in vm.invalidFiles"><span>{{invalidFile.name}}</span> <span flex=""></span><div ng-messages="invalidFile.$errorMessages"><div class="label color-white bg-red" ng-message="pattern">Invalid format</div><div class="label color-white bg-red" ng-message="maxSize">Too large (Max 10MB)</div><div class="label color-white bg-red" ng-message="maxFiles">Too many files (Max 30)</div><div class="label color-white bg-red" ng-message="duplicate">Already on the list</div></div><md-icon ng-click="vm.invalidFiles.splice($index, 1);" md-svg-icon="./assets/images/close_icon_black.svg"></md-icon></md-list-item></md-list></div><div class=""><button name="csvFiles" type="file" class="md-button btn-blue btn-round ml-0 mb-30" ngf-select="vm.change($files, $invalidFiles)" ngf-before-model-change="vm.onSelect()" ngf-multiple="true" ngf-accept="\'application/csv,.csv\'" ngf-max-files="30" ngf-max-size="\'10MB\'" ngf-pattern="\'.csv\'">Load CSV Files</button></div><md-input-container><label>Actions</label><md-select ng-model="vm.action"><md-option ng-value="null"><em>None</em></md-option><md-option value="selectAll" ng-disabled="vm.haveSelectedAllFiles()">Select all</md-option><md-option value="deselectAll" ng-disabled="vm.haveSelectedNoFiles()">Deselect all</md-option><md-option value="upload" ng-disabled="!vm.haveSelectedFiles()">Upload</md-option><md-option value="remove" ng-disabled="!vm.haveSelectedFiles()">Remove</md-option></md-select></md-input-container><md-button class="md-raised md-primary" ng-class="vm.action ? \'color-blue\' : \'\'" ng-click="vm.doAction()" ng-disabled="(!vm.csvFiles || vm.csvFiles.length === 0) && !vm.action">Apply</md-button><div class="relative"><md-progress-linear class="green absolute" md-mode="{{ vm.loadingType }}" ng-value="vm.loadingProgress" ng-if="vm.loadingStatus"></md-progress-linear></div><md-list ng-if="vm.csvFiles && vm.csvFiles.length > 0" class="list-shadow"><md-list-item ng-class="{\'bg-green\':csvFile.success}" ng-repeat="csvFile in vm.csvFiles"><md-checkbox ng-model="csvFile.checked" ng-disabled="csvFile.success"></md-checkbox><span>{{csvFile.name}}</span><md-button ng-click="vm.showErrorModal(csvFile)" ng-if="(csvFile.parseErrors || csvFile.backEndErrors) && !csvFile.success" class="md-icon-button md-warn"><md-tooltip md-direction="top">Show details</md-tooltip><md-icon md-svg-icon="./assets/images/alert_icon.svg"></md-icon></md-button><md-icon class="color-green" style="margin-left: 14px" md-svg-icon="./assets/images/check_circle.svg" ng-if="csvFile.success"></md-icon><md-progress-circular style="margin-left: 14px;" ng-if="csvFile.progress" md-mode="indeterminate" md-diameter="20"></md-progress-circular><span flex=""></span> <span ng-if="csvFile.isNew && !csvFile.success" class="label bg-grey">new data</span><md-button ng-click="vm.removeFile($index)" class="md-icon-button md-default"><md-icon md-svg-icon="./assets/images/delete_icon.svg"></md-icon></md-button></md-list-item></md-list><md-list ng-if="!vm.csvFiles || vm.csvFiles.length === 0" class="list-shadow"><md-list-item><div class="md-list-item-text" layout="column">There are no files here. Let\u2019s upload something!</div></md-list-item></md-list>');
 $templateCache.put('app/components/upload/errorModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Errors</h2><span flex=""></span><md-button class="md-icon-button" ng-click="csvFile.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><div style="min-height: 200px" layout="column" layout-align="space-around center"><md-icon class="s-48 md-warn" md-svg-icon="./assets/images/alert_icon.svg"></md-icon><md-list><md-list-item ng-repeat="error in csvFile.parseErrors">{{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span></md-list-item><md-list-item ng-if="csvFile.backEndErrors">{{csvFile.backEndErrors.statusText || csvFile.backEndErrors}} {{csvFile.backEndErrors.status}} <span ng-if="csvFile.backEndErrors.data"></span>: {{ csvFile.backEndErrors.data.message || csvFile.backEndErrors.data.errors }}</md-list-item></md-list></div></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/upload/upload.html','<section class="upload-csv timeline" flex="1" layout="row" layout-align="center center"><div class="container" layout="row" layout-align="space-between center"><span class="color-white title-timeline">Upload CSV Files</span><md-button style="margin-left: auto" class="md-flat md-primary timeline_buttonBack" ui-sref="layout.home.kit({id: vm.kit.id})">Back to Kit</md-button></div></section><section class="upload-csv" style="margin-top: 64px; margin-bottom: 64px;"><div class="container"><sc-csv-upload kit="vm.kit"><sc-csv-upload></sc-csv-upload></sc-csv-upload></div></section>');
-$templateCache.put('app/components/userProfile/userProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="profile_content mb-30" layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80" layout-align="start center" layout="column"><p class="profile_sidebar_title">FILTER KITS BY</p><div class="" layout="column"><md-button ng-click="vm.filterKits(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterKits(\'online\')" class="profile_sidebar_button">ONLINE</md-button><md-button ng-click="vm.filterKits(\'offline\')" class="profile_sidebar_button">OFFLINE</md-button></div></div><div class="pt-80 px-20" flex=""><div class="profile_content_main_top"><span class="">{{ vm.filteredKits.length || 0 }} kits filtering by {{ vm.status.toUpperCase() || \'ALL\' }}</span></div><div class="profile_content_main_kits"><kit-list actions="{remove: vm.removeKit}" kits="(vm.filteredKits = (vm.kits | filterLabel:vm.kitStatus ))"></kit-list><div class="kitList kitList_borderBottom" ng-show="!vm.kits.length"><div class="kitList_container"><div class="kitList_noKits"><span>There are not kits yet</span></div></div></div></div></div></div></section>');
-$templateCache.put('app/components/kit/editKit/editKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="row" layout-align="start center"><div class="timeline_stepCircle" ng-class="{\'is-on\':vm.step===1, \'is-off\':vm.step!==1}" layout="row" layout-align="center center">1</div><md-button ng-click="vm.goToStep(1)" class="timeline_stepName">Kit data</md-button><div ng-if="vm.setupAvailable" class="timeline_line timeline_line_small"></div><div ng-if="vm.setupAvailable" layout="row" layout-align="start center"><div class="timeline_stepCircle" ng-class="{\'is-on\':vm.step===2, \'is-off\':vm.step!==2}" layout="row" layout-align="center center">2</div><md-button ng-if="vm.setupAvailable" ng-click="vm.goToStep(2)" class="timeline_stepName">Set up</md-button></div></div><md-button style="margin-left: auto" class="md-flat md-primary timeline_buttonBack" ng-click="vm.backToProfile()">Back to Profile</md-button><md-button style="margin-left: 20px" class="md-flat md-primary timeline_buttonSave" ng-click="vm.submitFormAndKit()">Save</md-button></div></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="bg-white" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Basic information</h2><small>Please, provide kit basic info. That includes a name and exposure</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Kit Name</label> <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.name"></md-input-container><div layout="row" layout-align="space-between start"><div class="" layout="row" layout-align="start center"><label class="mr-10">Exposure:</label><md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div></div></div></section><section layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Open Data</h2><small>We advocate for open data and open science! However, some times your devices might be collecting potential personal data (i.e. your exact location, by GPS using in your bike) and you might consider changing how others can access your data</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Manage how others can access your data:</p><md-checkbox ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'" ng-model="vm.kitForm.is_private"><label>Make this device private</label></md-checkbox></div></div></section><section layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Notification</h2><small>Manage your notifications</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Get emails when the following events occur:</p><md-checkbox ng-model="vm.kitForm.notify_low_battery"><label>Battery goes below 15%</label></md-checkbox><md-checkbox ng-model="vm.kitForm.notify_stopped_publishing"><label>Device stopped publishing</label></md-checkbox></div></div></section><section class="form_blockMap bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div><h2>Kit location</h2><small>You can adjust the location by dragging the marker on the map.</small></div></div></div><div flex="50"><div class="form_blockInput_button" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng"><div class="form_blockInput_container" layout="row" layout-align="center center"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div></div><div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng"><leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div flex-gt-xs="50"><md-input-container><label>Select tags</label><md-select ng-model="selectedTags" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple=""><md-select-header class="kit_tags-select-header"><input ng-model="searchTerm" type="search" placeholder="Search for a tag.." class="kit_tags-header-searchbox md-text"></md-select-header><md-optgroup label="tags"><md-option class="color-dropdown" ng-selected="vm.kitForm.tags.includes(item.name)" ng-model="vm.kitForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">{{item.name}}</md-option></md-optgroup></md-select></md-input-container></div></section><section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div><h2>Kit description</h2><small>Say something nice about your kit. Why is it for? Is this part of any kind of project? Whatever :)</small></div></div><div flex-gt-xs="50"><div layout="row"><md-input-container flex="100" flex-gt-md="50"><label>Description</label> <textarea class="font-roboto-condensed" type="text" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container></div></div></section><section class="" layout-gt-sm="row" layout="column" layout-padding=""><div flex="100"><h2>Postprocessing info</h2><small>Follow the instructions <a href="https://docs.smartcitizen.me/Guides/data/Handling%20calibration%20data/" target="_blank">here</a> to generate a valid JSON containing the postprocessing information for your device. This is an advanced feature and it\'s not required for standard Smart Citizen Kits!<br><br>Last updated: {{vm.kitForm.postprocessing.updated_at}}<br>Latest postprocessing: {{vm.kitForm.postprocessing.latest_postprocessing}}</small></div><div layout="column" flex="100"><md-input-container><label>Hardware url</label> <input type="text" class="font-roboto-condensed" ng-model="vm.kitForm.postprocessing.hardware_url"></md-input-container></div></section></form><div class="mt-50" layout="row" layout-align="center start" layout-margin="" layout-padding=""><md-button class="fillwidth md-raised md-accent" ng-click="vm.submitFormAndKit()">Save</md-button></div><div layout="" layout-padding="" layout-margin=""><md-button ng-show="vm.setupAvailable" class="fillwidth md-raised md-primary mb-30" ng-click="vm.submitFormAndNext()">Open kit set up</md-button></div></section><section ng-if="vm.step === 2 && vm.setupAvailable"><form><section class="isEven"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div><h2>Setup your kit</h2><small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit\'s Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small></div><img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit"></div></section></form><section class="bg-white" layout-padding=""><div setuptool=""></div></section><form><section ng-show="vm.macAddressFieldVisible" class="form_blockNormal isEven"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div flex-gt-xs="50"><h2>Mac address</h2><small>The setup tool will read the Mac Address automatically from your kit. Please wait or enter it manually.</small></div><div><md-input-container><label>Mac Address</label> <input type="text" pattern="([0-9A-Fa-f]{2}\\:){5}([0-9A-Fa-f]{2})" ng-model="vm.macAddress"></md-input-container></div></div></section></form><div layout=""><md-button class="fillwidth md-accent md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == \'save\'">Save</md-button></div><md-progress-linear class="md-hue-3" ng-show="vm.nextAction == \'waiting\'" md-mode="indeterminate"></md-progress-linear><md-button ng-disabled="true" ng-show="vm.nextAction == \'waiting\'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit\'s data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small>Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button><md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == \'ready\'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button></section></section></section>');
-$templateCache.put('app/components/kit/newKit/newKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="column" layout-align="start center"><div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{\'is-on\': vm.step === 1, \'is-off\': vm.step !== 1}">1</div><div class="timeline_stepName vertical">Kit data</div></div><div class="timeline_line"></div><div layout="column" layout-align="start center"><div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{\'is-on\': vm.step === 2, \'is-off\': vm.step !== 2}">2</div><div class="timeline_stepName vertical">Set up</div></div></div></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="isEven" layout="row" layout-xs="column" layout-align="" layout-padding=""><div flex-gt-xs="50"><h2>Basic information</h2><small>Please, provide kit basic info. That includes a name and exposure.</small></div><div class="mt-50" flex-gt-xs="50"><md-input-container><label>Kit Name</label> <input type="text" ng-model="vm.kitForm.name"><div class="form_errors"><div ng-repeat="error in vm.errors.name">Name {{ error }}</div></div></md-input-container><div layout="row" layout-align="space-between start"><div class="form_blockInput_select" layout="row" layout-align="start center"><label>Exposure:</label><md-select ng-model="vm.kitForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div><md-checkbox ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'" ng-model="vm.kitForm.is_private"><label>Make this device private</label></md-checkbox></div></section><section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit location</h2><small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small></div><div class="mt-50" flex-gt-xs="50"><div layout="row" layout-align="center center" class="" ng-if="!vm.kitForm.location.lat && !vm.kitForm.location.lng"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div><div class="form_blockInput_map" ng-if="vm.kitForm.location.lat && vm.kitForm.location.lng"><leaflet center="vm.kitForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section class="isEven" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div class="mt-50" flex-gt-xs="50" layout-padding=""><md-input-container md-no-float="" class="md-block"><input type="text" ng-model="tagSearch" placeholder="Search for tags"></md-input-container><md-content layout-padding="" style="height: calc(20vh);"><div ng-repeat="tag in vm.tags | filter:{name: tagSearch}"><md-checkbox ng-model="vm.checks[tag.name]"><span class="tag">{{tag.name}}</span></md-checkbox></div></md-content></div></section><section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit description</h2><small>Say something nice about your kit. What is it for? Is this part of any kind of project?</small></div><div class="mt-50" flex-gt-xs="50"><md-input-container><label>Description</label> <textarea type="text" class="font-roboto-condensed" ng-model="vm.kitForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container></div></section></form><div layout=""><md-button flex="" class="md-raised md-accent mb-30" ng-click="vm.submitStepOne()">Next</md-button></div></section></section></section>');
-$templateCache.put('app/components/kit/showKit/showKit.html','<section class="kit_data" change-content-margin=""><div class="shadow"></div><div ng-if="vm.kitIsPrivate" class="kit_fixed bg-grey-lightest" move-down="" layout="row"><p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">Contact us</a> for more information.</p></div><div ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="over_map"><section class="kit_menu" stick=""><section ng-if="!vm.kit" class="overlay-kitinfo"></section><div class="container" layout="row" layout-align="space-between center"><div flex="nogrow" layout="row" layout-align="start center"><div hide="" show-gt-xs="" class="kit_user"><md-tooltip md-direction="top">Visit user profile</md-tooltip><img ng-src="{{ vm.kit.owner.profile_picture || \'./assets/images/avatar.svg\'}}"> <a href="./users/{{vm.kit.owner.id}}"><span>{{ vm.kit.owner.username}}</span></a></div><div hide="" show-gt-xs="" class="kit_name"><md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon><span>{{ vm.kit.name }}</span></div><div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-svg-src="{{ vm.battery.icon }}"></md-icon><span>{{ vm.battery.value }} {{ vm.battery.unit }}</span></div><div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-font-icon="fa fa-battery-empty" class="color-red"></md-icon><span class="color-red hide-sm" hide="" show-gt-sm="">NOT CONNECTED</span></div></div><div ng-animate-swap="vm.kit.time" ng-class="{time_animation: vm.prevKit}" flex="" class="kit_time"><span ng-if="vm.kit.time" hide="" show-gt-sm="">Last data received:</span><span>{{ vm.kit.timeParsed }}</span></div><div class="kit-show-raw" ng-if="vm.hasRaw"><label class="switch"><input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw"> <span class="slider round"></span></label> <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide="" show-gt-sm="">SHOW RAW</label></div><div hide="" show-gt-xs="" flex="nogrow" class="kit_navbar" active-button="" layout="row" layout-align="end center"><md-button href="#" class="md-flat chart_icon btn-small" aria-label=""><md-tooltip md-direction="top">Chart</md-tooltip><md-icon md-svg-src="./assets/images/chart_icon.svg"></md-icon></md-button><md-button href="#" class="md-flat kit_details_icon btn-small" aria-label=""><md-tooltip md-direction="top">Kit Detail</md-tooltip><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg"></md-icon></md-button><md-button href="#" class="md-flat user_details btn-small" aria-label=""><md-tooltip md-direction="top">User info</md-tooltip><md-icon md-svg-src="./assets/images/user_details_icon.svg"></md-icon></md-button></div></div></section><section class="kit_fixed bg-grey-lightest" move-down=""><section class="overlay" ng-if="!vm.kitID"><h2 class="title">No kit selected <span class="emoji">\uD83D\uDC46</span></h2><p>Browse the map and click on any kit to see its data.</p></section><div no-data-backdrop=""></div><section ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="kit_overview" layout="row"><md-button ng-click="vm.slide(\'right\')" class="md-flat button_scroll button_scroll_left btn-small" aria-label=""><md-tooltip md-direction="right">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll=""><div ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)" ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}"><md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon><div class="sensor_value" ng-class="{sensor_value_null: sensor.value === \'N/A\'}">{{ sensor.value }}</div><div class="sensor_right"><div class="sensor_unit">{{ sensor.unit }}</div><md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}"></md-icon></div><p>{{ sensor.name }}</p></div></div><md-button ng-click="vm.slide(\'left\')" class="md-flat button_scroll button_scroll_right btn-small" aria-label=""><md-tooltip md-direction="left">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></section></section></div><section class="kit_fixed"><div class="hint" ng-if="!vm.kit"><p>We can also take you to your nearest online kit by letting us know your location.</p><md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button></div><section class="kit_detailed"><section ng-if="!vm.kitIsPrivate || vm.kitBelongsToUser" class="kit_chart"><div class="hint" ng-if="vm.kitWithoutData"><p></p></div><div class="container" layout="column" layout-gt-sm="row"><div class="kit_chart_left" layout-padding="" flex="100" flex-gt-sm="20"><div class="sensor_data" show-popup-info=""><span class="sensor_value">{{ vm.selectedSensorData.value }}</span> <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span></div><div class="sensor_select"><md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor"><md-option ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.name }}</span></md-option></md-select></div><div class="sensor_data_description" hide-popup-info="">This is the latest value received</div><div class="sensor_description"><h6>{{ vm.sensorNames[vm.selectedSensor] }}</h6><div class="sensor_description_content"><small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small></div></div><div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare"><div style="display: block; width: 100%;"><span style="vertical-align: middle;">Compare with</span><md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare"><md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.name }}</span></md-option></md-select></div></div></div><div class="kit_chart_right" layout-padding="" flex=""><div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end"><div class="picker_container word_picker"><md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received" ng-change="vm.timeOptSelected()"><md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option></md-select></div><div class="picker_container"><label for="picker_from">From:</label> <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></div><div class="picker_container"><label for="picker_to">To:</label> <input type="text" id="picker_to" class="date_picker" placeholder="TO"></div><div class="chart_move"><md-button href="#" ng-click="vm.moveChart(\'left\')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the left</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><md-button href="#" ng-click="vm.moveChart(\'right\')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the right</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></div></div><md-progress-circular ng-show="vm.loadingChart && !vm.kitWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><div chart="" class="chart_container" chart-data="vm.chartDataMain"></div></div></div></section><div class="kit_details" ng-if="vm.kit"><div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start"><div class="kit_details_content_main"><div class="kit_details_content"><h1 class="kit_details_name">{{ vm.kit.name }}</h1><span class="mr-10" ng-if="vm.kitIsPrivate"><md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon><span class="kitList_state kitList_state_not_configured state">Private</span></span><p class="kit_details_location"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title">{{ vm.kit.location || \'No location\' }}</span></p><p class="kit_details_type"><md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg"></md-icon><span class="md-title">{{ vm.kit.typeDescription }}</span></p><span><md-icon class="kitList_state kitList_state_{{ vm.kit.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.kit.state.className }} state">{{ vm.kit.state.name }}</span></span><p class="description" ng-bind-html="vm.kit.description | linky:\'_blank\'"></p><p class="kit_details_labels"><span style="padding:4px 8px" class="label" ng-repeat="label in vm.kit.labels">{{ label }}</span><tag style="padding:4px 8px" ng-repeat="tag in vm.kit.userTags" ng-attr-tag-name="tag" clickable=""></tag></p></div></div><section flex-gt-xs="50" class="info kit_details_notAuth"><div class="kit_details_manage" ng-if="vm.kitBelongsToUser"><h3>Manage your kit</h3><div class="kit_details_manage_buttons"><md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.kit)"><md-icon style="margin-right:5px" 15px="" class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.kit)"></md-icon>Download CSV</md-button><md-button class="md-primary md-raised md-hue-1" ng-if="vm.kit.setupAvailable" ui-sref="layout.kitEdit({step: 2, id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"><span>SET UP</span></md-icon></md-button><md-button class="md-primary md-raised md-hue-1" ng-if="vm.kit.version" ui-sref="layout.kitUpload({id: vm.kit.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeKit()" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button></div></div><div ng-if="!vm.kitBelongsToUser"><h2>We empower communities to better understand their environment</h2><p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p></div></section></div></div><div class="kit_owner" ng-if="vm.kit"><div class="kit_detailed_content_container" layout="column"><div layout="row" layout-align="start center"><img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.kit.owner.profile_picture || \'./assets/images/avatar.svg\' }}"><div><a href="./users/{{vm.kit.owner.id}}" class="kit_owner_usernameLink"><h2 class="kit_owner_usernameText">{{ vm.kit.owner.username }}</h2></a><p><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title"><span ng-if="vm.kit.owner.city">{{ vm.kit.owner.city }}</span> <span ng-if="vm.kit.owner.city && vm.kit.owner.country">,</span> <span ng-if="vm.kit.owner.country">{{ vm.kit.owner.country }}</span> <span ng-if="!vm.kit.owner.city && !vm.kit.owner.country">No location</span></span></p><p ng-if="vm.kit.owner.url"><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg"></md-icon><span class="md-title" ng-bind-html="vm.kit.owner.url | linky:\'_blank\'">{{ vm.kit.owner.url || \'No URL\'}}</span></p></div></div><div flex="100"><section class="kit_owner_kits" ng-if="vm.sampleKits.length > 0"><h4 class="ml-20">Other kits owned by {{ vm.kit.owner.username }}</h4><kit-list kits="vm.sampleKits"></kit-list><div layout="row" layout-align="end end"><md-button class="btn-blue" ng-href="/users/{{ vm.kit.owner.id }}" style="margin-right:23px" ng-if="vm.kit.owner.kits.length > 5" aria-label="">VIEW ALL KITS BY {{ vm.kit.owner.username }}</md-button></div></section></div></div></div></section></section></section>');
+$templateCache.put('app/components/userProfile/userProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="profile_content mb-30" layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80" layout-align="start center" layout="column"><p class="profile_sidebar_title">FILTER KITS BY</p><div class="" layout="column"><md-button ng-click="vm.filterDevices(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterDevices(\'online\')" class="profile_sidebar_button">ONLINE</md-button><md-button ng-click="vm.filterDevices(\'offline\')" class="profile_sidebar_button">OFFLINE</md-button></div></div><div class="pt-80 px-20" flex=""><div class="profile_content_main_top"><span class="">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.status.toUpperCase() || \'ALL\' }}</span></div><div class="profile_content_main_kits"><kit-list actions="{remove: vm.removeDevice}" devices="(vm.filteredDevices = (vm.devices | filterLabel:vm.deviceStatus ))"></kit-list><div class="kitList kitList_borderBottom" ng-show="!vm.devices.length"><div class="kitList_container"><div class="kitList_noKits"><span>There are not kits yet</span></div></div></div></div></div></div></section>');
 $templateCache.put('app/core/animation/backdrop/loadingBackdrop.html','<md-content ng-if="vm.isViewLoading || vm.mapStateLoading" ng-class="{\'md-mainBackdrop\': vm.isViewLoading, \'md-stateChangeBackdrop\': vm.mapStateLoading}"><md-icon ng-if="vm.isViewLoading" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" class="backdrop_icon"></md-icon></md-content>');
-$templateCache.put('app/core/animation/backdrop/noDataBackdrop.html','<md-backdrop ng-if="vm.kitWithoutData" class="md-noDataBackdrop"><div class="block info_overlay" layout="column" layout-align="center center"><div ng-if="vm.user === \'visitor\'"><h2 class="title">This kit hasn\u2019t still said a word \uD83D\uDC76</h2><p></p></div><div ng-if="vm.user === \'owner\'" class="static_page"><h2 class="title">Your kit has still not posted any data \uD83D\uDD27\uD83D\uDD29\uD83D\uDD28</h2></div></div></md-backdrop>');}]);
+$templateCache.put('app/core/animation/backdrop/noDataBackdrop.html','<md-backdrop ng-if="vm.deviceWithoutData" class="md-noDataBackdrop"><div class="block info_overlay" layout="column" layout-align="center center"><div ng-if="vm.user === \'visitor\'"><h2 class="title">This kit hasn\u2019t still said a word \uD83D\uDC76</h2><p></p></div><div ng-if="vm.user === \'owner\'" class="static_page"><h2 class="title">Your kit has still not posted any data \uD83D\uDD27\uD83D\uDD29\uD83D\uDD28</h2></div></div></md-backdrop>');
+$templateCache.put('app/components/kit/editKit/editKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="row" layout-align="start center"><h2 class="timeline-title timeline-title">Kit Data</h2></div></div><md-button class="md-flat md-primary timeline_buttonBack btn-round-new" ng-click="vm.backToProfile()">Back<span class="timeline-btn-extra">to Profile</span></md-button><md-button class="md-flat md-primary timeline_buttonSave btn-round-new" ng-click="vm.submitFormAndKit()">Save</md-button></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="bg-white relaxed-layout" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Basic information</h2><small>Want to change your kit\'s name? Or perhaps say something nice about it in the description?<br>Don\'t forget about the exposure!</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Kit Name</label> <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name"></md-input-container><md-input-container flex="100" flex-gt-md="50"><label>Say something nice about your kit, what is it for?</label> <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container><md-input-container flex="100" flex-gt-md="50" ng-if="!vm.device.isSCK"><label>Seems like you have a custom kit, tell us what is it! (i.e. DIY Kit with CO2)</label> <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.hardwareName" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container><div layout="row" layout-align="space-between start"><div class="" layout="row" layout-align="start center"><label class="mr-10">Exposure:</label><md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div></div></div></section><section class="bg-white relaxed-layout" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start" ng-if="vm.device.isLegacy"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Legacy devices</h2><small>Seems like you have a {{vm.device.hardware.name}}. Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit\'s shell</a>. More info <a target="_blank" href="https://docs.smartcitizen.me/Components/legacy/#registering-the-kit-in-the-platform_1"></a></small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Input here the MAC Address:</label> <input type="text" ng-model="vm.deviceForm.macAddress"></md-input-container></div></div></section><section class="form_blockMap relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div><h2>Kit location</h2><small>You can adjust the location by dragging the marker on the map.</small></div></div></div><div flex="50"><div class="form_blockInput_button" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng"><div class="form_blockInput_container" layout="row" layout-align="center center"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div></div><div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng"><leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding="" ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Open data</h2><small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data.</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Manage how others can access your data:</p><md-checkbox ng-model="vm.deviceForm.is_private"><label>Make this device private</label></md-checkbox></div></div></section><section class="relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Notifications</h2><small>Manage your notifications</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Get emails when the following events occur:</p><md-checkbox ng-model="vm.deviceForm.notify_low_battery"><label>Battery goes below 15%</label></md-checkbox><md-checkbox ng-model="vm.deviceForm.notify_stopped_publishing"><label>Device stopped publishing</label></md-checkbox></div></div></section><section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div flex-gt-xs="50"><md-input-container><label>Select tags</label><md-select ng-model="selectedTags" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple=""><md-select-header class="kit_tags-select-header"><input ng-model="searchTerm" type="search" placeholder="Search for a tag.." class="kit_tags-header-searchbox md-text"></md-select-header><md-optgroup label="tags"><md-option class="color-dropdown" ng-selected="vm.deviceForm.tags.includes(item.name)" ng-model="vm.deviceForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">{{item.name}}</md-option></md-optgroup></md-select></md-input-container></div></section><section class="relaxed-layout" layout-gt-sm="row" layout="column" layout-padding=""><div flex="100"><h2>Postprocessing info</h2><small>Follow the instructions <a href="https://docs.smartcitizen.me/Guides/data/Handling%20calibration%20data/" target="_blank">here</a> to generate a valid JSON containing the postprocessing information for your device. This is an advanced feature and it\'s not required for standard Smart Citizen Kits!<br><br>Last updated: {{vm.deviceForm.postprocessing.updated_at}}<br>Latest postprocessing: {{vm.deviceForm.postprocessing.latest_postprocessing}}</small></div><div layout="column" flex="100"><md-input-container><label>Hardware url</label> <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.postprocessing.hardware_url"></md-input-container></div></section></form></section><section ng-if="vm.step === 2"><form><section class="isEven"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div><h2>Setup your kit</h2><small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. This tool will help you register your kit to the platform, setup your kit\'s Wi-Fi settings and update its firmware. Currently we support Google Chrome in Win, Mac and Linux. If this is your first time, maybe you will like to follow the <a href="http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit" target="_blank">Startup guide</a>.</small></div><img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit"></div></section></form><form><section class="form_blockNormal isEven"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div flex-gt-xs="50"><h2>Mac address</h2><small>The setup tool will read the Mac Address automatically from your kit. Please wait or enter it manually.</small></div><div><md-input-container><label>Mac Address</label><input type="text" ng-model="vm.deviceForm.macAddress"></md-input-container></div></div></section></form><div layout=""><md-button class="fillwidth md-accent md-raised mb-30" ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == \'save\'">Save</md-button></div><md-progress-linear class="md-hue-3" ng-show="vm.nextAction == \'waiting\'" md-mode="indeterminate"></md-progress-linear><md-button ng-disabled="true" ng-show="vm.nextAction == \'waiting\'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit\'s data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small>Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button><md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == \'ready\'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button></section></section></section>');
+$templateCache.put('app/components/kit/newKit/newKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="column" layout-align="start center"><div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{\'is-on\': vm.step === 1, \'is-off\': vm.step !== 1}">1</div><div class="timeline_stepName vertical">Kit data</div></div><div class="timeline_line"></div><div layout="column" layout-align="start center"><div class="timeline_stepCircle" layout="row" layout-align="center center" ng-class="{\'is-on\': vm.step === 2, \'is-off\': vm.step !== 2}">2</div><div class="timeline_stepName vertical">Set up</div></div></div></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="isEven" layout="row" layout-xs="column" layout-align="" layout-padding=""><div flex-gt-xs="50"><h2>Basic information</h2><small>Please, provide kit basic info. That includes a name and exposure.</small></div><div class="mt-50" flex-gt-xs="50"><md-input-container><label>Kit Name</label> <input type="text" ng-model="vm.deviceForm.name"><div class="form_errors"><div ng-repeat="error in vm.errors.name">Name {{ error }}</div></div></md-input-container><div layout="row" layout-align="space-between start"><div class="form_blockInput_select" layout="row" layout-align="start center"><label>Exposure:</label><md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div><div class="form_blockInput_select" layout="row" layout-align="start center"><label>Hardware version:</label><md-select ng-model="vm.deviceForm.legacyVersion" placeholder="Select hardware version"><md-option class="color-dropdown" ng-repeat="version in vm.version" ng-value="{{ version.value }}">{{ version.name }}</md-option></md-select></div><md-checkbox ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'" ng-model="vm.deviceForm.is_private"><label>Make this device private</label></md-checkbox></div></section><section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit location</h2><small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small></div><div class="mt-50" flex-gt-xs="50"><div layout="row" layout-align="center center" class="" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div><div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng"><leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section class="isEven" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div class="mt-50" flex-gt-xs="50" layout-padding=""><md-input-container md-no-float="" class="md-block"><input type="text" ng-model="tagSearch" placeholder="Search for tags"></md-input-container><md-content layout-padding="" style="height: calc(20vh);"><div ng-repeat="tag in vm.tags | filter:{name: tagSearch}"><md-checkbox ng-model="vm.checks[tag.name]"><span class="tag">{{tag.name}}</span></md-checkbox></div></md-content></div></section><section class="bg-white" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit description</h2><small>Say something nice about your kit. What is it for? Is this part of any kind of project?</small></div><div class="mt-50" flex-gt-xs="50"><md-input-container><label>Description</label> <textarea type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container></div></section></form><div layout=""><md-button flex="" class="md-raised md-accent mb-30" ng-click="vm.submitStepOne()">Next</md-button></div></section></section></section>');
+$templateCache.put('app/components/kit/showKit/showKit.html','<section class="kit_data" change-content-margin=""><div class="shadow"></div><div ng-if="vm.device.isPrivate" class="kit_fixed bg-grey-lightest" move-down="" layout="row"><p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">You can ask in the forum</a> for more information.</p></div><div ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="over_map"><section class="kit_menu" stick=""><section ng-if="!vm.device" class="overlay-kitinfo"></section><div class="container" layout="row" layout-align="space-between center"><div flex="nogrow" layout="row" layout-align="start center"><div hide="" show-gt-xs="" class="kit_user"><md-tooltip md-direction="top">Visit user profile</md-tooltip><img ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\'}}"> <a href="./users/{{vm.device.owner.id}}"><span>{{ vm.device.owner.username}}</span></a></div><div hide="" show-gt-xs="" class="kit_name"><md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon><span>{{ vm.device.name }}</span></div><div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-svg-src="{{ vm.battery.icon }}"></md-icon><span>{{ vm.battery.value }} {{ vm.battery.unit }}</span></div><div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-font-icon="fa fa-battery-empty" class="color-red"></md-icon><span class="color-red hide-sm" hide="" show-gt-sm="">NOT CONNECTED</span></div></div><div ng-animate-swap="vm.device.lastReadingAt.raw" ng-class="{time_animation: vm.prevKit}" flex="" class="kit_time"><span ng-if="vm.device.lastReadingAt.raw" hide="" show-gt-sm="">Last data received:</span><span>{{ vm.device.lastReadingAt.parsed }}</span></div><div class="kit-show-raw" ng-if="vm.hasRaw"><label class="switch"><input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw"> <span class="slider round"></span></label> <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide="" show-gt-sm="">SHOW RAW</label></div><div hide="" show-gt-xs="" flex="nogrow" class="kit_navbar" active-button="" layout="row" layout-align="end center"><md-button href="#" class="md-flat chart_icon btn-small" aria-label=""><md-tooltip md-direction="top">Chart</md-tooltip><md-icon md-svg-src="./assets/images/chart_icon.svg"></md-icon></md-button><md-button href="#" class="md-flat kit_details_icon btn-small" aria-label=""><md-tooltip md-direction="top">Kit Detail</md-tooltip><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg"></md-icon></md-button><md-button href="#" class="md-flat user_details btn-small" aria-label=""><md-tooltip md-direction="top">User info</md-tooltip><md-icon md-svg-src="./assets/images/user_details_icon.svg"></md-icon></md-button></div></div></section><section class="kit_fixed bg-grey-lightest" move-down=""><section class="overlay" ng-if="!vm.deviceID"><h2 class="title">No kit selected <span class="emoji">\uD83D\uDC46</span></h2><p>Browse the map and click on any kit to see its data.</p></section><div no-data-backdrop=""></div><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_overview" layout="row"><md-button ng-click="vm.slide(\'right\')" class="md-flat button_scroll button_scroll_left btn-small" aria-label=""><md-tooltip md-direction="right">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll=""><div ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)" ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}"><md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon><div class="sensor_value" ng-class="{sensor_value_null: sensor.value === \'N/A\'}">{{ sensor.value }}</div><div class="sensor_right"><div class="sensor_unit">{{ sensor.unit }}</div><md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}"></md-icon></div><p>{{ sensor.name }}</p></div></div><md-button ng-click="vm.slide(\'left\')" class="md-flat button_scroll button_scroll_right btn-small" aria-label=""><md-tooltip md-direction="left">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></section></section></div><section class="kit_fixed"><div class="hint" ng-if="!vm.device"><p>We can also take you to your nearest online kit by letting us know your location.</p><md-button class="btn-round btn-cyan" ng-click="vm.geolocate()">Locate me</md-button></div><section class="kit_detailed"><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_chart"><div class="hint" ng-if="vm.deviceWithoutData"><p></p></div><div class="container" layout="column" layout-gt-sm="row"><div class="kit_chart_left" layout-padding="" flex="100" flex-gt-sm="20"><div class="sensor_data" show-popup-info=""><span class="sensor_value">{{ vm.selectedSensorData.value }}</span> <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span></div><div class="sensor_select"><md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor"><md-option ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.name }}</span></md-option></md-select></div><div class="sensor_data_description" hide-popup-info="">This is the latest value received</div><div class="sensor_description"><h6>{{ vm.sensorNames[vm.selectedSensor] }}</h6><div class="sensor_description_content"><small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small></div></div><div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare"><div style="display: block; width: 100%;"><span style="vertical-align: middle;">Compare with</span><md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare"><md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.name != \'battery\' || (sensor.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.name }}</span></md-option></md-select></div></div></div><div class="kit_chart_right" layout-padding="" flex=""><div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end"><div class="picker_container word_picker"><md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received" ng-change="vm.timeOptSelected()"><md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option></md-select></div><div class="picker_container"><label for="picker_from">From:</label> <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></div><div class="picker_container"><label for="picker_to">To:</label> <input type="text" id="picker_to" class="date_picker" placeholder="TO"></div><div class="chart_move"><md-button href="#" ng-click="vm.moveChart(\'left\')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the left</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><md-button href="#" ng-click="vm.moveChart(\'right\')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the right</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></div></div><md-progress-circular ng-show="vm.loadingChart && !vm.deviceWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><div chart="" class="chart_container" chart-data="vm.chartDataMain"></div></div></div></section><div class="kit_details" ng-if="vm.device"><div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start"><div class="kit_details_content_main"><div class="kit_details_content"><h1 class="kit_details_name">{{ vm.device.name }}</h1><span class="mr-10" ng-if="vm.device.isPrivate"><md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon><span class="kitList_state kitList_state_not_configured state">Private</span></span><p class="kit_details_location"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.locationString || \'No location\' }}</span></p><p class="kit_details_type"><md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.hardwareName }}</span></p><span><md-icon class="kitList_state kitList_state_{{ vm.device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.device.state.className }} state">{{ vm.device.state.name }}</span></span><p class="description" ng-bind-html="vm.device.description | linky:\'_blank\'"></p><p class="kit_details_labels"><span style="padding:4px 8px" class="label" ng-repeat="system_tag in vm.device.systemTags">{{ system_tag }}</span><tag style="padding:4px 8px" ng-repeat="tag in vm.device.userTags" ng-attr-tag-name="tag" clickable=""></tag></p></div></div><section flex-gt-xs="50" class="info kit_details_notAuth"><div class="kit_details_manage" ng-if="vm.deviceBelongsToUser"><h3>Manage your kit</h3><div class="kit_details_manage_buttons"><md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.device)"><md-icon style="margin-right:5px" 15px="" class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.device)"></md-icon>Download CSV</md-button><md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeDevice()" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button></div></div><div ng-if="!vm.deviceBelongsToUser"><h2>We empower communities to better understand their environment</h2><p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p></div></section></div></div><div class="kit_owner" ng-if="vm.device"><div class="kit_detailed_content_container" layout="column"><div layout="row" layout-align="start center"><img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\' }}"><div><a href="./users/{{vm.device.owner.id}}" class="kit_owner_usernameLink"><h2 class="kit_owner_usernameText">{{ vm.device.owner.username }}</h2></a><p><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title"><span ng-if="vm.device.owner.city">{{ vm.device.owner.city }}</span> <span ng-if="vm.device.owner.city && vm.device.owner.country">,</span> <span ng-if="vm.device.owner.country">{{ vm.device.owner.country }}</span> <span ng-if="!vm.device.owner.city && !vm.device.owner.country">No location</span></span></p><p ng-if="vm.device.owner.url"><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg"></md-icon><span class="md-title" ng-bind-html="vm.device.owner.url | linky:\'_blank\'">{{ vm.device.owner.url || \'No URL\'}}</span></p></div></div><div flex="100"><section class="kit_owner_kits" ng-if="vm.sampleDevices.length > 0"><h4 class="ml-20">Other kits owned by {{ vm.device.owner.username }}</h4><kit-list devices="vm.sampleDevices"></kit-list><div layout="row" layout-align="end end"><md-button class="btn-blue" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px" ng-if="vm.device.owner.devices.length > 5" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button></div></section></div></div></div></section></section></section>');}]);
