@@ -248,7 +248,7 @@
       }
 
       function copyUserToForm(formData, userData) {
-        var props = {username: true, email: true, city: true, country: true, country_code: true, website: true, constructor: false};
+        var props = {username: true, email: true, city: true, country: true, country_code: true, url: true, constructor: false};
 
         for(var key in userData) {
           if(props[key]) {
