@@ -9,7 +9,6 @@
       var service = {
         getRollup: getRollup,
         getSensorName: getSensorName,
-        getSensorUnit: getSensorUnit,
         getSensorValue: getSensorValue,
         getSensorPrevValue: getSensorPrevValue,
         getSensorIcon: getSensorIcon,
@@ -83,47 +82,6 @@
           }
         }
         return sensorName.toUpperCase();
-      }
-
-      function getSensorUnit(sensorName) {
-        var sensorUnit;
-
-        switch(sensorName) {
-          case 'TEMPERATURE':
-            sensorUnit = '°C';
-            break;
-          case 'LIGHT':
-            sensorUnit = 'LUX';
-            break;
-          case 'SOUND':
-            sensorUnit = 'DB';
-            break;
-          case 'HUMIDITY':
-          case 'BATTERY':
-            sensorUnit = '%';
-            break;
-          case 'CO':
-          case 'NO2':
-            sensorUnit = 'KΩ';
-            break;
-          case 'NETWORKS':
-            sensorUnit = '#';
-            break;
-          case 'SOLAR PANEL':
-            sensorUnit = 'V';
-            break;
-          case 'BAROMETRIC PRESSURE':
-            sensorUnit = 'K Pa';
-            break;
-          case 'PM 1':
-          case 'PM 2.5':
-          case 'PM 10':
-            sensorUnit = 'ug/m3';
-            break;
-          default:
-            sensorUnit = 'N/A';
-        }
-        return sensorUnit;
       }
 
       function getSensorValue(sensor) {
