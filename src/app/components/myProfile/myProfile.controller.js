@@ -118,6 +118,8 @@
               return;
             }
           });
+        } else {
+          userData.country_code = null;
         }
 
         user.updateUser(userData)
