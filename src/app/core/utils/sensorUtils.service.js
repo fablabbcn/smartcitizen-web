@@ -130,7 +130,7 @@
         var value = sensor.value;
 
         if(isNaN(parseInt(value))) {
-          value =  'N/A';
+          value =  'NA';
         } else {
           value = round(value, 1).toString();
         }

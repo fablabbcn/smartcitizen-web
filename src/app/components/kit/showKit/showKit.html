@@ -86,7 +86,7 @@
           <div ng-if="(sensor.measurement.name != 'battery' || (sensor.measurement.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1) && !sensor.is_ancestor" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)"
           ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}">
             <md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon>
-            <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'N/A'}">{{ sensor.value }}</div>
+            <div class="sensor_value" ng-class="{sensor_value_null: sensor.value === 'NA'}">{{ sensor.value }}</div>
             <div class="sensor_right">
               <div class="sensor_unit">{{ sensor.unit }}</div>
               <md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}">
