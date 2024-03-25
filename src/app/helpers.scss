@@ -111,20 +111,20 @@
   }
 }
 .btn-outline-blue:hover{
-  background: $blue;
+  background: $blue !important;
   color: white;
   svg {
     fill: white
   }
 }
-.btn-outline-white:hover{
-  background: white;
-  color: $off_black;
-}
 .btn-outline-white{
   border:2px solid white;
   color: white;
   padding:10px 29px;
+}
+.btn-outline-white:hover{
+  background: white !important;
+  color: $off_black;
 }
 .btn-outline-yellow{
   border:2px solid $yellow;
@@ -132,7 +132,7 @@
   padding:10px 29px;
 }
 .btn-outline-yellow:hover{
-  background: $yellow;
+  background: $yellow !important;
   color: $off_black;
 }
 .btn-yellow{
@@ -142,7 +142,7 @@
 }
 
 .btn-yellow:hover{
-  background: $off_black;
+  background: $off_black !important;
   color: $yellow;
 }
 .btn-black-outline{
@@ -151,7 +151,7 @@
   padding:10px 29px;
 }
 .btn-black-outline:hover{
-  background: $off_black;
+  background-color: $off_black !important;
   color: white;
 }
 .btn-blue{
@@ -162,7 +162,7 @@
 
 .btn-blue:hover{
   color: $blue;
-  background: $grey_lighter;
+  background: $grey_lighter !important;
 }
 
 // TODO: Cosmetic Fix buttons in general
@@ -170,7 +170,8 @@
   border-radius: 40px;
   font-family: 'Roboto Condensed';
   font-size: 16px;
-  height: 44px;
+  // height: 44px;
+  line-height: 40px;
   font-weight: $font-weight-heavy;
   letter-spacing: 0.0325em;
   padding:0px 35px;
