@@ -188,10 +188,13 @@
 .btn-cyan{
   background-color: $terciary_color;
   color:white;
+  border:2px solid $terciary_color;
 }
 
 .btn-cyan:hover{
-  color: blue;
+  color: $terciary_color;
+  background: white !important;
+  border:2px solid $terciary_color;
 }
 
 // display helpers
