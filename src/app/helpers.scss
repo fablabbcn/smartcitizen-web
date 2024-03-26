@@ -126,6 +126,14 @@
   background: white !important;
   color: $off_black;
 }
+.btn-outline-white-blue{
+  border:2px solid white;
+  color: white;
+  padding:10px 29px;
+}
+.btn-outline-white-blue:hover{
+  background: $blue !important;
+}
 .btn-outline-yellow{
   border:2px solid $yellow;
   color: $yellow;
@@ -136,6 +144,7 @@
   color: $off_black;
 }
 .btn-yellow{
+  border:2px solid $yellow;
   background: $yellow;
   color: $off_black;
   padding:12px 29px;
@@ -155,6 +164,7 @@
   color: white;
 }
 .btn-blue{
+  border:2px solid $blue;
   background: $blue;
   color: white;
   padding:12px 29px;
@@ -164,9 +174,21 @@
   color: $blue;
   background: $grey_lighter !important;
 }
+.btn-white-blue{
+  border:2px solid white;
+  background: none;
+  color: white;
+  padding:12px 29px;
+}
+
+.btn-white-blue:hover{
+  color: $blue;
+  background: white !important;
+  border:2px solid $blue;
+}
 
 // TODO: Cosmetic Fix buttons in general
-.btn-round-new{
+.btn-round-new {
   border-radius: 40px;
   font-family: 'Roboto Condensed';
   font-size: 16px;
