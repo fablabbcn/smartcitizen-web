@@ -1779,32 +1779,9 @@ footer {
 //   }
 // }
 
-.md-button.timeline_buttonSave {
-  color: white !important;
-  border: 2px solid white !important;
-  width: 130px;
-  height: 44px;
-  border-radius: 22px;
-  font-size: 18px;
-  font-weight: $font-weight-heavy;
-}
-
 .md-button.timeline_buttonBack{
-  color: white !important;
-  border: 2px solid white !important;
-  flex-shrink: 1;
-  flex-basis: 260px;
-  height: 44px;
-  border-radius: 22px;
-  font-size: 18px;
   margin-left: auto;
   margin-right: 20px;
-  font-weight: $font-weight-heavy;
-}
-
-.md-button.timeline_buttonBack:hover {
-  color: black !important;
-  background-color: white !important;
 }
 
 section.relaxed-layout {

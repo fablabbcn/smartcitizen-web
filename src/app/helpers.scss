@@ -111,20 +111,28 @@
   }
 }
 .btn-outline-blue:hover{
-  background: $blue;
+  background: $blue !important;
   color: white;
   svg {
     fill: white
   }
 }
-.btn-outline-white:hover{
-  background: white;
-  color: $off_black;
-}
 .btn-outline-white{
   border:2px solid white;
   color: white;
   padding:10px 29px;
+}
+.btn-outline-white:hover{
+  background: white !important;
+  color: $off_black;
+}
+.btn-outline-white-blue{
+  border:2px solid white;
+  color: white;
+  padding:10px 29px;
+}
+.btn-outline-white-blue:hover{
+  background: $blue !important;
 }
 .btn-outline-yellow{
   border:2px solid $yellow;
@@ -132,17 +140,18 @@
   padding:10px 29px;
 }
 .btn-outline-yellow:hover{
-  background: $yellow;
+  background: $yellow !important;
   color: $off_black;
 }
 .btn-yellow{
+  border:2px solid $yellow;
   background: $yellow;
   color: $off_black;
   padding:12px 29px;
 }
 
 .btn-yellow:hover{
-  background: $off_black;
+  background: $off_black !important;
   color: $yellow;
 }
 .btn-black-outline{
@@ -151,10 +160,11 @@
   padding:10px 29px;
 }
 .btn-black-outline:hover{
-  background: $off_black;
+  background-color: $off_black !important;
   color: white;
 }
 .btn-blue{
+  border:2px solid $blue;
   background: $blue;
   color: white;
   padding:12px 29px;
@@ -162,15 +172,28 @@
 
 .btn-blue:hover{
   color: $blue;
-  background: $grey_lighter;
+  background: $grey_lighter !important;
+}
+.btn-white-blue{
+  border:2px solid white;
+  background: none;
+  color: white;
+  padding:12px 29px;
+}
+
+.btn-white-blue:hover{
+  color: $blue;
+  background: white !important;
+  border:2px solid $blue;
 }
 
 // TODO: Cosmetic Fix buttons in general
-.btn-round-new{
+.btn-round-new {
   border-radius: 40px;
   font-family: 'Roboto Condensed';
   font-size: 16px;
-  height: 44px;
+  // height: 44px;
+  line-height: 40px;
   font-weight: $font-weight-heavy;
   letter-spacing: 0.0325em;
   padding:0px 35px;
@@ -187,10 +210,13 @@
 .btn-cyan{
   background-color: $terciary_color;
   color:white;
+  border:2px solid $terciary_color;
 }
 
 .btn-cyan:hover{
-  color: blue;
+  color: $terciary_color;
+  background: white !important;
+  border:2px solid $terciary_color;
 }
 
 // display helpers
