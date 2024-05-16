@@ -18,7 +18,6 @@ angular.module('app', [
   'ngCookies',
   'ngMessages',
   'ngtweet',
-  'btford.socket-io',
   'ngAnimate'
 ]).config(function($mdThemingProvider) {
 
