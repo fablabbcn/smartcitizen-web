@@ -1,5 +1,9 @@
 // New landing page
 
+html{
+  scroll-behavior:smooth
+}
+
 .grey-waves{
   background: grey url("/assets/images/sck_bg.png") ;
   background-repeat: repeat;
@@ -7,6 +11,10 @@
 }
 
 .new-landing-page{
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  padding-bottom: 60px;
   h1,h2,h3,h4,h5,h6{
     letter-spacing: 0.0325em;
     font-family: 'Kanit';
@@ -14,10 +22,9 @@
     color: $off_black;
   }
   h1{
-    font-size: 65px;
-    line-height: 65px;
+    font-size: 55px;
+    line-height: 55px;
     margin:0px 0px;
-    padding-top: 70px;
   }
   h2{
     font-size: 45px;
@@ -36,52 +43,100 @@
     font-size: 20px;
     line-height: 24px;
   }
+  .p-header {
+    font-size: 24px;
+  }
   a{
     text-decoration: none !important;
   }
+  .landing-menu-btn{
+    border-radius: 40px;
+    font-family: 'Roboto Condensed';
+    font-size: 16px;
+    // height: 44px;
+    line-height: 40px;
+    font-weight: $font-weight-heavy;
+    letter-spacing: 0.0325em;
+    padding:0px 30px;
+    color: white;
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .btn-round-new.md-button {
+    margin-left: 0px;
+  }
+  .landing-menu .btn-round-new.md-button.btn-kit {
+    margin-left: 38px;
+  }
+  .landing-menu-btn:hover{
+    background: none;
+    color: #FFC100;
+  }
   .sc-logo{
     height: 43px;
-    position: absolute;
-    z-index: 2;
-    left: 10%;
-    top:25px;
+    top: 5px;
   }
-  .sc-off-cta-platform {
+  // .landing-menu-container {
+  //   position: relative;
+  //   z-index: 2;
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   background-color: $off_black;
+  // }
+  .sc-off-cta-platform{
     position: absolute;
-    z-index: 2;
-    right: 10%;
-    top:25px;
-
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 15px 10%;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $off_black;
+  }
+  .landing-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: fit-content;
+    align-self: center;
+    justify-content: space-between;
   }
   // Images on landing page
   .img-new_sck{
     min-height: 30vw;
-    background: blue url("/assets/images/new_sck.jpg") center/cover;
+    background: blue url("/assets/images/landing/smart-citizen-2-2-kits-various.jpg") center/cover;
   }
   .img-sck_edu{
     min-height: 30vw;
-    background: blue url("/assets/images/sck_edu.jpg") center/cover;
+    background: blue url("/assets/images/landing/smart-citizen-data.jpg") center/cover;
   }
   .img-sck_com{
-    background: blue url("/assets/images/sck_communities.jpg") center/cover;
+    background: blue url("/assets/images/landing/local-communites.jpg") center/cover;
   }
   .img-research{
-    background: blue url("/assets/images/sck_research.jpg") center/cover;
+    background: blue url("/assets/images/landing/research-institutions.jpg") center/cover;
   }
   .img-governm{
-    background: blue url("/assets/images/sck_cities.jpg") center/cover;
+    background: blue url("/assets/images/landing/educators.jpg") center/cover;
   }
   .img-platform{
-    min-height:630px !important;
-    background: blue url("/assets/images/sck_platform.jpg") center/cover;
+    background: blue url("/assets/images/landing/smartcitizen-platform.jpg") center/cover;
   }
   .img-docs{
-    min-height:320px !important;
-    background: blue url("/assets/images/sck_docs.jpg") top/cover;
+    background: blue url("/assets/images/landing/smartcitizen-docs.jpg") top/cover;
+  }
+  .img-kits-complete{
+    background: blue url("/assets/images/landing/smart-citizen-2-2-kit-complete.jpg") center/cover;
+  }
+  .img-kits-research{
+    background: blue url("/assets/images/landing/smartcitizen-water-station.jpg") center/cover;
   }
   // Tiles on landing page
   .tile{
-    padding: 60px 40px;
+    padding: 50px 50px;
     border-bottom: 3px solid $off_black;
     border-right: 3px solid $off_black;
   }
@@ -101,26 +156,53 @@
     text-align: left;
   }
 
+  .pd-60 {
+    padding-top: 60px;
+  }
   // Video section
 
   .video-section{
-    background: blue url("/assets/images/landing/smartcitizen-seeed-preorder.jpg") center/cover;
+    background: url("/assets/images/landing/smartcitizen-workshop.jpg") center/cover;
     position: relative;
-    height: 90vh;
-    width: 100%;
+    top: 0px;
+    height: 100vh;
     overflow: hidden;
+    border-bottom: 3px solid $off_black;
+  }
+  .header-section{
+    margin: 60px 10%;
+    max-width: 1200px;
+
   }
   .heading-over-video{
     position: absolute;
-    z-index: 1;
-    top: 0px;
-    height: 100%;
-    padding-left: 10%;
-    padding-right: 60%;
-
+    z-index: 2;
+    bottom: 80px;
+    max-width: 1200px;
+    width: min-content;
+    padding: 50px;
+    background-color: rgba(255, 255, 255, 0.683);
+    border: 3px solid $off_black;
     img{
       padding-bottom:40px;
     }
+  }
+
+  // Banner section
+
+  .banner-section{
+    background: url("/assets/images/landing/smartcitizen-platform.jpg") center/cover;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    border: 3px solid $off_black;
+  }
+
+  // Cards
+
+  .card {
+    box-shadow: 10px 10px;
   }
 
   @media only screen and (max-width: 1010px) {
@@ -144,17 +226,61 @@
       left:5%;
     }
     .heading-over-video{
-      padding-top: 40px;
       position: absolute;
-      padding-left: 5%;
-      padding-right:25%;
-      height: 100%;
+      // height: 100%;
       img{
         padding-bottom:00px;
       }
     }
   }
-
+  @media only screen and (max-width: 950px) {
+    .sc-off-cta-platform {
+      flex-direction: column;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      justify-self: center;
+    }
+    .landing-menu {
+      flex-direction: column;
+    }
+    .landing-menu .btn-round-new.md-button.btn-kit {
+      margin-left: 8px;
+    }
+    .sc-logo{
+      padding: 10px 0px;
+    }
+    .layout-xs-column {
+     flex-direction: column;
+    }
+    .layout-xs-column > .flex-xs-100 {
+      flex: 1 1 100%;
+      max-width: 100%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+    .border-xs-top{
+      border-top: 3px solid $off_black;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom: 3px solid $off_black;
+    }
+    .border-xs-bottom{
+      border-top: unset;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom:3px solid $off_black;
+    }
+    .flex-order-xs-1 {
+      order: 1 !important;
+    }
+    .flex-order-xs-2 {
+      order: 2 !important;
+    }
+    .layout-xs-column {
+      box-sizing: border-box;
+      display: flex;
+    }
+  }
   // Less then 750px
   @media only screen and (max-width: 750px) {
     h1{
@@ -181,38 +307,24 @@
       font-size:19px;
     }
     .p-60{
-      padding: 50px 10px !important;
+      padding: 10px 10px !important;
     }
-    .border-xs-top{
-      border-top: 3px solid $off_black;
-      border-left: 3px solid $off_black;
-      border-right: 3px solid $off_black;
-      border-bottom: 3px solid $off_black;
-    }
-    .border-xs-bottom{
-      border-top: unset;
-      border-left: 3px solid $off_black;
-      border-right: 3px solid $off_black;
-      border-bottom:3px solid $off_black;
-    }
+
     .img-platform{
       min-height:356px !important;
     }
     .heading-over-video{
       padding-right: 5%;
     }
-    .sc-off-cta-platform {
-      padding: 10px 10px;
-    }
     .my-20{
       margin-top: 10px !important;
       margin-bottom: 10px !important;
     }
-    .img-new_sck{
-      background: blue url("/assets/images/sck_edu.jpg") center/cover;
-    }
-    .img-sck_edu{
-      background: blue url("/assets/images/new_sck.jpg") center/cover;
-    }
+    // .img-new_sck{
+    //   background: blue url("/assets/images/sck_edu.jpg") center/cover;
+    // }
+    // .img-sck_edu{
+    //   background: blue url("/assets/images/new_sck.jpg") center/cover;
+    // }
   }
 }
