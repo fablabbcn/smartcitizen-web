@@ -113,12 +113,12 @@ body.active {
     display: flex;
     flex-direction: row;
     flex-wrap:nowrap;
-    padding: 10px 10%;
+    padding: 6px 10%;
     width: 80%;
     justify-content: space-between;
     align-items: center;
     background-color: $off_black;
-    max-width: 1200px;
+    // max-width: 1200px;
   }
   .landing-menu {
     display: flex;
@@ -183,7 +183,7 @@ body.active {
   .pd-60 {
     padding-top: 60px;
   }
-  
+
   // Video section
   .video-section{
     background: url("/assets/images/landing/smartcitizen-workshop.jpg") center/cover;
@@ -286,7 +286,7 @@ body.active {
       flex-wrap: wrap;
       -webkit-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
-      
+
       }
     .navigation {
       width: 100%;
@@ -383,7 +383,7 @@ body.active {
     }
     .header-section {
       margin: 0px;
-      
+
     }
     .p-header{
       font-size:19px;
@@ -496,7 +496,7 @@ body.active {
     // .img-sck_edu{
     //   background: blue url("/assets/images/new_sck.jpg") center/cover;
     // }
-  
+
     .tile-image.tile{
       min-height:300px;
     }
