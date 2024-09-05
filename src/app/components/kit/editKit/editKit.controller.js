@@ -109,6 +109,8 @@
                 zoom: 16
               },
               is_private: vm.device.isPrivate,
+              precise_location: vm.device.preciseLocation,
+              enable_forwarding: vm.device.enableForwarding,
               notify_low_battery: vm.device.notifications.lowBattery,
               notify_stopped_publishing: vm.device.notifications.stopPublishing,
               tags: vm.device.userTags,
@@ -165,6 +167,8 @@
           latitude: vm.deviceForm.location.lat,
           longitude: vm.deviceForm.location.lng,
           is_private: vm.deviceForm.is_private,
+          enable_forwarding: vm.deviceForm.enable_forwarding,
+          precise_location: vm.deviceForm.precise_location,
           notify_low_battery: vm.deviceForm.notify_low_battery,
           notify_stopped_publishing: vm.deviceForm.notify_stopped_publishing,
           mac_address: "",

@@ -142,12 +142,13 @@
             </div>
           </div>
         </section> -->
+        <!-- TODO - Only for admins and researchers now, but should be private for anyone, same for precise location -->
         <section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding ng-if="vm.userRole === 'researcher' || vm.userRole === 'admin'">
           <div flex-gt-xs="50">
             <div layout="row">
               <div class="">
                 <h2>Open data</h2>
-                <small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data.
+                <small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data. You can also choose to blurr the location, or enable MQTT forwarding.
                 </small>
               </div>
             </div>
@@ -158,6 +159,12 @@
                <md-checkbox ng-model="vm.deviceForm.is_private">
                  <label>Make this device private</label>
                </md-checkbox>
+               <md-checkbox ng-model="vm.deviceForm.precise_location">
+                <label>Enable precise location</label>
+              </md-checkbox>
+              <md-checkbox ng-model="vm.deviceForm.enable_forwarding">
+                <label>Enable MQTT forwarding</label>
+              </md-checkbox>
             </div>
           </div>
         </section>

@@ -40,6 +40,8 @@
         this.systemTags = deviceUtils.parseSystemTags(object);
         this.userTags = deviceUtils.parseUserTags(object);
         this.isPrivate = deviceUtils.isPrivate(object);
+        this.preciseLocation = deviceUtils.preciseLocation(object);
+        this.enableForwarding = deviceUtils.enableForwarding(object);
         this.notifications = deviceUtils.parseNotifications(object);
         this.lastReadingAt = timeUtils.parseDate(object.last_reading_at);
         this.createdAt = timeUtils.parseDate(object.created_at);
