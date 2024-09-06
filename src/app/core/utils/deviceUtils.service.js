@@ -20,6 +20,8 @@
         parseHardwareInfo: parseHardwareInfo,
         parseHardwareName: parseHardwareName,
         isPrivate: isPrivate,
+        preciseLocation: preciseLocation,
+        enableForwarding: enableForwarding,
         isLegacyVersion: isLegacyVersion,
         isSCKHardware: isSCKHardware,
         parseState: parseState,
@@ -167,7 +169,15 @@
       }
 
       function isPrivate(object) {
-        return object.is_private;
+        return object.data_policy.is_private;
+      }
+
+      function preciseLocation(object) {
+        return object.data_policy.precise_location;
+      }
+
+      function enableForwarding(object) {
+        return object.data_policy.enable_forwarding	;
       }
 
       function isLegacyVersion (object) {
