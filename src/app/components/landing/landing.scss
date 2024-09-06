@@ -26,6 +26,7 @@ body.active {
 .hamburger {
   display: none;
 }
+
 .navigation {
   display: flex;
   flex-direction: row;
@@ -107,19 +108,28 @@ body.active {
   //   justify-content: center;
   //   background-color: $off_black;
   // }
-  .sc-off-cta-platform{
-    position: absolute;
+  .sc-off-cta-platform {
+    position: fixed;
+    top: 0;
     z-index: 3;
     display: flex;
     flex-direction: row;
     flex-wrap:nowrap;
     padding: 6px 10%;
-    width: 80%;
+    width: 78%;
     justify-content: space-between;
     align-items: center;
     background-color: $off_black;
     // max-width: 1200px;
+    margin: 10px 1%;
+    border-radius: 5px;
   }
+
+  .lighter{
+    max-width: 10%;
+    transition: 1s ease-in-out;
+  }
+
   .landing-menu {
     display: flex;
     flex-direction: row;

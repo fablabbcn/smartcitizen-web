@@ -260,4 +260,20 @@
     window.scrollTo(0, parseInt(scrollY || '0') * -1);
   }
 
+  // When the user scrolls the page, execute myFunction
+  window.onscroll = function() {myFunction()};
+
+  // Get the offset position of the navbar
+  var sticky = navGeneral.offsetTop;
+
+  // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+  // TODO - FINISH SO THAT WHEN SCROLLING GOES TO HAMBURGER ON THE SIDE only ON BIG SCREEN
+  function myFunction() {
+    if (window.scrollY >= sticky) {
+      navGeneral.classList.add("lighter");
+    } else {
+      navGeneral.classList.remove("lighter");
+    }
+  }
+
 </script>
