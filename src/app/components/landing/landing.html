@@ -1,12 +1,12 @@
 <div class="new-landing-page grey-waves">
   <div class="sc-off-cta-platform">
     <div class="navigation">
-      <img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo" />
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
+      <a href="#"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo" /></a>
+    </div>
+    <div class="hamburger">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </div>
     <div class="landing-menu">
       <div class="external-links">
@@ -18,24 +18,21 @@
     </div>
 
   </div>
-
   <section class="video-section">
     <div class="header-section">
-      <!-- <div class="offset-block">
-      </div> -->
-      <div class="heading-over-video card align-left" layout="column" layout-align="center start">
-        <!-- TODO - ADD SMARTCITIZEN IN BANNER -->
-        <div style="background-color: black; padding: 10px">
-          <h1 class="font-kanit text-left" style="color: white">SMART CITIZEN</h1>
+      <div class="heading-over-video card" layout="column" layout-align="center start">
+        <div class="logo-box">
+          <h1>SMART CITIZEN</h1>
         </div>
-        <h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2>
-        <a href="#learn-more"
-           class="btn-blue btn-round-new mt-30 md-button btn-justify-left"
-           >LEARN MORE</a>
+        <div class="card-text">
+          <h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2>
+          <a href="#learn-more"
+             class="btn-blue btn-round-new mt-30 md-button btn-justify-left"
+             >LEARN MORE</a>
+        </div>
       </div>
     </div>
   </section>
-  <!-- TODO - Check alignment -->
   <div id="learn-more" class="color-black" >
     <section layout="row" layout-xs="column" class="pd-60">
       <div flex="50" flex-xs="100" layout="column" >
@@ -53,6 +50,7 @@
         <div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left">
           <h2>BUILDING ON OUR HISTORY</h2>
           <p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p>
+          <!-- TODO: CHANGE IMAGE -->
           <a href="#get-your-kit"
              class="btn-black-outline btn-round-new md-button btn-justify-left"
              >GET YOUR KIT</a>
@@ -74,7 +72,7 @@
         <div flex="60"  flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom">
         </div>
       </div>
-
+      <!-- TODO: CHANGE IMAGE RESEARCH INSTITUTIONS -->
       <div layout="row" layout-xs="column">
         <div flex="60" flex-xs="100"  class="img-research tile-image tile tile-left border-xs-bottom">
         </div>
@@ -99,12 +97,14 @@
   </div>
     <section class="banner-section">
       <div class="header-section">
-        <div class="heading-over-video card align-left" layout="column" layout-align="center start">
-          <h2 class="font-kanit text-left">ACROSS THE GLOBE</h2>
-          <p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p>
-          <a href="/kits/" target="_blank"
-            class="btn-blue btn-round-new md-button btn-justify-left"
-            >GO TO THE PLATFORM</a>
+        <div class="heading-over-video card" layout="column" layout-align="center start">
+          <div class="card-text">
+            <h2 class="font-kanit text-left">ACROSS THE GLOBE</h2>
+            <p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p>
+            <a href="/kits/" target="_blank"
+              class="btn-blue btn-round-new md-button btn-justify-left"
+              >GO TO THE PLATFORM</a>
+          </div>
         </div>
       </div>
     </section>
@@ -112,9 +112,8 @@
   <div id="learn-more" style="margin: 0 auto; max-width:1200px" class="color-black">
     <section class="pd-60">
       <div layout="row" layout-xs="column" id="open-platform">
-        <div  flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around center" class="bg-white tile tile-left tile-top tile-xs " >
-          <div class="text-left align-left">
-            <!-- TODO - ALIGNMENT LEFT -->
+        <div  flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around" class="bg-white tile tile-left tile-top tile-xs " >
+          <div class="text-left">
             <h2 class="text-left">AN OPEN PROJECT</h2>
           </div>
           <div class="text-left">
@@ -127,11 +126,11 @@
         </div>
         <div  flex="50" flex-xs="100" layout="column" layout-align="end center" class="img-docs tile tile-top border-xs-bottom tile-image">
         </div>
+        <div></div>
       </div>
     </section>
 
-    <!-- TODO - Check alignment -->
-    <section id="get-your-kit" class="pd-60">
+    <section class="pd-60" id="get-your-kit">
       <div class="bg-white p-30 border-black" layout="row" layout-align="center center">
         <h2 class="text-center">GET YOUR KIT</h2>
       </div>
@@ -149,6 +148,7 @@
           <div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image">
           </div>
         </div>
+        <!-- TODO: CHANGE IMAGE CUSTOMIZATIONS -->      
         <div flex="50" flex-xs="100" layout="column">
           <div class="img-kits-research tile tile-image border-xs-bottom">
           </div>
@@ -234,6 +234,7 @@
   const navMenu = document.querySelector(".landing-menu");
   const navGeneral = document.querySelector(".sc-off-cta-platform");
   const pageScroll = document.querySelector("body");
+  const navFull = document.querySelector(".navigation");
 
   hamburger.addEventListener("click", mobileMenu);
 
@@ -242,6 +243,7 @@
     navMenu.classList.toggle("active");
     navGeneral.classList.toggle("active");
     pageScroll.classList.toggle("active");
+    navFull.classList.toggle("active");
     document.body.style.top = `-${window.scrollY}px`;
   }
 
@@ -254,26 +256,10 @@
     navMenu.classList.remove("active");
     navGeneral.classList.remove("active");
     pageScroll.classList.remove("active");
+    navFull.classList.remove("active");
     const scrollY = document.body.style.top;
     document.body.style.position = '';
     document.body.style.top = '';
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    // window.scrollTo(0, parseInt(scrollY || '0') * -1);
   }
-
-  // When the user scrolls the page, execute myFunction
-  window.onscroll = function() {myFunction()};
-
-  // Get the offset position of the navbar
-  var sticky = navGeneral.offsetTop;
-
-  // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-  // TODO - FINISH SO THAT WHEN SCROLLING GOES TO HAMBURGER ON THE SIDE only ON BIG SCREEN
-  function myFunction() {
-    if (window.scrollY >= sticky) {
-      navGeneral.classList.add("lighter");
-    } else {
-      navGeneral.classList.remove("lighter");
-    }
-  }
-
 </script>
