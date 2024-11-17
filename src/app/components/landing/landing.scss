@@ -174,7 +174,7 @@ body.active {
   // Images on landing page
   .img-new_sck{
     min-height: 30vw;
-    background: blue url("/assets/images/landing/smart-citizen-2-2-kits-various.jpg") center/cover;
+    background: blue url("/assets/images/landing/Legacy-SCK.gif") center/cover;
   }
   .img-sck_edu{
     min-height: 30vw;
@@ -199,7 +199,7 @@ body.active {
     background: blue url("/assets/images/landing/smart-citizen-2-2-kit.gif") center/cover;
   }
   .img-kits-research{
-    background: blue url("/assets/images/landing/smartcitizen-water-station.jpg") center/cover;
+    background: blue url("/assets/images/landing/SCK-customized-projects.jpg") center/cover;
   }
   // Tiles on landing page
   .tile{
@@ -279,7 +279,7 @@ body.active {
   // Cards
 
   .card {
-    box-shadow: 10px 10px;
+    box-shadow: 10px 10px 0px -3px #FFC100,10px 10px 0px 0px $off_black;
   }
 
   @media only screen and (max-width: 1200px) {
