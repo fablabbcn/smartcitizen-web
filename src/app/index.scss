@@ -1640,6 +1640,49 @@ footer {
   width: 32px;
   height: 32px;
 }
+.flag {
+  padding-right: 15px;
+}
+.border-white.footer-block{
+  border: 2px white solid;
+}
+.uptimerobot-logo {
+  width: 150px;
+  justify-self: right;
+  vertical-align: center;
+  padding-top: 10px;
+}
+.sponsor {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+}
+.sponsor-text p {
+  font-size: 15px !important;
+  margin: 0px;
+}
+@media only screen and (max-width: 950px) {
+  .color-white{
+    text-align: center;
+  }
+  .flag {
+    padding-right: 0px;
+  }
+  .footer-block {
+    margin-bottom: 20px !important;
+  }
+  .sponsor {
+    justify-content: center;
+    align-items: center;
+  }
+}
+@media (max-width: 599px) {
+  .layout-align-xs-start-stretch, .layout-align-xs-center-stretch, .layout-align-xs-end-stretch, .layout-align-xs-space-between-stretch, .layout-align-xs-space-around-stretch{
+    align-items: center;
+  }
+}
+
 
 /*
   RECOVERY PASSWORD STATE
