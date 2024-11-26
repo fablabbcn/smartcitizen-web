@@ -1,12 +1,71 @@
 // New landing page
 
+html{
+  scroll-behavior:smooth
+}
+body.active {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: fixed;
+}
 .grey-waves{
   background: grey url("/assets/images/sck_bg.png") ;
   background-repeat: repeat;
   background-size: 65px;
 }
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  background-color: white;
+}
 
-.new-landing-page{
+.hamburger {
+  display: none;
+}
+
+.logo-box {
+  background-color: $off_black;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-content: center;
+}
+.logo-box h1 {
+  color: white !important;
+  font-weight: 800 !important;
+  font-size: 50px;
+  padding: 15px;
+  text-align: left;
+}
+.card-text {
+  padding: 30px 50px;
+  align-self: center;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: auto;
+  align-items: center;
+  padding: 6px 0% 6px 10%;
+}
+.display-none{
+  display: none !important;
+}
+.display-block{
+  display: block !important;
+}
+
+.new-landing-page {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  padding-bottom: 60px;
   h1,h2,h3,h4,h5,h6{
     letter-spacing: 0.0325em;
     font-family: 'Kanit';
@@ -14,14 +73,13 @@
     color: $off_black;
   }
   h1{
-    font-size: 65px;
-    line-height: 65px;
+    // font-size: 45px;
+    line-height: 55px;
     margin:0px 0px;
-    padding-top: 70px;
   }
   h2{
-    font-size: 45px;
-    line-height: 45px;
+    font-size: 43px;
+    line-height: 40px;
     margin:0px 0px;
   }
   h3{
@@ -36,56 +94,113 @@
     font-size: 20px;
     line-height: 24px;
   }
+  .p-header {
+    font-size: 24px;
+  }
   a{
     text-decoration: none !important;
   }
-  .sc-logo{
-    height: 43px;
-    position: absolute;
-    z-index: 2;
-    left: 10%;
-    top:25px;
+  .landing-menu-btn{
+    border-radius: 40px;
+    font-family: 'Roboto Condensed';
+    font-size: 16px;
+    // height: 44px;
+    line-height: 40px;
+    font-weight: $font-weight-heavy;
+    letter-spacing: 0.0325em;
+    padding:0px 30px;
+    color: white;
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
-  .sc-off-cta-platform {
-    position: absolute;
-    z-index: 2;
-    right: 10%;
-    top:25px;
+  .btn-justify-left{
+    margin-left: 0px;
+  }
+  .landing-menu .btn-round-new.md-button.btn-kit {
+    margin-left: 38px;
+  }
+  .landing-menu-btn:hover{
+    background: none;
+    color: #FFC100;
+  }
+  .sc-logo{
+    height: 37px;
+    top: 5px;
+  }
 
+  .sc-off-cta-platform {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:nowrap;
+    width: calc(100% - 20px);
+    justify-content: space-between;
+    align-items: center;
+    background-color: $off_black;
+    margin: 10px 10px;
+
+  }
+  #get-your-kit {
+    scroll-margin-top: 78px;
+  }
+  .lighter{
+    max-width: 10%;
+    transition: all 0.3s ease-in-out;
+    flex-direction: column;
+    padding: 5px;
+    opacity: 90%; 
+  }
+  .lighter:hover {
+    opacity: 100%;
+  }
+
+  .landing-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: fit-content;
+    align-self: center;
+    justify-content: space-between;
+    padding: 6px 10% 6px 0%;
   }
   // Images on landing page
   .img-new_sck{
     min-height: 30vw;
-    background: blue url("/assets/images/new_sck.jpg") center/cover;
+    background: blue url("/assets/images/landing/Legacy-SCK.gif") center/cover;
   }
   .img-sck_edu{
     min-height: 30vw;
-    background: blue url("/assets/images/sck_edu.jpg") center/cover;
+    background: blue url("/assets/images/landing/smart-citizen-data.jpg") center/cover;
   }
   .img-sck_com{
-    background: blue url("/assets/images/sck_communities.jpg") center/cover;
+    background: blue url("/assets/images/landing/local-communites.jpg") center/cover;
   }
   .img-research{
-    background: blue url("/assets/images/sck_research.jpg") center/cover;
+    background: blue url("/assets/images/landing/research-institutions.jpg") center/cover;
   }
   .img-governm{
-    background: blue url("/assets/images/sck_cities.jpg") center/cover;
+    background: blue url("/assets/images/landing/educators.jpg") center/cover;
   }
   .img-platform{
-    min-height:630px !important;
-    background: blue url("/assets/images/sck_platform.jpg") center/cover;
+    background: blue url("/assets/images/landing/SCK-Platform-mobile.jpg") center/cover;
   }
   .img-docs{
-    min-height:320px !important;
-    background: blue url("/assets/images/sck_docs.jpg") top/cover;
+    background: blue url("/assets/images/landing/smartcitizen-docs.jpg") top/cover;
+  }
+  .img-kits-complete{
+    background: blue url("/assets/images/landing/smart-citizen-2-2-kit.gif") center/cover;
+  }
+  .img-kits-research{
+    background: blue url("/assets/images/landing/SCK-customized-projects.jpg") center/cover;
   }
   // Tiles on landing page
   .tile{
-    padding: 60px 40px;
+    padding: 50px 50px;
     border-bottom: 3px solid $off_black;
     border-right: 3px solid $off_black;
   }
-  .tile-image{
+  .tile-image.tile{
     min-height:300px;
     padding:0 !important;
   }
@@ -101,25 +216,77 @@
     text-align: left;
   }
 
-  // Video section
+  .pd-60 {
+    padding-top: 60px;
+  }
+  .text-left{
+    text-align: left;
+    justify-content: left;
+  }
 
+  // Video section
   .video-section{
-    background: blue url("/assets/images/landing/smartcitizen-seeed-preorder.jpg") center/cover;
+    background: url("/assets/images/landing/smartcitizen-workshop.jpg") center/cover;
     position: relative;
-    height: 90vh;
-    width: 100%;
+    top: 0px;
+    height: 100vh;
     overflow: hidden;
+    border: 3px solid $off_black;
+    box-sizing: border-box;
+  }
+  .mobileonly {
+    display: none;
+  }
+  .header-section{
+    margin: 60px 10%;
+    max-width: 1200px;
+
   }
   .heading-over-video{
     position: absolute;
-    z-index: 1;
-    top: 0px;
-    height: 100%;
-    padding-left: 10%;
-    padding-right: 60%;
-
+    z-index: 2;
+    bottom: 80px;
+    max-width: 600px;
+    width: 50%;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid $off_black;
     img{
       padding-bottom:40px;
+    }
+  }
+  .heading-over-video.right-card {
+    right: 10%;
+  }
+
+  #learn-more {
+    margin: 0px auto 60px auto;
+    max-width:1200px;
+    padding: 0 10%;
+  }
+  // Banner section
+
+  .banner-section{
+    background: url("/assets/images/landing/SCK-Platform.jpg") center/cover;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    border: 3px solid $off_black;
+    box-sizing: border-box;
+  }
+
+  // Cards
+
+  .card {
+    box-shadow: 10px 10px 0px -3px #FFC100,10px 10px 0px 0px $off_black;
+  }
+
+  @media only screen and (max-width: 1200px) {
+    #learn-more {
+      padding: 0;
+    }
+    .card {
+      box-shadow: 0px 0px;
     }
   }
 
@@ -144,14 +311,224 @@
       left:5%;
     }
     .heading-over-video{
-      padding-top: 40px;
-      position: absolute;
-      padding-left: 5%;
-      padding-right:25%;
-      height: 100%;
       img{
         padding-bottom:00px;
       }
+    }
+    #get-your-kit {
+      scroll-margin-top: 80px;
+    }
+  }
+
+  @media only screen and (max-width: 950px) {
+    .mobileonly {
+      display: block;
+      border: 3px solid #1C1C1C;
+      border-bottom: none;
+    }
+    .mobileonly.img-platform {
+      border-top: none;
+    }
+    .sc-off-cta-platform {
+      justify-self: center;
+      align-self: start;
+      align-items: start;
+      text-align: left;
+      flex-wrap: wrap;
+      -webkit-transition: all 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
+      }
+    .navigation.active {
+      padding: 16px 0% 6px 11%;
+    }
+    .external-links {
+      display: flex;
+      flex-direction: column;
+      }
+    .hamburger {
+      display: block;
+      cursor: pointer;
+      align-self: center;
+      padding: 6px 10% 6px 0%;
+    }
+    .hamburger.active {
+      display: block;
+      cursor: pointer;
+      align-self: center;
+      padding: 16px 11% 6px 0%;
+    }
+    .hamburger.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    .landing-menu {
+      display: none;
+      justify-content: space-between;
+      width: 100%;
+      height: 40%;
+      padding: 0px 10%;
+    }
+    .landing-menu.active {
+      display: flex;
+      align-self: start;
+      -webkit-transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 10%;
+    }
+    .landing-menu .md-button.landing-menu-btn {
+      text-align: left;
+      padding: 0px 0px;
+    }
+   .landing-menu .btn-round-new.md-button.btn-kit {
+      align-self: end;
+      justify-self: end;
+    }
+    .sc-off-cta-platform.active {
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;
+      align-content: space-between;
+      -webkit-transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
+      margin: 0%;
+    }
+    .sc-logo{
+      padding: 10px 0px;
+    }
+    #get-your-kit {
+      scroll-margin-top: 85px;
+    }
+    .layout-xs-column {
+     flex-direction: column;
+    }
+    .layout-xs-column > .flex-xs-100 {
+      flex: 1 1 100%;
+      max-width: 100%;
+      max-height: 100%;
+      box-sizing: border-box;
+    }
+    .border-xs-top{
+      border-top: 3px solid $off_black;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom: 3px solid $off_black;
+    }
+    .border-xs-bottom{
+      border-top: unset;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      border-bottom:3px solid $off_black;
+    }
+    .flex-order-xs-1 {
+      order: 1 !important;
+    }
+    .flex-order-xs-2 {
+      order: 2 !important;
+    }
+    .layout-xs-column {
+      box-sizing: border-box;
+      display: flex;
+    }
+    .heading-over-video{
+      position: static;
+      bottom: 0px;
+      width: 100%;
+      margin: 0px;
+      border-bottom: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      max-width: 100%;
+    }
+    .video-section .heading-over-video{
+      position: absolute;
+    }
+    .heading-over-video.right-card {
+      right: 0px;
+    }
+    .header-section {
+      margin: 0px;
+    }
+    .banner-section {
+      position: static;
+      display: flex;
+      flex-direction: column-reverse;
+      height: auto;
+      border: none;
+    }
+    .p-header{
+      font-size:19px;
+    }
+
+    .tile-image.tile {
+      min-height:500px;
+    }
+    .text-left{
+      text-align: center;
+      justify-content: center;
+    }
+    .banner-section{
+      height: 100%;
+    }
+    .btn-justify-left{
+      margin-left: 8px;
+    }
+    .card-text {
+      text-align: center;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      align-self: stretch;
+    }
+    .video-section .card-text {
+      border-left: none;
+      border-right: none;
+    }
+
+    // Mobile remove padding and extra lines
+
+    .video-section {
+      border-bottom: 0px solid $off_black;
+    }
+    .pd-60 {
+      padding: 0px;
+    }
+    .border-black {
+      border-top: 0px solid $off_black;
+    }
+    .mb-10 {
+      margin-bottom: 0px;
+    }
+    .banner-section {
+      border-bottom: 0px solid $off_black;
+      border-top: 0px solid $off_black;
+    }
+    #learn-more {
+      margin: 0px auto 0px auto
+    }
+    #open-platform {
+      flex-direction: column-reverse;
+      border-top: 3px solid $off_black;
+      border-bottom: 3px solid $off_black;
+    }
+    #open-platform .flex-xs-100 {
+      flex-direction: column;
+      border-bottom: 0px solid $off_black;
+    }
+    .mr-30 {
+      margin-right: 0px;
+    }
+    .new-landing-page {
+      padding-bottom: 0px;
+      background-size: 0px;
+    }
+    .banner-section{
+      background: none;
     }
   }
 
@@ -172,7 +549,6 @@
     h1{
       font-size:28px;
       line-height:33px;
-      padding-bottom:10px;
     }
     h2{
       font-size:28px;
@@ -180,39 +556,22 @@
     p{
       font-size:19px;
     }
+    .p-header{
+      font-size:19px;
+    }
     .p-60{
-      padding: 50px 10px !important;
-    }
-    .border-xs-top{
-      border-top: 3px solid $off_black;
-      border-left: 3px solid $off_black;
-      border-right: 3px solid $off_black;
-      border-bottom: 3px solid $off_black;
-    }
-    .border-xs-bottom{
-      border-top: unset;
-      border-left: 3px solid $off_black;
-      border-right: 3px solid $off_black;
-      border-bottom:3px solid $off_black;
-    }
-    .img-platform{
-      min-height:356px !important;
-    }
-    .heading-over-video{
-      padding-right: 5%;
-    }
-    .sc-off-cta-platform {
-      padding: 10px 10px;
+      padding: 10px 10px !important;
     }
     .my-20{
       margin-top: 10px !important;
       margin-bottom: 10px !important;
     }
-    .img-new_sck{
-      background: blue url("/assets/images/sck_edu.jpg") center/cover;
+
+    .tile-image.tile{
+      min-height:300px;
     }
-    .img-sck_edu{
-      background: blue url("/assets/images/new_sck.jpg") center/cover;
+    .tile{
+      padding: 50px 30px;
     }
   }
 }
