@@ -126,14 +126,7 @@ body.active {
     height: 37px;
     top: 5px;
   }
-  // .landing-menu-container {
-  //   position: relative;
-  //   z-index: 2;
-  //   width: 100%;
-  //   display: flex;
-  //   justify-content: center;
-  //   background-color: $off_black;
-  // }
+
   .sc-off-cta-platform {
     position: fixed;
     top: 0;
@@ -149,7 +142,7 @@ body.active {
 
   }
   #get-your-kit {
-    scroll-margin-top: 80px;
+    scroll-margin-top: 78px;
   }
   .lighter{
     max-width: 10%;
@@ -190,7 +183,7 @@ body.active {
     background: blue url("/assets/images/landing/educators.jpg") center/cover;
   }
   .img-platform{
-    background: blue url("/assets/images/landing/smartcitizen-platform.jpg") center/cover;
+    background: blue url("/assets/images/landing/SCK-Platform-mobile.jpg") center/cover;
   }
   .img-docs{
     background: blue url("/assets/images/landing/smartcitizen-docs.jpg") top/cover;
@@ -241,6 +234,9 @@ body.active {
     border: 3px solid $off_black;
     box-sizing: border-box;
   }
+  .mobileonly {
+    display: none;
+  }
   .header-section{
     margin: 60px 10%;
     max-width: 1200px;
@@ -258,6 +254,9 @@ body.active {
       padding-bottom:40px;
     }
   }
+  .heading-over-video.right-card {
+    right: 10%;
+  }
 
   #learn-more {
     margin: 0px auto 60px auto;
@@ -267,7 +266,7 @@ body.active {
   // Banner section
 
   .banner-section{
-    background: url("/assets/images/landing/smartcitizen-platform.jpg") center/cover;
+    background: url("/assets/images/landing/SCK-Platform.jpg") center/cover;
     position: relative;
     height: 100vh;
     width: 100%;
@@ -312,15 +311,24 @@ body.active {
       left:5%;
     }
     .heading-over-video{
-      position: absolute;
-      // height: 100%;
       img{
         padding-bottom:00px;
       }
     }
+    #get-your-kit {
+      scroll-margin-top: 80px;
+    }
   }
 
   @media only screen and (max-width: 950px) {
+    .mobileonly {
+      display: block;
+      border: 3px solid #1C1C1C;
+      border-bottom: none;
+    }
+    .mobileonly.img-platform {
+      border-top: none;
+    }
     .sc-off-cta-platform {
       justify-self: center;
       align-self: start;
@@ -329,7 +337,6 @@ body.active {
       flex-wrap: wrap;
       -webkit-transition: all 0.3s ease-in-out;
       transition: all 0.3s ease-in-out;
-
       }
     .navigation.active {
       padding: 16px 0% 6px 11%;
@@ -360,7 +367,6 @@ body.active {
       transform: translateY(-8px) rotate(-45deg);
     }
     .landing-menu {
-      // flex-direction: column;
       display: none;
       justify-content: space-between;
       width: 100%;
@@ -381,7 +387,6 @@ body.active {
       padding: 0px 0px;
     }
    .landing-menu .btn-round-new.md-button.btn-kit {
-      // margin-top: 160px;
       align-self: end;
       justify-self: end;
     }
@@ -432,7 +437,7 @@ body.active {
       display: flex;
     }
     .heading-over-video{
-      position: absolute;
+      position: static;
       bottom: 0px;
       width: 100%;
       margin: 0px;
@@ -441,9 +446,21 @@ body.active {
       border-right: 0px;
       max-width: 100%;
     }
+    .video-section .heading-over-video{
+      position: absolute;
+    }
+    .heading-over-video.right-card {
+      right: 0px;
+    }
     .header-section {
       margin: 0px;
-
+    }
+    .banner-section {
+      position: static;
+      display: flex;
+      flex-direction: column-reverse;
+      height: auto;
+      border: none;
     }
     .p-header{
       font-size:19px;
@@ -456,16 +473,21 @@ body.active {
       text-align: center;
       justify-content: center;
     }
-    .banner-section {
-      height: 110vh;
-      background: url("/assets/images/landing/smartcitizen-platform-mobile.jpg");
-      background-position: 70% 40%;
+    .banner-section{
+      height: 100%;
     }
     .btn-justify-left{
       margin-left: 8px;
     }
     .card-text {
       text-align: center;
+      border-left: 3px solid $off_black;
+      border-right: 3px solid $off_black;
+      align-self: stretch;
+    }
+    .video-section .card-text {
+      border-left: none;
+      border-right: none;
     }
 
     // Mobile remove padding and extra lines
@@ -505,11 +527,9 @@ body.active {
       padding-bottom: 0px;
       background-size: 0px;
     }
-    .img-platform{
-      background: blue url("/assets/images/landing/smartcitizen-platform-mobile.jpg");
-      background-position: 70% bottom;
+    .banner-section{
+      background: none;
     }
-
   }
 
   // Less then 750px
@@ -523,14 +543,12 @@ body.active {
     .text-funding{
       text-align: center;
     }
-
   }
 
   @media only screen and (max-width: 600px) {
     h1{
       font-size:28px;
       line-height:33px;
-      padding-bottom:10px;
     }
     h2{
       font-size:28px;
@@ -544,39 +562,16 @@ body.active {
     .p-60{
       padding: 10px 10px !important;
     }
-
-    .img-platform{
-      min-height:356px !important;
-    }
-    // .heading-over-video{
-    //   padding-right: 5%;
-    // }
     .my-20{
       margin-top: 10px !important;
       margin-bottom: 10px !important;
     }
-    // .sc-off-cta-platform {
-    //   width: calc(100% - 60px);
-    //   padding: 10px 30px 10px 30px;
-    // }
-    // .sc-off-cta-platform.active {
-    //   padding: 10px 30px 100px 30px;
-    // }
-    // .img-new_sck{
-    //   background: blue url("/assets/images/sck_edu.jpg") center/cover;
-    // }
-    // .img-sck_edu{
-    //   background: blue url("/assets/images/new_sck.jpg") center/cover;
-    // }
 
     .tile-image.tile{
       min-height:300px;
     }
     .tile{
       padding: 50px 30px;
-    }
-    .video-section {
-      height: 95vh;
     }
   }
 }
