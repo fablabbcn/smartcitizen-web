@@ -210,11 +210,11 @@ a.footer-link{
     color:$blue;
   }
 }
-a.md-button, a,
-button.md-button, button{
-  // color here overwrites MAP and COMMUNITY in navbar
-  // color: $terciary_color;
-}
+// a.md-button, a,
+// button.md-button, button{
+//   // color here overwrites MAP and COMMUNITY in navbar
+//   // color: $terciary_color;
+// }
 
 /*
   Overwrite global material design, allow icons to be smaller
@@ -248,9 +248,9 @@ a.md-button h4, a.md-button .h4{
 a.warn,
 button.warn{
   color: $alert_red;
-  svg {
-    // fill: $alert_red;
-  }
+  // svg {
+  //   // fill: $alert_red;
+  // }
 }
 
 .bold{
@@ -319,17 +319,17 @@ md-select:not([disabled]):focus .md-select-value {
   border-bottom-color: #6B868D;
 }
 
-button.md-primary{
-  // Get new kit popup, button color
-  // Also interferes with kits/edit save button
-  // color:$terciary_color !important;
-  // font-size:18px;
-}
-.md-button.md-flat.md-primary {
-  //margin: 0px;
-  //background-color: $terciary_color;
-  //color: white !important;
-}
+// button.md-primary{
+//   // Get new kit popup, button color
+//   // Also interferes with kits/edit save button
+//   // color:$terciary_color !important;
+//   // font-size:18px;
+// }
+// .md-button.md-flat.md-primary {
+//   //margin: 0px;
+//   //background-color: $terciary_color;
+//   //color: white !important;
+// }
 
 .md-button.md-primary.md-flat:not([disabled]):hover {
   background-color: $terciary_color;
@@ -529,10 +529,10 @@ md-progress-linear.md-hue-3 .md-bar {
   z-index: 1;
 }
 
-@media only screen and (max-device-width: 1024px) {
-  .map_state {
-  }
-}
+// @media only screen and (max-device-width: 1024px) {
+//   .map_state {
+//   }
+// }
 
 section.map {
   background-color: white;
@@ -1065,12 +1065,12 @@ KIT TAGS MODULE
     padding: 8px 0 0 8px;
     font-size: 12px;
 
-    span {
-      // Make balloons on map smaller
-      //border-radius: 20px;
-      //margin-right: 10px;
-      //padding: 3px 8px;
-    }
+    // span {
+    //   // Make balloons on map smaller
+    //   //border-radius: 20px;
+    //   //margin-right: 10px;
+    //   //padding: 3px 8px;
+    // }
 
     tag, span {
       margin-bottom: 8px;
@@ -1491,8 +1491,8 @@ md-tabs-canvas {
     background-color: $background_blue_dark_menu;
   }
 }
-.myProfile_tabs {
-}
+// .myProfile_tabs {
+// }
 .myProfile_tab_icon {
   width: 16px;
   height: 16px;
@@ -1845,12 +1845,12 @@ section.relaxed-layout {
     &.isEven {
       background-color: #F9F9FB;
     }
-    &.form_blockNormal {
-     // min-height: 250px;
-    }
-    &.form_blockMap {
-      //height: 290px;
-    }
+    // &.form_blockNormal {
+    //  // min-height: 250px;
+    // }
+    // &.form_blockMap {
+    //   //height: 290px;
+    // }
   }
   .form_blockInput {
     height: inherit;
