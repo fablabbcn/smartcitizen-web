@@ -11,6 +11,7 @@
 
     vm.showStore = showStore;
     vm.goToHash = goToHash;
+    $anchorScroll.yOffset = 80;
 
     ///////////////////////
 
