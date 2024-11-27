@@ -14,7 +14,7 @@
         <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a>
         <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a>
       </div>
-      <a href="#get-your-kit" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</a>
+      <button ng-click="vm.goToHash('get-your-kit')"  class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</button>
     </div>
 
   </div>
@@ -26,9 +26,9 @@
         </div>
         <div class="card-text">
           <h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2>
-          <a href="#learn-more"
+          <button ng-click="vm.goToHash('learn-more')"
              class="btn-blue btn-round-new mt-30 md-button btn-justify-left"
-             >LEARN MORE</a>
+             >LEARN MORE</button>
         </div>
       </div>
     </div>
@@ -50,9 +50,9 @@
         <div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left">
           <h2>BUILDING ON OUR HISTORY</h2>
           <p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p>
-          <a href="#get-your-kit"
+          <button ng-click="vm.goToHash('get-your-kit')"
              class="btn-black-outline btn-round-new md-button btn-justify-left"
-             >GET YOUR KIT</a>
+             >GET YOUR KIT</button>
         </div>
       </div>
     </section>
@@ -140,13 +140,13 @@
             <h3 class="color-white">SMART CITIZEN KIT</h3>
             <p class="color-white" style="margin-bottom:33px">We're excited to release our newest version of the Smart Citizen Kit! Smart Citizen 2.3 is an upgrade of the kit that you already know and love, and it will be available soon through SEEED Studio. The latest version includes UV readings, an improved PM sensor and lots of new features!</p>
             <p class="color-white" style="margin-bottom:33px"><strong>Stay tuned by subscribing to our newsletter.</strong></p>
-            <a href="#newsletter"
-            class="btn-outline-white btn-round-new md-button"
-            >SUBSCRIBE</a>
+            <button ng-click="vm.goToHash('newsletter')" class="btn-outline-white btn-round-new md-button">
+            SUBSCRIBE
+          </button>
           </div>
           <div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image">
           </div>
-        </div>     
+        </div>
         <div flex="50" flex-xs="100" layout="column">
           <div class="img-kits-research tile tile-image border-xs-bottom">
           </div>
