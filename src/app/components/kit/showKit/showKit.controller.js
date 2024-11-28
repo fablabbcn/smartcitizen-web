@@ -248,7 +248,7 @@
       var mainSensors = sensorsRes[0];
       var compareSensors = sensorsRes[1];
 
-      vm.battery = _.find(mainSensors, {name: 'battery'});
+      vm.battery = _.find(mainSensors, {name: 'Battery SCK'});
       vm.sensors = mainSensors.reverse();
       vm.sensors.forEach(checkRaw);
       vm.sensors.forEach(getHardwareName);
