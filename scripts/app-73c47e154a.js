@@ -192,89 +192,6 @@
     }]);
 })();
 
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('Marker', ['deviceUtils', 'markerUtils', 'timeUtils', '$state', function(deviceUtils, markerUtils, timeUtils, $state) {
-      /**
-       * Marker constructor
-       * @constructor
-       * @param {Object} deviceData - Object with data about marker from API
-       * @property {number} lat - Latitude
-       * @property {number} lng - Longitude
-       * @property {string} message - Message inside marker popup
-       * @property {Object} icon - Object with classname, size and type of marker icon
-       * @property {string} layer - Map layer that icons belongs to
-       * @property {boolean} focus - Whether marker popup is opened
-       * @property {Object} myData - Marker id and labels
-       */
-      function Marker(deviceData) {
-        let linkStart = '', linkEnd = '';
-        const id = deviceData.id;
-        if ($state.$current.name === 'embbed') {
-          linkStart = '<a target="_blank" href="https://smartcitizen.me/kits/' + id + '">';
-          linkEnd = '</a>';
-        }
-        this.lat = deviceUtils.parseCoordinates(deviceData).lat;
-        this.lng = deviceUtils.parseCoordinates(deviceData).lng;
-        // TODO: Bug, pop-up lastreading at doesn't get updated by publication
-        this.message = '<div class="popup"><div class="popup_top sck' +
-          '">' + linkStart + '<p class="popup_name">' + deviceUtils.parseName(deviceData, true) +
-          '</p><p class="popup_type">' +
-          deviceUtils.parseHardwareName(deviceData) +
-          '</p><p class="popup_time"><md-icon class="popup_icon" ' +
-          'md-svg-src="./assets/images/update_icon.svg"></md-icon>' +
-          timeUtils.parseDate(deviceData.last_reading_at).ago + '</p>' + linkEnd + '</div>' +
-          '<div class="popup_bottom"><p class="popup_location">' +
-          '<md-icon class="popup_icon" ' +
-          'md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' +
-          deviceUtils.parseLocation(deviceData) +
-          '</p><div class="popup_labels">' +
-          createTagsTemplate(deviceUtils.parseSystemTags(deviceData), 'label') +
-          createTagsTemplate(deviceUtils.parseUserTags(deviceData),
-            'tag', true) +
-          '</div></div></div>';
-
-        this.icon = markerUtils.getIcon(deviceData);
-        this.layer = 'devices';
-        this.focus = false;
-        this.myData = {
-          id: id,
-          labels: deviceUtils.parseSystemTags(deviceData),
-          tags: deviceUtils.parseUserTags(deviceData)
-        };
-      }
-      return Marker;
-
-      function createTagsTemplate(tagsArr, tagType, clickable) {
-        if(typeof(clickable) === 'undefined'){
-          clickable = false;
-        }
-        var clickablTag = '';
-        if(clickable){
-          clickablTag = 'clickable';
-        }
-
-        if(!tagType){
-          tagType = 'tag';
-        }
-
-        return _.reduce(tagsArr, function(acc, label) {
-          var element ='';
-          if(tagType === 'tag'){
-            element = '<tag ng-attr-tag-name="\''+ label +'\'" ' +
-              clickablTag +'></tag>';
-          }else{
-            element = '<span class="'+tagType+'">'+label+'</span>';
-          }
-          return acc.concat(element);
-        }, '');
-      }
-
-    }]);
-})();
-
 (function () {
   'use strict';
 
@@ -467,6 +384,89 @@
   'use strict';
 
   angular.module('app.components')
+    .factory('Marker', ['deviceUtils', 'markerUtils', 'timeUtils', '$state', function(deviceUtils, markerUtils, timeUtils, $state) {
+      /**
+       * Marker constructor
+       * @constructor
+       * @param {Object} deviceData - Object with data about marker from API
+       * @property {number} lat - Latitude
+       * @property {number} lng - Longitude
+       * @property {string} message - Message inside marker popup
+       * @property {Object} icon - Object with classname, size and type of marker icon
+       * @property {string} layer - Map layer that icons belongs to
+       * @property {boolean} focus - Whether marker popup is opened
+       * @property {Object} myData - Marker id and labels
+       */
+      function Marker(deviceData) {
+        let linkStart = '', linkEnd = '';
+        const id = deviceData.id;
+        if ($state.$current.name === 'embbed') {
+          linkStart = '<a target="_blank" href="https://smartcitizen.me/kits/' + id + '">';
+          linkEnd = '</a>';
+        }
+        this.lat = deviceUtils.parseCoordinates(deviceData).lat;
+        this.lng = deviceUtils.parseCoordinates(deviceData).lng;
+        // TODO: Bug, pop-up lastreading at doesn't get updated by publication
+        this.message = '<div class="popup"><div class="popup_top sck' +
+          '">' + linkStart + '<p class="popup_name">' + deviceUtils.parseName(deviceData, true) +
+          '</p><p class="popup_type">' +
+          deviceUtils.parseHardwareName(deviceData) +
+          '</p><p class="popup_time"><md-icon class="popup_icon" ' +
+          'md-svg-src="./assets/images/update_icon.svg"></md-icon>' +
+          timeUtils.parseDate(deviceData.last_reading_at).ago + '</p>' + linkEnd + '</div>' +
+          '<div class="popup_bottom"><p class="popup_location">' +
+          '<md-icon class="popup_icon" ' +
+          'md-svg-src="./assets/images/location_icon_dark.svg"></md-icon>' +
+          deviceUtils.parseLocation(deviceData) +
+          '</p><div class="popup_labels">' +
+          createTagsTemplate(deviceUtils.parseSystemTags(deviceData), 'label') +
+          createTagsTemplate(deviceUtils.parseUserTags(deviceData),
+            'tag', true) +
+          '</div></div></div>';
+
+        this.icon = markerUtils.getIcon(deviceData);
+        this.layer = 'devices';
+        this.focus = false;
+        this.myData = {
+          id: id,
+          labels: deviceUtils.parseSystemTags(deviceData),
+          tags: deviceUtils.parseUserTags(deviceData)
+        };
+      }
+      return Marker;
+
+      function createTagsTemplate(tagsArr, tagType, clickable) {
+        if(typeof(clickable) === 'undefined'){
+          clickable = false;
+        }
+        var clickablTag = '';
+        if(clickable){
+          clickablTag = 'clickable';
+        }
+
+        if(!tagType){
+          tagType = 'tag';
+        }
+
+        return _.reduce(tagsArr, function(acc, label) {
+          var element ='';
+          if(tagType === 'tag'){
+            element = '<tag ng-attr-tag-name="\''+ label +'\'" ' +
+              clickablTag +'></tag>';
+          }else{
+            element = '<span class="'+tagType+'">'+label+'</span>';
+          }
+          return acc.concat(element);
+        }, '');
+      }
+
+    }]);
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .directive('noDataBackdrop', noDataBackdrop);
 
   /**
@@ -553,193 +553,6 @@
         },
         controllerAs: 'vm'
       };
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('NewKitController', NewKitController);
-
-    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth', '$stateParams', '$timeout'];
-    function NewKitController($scope, $state, animation, device, tag, alert, auth, $stateParams, $timeout) {
-      var vm = this;
-
-      vm.step = 1;
-      vm.submitStepOne = submitStepOne;
-      vm.backToProfile = backToProfile;
-
-      // FORM INFO
-      vm.deviceForm = {
-        name: undefined,
-        exposure: undefined,
-        location: {
-          lat: undefined,
-          lng: undefined,
-          zoom: 16
-        },
-        is_private: false,
-        legacyVersion: '1.1',
-        tags: []
-      };
-
-      // EXPOSURE SELECT
-      vm.exposure = [
-        {name: 'indoor', value: 1},
-        {name: 'outdoor', value: 2}
-      ];
-
-      // VERSION SELECT
-      vm.version = [
-        {name: 'Smart Citizen Kit 1.0', value: '1.0'},
-        {name: 'Smart Citizen Kit 1.1', value: '1.1'}
-      ];
-
-      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
-        vm.deviceForm.location.lat = args.model.lat;
-        vm.deviceForm.location.lng = args.model.lng;
-      });
-
-      // TAGS SELECT
-      vm.tags = [];
-      $scope.$watch('vm.tag', function(newVal, oldVal) {
-        if(!newVal) {
-          return;
-        }
-        // remove selected tag from select element
-        vm.tag = undefined;
-
-        var alreadyPushed = _.some(vm.deviceForm.tags, function(tag) {
-          return tag.id === newVal;
-        });
-        if(alreadyPushed) {
-          return;
-        }
-
-        var tag = _.find(vm.tags, function(tag) {
-          return tag.id === newVal;
-        });
-        vm.deviceForm.tags.push(tag);
-      });
-      vm.removeTag = removeTag;
-
-      // MAP CONFIGURATION
-      var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
-
-      vm.getLocation = getLocation;
-      vm.markers = {
-        main: {
-          lat: undefined,
-          lng: undefined,
-          draggable: true
-        }
-      };
-      vm.tiles = {
-        url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/{z}/{x}/{y}?access_token=' + mapBoxToken
-      };
-      vm.defaults = {
-        scrollWheelZoom: false
-      };
-
-      vm.macAddress = undefined;
-
-      initialize();
-
-      //////////////
-
-      function initialize() {
-        animation.viewLoaded();
-        getTags();
-        vm.userRole = auth.getCurrentUser().data.role;
-      }
-
-      function getLocation() {
-        window.navigator.geolocation.getCurrentPosition(function(position) {
-          $scope.$apply(function() {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            vm.deviceForm.location.lat = lat;
-            vm.deviceForm.location.lng = lng;
-            vm.markers.main.lat = lat;
-            vm.markers.main.lng = lng;
-          });
-        });
-      }
-
-      function removeTag(tagID) {
-        vm.deviceForm.tags = _.filter(vm.deviceForm.tags, function(tag) {
-          return tag.id !== tagID;
-        });
-      }
-
-      function submitStepOne() {
-        var data = {
-          name: vm.deviceForm.name,
-          description: vm.deviceForm.description,
-          exposure: findExposure(vm.deviceForm.exposure),
-          latitude: vm.deviceForm.location.lat,
-          longitude: vm.deviceForm.location.lng,
-          is_private: vm.deviceForm.is_private,
-          hardware_version_override: vm.deviceForm.legacyVersion,
-          /*jshint camelcase: false */
-          user_tags: _.map(vm.deviceForm.tags, 'name').join(',')
-        };
-
-        device.createDevice(data)
-          .then(
-            function(response) {
-              device.updateContext().then(function(){
-                auth.setCurrentUser('appLoad').then(function(){
-                  $timeout($state.go('layout.kitEdit', {id:response.id, step:2}), 2000);
-                });
-              });
-            },
-            function(err) {
-              vm.errors = err.data.errors;
-              alert.error('There has been an error during kit set up');
-            });
-      }
-
-      function getTags() {
-        tag.getTags()
-          .then(function(tagsData) {
-            vm.tags = tagsData;
-          });
-      }
-
-      function toProfile(){
-        $state.transitionTo('layout.myProfile.kits', $stateParams,
-        { reload: false,
-          inherit: false,
-          notify: true
-        });
-      }
-
-      function backToProfile(){
-        // TODO: Refactor Check
-        toProfile();
-      }
-
-      //TODO: move to utils
-      function findExposure(nameOrValue) {
-        var findProp, resultProp;
-        //if it's a string
-        if(isNaN(parseInt(nameOrValue))) {
-          findProp = 'name';
-          resultProp = 'value';
-        } else {
-          findProp = 'value';
-          resultProp = 'name';
-        }
-
-        var option = _.find(vm.exposure, function(exposureFromList) {
-          return exposureFromList[findProp] === nameOrValue;
-        });
-        if(option) {
-          return option[resultProp];
-        }
-      }
     }
 })();
 
@@ -993,7 +806,7 @@
       var mainSensors = sensorsRes[0];
       var compareSensors = sensorsRes[1];
 
-      vm.battery = _.find(mainSensors, {name: 'battery'});
+      vm.battery = _.find(mainSensors, {name: 'Battery SCK'});
       vm.sensors = mainSensors.reverse();
       vm.sensors.forEach(checkRaw);
       vm.sensors.forEach(getHardwareName);
@@ -1541,6 +1354,193 @@
       });
     }
   }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('NewKitController', NewKitController);
+
+    NewKitController.$inject = ['$scope', '$state', 'animation', 'device', 'tag', 'alert', 'auth', '$stateParams', '$timeout'];
+    function NewKitController($scope, $state, animation, device, tag, alert, auth, $stateParams, $timeout) {
+      var vm = this;
+
+      vm.step = 1;
+      vm.submitStepOne = submitStepOne;
+      vm.backToProfile = backToProfile;
+
+      // FORM INFO
+      vm.deviceForm = {
+        name: undefined,
+        exposure: undefined,
+        location: {
+          lat: undefined,
+          lng: undefined,
+          zoom: 16
+        },
+        is_private: false,
+        legacyVersion: '1.1',
+        tags: []
+      };
+
+      // EXPOSURE SELECT
+      vm.exposure = [
+        {name: 'indoor', value: 1},
+        {name: 'outdoor', value: 2}
+      ];
+
+      // VERSION SELECT
+      vm.version = [
+        {name: 'Smart Citizen Kit 1.0', value: '1.0'},
+        {name: 'Smart Citizen Kit 1.1', value: '1.1'}
+      ];
+
+      $scope.$on('leafletDirectiveMarker.dragend', function(event, args){
+        vm.deviceForm.location.lat = args.model.lat;
+        vm.deviceForm.location.lng = args.model.lng;
+      });
+
+      // TAGS SELECT
+      vm.tags = [];
+      $scope.$watch('vm.tag', function(newVal, oldVal) {
+        if(!newVal) {
+          return;
+        }
+        // remove selected tag from select element
+        vm.tag = undefined;
+
+        var alreadyPushed = _.some(vm.deviceForm.tags, function(tag) {
+          return tag.id === newVal;
+        });
+        if(alreadyPushed) {
+          return;
+        }
+
+        var tag = _.find(vm.tags, function(tag) {
+          return tag.id === newVal;
+        });
+        vm.deviceForm.tags.push(tag);
+      });
+      vm.removeTag = removeTag;
+
+      // MAP CONFIGURATION
+      var mapBoxToken = 'pk.eyJ1IjoidG9tYXNkaWV6IiwiYSI6ImRTd01HSGsifQ.loQdtLNQ8GJkJl2LUzzxVg';
+
+      vm.getLocation = getLocation;
+      vm.markers = {
+        main: {
+          lat: undefined,
+          lng: undefined,
+          draggable: true
+        }
+      };
+      vm.tiles = {
+        url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/{z}/{x}/{y}?access_token=' + mapBoxToken
+      };
+      vm.defaults = {
+        scrollWheelZoom: false
+      };
+
+      vm.macAddress = undefined;
+
+      initialize();
+
+      //////////////
+
+      function initialize() {
+        animation.viewLoaded();
+        getTags();
+        vm.userRole = auth.getCurrentUser().data.role;
+      }
+
+      function getLocation() {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
+          $scope.$apply(function() {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            vm.deviceForm.location.lat = lat;
+            vm.deviceForm.location.lng = lng;
+            vm.markers.main.lat = lat;
+            vm.markers.main.lng = lng;
+          });
+        });
+      }
+
+      function removeTag(tagID) {
+        vm.deviceForm.tags = _.filter(vm.deviceForm.tags, function(tag) {
+          return tag.id !== tagID;
+        });
+      }
+
+      function submitStepOne() {
+        var data = {
+          name: vm.deviceForm.name,
+          description: vm.deviceForm.description,
+          exposure: findExposure(vm.deviceForm.exposure),
+          latitude: vm.deviceForm.location.lat,
+          longitude: vm.deviceForm.location.lng,
+          is_private: vm.deviceForm.is_private,
+          hardware_version_override: vm.deviceForm.legacyVersion,
+          /*jshint camelcase: false */
+          user_tags: _.map(vm.deviceForm.tags, 'name').join(',')
+        };
+
+        device.createDevice(data)
+          .then(
+            function(response) {
+              device.updateContext().then(function(){
+                auth.setCurrentUser('appLoad').then(function(){
+                  $timeout($state.go('layout.kitEdit', {id:response.id, step:2}), 2000);
+                });
+              });
+            },
+            function(err) {
+              vm.errors = err.data.errors;
+              alert.error('There has been an error during kit set up');
+            });
+      }
+
+      function getTags() {
+        tag.getTags()
+          .then(function(tagsData) {
+            vm.tags = tagsData;
+          });
+      }
+
+      function toProfile(){
+        $state.transitionTo('layout.myProfile.kits', $stateParams,
+        { reload: false,
+          inherit: false,
+          notify: true
+        });
+      }
+
+      function backToProfile(){
+        // TODO: Refactor Check
+        toProfile();
+      }
+
+      //TODO: move to utils
+      function findExposure(nameOrValue) {
+        var findProp, resultProp;
+        //if it's a string
+        if(isNaN(parseInt(nameOrValue))) {
+          findProp = 'name';
+          resultProp = 'value';
+        } else {
+          findProp = 'value';
+          resultProp = 'name';
+        }
+
+        var option = _.find(vm.exposure, function(exposureFromList) {
+          return exposureFromList[findProp] === nameOrValue;
+        });
+        if(option) {
+          return option[resultProp];
+        }
+      }
+    }
 })();
 
 (function() {
@@ -5303,389 +5303,6 @@ angular.module('app.components')
   'use strict';
 
   angular.module('app.components')
-    .controller('MyProfileController', MyProfileController);
-
-    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
-    'userData', 'AuthUser', 'user', 'auth', 'alert',
-    'COUNTRY_CODES', '$timeout', 'file', 'animation',
-    '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
-    'userUtils', '$filter', '$state', 'Restangular', '$window'];
-    function MyProfileController($scope, $location, $q, $interval,
-      userData, AuthUser, user, auth, alert,
-      COUNTRY_CODES, $timeout, file, animation,
-      $mdDialog, PreviewDevice, device, deviceUtils,
-      userUtils, $filter, $state, Restangular, $window) {
-
-      var vm = this;
-
-      vm.unhighlightIcon = unhighlightIcon;
-
-      //PROFILE TAB
-      vm.formUser = {};
-      vm.getCountries = getCountries;
-
-      vm.user = userData;
-      copyUserToForm(vm.formUser, vm.user);
-      vm.searchText = vm.formUser.country;
-
-      vm.updateUser = updateUser;
-      vm.removeUser = removeUser;
-      vm.uploadAvatar = uploadAvatar;
-
-      //THIS IS TEMPORARY.
-      // Will grow on to a dynamic API KEY management
-      // with the new /accounts oAuth mgmt methods
-
-      // The auth controller has not populated the `user` at this point,
-      // so  user.token is undefined
-      // This controller depends on auth has already been run.
-      vm.user.token = auth.getToken();
-      vm.addNewDevice = addNewDevice;
-
-      //KITS TAB
-      vm.devices = [];
-      vm.deviceStatus = undefined;
-      vm.removeDevice = removeDevice;
-      vm.downloadData = downloadData;
-
-      vm.filteredDevices = [];
-      vm.dropdownSelected = undefined;
-
-      //SIDEBAR
-      vm.filterDevices = filterDevices;
-      vm.filterTools = filterTools;
-
-      vm.selectThisTab = selectThisTab;
-
-      $scope.$on('loggedOut', function() {
-        $location.path('/');
-      });
-
-      $scope.$on('devicesContextUpdated', function(){
-        var userData = auth.getCurrentUser().data;
-        if(userData){
-          vm.user = userData;
-        }
-        initialize();
-      });
-
-      initialize();
-
-      //////////////////
-
-      function initialize() {
-
-        startingTab();
-        if(!vm.user.devices.length) {
-          vm.devices = [];
-          animation.viewLoaded();
-        } else {
-
-          vm.devices = vm.user.devices.map(function(data) {
-            return new PreviewDevice(data);
-          })
-
-          $timeout(function() {
-            mapWithBelongstoUser(vm.devices);
-            filterDevices(vm.status);
-            setSidebarMinHeight();
-            animation.viewLoaded();
-          });
-
-        }
-      }
-
-      function filterDevices(status) {
-        if(status === 'all') {
-          status = undefined;
-        }
-        vm.deviceStatus = status;
-        vm.filteredDevices = $filter('filterLabel')(vm.devices, vm.deviceStatus);
-      }
-
-      function filterTools(type) {
-        if(type === 'all') {
-          type = undefined;
-        }
-        vm.toolType = type;
-      }
-
-      function updateUser(userData) {
-        if(userData.country) {
-          _.each(COUNTRY_CODES, function(value, key) {
-            if(value === userData.country) {
-              /*jshint camelcase: false */
-              userData.country_code = key;
-              return;
-            }
-          });
-        } else {
-          userData.country_code = null;
-        }
-
-        user.updateUser(userData)
-          .then(function(data) {
-            var user = new AuthUser(data);
-            _.extend(vm.user, user);
-            auth.updateUser();
-            vm.errors = {};
-            alert.success('User updated');
-          })
-          .catch(function(err) {
-            alert.error('User could not be updated ');
-            vm.errors = err.data.errors;
-          });
-      }
-
-      function removeUser() {
-        var confirm = $mdDialog.confirm()
-          .title('Delete your account?')
-          .textContent('Are you sure you want to delete your account?')
-          .ariaLabel('')
-          .ok('delete')
-          .cancel('cancel')
-          .theme('primary')
-          .clickOutsideToClose(true);
-
-        $mdDialog.show(confirm)
-          .then(function(){
-            return Restangular.all('').customDELETE('me')
-              .then(function(){
-                alert.success('Account removed successfully. Redirecting you…');
-                $timeout(function(){
-                  auth.logout();
-                  $state.transitionTo('landing');
-                }, 2000);
-              })
-              .catch(function(){
-                alert.error('Error occurred trying to delete your account.');
-              });
-          });
-      }
-
-      function selectThisTab(iconIndex, uistate){
-        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
-
-        highlightIcon(iconIndex);
-
-        if ($state.current.name.includes('myProfileAdmin')){
-            var transitionState = 'layout.myProfileAdmin.' + uistate;
-            $state.transitionTo(transitionState, {id: userData.id});
-        } else {
-            var transitionState = 'layout.myProfile.' + uistate;
-            $state.transitionTo(transitionState);
-        }
-
-      }
-
-      function startingTab() {
-        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
-
-        var childState = $state.current.name.split('.').pop();
-
-        switch(childState) {
-          case 'user':
-            vm.startingTab = 1;
-            break;
-          default:
-            vm.startingTab = 0;
-            break;
-        }
-
-      }
-
-      function highlightIcon(iconIndex) {
-
-        var icons = angular.element('.myProfile_tab_icon');
-
-        _.each(icons, function(icon) {
-          unhighlightIcon(icon);
-        });
-
-        var icon = icons[iconIndex];
-
-        angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
-        angular.element(icon).find('.fill_container').css('fill', 'white');
-      }
-
-      function unhighlightIcon(icon) {
-        icon = angular.element(icon);
-
-        icon.find('.stroke_container').css({'stroke': 'none'});
-        icon.find('.fill_container').css('fill', '#FF8600');
-      }
-
-      function setSidebarMinHeight() {
-        var height = document.body.clientHeight / 4 * 3;
-        angular.element('.profile_content').css('min-height', height + 'px');
-      }
-
-      function getCountries(searchText) {
-        return _.filter(COUNTRY_CODES, createFilter(searchText));
-      }
-
-      function createFilter(searchText) {
-        searchText = searchText.toLowerCase();
-        return function(country) {
-          country = country.toLowerCase();
-          return country.indexOf(searchText) !== -1;
-        };
-      }
-
-      function uploadAvatar(fileData) {
-        if(fileData && fileData.length) {
-
-          // TODO: Improvement Is there a simpler way to patch the image to the API and use the response?
-          // Something like:
-          //Restangular.all('/me').patch(data);
-          // Instead of doing it manually like here:
-          var fd = new FormData();
-          fd.append('profile_picture', fileData[0]);
-          Restangular.one('/me')
-            .withHttpConfig({transformRequest: angular.identity})
-            .customPATCH(fd, '', undefined, {'Content-Type': undefined})
-            .then(function(resp){
-              vm.user.profile_picture = resp.profile_picture;
-            })
-        }
-      }
-
-      function copyUserToForm(formData, userData) {
-        var props = {username: true, email: true, city: true, country: true, country_code: true, url: true, constructor: false};
-
-        for(var key in userData) {
-          if(props[key]) {
-            formData[key] = userData[key];
-          }
-        }
-      }
-
-      function mapWithBelongstoUser(devices){
-        _.map(devices, addBelongProperty);
-      }
-
-      function addBelongProperty(device){
-        device.belongProperty = deviceBelongsToUser(device);
-        return device;
-      }
-
-
-      function deviceBelongsToUser(device){
-        if(!auth.isAuth() || !device || !device.id) {
-          return false;
-        }
-        var deviceID = parseInt(device.id);
-        var userData = ( auth.getCurrentUser().data ) ||
-          ($window.localStorage.getItem('smartcitizen.data') &&
-          new AuthUser( JSON.parse(
-            $window.localStorage.getItem('smartcitizen.data') )));
-
-        var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
-        var isAdmin = userUtils.isAdmin(userData);
-
-        return isAdmin || belongsToUser;
-      }
-
-      function downloadData(device){
-        $mdDialog.show({
-          hasBackdrop: true,
-          controller: 'DownloadModalController',
-          controllerAs: 'vm',
-          templateUrl: 'app/components/download/downloadModal.html',
-          clickOutsideToClose: true,
-          locals: {thisDevice:device}
-        }).then(function(){
-          var alert = $mdDialog.alert()
-          .title('SUCCESS')
-          .textContent('We are processing your data. Soon you will be notified in your inbox')
-          .ariaLabel('')
-          .ok('OK!')
-          .theme('primary')
-          .clickOutsideToClose(true);
-
-          $mdDialog.show(alert);
-        }).catch(function(err){
-          if (!err){
-            return;
-          }
-          var errorAlert = $mdDialog.alert()
-          .title('ERROR')
-          .textContent('Uh-oh, something went wrong')
-          .ariaLabel('')
-          .ok('D\'oh')
-          .theme('primary')
-          .clickOutsideToClose(false);
-
-          $mdDialog.show(errorAlert);
-        });
-      }
-
-      function removeDevice(deviceID) {
-        var confirm = $mdDialog.confirm()
-          .title('Delete this kit?')
-          .textContent('Are you sure you want to delete this kit?')
-          .ariaLabel('')
-          .ok('DELETE')
-          .cancel('Cancel')
-          .theme('primary')
-          .clickOutsideToClose(true);
-
-        $mdDialog
-          .show(confirm)
-          .then(function(){
-            device
-              .removeDevice(deviceID)
-              .then(function(){
-                alert.success('Your kit was deleted successfully');
-                device.updateContext();
-              })
-              .catch(function(){
-                alert.error('Error trying to delete your kit.');
-              });
-          });
-      }
-
-      $scope.addDeviceSelector = addDeviceSelector;
-      function addDeviceSelector(){
-        $mdDialog.show({
-          templateUrl: 'app/components/myProfile/addDeviceSelectorModal.html',
-          clickOutsideToClose: true,
-          multiple: true,
-          controller: DialogController,
-        });
-      }
-
-      function DialogController($scope, $mdDialog){
-        $scope.cancel = function(){
-          $mdDialog.cancel();
-        };
-      }
-
-      function addNewDevice() {
-        var confirm = $mdDialog.confirm()
-          .title('Hey! Do you want to add a new kit?')
-          .textContent('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
-          .ariaLabel('')
-          .ok('Ok')
-          .cancel('Cancel')
-          .theme('primary')
-          .clickOutsideToClose(true);
-
-        $mdDialog
-          .show(confirm)
-          .then(function(){
-           $state.go('layout.kitAdd');
-          });
-      }
-
-
-    }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .controller('MapTagModalController', MapTagModalController);
 
   MapTagModalController.$inject = ['$mdDialog', 'tag', 'selectedTags'];
@@ -6258,6 +5875,389 @@ angular.module('app.components')
   'use strict';
 
   angular.module('app.components')
+    .controller('MyProfileController', MyProfileController);
+
+    MyProfileController.$inject = ['$scope', '$location', '$q', '$interval',
+    'userData', 'AuthUser', 'user', 'auth', 'alert',
+    'COUNTRY_CODES', '$timeout', 'file', 'animation',
+    '$mdDialog', 'PreviewDevice', 'device', 'deviceUtils',
+    'userUtils', '$filter', '$state', 'Restangular', '$window'];
+    function MyProfileController($scope, $location, $q, $interval,
+      userData, AuthUser, user, auth, alert,
+      COUNTRY_CODES, $timeout, file, animation,
+      $mdDialog, PreviewDevice, device, deviceUtils,
+      userUtils, $filter, $state, Restangular, $window) {
+
+      var vm = this;
+
+      vm.unhighlightIcon = unhighlightIcon;
+
+      //PROFILE TAB
+      vm.formUser = {};
+      vm.getCountries = getCountries;
+
+      vm.user = userData;
+      copyUserToForm(vm.formUser, vm.user);
+      vm.searchText = vm.formUser.country;
+
+      vm.updateUser = updateUser;
+      vm.removeUser = removeUser;
+      vm.uploadAvatar = uploadAvatar;
+
+      //THIS IS TEMPORARY.
+      // Will grow on to a dynamic API KEY management
+      // with the new /accounts oAuth mgmt methods
+
+      // The auth controller has not populated the `user` at this point,
+      // so  user.token is undefined
+      // This controller depends on auth has already been run.
+      vm.user.token = auth.getToken();
+      vm.addNewDevice = addNewDevice;
+
+      //KITS TAB
+      vm.devices = [];
+      vm.deviceStatus = undefined;
+      vm.removeDevice = removeDevice;
+      vm.downloadData = downloadData;
+
+      vm.filteredDevices = [];
+      vm.dropdownSelected = undefined;
+
+      //SIDEBAR
+      vm.filterDevices = filterDevices;
+      vm.filterTools = filterTools;
+
+      vm.selectThisTab = selectThisTab;
+
+      $scope.$on('loggedOut', function() {
+        $location.path('/');
+      });
+
+      $scope.$on('devicesContextUpdated', function(){
+        var userData = auth.getCurrentUser().data;
+        if(userData){
+          vm.user = userData;
+        }
+        initialize();
+      });
+
+      initialize();
+
+      //////////////////
+
+      function initialize() {
+
+        startingTab();
+        if(!vm.user.devices.length) {
+          vm.devices = [];
+          animation.viewLoaded();
+        } else {
+
+          vm.devices = vm.user.devices.map(function(data) {
+            return new PreviewDevice(data);
+          })
+
+          $timeout(function() {
+            mapWithBelongstoUser(vm.devices);
+            filterDevices(vm.status);
+            setSidebarMinHeight();
+            animation.viewLoaded();
+          });
+
+        }
+      }
+
+      function filterDevices(status) {
+        if(status === 'all') {
+          status = undefined;
+        }
+        vm.deviceStatus = status;
+        vm.filteredDevices = $filter('filterLabel')(vm.devices, vm.deviceStatus);
+      }
+
+      function filterTools(type) {
+        if(type === 'all') {
+          type = undefined;
+        }
+        vm.toolType = type;
+      }
+
+      function updateUser(userData) {
+        if(userData.country) {
+          _.each(COUNTRY_CODES, function(value, key) {
+            if(value === userData.country) {
+              /*jshint camelcase: false */
+              userData.country_code = key;
+              return;
+            }
+          });
+        } else {
+          userData.country_code = null;
+        }
+
+        user.updateUser(userData)
+          .then(function(data) {
+            var user = new AuthUser(data);
+            _.extend(vm.user, user);
+            auth.updateUser();
+            vm.errors = {};
+            alert.success('User updated');
+          })
+          .catch(function(err) {
+            alert.error('User could not be updated ');
+            vm.errors = err.data.errors;
+          });
+      }
+
+      function removeUser() {
+        var confirm = $mdDialog.confirm()
+          .title('Delete your account?')
+          .textContent('Are you sure you want to delete your account?')
+          .ariaLabel('')
+          .ok('delete')
+          .cancel('cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog.show(confirm)
+          .then(function(){
+            return Restangular.all('').customDELETE('me')
+              .then(function(){
+                alert.success('Account removed successfully. Redirecting you…');
+                $timeout(function(){
+                  auth.logout();
+                  $state.transitionTo('landing');
+                }, 2000);
+              })
+              .catch(function(){
+                alert.error('Error occurred trying to delete your account.');
+              });
+          });
+      }
+
+      function selectThisTab(iconIndex, uistate){
+        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
+
+        highlightIcon(iconIndex);
+
+        if ($state.current.name.includes('myProfileAdmin')){
+            var transitionState = 'layout.myProfileAdmin.' + uistate;
+            $state.transitionTo(transitionState, {id: userData.id});
+        } else {
+            var transitionState = 'layout.myProfile.' + uistate;
+            $state.transitionTo(transitionState);
+        }
+
+      }
+
+      function startingTab() {
+        /* This looks more like a hack but we need to workout how to properly use md-tab with ui-router */
+
+        var childState = $state.current.name.split('.').pop();
+
+        switch(childState) {
+          case 'user':
+            vm.startingTab = 1;
+            break;
+          default:
+            vm.startingTab = 0;
+            break;
+        }
+
+      }
+
+      function highlightIcon(iconIndex) {
+
+        var icons = angular.element('.myProfile_tab_icon');
+
+        _.each(icons, function(icon) {
+          unhighlightIcon(icon);
+        });
+
+        var icon = icons[iconIndex];
+
+        angular.element(icon).find('.stroke_container').css({'stroke': 'white', 'stroke-width': '0.01px'});
+        angular.element(icon).find('.fill_container').css('fill', 'white');
+      }
+
+      function unhighlightIcon(icon) {
+        icon = angular.element(icon);
+
+        icon.find('.stroke_container').css({'stroke': 'none'});
+        icon.find('.fill_container').css('fill', '#FF8600');
+      }
+
+      function setSidebarMinHeight() {
+        var height = document.body.clientHeight / 4 * 3;
+        angular.element('.profile_content').css('min-height', height + 'px');
+      }
+
+      function getCountries(searchText) {
+        return _.filter(COUNTRY_CODES, createFilter(searchText));
+      }
+
+      function createFilter(searchText) {
+        searchText = searchText.toLowerCase();
+        return function(country) {
+          country = country.toLowerCase();
+          return country.indexOf(searchText) !== -1;
+        };
+      }
+
+      function uploadAvatar(fileData) {
+        if(fileData && fileData.length) {
+
+          // TODO: Improvement Is there a simpler way to patch the image to the API and use the response?
+          // Something like:
+          //Restangular.all('/me').patch(data);
+          // Instead of doing it manually like here:
+          var fd = new FormData();
+          fd.append('profile_picture', fileData[0]);
+          Restangular.one('/me')
+            .withHttpConfig({transformRequest: angular.identity})
+            .customPATCH(fd, '', undefined, {'Content-Type': undefined})
+            .then(function(resp){
+              vm.user.profile_picture = resp.profile_picture;
+            })
+        }
+      }
+
+      function copyUserToForm(formData, userData) {
+        var props = {username: true, email: true, city: true, country: true, country_code: true, url: true, constructor: false};
+
+        for(var key in userData) {
+          if(props[key]) {
+            formData[key] = userData[key];
+          }
+        }
+      }
+
+      function mapWithBelongstoUser(devices){
+        _.map(devices, addBelongProperty);
+      }
+
+      function addBelongProperty(device){
+        device.belongProperty = deviceBelongsToUser(device);
+        return device;
+      }
+
+
+      function deviceBelongsToUser(device){
+        if(!auth.isAuth() || !device || !device.id) {
+          return false;
+        }
+        var deviceID = parseInt(device.id);
+        var userData = ( auth.getCurrentUser().data ) ||
+          ($window.localStorage.getItem('smartcitizen.data') &&
+          new AuthUser( JSON.parse(
+            $window.localStorage.getItem('smartcitizen.data') )));
+
+        var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
+        var isAdmin = userUtils.isAdmin(userData);
+
+        return isAdmin || belongsToUser;
+      }
+
+      function downloadData(device){
+        $mdDialog.show({
+          hasBackdrop: true,
+          controller: 'DownloadModalController',
+          controllerAs: 'vm',
+          templateUrl: 'app/components/download/downloadModal.html',
+          clickOutsideToClose: true,
+          locals: {thisDevice:device}
+        }).then(function(){
+          var alert = $mdDialog.alert()
+          .title('SUCCESS')
+          .textContent('We are processing your data. Soon you will be notified in your inbox')
+          .ariaLabel('')
+          .ok('OK!')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+          $mdDialog.show(alert);
+        }).catch(function(err){
+          if (!err){
+            return;
+          }
+          var errorAlert = $mdDialog.alert()
+          .title('ERROR')
+          .textContent('Uh-oh, something went wrong')
+          .ariaLabel('')
+          .ok('D\'oh')
+          .theme('primary')
+          .clickOutsideToClose(false);
+
+          $mdDialog.show(errorAlert);
+        });
+      }
+
+      function removeDevice(deviceID) {
+        var confirm = $mdDialog.confirm()
+          .title('Delete this kit?')
+          .textContent('Are you sure you want to delete this kit?')
+          .ariaLabel('')
+          .ok('DELETE')
+          .cancel('Cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog
+          .show(confirm)
+          .then(function(){
+            device
+              .removeDevice(deviceID)
+              .then(function(){
+                alert.success('Your kit was deleted successfully');
+                device.updateContext();
+              })
+              .catch(function(){
+                alert.error('Error trying to delete your kit.');
+              });
+          });
+      }
+
+      $scope.addDeviceSelector = addDeviceSelector;
+      function addDeviceSelector(){
+        $mdDialog.show({
+          templateUrl: 'app/components/myProfile/addDeviceSelectorModal.html',
+          clickOutsideToClose: true,
+          multiple: true,
+          controller: DialogController,
+        });
+      }
+
+      function DialogController($scope, $mdDialog){
+        $scope.cancel = function(){
+          $mdDialog.cancel();
+        };
+      }
+
+      function addNewDevice() {
+        var confirm = $mdDialog.confirm()
+          .title('Hey! Do you want to add a new kit?')
+          .textContent('Please, notice this currently supports just the SCK 1.0 and SCK 1.1')
+          .ariaLabel('')
+          .ok('Ok')
+          .cancel('Cancel')
+          .theme('primary')
+          .clickOutsideToClose(true);
+
+        $mdDialog
+          .show(confirm)
+          .then(function(){
+           $state.go('layout.kitAdd');
+          });
+      }
+
+
+    }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
     .controller('LoginModalController', LoginModalController);
 
     LoginModalController.$inject = ['$scope', '$mdDialog', 'auth', 'animation'];
@@ -6614,6 +6614,52 @@ function cookiesLaw($cookies) {
 }
 
 
+})();
+
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .directive('apiKey', apiKey);
+
+  function apiKey(){
+    return {
+      scope: {
+        apiKey: '=apiKey'
+      },
+      restrict: 'A',
+      controller: 'ApiKeyController',
+      controllerAs: 'vm',
+      templateUrl: 'app/components/apiKey/apiKey.html'
+    };
+  }
+})();
+
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .controller('ApiKeyController', ApiKeyController);
+
+  ApiKeyController.$inject = ['alert'];
+  function ApiKeyController(alert){
+    var vm = this;
+
+    vm.copied = copied;
+    vm.copyFail = copyFail;
+
+    ///////////////
+
+    function copied(){
+      alert.success('API key copied to your clipboard.');
+    }
+
+    function copyFail(err){
+      console.log('Copy error: ', err);
+      alert.error('Oops! An error occurred copying the api key.');
+    }
+
+  }
 })();
 
 (function() {
@@ -7228,52 +7274,6 @@ function cookiesLaw($cookies) {
       }
     }
 
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .directive('apiKey', apiKey);
-
-  function apiKey(){
-    return {
-      scope: {
-        apiKey: '=apiKey'
-      },
-      restrict: 'A',
-      controller: 'ApiKeyController',
-      controllerAs: 'vm',
-      templateUrl: 'app/components/apiKey/apiKey.html'
-    };
-  }
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .controller('ApiKeyController', ApiKeyController);
-
-  ApiKeyController.$inject = ['alert'];
-  function ApiKeyController(alert){
-    var vm = this;
-
-    vm.copied = copied;
-    vm.copyFail = copyFail;
-
-    ///////////////
-
-    function copied(){
-      alert.success('API key copied to your clipboard.');
-    }
-
-    function copyFail(err){
-      console.log('Copy error: ', err);
-      alert.error('Oops! An error occurred copying the api key.');
-    }
-
-  }
 })();
 
 (function() {
