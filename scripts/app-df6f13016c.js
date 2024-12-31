@@ -2647,406 +2647,6 @@
 })();
 
 (function() {
-  'use strict';
-
-  /**
-   * Tools links for user profile
-   * @constant
-   * @type {Array}
-   */
-
-  angular.module('app.components')
-    .constant('PROFILE_TOOLS', [{
-      type: 'documentation',
-      title: 'How to connect your Smart Citizen Kit tutorial',
-      description: 'Adding a Smart Citizen Kit tutorial',
-      avatar: '',
-      href: 'http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit'
-    }, {
-      type: 'documentation',
-      title: 'Download the latest Smart Citizen Kit Firmware',
-      description: 'The latest Arduino firmware for your kit',
-      avatar: '',
-      href: 'https://github.com/fablabbcn/Smart-Citizen-Kit/releases/latest'
-    }, {
-      type: 'documentation',
-      title: 'API Documentation',
-      description: 'Documentation for the new API',
-      avatar: '',
-      href: 'http://developer.smartcitizen.me/'
-    }, {
-      type: 'community',
-      title: 'Smart Citizen Forum',
-      description: 'Join the community discussion. Your feedback is important for us.',
-      avatar: '',
-      href:'http://forum.smartcitizen.me/'
-    }, {
-      type: 'documentation',
-      title: 'Smart Citizen Kit hardware details',
-      description: 'Visit the docs',
-      avatar: 'https://docs.smartcitizen.me/#/start/hardware'
-    }, {
-      type: 'documentation',
-      title: 'Style Guide',
-      description: 'Guidelines of the Smart Citizen UI',
-      avatar: '',
-      href: '/styleguide'
-    }, {
-      type: 'social',
-      title: 'Like us on Facebook',
-      description: 'Join the community on Facebook',
-      avatar: '',
-      href: 'https://www.facebook.com/smartcitizenBCN'
-    }, {
-      type: 'social',
-      title: 'Follow us on Twitter',
-      description: 'Follow our news on Twitter',
-      avatar: '',
-      href: 'https://twitter.com/SmartCitizenKit'
-    }]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Marker icons
-   * @constant
-   * @type {Object}
-   */
-
-  angular.module('app.components')
-    .constant('MARKER_ICONS', {
-      defaultIcon: {},
-      markerSmartCitizenNormal: {
-        type: 'div',
-        className: 'markerSmartCitizenNormal',
-        iconSize: [24, 24]
-      },
-      markerExperimentalNormal: {
-        type: 'div',
-        className: 'markerExperimentalNormal',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOnline: {
-        type: 'div',
-        className: 'markerSmartCitizenOnline',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOnlineActive: {
-        type: 'div',
-        className: 'markerSmartCitizenOnline marker_blink',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOffline: {
-        type: 'div',
-        className: 'markerSmartCitizenOffline',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOfflineActive: {
-        type: 'div',
-        className: 'markerSmartCitizenOffline marker_blink',
-        iconSize: [24, 24]
-      }
-    });
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Dropdown options for user
-   * @constant
-   * @type {Array}
-   */
-  angular.module('app.components')
-    .constant('DROPDOWN_OPTIONS_USER', [
-      {divider: true, text: 'Hi,', href: './profile'},
-      {text: 'My profile', href: './profile'},
-      {text: 'Log out', href: './logout'}
-    ]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Dropdown options for community button
-   * @constant
-   * @type {Array}
-   */
-
-  angular.module('app.components')
-    .constant('DROPDOWN_OPTIONS_COMMUNITY', [
-      {text: 'About', href: '/about'},
-      {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
-      {text: 'Documentation', href: 'http://docs.smartcitizen.me/'},
-      {text: 'API Reference', href: 'http://developer.smartcitizen.me/'},
-      {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'},
-      {text: 'Legal', href: '/policy'}
-    ]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Country codes.
-   * @constant 
-   * @type {Object}
-   */
-  
-  angular.module('app.components')
-    .constant('COUNTRY_CODES', {
-      'AF': 'Afghanistan',
-      'AX': 'Aland Islands',
-      'AL': 'Albania',
-      'DZ': 'Algeria',
-      'AS': 'American Samoa',
-      'AD': 'Andorra',
-      'AO': 'Angola',
-      'AI': 'Anguilla',
-      'AQ': 'Antarctica',
-      'AG': 'Antigua And Barbuda',
-      'AR': 'Argentina',
-      'AM': 'Armenia',
-      'AW': 'Aruba',
-      'AU': 'Australia',
-      'AT': 'Austria',
-      'AZ': 'Azerbaijan',
-      'BS': 'Bahamas',
-      'BH': 'Bahrain',
-      'BD': 'Bangladesh',
-      'BB': 'Barbados',
-      'BY': 'Belarus',
-      'BE': 'Belgium',
-      'BZ': 'Belize',
-      'BJ': 'Benin',
-      'BM': 'Bermuda',
-      'BT': 'Bhutan',
-      'BO': 'Bolivia',
-      'BA': 'Bosnia And Herzegovina',
-      'BW': 'Botswana',
-      'BV': 'Bouvet Island',
-      'BR': 'Brazil',
-      'IO': 'British Indian Ocean Territory',
-      'BN': 'Brunei Darussalam',
-      'BG': 'Bulgaria',
-      'BF': 'Burkina Faso',
-      'BI': 'Burundi',
-      'KH': 'Cambodia',
-      'CM': 'Cameroon',
-      'CA': 'Canada',
-      'CV': 'Cape Verde',
-      'KY': 'Cayman Islands',
-      'CF': 'Central African Republic',
-      'TD': 'Chad',
-      'CL': 'Chile',
-      'CN': 'China',
-      'CX': 'Christmas Island',
-      'CC': 'Cocos (Keeling) Islands',
-      'CO': 'Colombia',
-      'KM': 'Comoros',
-      'CG': 'Congo',
-      'CD': 'Congo, Democratic Republic',
-      'CK': 'Cook Islands',
-      'CR': 'Costa Rica',
-      'CI': 'Cote D\'Ivoire',
-      'HR': 'Croatia',
-      'CU': 'Cuba',
-      'CY': 'Cyprus',
-      'CZ': 'Czech Republic',
-      'DK': 'Denmark',
-      'DJ': 'Djibouti',
-      'DM': 'Dominica',
-      'DO': 'Dominican Republic',
-      'EC': 'Ecuador',
-      'EG': 'Egypt',
-      'SV': 'El Salvador',
-      'GQ': 'Equatorial Guinea',
-      'ER': 'Eritrea',
-      'EE': 'Estonia',
-      'ET': 'Ethiopia',
-      'FK': 'Falkland Islands (Malvinas)',
-      'FO': 'Faroe Islands',
-      'FJ': 'Fiji',
-      'FI': 'Finland',
-      'FR': 'France',
-      'GF': 'French Guiana',
-      'PF': 'French Polynesia',
-      'TF': 'French Southern Territories',
-      'GA': 'Gabon',
-      'GM': 'Gambia',
-      'GE': 'Georgia',
-      'DE': 'Germany',
-      'GH': 'Ghana',
-      'GI': 'Gibraltar',
-      'GR': 'Greece',
-      'GL': 'Greenland',
-      'GD': 'Grenada',
-      'GP': 'Guadeloupe',
-      'GU': 'Guam',
-      'GT': 'Guatemala',
-      'GG': 'Guernsey',
-      'GN': 'Guinea',
-      'GW': 'Guinea-Bissau',
-      'GY': 'Guyana',
-      'HT': 'Haiti',
-      'HM': 'Heard Island & Mcdonald Islands',
-      'VA': 'Holy See (Vatican City State)',
-      'HN': 'Honduras',
-      'HK': 'Hong Kong',
-      'HU': 'Hungary',
-      'IS': 'Iceland',
-      'IN': 'India',
-      'ID': 'Indonesia',
-      'IR': 'Iran, Islamic Republic Of',
-      'IQ': 'Iraq',
-      'IE': 'Ireland',
-      'IM': 'Isle Of Man',
-      'IL': 'Israel',
-      'IT': 'Italy',
-      'JM': 'Jamaica',
-      'JP': 'Japan',
-      'JE': 'Jersey',
-      'JO': 'Jordan',
-      'KZ': 'Kazakhstan',
-      'KE': 'Kenya',
-      'KI': 'Kiribati',
-      'KR': 'Korea',
-      'KW': 'Kuwait',
-      'KG': 'Kyrgyzstan',
-      'LA': 'Lao People\'s Democratic Republic',
-      'LV': 'Latvia',
-      'LB': 'Lebanon',
-      'LS': 'Lesotho',
-      'LR': 'Liberia',
-      'LY': 'Libyan Arab Jamahiriya',
-      'LI': 'Liechtenstein',
-      'LT': 'Lithuania',
-      'LU': 'Luxembourg',
-      'MO': 'Macao',
-      'MK': 'Macedonia',
-      'MG': 'Madagascar',
-      'MW': 'Malawi',
-      'MY': 'Malaysia',
-      'MV': 'Maldives',
-      'ML': 'Mali',
-      'MT': 'Malta',
-      'MH': 'Marshall Islands',
-      'MQ': 'Martinique',
-      'MR': 'Mauritania',
-      'MU': 'Mauritius',
-      'YT': 'Mayotte',
-      'MX': 'Mexico',
-      'FM': 'Micronesia, Federated States Of',
-      'MD': 'Moldova',
-      'MC': 'Monaco',
-      'MN': 'Mongolia',
-      'ME': 'Montenegro',
-      'MS': 'Montserrat',
-      'MA': 'Morocco',
-      'MZ': 'Mozambique',
-      'MM': 'Myanmar',
-      'NA': 'Namibia',
-      'NR': 'Nauru',
-      'NP': 'Nepal',
-      'NL': 'Netherlands',
-      'AN': 'Netherlands Antilles',
-      'NC': 'New Caledonia',
-      'NZ': 'New Zealand',
-      'NI': 'Nicaragua',
-      'NE': 'Niger',
-      'NG': 'Nigeria',
-      'NU': 'Niue',
-      'NF': 'Norfolk Island',
-      'MP': 'Northern Mariana Islands',
-      'NO': 'Norway',
-      'OM': 'Oman',
-      'PK': 'Pakistan',
-      'PW': 'Palau',
-      'PS': 'Palestinian Territory, Occupied',
-      'PA': 'Panama',
-      'PG': 'Papua New Guinea',
-      'PY': 'Paraguay',
-      'PE': 'Peru',
-      'PH': 'Philippines',
-      'PN': 'Pitcairn',
-      'PL': 'Poland',
-      'PT': 'Portugal',
-      'PR': 'Puerto Rico',
-      'QA': 'Qatar',
-      'RE': 'Reunion',
-      'RO': 'Romania',
-      'RU': 'Russian Federation',
-      'RW': 'Rwanda',
-      'BL': 'Saint Barthelemy',
-      'SH': 'Saint Helena',
-      'KN': 'Saint Kitts And Nevis',
-      'LC': 'Saint Lucia',
-      'MF': 'Saint Martin',
-      'PM': 'Saint Pierre And Miquelon',
-      'VC': 'Saint Vincent And Grenadines',
-      'WS': 'Samoa',
-      'SM': 'San Marino',
-      'ST': 'Sao Tome And Principe',
-      'SA': 'Saudi Arabia',
-      'SN': 'Senegal',
-      'RS': 'Serbia',
-      'SC': 'Seychelles',
-      'SL': 'Sierra Leone',
-      'SG': 'Singapore',
-      'SK': 'Slovakia',
-      'SI': 'Slovenia',
-      'SB': 'Solomon Islands',
-      'SO': 'Somalia',
-      'ZA': 'South Africa',
-      'GS': 'South Georgia And Sandwich Isl.',
-      'ES': 'Spain',
-      'LK': 'Sri Lanka',
-      'SD': 'Sudan',
-      'SR': 'Suriname',
-      'SJ': 'Svalbard And Jan Mayen',
-      'SZ': 'Swaziland',
-      'SE': 'Sweden',
-      'CH': 'Switzerland',
-      'SY': 'Syrian Arab Republic',
-      'TW': 'Taiwan',
-      'TJ': 'Tajikistan',
-      'TZ': 'Tanzania',
-      'TH': 'Thailand',
-      'TL': 'Timor-Leste',
-      'TG': 'Togo',
-      'TK': 'Tokelau',
-      'TO': 'Tonga',
-      'TT': 'Trinidad And Tobago',
-      'TN': 'Tunisia',
-      'TR': 'Turkey',
-      'TM': 'Turkmenistan',
-      'TC': 'Turks And Caicos Islands',
-      'TV': 'Tuvalu',
-      'UG': 'Uganda',
-      'UA': 'Ukraine',
-      'AE': 'United Arab Emirates',
-      'GB': 'United Kingdom',
-      'US': 'United States',
-      'UM': 'United States Outlying Islands',
-      'UY': 'Uruguay',
-      'UZ': 'Uzbekistan',
-      'VU': 'Vanuatu',
-      'VE': 'Venezuela',
-      'VN': 'Viet Nam',
-      'VG': 'Virgin Islands, British',
-      'VI': 'Virgin Islands, U.S.',
-      'WF': 'Wallis And Futuna',
-      'EH': 'Western Sahara',
-      'YE': 'Yemen',
-      'ZM': 'Zambia',
-      'ZW': 'Zimbabwe' 
-    });
-})();
-
-(function() {
 	'use strict';
 
 	angular.module('app.components')
@@ -3619,6 +3219,406 @@
         return userData.role === 'admin';
       }
     }
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Tools links for user profile
+   * @constant
+   * @type {Array}
+   */
+
+  angular.module('app.components')
+    .constant('PROFILE_TOOLS', [{
+      type: 'documentation',
+      title: 'How to connect your Smart Citizen Kit tutorial',
+      description: 'Adding a Smart Citizen Kit tutorial',
+      avatar: '',
+      href: 'http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit'
+    }, {
+      type: 'documentation',
+      title: 'Download the latest Smart Citizen Kit Firmware',
+      description: 'The latest Arduino firmware for your kit',
+      avatar: '',
+      href: 'https://github.com/fablabbcn/Smart-Citizen-Kit/releases/latest'
+    }, {
+      type: 'documentation',
+      title: 'API Documentation',
+      description: 'Documentation for the new API',
+      avatar: '',
+      href: 'http://developer.smartcitizen.me/'
+    }, {
+      type: 'community',
+      title: 'Smart Citizen Forum',
+      description: 'Join the community discussion. Your feedback is important for us.',
+      avatar: '',
+      href:'http://forum.smartcitizen.me/'
+    }, {
+      type: 'documentation',
+      title: 'Smart Citizen Kit hardware details',
+      description: 'Visit the docs',
+      avatar: 'https://docs.smartcitizen.me/#/start/hardware'
+    }, {
+      type: 'documentation',
+      title: 'Style Guide',
+      description: 'Guidelines of the Smart Citizen UI',
+      avatar: '',
+      href: '/styleguide'
+    }, {
+      type: 'social',
+      title: 'Like us on Facebook',
+      description: 'Join the community on Facebook',
+      avatar: '',
+      href: 'https://www.facebook.com/smartcitizenBCN'
+    }, {
+      type: 'social',
+      title: 'Follow us on Twitter',
+      description: 'Follow our news on Twitter',
+      avatar: '',
+      href: 'https://twitter.com/SmartCitizenKit'
+    }]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Marker icons
+   * @constant
+   * @type {Object}
+   */
+
+  angular.module('app.components')
+    .constant('MARKER_ICONS', {
+      defaultIcon: {},
+      markerSmartCitizenNormal: {
+        type: 'div',
+        className: 'markerSmartCitizenNormal',
+        iconSize: [24, 24]
+      },
+      markerExperimentalNormal: {
+        type: 'div',
+        className: 'markerExperimentalNormal',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOnline: {
+        type: 'div',
+        className: 'markerSmartCitizenOnline',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOnlineActive: {
+        type: 'div',
+        className: 'markerSmartCitizenOnline marker_blink',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOffline: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOfflineActive: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline marker_blink',
+        iconSize: [24, 24]
+      }
+    });
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Dropdown options for user
+   * @constant
+   * @type {Array}
+   */
+  angular.module('app.components')
+    .constant('DROPDOWN_OPTIONS_USER', [
+      {divider: true, text: 'Hi,', href: './profile'},
+      {text: 'My profile', href: './profile'},
+      {text: 'Log out', href: './logout'}
+    ]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Dropdown options for community button
+   * @constant
+   * @type {Array}
+   */
+
+  angular.module('app.components')
+    .constant('DROPDOWN_OPTIONS_COMMUNITY', [
+      {text: 'About', href: '/about'},
+      {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
+      {text: 'Documentation', href: 'http://docs.smartcitizen.me/'},
+      {text: 'API Reference', href: 'http://developer.smartcitizen.me/'},
+      {text: 'Github', href: 'https://github.com/fablabbcn/Smart-Citizen-Kit'},
+      {text: 'Legal', href: '/policy'}
+    ]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Country codes.
+   * @constant 
+   * @type {Object}
+   */
+  
+  angular.module('app.components')
+    .constant('COUNTRY_CODES', {
+      'AF': 'Afghanistan',
+      'AX': 'Aland Islands',
+      'AL': 'Albania',
+      'DZ': 'Algeria',
+      'AS': 'American Samoa',
+      'AD': 'Andorra',
+      'AO': 'Angola',
+      'AI': 'Anguilla',
+      'AQ': 'Antarctica',
+      'AG': 'Antigua And Barbuda',
+      'AR': 'Argentina',
+      'AM': 'Armenia',
+      'AW': 'Aruba',
+      'AU': 'Australia',
+      'AT': 'Austria',
+      'AZ': 'Azerbaijan',
+      'BS': 'Bahamas',
+      'BH': 'Bahrain',
+      'BD': 'Bangladesh',
+      'BB': 'Barbados',
+      'BY': 'Belarus',
+      'BE': 'Belgium',
+      'BZ': 'Belize',
+      'BJ': 'Benin',
+      'BM': 'Bermuda',
+      'BT': 'Bhutan',
+      'BO': 'Bolivia',
+      'BA': 'Bosnia And Herzegovina',
+      'BW': 'Botswana',
+      'BV': 'Bouvet Island',
+      'BR': 'Brazil',
+      'IO': 'British Indian Ocean Territory',
+      'BN': 'Brunei Darussalam',
+      'BG': 'Bulgaria',
+      'BF': 'Burkina Faso',
+      'BI': 'Burundi',
+      'KH': 'Cambodia',
+      'CM': 'Cameroon',
+      'CA': 'Canada',
+      'CV': 'Cape Verde',
+      'KY': 'Cayman Islands',
+      'CF': 'Central African Republic',
+      'TD': 'Chad',
+      'CL': 'Chile',
+      'CN': 'China',
+      'CX': 'Christmas Island',
+      'CC': 'Cocos (Keeling) Islands',
+      'CO': 'Colombia',
+      'KM': 'Comoros',
+      'CG': 'Congo',
+      'CD': 'Congo, Democratic Republic',
+      'CK': 'Cook Islands',
+      'CR': 'Costa Rica',
+      'CI': 'Cote D\'Ivoire',
+      'HR': 'Croatia',
+      'CU': 'Cuba',
+      'CY': 'Cyprus',
+      'CZ': 'Czech Republic',
+      'DK': 'Denmark',
+      'DJ': 'Djibouti',
+      'DM': 'Dominica',
+      'DO': 'Dominican Republic',
+      'EC': 'Ecuador',
+      'EG': 'Egypt',
+      'SV': 'El Salvador',
+      'GQ': 'Equatorial Guinea',
+      'ER': 'Eritrea',
+      'EE': 'Estonia',
+      'ET': 'Ethiopia',
+      'FK': 'Falkland Islands (Malvinas)',
+      'FO': 'Faroe Islands',
+      'FJ': 'Fiji',
+      'FI': 'Finland',
+      'FR': 'France',
+      'GF': 'French Guiana',
+      'PF': 'French Polynesia',
+      'TF': 'French Southern Territories',
+      'GA': 'Gabon',
+      'GM': 'Gambia',
+      'GE': 'Georgia',
+      'DE': 'Germany',
+      'GH': 'Ghana',
+      'GI': 'Gibraltar',
+      'GR': 'Greece',
+      'GL': 'Greenland',
+      'GD': 'Grenada',
+      'GP': 'Guadeloupe',
+      'GU': 'Guam',
+      'GT': 'Guatemala',
+      'GG': 'Guernsey',
+      'GN': 'Guinea',
+      'GW': 'Guinea-Bissau',
+      'GY': 'Guyana',
+      'HT': 'Haiti',
+      'HM': 'Heard Island & Mcdonald Islands',
+      'VA': 'Holy See (Vatican City State)',
+      'HN': 'Honduras',
+      'HK': 'Hong Kong',
+      'HU': 'Hungary',
+      'IS': 'Iceland',
+      'IN': 'India',
+      'ID': 'Indonesia',
+      'IR': 'Iran, Islamic Republic Of',
+      'IQ': 'Iraq',
+      'IE': 'Ireland',
+      'IM': 'Isle Of Man',
+      'IL': 'Israel',
+      'IT': 'Italy',
+      'JM': 'Jamaica',
+      'JP': 'Japan',
+      'JE': 'Jersey',
+      'JO': 'Jordan',
+      'KZ': 'Kazakhstan',
+      'KE': 'Kenya',
+      'KI': 'Kiribati',
+      'KR': 'Korea',
+      'KW': 'Kuwait',
+      'KG': 'Kyrgyzstan',
+      'LA': 'Lao People\'s Democratic Republic',
+      'LV': 'Latvia',
+      'LB': 'Lebanon',
+      'LS': 'Lesotho',
+      'LR': 'Liberia',
+      'LY': 'Libyan Arab Jamahiriya',
+      'LI': 'Liechtenstein',
+      'LT': 'Lithuania',
+      'LU': 'Luxembourg',
+      'MO': 'Macao',
+      'MK': 'Macedonia',
+      'MG': 'Madagascar',
+      'MW': 'Malawi',
+      'MY': 'Malaysia',
+      'MV': 'Maldives',
+      'ML': 'Mali',
+      'MT': 'Malta',
+      'MH': 'Marshall Islands',
+      'MQ': 'Martinique',
+      'MR': 'Mauritania',
+      'MU': 'Mauritius',
+      'YT': 'Mayotte',
+      'MX': 'Mexico',
+      'FM': 'Micronesia, Federated States Of',
+      'MD': 'Moldova',
+      'MC': 'Monaco',
+      'MN': 'Mongolia',
+      'ME': 'Montenegro',
+      'MS': 'Montserrat',
+      'MA': 'Morocco',
+      'MZ': 'Mozambique',
+      'MM': 'Myanmar',
+      'NA': 'Namibia',
+      'NR': 'Nauru',
+      'NP': 'Nepal',
+      'NL': 'Netherlands',
+      'AN': 'Netherlands Antilles',
+      'NC': 'New Caledonia',
+      'NZ': 'New Zealand',
+      'NI': 'Nicaragua',
+      'NE': 'Niger',
+      'NG': 'Nigeria',
+      'NU': 'Niue',
+      'NF': 'Norfolk Island',
+      'MP': 'Northern Mariana Islands',
+      'NO': 'Norway',
+      'OM': 'Oman',
+      'PK': 'Pakistan',
+      'PW': 'Palau',
+      'PS': 'Palestinian Territory, Occupied',
+      'PA': 'Panama',
+      'PG': 'Papua New Guinea',
+      'PY': 'Paraguay',
+      'PE': 'Peru',
+      'PH': 'Philippines',
+      'PN': 'Pitcairn',
+      'PL': 'Poland',
+      'PT': 'Portugal',
+      'PR': 'Puerto Rico',
+      'QA': 'Qatar',
+      'RE': 'Reunion',
+      'RO': 'Romania',
+      'RU': 'Russian Federation',
+      'RW': 'Rwanda',
+      'BL': 'Saint Barthelemy',
+      'SH': 'Saint Helena',
+      'KN': 'Saint Kitts And Nevis',
+      'LC': 'Saint Lucia',
+      'MF': 'Saint Martin',
+      'PM': 'Saint Pierre And Miquelon',
+      'VC': 'Saint Vincent And Grenadines',
+      'WS': 'Samoa',
+      'SM': 'San Marino',
+      'ST': 'Sao Tome And Principe',
+      'SA': 'Saudi Arabia',
+      'SN': 'Senegal',
+      'RS': 'Serbia',
+      'SC': 'Seychelles',
+      'SL': 'Sierra Leone',
+      'SG': 'Singapore',
+      'SK': 'Slovakia',
+      'SI': 'Slovenia',
+      'SB': 'Solomon Islands',
+      'SO': 'Somalia',
+      'ZA': 'South Africa',
+      'GS': 'South Georgia And Sandwich Isl.',
+      'ES': 'Spain',
+      'LK': 'Sri Lanka',
+      'SD': 'Sudan',
+      'SR': 'Suriname',
+      'SJ': 'Svalbard And Jan Mayen',
+      'SZ': 'Swaziland',
+      'SE': 'Sweden',
+      'CH': 'Switzerland',
+      'SY': 'Syrian Arab Republic',
+      'TW': 'Taiwan',
+      'TJ': 'Tajikistan',
+      'TZ': 'Tanzania',
+      'TH': 'Thailand',
+      'TL': 'Timor-Leste',
+      'TG': 'Togo',
+      'TK': 'Tokelau',
+      'TO': 'Tonga',
+      'TT': 'Trinidad And Tobago',
+      'TN': 'Tunisia',
+      'TR': 'Turkey',
+      'TM': 'Turkmenistan',
+      'TC': 'Turks And Caicos Islands',
+      'TV': 'Tuvalu',
+      'UG': 'Uganda',
+      'UA': 'Ukraine',
+      'AE': 'United Arab Emirates',
+      'GB': 'United Kingdom',
+      'US': 'United States',
+      'UM': 'United States Outlying Islands',
+      'UY': 'Uruguay',
+      'UZ': 'Uzbekistan',
+      'VU': 'Vanuatu',
+      'VE': 'Venezuela',
+      'VN': 'Viet Nam',
+      'VG': 'Virgin Islands, British',
+      'VI': 'Virgin Islands, U.S.',
+      'WF': 'Wallis And Futuna',
+      'EH': 'Western Sahara',
+      'YE': 'Yemen',
+      'ZM': 'Zambia',
+      'ZW': 'Zimbabwe' 
+    });
 })();
 
 (function() {
@@ -6616,6 +6616,52 @@ function cookiesLaw($cookies) {
 
 })();
 
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .directive('apiKey', apiKey);
+
+  function apiKey(){
+    return {
+      scope: {
+        apiKey: '=apiKey'
+      },
+      restrict: 'A',
+      controller: 'ApiKeyController',
+      controllerAs: 'vm',
+      templateUrl: 'app/components/apiKey/apiKey.html'
+    };
+  }
+})();
+
+(function(){
+  'use strict';
+
+  angular.module('app.components')
+    .controller('ApiKeyController', ApiKeyController);
+
+  ApiKeyController.$inject = ['alert'];
+  function ApiKeyController(alert){
+    var vm = this;
+
+    vm.copied = copied;
+    vm.copyFail = copyFail;
+
+    ///////////////
+
+    function copied(){
+      alert.success('API key copied to your clipboard.');
+    }
+
+    function copyFail(err){
+      console.log('Copy error: ', err);
+      alert.error('Oops! An error occurred copying the api key.');
+    }
+
+  }
+})();
+
 (function() {
   'use strict';
 
@@ -7228,52 +7274,6 @@ function cookiesLaw($cookies) {
       }
     }
 
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .directive('apiKey', apiKey);
-
-  function apiKey(){
-    return {
-      scope: {
-        apiKey: '=apiKey'
-      },
-      restrict: 'A',
-      controller: 'ApiKeyController',
-      controllerAs: 'vm',
-      templateUrl: 'app/components/apiKey/apiKey.html'
-    };
-  }
-})();
-
-(function(){
-  'use strict';
-
-  angular.module('app.components')
-    .controller('ApiKeyController', ApiKeyController);
-
-  ApiKeyController.$inject = ['alert'];
-  function ApiKeyController(alert){
-    var vm = this;
-
-    vm.copied = copied;
-    vm.copyFail = copyFail;
-
-    ///////////////
-
-    function copied(){
-      alert.success('API key copied to your clipboard.');
-    }
-
-    function copyFail(err){
-      console.log('Copy error: ', err);
-      alert.error('Oops! An error occurred copying the api key.');
-    }
-
-  }
 })();
 
 (function() {
@@ -8006,7 +8006,7 @@ $templateCache.put('app/components/download/downloadModal.html','<md-dialog><md-
 $templateCache.put('app/components/footer/footer.html','<footer class="p-60" style="padding-bottom: 10px"><div layout="row" layout-xs="column" layout-sm="column" layout-wrap="" layout-align="space-between center" layout-align-xs="space-between stretch" style="color:white; margin:0 auto; max-width:1050px"><div class="footer-block"><img style="height:80px" src="./assets/images/smartcitizen_logo2.svg" alt="logos"></div><div layout="row" layout-align="space-between center" class="border-white p-20 mb-10 footer-block"><div class="mr-10">A project by</div><a class="mr-10" href="https://fablabbcn.org"><img style="height:36px; margin-right: 7px" src="./assets/images/logo_fablab_bcn_small.png" alt="fablab"></a> <a href="https://iaac.net"><img style="height:16px" src="./assets/images/iaac.png" alt="fablab"></a></div><div flex="25" flex-xs="100" layout="row" layout-xs="column" layout-sm="column" layout-align="start center" class="footer-block"><img class="flag" style="height:48px" src="./assets/images/eu_flag.png" alt="fablab"><p class="color-white text-funding">Smart Citizen has received funding from the European Community\'s H2020 and HORIZON Programmes.</p></div><div layout="row" layout-align="space-between center" class="footer-block uptimerobot-sponsor"><div class="uptimerobot-sponsor-text"><p>Monitoring sponsored by</p></div><div><a href="https://uptimerobot.com/" target="_blank"><img class="uptimerobot-logo" src="./assets/images/uptimerobot-logo.svg" alt="fablab"></a></div></div><div flex="100" layout="row" layout-align="center center" style="margin-top:20px; padding-bottom:10px"><p class="color-white text-left">Smart Citizen\xAE embraces openness by design: all content on this page is licensed under a <a class="footer-link" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. The platform\u2019s software is released under <a class="footer-link" href="https://www.gnu.org/licenses/agpl-3.0.en.html#license-text">the GNU Affero General Public License v3.0</a>, its core hardware under the <a class="footer-link" href="https://ohwr.org/project/cernohl/-/wikis/uploads/819d71bea3458f71fba6cf4fb0f2de6b/cern_ohl_s_v2.txt">CERN Open Hardware License</a>, and its data under the <a class="footer-link" href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License</a> \u2014 empowering anyone to explore, replicate, and innovate with our tools. Feel free to also check the <a class="footer-link" target="_blank" rel="policy" href="policy">Terms of use and Privacy Policy</a> for more information.</p></div></div></footer>');
 $templateCache.put('app/components/home/template.html','<div><section class="content"><div ui-view="map" class="map_state"></div><div ui-view="container" class="kit"></div></section></div>');
 $templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="devices.length === 0"><small>No kits</small></div><md-list layout="row" layout-wrap=""><md-list-item class="kitList_parent" ng-repeat="device in devices track by device.id" flex="100" flex-gt-md="50" layout-xs="column" layout-align="start center"><md-card class="kit-list-item" flex="" layout-padding="" href="./kits/{{device.id}}"><md-card-header layout="row" layout-align="start center"><div class="ml-20 mt-20"><h4 class="m-0 mb-10">{{ device.name || \'No name\' }}</h4><span class="md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span class="mr-10">{{ device.hardwareName || \'Unknown Kit\'}}</span></span><p class="m-0 mb-10" ng-if="device.belongProperty"><md-icon class="kitList_state_{{ device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ device.state.className }} state">{{ device.state.name }}</span></p></div></md-card-header><md-card-content class="ml-20 mb-20"><div layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="system_tag in device.systemTags">{{ system_tag }}</span><tag ng-repeat="tag in device.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-card-content><div class="ml-10 mb-20"><md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{device.id}}"><md-icon style="margin:5px" md-font-icon="fa fa-globe"></md-icon>View on map</md-button><md-button class="md-raised md-primary md-hue-1" ng-if="device.belongProperty" ng-repeat="item in device.dropdownOptions" ng-href="{{item.href}}"><md-icon style="margin:5px" md-font-icon="{{item.icon}}"></md-icon><span>{{item.text}}</span></md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(device)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(device)"></md-icon>Download CSV</md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(device.id)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>REMOVE</md-button></div></md-card></md-list-item></md-list>');
-$templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><div class="sc-off-cta-platform"><div class="navigation"><a href="#"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"></a></div><div class="hamburger"><span class="bar"></span> <span class="bar"></span> <span class="bar"></span></div><div class="landing-menu"><div class="external-links"><a href="/kits/" class="landing-menu-btn md-button" target="_blank">PLATFORM</a> <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a> <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a></div><a href="#get-your-kit" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</a></div></div><section class="video-section"><div class="header-section"><div class="heading-over-video card" layout="column" layout-align="center start"><div class="logo-box"><h1>SMART CITIZEN</h1></div><div class="card-text"><h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2><a href="#learn-more" class="btn-blue btn-round-new mt-30 md-button btn-justify-left">LEARN MORE</a></div></div></div></section><div id="learn-more" class="color-black"><section layout="row" layout-xs="column" class="pd-60"><div flex="50" flex-xs="100" layout="column"><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top text-left"><h2>EMPOWERING COMMUNITIES FOR ACTION</h2><p style="margin-bottom:33px">We are a collective of passionate people who believe that data is critical to inform civic participation. We develop free and open-source tools for environmental monitoring and methodologies for community-driven action.</p></div><div flex-order-xs="1" class="img-sck_edu tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-new_sck tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left"><h2>BUILDING ON OUR HISTORY</h2><p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p><a href="#get-your-kit" class="btn-black-outline btn-round-new md-button btn-justify-left">GET YOUR KIT</a></div></div></section><section class="pd-60"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-left">TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center color-white"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd-sensing campaign in your city. Create local maps of noise and air quality. Raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCH INSTITUTIONS</h3><p>Use Smart Citizen as a tool for environmental data collection and analysis. Trigger informed action that brings communities together, raising awareness of environmental issues.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">EDUCATORS</h3><p class="color-white">Find ways to bring Smart Citizen tools into the classroom. Explore our freely accessible tools and methodologies for educators, giving environmental awareness a hands-on toolkit.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section></div><section class="banner-section"><div class="header-section"><div class="tile tile-image mobileonly img-platform"></div><div class="heading-over-video right-card card" layout="column" layout-align="center start"><div class="card-text"><h2 class="font-kanit text-left">ACROSS THE GLOBE</h2><p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p><a href="/kits/" target="_blank" class="btn-blue btn-round-new md-button btn-justify-left">GO TO THE PLATFORM</a></div></div></div></section><div id="learn-more" style="margin: 0 auto; max-width:1200px" class="color-black"><section class="pd-60"><div layout="row" layout-xs="column" id="open-platform"><div flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around" class="bg-white tile tile-left tile-top tile-xs"><div class="text-left"><h2 class="text-left">AN OPEN PROJECT</h2></div><div class="text-left"><p><strong>Learn, build and contribute.</strong> The project builds on open source technologies such as Arduino to enable citizens and communities to gather information on their environment and make it available to the public via the Smart Citizen platform.</p><p><strong>Check out our documentation and learn how to contribute to the project by joining the open source development community.</strong></p><a href="https://docs.smartcitizen.me/" class="btn-blue btn-round-new md-button btn-justify-left" target="_blank">GO TO THE DOCS</a></div></div><div flex="50" flex-xs="100" layout="column" layout-align="end center" class="img-docs tile tile-top border-xs-bottom tile-image"></div><div></div></div></section><section class="pd-60" id="get-your-kit"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-center">GET YOUR KIT</h2></div><div layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" layout-xs="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/new.svg" alt="New kit icon"><h3 class="color-white">SMART CITIZEN KIT</h3><p class="color-white" style="margin-bottom:33px">We\'re excited to release our newest version of the Smart Citizen Kit! The Smart Citizen Kit 2.3 is an upgrade of the kit that you already know and love, and is now available through SEEED Studio. The latest version includes UV readings, an improved PM sensor and lots of new features!</p><a href="https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT SEEED STUDIO</a></div><div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-kits-research tile tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-yellow tile border-xs-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/contact.svg" alt="Contact icon"><h3>PROJECTS AND CUSTOMIZATIONS</h3><p style="margin-bottom:33px">Planning something big? Do you want to use the kit as part of a research project? While all of our hardware is open source, we work directly with research organizations and projects to make open hardware that anyone can use.</p><p style="margin-bottom:33px"><strong>Get in touch for customized projects.</strong></p><a href="mailto:info@smartcitizen.me" class="btn-black-outline btn-round-new md-button">CONTACT US</a></div></div></div></section><section class="pd-60" id="newsletter"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST NEWS</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input class="btn-yellow btn-round-new md-button" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="pd-60 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new md-button" target="_blank">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project or download designs.</p><a href="https://github.com/orgs/fablabbcn/repositories?q=smartcitizen" class="btn-black-outline btn-round-new md-button" target="_blank">VISIT OUR REPOS</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new md-button" target="_blank">GET INVOLVED</a></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center" class="mt"></footer><script>\n  const hamburger = document.querySelector(".hamburger");\n  const navMenu = document.querySelector(".landing-menu");\n  const navGeneral = document.querySelector(".sc-off-cta-platform");\n  const pageScroll = document.querySelector("body");\n  const navFull = document.querySelector(".navigation");\n\n  hamburger.addEventListener("click", mobileMenu);\n\n  function mobileMenu() {\n    hamburger.classList.toggle("active");\n    navMenu.classList.toggle("active");\n    navGeneral.classList.toggle("active");\n    pageScroll.classList.toggle("active");\n    navFull.classList.toggle("active");\n    document.body.style.top = `-${window.scrollY}px`;\n  }\n\n  const navLink = document.querySelectorAll(".landing-menu");\n\n  navLink.forEach(n => n.addEventListener("click", closeMenu));\n\n  function closeMenu() {\n    hamburger.classList.remove("active");\n    navMenu.classList.remove("active");\n    navGeneral.classList.remove("active");\n    pageScroll.classList.remove("active");\n    navFull.classList.remove("active");\n    const scrollY = document.body.style.top;\n    document.body.style.position = \'\';\n    document.body.style.top = \'\';\n    // window.scrollTo(0, parseInt(scrollY || \'0\') * -1);\n  }\n</script>');
+$templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><div class="sc-off-cta-platform"><div class="navigation"><a href="#"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"></a></div><div class="hamburger"><span class="bar"></span> <span class="bar"></span> <span class="bar"></span></div><div class="landing-menu"><div class="external-links"><a href="/kits/" class="landing-menu-btn md-button" target="_blank">PLATFORM</a> <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a> <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a></div><a href="#get-your-kit" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</a></div></div><section class="video-section"><div class="header-section"><div class="heading-over-video card" layout="column" layout-align="center start"><div class="logo-box"><h1>SMART CITIZEN</h1></div><div class="card-text"><h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2><a href="#learn-more" class="btn-blue btn-round-new mt-30 md-button btn-justify-left">LEARN MORE</a></div></div></div></section><div id="learn-more" class="color-black"><section layout="row" layout-xs="column" class="pd-60"><div flex="50" flex-xs="100" layout="column"><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top text-left"><h2>EMPOWERING COMMUNITIES FOR ACTION</h2><p style="margin-bottom:33px">We are a collective of passionate people who believe that data is critical to inform civic participation. We develop free and open-source tools for environmental monitoring and methodologies for community-driven action.</p></div><div flex-order-xs="1" class="img-sck_edu tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-new_sck tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left"><h2>BUILDING ON OUR HISTORY</h2><p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p><a href="#get-your-kit" class="btn-black-outline btn-round-new md-button btn-justify-left">GET YOUR KIT</a></div></div></section><section class="pd-60"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-left">TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center color-white"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd-sensing campaign in your city. Create local maps of noise and air quality. Raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCH INSTITUTIONS</h3><p>Use Smart Citizen as a tool for environmental data collection and analysis. Trigger informed action that brings communities together, raising awareness of environmental issues.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">EDUCATORS</h3><p class="color-white">Find ways to bring Smart Citizen tools into the classroom. Explore our freely accessible tools and methodologies for educators, giving environmental awareness a hands-on toolkit.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section></div><section class="banner-section"><div class="header-section"><div class="tile tile-image mobileonly img-platform"></div><div class="heading-over-video right-card card" layout="column" layout-align="center start"><div class="card-text"><h2 class="font-kanit text-left">ACROSS THE GLOBE</h2><p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p><a href="/kits/" target="_blank" class="btn-blue btn-round-new md-button btn-justify-left">GO TO THE PLATFORM</a></div></div></div></section><div id="learn-more" style="margin: 0 auto; max-width:1200px" class="color-black"><section class="pd-60"><div layout="row" layout-xs="column" id="open-platform"><div flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around" class="bg-white tile tile-left tile-top tile-xs"><div class="text-left"><h2 class="text-left">AN OPEN PROJECT</h2></div><div class="text-left"><p><strong>Learn, build and contribute.</strong> The project builds on open source technologies such as Arduino to enable citizens and communities to gather information on their environment and make it available to the public via the Smart Citizen platform.</p><p><strong>Check out our documentation and learn how to contribute to the project by joining the open source development community.</strong></p><a href="https://docs.smartcitizen.me/" class="btn-blue btn-round-new md-button btn-justify-left" target="_blank">GO TO THE DOCS</a></div></div><div flex="50" flex-xs="100" layout="column" layout-align="end center" class="img-docs tile tile-top border-xs-bottom tile-image"></div><div></div></div></section><section class="pd-60" id="get-your-kit"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-center">GET YOUR KIT</h2></div><div layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" layout-xs="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/new.svg" alt="New kit icon"><h3 class="color-white">SMART CITIZEN KIT</h3><p class="color-white" style="margin-bottom:33px">We\'re excited to release our newest version of the Smart Citizen Kit! The Smart Citizen Kit 2.3 is an upgrade of the kit that you already know and love, and is now available through SEEED Studio. The latest version includes UV readings, an improved PM sensor and lots of new features!</p><a href="https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT SEEED STUDIO!</a></div><div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-kits-research tile tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-yellow tile border-xs-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/contact.svg" alt="Contact icon"><h3>PROJECTS AND CUSTOMIZATIONS</h3><p style="margin-bottom:33px">Planning something big? Do you want to use the kit as part of a research project? While all of our hardware is open source, we work directly with research organizations and projects to make open hardware that anyone can use.</p><p style="margin-bottom:33px"><strong>Get in touch for customized projects at <a href="mailto:info@smartcitizen.me">info@smartcitizen.me</a></strong></p><a href="mailto:info@smartcitizen.me" class="btn-black-outline btn-round-new md-button">CONTACT US!</a></div></div></div></section><section class="pd-60" id="newsletter"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST NEWS</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input class="btn-yellow btn-round-new md-button" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="pd-60 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new md-button" target="_blank">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project or download designs.</p><a href="https://github.com/orgs/fablabbcn/repositories?q=smartcitizen" class="btn-black-outline btn-round-new md-button" target="_blank">VISIT OUR REPOS</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new md-button" target="_blank">GET INVOLVED</a></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center" class="mt"></footer><script>\n  const hamburger = document.querySelector(".hamburger");\n  const navMenu = document.querySelector(".landing-menu");\n  const navGeneral = document.querySelector(".sc-off-cta-platform");\n  const pageScroll = document.querySelector("body");\n  const navFull = document.querySelector(".navigation");\n\n  hamburger.addEventListener("click", mobileMenu);\n\n  function mobileMenu() {\n    hamburger.classList.toggle("active");\n    navMenu.classList.toggle("active");\n    navGeneral.classList.toggle("active");\n    pageScroll.classList.toggle("active");\n    navFull.classList.toggle("active");\n    document.body.style.top = `-${window.scrollY}px`;\n  }\n\n  const navLink = document.querySelectorAll(".landing-menu");\n\n  navLink.forEach(n => n.addEventListener("click", closeMenu));\n\n  function closeMenu() {\n    hamburger.classList.remove("active");\n    navMenu.classList.remove("active");\n    navGeneral.classList.remove("active");\n    pageScroll.classList.remove("active");\n    navFull.classList.remove("active");\n    const scrollY = document.body.style.top;\n    document.body.style.position = \'\';\n    document.body.style.top = \'\';\n    // window.scrollTo(0, parseInt(scrollY || \'0\') * -1);\n  }\n</script>');
 $templateCache.put('app/components/landing/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
 $templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-tooltip md-direction="bottom">Visit the frontpage</md-tooltip><md-icon class="m-10 ml-15 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><section layout="row" layout-align="start center"><md-button hide-xs="" ng-show="vm.isShown" ui-sref="layout.home.kit({ id: \'\'})" class="md-flat map"><md-tooltip md-direction="bottom">Visit the map</md-tooltip><md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"></md-icon><span>Map</span></md-button><md-menu hide="" show-gt-sm="" ng-show="vm.isShown"><md-button ng-click="$mdMenu.open($event)"><md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"></md-icon><span>Community</span></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><search flex=""></search><section hide-xs="" layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" hide-sm="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" signup="" class="navbar_signup_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button class="btn-small" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><md-tooltip md-direction="bottom">Your profile</md-tooltip><img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item ng-repeat="item in vm.dropdownOptions"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-menu-content></md-menu></section><md-button hide-gt-sm="" ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-whiteframe="3"><md-toolbar layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login="" class=""></md-menu-item><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup="" class=""></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button href="./profile">Profile</md-button></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button href="./logout">Log out</md-button></md-menu-item><md-divider></md-divider><md-menu-item><md-button href="./kits">Map</md-button></md-menu-item><md-menu-item><md-button target="_blank" href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html">Get your kit</md-button></md-menu-item><md-divider></md-divider><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button href="{{item.href}}">{{item.text}}</md-button></md-menu-item></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/login/login.html','<md-button class="md-flat" ng-click="showLogin($event)" angular-on="click" angular-event="Login" angular-action="click">Log In</md-button>');
@@ -8021,8 +8021,8 @@ $templateCache.put('app/components/myProfile/addDeviceSelectorModal.html','<md-d
 $templateCache.put('app/components/myProfile/myProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="myProfile_tabs_parent" flex=""><md-tabs md-dynamic-height="" class="myProfile_tabs" md-center-tabs="false" md-selected="vm.startingTab"><md-tab label="" md-on-select="vm.selectThisTab(0, \'kits\')"><md-tab-label><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">KITS</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab><md-tab label="" md-on-select="vm.selectThisTab(1, \'user\')"><md-tab-label><md-icon md-svg-src="./assets/images/user_details_icon.svg" class="myProfile_tab_icon"></md-icon><span class="color-white">USER</span></md-tab-label><md-tab-body><ui-view></ui-view></md-tab-body></md-tab></md-tabs></div></section>');
 $templateCache.put('app/components/passwordRecovery/passwordRecovery.html','<form name="recovery_form" ng-submit="vm.recoverPassword()" novalidate="" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">FORGOT YOUR PASSWORD?</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p><p class="form_messageDescription">Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p></div><div layout="" layout-sm="column" class="formRecovery_field"><md-input-container flex=""><label>Username</label> <input type="text" name="username" ng-model="vm.username" autofocus="" ng-required="recovery_form.$submitted"></md-input-container><p class="form_errors formRecovery_errors" ng-show="vm.errors"><span ng-show="recovery_form.username.$error.required">Valid Username or Email is required</span></p></div></div><md-progress-circular ng-show="vm.waitingFromServer" class="md-hue-3 login_spinner" md-mode="indeterminate"></md-progress-circular><md-button type="submit" class="md-flat md-primary form_button">REQUEST NEW PASSWORD</md-button></form><header style="margin-top:120px" class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></header>');
 $templateCache.put('app/components/passwordRecovery/passwordRecoveryModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Forgot your password?</h2><span flex=""></span><md-button class="md-icon-button" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><form name="recoveryForm" novalidate="" ng-submit="recoverPassword()"><div class="md-dialog-content max-width-500px"><p>Please insert your email address and you will receive an email in your inbox. If you do not receive an email from our team in 10 minutes approx., please check your spam folder.</p><div layout="" layout-sm="column"><md-input-container flex=""><label>Username or Email</label> <input type="text" name="input" ng-model="input" focus-input="" required=""><div ng-messages="recoveryForm.input.$error"><div ng-message="required">Valid Username or Email is required</div></div></md-input-container></div><md-button ng-click="openSignup()">New here? Sign up</md-button></div><md-button class="btn-blue btn-full" type="submit">REQUEST NEW PASSWORD</md-button></form></md-dialog-content></md-dialog>');
-$templateCache.put('app/components/search/search.html','<md-autocomplete id="search" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-search-text-change="vm.searchTextChange(vm.searchText)" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.name" placeholder="Search" md-delay="300" md-min-length="3"><md-item-template layout="row" layout-align="start center"><div class="search_results"><img ng-if="item.iconType === \'img\'" ng-src="{{ item.icon }}" class="result_icon"><div ng-if="item.iconType === \'div\'" class="markerSmartCitizenOnline result_icon"></div><span ng-class="{\'result_name\': item.name.length > 0}">{{ item.name }}</span> <span class="result_location">{{ item.location }}</span></div></md-item-template></md-autocomplete>');
 $templateCache.put('app/components/passwordReset/passwordReset.html','<form name="form" novalidate="" ng-submit="vm.answer(vm.form)" class="form_container recovery_container"><div class="form_contentContainer"><h2 class="form_title">ENTER YOUR NEW PASSWORD</h2><div class="form_messageContainer"><p class="form_messageHeader">Citizen action in environmental monitoring</p><p class="form_messageSubheader">You\'re part of them? Feel free to join us!</p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>New Password</label> <input type="password" name="newPassword" ng-model="vm.form.newPassword" autofocus="" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.newPassword.$touched"><span ng-show="form.newPassword.$error.required">Password is required</span></p></div><div layout="" layout-sm="column" class="formReset_field"><md-input-container flex=""><label>Confirm Password</label> <input type="password" name="password" ng-model="vm.form.confirmPassword" ng-required="form.$submitted"></md-input-container><p class="form_errors formReset_errors" ng-show="form.$submitted || form.password.$touched"><span ng-show="form.password.$error.required">Password is required</span> <span ng-show="vm.isDifferent && !form.password.$error.required && !vm.errors.password.length">It must be the same password</span> <span ng-show="!!vm.errors.password.length"><span ng-repeat="error in vm.errors.password">Password {{ error }}<span ng-if="!$last">,</span></span></span></p></div></div><md-button class="md-flat md-primary form_button" type="submit">RESET PASSWORD</md-button></form><footer class="footer" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
+$templateCache.put('app/components/search/search.html','<md-autocomplete id="search" md-selected-item="vm.selectedItem" md-selected-item-change="vm.selectedItemChange(item)" md-search-text="vm.searchText" md-search-text-change="vm.searchTextChange(vm.searchText)" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.name" placeholder="Search" md-delay="300" md-min-length="3"><md-item-template layout="row" layout-align="start center"><div class="search_results"><img ng-if="item.iconType === \'img\'" ng-src="{{ item.icon }}" class="result_icon"><div ng-if="item.iconType === \'div\'" class="markerSmartCitizenOnline result_icon"></div><span ng-class="{\'result_name\': item.name.length > 0}">{{ item.name }}</span> <span class="result_location">{{ item.location }}</span></div></md-item-template></md-autocomplete>');
 $templateCache.put('app/components/signup/signup.html','<md-button class="" ng-click="vm.showSignup($event)">Sign Up</md-button>');
 $templateCache.put('app/components/signup/signupModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Sign up</h2><span flex=""></span><md-button class="" ng-click="cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-progress-linear ng-show="waitingFromServer" class="md-hue-3" md-mode="indeterminate"></md-progress-linear><md-dialog-content class="modal signup"><form name="signupForm" novalidate="" ng-submit="vm.answer(signupForm)"><div class="md-dialog-content"><div><p>Join Smart Citizen</p></div><div layout="column"><md-input-container><label>Username</label> <input type="text" name="username" autocomplete="username" ng-model="vm.user.username" focus-input="" required=""><div ng-messages="signupForm.username.$error || !!errors.password.length" role="alert"><div ng-message="required">Username is required</div><div ng-repeat="error in errors.username"><div>Username {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container flex=""><label>Password</label> <input name="password" type="password" autocomplete="new-password" ng-model="vm.user.password" required=""><div ng-messages="signupForm.password.$error || !!errors.password.length" role="alert"><div ng-message="required">Password is required</div><div ng-repeat="error in errors.password"><div>Password {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><label>Email</label> <input name="email" type="email" ng-model="vm.user.email" required=""><div ng-messages="signupForm.email.$error || !!errors.email.length" role="alert"><div ng-message="required">Email is required</div><div ng-repeat="error in errors.email" ng-if="!!errors.email.length"><div>Email {{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container><md-input-container><md-checkbox name="conditions" ng-model="vm.user.conditions" aria-label="Terms and Conditions" required="">I <a ui-sref="layout.policy" ng-click="hide()">have read</a> and accept Terms and Conditions</md-checkbox><div ng-messages="signupForm.conditions.$error || !!errors.conditions.length" role="alert"><div ng-message="required">You have to accept Terms and Conditions first</div><div ng-repeat="error in errors.conditions"><div>{{ error }}<span ng-if="!$last">,</span></div></div></div></md-input-container></div><md-button class="md-primary" ng-click="openLogin()">Already have an account? Log in</md-button></div><md-button class="btn-blue btn-full" type="submit">Sign up</md-button></form></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/static/404.html','<section class="not-found-404" flex=""><div id="content-land"><div class="block photo kit-0" data-stellar-background-ratio="0.01"><div class="container" style="height:inherit"><div style="text-align: center; vertical-align: middle;"><div style="margin-top: 200px;"><h2>That\'s a 404</h2><span>We couldn\'t find what you are looking for...</span></div><div style="margin-top: 40px;"><a href="/kits/" style="text-decoration: none" class="btn-black-outline btn-round-new md-button">GO BACK TO THE PLATFORM</a></div></div></div><div class="bullet-landing plus grey"></div></div></div></section>');
@@ -8037,8 +8037,8 @@ $templateCache.put('app/components/upload/csvUpload.html','<div class=""><h3>Upl
 $templateCache.put('app/components/upload/errorModal.html','<md-dialog><md-toolbar><div class="md-toolbar-tools"><h2>Errors</h2><span flex=""></span><md-button class="md-icon-button" ng-click="csvFile.cancel()"><md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon></md-button></div></md-toolbar><md-dialog-content><div style="min-height: 200px" layout="column" layout-align="space-around center"><md-icon class="s-48 md-warn" md-svg-icon="./assets/images/alert_icon.svg"></md-icon><md-list><md-list-item ng-repeat="error in csvFile.parseErrors">{{error.message}} <span ng-if="error.row">(at row: {{error.row}})</span></md-list-item><md-list-item ng-if="csvFile.backEndErrors">{{csvFile.backEndErrors.statusText || csvFile.backEndErrors}} {{csvFile.backEndErrors.status}} <span ng-if="csvFile.backEndErrors.data"></span>: {{ csvFile.backEndErrors.data.message || csvFile.backEndErrors.data.errors }}</md-list-item></md-list></div></md-dialog-content></md-dialog>');
 $templateCache.put('app/components/upload/upload.html','<section class="upload-csv timeline" flex="1" layout="row" layout-align="center center"><div class="container" layout="row" layout-align="space-between center"><span class="timeline-title">CSV File Upload</span><md-button style="margin-left: auto" class="timeline_buttonBack btn-round-new btn-outline-white" ui-sref="layout.home.kit({id: vm.kit.id})">Back to Kit</md-button></div></section><section class="upload-csv" style="margin-top: 64px; margin-bottom: 64px;"><div class="container csv_content"><sc-csv-upload kit="vm.kit"><sc-csv-upload></sc-csv-upload></sc-csv-upload></div></section>');
 $templateCache.put('app/components/userProfile/userProfile.html','<section class="myProfile_state" layout="column"><div class="profile_header myProfile_header dark"><div class="myProfile_header_container" layout="row"><img ng-src="{{ vm.user.profile_picture || \'./assets/images/avatar.svg\' }}" class="profile_header_avatar myProfile_header_avatar"><div class="profile_header_content"><h2 class="profile_header_name">{{ vm.user.username || \'No data\' }}</h2><div class="profile_header_location"><md-icon md-svg-src="./assets/images/location_icon_light.svg" class="profile_header_content_avatar"></md-icon><span class="md-title" ng-if="vm.user.city">{{ vm.user.city }}</span> <span class="md-title" ng-if="vm.user.city && vm.user.country">,</span> <span class="md-title" ng-if="vm.user.country">{{ vm.user.country }}</span> <span class="md-title" ng-if="!vm.user.city && !vm.user.country">No data</span></div><div class="profile_header_url"><md-icon md-svg-src="./assets/images/url_icon_light.svg" class="profile_header_content_avatar"></md-icon><a class="md-title" ng-href="{{ vm.user.url || \'http://example.com\' }}">{{ vm.user.url || \'No website\' }}</a></div></div></div></div><div class="profile_content mb-30" layout="column" layout-gt-sm="row"><div class="profile_sidebar pt-80" layout-align="start center" layout="column"><p class="profile_sidebar_title">FILTER KITS BY</p><div class="" layout="column"><md-button ng-click="vm.filterDevices(\'all\')" class="profile_sidebar_button">ALL</md-button><md-button ng-click="vm.filterDevices(\'online\')" class="profile_sidebar_button">ONLINE</md-button><md-button ng-click="vm.filterDevices(\'offline\')" class="profile_sidebar_button">OFFLINE</md-button></div></div><div class="pt-80 px-20" flex=""><div class="profile_content_main_top"><span class="">{{ vm.filteredDevices.length || 0 }} kits filtering by {{ vm.status.toUpperCase() || \'ALL\' }}</span></div><div class="profile_content_main_kits"><kit-list actions="{remove: vm.removeDevice}" devices="(vm.filteredDevices = (vm.devices | filterLabel:vm.deviceStatus ))"></kit-list><div class="kitList kitList_borderBottom" ng-show="!vm.devices.length"><div class="kitList_container"><div class="kitList_noKits"><span>There are not kits yet</span></div></div></div></div></div></div></section>');
-$templateCache.put('app/core/animation/backdrop/loadingBackdrop.html','<md-content ng-if="vm.isViewLoading || vm.mapStateLoading" ng-class="{\'md-mainBackdrop\': vm.isViewLoading, \'md-stateChangeBackdrop\': vm.mapStateLoading}"><md-icon ng-if="vm.isViewLoading" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" class="backdrop_icon"></md-icon></md-content>');
-$templateCache.put('app/core/animation/backdrop/noDataBackdrop.html','<md-backdrop ng-if="vm.deviceWithoutData" class="md-noDataBackdrop"><div class="block info_overlay" layout="column" layout-align="center center"><div ng-if="vm.user === \'visitor\'"><h2 class="title">This kit hasn\u2019t still said a word \uD83D\uDC76</h2><p></p></div><div ng-if="vm.user === \'owner\'" class="static_page"><h2 class="title">Your kit has still not posted any data \uD83D\uDD27\uD83D\uDD29\uD83D\uDD28</h2></div></div></md-backdrop>');
 $templateCache.put('app/components/kit/editKit/editKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="row" layout-align="start center" ng-show="vm.step === 1"><h2 class="timeline_stepName timeline-title">Edit your kit</h2></div><div layout="row" layout-align="start center" ng-show="vm.step === 2"><h2 class="timeline_stepName timeline-title">Finalise your setup</h2></div><div ng-if="vm.deviceData.isLegacy" class="timeline_line timeline_line_small" ng-show="vm.step === 2"></div><div ng-if="vm.deviceData.isLegacy" layout="row" layout-align="start center"><div class="timeline_stepCircle" ng-show="vm.step === 2" layout="row" layout-align="center center">2</div><md-button ng-if="vm.deviceData.isLegacy" ng-click="vm.goToStep(2)" class="timeline_stepName">Set up</md-button></div></div><md-button ng-show="vm.step===1" class="timeline_buttonBack btn-round-new btn-outline-white" ng-click="vm.backToProfile()">Back</md-button><md-button class="btn-round-new btn-outline-white-blue" ng-click="vm.submitFormAndKit()">Save</md-button></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="bg-white relaxed-layout" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Basic information</h2><small>Want to change your kit\'s name? Or perhaps say something nice about it in the description?<br>Don\'t forget about the exposure!</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Kit Name</label> <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name"><div class="form_errors"><div ng-repeat="error in vm.errors.name">Name {{ error }}</div></div></md-input-container><md-input-container flex="100" flex-gt-md="50"><label>Say something nice about your kit, what is it for?</label> <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container><md-input-container flex="100" flex-gt-md="50" ng-if="!vm.device.isSCK"><label>Seems like you have a custom kit, tell us what is it! (i.e. DIY Kit with CO2)</label> <textarea class="font-roboto-condensed" type="text" ng-model="vm.deviceForm.hardwareName" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container><div layout="row" layout-align="space-between start"><div class="" layout="row" layout-align="start center"><label class="mr-10">Exposure:</label><md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div></div></div></section><section class="bg-white relaxed-layout" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start" ng-if="vm.device.isLegacy"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Legacy devices</h2><small>Seems like you have a {{vm.device.hardware.name}}. Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit\'s shell</a>. More information in the <a target="_blank" href="https://docs.smartcitizen.me/Components/legacy/?h=serial+way#manual-set-up-the-serial-way">docs</a></small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Input here the MAC Address</label> <input type="text" ng-model="vm.deviceForm.macAddress"><div class="form_errors"><div ng-repeat="error in vm.errors.mac_address">MAC address {{ error }}</div></div></md-input-container></div></div></section><section class="form_blockMap relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div><h2>Kit location</h2><small>You can adjust the location by dragging the marker on the map.</small></div></div></div><div flex="50"><div class="form_blockInput_button" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng"><div class="form_blockInput_container" layout="row" layout-align="center center"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div></div><div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng"><leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding="" ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Open data</h2><small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data. You can also choose to blurr the location, or enable MQTT forwarding.</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Manage how others can access your data:</p><md-checkbox ng-model="vm.deviceForm.is_private"><label>Make this device private</label></md-checkbox><md-checkbox ng-model="vm.deviceForm.precise_location"><label>Enable precise location</label></md-checkbox><md-checkbox ng-model="vm.deviceForm.enable_forwarding"><label>Enable MQTT forwarding</label></md-checkbox></div></div></section><section class="relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Notifications</h2><small>Manage your notifications</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Get emails when the following events occur:</p><md-checkbox ng-model="vm.deviceForm.notify_low_battery"><label>Battery goes below 15%</label></md-checkbox><md-checkbox ng-model="vm.deviceForm.notify_stopped_publishing"><label>Device stopped publishing</label></md-checkbox></div></div></section><section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div flex-gt-xs="50"><md-input-container><label>Select tags</label><md-select ng-model="selectedTags" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple=""><md-select-header class="kit_tags-select-header"><input ng-model="searchTerm" type="search" placeholder="Search for a tag.." class="kit_tags-header-searchbox md-text"></md-select-header><md-optgroup label="tags"><md-option class="color-dropdown" ng-selected="vm.deviceForm.tags.includes(item.name)" ng-model="vm.deviceForm.tags" ng-value="item" ng-repeat="item in vm.tags | filter:searchTerm">{{item.name}}</md-option></md-optgroup></md-select></md-input-container></div></section><section class="relaxed-layout" layout-gt-sm="row" layout="column" layout-padding=""><div flex="100"><h2>Postprocessing info</h2><small>Follow the instructions <a href="https://docs.smartcitizen.me/Guides/data/Handling%20calibration%20data/" target="_blank">here</a> to generate a valid JSON containing the postprocessing information for your device. This is an advanced feature and it\'s not required for standard Smart Citizen Kits!<br><br>Last updated: {{vm.deviceForm.postprocessing.updated_at}}<br>Latest postprocessing: {{vm.deviceForm.postprocessing.latest_postprocessing}}</small></div><div layout="column" flex="100"><md-input-container><label>Hardware url</label> <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.postprocessing.hardware_url"></md-input-container></div></section></form></section><section ng-if="vm.step === 2"><form><section class="relaxed-layout bg-white"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div><h2>Setup your kit</h2><small>In order to have your kit connected to the Smart Citizen platform, we need a few step involving the connection of your kit to your computer. If this is your first time, maybe you will like to follow the <a href="https://docs.smartcitizen.me/Components/legacy/?h=serial+way#manual-set-up-the-serial-way" target="_blank">Startup guide</a>.</small></div><img src="assets/images/sckit_avatar_2.jpg" alt="Smartcitizen Kit"></div></section></form><form><section class="form_blockNormal relaxed-layout"><div layout="row" layout-xs="column" layout-align="start start" layout-padding=""><div flex-gt-xs="50"><h2>MAC address</h2>Use this field to input your MAC address. You can find the MAC address using the <a target="_blank" href="https://docs.smartcitizen.me/Guides/getting%20started/Using%20the%20Shell/">onboard kit\'s shell</a>.</div><div><md-input-container><label>MAC Address</label><input type="text" ng-model="vm.deviceForm.macAddress"><div class="form_errors"><div ng-repeat="error in vm.errors.mac_address">MAC address {{ error }}</div></div></md-input-container></div></div></section></form><md-progress-linear class="md-hue-3" ng-show="vm.nextAction == \'waiting\'" md-mode="indeterminate"></md-progress-linear><md-button ng-disabled="true" ng-show="vm.nextAction == \'waiting\'" class="md-primary timeline_button timeline_buttonOpen">Waiting for your kit\'s data<small>We are waiting for your kit to connect on-line, this can take a few minutes</small><small>Check the process on the report window and contact <a ng-href="mailto:support@smartcitizen.me">support@smartcitizen.me</a> if you have any problem.</small></md-button><md-button ng-click="vm.submitFormAndKit()" ng-show="vm.nextAction == \'ready\'" class="md-primary timeline_button timeline_buttonOpen inverted">Ready! <small>Go and visit your kit on-line</small></md-button></section></section></section>');
 $templateCache.put('app/components/kit/newKit/newKit.html','<section class="kit_dataChange"><section class="timeline" flex="1" layout="row" layout-align="center center"><div class="timeline_container" layout="row" layout-align="space-between center"><div layout="column" layout-align="start center"><div class="timeline_stepName vertical timeline-title">Add your kit</div></div><md-button ng-show="vm.step===1" class="timeline_buttonBack btn-round-new btn-outline-white" ng-click="vm.backToProfile()">Back<span class="timeline-btn-extra">to Profile</span></md-button><md-button class="btn-round-new btn-outline-white-blue" ng-click="vm.submitStepOne()">Next</md-button></div></section><section class="timeline_content" flex="1"><section ng-show="vm.step === 1"><form><section class="bg-white relaxed-layout" layout-padding="" div="" layout="row" layout-xs="column" layout-align="space-around start"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Basic information</h2><small>Want to change your kit\'s name? Or perhaps say something nice about it in the description?<br>Don\'t forget about the exposure!</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><md-input-container><label>Kit Name</label> <input type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.name"><div class="form_errors"><div ng-repeat="error in vm.errors.name">Name {{ error }}</div></div></md-input-container><md-input-container><label>Say something nice about your kit, what is it for?</label> <textarea type="text" class="font-roboto-condensed" ng-model="vm.deviceForm.description" placeholder="Describe your kit" md-maxlength="120"></textarea></md-input-container><div layout="row" layout-align="space-between start"><div class="form_blockInput_select" layout="row" layout-align="start center"><label class="mr-10">Exposure:</label><md-select ng-model="vm.deviceForm.exposure" placeholder="Select exposure"><md-option class="color-dropdown" ng-repeat="exposure in vm.exposure" ng-value="{{ exposure.value }}">{{ exposure.name }}</md-option></md-select></div></div><div class="form_blockInput_select" layout="row" layout-align="start center" style="margin-top: 20px"><label class="mr-10">Hardware version:</label><md-select ng-model="vm.deviceForm.legacyVersion" placeholder="Select hardware version"><md-option class="color-dropdown" ng-repeat="version in vm.version" ng-value="{{ version.value }}">{{ version.name }}</md-option></md-select></div></div></div></section><section class="relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding="" ng-if="vm.userRole === \'researcher\' || vm.userRole === \'admin\'"><div flex-gt-xs="50"><div layout="row"><div class=""><h2>Open data</h2><small>Sometimes, your devices might be collecting sensitive personal data (i.e. your exact location or by GPS using in your bike).<br>Check the box in case you want to prevent others from accesssing your data.</small></div></div></div><div flex-gt-xs="50"><div class="" layout="column"><p>Manage how others can access your data:</p><md-checkbox ng-model="vm.deviceForm.is_private"><label>Make this device private</label></md-checkbox></div></div></section><section class="bg-white relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit location</h2><small>Please, let us locate you, later you can adjust the location by dragging the marker on the map.</small></div><div class="mt-50" flex-gt-xs="50"><div layout="row" layout-align="center center" class="" ng-if="!vm.deviceForm.location.lat && !vm.deviceForm.location.lng"><md-button class="md-flat btn-cyan" ng-click="vm.getLocation()">Get your location</md-button></div><div class="form_blockInput_map" ng-if="vm.deviceForm.location.lat && vm.deviceForm.location.lng"><leaflet center="vm.deviceForm.location" defaults="vm.defaults" markers="vm.markers" tiles="vm.tiles" width="100%" height="100%"></leaflet></div></div></section><section class="isEven relaxed-layout" layout="row" layout-xs="column" layout-align="space-around start" layout-padding=""><div flex-gt-xs="50"><h2>Kit tags</h2><small>Kits can be grouped by tags. Choose from the available tags or submit a tag request on the <a href="https://forum.smartcitizen.me/" target="_blank">Forum</a>.</small></div><div class="mt-50" flex-gt-xs="50" layout-padding=""><md-input-container md-no-float="" class="md-block"><input type="text" ng-model="tagSearch" placeholder="Search for tags"></md-input-container><md-content layout-padding="" style="height: calc(20vh);"><div ng-repeat="tag in vm.tags | filter:{name: tagSearch}"><md-checkbox ng-model="vm.checks[tag.name]"><span class="tag">{{tag.name}}</span></md-checkbox></div></md-content></div></section></form></section></section></section>');
-$templateCache.put('app/components/kit/showKit/showKit.html','<section class="kit_data" change-content-margin=""><div class="shadow"></div><div ng-if="vm.device.isPrivate" class="kit_fixed bg-grey-lightest" move-down="" layout="row"><p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">You can ask in the forum</a> for more information.</p></div><div ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="over_map"><section class="kit_menu" stick=""><section ng-if="!vm.device" class="overlay-kitinfo"></section><div class="container" layout="row" layout-align="space-between center"><div flex="nogrow" layout="row" layout-align="start center"><div hide="" show-gt-xs="" class="kit_user"><md-tooltip md-direction="top">Visit user profile</md-tooltip><img ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\'}}"> <a href="./users/{{vm.device.owner.id}}"><span>{{ vm.device.owner.username}}</span></a></div><div hide="" show-gt-xs="" class="kit_name"><md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon><span>{{ vm.device.name }}</span></div><div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-svg-src="{{ vm.battery.icon }}"></md-icon><span>{{ vm.battery.value }} {{ vm.battery.unit }}</span></div><div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-font-icon="fa fa-battery-empty" class="color-red"></md-icon><span class="color-red hide-sm" hide="" show-gt-sm="">NOT CONNECTED</span></div></div><div ng-animate-swap="vm.device.lastReadingAt.raw" ng-class="{time_animation: vm.prevKit}" flex="" class="kit_time"><span ng-if="vm.device.lastReadingAt.raw" hide="" show-gt-sm="">Last data received:</span><span>{{ vm.device.lastReadingAt.parsed }}</span></div><div class="kit-show-raw" ng-if="vm.hasRaw"><label class="switch"><input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw"> <span class="slider round"></span></label> <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide="" show-gt-sm="">SHOW RAW</label></div><div hide="" show-gt-xs="" flex="nogrow" class="kit_navbar" active-button="" layout="row" layout-align="end center"><md-button href="#" class="md-flat chart_icon btn-small" aria-label=""><md-tooltip md-direction="top">Chart</md-tooltip><md-icon md-svg-src="./assets/images/chart_icon.svg"></md-icon></md-button><md-button href="#" class="md-flat kit_details_icon btn-small" aria-label=""><md-tooltip md-direction="top">Kit Detail</md-tooltip><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg"></md-icon></md-button><md-button href="#" class="md-flat user_details btn-small" aria-label=""><md-tooltip md-direction="top">User info</md-tooltip><md-icon md-svg-src="./assets/images/user_details_icon.svg"></md-icon></md-button></div></div></section><section class="kit_fixed bg-grey-lightest" move-down=""><section class="overlay" ng-if="!vm.deviceID"><h2 class="title">No kit selected <span class="emoji">\uD83D\uDC46</span></h2><p>Browse the map and click on any kit to see its data.</p></section><div no-data-backdrop=""></div><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_overview" layout="row"><md-button ng-click="vm.slide(\'right\')" class="md-flat button_scroll button_scroll_left btn-small" aria-label=""><md-tooltip md-direction="right">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll=""><div ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1) && !sensor.is_ancestor" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)" ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}"><md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon><div class="sensor_value" ng-class="{sensor_value_null: sensor.value === \'NA\'}">{{ sensor.value }}</div><div class="sensor_right"><div class="sensor_unit">{{ sensor.unit }}</div><md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}"></md-icon></div><p>{{ sensor.measurement.name }}</p></div></div><md-button ng-click="vm.slide(\'left\')" class="md-flat button_scroll button_scroll_right btn-small" aria-label=""><md-tooltip md-direction="left">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></section></section></div><section class="kit_fixed"><div class="hint" ng-if="!vm.device"><p>We can also take you to your nearest online kit by letting us know your location.</p><md-button class="md-button btn-round-new btn-cyan" ng-click="vm.geolocate()">Locate me</md-button></div><section class="kit_detailed"><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_chart"><div class="hint" ng-if="vm.deviceWithoutData"><p></p></div><div class="container" layout="column" layout-gt-sm="row"><div class="kit_chart_left" layout-padding="" flex="100" flex-gt-sm="20"><div class="sensor_data" show-popup-info=""><span class="sensor_value">{{ vm.selectedSensorData.value }}</span> <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span></div><div class="sensor_select"><md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor"><md-option ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.measurement.name }}</span></md-option></md-select></div><div class="sensor_data_description" hide-popup-info="">This is the latest value received</div><div class="sensor_description"><h6>{{ vm.sensorNames[vm.selectedSensor] }}</h6><div class="sensor_description_content"><small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small></div></div><div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare"><div style="display: block; width: 100%;"><span style="vertical-align: middle;">Compare with</span><md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare"><md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.measurement.name }}</span></md-option></md-select></div></div></div><div class="kit_chart_right" layout-padding="" flex=""><div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end"><div class="picker_container word_picker"><md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received" ng-change="vm.timeOptSelected()"><md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option></md-select></div><div class="picker_container"><label for="picker_from">From:</label> <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></div><div class="picker_container"><label for="picker_to">To:</label> <input type="text" id="picker_to" class="date_picker" placeholder="TO"></div><div class="chart_move"><md-button href="#" ng-click="vm.moveChart(\'left\')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the left</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><md-button href="#" ng-click="vm.moveChart(\'right\')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the right</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></div></div><md-progress-circular ng-show="vm.loadingChart && !vm.deviceWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><div chart="" class="chart_container" chart-data="vm.chartDataMain"></div></div></div></section><div class="kit_details" ng-if="vm.device"><div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start"><div class="kit_details_content_main"><div class="kit_details_content"><h1 class="kit_details_name">{{ vm.device.name }}</h1><span class="mr-10" ng-if="vm.device.isPrivate"><md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon><span class="kitList_state kitList_state_not_configured state">Private</span></span><p class="kit_details_location"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.locationString || \'No location\' }}</span></p><p class="kit_details_type"><md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.hardwareName }}</span></p><span><md-icon class="kitList_state kitList_state_{{ vm.device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.device.state.className }} state">{{ vm.device.state.name }}</span></span><p class="description" ng-bind-html="vm.device.description | linky:\'_blank\'"></p><p class="kit_details_labels"><span style="padding:4px 8px" class="label" ng-repeat="system_tag in vm.device.systemTags">{{ system_tag }}</span><tag style="padding:4px 8px" ng-repeat="tag in vm.device.userTags" ng-attr-tag-name="tag" clickable=""></tag></p></div></div><section flex-gt-xs="50" class="info kit_details_notAuth"><div class="kit_details_manage" ng-if="vm.deviceBelongsToUser"><h3>Manage your kit</h3><div class="kit_details_manage_buttons"><md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.device)"><md-icon style="margin-right:5px" 15px="" class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.device)"></md-icon>Download CSV</md-button><md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeDevice()" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button></div></div><div ng-if="!vm.deviceBelongsToUser"><h2>We empower communities to better understand their environment</h2><p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p></div></section></div></div><div class="kit_owner" ng-if="vm.device"><div class="kit_detailed_content_container" layout="column"><div layout="row" layout-align="start center"><img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\' }}"><div><a href="./users/{{vm.device.owner.id}}" class="kit_owner_usernameLink"><h2 class="kit_owner_usernameText">{{ vm.device.owner.username }}</h2></a><p><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title"><span ng-if="vm.device.owner.city">{{ vm.device.owner.city }}</span> <span ng-if="vm.device.owner.city && vm.device.owner.country">,</span> <span ng-if="vm.device.owner.country">{{ vm.device.owner.country }}</span> <span ng-if="!vm.device.owner.city && !vm.device.owner.country">No location</span></span></p><p ng-if="vm.device.owner.url"><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg"></md-icon><span class="md-title" ng-bind-html="vm.device.owner.url | linky:\'_blank\'">{{ vm.device.owner.url || \'No URL\'}}</span></p></div></div><div flex="100"><section class="kit_owner_kits" ng-if="vm.sampleDevices.length > 0"><h4 class="ml-20">Other kits owned by {{ vm.device.owner.username }}</h4><kit-list devices="vm.sampleDevices"></kit-list><div layout="row" layout-align="end end"><md-button class="btn-round-new btn-cyan" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px; padding-top:4px" ng-if="vm.device.owner.devices.length > 6" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button></div></section></div></div></div></section></section></section>');}]);
+$templateCache.put('app/components/kit/showKit/showKit.html','<section class="kit_data" change-content-margin=""><div class="shadow"></div><div ng-if="vm.device.isPrivate" class="kit_fixed bg-grey-lightest" move-down="" layout="row"><p>Device not found, or it has been set to private. <a href="https://forum.smartcitizen.me/" target="_blank">You can ask in the forum</a> for more information.</p></div><div ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="over_map"><section class="kit_menu" stick=""><section ng-if="!vm.device" class="overlay-kitinfo"></section><div class="container" layout="row" layout-align="space-between center"><div flex="nogrow" layout="row" layout-align="start center"><div hide="" show-gt-xs="" class="kit_user"><md-tooltip md-direction="top">Visit user profile</md-tooltip><img ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\'}}"> <a href="./users/{{vm.device.owner.id}}"><span>{{ vm.device.owner.username}}</span></a></div><div hide="" show-gt-xs="" class="kit_name"><md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon><span>{{ vm.device.name }}</span></div><div ng-if="vm.battery.value != -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-svg-src="{{ vm.battery.icon }}"></md-icon><span>{{ vm.battery.value }} {{ vm.battery.unit }}</span></div><div ng-if="vm.battery.value == -1" ng-animate-swap="vm.battery.value" ng-class="{bat_animation: vm.prevKit}" class="kit_battery"><md-icon md-font-icon="fa fa-battery-empty" class="color-red"></md-icon><span class="color-red hide-sm" hide="" show-gt-sm="">NOT CONNECTED</span></div></div><div ng-animate-swap="vm.device.lastReadingAt.raw" ng-class="{time_animation: vm.prevKit}" flex="" class="kit_time"><span ng-if="vm.device.lastReadingAt.raw" hide="" show-gt-sm="">Last data received:</span><span>{{ vm.device.lastReadingAt.parsed }}</span></div><div class="kit-show-raw" ng-if="vm.hasRaw"><label class="switch"><input type="checkbox" class="custom-control-input kit-raw-toggle" id="show-raw-switch" ng-model="vm.showRaw"> <span class="slider round"></span></label> <label class="kit-show-raw-text hide-sm" for="show-raw-switch" hide="" show-gt-sm="">SHOW RAW</label></div><div hide="" show-gt-xs="" flex="nogrow" class="kit_navbar" active-button="" layout="row" layout-align="end center"><md-button href="#" class="md-flat chart_icon btn-small" aria-label=""><md-tooltip md-direction="top">Chart</md-tooltip><md-icon md-svg-src="./assets/images/chart_icon.svg"></md-icon></md-button><md-button href="#" class="md-flat kit_details_icon btn-small" aria-label=""><md-tooltip md-direction="top">Kit Detail</md-tooltip><md-icon md-svg-src="./assets/images/kit_details_icon_light.svg"></md-icon></md-button><md-button href="#" class="md-flat user_details btn-small" aria-label=""><md-tooltip md-direction="top">User info</md-tooltip><md-icon md-svg-src="./assets/images/user_details_icon.svg"></md-icon></md-button></div></div></section><section class="kit_fixed bg-grey-lightest" move-down=""><section class="overlay" ng-if="!vm.deviceID"><h2 class="title">No kit selected <span class="emoji">\uD83D\uDC46</span></h2><p>Browse the map and click on any kit to see its data.</p></section><div no-data-backdrop=""></div><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_overview" layout="row"><md-button ng-click="vm.slide(\'right\')" class="md-flat button_scroll button_scroll_left btn-small" aria-label=""><md-tooltip md-direction="right">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><div flex="90" class="sensors_container" layout="row" layout-align="start center" horizontal-scroll=""><div ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1) && !sensor.is_ancestor" ng-animate-swap="vm.sensors" ng-repeat="sensor in vm.sensors" class="sensor_container" ng-click="vm.showSensorOnChart(sensor.id)" ng-class="{selected: vm.selectedSensor === sensor.id, sensor_animation: vm.prevKit}"><md-icon md-svg-src="{{ sensor.icon }}" class="sensor_icon"></md-icon><div class="sensor_value" ng-class="{sensor_value_null: sensor.value === \'NA\'}">{{ sensor.value }}</div><div class="sensor_right"><div class="sensor_unit">{{ sensor.unit }}</div><md-icon md-svg-src="./assets/images/{{ sensor.arrow }}_icon.svg" class="sensor_arrow {{ sensor.arrow }}"></md-icon></div><p>{{ sensor.measurement.name }}</p></div></div><md-button ng-click="vm.slide(\'left\')" class="md-flat button_scroll button_scroll_right btn-small" aria-label=""><md-tooltip md-direction="left">Click to see more sensors</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></section></section></div><section class="kit_fixed"><div class="hint" ng-if="!vm.device"><p>We can also take you to your nearest online kit by letting us know your location.</p><md-button class="md-button btn-round-new btn-cyan" ng-click="vm.geolocate()">Locate me</md-button></div><section class="kit_detailed"><section ng-if="!vm.device.isPrivate || vm.deviceBelongsToUser" class="kit_chart"><div class="hint" ng-if="vm.deviceWithoutData"><p></p></div><div class="container" layout="column" layout-gt-sm="row"><div class="kit_chart_left" layout-padding="" flex="100" flex-gt-sm="20"><div class="sensor_data" show-popup-info=""><span class="sensor_value">{{ vm.selectedSensorData.value }}</span> <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span></div><div class="sensor_select"><md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor"><md-option ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.measurement.name }}</span></md-option></md-select></div><div class="sensor_data_description" hide-popup-info="">This is the latest value received</div><div class="sensor_description"><h6>{{ vm.sensorNames[vm.selectedSensor] }}</h6><div class="sensor_description_content"><small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small></div></div><div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare"><div style="display: block; width: 100%;"><span style="vertical-align: middle;">Compare with</span><md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare"><md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.measurement.name != \'battery\' || (sensor.measurement.name == \'battery\' && sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf(\'raw\') !== -1)" class="color-dropdown"><md-icon md-svg-src="{{ sensor.icon }}"></md-icon><span class="md-primary">{{ sensor.measurement.name }}</span></md-option></md-select></div></div></div><div class="kit_chart_right" layout-padding="" flex=""><div class="chart_navigation" layout-gt-sm="row" layout="column" layout-align-gt-sm="end center" layout-align="space-between end"><div class="picker_container word_picker"><md-select class="kit_timeOpts" ng-model="vm.dropDownSelection" placeholder="Last Data Received" ng-change="vm.timeOptSelected()"><md-option ng-value="opt" ng-repeat="opt in vm.timeOpt">{{ opt }}</md-option></md-select></div><div class="picker_container"><label for="picker_from">From:</label> <input type="text" id="picker_from" class="date_picker" placeholder="FROM"></div><div class="picker_container"><label for="picker_to">To:</label> <input type="text" id="picker_to" class="date_picker" placeholder="TO"></div><div class="chart_move"><md-button href="#" ng-click="vm.moveChart(\'left\')" class="chart_move_button chart_move_left" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the left</md-tooltip><md-icon md-svg-src="./assets/images/arrow_left_icon.svg"></md-icon></md-button><md-button href="#" ng-click="vm.moveChart(\'right\')" class="chart_move_button chart_move_right" aria-label="" layout="row" layout-align="center center"><md-tooltip md-direction="top">Move chart to the right</md-tooltip><md-icon md-svg-src="./assets/images/arrow_right_icon.svg"></md-icon></md-button></div></div><md-progress-circular ng-show="vm.loadingChart && !vm.deviceWithoutData" class="md-hue-3 chart_spinner" md-mode="indeterminate"></md-progress-circular><div chart="" class="chart_container" chart-data="vm.chartDataMain"></div></div></div></section><div class="kit_details" ng-if="vm.device"><div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start"><div class="kit_details_content_main"><div class="kit_details_content"><h1 class="kit_details_name">{{ vm.device.name }}</h1><span class="mr-10" ng-if="vm.device.isPrivate"><md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon><span class="kitList_state kitList_state_not_configured state">Private</span></span><p class="kit_details_location"><md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.locationString || \'No location\' }}</span></p><p class="kit_details_type"><md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg"></md-icon><span class="md-title">{{ vm.device.hardwareName }}</span></p><span><md-icon class="kitList_state kitList_state_{{ vm.device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state kitList_state_{{ vm.device.state.className }} state">{{ vm.device.state.name }}</span></span><p class="description" ng-bind-html="vm.device.description | linky:\'_blank\'"></p><p class="kit_details_labels"><span style="padding:4px 8px" class="label" ng-repeat="system_tag in vm.device.systemTags">{{ system_tag }}</span><tag style="padding:4px 8px" ng-repeat="tag in vm.device.userTags" ng-attr-tag-name="tag" clickable=""></tag></p></div></div><section flex-gt-xs="50" class="info kit_details_notAuth"><div class="kit_details_manage" ng-if="vm.deviceBelongsToUser"><h3>Manage your kit</h3><div class="kit_details_manage_buttons"><md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.device)"><md-icon style="margin-right:5px" 15px="" class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.device)"></md-icon>Download CSV</md-button><md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button><md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeDevice()" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button></div></div><div ng-if="!vm.deviceBelongsToUser"><h2>We empower communities to better understand their environment</h2><p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p></div></section></div></div><div class="kit_owner" ng-if="vm.device"><div class="kit_detailed_content_container" layout="column"><div layout="row" layout-align="start center"><img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.device.owner.profile_picture || \'./assets/images/avatar.svg\' }}"><div><a href="./users/{{vm.device.owner.id}}" class="kit_owner_usernameLink"><h2 class="kit_owner_usernameText">{{ vm.device.owner.username }}</h2></a><p><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg"></md-icon><span class="md-title"><span ng-if="vm.device.owner.city">{{ vm.device.owner.city }}</span> <span ng-if="vm.device.owner.city && vm.device.owner.country">,</span> <span ng-if="vm.device.owner.country">{{ vm.device.owner.country }}</span> <span ng-if="!vm.device.owner.city && !vm.device.owner.country">No location</span></span></p><p ng-if="vm.device.owner.url"><md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg"></md-icon><span class="md-title" ng-bind-html="vm.device.owner.url | linky:\'_blank\'">{{ vm.device.owner.url || \'No URL\'}}</span></p></div></div><div flex="100"><section class="kit_owner_kits" ng-if="vm.sampleDevices.length > 0"><h4 class="ml-20">Other kits owned by {{ vm.device.owner.username }}</h4><kit-list devices="vm.sampleDevices"></kit-list><div layout="row" layout-align="end end"><md-button class="btn-round-new btn-cyan" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px; padding-top:4px" ng-if="vm.device.owner.devices.length > 6" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button></div></section></div></div></div></section></section></section>');
+$templateCache.put('app/core/animation/backdrop/loadingBackdrop.html','<md-content ng-if="vm.isViewLoading || vm.mapStateLoading" ng-class="{\'md-mainBackdrop\': vm.isViewLoading, \'md-stateChangeBackdrop\': vm.mapStateLoading}"><md-icon ng-if="vm.isViewLoading" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" class="backdrop_icon"></md-icon></md-content>');
+$templateCache.put('app/core/animation/backdrop/noDataBackdrop.html','<md-backdrop ng-if="vm.deviceWithoutData" class="md-noDataBackdrop"><div class="block info_overlay" layout="column" layout-align="center center"><div ng-if="vm.user === \'visitor\'"><h2 class="title">This kit hasn\u2019t still said a word \uD83D\uDC76</h2><p></p></div><div ng-if="vm.user === \'owner\'" class="static_page"><h2 class="title">Your kit has still not posted any data \uD83D\uDD27\uD83D\uDD29\uD83D\uDD28</h2></div></div></md-backdrop>');}]);
