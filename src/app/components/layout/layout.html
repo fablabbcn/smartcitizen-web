@@ -46,9 +46,19 @@
         </md-button>
 
         <md-menu-content ng-mouseleave="$mdMenu.close()">
-          <md-menu-item ng-repeat="item in vm.dropdownOptions">
-            <md-button href="{{item.href}}">
-              {{item.text}}
+          <md-menu-item>
+            <md-button href="{{vm.user_url}}">
+              Hi, {{vm.currentUser.username}}!
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button href="{{vm.user_url}}">
+              My profile
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="vm.logout()">
+              Log out
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -75,8 +85,8 @@
     <md-content>
       <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login class=""></md-menu-item>
       <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup class=""></md-menu-item>
-      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="./profile">Profile</md-button> </md-menu-item>
-      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="./logout"> Log out </md-button> </md-menu-item>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="{{vm.user_url}}">Profile</md-button> </md-menu-item>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button ng-click="vm.logout()"> Log out </md-button> </md-menu-item>
       <md-divider> </md-divider>
 
       <md-menu-item>
@@ -84,7 +94,7 @@
       </md-menu-item>
 
       <md-menu-item>
-        <md-button target="_blank" href="https://www.seeedstudio.com/Smart-Citizen-Starter-Kit-p-2865.html">
+        <md-button target="_blank" href="{{vm.seeed_url}}">
           Get your kit
         </md-button>
       </md-menu-item>

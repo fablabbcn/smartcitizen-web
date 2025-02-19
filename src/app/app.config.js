@@ -25,22 +25,24 @@
           animation.mapStateLoading();
         }
 
-        if(trans.to().authenticate === false) {
-          if(auth.isAuth()) {
-            console.log('-- already logged in users cannot go to /login or /signup');
-            // TODO: Bug
-            // does not redirect because e is undefined
-            //e.preventDefault();
-            //$state.go('layout.home.kit');
-            return;
-          }
-        }
+        // if(trans.to().authenticate === false) {
+        //   if(auth.isAuth()) {
+        //     console.log('-- already logged in users cannot go to /login or /signup');
+        //     console.log('layout.home.kit')
+        //     // TODO: Bug
+        //     // does not redirect because e is undefined
+        //     //e.preventDefault();
+        //     //$state.go('layout.home.kit');
+        //     return;
+        //   }
+        // }
 
-        if(trans.to().authenticate) {
-          if(!auth.isAuth()) {
-            $state.go('layout.login');
-          }
-        }
+        // if(trans.to().authenticate) {
+        //   if(!auth.isAuth()) {
+        //     console.log('layout.login')
+        //     $state.go('layout.login');
+        //   }
+        // }
 
         // move window up on state change
         $window.scrollTo(0, 0);
@@ -53,18 +55,18 @@
         animation.hideAlert();
       });
 
-      Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
-        if (auth.isAuth()) {
-          var token = auth.getToken();
-          headers.Authorization = 'Bearer ' + token;
-        }
-        return {
-          element: element,
-          headers: headers,
-          params: params,
-          httpConfig: httpConfig
-        };
-      });
+      // Restangular.addFullRequestInterceptor(function (element, operation, what, url, headers, params, httpConfig) {
+      //   if (auth.isAuth()) {
+      //     var token = auth.getToken();
+      //     headers.Authorization = 'Bearer ' + token;
+      //   }
+      //   return {
+      //     element: element,
+      //     headers: headers,
+      //     params: params,
+      //     httpConfig: httpConfig
+      //   };
+      // });
     }
 
 })();

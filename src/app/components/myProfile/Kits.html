@@ -30,7 +30,7 @@
         </div>
         <!-- KIT LIST -->
         <!-- TODO: Improvement -->
-        <kit-list actions="{remove: vm.removeDevice, downloadData: vm.downloadData}" devices="vm.filteredDevices"></kit-list>
+        <kit-list actions="{downloadData: vm.downloadData}" devices="vm.filteredDevices"></kit-list>
         <!-- End kit list -->
         <div class="kitList kitList_borderBottom" class="kitList_borderBottom" ng-show="!vm.devices.length">
             <div class="kitList_container">

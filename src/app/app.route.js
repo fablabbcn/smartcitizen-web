@@ -8,26 +8,27 @@
       Check app.config.js to know how states are protected
     */
 
-    belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'deviceUtils', 'userUtils'];
-    function belongsToUser($window, $stateParams, auth, AuthUser, deviceUtils, userUtils) {
-      if(!auth.isAuth() || !$stateParams.id) {
-        return false;
-      }
-      var deviceID = parseInt($stateParams.id);
+    // belongsToUser.$inject = ['$window', '$stateParams', 'auth', 'AuthUser', 'deviceUtils', 'userUtils'];
+    // function belongsToUser($window, $stateParams, auth, AuthUser, deviceUtils, userUtils) {
+    //   console.log('belongsToUser')
+    //   if(!auth.isAuth() || !$stateParams.id) {
+    //     return false;
+    //   }
+    //   var deviceID = parseInt($stateParams.id);
 
-      var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
-      var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
-      var isAdmin = userUtils.isAdmin(userData);
-      return isAdmin || belongsToUser;
-    }
+    //   var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+    //   var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
+    //   var isAdmin = userUtils.isAdmin(userData);
+    //   return isAdmin || belongsToUser;
+    // }
 
-    redirectNotOwner.$inject = ['belongsToUser', '$location'];
-    function redirectNotOwner(belongsToUser, $location) {
-      if(!belongsToUser) {
-        console.error('This kit does not belong to user');
-        $location.path('/kits/');
-      }
-    }
+    // redirectNotOwner.$inject = ['belongsToUser', '$location'];
+    // function redirectNotOwner(belongsToUser, $location) {
+    //   if(!belongsToUser) {
+    //     console.error('This kit does not belong to user');
+    //     $location.path('/kits/');
+    //   }
+    // }
 
     config.$inject = ['$stateProvider', '$urlServiceProvider', '$locationProvider', 'RestangularProvider', '$logProvider', '$mdAriaProvider', '$cookiesProvider'];
     function config($stateProvider, $urlServiceProvider, $locationProvider, RestangularProvider, $logProvider, $mdAriaProvider, $cookiesProvider) {
@@ -112,40 +113,39 @@
           controller: 'StaticController',
           controllerAs: 'vm'
         })
-        .state('layout.kitEdit', {
-          url: '/kits/:id/edit?step',
-          templateUrl: 'app/components/kit/editKit/editKit.html',
-          controller: 'EditKitController',
-          controllerAs: 'vm',
-          resolve: {
-            belongsToUser: belongsToUser,
-            redirectNotOwner: redirectNotOwner,
-            step: function($stateParams) {
-              return parseInt($stateParams.step) || 1;
-            }
-          }
-        })
-        .state('layout.kitUpload', {
-          url: '/kits/:id/upload',
-          templateUrl: 'app/components/upload/upload.html',
-          controller: 'UploadController',
-          controllerAs: 'vm',
-          resolve: {
-            belongsToUser: belongsToUser,
-            kit: ['device', 'FullDevice', '$stateParams', function(device, FullDevice, $stateParams) {
-              return device.getDevice($stateParams.id)
-              .then(kit => new FullDevice(kit));
-            }],
-            redirectNotOwner: redirectNotOwner
-         }
-        })
-
-        .state('layout.kitAdd', {
-          url: '/kits/new',
-          templateUrl: 'app/components/kit/newKit/newKit.html',
-          controller: 'NewKitController',
-          controllerAs: 'vm'
-        })
+        // .state('layout.kitEdit', {
+        //   url: '/kits/:id/edit?step',
+        //   templateUrl: 'app/components/kit/editKit/editKit.html',
+        //   controller: 'EditKitController',
+        //   controllerAs: 'vm',
+        //   resolve: {
+        //     belongsToUser: belongsToUser,
+        //     redirectNotOwner: redirectNotOwner,
+        //     step: function($stateParams) {
+        //       return parseInt($stateParams.step) || 1;
+        //     }
+        //   }
+        // })
+        // .state('layout.kitUpload', {
+        //   url: '/kits/:id/upload',
+        //   templateUrl: 'app/components/upload/upload.html',
+        //   controller: 'UploadController',
+        //   controllerAs: 'vm',
+        //   resolve: {
+        //     belongsToUser: belongsToUser,
+        //     kit: ['device', 'FullDevice', '$stateParams', function(device, FullDevice, $stateParams) {
+        //       return device.getDevice($stateParams.id)
+        //       .then(kit => new FullDevice(kit));
+        //     }],
+        //     redirectNotOwner: redirectNotOwner
+        //  }
+        // })
+        // .state('layout.kitAdd', {
+        //   url: '/kits/new',
+        //   templateUrl: 'app/components/kit/newKit/newKit.html',
+        //   controller: 'NewKitController',
+        //   controllerAs: 'vm'
+        // })
 
         /*
         -- Home state --
@@ -187,9 +187,9 @@
               controllerAs: 'tagsCtl'
             }
           },
-          resolve: {
-            belongsToUser:  belongsToUser
-         }
+        //   resolve: {
+        //     belongsToUser:  belongsToUser
+        //  }
         })
         /*
         -- Show Kit state --
@@ -206,9 +206,9 @@
             }
           },
           params: {id: '', reloadMap: false},
-          resolve: {
-            belongsToUser: belongsToUser
-          }
+          // resolve: {
+          //   belongsToUser: belongsToUser
+          // }
         })
         /*
         -- User Profile state --
@@ -216,33 +216,33 @@
         Public profile of a given user
         Redirects to My Profile/My Profile Admin if the user is the one authenticated or if the authenticated user is an admin
         */
-        .state('layout.userProfile', {
-          url: '/users/:id',
-          templateUrl: 'app/components/userProfile/userProfile.html',
-          controller: 'UserProfileController',
-          controllerAs: 'vm',
-          resolve: {
-            isCurrentUser: function($stateParams, $location, auth) {
-              if(!auth.isAuth()) {
-                return;
-              }
-              var userID = parseInt($stateParams.id);
-              var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
-              if(userID === authUserID) {
-                $location.path('/profile');
-              }
-            },
-            isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
-              var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
-              if(userRole === 'admin') {
-                var userID = $stateParams.id;
-                $location.path('/profile/' + userID);
-              } else {
-                return false;
-              }
-            }
-          }
-        })
+        // .state('layout.userProfile', {
+        //   url: '/users/:id',
+        //   templateUrl: 'app/components/userProfile/userProfile.html',
+        //   controller: 'UserProfileController',
+        //   controllerAs: 'vm',
+        //   resolve: {
+        //     isCurrentUser: function($stateParams, $location, auth) {
+        //       if(!auth.isAuth()) {
+        //         return;
+        //       }
+        //       var userID = parseInt($stateParams.id);
+        //       var authUserID = auth.getCurrentUser().data && auth.getCurrentUser().data.id;
+        //       if(userID === authUserID) {
+        //         $location.path('/profile');
+        //       }
+        //     },
+        //     isAdmin: function($window, $location, $stateParams, auth, AuthUser) {
+        //       var userRole = (auth.getCurrentUser().data && auth.getCurrentUser().data.role) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') )).role);
+        //       if(userRole === 'admin') {
+        //         var userID = $stateParams.id;
+        //         $location.path('/profile/' + userID);
+        //       } else {
+        //         return false;
+        //       }
+        //     }
+        //   }
+        // })
         /*
         -- My Profile state --
         Private profile of the authenticated user at the moment
@@ -323,57 +323,58 @@
         -- Login --
         It redirects to a certain kit state and opens the login dialog automatically
         */
-        .state('layout.login', {
-          url: '/login',
-          authenticate: false,
-          resolve: {
-            buttonToClick: function($location, auth) {
-              // TODO: Bug These transitions get rejected (console error)
-              if(auth.isAuth()) {
-                $location.path('/kits/');
-              }else{
-                $location.path('/kits/');
-                $location.search('login', 'true');
-              }
-            }
-          }
-        })
+        // .state('layout.login', {
+        //   url: '/login',
+        //   authenticate: false,
+        //   resolve: {
+        //     buttonToClick: function($location, auth) {
+        //       // TODO: Bug These transitions get rejected (console error)
+        //       if(auth.isAuth()) {
+        //         $location.path('/kits/');
+        //       }else{
+        //         $location.path('/kits/');
+        //         $location.search('login', 'true');
+        //       }
+        //     }
+        //   }
+        // })
         /*
         -- Signup --
         It redirects to a certain kit state and opens the signup dialog automatically
         */
-        .state('layout.signup', {
-          url: '/signup',
-          authenticate: false,
-          resolve: {
-            buttonToClick: function($location, auth) {
-              if(auth.isAuth()) {
-                return $location.path('/kits/');
-              }
-              $location.path('/kits/');
-              $location.search('signup', 'true');
-            }
-          }
-        })
+        // .state('layout.signup', {
+        //   url: '/signup',
+        //   authenticate: false,
+        //   resolve: {
+        //     buttonToClick: function($location, auth) {
+        //       if(auth.isAuth()) {
+        //         return $location.path('/kits/');
+        //       }
+        //       $location.path('/kits/');
+        //       $location.search('signup', 'true');
+        //     }
+        //   }
+        // })
         /*
         -- Logout --
         It removes all the user data from localstorage and redirects to landing state
         */
-        .state('logout', {
-          url: '/logout',
-          authenticate: true,
-          resolve: {
-            logout: function($location, $state, auth, $rootScope) {
-              auth.logout();
-              $location.path('/kits/');
-              $rootScope.$broadcast('loggedOut');
-            }
-          }
-        })
+        // .state('logout', {
+        //   url: '/logout',
+        //   authenticate: true,
+        //   resolve: {
+        //     logout: function($location, $state, auth, $rootScope) {
+        //       auth.logout();
+        //       $location.path('/kits/');
+        //       $rootScope.$broadcast('loggedOut');
+        //     }
+        //   }
+        // })
         /*
         -- Password Recovery --
         Form to input your email address to receive an email to reset your password
         */
+      //  TODO REMOVE
         .state('passwordRecovery', {
           url: '/password_reset',
           authenticate: false,
@@ -386,6 +387,7 @@
         This link will be given by the email you received after giving your email in the previous state
         Here, you can input your new password
         */
+      //  TODO REMOVE
         .state('passwordReset', {
           url: '/password_reset/:code',
           authenticate: false,
@@ -407,7 +409,6 @@
       $urlServiceProvider.rules.when('/profile', '/profile/kits');
       $urlServiceProvider.rules.when('/profile/:id', '/profile/:id/kits');
 
-
       /* Default profile state */
       $locationProvider.html5Mode({
         enabled: true,
@@ -416,6 +417,8 @@
 
       /*  Sets the default Smart Citizen API base url */
       RestangularProvider.setBaseUrl('https://api.smartcitizen.me/v0');
+      // RestangularProvider.setBaseUrl('https://staging-api.smartcitizen.me/v0')
+      RestangularProvider.setDefaultHttpFields({withCredentials: true});
       //RestangularProvider.setBaseUrl('http://localhost:3000/v0');
 
       /* Remove angular leaflet logs */

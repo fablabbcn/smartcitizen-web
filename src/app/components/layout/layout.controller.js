@@ -4,9 +4,14 @@
   angular.module('app.components')
     .controller('LayoutController', LayoutController);
 
-    LayoutController.$inject = ['$mdSidenav','$mdDialog', '$location', '$state', '$scope', '$transitions', 'auth', 'animation', '$timeout', 'DROPDOWN_OPTIONS_COMMUNITY', 'DROPDOWN_OPTIONS_USER'];
-    function LayoutController($mdSidenav, $mdDialog, $location, $state, $scope, $transitions, auth, animation, $timeout, DROPDOWN_OPTIONS_COMMUNITY, DROPDOWN_OPTIONS_USER) {
+    LayoutController.$inject = ['$mdSidenav','$mdDialog', '$location', '$rootScope', '$state', '$scope', '$transitions', '$window', 'auth', 'animation', '$timeout', 'urlUtils', 'DROPDOWN_OPTIONS_COMMUNITY', 'URLS'];
+    function LayoutController($mdSidenav, $mdDialog, $location, $rootScope, $state, $scope, $transitions, $window, auth, animation, $timeout, urlUtils, DROPDOWN_OPTIONS_COMMUNITY, URLS) {
       var vm = this;
+      vm.ui_base_url = URLS['base']
+      var goto_path = URLS['goto']
+
+      vm.logout_url = vm.ui_base_url + URLS['logout']+ urlUtils.get_path(goto_path, ":url" , $window.location);
+      vm.seeed_url = URLS['seeed']
 
       vm.navRightLayout = 'space-around center';
 
@@ -42,7 +47,11 @@
         vm.isShown = true;
         angular.element('.nav_right .wrap-dd-menu').css('display', 'initial');
         vm.currentUser = auth.getCurrentUser().data;
-        vm.dropdownOptions[0].text = 'Hi, ' + vm.currentUser.username + '!';
+        var user_path = URLS['users:username']
+        vm.user_url = vm.ui_base_url + urlUtils.get_path(user_path, ":username", vm.currentUser.username);
+
+        // console.log(vm.dropdownOptions)
+
         vm.navRightLayout = 'end center';
         if(!$scope.$$phase) {
           $scope.$digest();
@@ -62,7 +71,6 @@
       vm.isLoggedin = false;
       vm.logout = logout;
 
-      vm.dropdownOptions = DROPDOWN_OPTIONS_USER;
       vm.dropdownSelected = undefined;
 
       vm.dropdownOptionsCommunity = DROPDOWN_OPTIONS_COMMUNITY;
@@ -94,8 +102,10 @@
       }
 
       function logout() {
-        auth.logout();
+        // auth.logout();
         vm.isLoggedin = false;
+        $rootScope.$broadcast('loggedOut');
+        $window.location.href = vm.logout_url;
       }
     }
 })();

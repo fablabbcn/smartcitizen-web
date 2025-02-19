@@ -20,8 +20,8 @@
         setWorldMarkers: setWorldMarkers,
         mailReadings: mailReadings,
         postReadings: postReadings,
-				removeDevice: removeDevice,
-        updateContext: updateContext
+				// removeDevice: removeDevice,
+        // updateContext: updateContext
 	  	};
 
 	  	return service;
@@ -121,21 +121,21 @@
           .post('readings', readings);
 			}
 
-			function removeDevice(deviceID){
-				return Restangular
-          .one('devices', deviceID)
-					.remove().then(function () {
-            $rootScope.$broadcast('devicesContextUpdated');
-          })
-        ;
-			}
+			// function removeDevice(deviceID){
+			// 	return Restangular
+      //     .one('devices', deviceID)
+			// 		.remove().then(function () {
+      //       $rootScope.$broadcast('devicesContextUpdated');
+      //     })
+      //   ;
+			// }
 
-      function updateContext (){
-        return auth.updateUser().then(function(){
-          removeMarkers();
-          $rootScope.$broadcast('devicesContextUpdated');
-        });
-      }
+      // function updateContext (){
+      //   return auth.updateUser().then(function(){
+      //     removeMarkers();
+      //     $rootScope.$broadcast('devicesContextUpdated');
+      //   });
+      // }
 
 	  }
 })();

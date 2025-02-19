@@ -13,7 +13,7 @@
           <div hide show-gt-xs class="kit_user">
             <md-tooltip md-direction="top">Visit user profile</md-tooltip>
             <img ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg'}}" />
-            <a href="./users/{{vm.device.owner.id}}"><span>{{ vm.device.owner.username}}</span></a>
+            <a href="{{vm.user_url}}"><span>{{ vm.device.owner.username}}</span></a>
           </div>
           <div hide show-gt-xs class="kit_name">
             <md-icon md-svg-src="./assets/images/sensor_icon.svg" class="sensor_icon"></md-icon>
@@ -223,16 +223,19 @@
               <div class="kit_details_manage" ng-if="vm.deviceBelongsToUser">
                 <h3>Manage your kit</h3>
                 <div class="kit_details_manage_buttons">
-                  <md-button class="md-primary md-raised md-hue-1" ui-sref="layout.kitEdit({id: vm.device.id})" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button>
-                  <md-button class="md-primary md-raised md-hue-1" ng-click="vm.downloadData(vm.device)">
-                    <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(vm.device)"> </md-icon>
+
+                  <md-button class="md-primary md-raised md-hue-1" href="{{vm.device_edit_url}}" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button>
+
+                  <md-button class="md-primary md-raised md-hue-1" href="{{vm.device_download_url}}">
+                    <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download"> </md-icon>
                     Download CSV
                   </md-button>
+
                   <!-- <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.isLegacy" ui-sref="layout.kitEdit({step: 2, id: vm.device.id})" aria-label="">
                     <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"></md-icon><span>SET UP!</span></md-button> -->
-                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" ui-sref="layout.kitUpload({id: vm.device.id})" aria-label="">
+                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" href="{{vm.device_upload_url}}" aria-label="">
                     <md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button>
-                  <md-button class="md-primary md-raised md-hue-1" ng-click="vm.removeDevice()" aria-label=""> <md-icon style="margin-right:5px" md-font-icon="fa fa-trash"></md-icon><span>DELETE</span></md-button>
+
                 </div>
               </div>
             <div ng-if="!vm.deviceBelongsToUser">
@@ -249,7 +252,7 @@
           <div layout="row" layout-align="start center">
             <img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg' }}" />
             <div>
-              <a href="./users/{{vm.device.owner.id}}" class="kit_owner_usernameLink">
+              <a href="{{vm.user_url}}" class="kit_owner_usernameLink">
                 <h2 class="kit_owner_usernameText">{{ vm.device.owner.username }}</h2>
               </a>
               <p>
