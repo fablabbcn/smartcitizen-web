@@ -6,10 +6,11 @@
 
     auth.$inject = ['$location', '$window', '$state', 'Restangular',
       '$rootScope', 'AuthUser', '$timeout', 'alert', '$cookies'];
-    function auth($location, $window, $state, Restangular, $rootScope, AuthUser,
-       $timeout, alert, $cookies) {
+    function auth($location, $window, $state, Restangular, $rootScope, AuthUser,  $timeout, alert, $cookies) {
 
-    	var user = {};
+    	// var user = {};
+      var vm = this;
+      vm.user = {};
 
       //wait until http interceptor is added to Restangular
       $timeout(function() {
@@ -20,11 +21,11 @@
         isAuth: isAuth,
         setCurrentUser: setCurrentUser,
         getCurrentUser: getCurrentUser,
-        updateUser: updateUser,
-        saveToken: saveToken,
-        getToken: getToken,
-        login: login,
-        logout: logout,
+        // updateUser: updateUser,
+        // saveToken: saveToken,
+        // getToken: getToken,
+        // login: login,
+        // logout: logout,
         recoverPassword: recoverPassword,
         getResetPassword: getResetPassword,
         patchResetPassword: patchResetPassword,
@@ -34,37 +35,45 @@
 
       //////////////////////////
 
+      function errorHandler(error) {
+      }
+
       function initialize() {
-        //console.log('---- AUTH INIT -----');
+        // console.log('---- AUTH INIT -----');
         setCurrentUser('appLoad');
       }
 
+      // Not applicable anymore
       //run on app initialization so that we can keep auth across different sessions
       // 1. Check if token in cookie exists. Return if it doesn't, user needs to login (and save a token to the cookie)
       // 2. Populate user.data with the response from the API.
       // 3. Broadcast logged in
+
       function setCurrentUser(time) {
         // TODO later: Should we check if token is expired here?
-        if (getToken()) {
-          user.token = getToken();
-        }else{
-          //console.log('token not found in cookie, returning');
-          return;
-        }
+        // if (getToken()) {
+        //   vm.user.token = getToken();
+        // }else{
+        //   //console.log('token not found in cookie, returning');
+        //   return;
+        // }
+
+        // console.log('---- SET CURRENT USER -----');
 
         return getCurrentUserFromAPI()
           .then(function(data) {
             // Save user.data also in localStorage. It is beeing used across the app.
             // Should it instead just be saved in the user object? Or is it OK to also have it in localStorage?
-            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
-
+            // $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+            // console.log('data')
+            // console.log(data);
             var newUser = new AuthUser(data);
             //check sensitive information
-            if(user.data && user.data.role !== newUser.role) {
-              user.data = newUser;
+            if(vm.user.data && vm.user.data.role !== newUser.role) {
+              vm.user.data = newUser;
               $location.path('/');
             }
-            user.data = newUser;
+            vm.user.data = newUser;
 
             //console.log('-- User populated with data: ', user)
             // Broadcast happens 2x, so the user wont think he is not logged in.
@@ -85,23 +94,26 @@
                 $rootScope.$broadcast('loggedIn', {});
               }, 2000);
             }
-          });
-      }
+          }, errorHandler)
+        }
 
       // Called from device.service.js updateContext(), which is called from multiple /kit/ pages
-      function updateUser() {
-        return getCurrentUserFromAPI()
-          .then(function(data) {
-            // TODO: Should this update the token or user.data? Then it could instead call setCurrentUser?
-            $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
-            return getCurrentUser();
-          });
-      }
+      // function updateUser() {
+      //   console.log('update user')
+      //   return getCurrentUserFromAPI()
+      //     .then(function(data) {
+      //       // TODO: Should this update the token or user.data? Then it could instead call setCurrentUser?
+      //       $window.localStorage.setItem('smartcitizen.data', JSON.stringify(data.plain()) );
+      //       return getCurrentUser();
+      //     });
+      // }
 
       function getCurrentUser() {
-        user.token = getToken();
-        user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
-        return user;
+        // console.log('vm.user')
+        // console.log(vm.user);
+        // user.token = getToken();
+        // user.data = $window.localStorage.getItem('smartcitizen.data') && new AuthUser(JSON.parse( $window.localStorage.getItem('smartcitizen.data') ));
+        return vm.user;
       }
 
       // Should check if user.token exists - but now checks if the cookies.token exists.
@@ -111,29 +123,41 @@
         // We can cheat and just check the cookie, but we should NOT. Because auth.init should also check if the cookie is valid / expired
         // Ideally it should return !!user.token
         //return !!user.token;
-        return !!getToken();
+        // return !!getToken();
+        // updateUser();
+
+        if(vm.user.data === undefined){
+          return false
+        }
+
+        // console.log('user')
+        // console.log(vm.user);
+        // console.log(vm.user.data.key);
+        // console.log(!!vm.user.data.key)
+        return !!vm.user.data.key
       }
 
       // LoginModal calls this after it receives the token from the API, and wants to save it in a cookie.
-      function saveToken(token) {
-        //console.log('saving Token to cookie:', token);
-        $cookies.put('smartcitizen.token', token);
-        setCurrentUser();
-      }
+      // function saveToken(token) {
+      //   //console.log('saving Token to cookie:', token);
+      //   $cookies.put('smartcitizen.token', token);
+      //   setCurrentUser();
+      // }
 
-      function getToken(){
-        return $cookies.get('smartcitizen.token');
-      }
+      // function getToken(){
+      //   return $cookies.get('smartcitizen.token');
+      // }
 
-      function login(loginData) {
-        return Restangular.all('sessions').post(loginData);
-      }
+      // function login(loginData) {
+      //   return Restangular.all('sessions').post(loginData);
+      // }
 
-      function logout() {
-        $cookies.remove('smartcitizen.token');
-      }
+      // function logout() {
+      //   $cookies.remove('smartcitizen.token');
+      // }
 
       function getCurrentUserFromAPI() {
+        // console.log('getting user')
         return Restangular.all('').customGET('me');
       }
 
