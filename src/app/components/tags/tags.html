@@ -5,18 +5,18 @@
       <div class="kitTags__textContainer" layout-xs="column">
         <div class="kitTags__textElement">
           <h1>
-          <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}} </span>
+          <span ng-repeat="tag in tagsCtl.selectedTags" class="font-mono weight-700">#{{tag}} </span>
           </h1>
           <h2>
           {{tagsCtl.markers.length}} kit{{tagsCtl.markers.length > 1 ? 's are' : ' is'}} on
-          <span ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</span> and
+          <em ng-repeat="tag in tagsCtl.selectedTags">#{{tag}}</em> and
           {{tagsCtl.percActive}}% are active today.
           </h2>
           <p ng-repeat="tag in tagsCtl.selectedTags">
           </p>
         </div>
         <div class="kitTags__textElement">
-          <h4 class="md-title">About #Tags</h4>
+          <h3 class="md-title font-kanit weight-700">About #Tags</h4>
           <p class="sg-paragraph2">
             These tags are contributed by the community and show the variety applications of the Smart Citizen Project. You can use tags to organize and filter devices. If you need a tag, and you can't find one that works for you, you can request the creation of new tags in the forum.
           </p>
