@@ -1,7 +1,7 @@
 <md-dialog>
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Tags</h2>
+      <h2 class="font-kanit uppercase weight-800">Tags</h2>
       <span flex></span>
       <md-button class="md-icon-button" ng-click="vm.cancel()">
         <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
@@ -9,22 +9,21 @@
     </div>
   </md-toolbar>
   <md-dialog-content>
-    <div class="md-dialog-content max-width-500px min-height-80">
-      <p>Kits sharing a #tag show their average data.</p>
-      <p class="hide-xs">Browse and select from the list to show the kits containing ALL these tags.</p>
+    <div class="md-dialog-content max-width-500px min-height-80 font-kanit">
+      <p class="hide-xs">Select from the list to show the kits containing ALL these tags.</p>
       <md-input-container md-no-float class="md-block">
          <input type="text" ng-model="tagSearch" placeholder="Search for tags..">
       </md-input-container>
       <md-content layout-padding style="height: calc(80vh - 450px);">
-        <div ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
+        <div class="mt-0 mb-0" ng-repeat="tag in vm.tags | filter:{name: tagSearch}">
           <md-checkbox ng-model="vm.checks[tag.name]">
-            <span class="tag">{{tag.name}}</span>
+            <span class="tag mt-5">{{ tag.name }}</span>
           </md-checkbox>
         </div>
       </md-content>
 
     </div>
-    <md-button class="md-warn btn-full" ng-click="vm.clear()">Clear selection</md-button>
-    <md-button class="btn-blue btn-full" ng-click="vm.answer()">Apply</md-button>
+    <md-button class="md-warn btn-full font-kanit uppercase weight-800" ng-click="vm.clear()">Clear selection</md-button>
+    <md-button class="btn-blue btn-full font-kanit uppercase weight-800" ng-click="vm.answer()">Apply</md-button>
   </md-dialog-content>
 </md-dialog>
