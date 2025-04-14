@@ -20,6 +20,7 @@
         parseHardwareInfo: parseHardwareInfo,
         parseHardwareName: parseHardwareName,
         isPrivate: isPrivate,
+        onlineStatus: onlineStatus,
         preciseLocation: preciseLocation,
         enableForwarding: enableForwarding,
         isLegacyVersion: isLegacyVersion,
@@ -109,7 +110,7 @@
           description: parseString(object.hardware.description),
           version: parseVersionString(object.hardware.version),
           slug: object.hardware.slug,
-          info: parseHardwareInfo(object.hardware.info)
+          info: parseHardwareInfo(object.hardware.last_status_message)
         }
       }
 
@@ -144,6 +145,14 @@
         var sam_bd = parseString(object.sam_bd);
         var esp_ver = parseString(object.esp_ver);
         var sam_ver = parseString(object.sam_ver);
+        var sam_commit = sam_ver.substring(
+          sam_ver.indexOf("-")+1,
+          sam_ver.lastIndexOf("-")
+        )
+        var esp_commit = esp_ver.substring(
+          esp_ver.indexOf("-")+1,
+          esp_ver.lastIndexOf("-")
+        )
 
         return {
           id: id,
@@ -153,7 +162,9 @@
           hw_ver: hw_ver,
           sam_bd: sam_bd,
           esp_ver: esp_ver,
-          sam_ver: sam_ver
+          sam_ver: sam_ver,
+          sam_commit: sam_commit,
+          esp_commit: esp_commit
         };
       }
 
@@ -170,6 +181,16 @@
 
       function isPrivate(object) {
         return object.data_policy.is_private;
+      }
+
+      function onlineStatus(object) {
+        if (object.system_tags.includes('online')) {
+          return 'online';
+        } else if (object.system_tags.includes('offline')) {
+          return 'offline'
+        } else {
+          return 'unknown'
+        }
       }
 
       function preciseLocation(object) {

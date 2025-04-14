@@ -2,62 +2,37 @@
   <md-toolbar layout="row" layout-align="space-between center" class="stickNav">
 
     <a ui-sref="landing" class="logo_link">
-      <md-tooltip md-direction="bottom">Visit the frontpage</md-tooltip>
+      <md-tooltip md-direction="bottom"></md-tooltip>
       <md-icon class="m-10 ml-15 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon">
       </md-icon>
     </a>
-
-    <section layout="row" layout-align="start center">
-      <md-button hide-xs ng-show="vm.isShown" ui-sref="layout.home.kit({ id: ''})" class="md-flat map">
-        <md-tooltip md-direction="bottom">Visit the map</md-tooltip>
-        <md-icon md-svg-src="./assets/images/map_icon.svg" class="nav_icon"> </md-icon>
-        <span>Map</span>
-      </md-button>
-
-      <md-menu hide show-gt-sm ng-show="vm.isShown" >
-        <md-button ng-click="$mdMenu.open($event)">
-          <md-icon md-svg-src="./assets/images/community_icon.svg" class="nav_icon"> </md-icon>
-        <span>Community</span>
-        </md-button>
-
-        <md-menu-content ng-mouseleave="$mdMenu.close()">
-          <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
-            <md-button href="{{item.href}}">
-              {{item.text}}
-            </md-button>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-
-    </section>
 
     <search flex></search>
 
     <section hide-xs layout="row" layout-align="{{vm.navRightLayout}}">
 
-      <div ng-show="vm.isShown" hide-xs hide-sm store logged="vm.isLoggedin" class="md-flat get" class="color-white"></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs login class="navbar_login_button " class="color-white"></div>
-      <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs signup class="navbar_signup_button"></div>
+      <div ng-show="vm.isShown" hide-xs hide-sm store logged="vm.isLoggedin" class="md-flat get" class="color-white font-kanit"></div>
+      <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs login class="navbar_login_button" class="color-white font-kanit"></div>
+      <!-- <div ng-show="vm.isShown && !vm.isLoggedin" hide-xs signup class="navbar_signup_button font-kanit"></div> -->
 
       <md-menu ng-show="vm.isShown && vm.isLoggedin" >
-        <md-button class="btn-small" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
-          <md-tooltip md-direction="bottom">Your profile</md-tooltip>
-          <img class="navbar_avatar_icon" ng-src="{{ vm.currentUser.profile_picture || './assets/images/avatar.svg' }}" />
+        <md-button class="btn-small no-hover-effect" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center">
+          <md-tooltip md-direction="bottom" class="font-kanit">Your profile</md-tooltip>
+          <img class="circular-img-crop navbar_avatar_icon image-outline" ng-src="{{ vm.currentUser.profile_picture || './assets/images/avatar.svg' }}" />
         </md-button>
-
         <md-menu-content ng-mouseleave="$mdMenu.close()">
           <md-menu-item>
-            <md-button href="{{vm.user_url}}">
+            <md-button href="{{vm.user_url}}" class="font-kanit">
               Hi, {{vm.currentUser.username}}!
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button href="{{vm.user_url}}">
+            <md-button href="{{vm.user_url}}" class="font-kanit">
               My profile
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-click="vm.logout()">
+            <md-button ng-click="vm.logout()" class="font-kanit">
               Log out
             </md-button>
           </md-menu-item>
@@ -65,7 +40,7 @@
       </md-menu>
     </section>
 
-    <md-button hide-gt-sm ng-click="toggleRight()" layout="column" layout-align="center center">
+    <md-button ng-click="toggleRight()" layout="column" layout-align="center center">
       <img class="" ng-src="{{'./assets/images/menu2.svg' }}" />
     </md-button>
 
@@ -83,18 +58,18 @@
     </md-toolbar>
 
     <md-content>
-      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login class=""></md-menu-item>
-      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup class=""></md-menu-item>
-      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="{{vm.user_url}}">Profile</md-button> </md-menu-item>
-      <md-menu-item ng-show="vm.isLoggedin"> <md-button ng-click="vm.logout()"> Log out </md-button> </md-menu-item>
+      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login class="font-kanit"></md-menu-item>
+      <md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup class="font-kanit"></md-menu-item>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button href="{{vm.user_url}}" class="font-kanit">Profile</md-button> </md-menu-item>
+      <md-menu-item ng-show="vm.isLoggedin"> <md-button ng-click="vm.logout()" class="font-kanit"> Log out </md-button> </md-menu-item>
       <md-divider> </md-divider>
 
-      <md-menu-item>
+      <!-- <md-menu-item>
         <md-button href="./kits"> Map </md-button>
-      </md-menu-item>
+      </md-menu-item> -->
 
       <md-menu-item>
-        <md-button target="_blank" href="{{vm.seeed_url}}">
+        <md-button target="_blank" href="{{vm.seeed_url}}" class="font-kanit">
           Get your kit
         </md-button>
       </md-menu-item>
@@ -102,7 +77,7 @@
       <md-divider> </md-divider>
 
       <md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity">
-        <md-button href="{{item.href}}">
+        <md-button target="_blank" href="{{item.href}}" class="font-kanit">
           {{item.text}}
         </md-button>
       </md-menu-item>

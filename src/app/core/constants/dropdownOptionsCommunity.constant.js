@@ -7,13 +7,13 @@
    * @type {Array}
    */
 
+  // TODO Move to burger one day
   angular.module('app.components')
     .constant('DROPDOWN_OPTIONS_COMMUNITY', [
-      {text: 'About', href: '/about'},
+      {text: 'Documentation', href: 'https://docs.smartcitizen.me/'},
       {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
-      {text: 'Documentation', href: 'http://docs.smartcitizen.me/'},
-      {text: 'API Reference', href: 'http://developer.smartcitizen.me/'},
-      {text: 'Github', href: 'https://github.com/fablabbcn/smartcitizen-kit-2x'},
-      {text: 'Legal', href: '/policy'}
+      {text: 'API Reference', href: 'https://developer.smartcitizen.me/'},
+      {text: 'About', href: 'https://docs.smartcitizen.me/about/'},
+      {text: 'Policy', href: '/policy'}
     ]);
 })();

@@ -46,6 +46,7 @@
         this.lastReadingAt = timeUtils.parseDate(object.last_reading_at);
         this.createdAt = timeUtils.parseDate(object.created_at);
         this.updatedAt = timeUtils.parseDate(object.updated_at);
+        this.status = deviceUtils.onlineStatus(object);
 
         // Location
         this.location = object.location;

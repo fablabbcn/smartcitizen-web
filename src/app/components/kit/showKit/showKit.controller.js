@@ -196,11 +196,13 @@
             // NEW MONOLITH INTEGRATION
             var ui_base_url = URLS['base']
             var user_path = URLS['users:username']
+            var device_path = URLS['devices:id']
             var device_edit_path = URLS['devices:id:edit']
             var device_download_path = URLS['devices:id:download']
             var device_upload_path = URLS['devices:id:upload']
 
             vm.user_url = ui_base_url + urlUtils.get_path(user_path, ":username", vm.device.owner.username);
+            vm.device_url = ui_base_url + urlUtils.get_path(device_path, ":id", vm.device.id);
             vm.device_edit_url = ui_base_url + urlUtils.get_path(device_edit_path, ":id", vm.device.id);
             vm.device_download_url = ui_base_url + urlUtils.get_path(device_download_path, ":id", vm.device.id);
             vm.device_upload_url = ui_base_url + urlUtils.get_path(device_upload_path, ":id", vm.device.id);

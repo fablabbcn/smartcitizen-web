@@ -11,7 +11,7 @@
       <div class="container" layout="row" layout-align="space-between center">
         <div flex="nogrow" layout="row" layout-align="start center">
           <div hide show-gt-xs class="kit_user">
-            <md-tooltip md-direction="top">Visit user profile</md-tooltip>
+            <md-tooltip md-direction="top" class="font-kanit">Visit user profile</md-tooltip>
             <img ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg'}}" />
             <a href="{{vm.user_url}}"><span>{{ vm.device.owner.username}}</span></a>
           </div>
@@ -42,30 +42,26 @@
         <div hide show-gt-xs flex="nogrow" class="kit_navbar" active-button layout="row" layout-align="end center">
 
           <md-button href="#" class="md-flat chart_icon btn-small" aria-label="">
-            <md-tooltip md-direction="top">Chart</md-tooltip>
+            <md-tooltip md-direction="top" class="font-kanit">Chart</md-tooltip>
             <md-icon md-svg-src="./assets/images/chart_icon.svg">
             </md-icon>
           </md-button>
 
           <md-button href="#" class="md-flat kit_details_icon btn-small" aria-label="">
-            <md-tooltip md-direction="top">Kit Detail</md-tooltip>
+            <md-tooltip md-direction="top" class="font-kanit">Kit Detail</md-tooltip>
             <md-icon md-svg-src="./assets/images/kit_details_icon_light.svg">
             </md-icon>
           </md-button>
 
           <md-button href="#" class="md-flat user_details btn-small" aria-label="">
-            <md-tooltip md-direction="top">User info</md-tooltip>
+            <md-tooltip md-direction="top" class="font-kanit">User info</md-tooltip>
             <md-icon md-svg-src="./assets/images/user_details_icon.svg">
             </md-icon>
           </md-button>
-          <!-- HACK: disable because of lodash  -->
-          <!-- <md-button href="#" class="md-flat discussion_icon" aria-label="">
-            <md-icon md-svg-src="./assets/images/discussion_icon.svg">
-            </md-icon>
-          </md-button> -->
         </div>
       </div>
     </section>
+
     <section class="kit_fixed bg-grey-lightest" move-down>
       <section class="overlay" ng-if="!vm.deviceID">
         <h2 class="title">
@@ -117,31 +113,41 @@
         </div>
         <div class="container" layout="column" layout-gt-sm="row">
           <div class="kit_chart_left" layout-padding flex="100" flex-gt-sm="20">
-            <div class="sensor_data" show-popup-info>
+            <!-- <div class="sensor_data" show-popup-info>
               <span class="sensor_value">{{ vm.selectedSensorData.value }}</span>
               <span class="sensor_unit">{{ vm.selectedSensorData.unit }}</span>
-            </div>
+            </div> -->
             <div class="sensor_select">
+              <div class="sensor_dropdowns">
+              <span style="vertical-align: middle;">Choose a sensor</span>
+              </div>
               <md-select placeholder="CHOOSE SENSOR" ng-model="vm.selectedSensor">
                 <md-option ng-if="(sensor.measurement.name != 'battery' || (sensor.measurement.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" ng-repeat="sensor in vm.chartSensors" ng-value="{{sensor.id}}" ng-selected="$first" class="color-dropdown">
-                  <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
+                  <!-- <md-icon md-svg-src="{{ sensor.icon }}"></md-icon> -->
                   <span class="md-primary">{{ sensor.measurement.name }}</span>
                 </md-option>
               </md-select>
             </div>
-            <div class="sensor_data_description" hide-popup-info>This is the latest value received</div>
             <div class="sensor_description">
-              <h6>{{ vm.sensorNames[vm.selectedSensor] }} </h6>
+              <div class="sensor_title">
+                <h6 class="font-kanit weight-700">{{ vm.sensorNames[vm.selectedSensor] }} </h6>
+
+                <a href="{{ vm.selectedSensorData.datasheet }}" target="_blank" ng-if="vm.selectedSensorData.datasheet !== null" class="ml-10"><md-icon class="icon_label" md-svg-src="./assets/images/document_icon.svg">
+                </md-icon></a>
+              </div>
+
               <div class="sensor_description_content" >
-                <small class="sensor_description_preview">{{ vm.selectedSensorData.fullDescription }}<a href="https://docs.smartcitizen.me/" target="_blank">More info</a></small>
+                <small>{{ vm.selectedSensorData.fullDescription }}
+                  <!-- <a href="https://docs.smartcitizen.me/" target="_blank">More info</a> -->
+                </small>
               </div>
             </div>
-            <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_compare">
+            <div ng-if="vm.sensorsToCompare.length >= 1" class="sensor_dropdowns">
               <div style="display: block; width: 100%;">
                 <span style="vertical-align: middle;">Compare with</span>
                 <md-select placeholder="NONE" ng-model="vm.selectedSensorToCompare">
                   <md-option ng-repeat="sensor in vm.sensorsToCompare" ng-value="{{sensor.id}}" ng-if="(sensor.measurement.name != 'battery' || (sensor.measurement.name == 'battery' &&  sensor.value != -1)) && !(!vm.showRaw && sensor.tags.indexOf('raw') !== -1)" class="color-dropdown">
-                    <md-icon md-svg-src="{{ sensor.icon }}"></md-icon>
+                    <!-- <md-icon md-svg-src="{{ sensor.icon }}"></md-icon> -->
                     <span class="md-primary">{{ sensor.measurement.name }}</span>
                   </md-option>
                 </md-select>
@@ -188,110 +194,124 @@
       </section>
 
       <div class="kit_details" ng-if="vm.device">
-        <div class="kit_detailed_content_container" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
+        <div class="kit_detailed_content_container box-shadow-sc-yellow" layout="row" layout-xs="column" layout-align="space-between start" layout-align-xs="space-between start">
 
           <div class="kit_details_content_main">
             <div class="kit_details_content">
-              <h1 class="kit_details_name">{{ vm.device.name }}</h1>
-              <span class="mr-10" ng-if="vm.device.isPrivate">
-                <md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon>
-                <span class="kitList_state kitList_state_not_configured state">Private</span>
-              </span>
-              <p class="kit_details_location">
-              <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
-              </md-icon>
-              <span class="md-title">{{ vm.device.locationString || 'No location' }}</span>
-              </p>
-              <p class="kit_details_type">
-                <md-icon class="icon_label" md-svg-src="./assets/images/kit_details_icon_normal.svg">
-                </md-icon>
-                <span class="md-title">{{ vm.device.hardwareName }}</span>
-              </p>
-              <span>
-                <md-icon class="kitList_state kitList_state_{{ vm.device.state.className }}" md-font-icon="fa fa-wifi"></md-icon>
-                <span class="kitList_state kitList_state_{{ vm.device.state.className }} state">{{ vm.device.state.name }}</span>
-              </span>
-              <p class="description" ng-bind-html="vm.device.description | linky:'_blank'"></p>
-              <p class="kit_details_labels">
-                <span style="padding:4px 8px" class="label" ng-repeat="system_tag in vm.device.systemTags">{{ system_tag }}</span>
-                <tag  style="padding:4px 8px" ng-repeat='tag in vm.device.userTags' ng-attr-tag-name="tag" clickable></tag>
-              </p>
-            </div>
-          </div>
-
-          <section flex-gt-xs="50" class="info kit_details_notAuth">
-              <div class="kit_details_manage" ng-if="vm.deviceBelongsToUser">
-                <h3>Manage your kit</h3>
-                <div class="kit_details_manage_buttons">
-
-                  <md-button class="md-primary md-raised md-hue-1" href="{{vm.device_edit_url}}" aria-label=""><md-icon style="margin-right:5px" md-font-icon="fa fa-edit"></md-icon><span>EDIT</span></md-button>
-
-                  <md-button class="md-primary md-raised md-hue-1" href="{{vm.device_download_url}}">
-                    <md-icon style="margin-right:5px" 15px class="md-primary md-raised kit_detailed_icon_content" md-font-icon="fa fa-download"> </md-icon>
-                    Download CSV
-                  </md-button>
-
-                  <!-- <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.isLegacy" ui-sref="layout.kitEdit({step: 2, id: vm.device.id})" aria-label="">
-                    <md-icon style="margin-right:5px" md-font-icon="fa fa-wrench"></md-icon><span>SET UP!</span></md-button> -->
-                  <md-button class="md-primary md-raised md-hue-1" ng-if="vm.device.hardware" href="{{vm.device_upload_url}}" aria-label="">
-                    <md-icon style="margin-right:5px" md-font-icon="fa fa-sd-card"></md-icon><span>SD CARD UPLOAD</span></md-button>
-
-                </div>
-              </div>
-            <div ng-if="!vm.deviceBelongsToUser">
-              <!-- TODO: Improvement -Change copy -->
-              <h2>We empower communities to better understand their environment</h2>
-              <p>Smart Citizen is a project by <a target="_blank" href="http://fablabbcn.org/">Fab Lab Barcelona</a> to offer an alternative to the centralised data production and management systems used by the large corporations that constitute the driving force behind the smart city concept. The project empowers citizens and communities to gather information on their environment and make it available to the public, using open source hardware and software design.</p>
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <div class="kit_owner" ng-if="vm.device">
-        <div class="kit_detailed_content_container" layout="column">
-          <div layout="row" layout-align="start center">
-            <img class="ml-20 mr-30" style="height:100px; border-radius:50px;" ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg' }}" />
-            <div>
-              <a href="{{vm.user_url}}" class="kit_owner_usernameLink">
-                <h2 class="kit_owner_usernameText">{{ vm.device.owner.username }}</h2>
+              <div class="kit_details_title fit-content">
+              <a href="{{vm.device_url}}" class="no-decoration">
+                <md-tooltip md-direction="top" class="font-kanit">Check this kit on our new platform!</md-tooltip>
+                <h1 class="kit_details_name font-kanit weight-800 uppercase">{{ vm.device.name }}</h1>
               </a>
-              <p>
-              <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/location_icon_normal.svg">
-              </md-icon>
-              <span class="md-title">
-                <span ng-if="vm.device.owner.city">{{ vm.device.owner.city }}</span>
-                <span ng-if="vm.device.owner.city && vm.device.owner.country">,</span>
-                <span ng-if="vm.device.owner.country">{{ vm.device.owner.country }}</span>
-                <span ng-if="!vm.device.owner.city && !vm.device.owner.country">No location</span>
-              </span>
+              </div>
+
+              <div class="font-roboto-condensed kit_detail_items">
+
+                <p ng-bind-html="vm.device.description | linky:'_blank'" class="mt-10 weight-800">
+                </p>
+                <p class="kit_details_type mt-5 mb-0 status_{{ vm.device.status }}">
+                  <md-tooltip md-direction="top" class="font-kanit">Hardware version</md-tooltip>
+                  <md-icon class="icon_label icon_label_{{ vm.device.status }}" md-svg-src="./assets/images/kit_details_icon_normal.svg">
+                  </md-icon>
+                  <span>{{ vm.device.hardwareName }}</span>
+                </p>
+
+                <p class="kit_details_type mt-5 mb-0" ng-if="vm.device.hardware.info !== null">
+                  <md-tooltip md-direction="top" class="font-kanit">Firmware version</md-tooltip>
+                  <md-icon class="icon_label" md-svg-src="./assets/images/chip_icon.svg">
+                  </md-icon>
+                  <a href="https://github.com/fablabbcn/smartcitizen-kit-2x/commit/{{ vm.device.hardware.info.sam_commit }}" class="no-decoration font-mono" target="_blank">{{ vm.device.hardware.info.sam_ver }}</a>
+                  <a href="https://github.com/fablabbcn/smartcitizen-kit-2x/commit/{{ vm.device.hardware.info.esp_commit }}" class="no-decoration font-mono" target="_blank" ng-if="vm.device.hardware.info.sam_ver != vm.device.hardware.info.esp_ver">{{ vm.device.hardware.info.esp_ver }}</a>
+                </p>
+
+
+                <p class="kit_details_type mt-5 mb-0" ng-if="vm.device.lastReadingAt">
+                  <md-icon class="icon_label i" md-svg-src="./assets/images/update_icon.svg">
+                  </md-icon>
+                  <span>Last reading: {{ vm.device.lastReadingAt.parsed }}</span>
+                </p>
+
+                <span class="mr-10" ng-if="vm.device.isPrivate">
+                  <md-icon class="color-red" md-font-icon="fa fa-lock"></md-icon>
+                  <span class="kitList_state kitList_state_not_configured state">Private</span>
+                </span>
+
+                <p class="mt-5 mb-0">
+                  <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
+                  </md-icon>
+                  <span>{{ vm.device.locationString || 'No location' }}</span>
+                </p>
+
+                <p class="kit_details_type mt-5 mb-0" ng-if="vm.deviceBelongsToUser && vm.device.token !== null">
+                  <md-icon class="icon_label" md-svg-src="./assets/images/hidden_icon.svg"></md-icon>
+                  <md-tooltip md-direction="top" class="font-kanit">Click to reveal the token</md-tooltip>
+                  <span #token class="token font-mono" ng-init="blurred = true" ng-class="{'blurred': blurred}" ng-click="blurred = !blurred">{{ vm.device.token }}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-20 mb-20" >
+              <div class="mb-20" ng-if="vm.deviceBelongsToUser">
+
+                <md-button class="ml-0 btn-black-outline btn-round-new" href="{{vm.device_edit_url}}" aria-label="">
+                  <span>EDIT KIT</span>
+                </md-button>
+
+                <md-button class="ml-0 btn-black-outline btn-round-new" ng-if="vm.device.hardware" href="{{vm.device_upload_url}}" aria-label="">
+                  <span>UPLOAD DATA AS CSV</span>
+                </md-button>
+
+                <md-button class="ml-0 btn-black-outline btn-round-new" href="{{vm.device_download_url}}">
+                  Download DATA AS CSV
+                </md-button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="" ng-if="vm.device">
+        <div class="kit_detailed_content_container box-shadow-sc-blue" layout="column">
+          <div class="mt-30 mb-30" layout="row" layout-align="start center">
+            <a href="{{vm.user_url}}" class="kit_owner_usernameLink">
+              <img class="mr-30 circular-img-crop owner-img image-outline gray-outline" ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg' }}"/>
+            </a>
+
+            <div class="mb-0">
+              <a href="{{vm.user_url}}" class="kit_owner_usernameLink">
+                <h2 class="font-kanit weight-800 uppercase mt-10 mb-0">{{ vm.device.owner.username }}</h2>
+              </a>
+
+              <p class="mt-0 mb-0">
+                <md-icon class="icon_label" md-svg-src="./assets/images/location_icon_normal.svg">
+                </md-icon>
+
+                <span class="font-roboto-condensed kit_detail_items">
+                  <span ng-if="vm.device.owner.city">{{ vm.device.owner.city }}</span>
+                  <span ng-if="vm.device.owner.city && vm.device.owner.country">,</span>
+                  <span ng-if="vm.device.owner.country">{{ vm.device.owner.country }}</span>
+                  <span ng-if="!vm.device.owner.city && !vm.device.owner.country">No location</span>
+                </span>
               </p>
-              <p ng-if="vm.device.owner.url">
-              <md-icon class="kit_detailed_icon_content" md-svg-src="./assets/images/url_icon_normal.svg">
-              </md-icon>
-              <span class="md-title" ng-bind-html="vm.device.owner.url | linky:'_blank'">{{ vm.device.owner.url || 'No URL'}}</span>
+
+              <p class="mt-0" ng-if="vm.device.owner.url">
+                <md-icon class="icon_label" md-svg-src="./assets/images/url_icon_normal.svg">
+                </md-icon>
+
+                <span class="font-roboto-condensed kit_detail_items" ng-bind-html="vm.device.owner.url | linky:'_blank'">{{ vm.device.owner.url || 'No URL'}}</span>
               </p>
+
             </div>
           </div>
 
-          <div flex="100">
-            <section class="kit_owner_kits" ng-if="vm.sampleDevices.length > 0">
-              <h4 class="ml-20">Other kits owned by {{ vm.device.owner.username }}</h4>
-              <kit-list devices="vm.sampleDevices"></kit-list>
-              <div layout="row" layout-align="end end">
-                <!-- TODO: Cosmetic - Style fix -->
-                <md-button class="btn-round-new btn-cyan" ng-href="/users/{{ vm.device.owner.id }}" style="margin-right:23px; padding-top:4px" ng-if="vm.device.owner.devices.length > 6" aria-label="">VIEW ALL KITS BY {{ vm.device.owner.username }}</md-button>
-              </div>
-            </section>
-          </div>
+          <div class="mb-20" layout="column" layout-align="middle left">
 
+            <div class="mt-0">
+              <md-button class="ml-0 btn-black-outline btn-round-new" ng-href="{{vm.user_url}}" aria-label="">MORE BY {{ vm.device.owner.username }}</md-button>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- HACK: conflit zith lodash -->
-      <!-- <section class="kit_comments" ng-if="vm.device">
-        <div class="kit_detailed_content_container">
-          <div class="kit_detailed_content_container" ng-include="'app/components/disqus/disqus.html'"></div>
-        </div>
-      </section> -->
     </section>
   </section>
 </section>

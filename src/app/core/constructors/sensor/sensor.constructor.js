@@ -22,7 +22,6 @@
        * @property {string} tags - Contains sensor tags for filtering the view
        */
       function Sensor(sensorData) {
-
         this.id = sensorData.id;
         this.name = sensorData.name;
         this.unit = sensorData.unit;
@@ -33,6 +32,7 @@
         this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
         this.color = sensorUtils.getSensorColor(this.name);
         this.measurement = sensorData.measurement;
+        this.datasheet = sensorData.datasheet;
 
         // Some sensors don't have measurements because they are ancestors
         if (sensorData.measurement) {
