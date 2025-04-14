@@ -10,7 +10,7 @@
       vm.ui_base_url = URLS['base']
       var goto_path = URLS['goto']
 
-      vm.logout_url = vm.ui_base_url + URLS['logout']+ urlUtils.get_path(goto_path, ":url" , $window.location);
+      vm.logout_url = vm.ui_base_url + URLS['logout'] + urlUtils.get_path(goto_path, ":url" , $window.location);
       vm.seeed_url = URLS['seeed']
 
       vm.navRightLayout = 'space-around center';
