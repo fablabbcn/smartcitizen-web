@@ -147,11 +147,12 @@
         var sam_ver = parseString(object.sam_ver);
         var sam_commit = sam_ver.substring(
           sam_ver.indexOf("-")+1,
-          sam_ver.lastIndexOf("-")
+          sam_ver.indexOf("-") !== sam_ver.lastIndexOf("-") ? sam_ver.lastIndexOf("-") : sam_ver.length
         )
+
         var esp_commit = esp_ver.substring(
           esp_ver.indexOf("-")+1,
-          esp_ver.lastIndexOf("-")
+          esp_ver.indexOf("-") !== esp_ver.lastIndexOf("-") ? esp_ver.lastIndexOf("-") : esp_ver.length
         )
 
         return {
