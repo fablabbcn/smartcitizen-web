@@ -258,11 +258,11 @@
                 </md-button>
 
                 <md-button class="ml-0 btn-black-outline btn-round-new" ng-if="vm.device.hardware" href="{{vm.device_upload_url}}" aria-label="">
-                  <span>UPLOAD DATA AS CSV</span>
+                  <div>UPLOAD DATA <span hide show-gt-sm>AS CSV</span></div>
                 </md-button>
 
                 <md-button class="ml-0 btn-black-outline btn-round-new" href="{{vm.device_download_url}}">
-                  Download DATA AS CSV
+                  <div>Download DATA <span hide show-gt-sm>AS CSV</span></div>
                 </md-button>
 
               </div>
@@ -274,7 +274,7 @@
         <div class="kit_detailed_content_container box-shadow-sc-blue" layout="column">
           <div class="mt-30 mb-30" layout="row" layout-align="start center">
             <a href="{{vm.user_url}}" class="kit_owner_usernameLink">
-              <img class="mr-30 circular-img-crop owner-img image-outline gray-outline" ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg' }}"/>
+              <img hide show-gt-sm class="mr-30 circular-img-crop owner-img image-outline gray-outline" ng-src="{{ vm.device.owner.profile_picture || './assets/images/avatar.svg' }}"/>
             </a>
 
             <div class="mb-0">
@@ -305,9 +305,8 @@
           </div>
 
           <div class="mb-20" layout="column" layout-align="middle left">
-
             <div class="mt-0">
-              <md-button class="ml-0 btn-black-outline btn-round-new" ng-href="{{vm.user_url}}" aria-label="">MORE BY {{ vm.device.owner.username }}</md-button>
+              <md-button class="ml-0 btn-black-outline btn-round-new" ng-href="{{vm.user_url}}" aria-label="">MORE <span hide show-gt-sm>BY {{ vm.device.owner.username }}</span></md-button>
             </div>
           </div>
         </div>
