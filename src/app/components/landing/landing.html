@@ -14,7 +14,7 @@
         <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a>
         <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a>
       </div>
-      <a href="#get-your-kit" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</a>
+      <button ng-click="vm.goToHash('get-your-kit')"  class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</button>
     </div>
 
   </div>
@@ -26,9 +26,9 @@
         </div>
         <div class="card-text">
           <h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2>
-          <a href="#learn-more"
+          <button ng-click="vm.goToHash('learn-more')"
              class="btn-blue btn-round-new mt-30 md-button btn-justify-left"
-             >LEARN MORE</a>
+             >LEARN MORE</button>
         </div>
       </div>
     </div>
@@ -50,9 +50,9 @@
         <div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left">
           <h2>BUILDING ON OUR HISTORY</h2>
           <p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p>
-          <a href="#get-your-kit"
+          <button ng-click="vm.goToHash('get-your-kit')"
              class="btn-black-outline btn-round-new md-button btn-justify-left"
-             >GET YOUR KIT</a>
+             >GET YOUR KIT</button>
         </div>
       </div>
     </section>
