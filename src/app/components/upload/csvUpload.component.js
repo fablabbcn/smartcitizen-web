@@ -34,8 +34,6 @@ function parseDataForPost(csvArray) {
   };
 }
 
-
-
 controller.$inject = ['device', 'Papa', '$mdDialog', '$q'];
 function controller(device, Papa, $mdDialog, $q) {
   var vm = this;

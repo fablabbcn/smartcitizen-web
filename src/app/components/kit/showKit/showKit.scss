@@ -201,7 +201,7 @@ section .kit_menu {
     height: 15px;
   }
 
-  .switch input { 
+  .switch input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -408,6 +408,7 @@ section .kit_menu {
 .kit_details_notAuth_button {
   float: right;
 }
+
 .kit_detailed {
   /*height: 1000px;*/
   z-index: $medium_priority;
@@ -480,9 +481,25 @@ section .kit_menu {
           }
 
           a {
-            margin-left: 10px;
+            // margin-left: 10px;
             text-decoration: none;
             color: $grey_darker;
+          }
+
+          .sensor_title{
+            display: flex;
+            align-items: center;
+
+            svg {
+              fill: white;
+            }
+
+            &:hover {
+              svg {
+                fill: $yellow;
+                transition: 0.5s ease-in-out;
+              }
+            }
           }
 
           .sensor_description_full {
@@ -535,7 +552,7 @@ section .kit_menu {
           box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
           max-width: 175px;
         }
-        .sensor_compare {
+        .sensor_dropdowns {
           font-size: .8em;
           padding-top:30px;
           margin-top: 10px;
@@ -651,9 +668,21 @@ section .kit_menu {
       }
     }
   }
+
   .kit_details {
     color: $background_blue_dark_navbar;
+    background: grey url("/assets/images/sck_bg.png");
+    background-repeat: repeat;
+    background-size: 65px;
+    padding: 30px 30px;
   }
+
+  .kit_detail_items {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
   .kit_details_content {
     svg {
       fill: $off_black;
@@ -665,52 +694,16 @@ section .kit_menu {
   }
   .kit_details_name {
     margin: 5px 0 20px 0;
+    font-weight: 800;
   }
+
   .kit_details_type {
+    width: fit-content;
     > span {
       margin-right: 15px;
     }
   }
-  .kit_details_type_location svg {
-    fill: $secondary_color;
-  }
-  .kit_details_version {
-    span {
-      color: $secondary_color_light;
-      font-weight: bold;
-    }
-  }
-  .kit_details_id {
-    span {
-      color: $secondary_color_light;
-      font-weight: bold;
-    }
-  }
 
-  .kit_details_description {
-    padding-top: 4px;
-  }
-  .kit_details_description_title {
-    font-size: 16px;
-    margin-bottom: 15px;
-  }
-  .kit_details_description_content {
-    font-size: 12px;
-  }
-  .kit_details_manage_buttons {
-    margin-bottom: 32px;
-  }
-  .kit_details_button_delete {
-    color: $red;
-  }
-  .kit_details_manage_data {
-    .data_container {
-    }
-  }
-  .kit_details_key {
-    float: left;
-    height: 26px;
-  }
   .md-button.kit_details_key_refreshButton:hover, .md-button.kit_details_key_refreshButton:focus {
     background-color: #DBDBDB;
   }
@@ -738,85 +731,27 @@ section .kit_menu {
     font-size: 16px;
     display: inline;
   }
+
   .kit_detailed_content_container {
-    margin: 62px 37px 0px;
-
-    .kit_details_content_main {
-   // Bug: this will create an extra gap on mobile devices
-    //  width: 500px;
-    }
+    margin: 37px 30px 37px;
+    border: 3px solid $off_black;
+    background-color: white;
+    padding: 10px 30px;
   }
-  .kit_owner {
-    color: $background_blue_dark_navbar;
-    background-color: #F5F5F5;
-    padding-bottom:40px;
 
-    .container {
-      width: 95%;
-      margin: 0 auto;
-    }
-    .kit_owner_usernameLink {
-      text-decoration: none;
-    }
-    .kit_owner_usernameText {
-      color: $off_black;
-      margin: 50px 0 20px 0;
-    }
-    .kit_owner_location {
-      color: $secondary_color;
-      font-weight: bold;
-    }
-    .kit_owner_url a {
-      text-decoration: none;
-      color: $background_blue_dark_navbar;
-    }
-    .kit_owner_kits_title {
-      margin-bottom: 50px;
-    }
-    .kit_owner_kits_list {
-      border: 1px solid #EAECF1;
-      height: 82px;
-      background-color: white;
-    }
-    .kit_owner_kits_list_avatar {
-      float: left;
-      width: 44px;
-      height: 44px;
-      margin-right: 3%;
-      margin-top: 9px;
-    }
-    .kit_owner_kits_list_content {
-      float: left;
-      margin-top: 5px;
-    }
-    .kit_owner_kits_list_data {
-      font-size: 16px;
-      span {
-        margin-right: 15px;
-      }
-    }
-    .kit_owner_kits_list_state {
-      display: inline;
-      font-size: 12px;
-      border-radius: 20px;
-      padding: 6px 11px;
-      margin: 15px;
-    }
-    .kit_owner_kits_list_never_published {
-      background-color: $yellow;
-    }
-    .kit_owner_kits_list_not_configured {
-      background-color: $red;
-    }
-    .kit_owner_kits_list_config {
-      float: right;
-      margin-top: 13px;
-    }
-    .kit_owner_kits_list_config_icon {
-      width: 22px;
-      height: 22px;
-    }
+  .box-shadow-sc-yellow {
+    box-shadow: 10px 10px 0px -2.5px $yellow, 10px 10px 0px 0px #1C1C1C;
   }
+
+  .box-shadow-sc-blue {
+    box-shadow: 10px 10px 0px -2.5px $blue, 10px 10px 0px 0px #1C1C1C;
+  }
+
+  .kit_owner_usernameLink {
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+  }
+
 }
 
 .sensor_value {
@@ -885,6 +820,21 @@ because they conflict with enter animations */
   transform: scale(1);
 }
 
+.token {
+  font-size: 14px;
+  line-height:26px;
+  border-radius:20px;
+  padding: 3px 10px;
+  background-color: $yellow_light;
+
+}
+
+.blurred {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  transition: 0.7s ease-in-out;
+}
+
 /* .bat_animation.ng-leave {
   transition:2s ease all;
 }
@@ -894,3 +844,38 @@ because they conflict with enter animations */
 .bat_animation.ng-leave-active {
   opacity: 1;
 } */
+
+@media only screen and (max-width: 960px) {
+  h1,h2 {
+    font-size:25px !important;
+  }
+  .owner-img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  h1,h2 {
+    font-size:20px !important;
+    word-break: break-all;
+  }
+
+  .kit_detail_items {
+    font-size: 15px !important;
+  }
+
+  .owner-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn-round-new {
+    font-size: 14px;
+  }
+
+  .kit_detailed .kit_detailed_content_container {
+    margin: 37px 10px 37px;
+  }
+
+}

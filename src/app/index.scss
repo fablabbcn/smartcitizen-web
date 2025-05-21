@@ -1,5 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic|Roboto:400,700,700italic,400italic);
 @import url('https://fonts.googleapis.com/css?family=Kanit:400,500,600,700,900');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700');
+
 
 @import '_variables';
 @import 'helpers';
@@ -84,15 +86,12 @@ a.about{
 }
 
 li.policy-toc {
-  padding: 3px;
+  padding-left: 2px;
+  padding-bottom: 3px;
+
   a {
     text-decoration: none;
   }
-}
-
-ul#policy-toc {
-  padding-bottom: 0px !important;
-  padding-bottom: 0px !important;
 }
 
 .policy-toc#header{
@@ -106,7 +105,25 @@ ul#policy-toc {
   position: relative;
   top: -2px;
   svg {
-    fill: $grey_darker;
+    fill: $off_black;
+  }
+}
+
+.icon_label_online {
+  svg {
+    fill: $green !important;
+  }
+}
+
+.icon_label_unknown {
+  svg {
+    fill: $yellow !important;
+  }
+}
+
+.icon_label_offline {
+  svg {
+    fill: #F43D4D !important;
   }
 }
 
@@ -163,6 +180,7 @@ input{
     cursor:pointer;
   }
 }
+
 .label{
   background-color: $yellow_light;
   color: $off_black;
@@ -170,6 +188,14 @@ input{
     fill: $terciary_color_light;
   }
 }
+
+.md-toolbar-tools{
+  md-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 .tag {
   background-color: $yellow_lighter;
   color: $off_black;
@@ -378,6 +404,7 @@ md-toast {
   top: 64px !important; // Start the toast at top below navbar.
   min-width: 100%;
   z-index: 15;
+  font-family: Kanit;
 
   .alert_typeIcon {
     width: 16px;
@@ -561,6 +588,10 @@ section.map {
   h1 {
     font-size: 3em;
   }
+}
+
+.md-sidenav-right {
+  position: fixed;
 }
 
 /*
@@ -1333,10 +1364,12 @@ KIT TAGS MODULE
     text-transform: uppercase;
   }
 }
+
 .kitList_state {
   color:white;
   text-transform: uppercase;
 }
+
 .kitList_state_has_published {
   color: $green;
 }
@@ -1346,6 +1379,17 @@ KIT TAGS MODULE
 .kitList_state_not_configured {
   color: #F43D4D;
 }
+
+.status_online {
+  color: $green;
+}
+.status_unknown {
+  color: $yellow;
+}
+.status_offline {
+  color: #F43D4D;
+}
+
 .kitList_dropdownButton {
   display: block;
   margin: 0 auto;
@@ -2005,15 +2049,41 @@ section.relaxed-layout {
 }
 
 .not-found-404 {
-  height: 36vh;
+  height: 45vh;
+}
+
+.icon-large{
+  width: 120px;
+  height: 120px;
+  svg {
+    fill: $off_black;
+  }
 }
 
 @media (min-width: 960px) {
   .not-found-404 {
-    height: 67.3vh;
+    height: 51.3vh;
+  }
+
+  .icon-large{
+    width: 120px;
+    height: 120px;
+    svg {
+      fill: $off_black;
+    }
   }
 }
 
+.icon_label{
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  position: relative;
+  top: -2px;
+  svg {
+    fill: $off_black;
+  }
+}
 // About
 
 .sensor-image-margin {
@@ -2212,7 +2282,8 @@ p.no-margin {
   80%, 100% {
     text-shadow:
       .25em 0 0 $yellow,
-      .5em 0 0 $blue;}}
+      .5em 0 0 $blue;}
+}
 
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject

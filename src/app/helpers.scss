@@ -50,13 +50,44 @@
 .min-height-80 {
   min-height: 80%;
 }
+.fit-content {
+  width: fit-content;
+}
 
 // Font & text
 .font-roboto-condensed{
   font-family:'Roboto Condensed';
 }
+
 .font-kanit{
   font-family:'Kanit';
+  letter-spacing: 0.0325em;
+}
+
+.font-mono{
+  font-family:'Space Mono';
+  // letter-spacing: 0.0325em;
+  font-size: 0.9em;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.weight-900 {
+  font-weight: 900 !important;
+}
+
+.weight-800 {
+  font-weight: 800 !important;
+}
+
+.weight-700 {
+  font-weight: 700 !important;
+}
+
+.uppercase{
+  text-transform: uppercase;
 }
 
 .text-center{
@@ -66,7 +97,9 @@
   text-align: left;
 }
 
-
+.no-decoration{
+  text-decoration: none;
+}
 
 // Background helpers
 .bg-white{
@@ -247,6 +280,8 @@
 .ml-15 {
   margin-left: 15px;
 }
+.mt-0{ margin-top: 0px; }
+.mt-5{ margin-top: 5px; }
 .mt-10{ margin-top: 10px; }
 .mt-20{ margin-top: 20px; }
 .mt-30{ margin-top: 30px; }
@@ -255,6 +290,9 @@
 .mr-20{ margin-right: 20px; }
 .mr-30{ margin-right: 30px; }
 .mr-50{ margin-right: 50px; }
+.mb-0{ margin-bottom: 0px; }
+.mb-5{ margin-bottom: 5px; }
+
 .mb-10{ margin-bottom: 10px; }
 .mb-20{ margin-bottom: 20px; }
 .mb-30{ margin-bottom: 30px; }

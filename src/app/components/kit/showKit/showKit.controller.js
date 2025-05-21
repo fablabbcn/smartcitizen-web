@@ -5,15 +5,15 @@
     .controller('KitController', KitController);
 
   KitController.$inject = ['$state','$scope', '$stateParams',
-    'sensor', 'FullDevice', '$mdDialog', 'belongsToUser',
+    'sensor', 'FullDevice', '$mdDialog',
     'timeUtils', 'animation', 'auth',
-    '$timeout', 'alert', '$q', 'device',
-    'HasSensorDevice', 'geolocation', 'PreviewDevice'];
+    '$timeout', 'alert', '$q', 'device', 'deviceUtils',
+    'HasSensorDevice', 'geolocation', 'PreviewDevice', 'userUtils', 'urlUtils', 'URLS'];
   function KitController($state, $scope, $stateParams,
-    sensor, FullDevice, $mdDialog, belongsToUser,
+    sensor, FullDevice, $mdDialog,
     timeUtils, animation, auth,
-    $timeout, alert, $q, device,
-    HasSensorDevice, geolocation, PreviewDevice) {
+    $timeout, alert, $q, device, deviceUtils,
+    HasSensorDevice, geolocation, PreviewDevice, userUtils, urlUtils, URLS) {
 
     var vm = this;
     var sensorsData = [];
@@ -25,16 +25,16 @@
     vm.downloadData = downloadData;
     vm.geolocate = geolocate;
     vm.device = undefined;
-    vm.deviceBelongsToUser = belongsToUser;
+    // vm.deviceBelongsToUser = belongsToUser;
     vm.deviceWithoutData = false;
-    vm.legacyApiKey = belongsToUser ?
-      auth.getCurrentUser().data.key :
-      undefined;
+    // vm.legacyApiKey = belongsToUser ?
+    //   auth.getCurrentUser().data.key :
+    //   undefined;
     vm.loadingChart = true;
     vm.moveChart = moveChart;
     vm.allowUpdateChart = true;
     vm.ownerDevices = [];
-    vm.removeDevice = removeDevice;
+    // vm.removeDevice = removeDevice;
     vm.resetTimeOpts = resetTimeOpts;
     vm.sampleDevices = [];
     vm.selectedSensor = undefined;
@@ -119,8 +119,39 @@
       initialize();
     });
 
+    function belongsToUser() {
+      // console.log('belongsToUser')
+      if(!auth.isAuth() || !$stateParams.id) {
+        // console.log('Not auth')
+        // console.log(!auth.isAuth());
+        // console.log(!$stateParams.id)
+        return false;
+      }
+      var deviceID = parseInt($stateParams.id);
+      // console.log(deviceID)
+
+      var userData = ( auth.getCurrentUser().data ) || ($window.localStorage.getItem('smartcitizen.data') && new AuthUser( JSON.parse( $window.localStorage.getItem('smartcitizen.data') )));
+      var belongsToUser = deviceUtils.belongsToUser(userData.devices, deviceID);
+      var isAdmin = userUtils.isAdmin(userData);
+      return isAdmin || belongsToUser;
+    }
+
+    redirectNotOwner.$inject = ['belongsToUser', '$location'];
+    function redirectNotOwner(belongsToUser, $location) {
+      if(!belongsToUser) {
+        // console.error('This kit does not belong to user');
+        $location.path('/kits/');
+      }
+    }
+
+    $scope.$on('loggedIn', function(event){
+      vm.deviceBelongsToUser = belongsToUser();
+    });
+
     function initialize() {
+      vm.deviceBelongsToUser = belongsToUser();
       animation.viewLoaded();
+      // vm.deviceBelongsToUser = belongsToUser();
       updatePeriodically();
     }
 
@@ -162,6 +193,20 @@
             vm.device = newDevice;
             setOwnerSampleDevices();
 
+            // NEW MONOLITH INTEGRATION
+            var ui_base_url = URLS['base']
+            var user_path = URLS['users:username']
+            var device_path = URLS['devices:id']
+            var device_edit_path = URLS['devices:id:edit']
+            var device_download_path = URLS['devices:id:download']
+            var device_upload_path = URLS['devices:id:upload']
+
+            vm.user_url = ui_base_url + urlUtils.get_path(user_path, ":username", vm.device.owner.username);
+            vm.device_url = ui_base_url + urlUtils.get_path(device_path, ":id", vm.device.id);
+            vm.device_edit_url = ui_base_url + urlUtils.get_path(device_edit_path, ":id", vm.device.id);
+            vm.device_download_url = ui_base_url + urlUtils.get_path(device_download_path, ":id", vm.device.id);
+            vm.device_upload_url = ui_base_url + urlUtils.get_path(device_upload_path, ":id", vm.device.id);
+
             if (vm.device.state.name === 'has published') {
               /* Device has data */
               setDeviceOnMap();
@@ -190,6 +235,7 @@
           });
         }
         else if (error.noSensorData) {
+          // console.log('deviceHasNoData')
           deviceHasNoData();
         }
         else if (error.status === 403){
@@ -281,36 +327,36 @@
       }
     }
 
-    function removeDevice() {
-      var confirm = $mdDialog.confirm()
-        .title('Delete this kit?')
-        .textContent('Are you sure you want to delete this kit?')
-        .ariaLabel('')
-        .ok('DELETE')
-        .cancel('Cancel')
-        .theme('primary')
-        .clickOutsideToClose(true);
+    // function removeDevice() {
+    //   var confirm = $mdDialog.confirm()
+    //     .title('Delete this kit?')
+    //     .textContent('Are you sure you want to delete this kit?')
+    //     .ariaLabel('')
+    //     .ok('DELETE')
+    //     .cancel('Cancel')
+    //     .theme('primary')
+    //     .clickOutsideToClose(true);
 
-      $mdDialog
-        .show(confirm)
-        .then(function(){
-          device
-            .removeDevice(vm.device.id)
-            .then(function(){
-              alert.success('Your kit was deleted successfully');
-              device.updateContext().then(function(){
-                $state.transitionTo('layout.myProfile.kits', $stateParams,
-                  { reload: false,
-                    inherit: false,
-                    notify: true
-                  });
-              });
-            })
-            .catch(function(){
-              alert.error('Error trying to delete your kit.');
-            });
-        });
-    }
+    //   $mdDialog
+    //     .show(confirm)
+    //     .then(function(){
+    //       device
+    //         .removeDevice(vm.device.id)
+    //         .then(function(){
+    //           alert.success('Your kit was deleted successfully');
+    //           device.updateContext().then(function(){
+    //             $state.transitionTo('layout.myProfile.kits', $stateParams,
+    //               { reload: false,
+    //                 inherit: false,
+    //                 notify: true
+    //               });
+    //           });
+    //         })
+    //         .catch(function(){
+    //           alert.error('Error trying to delete your kit.');
+    //         });
+    //     });
+    // }
 
     function showSensorOnChart(sensorID) {
       vm.selectedSensor = sensorID;

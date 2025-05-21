@@ -2,71 +2,17 @@
   'use strict';
 
   angular.module('app.components')
-    .controller('UserProfileController', UserProfileController);
+  .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', '$stateParams', '$location',
-       'user', 'auth', 'userUtils', '$timeout', 'animation',
-      'NonAuthUser', '$q', 'PreviewDevice'];
-    function UserProfileController($scope, $stateParams, $location,
-        user, auth, userUtils, $timeout, animation,
-        NonAuthUser, $q, PreviewDevice) {
+  UserProfileController.$inject = ['$scope', '$window', '$location', '$stateParams', 'URLS', 'AuthUser', 'urlUtils', 'user'];
+  function UserProfileController($scope,  $window, $location, $stateParams, URLS, AuthUser, urlUtils, user) {
 
-      var vm = this;
-      var userID = parseInt($stateParams.id);
+    var ui_base_url = URLS['base'];
+    var user_path = URLS['users:id'];
 
-      vm.status = undefined;
-      vm.user = {};
-      vm.devices = [];
-      vm.filteredDevices = [];
-      vm.filterDevices = filterDevices;
+    var vm = this;
+    vm.user_id = $stateParams.id;
 
-      $scope.$on('loggedIn', function() {
-        var authUser = auth.getCurrentUser().data;
-        if( userUtils.isAuthUser(userID, authUser) ) {
-          $location.path('/profile');
-        }
-      });
-
-      initialize();
-
-      //////////////////
-
-      function initialize() {
-
-        user.getUser(userID)
-          .then(function(user) {
-            vm.user = new NonAuthUser(user);
-
-            if(!vm.user.devices.length) {
-              return [];
-            }
-
-            $q.all(vm.devices = vm.user.devices.map(function(data){
-              return new PreviewDevice(data);
-            }))
-
-          }).then(function(error) {
-            if(error && error.status === 404) {
-              $location.url('/404');
-            }
-          });
-
-        $timeout(function() {
-          setSidebarMinHeight();
-          animation.viewLoaded();
-        }, 500);
-      }
-
-      function filterDevices(status) {
-        if(status === 'all') {
-          status = undefined;
-        }
-        vm.status = status;
-      }
-
-      function setSidebarMinHeight() {
-        var height = document.body.clientHeight / 4 * 3;
-        angular.element('.profile_content').css('min-height', height + 'px');
-      }
-    }
+    $window.location.href = ui_base_url + urlUtils.get_path(user_path, ":id" , vm.user_id);
+  }
 })();

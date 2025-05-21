@@ -1,7 +1,7 @@
 <md-dialog class="filters">
-  <md-toolbar>
+  <md-toolbar >
     <div class="md-toolbar-tools">
-      <h2>Filters</h2>
+      <h2 class="font-kanit uppercase weight-800">Filters</h2>
       <span flex></span>
       <md-button class="md-icon-button" ng-click="vm.cancel()">
         <md-icon md-svg-icon="./assets/images/close_icon_blue.svg" aria-label="Close dialog"></md-icon>
@@ -11,33 +11,30 @@
   <md-dialog-content>
     <div class="md-dialog-content max-width-500px">
       <md-content layout-padding>
-        <h4 style="margin: 0">
-          Are you looking for real time data?
+        <h4 class="font-kanit m-0">
+          Filter kits by online/offline status
         </h4>
-        <p style="margin: 0">
+        <p class="font-kanit m-0">
           Online Kits have published data online at least during the past 60 minutes
         </p>
-        <div ng-repeat="filter in vm.status">
+        <div ng-repeat="filter in vm.status" class="mt-0">
           <md-checkbox ng-click="vm.toggle(vm.status)" ng-model="vm.checks[filter]">
-            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span>
+            <span class="filter font-kanit uppercase"> {{filter}}</span>
           </md-checkbox>
         </div>
       </md-content>
       <md-content style="margin-top: 10px;" layout-padding>
-        <h4 style="margin: 0">
-          Are you looking for outdoor data?
+        <h4 class="font-kanit m-0">
+          Or by indoor/outdoor data
         </h4>
-        <p style="margin: 0">
-          Kits can be used to monitor indoor and outdoor conditions
-        </p>
-        <div ng-repeat="filter in vm.location">
+        <div ng-repeat="filter in vm.location" class="mt-0">
           <md-checkbox ng-click="vm.toggle(vm.location)" ng-model="vm.checks[filter]">
-            <span style="padding: 3px 8px" class="filter"> {{filter.toUpperCase()}}</span>
+            <span class="filter font-kanit uppercase"> {{filter}}</span>
           </md-checkbox>
         </div>
       </md-content>
     </div>
-    <md-button class="md-warn btn-full" ng-click="vm.clear()">Clear filters</md-button>
-    <md-button class="btn-blue btn-full" ng-click="vm.answer()">Apply</md-button>
+    <md-button class="md-warn btn-full font-kanit uppercase weight-800 button-modal font-16" ng-click="vm.clear()">Clear filters</md-button>
+    <md-button class="btn-blue btn-full font-kanit uppercase weight-800 button-modal font-16" ng-click="vm.answer()">Apply</md-button>
   </md-dialog-content>
 </md-dialog>
