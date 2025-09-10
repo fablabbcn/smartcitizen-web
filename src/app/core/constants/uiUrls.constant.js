@@ -11,6 +11,8 @@
       .constant('URLS', {
         // Change for testing purposes
         'base': 'https://api.smartcitizen.me/ui',
+        'map': 'https://smartcitizen.me/kits',
+        'map:id': 'https://smartcitizen.me/kits/:id',
         'seeed': 'https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html',
         'labmaker': 'https://www.labmaker.org/collections/earth-and-ecology/products/smart-citizen-kit',
         'login': '/sessions/new',

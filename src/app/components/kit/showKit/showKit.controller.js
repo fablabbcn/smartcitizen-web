@@ -200,12 +200,16 @@
             var device_edit_path = URLS['devices:id:edit']
             var device_download_path = URLS['devices:id:download']
             var device_upload_path = URLS['devices:id:upload']
+            var device_goto_path = URLS['devices:id:goto']
+            var kits_path = URLS['map:id']
 
             vm.user_url = ui_base_url + urlUtils.get_path(user_path, ":username", vm.device.owner.username);
             vm.device_url = ui_base_url + urlUtils.get_path(device_path, ":id", vm.device.id);
-            vm.device_edit_url = ui_base_url + urlUtils.get_path(device_edit_path, ":id", vm.device.id);
-            vm.device_download_url = ui_base_url + urlUtils.get_path(device_download_path, ":id", vm.device.id);
-            vm.device_upload_url = ui_base_url + urlUtils.get_path(device_upload_path, ":id", vm.device.id);
+            // TODO - Pass goto parameter on the following
+            var kit_path = urlUtils.get_path(kits_path, ":id", vm.device.id);
+            vm.device_edit_url = ui_base_url + urlUtils.get_path(device_edit_path, ":id", vm.device.id) + urlUtils.get_path(device_goto_path, ":url", kit_path);
+            vm.device_download_url = ui_base_url + urlUtils.get_path(device_download_path, ":id", vm.device.id) + urlUtils.get_path(device_goto_path, ":url", kit_path);
+            vm.device_upload_url = ui_base_url + urlUtils.get_path(device_upload_path, ":id", vm.device.id) + urlUtils.get_path(device_goto_path, ":url", kit_path);
 
             if (vm.device.state.name === 'has published') {
               /* Device has data */
