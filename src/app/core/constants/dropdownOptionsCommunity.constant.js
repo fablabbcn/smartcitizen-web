@@ -14,6 +14,6 @@
       {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
       {text: 'API Reference', href: 'https://developer.smartcitizen.me/'},
       {text: 'About', href: 'https://docs.smartcitizen.me/about/'},
-      {text: 'Policy', href: '/policy'}
+      {text: 'Policy', href: 'https://api.smartcitizen.me/ui/policy/'}
     ]);
 })();
