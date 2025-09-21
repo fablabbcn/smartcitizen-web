@@ -200,7 +200,7 @@
             var device_edit_path = URLS['devices:id:edit']
             var device_download_path = URLS['devices:id:download']
             var device_upload_path = URLS['devices:id:upload']
-            var device_goto_path = URLS['devices:id:goto']
+            var device_goto_path = URLS['goto']
             var kits_path = URLS['map:id']
 
             vm.user_url = ui_base_url + urlUtils.get_path(user_path, ":username", vm.device.owner.username);
