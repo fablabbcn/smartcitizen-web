@@ -33,6 +33,7 @@ body.active {
    display: flex;
    justify-content: center;
    align-content: center;
+   box-shadow: 10px 10px 0px -3px #FFC100,10px 10px 0px 0px $off_black;
 }
 .logo-box h1 {
   color: white !important;
@@ -226,7 +227,7 @@ body.active {
 
   // Video section
   .video-section{
-    background: url("/assets/images/landing/smartcitizen-workshop.jpg") center/cover;
+    background: url("/assets/images/landing/smartcitizen-components.jpg") center/cover;
     position: relative;
     top: 0px;
     height: 100vh;
@@ -253,6 +254,9 @@ body.active {
     img{
       padding-bottom:40px;
     }
+  }
+  .heading-over-video:hover{
+    cursor: pointer;
   }
   .heading-over-video.right-card {
     right: 10%;
@@ -294,6 +298,10 @@ body.active {
     h1{
       font-size:42px;
       line-height:42px;
+    }
+    .logo-box h1 {
+      font-size: 40px !important;
+      line-height:50px !important;
     }
     h2{
       font-size:28px;
@@ -530,6 +538,10 @@ body.active {
     .banner-section{
       background: none;
     }
+    .logo-box h1 {
+      font-size: 40px !important;
+      line-height:50px !important;
+    }
   }
 
   // Less then 750px
@@ -537,18 +549,27 @@ body.active {
     h1{
       font-size:30px;
     }
+    .logo-box h1 {
+      font-size: 40px !important;
+      line-height:50px !important;
+    }
     h2{
       font-size:25px;
     }
     .text-funding{
       text-align: center;
     }
+
   }
 
   @media only screen and (max-width: 600px) {
     h1{
       font-size:28px;
       line-height:33px;
+    }
+    .logo-box h1 {
+      font-size: 40px !important;
+      line-height:50px !important;
     }
     h2{
       font-size:28px;
