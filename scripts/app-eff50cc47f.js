@@ -1083,60 +1083,6 @@
   'use strict';
 
   angular.module('app.components')
-    .factory('Sensor', ['sensorUtils', 'timeUtils', function(sensorUtils, timeUtils) {
-
-      /**
-       * Sensor constructor
-       * @param {Object} sensorData - Contains the data of a sensor sent from the API
-       * @property {string} name - Name of sensor
-       * @property {number} id - ID of sensor
-       * @property {string} unit - Unit of sensor. Ex: %
-       * @property {string} value - Last value sent. Ex: 95
-       * @property {string} prevValue - Previous value before last value
-       * @property {string} lastReadingAt - last_reading_at for the sensor reading
-       * @property {string} icon - Icon URL for sensor
-       * @property {string} arrow - Icon URL for sensor trend(up, down or equal)
-       * @property {string} color - Color that belongs to sensor
-       * @property {object} measurement - Measurement
-       * @property {string} fullDescription - Full Description for popup
-       * @property {string} previewDescription - Short Description for dashboard. Max 140 chars
-       * @property {string} tags - Contains sensor tags for filtering the view
-       */
-      function Sensor(sensorData) {
-        this.id = sensorData.id;
-        this.name = sensorData.name;
-        this.unit = sensorData.unit;
-        this.value = sensorUtils.getSensorValue(sensorData);
-        this.prevValue = sensorUtils.getSensorPrevValue(sensorData);
-        this.lastReadingAt = timeUtils.parseDate(sensorData.last_reading_at);
-        this.icon = sensorUtils.getSensorIcon(this.name);
-        this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
-        this.color = sensorUtils.getSensorColor(this.name);
-        this.measurement = sensorData.measurement;
-        this.datasheet = sensorData.datasheet;
-
-        // Some sensors don't have measurements because they are ancestors
-        if (sensorData.measurement) {
-          var description = sensorData.measurement.description;
-          this.fullDescription = description;
-          this.previewDescription = description.length > 140 ? description.slice(
-            0, 140).concat(' ... ') : description;
-          this.is_ancestor = false;
-        } else {
-          this.is_ancestor = true;
-        }
-
-        // Get sensor tags
-        this.tags = sensorData.tags;
-      }
-
-      return Sensor;
-    }]);
-})();
-(function() {
-  'use strict';
-
-  angular.module('app.components')
     .factory('User', ['COUNTRY_CODES', function(COUNTRY_CODES) {
 
       /**
@@ -1212,6 +1158,60 @@
     }]);
 })();
 
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .factory('Sensor', ['sensorUtils', 'timeUtils', function(sensorUtils, timeUtils) {
+
+      /**
+       * Sensor constructor
+       * @param {Object} sensorData - Contains the data of a sensor sent from the API
+       * @property {string} name - Name of sensor
+       * @property {number} id - ID of sensor
+       * @property {string} unit - Unit of sensor. Ex: %
+       * @property {string} value - Last value sent. Ex: 95
+       * @property {string} prevValue - Previous value before last value
+       * @property {string} lastReadingAt - last_reading_at for the sensor reading
+       * @property {string} icon - Icon URL for sensor
+       * @property {string} arrow - Icon URL for sensor trend(up, down or equal)
+       * @property {string} color - Color that belongs to sensor
+       * @property {object} measurement - Measurement
+       * @property {string} fullDescription - Full Description for popup
+       * @property {string} previewDescription - Short Description for dashboard. Max 140 chars
+       * @property {string} tags - Contains sensor tags for filtering the view
+       */
+      function Sensor(sensorData) {
+        this.id = sensorData.id;
+        this.name = sensorData.name;
+        this.unit = sensorData.unit;
+        this.value = sensorUtils.getSensorValue(sensorData);
+        this.prevValue = sensorUtils.getSensorPrevValue(sensorData);
+        this.lastReadingAt = timeUtils.parseDate(sensorData.last_reading_at);
+        this.icon = sensorUtils.getSensorIcon(this.name);
+        this.arrow = sensorUtils.getSensorArrow(this.value, this.prevValue);
+        this.color = sensorUtils.getSensorColor(this.name);
+        this.measurement = sensorData.measurement;
+        this.datasheet = sensorData.datasheet;
+
+        // Some sensors don't have measurements because they are ancestors
+        if (sensorData.measurement) {
+          var description = sensorData.measurement.description;
+          this.fullDescription = description;
+          this.previewDescription = description.length > 140 ? description.slice(
+            0, 140).concat(' ... ') : description;
+          this.is_ancestor = false;
+        } else {
+          this.is_ancestor = true;
+        }
+
+        // Get sensor tags
+        this.tags = sensorData.tags;
+      }
+
+      return Sensor;
+    }]);
+})();
 (function() {
   'use strict';
 
@@ -3333,6 +3333,39 @@ angular.module('app.components')
 	  function HomeController() {
 	  }
 })();
+(function (){
+	'use strict';
+
+	angular.module('app.components')
+		.controller('DownloadModalController', DownloadModalController);
+
+	DownloadModalController.$inject = ['thisDevice', 'device', '$mdDialog'];
+
+	function DownloadModalController(thisDevice, device, $mdDialog) {
+		var vm = this;
+
+		vm.device = thisDevice;
+		vm.download = download;
+		vm.cancel = cancel;
+
+		////////////////////////////
+
+		function download(){
+			device.mailReadings(vm.device)
+				.then(function (){
+					$mdDialog.hide();
+				}).catch(function(err){
+					$mdDialog.cancel(err);
+				});
+		}
+
+		function cancel(){
+			$mdDialog.cancel();
+		}
+	}
+
+})();
+
 (function(){
 'use strict';
 
@@ -3386,172 +3419,6 @@ function cookiesLaw($cookies) {
 }
 
 
-})();
-
-(function (){
-	'use strict';
-
-	angular.module('app.components')
-		.controller('DownloadModalController', DownloadModalController);
-
-	DownloadModalController.$inject = ['thisDevice', 'device', '$mdDialog'];
-
-	function DownloadModalController(thisDevice, device, $mdDialog) {
-		var vm = this;
-
-		vm.device = thisDevice;
-		vm.download = download;
-		vm.cancel = cancel;
-
-		////////////////////////////
-
-		function download(){
-			device.mailReadings(vm.device)
-				.then(function (){
-					$mdDialog.hide();
-				}).catch(function(err){
-					$mdDialog.cancel(err);
-				});
-		}
-
-		function cancel(){
-			$mdDialog.cancel();
-		}
-	}
-
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .factory('alert', alert);
-
-  alert.$inject = ['$mdToast'];
-  function alert($mdToast) {
-    var service = {
-      success: success,
-      error: error,
-      info: {
-        noData: {
-          visitor: infoNoDataVisitor,
-          owner: infoNoDataOwner,
-          private: infoDataPrivate,
-        },
-        longTime: infoLongTime,
-        // TODO: Refactor, check why this was removed
-        // inValid: infoDataInvalid,
-        generic: info
-      }
-    };
-
-    return service;
-
-    ///////////////////
-
-    function success(message) {
-      toast('success', message);
-    }
-
-    function error(message) {
-      toast('error', message);
-    }
-
-    function infoNoDataVisitor() {
-      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data. Leave a ' +
-        'comment to let its owner know.',
-        10000,
-        {
-          button: 'Leave comment',
-          href: 'https://forum.smartcitizen.me/'
-        });
-    }
-
-    function infoNoDataOwner() {
-      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data.',
-        10000);
-    }
-
-    function infoDataPrivate() {
-      info('Device not found, or it has been set to private. Leave a ' +
-        'comment to let its owner know you\'re interested.',
-        10000,
-        {
-          button: 'Leave comment',
-          href: 'https://forum.smartcitizen.me/'
-        });
-    }
-
-    // TODO: Refactor, check why this was removed
-    // function infoDataInvalid() {
-    //   info('Device not found, or it has been set to private.',
-    //     10000);
-    // }
-
-    function infoLongTime() {
-      info('😅 It looks like this kit hasn\'t posted any data in a long ' +
-        'time. Why not leave a comment to let its owner know?',
-        10000,
-        {
-          button: 'Leave comment',
-          href: 'https://forum.smartcitizen.me/'
-        });
-    }
-
-    function info(message, delay, options) {
-      if(options && options.button) {
-        toast('infoButton', message, options, undefined, delay);
-      } else {
-        toast('info', message, options, undefined, delay);
-      }
-    }
-
-    function toast(type, message, options, position, delay) {
-      position = position === undefined ? 'top': position;
-      delay = delay === undefined ? 5000 : delay;
-
-       $mdToast.show({
-        controller: 'AlertController',
-        controllerAs: 'vm',
-        templateUrl: 'app/components/alert/alert' + type + '.html',
-        hideDelay: delay,
-        position: position,
-        locals: {
-          message: message,
-          button: options && options.button,
-          href: options && options.href
-        }
-      });
-    }
-  }
-})();
-
-(function() {
-  'use strict';
-
-  angular.module('app.components')
-    .controller('AlertController', AlertController);
-
-    AlertController.$inject = ['$scope', '$mdToast', 'message', 'button', 'href'];
-    function AlertController($scope, $mdToast, message, button, href) {
-      var vm = this;
-
-      vm.close = close;
-      vm.message = message;
-      vm.button = button;
-      vm.href = href;
-
-      // hideAlert will be triggered on state change
-      $scope.$on('hideAlert', function() {
-        close();
-      });
-
-      ///////////////////
-
-      function close() {
-        $mdToast.hide();
-      }
-    }
 })();
 
 (function() {
@@ -4212,6 +4079,139 @@ function cookiesLaw($cookies) {
     }
 
   }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .factory('alert', alert);
+
+  alert.$inject = ['$mdToast'];
+  function alert($mdToast) {
+    var service = {
+      success: success,
+      error: error,
+      info: {
+        noData: {
+          visitor: infoNoDataVisitor,
+          owner: infoNoDataOwner,
+          private: infoDataPrivate,
+        },
+        longTime: infoLongTime,
+        // TODO: Refactor, check why this was removed
+        // inValid: infoDataInvalid,
+        generic: info
+      }
+    };
+
+    return service;
+
+    ///////////////////
+
+    function success(message) {
+      toast('success', message);
+    }
+
+    function error(message) {
+      toast('error', message);
+    }
+
+    function infoNoDataVisitor() {
+      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data. Leave a ' +
+        'comment to let its owner know.',
+        10000,
+        {
+          button: 'Leave comment',
+          href: 'https://forum.smartcitizen.me/'
+        });
+    }
+
+    function infoNoDataOwner() {
+      info('Woah! We couldn\'t locate this kit on the map because it hasn\'t published any data.',
+        10000);
+    }
+
+    function infoDataPrivate() {
+      info('Device not found, or it has been set to private. Leave a ' +
+        'comment to let its owner know you\'re interested.',
+        10000,
+        {
+          button: 'Leave comment',
+          href: 'https://forum.smartcitizen.me/'
+        });
+    }
+
+    // TODO: Refactor, check why this was removed
+    // function infoDataInvalid() {
+    //   info('Device not found, or it has been set to private.',
+    //     10000);
+    // }
+
+    function infoLongTime() {
+      info('😅 It looks like this kit hasn\'t posted any data in a long ' +
+        'time. Why not leave a comment to let its owner know?',
+        10000,
+        {
+          button: 'Leave comment',
+          href: 'https://forum.smartcitizen.me/'
+        });
+    }
+
+    function info(message, delay, options) {
+      if(options && options.button) {
+        toast('infoButton', message, options, undefined, delay);
+      } else {
+        toast('info', message, options, undefined, delay);
+      }
+    }
+
+    function toast(type, message, options, position, delay) {
+      position = position === undefined ? 'top': position;
+      delay = delay === undefined ? 5000 : delay;
+
+       $mdToast.show({
+        controller: 'AlertController',
+        controllerAs: 'vm',
+        templateUrl: 'app/components/alert/alert' + type + '.html',
+        hideDelay: delay,
+        position: position,
+        locals: {
+          message: message,
+          button: options && options.button,
+          href: options && options.href
+        }
+      });
+    }
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('app.components')
+    .controller('AlertController', AlertController);
+
+    AlertController.$inject = ['$scope', '$mdToast', 'message', 'button', 'href'];
+    function AlertController($scope, $mdToast, message, button, href) {
+      var vm = this;
+
+      vm.close = close;
+      vm.message = message;
+      vm.button = button;
+      vm.href = href;
+
+      // hideAlert will be triggered on state change
+      $scope.$on('hideAlert', function() {
+        close();
+      });
+
+      ///////////////////
+
+      function close() {
+        $mdToast.hide();
+      }
+    }
 })();
 
 (function() {
@@ -5078,437 +5078,6 @@ function cookiesLaw($cookies) {
 })();
 
 (function() {
-    'use strict';
-
-    /**
-     * Country codes.
-     * @constant
-     * @type {Object}
-     */
-
-    angular.module('app.components')
-      .constant('URLS', {
-        // Change for testing purposes
-        'base': 'https://api.smartcitizen.me/ui',
-        'map': 'https://smartcitizen.me/kits',
-        'map:id': 'https://smartcitizen.me/kits/:id',
-        'seeed': 'https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html',
-        'labmaker': 'https://www.labmaker.org/collections/earth-and-ecology/products/smart-citizen-kit',
-        'login': '/sessions/new',
-        'logout': '/sessions/destroy',
-        'users': '/users',
-        'newUsers': '/users/new',
-        'users:id': '/users/:id',
-        'users:username': '/users/:username',
-        'devices:id': '/devices/:id',
-        'devices:id:edit': '/devices/:id/edit',
-        'devices:id:download': '/devices/:id/download',
-        'devices:id:upload': '/devices/:id/upload',
-        'devices:id:delete': '/devices/:id/delete',
-        'goto': '?goto=:url'
-    });
-  })();
-
-(function() {
-  'use strict';
-
-  /**
-   * Tools links for user profile
-   * @constant
-   * @type {Array}
-   */
-
-  angular.module('app.components')
-    .constant('PROFILE_TOOLS', [{
-      type: 'documentation',
-      title: 'How to connect your Smart Citizen Kit tutorial',
-      description: 'Adding a Smart Citizen Kit tutorial',
-      avatar: '',
-      href: 'http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit'
-    }, {
-      type: 'documentation',
-      title: 'Download the latest Smart Citizen Kit Firmware',
-      description: 'The latest Arduino firmware for your kit',
-      avatar: '',
-      href: 'https://github.com/fablabbcn/Smart-Citizen-Kit/releases/latest'
-    }, {
-      type: 'documentation',
-      title: 'API Documentation',
-      description: 'Documentation for the new API',
-      avatar: '',
-      href: 'http://developer.smartcitizen.me/'
-    }, {
-      type: 'community',
-      title: 'Smart Citizen Forum',
-      description: 'Join the community discussion. Your feedback is important for us.',
-      avatar: '',
-      href:'http://forum.smartcitizen.me/'
-    }, {
-      type: 'documentation',
-      title: 'Smart Citizen Kit hardware details',
-      description: 'Visit the docs',
-      avatar: 'https://docs.smartcitizen.me/#/start/hardware'
-    }, {
-      type: 'documentation',
-      title: 'Style Guide',
-      description: 'Guidelines of the Smart Citizen UI',
-      avatar: '',
-      href: '/styleguide'
-    }, {
-      type: 'social',
-      title: 'Like us on Facebook',
-      description: 'Join the community on Facebook',
-      avatar: '',
-      href: 'https://www.facebook.com/smartcitizenBCN'
-    }, {
-      type: 'social',
-      title: 'Follow us on Twitter',
-      description: 'Follow our news on Twitter',
-      avatar: '',
-      href: 'https://twitter.com/SmartCitizenKit'
-    }]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Marker icons
-   * @constant
-   * @type {Object}
-   */
-
-  angular.module('app.components')
-    .constant('MARKER_ICONS', {
-      defaultIcon: {},
-      markerSmartCitizenNormal: {
-        type: 'div',
-        className: 'markerSmartCitizenNormal',
-        iconSize: [24, 24]
-      },
-      markerExperimentalNormal: {
-        type: 'div',
-        className: 'markerExperimentalNormal',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOnline: {
-        type: 'div',
-        className: 'markerSmartCitizenOnline',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOnlineActive: {
-        type: 'div',
-        className: 'markerSmartCitizenOnline marker_blink',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOffline: {
-        type: 'div',
-        className: 'markerSmartCitizenOffline',
-        iconSize: [24, 24]
-      },
-      markerSmartCitizenOfflineActive: {
-        type: 'div',
-        className: 'markerSmartCitizenOffline marker_blink',
-        iconSize: [24, 24]
-      }
-    });
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Dropdown options for user
-   * @constant
-   * @type {Array}
-   */
-  // angular.module('app.components')
-  //   .constant('DROPDOWN_OPTIONS_USER', [
-  //     {divider: true, text: 'Hi,', href: './profile', onclick: ''},
-  //     {text: 'My profile', href: './profile'}
-  //   ]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Dropdown options for community button
-   * @constant
-   * @type {Array}
-   */
-
-  // TODO Move to burger one day
-  angular.module('app.components')
-    .constant('DROPDOWN_OPTIONS_COMMUNITY', [
-      {text: 'Documentation', href: 'https://docs.smartcitizen.me/'},
-      {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
-      {text: 'API Reference', href: 'https://developer.smartcitizen.me/'},
-      {text: 'About', href: 'https://docs.smartcitizen.me/about/'},
-      {text: 'Policy', href: 'https://api.smartcitizen.me/ui/policy/'}
-    ]);
-})();
-
-(function() {
-  'use strict';
-
-  /**
-   * Country codes.
-   * @constant 
-   * @type {Object}
-   */
-  
-  angular.module('app.components')
-    .constant('COUNTRY_CODES', {
-      'AF': 'Afghanistan',
-      'AX': 'Aland Islands',
-      'AL': 'Albania',
-      'DZ': 'Algeria',
-      'AS': 'American Samoa',
-      'AD': 'Andorra',
-      'AO': 'Angola',
-      'AI': 'Anguilla',
-      'AQ': 'Antarctica',
-      'AG': 'Antigua And Barbuda',
-      'AR': 'Argentina',
-      'AM': 'Armenia',
-      'AW': 'Aruba',
-      'AU': 'Australia',
-      'AT': 'Austria',
-      'AZ': 'Azerbaijan',
-      'BS': 'Bahamas',
-      'BH': 'Bahrain',
-      'BD': 'Bangladesh',
-      'BB': 'Barbados',
-      'BY': 'Belarus',
-      'BE': 'Belgium',
-      'BZ': 'Belize',
-      'BJ': 'Benin',
-      'BM': 'Bermuda',
-      'BT': 'Bhutan',
-      'BO': 'Bolivia',
-      'BA': 'Bosnia And Herzegovina',
-      'BW': 'Botswana',
-      'BV': 'Bouvet Island',
-      'BR': 'Brazil',
-      'IO': 'British Indian Ocean Territory',
-      'BN': 'Brunei Darussalam',
-      'BG': 'Bulgaria',
-      'BF': 'Burkina Faso',
-      'BI': 'Burundi',
-      'KH': 'Cambodia',
-      'CM': 'Cameroon',
-      'CA': 'Canada',
-      'CV': 'Cape Verde',
-      'KY': 'Cayman Islands',
-      'CF': 'Central African Republic',
-      'TD': 'Chad',
-      'CL': 'Chile',
-      'CN': 'China',
-      'CX': 'Christmas Island',
-      'CC': 'Cocos (Keeling) Islands',
-      'CO': 'Colombia',
-      'KM': 'Comoros',
-      'CG': 'Congo',
-      'CD': 'Congo, Democratic Republic',
-      'CK': 'Cook Islands',
-      'CR': 'Costa Rica',
-      'CI': 'Cote D\'Ivoire',
-      'HR': 'Croatia',
-      'CU': 'Cuba',
-      'CY': 'Cyprus',
-      'CZ': 'Czech Republic',
-      'DK': 'Denmark',
-      'DJ': 'Djibouti',
-      'DM': 'Dominica',
-      'DO': 'Dominican Republic',
-      'EC': 'Ecuador',
-      'EG': 'Egypt',
-      'SV': 'El Salvador',
-      'GQ': 'Equatorial Guinea',
-      'ER': 'Eritrea',
-      'EE': 'Estonia',
-      'ET': 'Ethiopia',
-      'FK': 'Falkland Islands (Malvinas)',
-      'FO': 'Faroe Islands',
-      'FJ': 'Fiji',
-      'FI': 'Finland',
-      'FR': 'France',
-      'GF': 'French Guiana',
-      'PF': 'French Polynesia',
-      'TF': 'French Southern Territories',
-      'GA': 'Gabon',
-      'GM': 'Gambia',
-      'GE': 'Georgia',
-      'DE': 'Germany',
-      'GH': 'Ghana',
-      'GI': 'Gibraltar',
-      'GR': 'Greece',
-      'GL': 'Greenland',
-      'GD': 'Grenada',
-      'GP': 'Guadeloupe',
-      'GU': 'Guam',
-      'GT': 'Guatemala',
-      'GG': 'Guernsey',
-      'GN': 'Guinea',
-      'GW': 'Guinea-Bissau',
-      'GY': 'Guyana',
-      'HT': 'Haiti',
-      'HM': 'Heard Island & Mcdonald Islands',
-      'VA': 'Holy See (Vatican City State)',
-      'HN': 'Honduras',
-      'HK': 'Hong Kong',
-      'HU': 'Hungary',
-      'IS': 'Iceland',
-      'IN': 'India',
-      'ID': 'Indonesia',
-      'IR': 'Iran, Islamic Republic Of',
-      'IQ': 'Iraq',
-      'IE': 'Ireland',
-      'IM': 'Isle Of Man',
-      'IL': 'Israel',
-      'IT': 'Italy',
-      'JM': 'Jamaica',
-      'JP': 'Japan',
-      'JE': 'Jersey',
-      'JO': 'Jordan',
-      'KZ': 'Kazakhstan',
-      'KE': 'Kenya',
-      'KI': 'Kiribati',
-      'KR': 'Korea',
-      'KW': 'Kuwait',
-      'KG': 'Kyrgyzstan',
-      'LA': 'Lao People\'s Democratic Republic',
-      'LV': 'Latvia',
-      'LB': 'Lebanon',
-      'LS': 'Lesotho',
-      'LR': 'Liberia',
-      'LY': 'Libyan Arab Jamahiriya',
-      'LI': 'Liechtenstein',
-      'LT': 'Lithuania',
-      'LU': 'Luxembourg',
-      'MO': 'Macao',
-      'MK': 'Macedonia',
-      'MG': 'Madagascar',
-      'MW': 'Malawi',
-      'MY': 'Malaysia',
-      'MV': 'Maldives',
-      'ML': 'Mali',
-      'MT': 'Malta',
-      'MH': 'Marshall Islands',
-      'MQ': 'Martinique',
-      'MR': 'Mauritania',
-      'MU': 'Mauritius',
-      'YT': 'Mayotte',
-      'MX': 'Mexico',
-      'FM': 'Micronesia, Federated States Of',
-      'MD': 'Moldova',
-      'MC': 'Monaco',
-      'MN': 'Mongolia',
-      'ME': 'Montenegro',
-      'MS': 'Montserrat',
-      'MA': 'Morocco',
-      'MZ': 'Mozambique',
-      'MM': 'Myanmar',
-      'NA': 'Namibia',
-      'NR': 'Nauru',
-      'NP': 'Nepal',
-      'NL': 'Netherlands',
-      'AN': 'Netherlands Antilles',
-      'NC': 'New Caledonia',
-      'NZ': 'New Zealand',
-      'NI': 'Nicaragua',
-      'NE': 'Niger',
-      'NG': 'Nigeria',
-      'NU': 'Niue',
-      'NF': 'Norfolk Island',
-      'MP': 'Northern Mariana Islands',
-      'NO': 'Norway',
-      'OM': 'Oman',
-      'PK': 'Pakistan',
-      'PW': 'Palau',
-      'PS': 'Palestinian Territory, Occupied',
-      'PA': 'Panama',
-      'PG': 'Papua New Guinea',
-      'PY': 'Paraguay',
-      'PE': 'Peru',
-      'PH': 'Philippines',
-      'PN': 'Pitcairn',
-      'PL': 'Poland',
-      'PT': 'Portugal',
-      'PR': 'Puerto Rico',
-      'QA': 'Qatar',
-      'RE': 'Reunion',
-      'RO': 'Romania',
-      'RU': 'Russian Federation',
-      'RW': 'Rwanda',
-      'BL': 'Saint Barthelemy',
-      'SH': 'Saint Helena',
-      'KN': 'Saint Kitts And Nevis',
-      'LC': 'Saint Lucia',
-      'MF': 'Saint Martin',
-      'PM': 'Saint Pierre And Miquelon',
-      'VC': 'Saint Vincent And Grenadines',
-      'WS': 'Samoa',
-      'SM': 'San Marino',
-      'ST': 'Sao Tome And Principe',
-      'SA': 'Saudi Arabia',
-      'SN': 'Senegal',
-      'RS': 'Serbia',
-      'SC': 'Seychelles',
-      'SL': 'Sierra Leone',
-      'SG': 'Singapore',
-      'SK': 'Slovakia',
-      'SI': 'Slovenia',
-      'SB': 'Solomon Islands',
-      'SO': 'Somalia',
-      'ZA': 'South Africa',
-      'GS': 'South Georgia And Sandwich Isl.',
-      'ES': 'Spain',
-      'LK': 'Sri Lanka',
-      'SD': 'Sudan',
-      'SR': 'Suriname',
-      'SJ': 'Svalbard And Jan Mayen',
-      'SZ': 'Swaziland',
-      'SE': 'Sweden',
-      'CH': 'Switzerland',
-      'SY': 'Syrian Arab Republic',
-      'TW': 'Taiwan',
-      'TJ': 'Tajikistan',
-      'TZ': 'Tanzania',
-      'TH': 'Thailand',
-      'TL': 'Timor-Leste',
-      'TG': 'Togo',
-      'TK': 'Tokelau',
-      'TO': 'Tonga',
-      'TT': 'Trinidad And Tobago',
-      'TN': 'Tunisia',
-      'TR': 'Turkey',
-      'TM': 'Turkmenistan',
-      'TC': 'Turks And Caicos Islands',
-      'TV': 'Tuvalu',
-      'UG': 'Uganda',
-      'UA': 'Ukraine',
-      'AE': 'United Arab Emirates',
-      'GB': 'United Kingdom',
-      'US': 'United States',
-      'UM': 'United States Outlying Islands',
-      'UY': 'Uruguay',
-      'UZ': 'Uzbekistan',
-      'VU': 'Vanuatu',
-      'VE': 'Venezuela',
-      'VN': 'Viet Nam',
-      'VG': 'Virgin Islands, British',
-      'VI': 'Virgin Islands, U.S.',
-      'WF': 'Wallis And Futuna',
-      'EH': 'Western Sahara',
-      'YE': 'Yemen',
-      'ZM': 'Zambia',
-      'ZW': 'Zimbabwe' 
-    });
-})();
-
-(function() {
   'use strict';
 
   /**
@@ -6327,6 +5896,437 @@ function cookiesLaw($cookies) {
         });
       }
     }
+})();
+
+(function() {
+    'use strict';
+
+    /**
+     * Country codes.
+     * @constant
+     * @type {Object}
+     */
+
+    angular.module('app.components')
+      .constant('URLS', {
+        // Change for testing purposes
+        'base': 'https://api.smartcitizen.me/ui',
+        'map': 'https://smartcitizen.me/kits',
+        'map:id': 'https://smartcitizen.me/kits/:id',
+        'seeed': 'https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html',
+        'labmaker': 'https://www.labmaker.org/collections/earth-and-ecology/products/smart-citizen-kit',
+        'login': '/sessions/new',
+        'logout': '/sessions/destroy',
+        'users': '/users',
+        'newUsers': '/users/new',
+        'users:id': '/users/:id',
+        'users:username': '/users/:username',
+        'devices:id': '/devices/:id',
+        'devices:id:edit': '/devices/:id/edit',
+        'devices:id:download': '/devices/:id/download',
+        'devices:id:upload': '/devices/:id/upload',
+        'devices:id:delete': '/devices/:id/delete',
+        'goto': '?goto=:url'
+    });
+  })();
+
+(function() {
+  'use strict';
+
+  /**
+   * Tools links for user profile
+   * @constant
+   * @type {Array}
+   */
+
+  angular.module('app.components')
+    .constant('PROFILE_TOOLS', [{
+      type: 'documentation',
+      title: 'How to connect your Smart Citizen Kit tutorial',
+      description: 'Adding a Smart Citizen Kit tutorial',
+      avatar: '',
+      href: 'http://docs.smartcitizen.me/#/start/adding-a-smart-citizen-kit'
+    }, {
+      type: 'documentation',
+      title: 'Download the latest Smart Citizen Kit Firmware',
+      description: 'The latest Arduino firmware for your kit',
+      avatar: '',
+      href: 'https://github.com/fablabbcn/Smart-Citizen-Kit/releases/latest'
+    }, {
+      type: 'documentation',
+      title: 'API Documentation',
+      description: 'Documentation for the new API',
+      avatar: '',
+      href: 'http://developer.smartcitizen.me/'
+    }, {
+      type: 'community',
+      title: 'Smart Citizen Forum',
+      description: 'Join the community discussion. Your feedback is important for us.',
+      avatar: '',
+      href:'http://forum.smartcitizen.me/'
+    }, {
+      type: 'documentation',
+      title: 'Smart Citizen Kit hardware details',
+      description: 'Visit the docs',
+      avatar: 'https://docs.smartcitizen.me/#/start/hardware'
+    }, {
+      type: 'documentation',
+      title: 'Style Guide',
+      description: 'Guidelines of the Smart Citizen UI',
+      avatar: '',
+      href: '/styleguide'
+    }, {
+      type: 'social',
+      title: 'Like us on Facebook',
+      description: 'Join the community on Facebook',
+      avatar: '',
+      href: 'https://www.facebook.com/smartcitizenBCN'
+    }, {
+      type: 'social',
+      title: 'Follow us on Twitter',
+      description: 'Follow our news on Twitter',
+      avatar: '',
+      href: 'https://twitter.com/SmartCitizenKit'
+    }]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Marker icons
+   * @constant
+   * @type {Object}
+   */
+
+  angular.module('app.components')
+    .constant('MARKER_ICONS', {
+      defaultIcon: {},
+      markerSmartCitizenNormal: {
+        type: 'div',
+        className: 'markerSmartCitizenNormal',
+        iconSize: [24, 24]
+      },
+      markerExperimentalNormal: {
+        type: 'div',
+        className: 'markerExperimentalNormal',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOnline: {
+        type: 'div',
+        className: 'markerSmartCitizenOnline',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOnlineActive: {
+        type: 'div',
+        className: 'markerSmartCitizenOnline marker_blink',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOffline: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline',
+        iconSize: [24, 24]
+      },
+      markerSmartCitizenOfflineActive: {
+        type: 'div',
+        className: 'markerSmartCitizenOffline marker_blink',
+        iconSize: [24, 24]
+      }
+    });
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Dropdown options for user
+   * @constant
+   * @type {Array}
+   */
+  // angular.module('app.components')
+  //   .constant('DROPDOWN_OPTIONS_USER', [
+  //     {divider: true, text: 'Hi,', href: './profile', onclick: ''},
+  //     {text: 'My profile', href: './profile'}
+  //   ]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Dropdown options for community button
+   * @constant
+   * @type {Array}
+   */
+
+  // TODO Move to burger one day
+  angular.module('app.components')
+    .constant('DROPDOWN_OPTIONS_COMMUNITY', [
+      {text: 'Documentation', href: 'https://docs.smartcitizen.me/'},
+      {text: 'Forum', href: 'https://forum.smartcitizen.me/'},
+      {text: 'API Reference', href: 'https://developer.smartcitizen.me/'},
+      {text: 'About', href: 'https://docs.smartcitizen.me/about/'},
+      {text: 'Policy', href: 'https://api.smartcitizen.me/ui/policy/'}
+    ]);
+})();
+
+(function() {
+  'use strict';
+
+  /**
+   * Country codes.
+   * @constant 
+   * @type {Object}
+   */
+  
+  angular.module('app.components')
+    .constant('COUNTRY_CODES', {
+      'AF': 'Afghanistan',
+      'AX': 'Aland Islands',
+      'AL': 'Albania',
+      'DZ': 'Algeria',
+      'AS': 'American Samoa',
+      'AD': 'Andorra',
+      'AO': 'Angola',
+      'AI': 'Anguilla',
+      'AQ': 'Antarctica',
+      'AG': 'Antigua And Barbuda',
+      'AR': 'Argentina',
+      'AM': 'Armenia',
+      'AW': 'Aruba',
+      'AU': 'Australia',
+      'AT': 'Austria',
+      'AZ': 'Azerbaijan',
+      'BS': 'Bahamas',
+      'BH': 'Bahrain',
+      'BD': 'Bangladesh',
+      'BB': 'Barbados',
+      'BY': 'Belarus',
+      'BE': 'Belgium',
+      'BZ': 'Belize',
+      'BJ': 'Benin',
+      'BM': 'Bermuda',
+      'BT': 'Bhutan',
+      'BO': 'Bolivia',
+      'BA': 'Bosnia And Herzegovina',
+      'BW': 'Botswana',
+      'BV': 'Bouvet Island',
+      'BR': 'Brazil',
+      'IO': 'British Indian Ocean Territory',
+      'BN': 'Brunei Darussalam',
+      'BG': 'Bulgaria',
+      'BF': 'Burkina Faso',
+      'BI': 'Burundi',
+      'KH': 'Cambodia',
+      'CM': 'Cameroon',
+      'CA': 'Canada',
+      'CV': 'Cape Verde',
+      'KY': 'Cayman Islands',
+      'CF': 'Central African Republic',
+      'TD': 'Chad',
+      'CL': 'Chile',
+      'CN': 'China',
+      'CX': 'Christmas Island',
+      'CC': 'Cocos (Keeling) Islands',
+      'CO': 'Colombia',
+      'KM': 'Comoros',
+      'CG': 'Congo',
+      'CD': 'Congo, Democratic Republic',
+      'CK': 'Cook Islands',
+      'CR': 'Costa Rica',
+      'CI': 'Cote D\'Ivoire',
+      'HR': 'Croatia',
+      'CU': 'Cuba',
+      'CY': 'Cyprus',
+      'CZ': 'Czech Republic',
+      'DK': 'Denmark',
+      'DJ': 'Djibouti',
+      'DM': 'Dominica',
+      'DO': 'Dominican Republic',
+      'EC': 'Ecuador',
+      'EG': 'Egypt',
+      'SV': 'El Salvador',
+      'GQ': 'Equatorial Guinea',
+      'ER': 'Eritrea',
+      'EE': 'Estonia',
+      'ET': 'Ethiopia',
+      'FK': 'Falkland Islands (Malvinas)',
+      'FO': 'Faroe Islands',
+      'FJ': 'Fiji',
+      'FI': 'Finland',
+      'FR': 'France',
+      'GF': 'French Guiana',
+      'PF': 'French Polynesia',
+      'TF': 'French Southern Territories',
+      'GA': 'Gabon',
+      'GM': 'Gambia',
+      'GE': 'Georgia',
+      'DE': 'Germany',
+      'GH': 'Ghana',
+      'GI': 'Gibraltar',
+      'GR': 'Greece',
+      'GL': 'Greenland',
+      'GD': 'Grenada',
+      'GP': 'Guadeloupe',
+      'GU': 'Guam',
+      'GT': 'Guatemala',
+      'GG': 'Guernsey',
+      'GN': 'Guinea',
+      'GW': 'Guinea-Bissau',
+      'GY': 'Guyana',
+      'HT': 'Haiti',
+      'HM': 'Heard Island & Mcdonald Islands',
+      'VA': 'Holy See (Vatican City State)',
+      'HN': 'Honduras',
+      'HK': 'Hong Kong',
+      'HU': 'Hungary',
+      'IS': 'Iceland',
+      'IN': 'India',
+      'ID': 'Indonesia',
+      'IR': 'Iran, Islamic Republic Of',
+      'IQ': 'Iraq',
+      'IE': 'Ireland',
+      'IM': 'Isle Of Man',
+      'IL': 'Israel',
+      'IT': 'Italy',
+      'JM': 'Jamaica',
+      'JP': 'Japan',
+      'JE': 'Jersey',
+      'JO': 'Jordan',
+      'KZ': 'Kazakhstan',
+      'KE': 'Kenya',
+      'KI': 'Kiribati',
+      'KR': 'Korea',
+      'KW': 'Kuwait',
+      'KG': 'Kyrgyzstan',
+      'LA': 'Lao People\'s Democratic Republic',
+      'LV': 'Latvia',
+      'LB': 'Lebanon',
+      'LS': 'Lesotho',
+      'LR': 'Liberia',
+      'LY': 'Libyan Arab Jamahiriya',
+      'LI': 'Liechtenstein',
+      'LT': 'Lithuania',
+      'LU': 'Luxembourg',
+      'MO': 'Macao',
+      'MK': 'Macedonia',
+      'MG': 'Madagascar',
+      'MW': 'Malawi',
+      'MY': 'Malaysia',
+      'MV': 'Maldives',
+      'ML': 'Mali',
+      'MT': 'Malta',
+      'MH': 'Marshall Islands',
+      'MQ': 'Martinique',
+      'MR': 'Mauritania',
+      'MU': 'Mauritius',
+      'YT': 'Mayotte',
+      'MX': 'Mexico',
+      'FM': 'Micronesia, Federated States Of',
+      'MD': 'Moldova',
+      'MC': 'Monaco',
+      'MN': 'Mongolia',
+      'ME': 'Montenegro',
+      'MS': 'Montserrat',
+      'MA': 'Morocco',
+      'MZ': 'Mozambique',
+      'MM': 'Myanmar',
+      'NA': 'Namibia',
+      'NR': 'Nauru',
+      'NP': 'Nepal',
+      'NL': 'Netherlands',
+      'AN': 'Netherlands Antilles',
+      'NC': 'New Caledonia',
+      'NZ': 'New Zealand',
+      'NI': 'Nicaragua',
+      'NE': 'Niger',
+      'NG': 'Nigeria',
+      'NU': 'Niue',
+      'NF': 'Norfolk Island',
+      'MP': 'Northern Mariana Islands',
+      'NO': 'Norway',
+      'OM': 'Oman',
+      'PK': 'Pakistan',
+      'PW': 'Palau',
+      'PS': 'Palestinian Territory, Occupied',
+      'PA': 'Panama',
+      'PG': 'Papua New Guinea',
+      'PY': 'Paraguay',
+      'PE': 'Peru',
+      'PH': 'Philippines',
+      'PN': 'Pitcairn',
+      'PL': 'Poland',
+      'PT': 'Portugal',
+      'PR': 'Puerto Rico',
+      'QA': 'Qatar',
+      'RE': 'Reunion',
+      'RO': 'Romania',
+      'RU': 'Russian Federation',
+      'RW': 'Rwanda',
+      'BL': 'Saint Barthelemy',
+      'SH': 'Saint Helena',
+      'KN': 'Saint Kitts And Nevis',
+      'LC': 'Saint Lucia',
+      'MF': 'Saint Martin',
+      'PM': 'Saint Pierre And Miquelon',
+      'VC': 'Saint Vincent And Grenadines',
+      'WS': 'Samoa',
+      'SM': 'San Marino',
+      'ST': 'Sao Tome And Principe',
+      'SA': 'Saudi Arabia',
+      'SN': 'Senegal',
+      'RS': 'Serbia',
+      'SC': 'Seychelles',
+      'SL': 'Sierra Leone',
+      'SG': 'Singapore',
+      'SK': 'Slovakia',
+      'SI': 'Slovenia',
+      'SB': 'Solomon Islands',
+      'SO': 'Somalia',
+      'ZA': 'South Africa',
+      'GS': 'South Georgia And Sandwich Isl.',
+      'ES': 'Spain',
+      'LK': 'Sri Lanka',
+      'SD': 'Sudan',
+      'SR': 'Suriname',
+      'SJ': 'Svalbard And Jan Mayen',
+      'SZ': 'Swaziland',
+      'SE': 'Sweden',
+      'CH': 'Switzerland',
+      'SY': 'Syrian Arab Republic',
+      'TW': 'Taiwan',
+      'TJ': 'Tajikistan',
+      'TZ': 'Tanzania',
+      'TH': 'Thailand',
+      'TL': 'Timor-Leste',
+      'TG': 'Togo',
+      'TK': 'Tokelau',
+      'TO': 'Tonga',
+      'TT': 'Trinidad And Tobago',
+      'TN': 'Tunisia',
+      'TR': 'Turkey',
+      'TM': 'Turkmenistan',
+      'TC': 'Turks And Caicos Islands',
+      'TV': 'Tuvalu',
+      'UG': 'Uganda',
+      'UA': 'Ukraine',
+      'AE': 'United Arab Emirates',
+      'GB': 'United Kingdom',
+      'US': 'United States',
+      'UM': 'United States Outlying Islands',
+      'UY': 'Uruguay',
+      'UZ': 'Uzbekistan',
+      'VU': 'Vanuatu',
+      'VE': 'Venezuela',
+      'VN': 'Viet Nam',
+      'VG': 'Virgin Islands, British',
+      'VI': 'Virgin Islands, U.S.',
+      'WF': 'Wallis And Futuna',
+      'EH': 'Western Sahara',
+      'YE': 'Yemen',
+      'ZM': 'Zambia',
+      'ZW': 'Zimbabwe' 
+    });
 })();
 
 (function() {
@@ -7343,7 +7343,7 @@ $templateCache.put('app/components/footer/footer.html','<footer class="p-60" sty
 $templateCache.put('app/components/home/template.html','<div><section class="content"><div ui-view="map" class="map_state"></div><div ui-view="container" class="kit"></div></section></div>');
 $templateCache.put('app/components/interstitial/interstitial.html','<divs></divs>');
 $templateCache.put('app/components/kitList/kitList.html','<div class="" ng-if="devices.length === 0"><small>No kits</small></div><md-list layout="row" layout-wrap=""><md-list-item class="kitList_parent" ng-repeat="device in devices track by device.id" flex="100" flex-gt-md="50" layout-xs="column" layout-align="start center"><md-card class="kit-list-item" flex="" layout-padding="" href="./kits/{{device.id}}"><md-card-header layout="row" layout-align="start center"><div class="ml-20 mt-20"><h4 class="m-0 mb-10">{{ device.name || \'No name\' }}</h4><span class="md-subhead"><md-icon class="icon_label" md-svg-src="./assets/images/sensor_icon.svg"></md-icon><span class="mr-10">{{ device.hardwareName || \'Unknown Kit\'}}</span></span><p class="m-0 mb-10" ng-if="device.belongProperty"><md-icon class="kitList_state_{{ device.state.className }}" md-font-icon="fa fa-wifi"></md-icon><span class="kitList_state_{{ device.state.className }} state">{{ device.state.name }}</span></p></div></md-card-header><md-card-content class="ml-20 mb-20"><div layout="row" layout-align="start center" layout-wrap=""><span class="label" ng-repeat="system_tag in device.systemTags">{{ system_tag }}</span><tag ng-repeat="tag in device.userTags" ng-attr-tag-name="tag" clickable=""></tag></div></md-card-content><div class="ml-10 mb-20"><md-button class="md-raised md-primary md-hue-1" ng-href="./kits/{{device.id}}"><md-icon style="margin:5px" md-font-icon="fa fa-globe"></md-icon>View on map</md-button><md-button class="md-raised md-primary md-hue-1" ng-if="device.belongProperty" ng-repeat="item in device.dropdownOptions" ng-href="{{item.href}}"><md-icon style="margin:5px" md-font-icon="{{item.icon}}"></md-icon><span>{{item.text}}</span></md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.downloadData(device)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" class="kit_detailed_icon_content" md-font-icon="fa fa-download" ng-click="vm.downloadData(device)"></md-icon>Download CSV</md-button><md-button class="md-raised md-primary md-hue-1" ng-click="actions.remove(device.id)" ng-if="device.belongProperty" aria-label=""><md-icon style="margin:5px" md-font-icon="fa fa-trash"></md-icon>REMOVE</md-button></div></md-card></md-list-item></md-list>');
-$templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><div class="sc-off-cta-platform"><div class="navigation"><a href="#"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"></a></div><div class="hamburger"><span class="bar"></span> <span class="bar"></span> <span class="bar"></span></div><div class="landing-menu"><div class="external-links"><a href="/kits/" class="landing-menu-btn md-button" target="_blank">PLATFORM</a> <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a> <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a></div><button ng-click="vm.goToHash(\'get-your-kit\')" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</button></div></div><section class="video-section"><div class="header-section"><div class="heading-over-video card" layout="column" layout-align="center start"><div class="logo-box"><h1>SMART CITIZEN</h1></div><div class="card-text"><h2 class="font-kanit text-left">OPEN TOOLS FOR ENVIRONMENTAL MONITORING</h2><button ng-click="vm.goToHash(\'learn-more\')" class="btn-blue btn-round-new mt-30 md-button btn-justify-left">LEARN MORE</button></div></div></div></section><div id="learn-more" class="color-black"><section layout="row" layout-xs="column" class="pd-60"><div flex="50" flex-xs="100" layout="column"><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top text-left"><h2>EMPOWERING COMMUNITIES FOR ACTION</h2><p style="margin-bottom:33px">We are a collective of passionate people who believe that data is critical to inform civic participation. We develop free and open-source tools for environmental monitoring and methodologies for community-driven action.</p></div><div flex-order-xs="1" class="img-sck_edu tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-new_sck tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left"><h2>BUILDING ON OUR HISTORY</h2><p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p><button ng-click="vm.goToHash(\'get-your-kit\')" class="btn-black-outline btn-round-new md-button btn-justify-left">GET YOUR KIT</button></div></div></section><section class="pd-60"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-left">TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center color-white"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd-sensing campaign in your city. Create local maps of noise and air quality. Raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCH INSTITUTIONS</h3><p>Use Smart Citizen as a tool for environmental data collection and analysis. Trigger informed action that brings communities together, raising awareness of environmental issues.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">EDUCATORS</h3><p class="color-white">Find ways to bring Smart Citizen tools into the classroom. Explore our freely accessible tools and methodologies for educators, giving environmental awareness a hands-on toolkit.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section></div><section class="banner-section"><div class="header-section"><div class="tile tile-image mobileonly img-platform"></div><div class="heading-over-video right-card card" layout="column" layout-align="center start"><div class="card-text"><h2 class="font-kanit text-left">ACROSS THE GLOBE</h2><p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p><a href="/kits/" target="_blank" class="btn-blue btn-round-new md-button btn-justify-left">GO TO THE PLATFORM</a></div></div></div></section><div id="learn-more" style="margin: 0 auto; max-width:1200px" class="color-black"><section class="pd-60"><div layout="row" layout-xs="column" id="open-platform"><div flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around" class="bg-white tile tile-left tile-top tile-xs"><div class="text-left"><h2 class="text-left">AN OPEN PROJECT</h2></div><div class="text-left"><p><strong>Learn, build and contribute.</strong> The project builds on open source technologies such as Arduino to enable citizens and communities to gather information on their environment and make it available to the public via the Smart Citizen platform.</p><p><strong>Check out our documentation and learn how to contribute to the project by joining the open source development community.</strong></p><a href="https://docs.smartcitizen.me/" class="btn-blue btn-round-new md-button btn-justify-left" target="_blank">GO TO THE DOCS</a></div></div><div flex="50" flex-xs="100" layout="column" layout-align="end center" class="img-docs tile tile-top border-xs-bottom tile-image"></div><div></div></div></section><section class="pd-60" id="get-your-kit"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-center">GET YOUR KIT</h2></div><div layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" layout-xs="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/new.svg" alt="New kit icon"><h3 class="color-white">SMART CITIZEN KIT</h3><p class="color-white" style="margin-bottom:33px">We\'re excited to release our newest version of the Smart Citizen Kit! The Smart Citizen Kit 2.3 is an upgrade of the kit that you already know and love, and is now available through SEEED Studio and LABmaker, our European distributor!</p><a href="https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT SEEED STUDIO!</a> <a href="https://www.labmaker.org/collections/earth-and-ecology/products/smart-citizen-kit" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT LABmaker!</a></div><div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-kits-research tile tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-yellow tile border-xs-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/contact.svg" alt="Contact icon"><h3>PROJECTS AND CUSTOMIZATIONS</h3><p style="margin-bottom:33px">Planning something big? Do you want to use the kit as part of a research project? While all of our hardware is open source, we work directly with research organizations and projects to make open hardware that anyone can use.</p><p style="margin-bottom:33px"><strong>Get in touch for customized projects at <a href="mailto:info@smartcitizen.me">info@smartcitizen.me</a></strong></p><a href="mailto:info@smartcitizen.me" class="btn-black-outline btn-round-new md-button">CONTACT US!</a></div></div></div></section><section class="pd-60" id="newsletter"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST NEWS</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input class="btn-yellow btn-round-new md-button" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="pd-60 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new md-button" target="_blank">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project or download designs.</p><a href="https://github.com/orgs/fablabbcn/repositories?q=smartcitizen" class="btn-black-outline btn-round-new md-button" target="_blank">VISIT OUR REPOS</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new md-button" target="_blank">GET INVOLVED</a></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center" class="mt"></footer><script>\n  const hamburger = document.querySelector(".hamburger");\n  const navMenu = document.querySelector(".landing-menu");\n  const navGeneral = document.querySelector(".sc-off-cta-platform");\n  const pageScroll = document.querySelector("body");\n  const navFull = document.querySelector(".navigation");\n\n  hamburger.addEventListener("click", mobileMenu);\n\n  function mobileMenu() {\n    hamburger.classList.toggle("active");\n    navMenu.classList.toggle("active");\n    navGeneral.classList.toggle("active");\n    pageScroll.classList.toggle("active");\n    navFull.classList.toggle("active");\n    document.body.style.top = `-${window.scrollY}px`;\n  }\n\n  const navLink = document.querySelectorAll(".landing-menu");\n\n  navLink.forEach(n => n.addEventListener("click", closeMenu));\n\n  function closeMenu() {\n    hamburger.classList.remove("active");\n    navMenu.classList.remove("active");\n    navGeneral.classList.remove("active");\n    pageScroll.classList.remove("active");\n    navFull.classList.remove("active");\n    const scrollY = document.body.style.top;\n    document.body.style.position = \'\';\n    document.body.style.top = \'\';\n    // window.scrollTo(0, parseInt(scrollY || \'0\') * -1);\n  }\n</script>');
+$templateCache.put('app/components/landing/landing.html','<div class="new-landing-page grey-waves"><div class="sc-off-cta-platform"><div class="navigation"><a href="#"><img class="sc-logo" src="/assets/images/smartcitizen_logo.svg" alt="logo"></a></div><div class="hamburger"><span class="bar"></span> <span class="bar"></span> <span class="bar"></span></div><div class="landing-menu"><div class="external-links"><a href="/kits/" class="landing-menu-btn md-button" target="_blank">PLATFORM</a> <a href="https://docs.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">DOCUMENTATION</a> <a href="https://forum.smartcitizen.me/" class="landing-menu-btn md-button" target="_blank">FORUM</a></div><button ng-click="vm.goToHash(\'get-your-kit\')" class="btn-white-blue btn-round-new md-button btn-kit">GET YOUR KIT</button></div></div><section class="video-section"><div class="header-section"><div class="heading-over-video" layout="column" layout-align="center start" ng-click="vm.goToHash(\'learn-more\')"><div class="logo-box"><h1>SMART CITIZEN</h1></div></div></div></section><div id="learn-more" class="color-black"><section layout="row" layout-xs="column" class="pd-60"><div flex="50" flex-xs="100" layout="column"><div flex="noshrink" flex-order-xs="2" class="bg-white tile tile-left border-xs-bottom tile-top text-left"><h2>EMPOWERING COMMUNITIES FOR ACTION</h2><p style="margin-bottom:33px">We are a collective of passionate people who believe that data is critical to inform civic participation. We develop free and open-source tools for environmental monitoring and methodologies for community-driven action.</p></div><div flex-order-xs="1" class="img-sck_edu tile tile-left tile-image border-xs-top"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-new_sck tile tile-top tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-white tile border-xs-left border-xs-bottom text-left"><h2>BUILDING ON OUR HISTORY</h2><p style="margin-bottom:33px">The Smart Citizen project provides tools for collecting, understanding, and sharing environmental data. Since 2012, we have developed various iterations of the Smart Citizen Kit, allowing anyone to contribute and take part in data-driven action.</p><button ng-click="vm.goToHash(\'get-your-kit\')" class="btn-black-outline btn-round-new md-button btn-justify-left">GET YOUR KIT</button></div></div></section><section class="pd-60"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-left">TOOLS FOR EVERY COMMUNITY</h2></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-blue tile tile-left border-xs-bottom text-center color-white"><img style="height:85px" src="./assets/images/communities.svg" alt="Community icon"><h3 class="color-white">LOCAL COMMUNITIES</h3><p class="color-white">Launch a crowd-sensing campaign in your city. Create local maps of noise and air quality. Raise awareness and find solutions for issues that matter to your community.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-sck_com tile-image tile border-xs-bottom"></div></div><div layout="row" layout-xs="column"><div flex="60" flex-xs="100" class="img-research tile-image tile tile-left border-xs-bottom"></div><div flex="40" flex-xs="100" class="bg-yellow tile tile-xs text-center border-xs-bottom"><img style="height:85px" src="./assets/images/research.svg" alt="Community icon"><h3>RESEARCH INSTITUTIONS</h3><p>Use Smart Citizen as a tool for environmental data collection and analysis. Trigger informed action that brings communities together, raising awareness of environmental issues.</p></div></div><div layout="row" layout-xs="column"><div flex="40" flex-xs="100" flex-order-xs="1" class="bg-red tile tile-left color-white border-xs-bottom text-center"><img style="height:110px" src="./assets/images/cities.svg" alt="Community icon"><h3 class="color-white">EDUCATORS</h3><p class="color-white">Find ways to bring Smart Citizen tools into the classroom. Explore our freely accessible tools and methodologies for educators, giving environmental awareness a hands-on toolkit.</p></div><div flex="60" flex-xs="100" flex-order-xs="0" class="img-governm tile tile-image border-xs-bottom"></div></div></section></div><section class="banner-section"><div class="header-section"><div class="tile tile-image mobileonly img-platform"></div><div class="heading-over-video right-card card" layout="column" layout-align="center start"><div class="card-text"><h2 class="font-kanit text-left">ACROSS THE GLOBE</h2><p class="p-header text-left" style="margin-bottom:33px">Generate real-time data and awareness about pressing environmental issues, empowering communities to seek solutions.</p><a href="/kits/" target="_blank" class="btn-blue btn-round-new md-button btn-justify-left">GO TO THE PLATFORM</a></div></div></div></section><div id="learn-more" style="margin: 0 auto; max-width:1200px" class="color-black"><section class="pd-60"><div layout="row" layout-xs="column" id="open-platform"><div flex="50" flex-xs="100" layout="column" layout-xs="column" layout-align="space-around" class="bg-white tile tile-left tile-top tile-xs"><div class="text-left"><h2 class="text-left">AN OPEN PROJECT</h2></div><div class="text-left"><p><strong>Learn, build and contribute.</strong> The project builds on open source technologies such as Arduino to enable citizens and communities to gather information on their environment and make it available to the public via the Smart Citizen platform.</p><p><strong>Check out our documentation and learn how to contribute to the project by joining the open source development community.</strong></p><a href="https://docs.smartcitizen.me/" class="btn-blue btn-round-new md-button btn-justify-left" target="_blank">GO TO THE DOCS</a></div></div><div flex="50" flex-xs="100" layout="column" layout-align="end center" class="img-docs tile tile-top border-xs-bottom tile-image"></div><div></div></div></section><section class="pd-60" id="get-your-kit"><div class="bg-white p-30 border-black" layout="row" layout-align="center center"><h2 class="text-center">GET YOUR KIT</h2></div><div layout="row" layout-xs="column"><div flex="50" flex-xs="100" layout="column" layout-xs="column" class=""><div flex="noshrink" flex-order-xs="2" class="bg-blue tile tile-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/new.svg" alt="New kit icon"><h3 class="color-white">SMART CITIZEN KIT</h3><p class="color-white" style="margin-bottom:33px">We\'re excited to release our newest version of the Smart Citizen Kit! The Smart Citizen Kit 2.3 is an upgrade of the kit that you already know and love, and is now available through SEEED Studio and LABmaker, our European distributor!</p><a href="https://www.seeedstudio.com/Smart-Citizen2-3-p-6327.html" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT SEEED STUDIO!</a> <a href="https://www.labmaker.org/collections/earth-and-ecology/products/smart-citizen-kit" target="_blank" class="btn-outline-white btn-round-new md-button">GET YOUR KIT AT LABmaker!</a></div><div flex-order-xs="1" class="img-kits-complete tile tile-left tile-image"></div></div><div flex="50" flex-xs="100" layout="column"><div class="img-kits-research tile tile-image border-xs-bottom"></div><div flex="noshrink" class="bg-yellow tile border-xs-left border-xs-bottom text-center"><img style="height:85px" src="./assets/images/contact.svg" alt="Contact icon"><h3>PROJECTS AND CUSTOMIZATIONS</h3><p style="margin-bottom:33px">Planning something big? Do you want to use the kit as part of a research project? While all of our hardware is open source, we work directly with research organizations and projects to make open hardware that anyone can use.</p><p style="margin-bottom:33px"><strong>Get in touch for customized projects at <a href="mailto:info@smartcitizen.me">info@smartcitizen.me</a></strong></p><a href="mailto:info@smartcitizen.me" class="btn-black-outline btn-round-new md-button">CONTACT US!</a></div></div></div></section><section class="pd-60" id="newsletter"><form action="https://smartcitizen.us2.list-manage.com/subscribe/post?u=d67ba8deb34a23a222ec4eb8a&amp;id=d0fd9c9327" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate=""><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between center" layout-align-xs="center center" class="border-black bg-blue" style="padding:30px 50px; min-height: 200px"><h3 class="color-white text-left my-20">SUBSCRIBE TO GET THE LATEST NEWS</h3><div layout="row" layout-xs="column" layout-align="space-between center"><input class="my-20 mr-30" style="background: #262626; color:#eee; padding: 9px; border:none; width:250px" type="email" name="EMAIL" placeholder="Your email address" required=""> <input class="btn-yellow btn-round-new md-button" type="submit" name="subscribe" id="mc-embedded-subscribe" value="GO!"><div id="mce-responses" class="clear"><div class="response" id="mce-error-response" style="display:none"></div><div class="response" id="mce-success-response" style="display:none"></div></div><div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d67ba8deb34a23a222ec4eb8a_d5a8cea29f" tabindex="-1" value=""></div></div></div></form></section><section class="pd-60 text-center"><div layout="row" layout-xs="column" layout-sm="column" layout-align="space-between"><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/api.svg" alt="API icon"><h3>DEVELOPER<br>READY</h3><p>Use our powerful API to build amazing things using data.</p><a href="https://developer.smartcitizen.me/" class="btn-black-outline btn-round-new md-button" target="_blank">USE THE API</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/github.svg" alt="Github icon"><h3>WE\u2019RE<br>OPEN SOURCE</h3><p>Fork and contribute to the project or download designs.</p><a href="https://github.com/orgs/fablabbcn/repositories?q=smartcitizen" class="btn-black-outline btn-round-new md-button" target="_blank">VISIT OUR REPOS</a></div><div flex="30" flex-sm="100" flex-xs="100" layout="column" layout-align="space-between center" class="bg-white border-black px-20 py-40 mb-10 card"><img style="height:80px" src="./assets/images/forum.svg" alt="Forum icon"><h3>JOIN THE<br>FORUM</h3><p>A place to share ideas with the community or find support.</p><a href="https://forum.smartcitizen.me" class="btn-black-outline btn-round-new md-button" target="_blank">GET INVOLVED</a></div></div></section></div></div><footer ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center" class="mt"></footer><script>\n  const hamburger = document.querySelector(".hamburger");\n  const navMenu = document.querySelector(".landing-menu");\n  const navGeneral = document.querySelector(".sc-off-cta-platform");\n  const pageScroll = document.querySelector("body");\n  const navFull = document.querySelector(".navigation");\n\n  hamburger.addEventListener("click", mobileMenu);\n\n  function mobileMenu() {\n    hamburger.classList.toggle("active");\n    navMenu.classList.toggle("active");\n    navGeneral.classList.toggle("active");\n    pageScroll.classList.toggle("active");\n    navFull.classList.toggle("active");\n    document.body.style.top = `-${window.scrollY}px`;\n  }\n\n  const navLink = document.querySelectorAll(".landing-menu");\n\n  navLink.forEach(n => n.addEventListener("click", closeMenu));\n\n  function closeMenu() {\n    hamburger.classList.remove("active");\n    navMenu.classList.remove("active");\n    navGeneral.classList.remove("active");\n    pageScroll.classList.remove("active");\n    navFull.classList.remove("active");\n    const scrollY = document.body.style.top;\n    document.body.style.position = \'\';\n    document.body.style.top = \'\';\n    // window.scrollTo(0, parseInt(scrollY || \'0\') * -1);\n  }\n</script>');
 $templateCache.put('app/components/landing/static.html','<section class="static_page" flex=""><div class="timeline" layout="row"><div class="content" layout="row" layout-align="start center" flex=""><h1>Title</h1></div></div><div class=""><div class="content"><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p><md-button class="md-primary md-raised">button</md-button><md-button class="md-primary">button</md-button></div></div><div class=""><div class="content"><h2>Heading 2</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a porta quam. Phasellus tincidunt facilisis blandit. Aenean tempor diam quis turpis vestibulum, ac semper turpis mollis. Sed ac ultricies est. Vivamus efficitur orci efficitur turpis commodo dignissim. Aliquam sagittis risus in semper ullamcorper. Sed enim diam, tempus eget lorem sit amet, luctus porta enim. Nam aliquam mollis massa quis euismod. In commodo laoreet mattis. Nunc auctor, massa ut sollicitudin imperdiet, mauris magna tristique metus, quis lobortis ex ex id augue. In hac habitasse platea dictumst. Sed sagittis iaculis eros non sollicitudin. Sed congue, urna ut aliquet ornare, nisi tellus euismod nisi, a ullamcorper augue arcu sit amet ante. Mauris condimentum ex ante, vitae accumsan sapien vulputate in. In tempor ligula ut scelerisque feugiat. Morbi quam nisi, blandit quis malesuada sit amet, gravida ut urna.</p></div></div><div class=""><div class="content"><h2>Small section</h2><p>Single line comment.</p></div></div></section>');
 $templateCache.put('app/components/layout/layout.html','<div class="navbar_container"><md-toolbar layout="row" layout-align="space-between center" class="stickNav"><a ui-sref="landing" class="logo_link"><md-tooltip md-direction="bottom"></md-tooltip><md-icon class="m-10 ml-15 logo_icon" md-svg-src="./assets/images/LogotipoSmartCitizen.svg" alt="Insert Drive Icon"></md-icon></a><search flex=""></search><section hide-xs="" layout="row" layout-align="{{vm.navRightLayout}}"><div ng-show="vm.isShown" hide-xs="" hide-sm="" store="" logged="vm.isLoggedin" class="md-flat get"></div><div ng-show="vm.isShown && !vm.isLoggedin" hide-xs="" login="" class="navbar_login_button"></div><md-menu ng-show="vm.isShown && vm.isLoggedin"><md-button class="btn-small no-hover-effect" ng-click="$mdMenu.open($event)" layout="column" layout-align="center center"><md-tooltip md-direction="bottom" class="font-kanit">Your profile</md-tooltip><img class="circular-img-crop navbar_avatar_icon image-outline" ng-src="{{ vm.currentUser.profile_picture || \'./assets/images/avatar.svg\' }}"></md-button><md-menu-content ng-mouseleave="$mdMenu.close()"><md-menu-item><md-button href="{{vm.user_url}}" class="font-kanit">Hi, {{vm.currentUser.username}}!</md-button></md-menu-item><md-menu-item><md-button href="{{vm.user_url}}" class="font-kanit">My profile</md-button></md-menu-item><md-menu-item><md-button ng-click="vm.logout()" class="font-kanit">Log out</md-button></md-menu-item></md-menu-content></md-menu></section><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar></div><section layout="row" flex=""><md-sidenav class="md-sidenav-right" md-component-id="right" md-whiteframe="3"><md-toolbar layout="row" layout-align="end center"><md-button ng-click="toggleRight()" layout="column" layout-align="center center"><img class="" ng-src="{{\'./assets/images/menu2.svg\' }}"></md-button></md-toolbar><md-content><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" login="" class="font-kanit"></md-menu-item><md-menu-item ng-show="vm.isShown && !vm.isLoggedin" signup="" class="font-kanit"></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button href="{{vm.user_url}}" class="font-kanit">Profile</md-button></md-menu-item><md-menu-item ng-show="vm.isLoggedin"><md-button ng-click="vm.logout()" class="font-kanit">Log out</md-button></md-menu-item><md-divider></md-divider><md-menu-item><md-button target="_blank" href="{{vm.seeed_url}}" class="font-kanit">Get your kit</md-button></md-menu-item><md-divider></md-divider><md-menu-item ng-repeat="item in vm.dropdownOptionsCommunity"><md-button target="_blank" href="{{item.href}}" class="font-kanit">{{item.text}}</md-button></md-menu-item></md-content></md-sidenav></section><div ui-view=""></div><footer class="footer" ng-if="!vm.overlayLayout" ng-include="\'app/components/footer/footer.html\'" layout="row" layout-align="center center"></footer>');
 $templateCache.put('app/components/login/login.html','<md-button class="md-flat font-kanit" href="{{vm.login_url}}" angular-on="click" angular-event="Login" angular-action="click">Log In</md-button>');
