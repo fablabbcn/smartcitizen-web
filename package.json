@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "bower": "^1.8.8",
-    "browser-sync": "~2.24.4",
+    "browser-sync": "~3.0.4",
     "browser-sync-spa": "~1.0.3",
     "chalk": "~2.4.1",
     "concat-stream": "^1.6.2",
@@ -47,7 +47,7 @@
     "jasmine-core": "^3.1.0",
     "jshint": "^2.9.5",
     "jshint-stylish": "~2.2.1",
-    "karma": "^2.0.2",
+    "karma": "^6.4.4",
     "karma-jasmine": "~1.1.2",
     "karma-ng-html2js-preprocessor": "~1.0.0",
     "karma-phantomjs-launcher": "~1.0.4",
